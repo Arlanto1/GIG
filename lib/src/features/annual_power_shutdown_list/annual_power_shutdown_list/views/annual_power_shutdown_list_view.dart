@@ -86,8 +86,8 @@ class _AnnualPowerShutdownListViewState
             floatingActionButton:
                 state.extraProperties?.hasWritePermission ?? false
                     ? Flutterfloatingbutton(
-                        backgroundColor: AppColors.navigationSkybluecolor,
-                        foregroundColor: AppColors.backgroundWhitecolor,
+                        backgroundColor: AppColors.navigationSkyBlueColor,
+                        foregroundColor: AppColors.backgroundWhiteColor,
                         onPressed: () => {
                           Navigator.pushNamed(
                             context,
@@ -119,7 +119,7 @@ class _AnnualPowerShutdownListViewState
                 return Container(
                   margin: allMargin16,
                   decoration: const ShapeDecoration(
-                      color: AppColors.backgroundWhitecolor,
+                      color: AppColors.backgroundWhiteColor,
                       shape: RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -155,7 +155,7 @@ class _AnnualPowerShutdownListViewState
                           enablePullDown: true,
                           physics: const BouncingScrollPhysics(),
                           header: const WaterDropHeader(
-                            waterDropColor: AppColors.navigationSkybluecolor,
+                            waterDropColor: AppColors.navigationSkyBlueColor,
                             refresh: BaseLoader(),
                           ),
                           key: const Key(Keys.refreshKey),

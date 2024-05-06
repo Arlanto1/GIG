@@ -21,7 +21,7 @@ class Tile extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(
-            color: AppColors.navigationSkybluecolor, // Border color
+            color: AppColors.navigationSkyBlueColor, // Border color
             width: .7, // Border width
           ),
           boxShadow: const [
@@ -41,7 +41,7 @@ class Tile extends StatelessWidget {
                 padding: const EdgeInsets.all(30.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppColors.navigationSkybluecolor,
+                    color: AppColors.navigationSkyBlueColor,
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: Padding(

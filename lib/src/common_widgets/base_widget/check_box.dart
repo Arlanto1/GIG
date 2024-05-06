@@ -21,8 +21,8 @@ class LanguageCheckBox extends StatelessWidget {
     return Row(
       children: [
         Checkbox(
-          activeColor: AppColors.gerylightBackground,
-          focusColor: AppColors.gerylightBackground,
+          activeColor: AppColors.geryLightBackground,
+          focusColor: AppColors.geryLightBackground,
           value: value,
           onChanged: onChanged,
         ),

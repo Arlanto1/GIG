@@ -55,11 +55,11 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
         alignment: Alignment.center,
         child: Text(
           widget.title,
-          style: Styles.textFontSet(18, AppColors.textgreyThemecolor,
+          style: Styles.textFontSet(18, AppColors.textGreyThemeColor,
               FontWeight.normal, Constants.customFontSemiBoldFamily),
         ),
       ),
-      backgroundColor: AppColors.backgroundWhitecolor,
+      backgroundColor: AppColors.backgroundWhiteColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         var height = MediaQuery.of(context).size.height;
@@ -282,10 +282,10 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButtonText,
-      foregroundColor: AppColors.textgreyThemecolor,
+      foregroundColor: AppColors.textGreyThemeColor,
       textStyle: Styles.styleHeaderGreyText16,
       backgroundColor: AppColors.white,
-      boarderColor: AppColors.textgreyThemecolor,
+      boarderColor: AppColors.textGreyThemeColor,
       onTap: () {
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
@@ -300,8 +300,8 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
       key: const Key(Keys.saveButton),
       buttonText: Constants.save,
       buttonTextKey: Keys.saveButtonText,
-      boarderColor: AppColors.navigationSkybluecolor,
-      backgroundColor: AppColors.navigationSkybluecolor,
+      boarderColor: AppColors.navigationSkyBlueColor,
+      backgroundColor: AppColors.navigationSkyBlueColor,
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {

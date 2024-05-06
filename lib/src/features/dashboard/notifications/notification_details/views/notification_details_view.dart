@@ -75,7 +75,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
             customIcon: Icons.delete,
             onTapCustomIcon: () => deleteNotification(state.model.id!),
           ),
-          backgroundColor: AppColors.backgroundWhitecolor,
+          backgroundColor: AppColors.backgroundWhiteColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -91,17 +91,17 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.navigationSkybluecolor,
+      color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkybluecolor,
+              color: AppColors.navigationSkyBlueColor,
             ),
             Container(
               decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhitecolor,
+                color: AppColors.backgroundWhiteColor,
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),

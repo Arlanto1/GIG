@@ -89,10 +89,10 @@ class KeyManagementIssuanceDetailsCubit
       User loggedInUserDetails = futures[1];
       Analyst users = futures[2];
       AddEntities entities = futures[3];
-      List<User> entrySecurities = futures[4];
+      // List<User> entrySecurities = futures[4];
       List<BaseUser> emailUsers = futures[5];
       EmployeeDepartments departments = futures[6];
-      dynamic responseLabels = futures[7];
+      // dynamic responseLabels = futures[7];
       Organisation? defaultLocation = futures[8];
       if (state.model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(

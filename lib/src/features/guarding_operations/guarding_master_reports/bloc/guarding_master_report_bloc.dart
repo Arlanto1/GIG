@@ -42,9 +42,9 @@ class GuardingMasterReportBloc
       Locations locations =
           await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
-      dynamic responseLabels = await commonServices.getUiLabels(
-          language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.guardingMasterModuleCode);
+      // dynamic responseLabels = await commonServices.getUiLabels(
+      //     language: await SharedPrefs.getLanguageCode(),
+      //     moduleCode: Constants.guardingMasterModuleCode);
 
       ExtraProperties extraProperties =
           await UtilsCommon().checkWritePermission(

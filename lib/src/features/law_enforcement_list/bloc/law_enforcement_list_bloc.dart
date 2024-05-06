@@ -50,9 +50,9 @@ class LawEnforcementListBloc
       Locations locations =
           await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
-      dynamic responseLabels = await commonServices.getUiLabels(
-          language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.leoModuleCode);
+      // dynamic responseLabels = await commonServices.getUiLabels(
+      //     language: await SharedPrefs.getLanguageCode(),
+      //     moduleCode: Constants.leoModuleCode);
 
       ExtraProperties extraProperties =
           await UtilsCommon().checkWritePermission(

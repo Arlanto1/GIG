@@ -109,7 +109,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                 BlocProvider.of<DutyPostMasterDetailsCubit>(context)
                     .submitForm(isSaveOnly: false);
               }),
-          backgroundColor: AppColors.backgroundWhitecolor,
+          backgroundColor: AppColors.backgroundWhiteColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -123,17 +123,17 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.navigationSkybluecolor,
+      color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkybluecolor,
+              color: AppColors.navigationSkyBlueColor,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
+                  color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),

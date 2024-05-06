@@ -40,14 +40,14 @@ class CustomAlertImageDialog extends StatelessWidget {
           ? Text(
               title ?? "",
               textAlign: TextAlign.center,
-              style: Styles.textFontSet(18, AppColors.textgreyThemecolor,
+              style: Styles.textFontSet(18, AppColors.textGreyThemeColor,
                   FontWeight.normal, Constants.customFontMediumFamily),
             )
           : null,
       icon: SvgPicture.asset(
         image ?? "",
         colorFilter: const ColorFilter.mode(
-          AppColors.navigationSkybluecolor,
+          AppColors.navigationSkyBlueColor,
           BlendMode.srcIn,
         ),
         width: 50,
@@ -97,7 +97,7 @@ class CustomAlertImageDialog extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 30.0, left: 10, right: 10),
       child: Container(
-        color: AppColors.backgroundWhitecolor,
+        color: AppColors.backgroundWhiteColor,
         child: Row(
           //mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -119,9 +119,9 @@ class CustomAlertImageDialog extends StatelessWidget {
       key: const Key(Keys.cancelButton),
       buttonText: Constants.abort,
       buttonTextKey: Keys.cancelButtonText,
-      foregroundColor: AppColors.textgreyThemecolor,
+      foregroundColor: AppColors.textGreyThemeColor,
       textStyle: Styles.styleHeaderGreyText16,
-      boarderColor: AppColors.textgreyThemecolor,
+      boarderColor: AppColors.textGreyThemeColor,
       onTap: () {
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
@@ -144,8 +144,8 @@ class CustomAlertImageDialog extends StatelessWidget {
       key: const Key(Keys.saveButton),
       buttonText: Constants.yes,
       buttonTextKey: Keys.saveButtonText,
-      boarderColor: AppColors.navigationSkybluecolor,
-      backgroundColor: AppColors.navigationSkybluecolor,
+      boarderColor: AppColors.navigationSkyBlueColor,
+      backgroundColor: AppColors.navigationSkyBlueColor,
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {

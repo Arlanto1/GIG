@@ -133,7 +133,7 @@ class _AnnualPowerShutdownListDetailsViewState
                   .submitForm(isSaveOnly: false);
             },
           ),
-          backgroundColor: AppColors.backgroundWhitecolor,
+          backgroundColor: AppColors.backgroundWhiteColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -162,17 +162,17 @@ class _AnnualPowerShutdownListDetailsViewState
     }
 
     return Container(
-      color: AppColors.navigationSkybluecolor,
+      color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkybluecolor,
+              color: AppColors.navigationSkyBlueColor,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
+                  color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -243,7 +243,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
-                              locationWidgetdislay(state),
+                              locationWidgetDisplay(state),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Date of creation
@@ -843,31 +843,6 @@ class _AnnualPowerShutdownListDetailsViewState
                                 validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
-                              //
-                              // ///Primary Service Engineer Name
-                              // CommonWidgets.horizentaltextHandling(
-                              //     Constants.primaryServiceEngineerName,
-                              //     state.model.vendor1Primary ?? ''),
-                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                              //
-                              // ///Primary Service Engineer Contact
-                              // CommonWidgets.horizentaltextHandling(
-                              //     Constants.primaryServiceEngineerContact,
-                              //     state.model.vendor1PrimaryContact ?? ''),
-                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                              //
-                              // ///Secondary Service Engineer Name
-                              // CommonWidgets.horizentaltextHandling(
-                              //     Constants.secondaryServiceEngineerName,
-                              //     state.model.vendor1Secondary ?? ''),
-                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                              //
-                              // ///Secondary Service Engineer Contact
-                              // CommonWidgets.horizentaltextHandling(
-                              //     Constants.secondaryServiceEngineerContact,
-                              //     state.model.vendor1SecondaryContact ?? ''),
-                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
-
                               ///System Vendor 2 Email
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.systemVendor2 ??
@@ -928,30 +903,6 @@ class _AnnualPowerShutdownListDetailsViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              // ///Primary Service Engineer Contact
-                              // CommonWidgets.horizentaltextHandling(
-                              //     Constants.primaryServiceEngineerContact,
-                              //     state.model.vendor2PrimaryContact ?? ''),
-                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                              //
-                              // ///Primary Service Engineer Contact
-                              // CommonWidgets.horizentaltextHandling(
-                              //     Constants.primaryServiceEngineerContact,
-                              //     state.model.vendor2PrimaryContact ?? ''),
-                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                              //
-                              // ///Secondary Service Engineer Name
-                              // CommonWidgets.horizentaltextHandling(
-                              //     Constants.secondaryServiceEngineerName,
-                              //     state.model.vendor2Secondary ?? ''),
-                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                              //
-                              // ///Secondary Service Engineer Contact
-                              // CommonWidgets.horizentaltextHandling(
-                              //     Constants.secondaryServiceEngineerContact,
-                              //     state.model.vendor2SecondaryContact ?? ''),
-                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
-
                               ///System Vendor 3 Email
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.systemVendor3 ??
@@ -1009,30 +960,6 @@ class _AnnualPowerShutdownListDetailsViewState
                                 validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                              // ///Primary Service Engineer Contact
-                              // CommonWidgets.horizentaltextHandling(
-                              //     Constants.primaryServiceEngineerContact,
-                              //     state.model.vendor3PrimaryContact ?? ''),
-                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                              //
-                              // ///Primary Service Engineer Contact
-                              // CommonWidgets.horizentaltextHandling(
-                              //     Constants.primaryServiceEngineerContact,
-                              //     state.model.vendor3PrimaryContact ?? ''),
-                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                              //
-                              // ///Secondary Service Engineer Name
-                              // CommonWidgets.horizentaltextHandling(
-                              //     Constants.secondaryServiceEngineerName,
-                              //     state.model.vendor3Secondary ?? ''),
-                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                              //
-                              // ///Secondary Service Engineer Contact
-                              // CommonWidgets.horizentaltextHandling(
-                              //     Constants.secondaryServiceEngineerContact,
-                              //     state.model.vendor3SecondaryContact ?? ''),
-                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               ///Requester Department
                               CommonWidgets.textDisplay(
@@ -1121,8 +1048,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                                   SvgPicture.asset(
                                                     AppIcon.close,
                                                     // Add your close icon asset here
-                                                    color: Colors
-                                                        .black, // Set color as per your design
+                                                    // color: Colors
+                                                    //     .black, // Set color as per your design
                                                   ),
                                                   const SizedBox(width: 14),
                                                 ],
@@ -1168,15 +1095,19 @@ class _AnnualPowerShutdownListDetailsViewState
                                         const SizedBox(width: 14),
                                         SvgPicture.asset(
                                           AppIcon.pluscircle,
-                                          color:
-                                              AppColors.navigationSkybluecolor,
+                                          colorFilter: const ColorFilter.mode(
+                                            AppColors.navigationSkyBlueColor,
+                                            BlendMode.srcIn,
+                                          ),
+                                          // color:
+                                          //     AppColors.navigationSkyBlueColor,
                                         ),
                                         const SizedBox(width: 10),
                                         const Text(
                                           'Add Officer',
                                           style: TextStyle(
                                             color: AppColors
-                                                .navigationSkybluecolor,
+                                                .navigationSkyBlueColor,
                                             decoration:
                                                 TextDecoration.underline,
                                           ),
@@ -1187,117 +1118,6 @@ class _AnnualPowerShutdownListDetailsViewState
                                 ],
                               ),
                               //],
-
-                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                              // /// Event Protection Officer
-                              // CommonWidgets.textDisplay(
-                              //   Constants.eventProtectionOfficers,
-                              //   Styles.textStyleBlack14,
-                              //   isMandatory: true,
-                              // ),
-                              // if (!disableForm) ...[
-                              //   Column(
-                              //     crossAxisAlignment: CrossAxisAlignment.start,
-                              //     children: [
-                              //       ...state.model.epOfficers
-                              //               ?.asMap()
-                              //               .entries
-                              //               .map((entry) {
-                              //             final index = entry.key;
-                              //             final officer = entry.value;
-                              //             return Row(
-                              //               mainAxisAlignment:
-                              //                   MainAxisAlignment.spaceBetween,
-                              //               children: <Widget>[
-                              //                 Row(
-                              //                   children: <Widget>[
-                              //                     const SizedBox(width: 10),
-                              //                     BasicWidgetFunctions()
-                              //                         .getStringText(
-                              //                       strings: [officer],
-                              //                     ),
-                              //                   ],
-                              //                 ),
-                              //                 GestureDetector(
-                              //                   onTap: () {
-                              //                     // Remove the officer from the list
-                              //                     state.model.epOfficers
-                              //                         ?.removeAt(index);
-                              //                     // Trigger UI update
-                              //                     BlocProvider.of<
-                              //                                 AnnualPowerShutdownListDetailsCubit>(
-                              //                             context)
-                              //                         .onCheckBoxChange(
-                              //                             state.model);
-                              //                   },
-                              //                   child: const Row(
-                              //                     children: <Widget>[
-                              //                       SizedBox(width: 10),
-                              //                       Icon(Icons.close),
-                              //                       SizedBox(width: 14),
-                              //                     ],
-                              //                   ),
-                              //                 ),
-                              //               ],
-                              //             );
-                              //           }).toList() ??
-                              //           [],
-                              //       GestureDetector(
-                              //         onTap: () {
-                              //           BaseOrganisationDialog().userDialog(
-                              //             context: context,
-                              //             enabled: !disableForm,
-                              //             users: state.emailUsers!,
-                              //             onTap: (BaseUser user) {
-                              //               state.model.epOfficers ??= [];
-                              //
-                              //               if (state.model.epOfficers!
-                              //                   .contains(user.email!)) {
-                              //                 ScaffoldMessenger.of(context)
-                              //                     .showSnackBar(
-                              //                   const SnackBar(
-                              //                     content: Text(
-                              //                         'Officer already added! Please add another officer.'),
-                              //                   ),
-                              //                 );
-                              //                 return;
-                              //               }
-                              //
-                              //               state.model.epOfficers
-                              //                   ?.add(user.email ?? '');
-                              //               log('--eventProtectionGi--22-${state.model.epOfficers}-');
-                              //
-                              //               BlocProvider.of<
-                              //                           AnnualPowerShutdownListDetailsCubit>(
-                              //                       context)
-                              //                   .onCheckBoxChange(state.model);
-                              //             },
-                              //           );
-                              //         },
-                              //         child: Row(
-                              //           children: <Widget>[
-                              //             const SizedBox(width: 14),
-                              //             SvgPicture.asset(
-                              //               AppIcon.pluscircle,
-                              //             ),
-                              //             const SizedBox(width: 10),
-                              //             const Text(
-                              //               'Add Officer',
-                              //               style: TextStyle(
-                              //                 color: AppColors
-                              //                     .navigationSkybluecolor,
-                              //                 decoration:
-                              //                     TextDecoration.underline,
-                              //               ),
-                              //             ),
-                              //           ],
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ],
-                              //
-                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               ///Is Extra Security Deployment Required
                               Row(children: [
@@ -1311,9 +1131,9 @@ class _AnnualPowerShutdownListDetailsViewState
                                 ),
                                 Checkbox(
                                     activeColor:
-                                        AppColors.navigationSkybluecolor,
+                                        AppColors.navigationSkyBlueColor,
                                     focusColor:
-                                        AppColors.navigationSkybluecolor,
+                                        AppColors.navigationSkyBlueColor,
                                     value: state.model.extraSecurityDeployed,
                                     onChanged: (bool? value) {
                                       state.model.extraSecurityDeployed =
@@ -1818,7 +1638,7 @@ class _AnnualPowerShutdownListDetailsViewState
     );
   }
 
-  Widget locationWidgetdislay(AnnualPowerShutdownListDetailsState state) {
+  Widget locationWidgetDisplay(AnnualPowerShutdownListDetailsState state) {
     return GestureDetector(
       onTap: () {
         // if (widget.occurrence == null ||

@@ -3,14 +3,11 @@ import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/pop_button.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:db_atom/src/utils/validators/validator.dart';
 import 'package:flutter/material.dart';
-
-import '../../features/createfound/models/create_user_model.dart';
 
 class BaseAddUserDialog extends StatefulWidget {
   const BaseAddUserDialog({
@@ -56,10 +53,10 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
       surfaceTintColor: Colors.white,
       title: Text(
         Constants.newuser,
-        style: Styles.textFontSet(18, AppColors.textgreyThemecolor,
+        style: Styles.textFontSet(18, AppColors.textGreyThemeColor,
             FontWeight.normal, Constants.customFontMediumFamily),
       ),
-      backgroundColor: AppColors.backgroundWhitecolor,
+      backgroundColor: AppColors.backgroundWhiteColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
@@ -162,7 +159,7 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
-          color: AppColors.backgroundWhitecolor,
+          color: AppColors.backgroundWhiteColor,
           child: createNewUserButton(width)),
     );
   }
@@ -173,8 +170,8 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
       key: const Key(Keys.createnewuserButton),
       buttonText: Constants.createnewuser,
       buttonTextKey: Keys.createnewuserButtonText,
-      boarderColor: AppColors.navigationSkybluecolor,
-      backgroundColor: AppColors.navigationSkybluecolor,
+      boarderColor: AppColors.navigationSkyBlueColor,
+      backgroundColor: AppColors.navigationSkyBlueColor,
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () async {
@@ -191,13 +188,13 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
           try {
             var nav = Navigator.of(context);
             var sca = ScaffoldMessenger.of(context);
-            CreateUserModel createUserData = await CommonServices().createUser(
-              firstName: firstnameTextController.text,
-              lastName: lastnameTextController.text,
-              email: emailTextController.text,
-              role: widget.roleName,
-              context: context,
-            );
+            // CreateUserModel createUserData = await CommonServices().createUser(
+            //   firstName: firstnameTextController.text,
+            //   lastName: lastnameTextController.text,
+            //   email: emailTextController.text,
+            //   role: widget.roleName,
+            //   context: context,
+            // );
 
             nav.pop();
             widget.functionToCall();

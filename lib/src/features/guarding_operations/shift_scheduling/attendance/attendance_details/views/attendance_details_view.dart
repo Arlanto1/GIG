@@ -121,7 +121,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                   .submitForm(isSaveOnly: false);
             },
           ),
-          backgroundColor: AppColors.backgroundWhitecolor,
+          backgroundColor: AppColors.backgroundWhiteColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -135,17 +135,17 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.navigationSkybluecolor,
+      color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkybluecolor,
+              color: AppColors.navigationSkyBlueColor,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
+                  color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -473,7 +473,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
       return [
         Container(
           decoration: BoxDecoration(
-            color: AppColors.lightgreyBackground,
+            color: AppColors.lightGreyBackground,
             borderRadius: BorderRadius.circular(5),
           ),
           child: Padding(

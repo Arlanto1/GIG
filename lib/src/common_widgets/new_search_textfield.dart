@@ -83,25 +83,25 @@ class FlutterInputField extends StatelessWidget {
       decoration: showBorder ?? false
           ? InputDecoration(
               fillColor: (isDisableColor ?? false)
-                  ? AppColors.disabletextfieldBackground
-                  : AppColors.enabletextfieldBackground,
+                  ? AppColors.disableTextFieldBackground
+                  : AppColors.enableTextFieldBackground,
               filled: true,
               border: const OutlineInputBorder(),
               focusedBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
-                    color: AppColors.gerylightBackground, width: 1.0),
+                    color: AppColors.geryLightBackground, width: 1.0),
                 borderRadius: BorderRadius.circular(8.0),
               ),
               enabledBorder: OutlineInputBorder(
                 //<-- SEE HERE
                 borderSide: const BorderSide(
-                    color: AppColors.gerylightBackground, width: 1.0),
+                    color: AppColors.geryLightBackground, width: 1.0),
                 borderRadius: BorderRadius.circular(8.0),
               ),
               disabledBorder: OutlineInputBorder(
                 //<-- SEE HERE
                 borderSide: const BorderSide(
-                    color: AppColors.gerylightBackground, width: 1.0),
+                    color: AppColors.geryLightBackground, width: 1.0),
                 borderRadius: BorderRadius.circular(8.0),
               ),
               hintText: hintText,

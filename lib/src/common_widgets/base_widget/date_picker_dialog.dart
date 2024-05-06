@@ -73,7 +73,7 @@ class BaseDate {
               child: SvgPicture.asset(
                 AppIcon.calendaricon,
                 colorFilter: const ColorFilter.mode(
-                  AppColors.textgreyThemecolor,
+                  AppColors.textGreyThemeColor,
                   BlendMode.srcIn,
                 ),
                 width: 20,

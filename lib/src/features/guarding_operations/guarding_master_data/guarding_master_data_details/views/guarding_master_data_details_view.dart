@@ -143,7 +143,7 @@ class _GuardingMasterDataDetailsViewState
                   .submitForm(isSaveOnly: false);
             },
           ),
-          backgroundColor: AppColors.backgroundWhitecolor,
+          backgroundColor: AppColors.backgroundWhiteColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -271,17 +271,17 @@ class _GuardingMasterDataDetailsViewState
     }
 
     return Container(
-      color: AppColors.navigationSkybluecolor,
+      color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkybluecolor,
+              color: AppColors.navigationSkyBlueColor,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
+                  color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -2554,7 +2554,7 @@ class _GuardingMasterDataDetailsViewState
                 // state.model.csrParticipationDates.remove(date);
               },
               icon: const Icon(Icons.close),
-              color: AppColors.gerylightBackground,
+              color: AppColors.geryLightBackground,
             ),
           ],
         ),
@@ -2855,7 +2855,7 @@ class _GuardingMasterDataDetailsViewState
 
     for (GuardingMasterDataExtraDetails extraDetails in list) {
       widgets.add(const Divider(
-        color: AppColors.navigationSkybluecolor,
+        color: AppColors.navigationSkyBlueColor,
       ));
       widgets.add(
         CommonWidgets.textDisplay(

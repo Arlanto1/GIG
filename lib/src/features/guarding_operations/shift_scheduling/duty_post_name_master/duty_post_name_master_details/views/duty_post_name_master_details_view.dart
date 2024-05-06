@@ -118,7 +118,7 @@ class _DutyPostNameMasterDetailsViewState
                   .submitForm(isSaveOnly: false);
             },
           ),
-          backgroundColor: AppColors.backgroundWhitecolor,
+          backgroundColor: AppColors.backgroundWhiteColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -132,17 +132,17 @@ class _DutyPostNameMasterDetailsViewState
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.navigationSkybluecolor,
+      color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkybluecolor,
+              color: AppColors.navigationSkyBlueColor,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
+                  color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -299,14 +299,18 @@ class _DutyPostNameMasterDetailsViewState
                                   const SizedBox(width: 14),
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
-                                    color: AppColors.navigationSkybluecolor,
+                                    colorFilter: const ColorFilter.mode(
+                                      AppColors.navigationSkyBlueColor,
+                                      BlendMode.srcIn,
+                                    ),
+                                    // color: AppColors.navigationSkyBlueColor,
                                   ),
                                   // ),
                                   const SizedBox(width: 10),
                                   const Text(
                                     Constants.addDutyPostLocationName,
                                     style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
+                                      color: AppColors.navigationSkyBlueColor,
                                       decoration: TextDecoration.underline,
                                     ),
                                   ),
@@ -391,8 +395,8 @@ class _DutyPostNameMasterDetailsViewState
           Checkbox(
             // Add this Checkbox widget
             value: isTransportShift,
-            activeColor: AppColors.navigationSkybluecolor,
-            focusColor: AppColors.navigationSkybluecolor,
+            activeColor: AppColors.navigationSkyBlueColor,
+            focusColor: AppColors.navigationSkyBlueColor,
             onChanged: (value) {
               // Implement logic to update the transport shift value
               setState(() {
@@ -420,7 +424,7 @@ class _DutyPostNameMasterDetailsViewState
       return [
         Container(
           decoration: BoxDecoration(
-            color: AppColors.lightgreyBackground,
+            color: AppColors.lightGreyBackground,
             borderRadius: BorderRadius.circular(5),
           ),
           child: Padding(

@@ -127,7 +127,7 @@ class _NotificationsViewState extends State<NotificationsView> {
           return Container(
             margin: allMargin4,
             decoration: const ShapeDecoration(
-              color: AppColors.backgroundWhitecolor,
+              color: AppColors.backgroundWhiteColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
               ),
@@ -141,7 +141,7 @@ class _NotificationsViewState extends State<NotificationsView> {
                     enablePullDown: true,
                     physics: const BouncingScrollPhysics(),
                     header: WaterDropHeader(
-                      waterDropColor: AppColors.navigationSkybluecolor,
+                      waterDropColor: AppColors.navigationSkyBlueColor,
                       refresh: state.status != FormStatus.loading
                           ? const BaseLoader()
                           : null,
@@ -259,7 +259,7 @@ class NotificationTile extends StatelessWidget {
           child: ColoredBox(
             color: item.status == 0
                 ? AppColors.white
-                : AppColors.disabletextfieldBackground,
+                : AppColors.disableTextFieldBackground,
             child: Padding(
               padding: const EdgeInsets.all(15),
               child: Column(

@@ -62,7 +62,11 @@ class CustomMultipleSelectionListTextsState
             },
             child: SvgPicture.asset(
               widget.leftImageName ?? '',
-              color: AppColors.navigationSkybluecolor,
+              colorFilter: const ColorFilter.mode(
+                AppColors.navigationSkyBlueColor,
+                BlendMode.srcIn,
+              ),
+              // color: AppColors.navigationSkyBlueColor,
             ),
           ),
           GestureDetector(
@@ -73,7 +77,7 @@ class CustomMultipleSelectionListTextsState
           ),
         ],
       ),
-      backgroundColor: AppColors.backgroundWhitecolor,
+      backgroundColor: AppColors.backgroundWhiteColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: SizedBox(
         height: 300,
@@ -97,7 +101,7 @@ class CustomMultipleSelectionListTextsState
           child: const Text(
             'Confirm',
             style: TextStyle(
-              color: AppColors.navigationSkybluecolor,
+              color: AppColors.navigationSkyBlueColor,
             ),
           ),
         ),
@@ -145,7 +149,7 @@ class CustomMultipleSelectionListTextsState
             title: Text(entity.name ?? ''),
             leading: Checkbox(
               checkColor: AppColors.white,
-              activeColor: AppColors.navigationSkybluecolor,
+              activeColor: AppColors.navigationSkyBlueColor,
               value: entity.isSelected,
               onChanged: (value) {
                 setState(() {

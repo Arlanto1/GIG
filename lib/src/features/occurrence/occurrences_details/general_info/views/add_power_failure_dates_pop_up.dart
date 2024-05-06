@@ -31,7 +31,7 @@ class AddDatePopUpState extends State<AddDatePopUp> {
     var width = MediaQuery.of(context).size.width;
 
     return AlertDialog(
-      backgroundColor: AppColors.backgroundWhitecolor,
+      backgroundColor: AppColors.backgroundWhiteColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         return SizedBox(
@@ -125,9 +125,9 @@ class AddDatePopUpState extends State<AddDatePopUp> {
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButtonText,
-      foregroundColor: AppColors.textgreyThemecolor,
+      foregroundColor: AppColors.textGreyThemeColor,
       textStyle: Styles.styleHeaderGreyText16,
-      boarderColor: AppColors.textgreyThemecolor,
+      boarderColor: AppColors.textGreyThemeColor,
       onTap: () {
         FocusScope.of(context).unfocus();
         Navigator.of(context).pop();
@@ -141,8 +141,8 @@ class AddDatePopUpState extends State<AddDatePopUp> {
       key: const Key(Keys.saveButton),
       buttonText: Constants.save,
       buttonTextKey: Keys.saveButtonText,
-      boarderColor: AppColors.navigationSkybluecolor,
-      backgroundColor: AppColors.navigationSkybluecolor,
+      boarderColor: AppColors.navigationSkyBlueColor,
+      backgroundColor: AppColors.navigationSkyBlueColor,
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {

@@ -98,8 +98,8 @@ class _LnPageState extends State<LnPage> {
           floatingActionButton: state.extraProperties?.hasWritePermission ??
                   false
               ? Flutterfloatingbutton(
-                  backgroundColor: AppColors.navigationSkybluecolor,
-                  foregroundColor: AppColors.backgroundWhitecolor,
+                  backgroundColor: AppColors.navigationSkyBlueColor,
+                  foregroundColor: AppColors.backgroundWhiteColor,
                   onPressed: () {
                     // Navigator.pushNamed(context, lawenforcementScreenRoute);
                     Navigator.pushNamed(context, lawEnforcementDetailsViewRoute)
@@ -165,7 +165,7 @@ class _LnPageState extends State<LnPage> {
             return Container(
               margin: allMargin16,
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
+                  color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -202,7 +202,7 @@ class _LnPageState extends State<LnPage> {
                       enablePullDown: true,
                       physics: const BouncingScrollPhysics(),
                       header: const WaterDropHeader(
-                        waterDropColor: AppColors.navigationSkybluecolor,
+                        waterDropColor: AppColors.navigationSkyBlueColor,
                       ),
                       key: const Key(Keys.refreshKey),
                       onRefresh: _onRefresh,

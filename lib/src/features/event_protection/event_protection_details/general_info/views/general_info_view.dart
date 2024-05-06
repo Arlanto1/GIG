@@ -109,7 +109,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                   .submitForm(isSaveOnly: false);
             },
           ),
-          backgroundColor: AppColors.backgroundWhitecolor,
+          backgroundColor: AppColors.backgroundWhiteColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -138,17 +138,17 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
     }
 
     return Container(
-      color: AppColors.navigationSkybluecolor,
+      color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkybluecolor,
+              color: AppColors.navigationSkyBlueColor,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
+                  color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -1134,9 +1134,14 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                                 const SizedBox(width: 10),
                                                 SvgPicture.asset(
                                                   AppIcon.close,
-                                                  // Add your close icon asset here
-                                                  color: Colors
-                                                      .black, // Set color as per your design
+                                                  // Add your close
+                                                  // icon asset here
+                                                  colorFilter: const ColorFilter.mode(
+                                                    AppColors.black,
+                                                    BlendMode.srcIn,
+                                                  ),
+                                                  // color: Colors
+                                                  //     .black, // Set color as per your design
                                                 ),
                                                 const SizedBox(width: 14),
                                               ],
@@ -1181,14 +1186,18 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       const SizedBox(width: 14),
                                       SvgPicture.asset(
                                         AppIcon.pluscircle,
-                                        color: AppColors.navigationSkybluecolor,
+                                        colorFilter: const ColorFilter.mode(
+                                          AppColors.navigationSkyBlueColor,
+                                          BlendMode.srcIn,
+                                        ),
+                                        // color: AppColors.navigationSkyBlueColor,
                                       ),
                                       const SizedBox(width: 10),
                                       const Text(
                                         'Add Officer',
                                         style: TextStyle(
                                           color:
-                                              AppColors.navigationSkybluecolor,
+                                              AppColors.navigationSkyBlueColor,
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),
@@ -1214,9 +1223,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 ),
                                 Checkbox(
                                     activeColor:
-                                        AppColors.navigationSkybluecolor,
+                                        AppColors.navigationSkyBlueColor,
                                     focusColor:
-                                        AppColors.navigationSkybluecolor,
+                                        AppColors.navigationSkyBlueColor,
                                     value: state.model.extraSecurityDeployed,
                                     onChanged: (bool? value) {
                                       state.model.extraSecurityDeployed =
@@ -1765,7 +1774,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
           child: BlocBuilder<GeneralInfoCubit, GeneralInfoState>(
             builder: (context, state) {
               return AlertDialog(
-                backgroundColor: AppColors.backgroundWhitecolor,
+                backgroundColor: AppColors.backgroundWhiteColor,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
                 content: Builder(

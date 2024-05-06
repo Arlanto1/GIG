@@ -166,7 +166,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             ],
             //backgroundColor: AppColors.navigationSkybluecolor,
           ),
-          backgroundColor: AppColors.backgroundWhitecolor,
+          backgroundColor: AppColors.backgroundWhiteColor,
           body: BlocConsumer<LawEnforcementCubit, LawEnforcementState>(
             listener: (context, state) {
               Utils().formError(state, context);
@@ -233,18 +233,18 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   //   }
                   // }
                   return Container(
-                    color: AppColors.navigationSkybluecolor,
+                    color: AppColors.navigationSkyBlueColor,
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
                           Container(
                             height: height * 0.01,
-                            color: AppColors.navigationSkybluecolor,
+                            color: AppColors.navigationSkyBlueColor,
                           ),
                           Container(
                             //padding: const EdgeInsets.all(20.0),
                             decoration: const ShapeDecoration(
-                                color: AppColors.backgroundWhitecolor,
+                                color: AppColors.backgroundWhiteColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.vertical(
                                       top: Radius.circular(20.0)),
@@ -302,8 +302,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                                 //AppIcon.dropdownicon,
                                                 AppIcon.dropdownicon,
                                                 //fit: BoxFit.,
-                                                color: AppColors
-                                                    .textgreyThemecolor,
+                                                colorFilter: const ColorFilter.mode(
+                                                  AppColors.textGreyThemeColor,
+                                                  BlendMode.srcIn,
+                                                ),
+                                                // color: AppColors
+                                                //     .textGreyThemeColor,
                                                 width: 10,
                                                 height: 10,
                                                 key: const Key(Keys.userIcon),
@@ -559,7 +563,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
                                     // CommonWidgets.indentedDivider(Colors.black),
                                     const Divider(
-                                      color: AppColors.textgreyThemecolor,
+                                      color: AppColors.textGreyThemeColor,
                                       thickness: 1,
                                     ),
                                   ],
@@ -570,7 +574,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                           Container(
                             padding: const EdgeInsets.all(5.0),
                             decoration: const ShapeDecoration(
-                              color: AppColors.backgroundWhitecolor,
+                              color: AppColors.backgroundWhiteColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.vertical(
                                     top: Radius.circular(00.0)),
@@ -641,15 +645,19 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           children: <Widget>[
                                             SvgPicture.asset(
                                               AppIcon.pluscircle,
-                                              color: AppColors
-                                                  .navigationSkybluecolor,
+                                              colorFilter: const ColorFilter.mode(
+                                                AppColors.navigationSkyBlueColor,
+                                                BlendMode.srcIn,
+                                              ),
+                                              // color: AppColors
+                                              //     .navigationSkyBlueColor,
                                             ),
                                             const SizedBox(width: 10),
                                             const Text(
                                               'Add/View Visiting Official(s)',
                                               style: TextStyle(
                                                 color: AppColors
-                                                    .navigationSkybluecolor,
+                                                    .navigationSkyBlueColor,
                                                 decoration:
                                                     TextDecoration.underline,
                                               ),
@@ -814,7 +822,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                             Container(
                               padding: const EdgeInsets.all(5.0),
                               decoration: const ShapeDecoration(
-                                color: AppColors.backgroundWhitecolor,
+                                color: AppColors.backgroundWhiteColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.vertical(
                                       top: Radius.circular(00.0)),
@@ -914,7 +922,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   alignment: Alignment.centerRight,
                   child: SvgPicture.asset(
                     AppIcon.closeicon,
-                    color: AppColors.navigationSkybluecolor,
+                    colorFilter: const ColorFilter.mode(
+                      AppColors.navigationSkyBlueColor,
+                      BlendMode.srcIn,
+                    ),
+                    // color: AppColors.navigationSkyBlueColor,
                   ),
                 ), //Icon(Icons.cancel)
               ),
@@ -1309,9 +1321,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       children: <Widget>[
         Radio(
           activeColor: widget.model?.status != 0 && widget.model != null
-              ? AppColors.disabletextfieldBackground
-              : AppColors.navigationSkybluecolor,
-          focusColor: AppColors.navigationSkybluecolor,
+              ? AppColors.disableTextFieldBackground
+              : AppColors.navigationSkyBlueColor,
+          focusColor: AppColors.navigationSkyBlueColor,
           value: 1,
           groupValue: selectedValue,
           onChanged: (val) {
@@ -1334,8 +1346,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         const Text(Constants.yes),
         Radio(
           activeColor: widget.model?.status != 0 && widget.model != null
-              ? AppColors.disabletextfieldBackground
-              : AppColors.navigationSkybluecolor,
+              ? AppColors.disableTextFieldBackground
+              : AppColors.navigationSkyBlueColor,
           value: 0,
           groupValue: selectedValue,
           onChanged: (val) {
@@ -1431,7 +1443,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             padding: const EdgeInsets.all(20.0),
             child: SvgPicture.asset(
               AppIcon.calendaricon,
-              color: AppColors.textgreyThemecolor,
+              colorFilter: const ColorFilter.mode(
+                AppColors.navigationSkyBlueColor,
+                BlendMode.srcIn,
+              ),
+              // color: AppColors.textGreyThemeColor,
               width: 20,
               key: const Key(Keys.userIcon),
             ),
@@ -1492,7 +1508,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                         fixedSize: const Size(140, 50),
-                        backgroundColor: AppColors.navigationSkybluecolor,
+                        backgroundColor: AppColors.navigationSkyBlueColor,
                       ),
                       onPressed: () {
                         showDialog(
@@ -1511,7 +1527,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                         //AppIcon.dropdownicon,
                         AppIcon.uploadicon,
                         //fit: BoxFit.,
-                        color: AppColors.backgroundWhitecolor,
+                        colorFilter: const ColorFilter.mode(
+                          AppColors.backgroundWhiteColor,
+                          BlendMode.srcIn,
+                        ),
+                        // color: AppColors.backgroundWhiteColor,
                         width: 13,
                         height: 13,
                         key: const Key(Keys.userIcon),
@@ -1800,7 +1820,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                       child: TextButton(
                         style: const ButtonStyle(
                           backgroundColor: MaterialStatePropertyAll(
-                              AppColors.normaltextBackground),
+                              AppColors.normalTextBackground),
                         ),
                         onPressed: () {},
                         child: Text(

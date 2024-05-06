@@ -92,13 +92,13 @@ class _ContactRecordViewState extends State<ContactRecordView> {
     }, builder: (context, state) {
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: (widget.parentStatus == null ||
+        floatingActionButton: (
                 widget.parentStatus == 0 ||
                 widget.parentStatus == 1) &&!(widget.extraProperties != null &&
             !widget.extraProperties!.hasWritePermission!) && widget.lock.isEmptyOrNull
             ? Flutterfloatingbutton(
-                backgroundColor: AppColors.navigationSkybluecolor,
-                foregroundColor: AppColors.backgroundWhitecolor,
+                backgroundColor: AppColors.navigationSkyBlueColor,
+                foregroundColor: AppColors.backgroundWhiteColor,
                 onPressed: () {
                   showAddContactPopUp(
                       context: context,
@@ -158,7 +158,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
     return Container(
       margin: allMargin16,
       decoration: const ShapeDecoration(
-          color: AppColors.backgroundWhitecolor,
+          color: AppColors.backgroundWhiteColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
           )),
@@ -221,8 +221,6 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                           await ContactDetailsServices()
                               .getCdById(state.items?[index].id ?? 0);
 
-                      log('--state.users--llen--${state.ranks.length}---');
-
                       showAddContactPopUp(
                           context: context,
                           contact: contactsModel,
@@ -267,7 +265,6 @@ class _ContactRecordViewState extends State<ContactRecordView> {
     required final List<Organisation> users,
     required String rankType,
   }) {
-    log('--.users--llen--${users.length}---');
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {

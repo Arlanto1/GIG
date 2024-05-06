@@ -131,7 +131,7 @@ class _KeyManagementMasterDetailsViewState
                   .submitForm(isSaveOnly: false);
             },
           ),
-          backgroundColor: AppColors.backgroundWhitecolor,
+          backgroundColor: AppColors.backgroundWhiteColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -145,17 +145,17 @@ class _KeyManagementMasterDetailsViewState
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.navigationSkybluecolor,
+      color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkybluecolor,
+              color: AppColors.navigationSkyBlueColor,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
+                  color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -732,13 +732,17 @@ class _KeyManagementMasterDetailsViewState
                                 children: <Widget>[
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
-                                    color: AppColors.navigationSkybluecolor,
+                                    colorFilter: const ColorFilter.mode(
+                                      AppColors.navigationSkyBlueColor,
+                                      BlendMode.srcIn,
+                                    ),
+                                    // color: AppColors.navigationSkyBlueColor,
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
                                     'Add/View Lock Change History(S)',
                                     style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
+                                      color: AppColors.navigationSkyBlueColor,
                                       decoration: TextDecoration.underline,
                                     ),
                                   ),
@@ -791,13 +795,16 @@ class _KeyManagementMasterDetailsViewState
                                 children: <Widget>[
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
-                                    color: AppColors.navigationSkybluecolor,
+                                    colorFilter: const ColorFilter.mode(
+                                      AppColors.navigationSkyBlueColor,
+                                      BlendMode.srcIn,
+                                    ),
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
                                     'Add/View Key Lost History(S)',
                                     style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
+                                      color: AppColors.navigationSkyBlueColor,
                                       decoration: TextDecoration.underline,
                                     ),
                                   ),
@@ -851,13 +858,16 @@ class _KeyManagementMasterDetailsViewState
                                 children: <Widget>[
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
-                                    color: AppColors.navigationSkybluecolor,
+                                    colorFilter: const ColorFilter.mode(
+                                      AppColors.navigationSkyBlueColor,
+                                      BlendMode.srcIn,
+                                    ),
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
                                     'Add/View Key Damage History(S)',
                                     style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
+                                      color: AppColors.navigationSkyBlueColor,
                                       decoration: TextDecoration.underline,
                                     ),
                                   ),
@@ -908,13 +918,16 @@ class _KeyManagementMasterDetailsViewState
                                 children: <Widget>[
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
-                                    color: AppColors.navigationSkybluecolor,
+                                    colorFilter: const ColorFilter.mode(
+                                      AppColors.navigationSkyBlueColor,
+                                      BlendMode.srcIn,
+                                    ),
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
                                     'Add/View Key Destroy History(S)',
                                     style: TextStyle(
-                                      color: AppColors.navigationSkybluecolor,
+                                      color: AppColors.navigationSkyBlueColor,
                                       decoration: TextDecoration.underline,
                                     ),
                                   ),

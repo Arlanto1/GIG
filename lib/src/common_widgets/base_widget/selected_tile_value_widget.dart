@@ -48,7 +48,7 @@ class TileWidget extends StatelessWidget {
           child: TextButton(
             style: const ButtonStyle(
               backgroundColor:
-                  MaterialStatePropertyAll(AppColors.normaltextBackground),
+                  MaterialStatePropertyAll(AppColors.normalTextBackground),
             ),
             onPressed: () {},
             child: Text(

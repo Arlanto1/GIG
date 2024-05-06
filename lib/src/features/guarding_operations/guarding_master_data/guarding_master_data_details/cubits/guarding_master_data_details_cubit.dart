@@ -5,7 +5,6 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
 import 'package:db_atom/src/services/common_services.dart';
-import 'package:intl/intl.dart';
 
 part 'guarding_master_data_details_state.dart';
 
@@ -82,9 +81,6 @@ class GuardingMasterDataDetailsCubit
   //   emit(state.copyWith(model: model, status: FormStatus.initial));
   // }
 
-  String _getCurrentDate() {
-    return DateFormat(Constants.fulldateFormat).format(DateTime.now());
-  }
 
   Future<void> initializeValues() async {
     emit(
@@ -122,7 +118,6 @@ class GuardingMasterDataDetailsCubit
       List<User> entrySecurities = futures[4];
       AddQualifications qualifications = futures[5];
       GetDepositor emailUsers = futures[6];
-      EmployeeDepartments departments = futures[7];
       Vendors vendors = futures[8];
       dynamic responseLabels = futures[9];
       Organisation? defaultLocation = futures[10];

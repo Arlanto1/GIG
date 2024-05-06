@@ -217,7 +217,7 @@ class _KeyHistoryRecordsDetailsViewState
               );
             },
           ),
-          backgroundColor: AppColors.backgroundWhitecolor,
+          backgroundColor: AppColors.backgroundWhiteColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -231,17 +231,17 @@ class _KeyHistoryRecordsDetailsViewState
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.navigationSkybluecolor,
+      color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkybluecolor,
+              color: AppColors.navigationSkyBlueColor,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
+                  color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                     BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -923,13 +923,17 @@ class _KeyHistoryRecordsDetailsViewState
                               children: <Widget>[
                                 SvgPicture.asset(
                                   AppIcon.pluscircle,
-                                  color: AppColors.navigationSkybluecolor,
+                                  colorFilter: const ColorFilter.mode(
+                                    AppColors.navigationSkyBlueColor,
+                                    BlendMode.srcIn,
+                                  ),
+                                  // color: AppColors.navigationSkyBlueColor,
                                 ),
                                 const SizedBox(width: 10),
                                 const Text(
                                   'Add/View Incident(S)',
                                   style: TextStyle(
-                                    color: AppColors.navigationSkybluecolor,
+                                    color: AppColors.navigationSkyBlueColor,
                                     decoration: TextDecoration.underline,
                                   ),
                                 ),

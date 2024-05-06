@@ -191,7 +191,7 @@ class UploadAttachmentState extends State<UploadAttachment>
       lawEnforcementCubit.addAttchment(widget.getFiles ?? []);
     } else if (widget.createoundstate != null) {
       widget.getFiles?.add(data);
-      createFoundArticleCubit.addAttchment(widget.getFiles ?? []);
+      createFoundArticleCubit.addAttachment(widget.getFiles ?? []);
     } else if (widget.createpassmgmtstate != null) {
       widget.getFiles?.add(data);
       if (widget.isPhotoType ?? false) {
@@ -297,7 +297,7 @@ class UploadAttachmentState extends State<UploadAttachment>
                           child: Container(
                         padding: const EdgeInsets.all(20.0),
                         decoration: const ShapeDecoration(
-                            color: AppColors.lightgreyBackground,
+                            color: AppColors.lightGreyBackground,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(20.0),
@@ -330,7 +330,7 @@ class UploadAttachmentState extends State<UploadAttachment>
                           child: Container(
                         padding: const EdgeInsets.all(20.0),
                         decoration: const ShapeDecoration(
-                            color: AppColors.lightgreyBackground,
+                            color: AppColors.lightGreyBackground,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(20.0),
@@ -365,7 +365,7 @@ class UploadAttachmentState extends State<UploadAttachment>
                           child: Container(
                         padding: const EdgeInsets.all(20.0),
                         decoration: const ShapeDecoration(
-                            color: AppColors.lightgreyBackground,
+                            color: AppColors.lightGreyBackground,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.vertical(
                                   top: Radius.circular(20.0),

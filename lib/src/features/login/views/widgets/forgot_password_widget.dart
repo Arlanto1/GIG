@@ -20,7 +20,7 @@ class ForgotPassword extends StatelessWidget {
         text: title,
         // style: Styles.textStyleBlack16,
         style: const TextStyle(
-          color: AppColors.textgreyThemecolor,
+          color: AppColors.textGreyThemeColor,
           fontSize: 16,
           fontFamily: Constants.customFontRegularFamily,
           decoration: TextDecoration.underline,

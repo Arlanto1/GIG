@@ -193,7 +193,7 @@ class DutyPostRankViewState extends State<DutyPostRankView> {
               const Text(
                 Constants.addReplacement,
                 style: TextStyle(
-                  color: AppColors.navigationSkybluecolor,
+                  color: AppColors.navigationSkyBlueColor,
                   decoration: TextDecoration.underline,
                 ),
               ),
@@ -302,7 +302,7 @@ class DutyPostRankViewState extends State<DutyPostRankView> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
-        color: AppColors.disabletextfieldBackground,
+        color: AppColors.disableTextFieldBackground,
       ),
       height: MediaQuery.of(context).size.height / 3.3,
       width: MediaQuery.of(context).size.width / 2.3,

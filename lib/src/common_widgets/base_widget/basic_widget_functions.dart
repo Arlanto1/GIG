@@ -31,7 +31,7 @@ class BasicWidgetFunctions {
     return widgets.isNotEmpty
         ? Container(
             decoration: BoxDecoration(
-              color: AppColors.lightgreyBackground,
+              color: AppColors.lightGreyBackground,
               borderRadius: BorderRadius.circular(5),
             ),
             child: Padding(

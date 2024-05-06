@@ -81,7 +81,7 @@ class AddNewFieldsState extends State<AddNewFields> {
       await lawEnforcementCubit.createEmplyeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     } else if (widget.createFoundState != null) {
-      await createFoundArticleCubit.createEmplyeeDepartments(
+      await createFoundArticleCubit.createEmployeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     } else if (widget.createPassmgmtState != null) {
       await createPassMgmtCubit.createEmployeeDepartments(
@@ -96,11 +96,11 @@ class AddNewFieldsState extends State<AddNewFields> {
         alignment: Alignment.center,
         child: Text(
           widget.title,
-          style: Styles.textFontSet(18, AppColors.textgreyThemecolor,
+          style: Styles.textFontSet(18, AppColors.textGreyThemeColor,
               FontWeight.normal, Constants.customFontSemiBoldFamily),
         ),
       ),
-      backgroundColor: AppColors.backgroundWhitecolor,
+      backgroundColor: AppColors.backgroundWhiteColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
@@ -230,7 +230,7 @@ class AddNewFieldsState extends State<AddNewFields> {
 
   Widget buttonViews(BuildContext context, double width) {
     return Container(
-      color: AppColors.backgroundWhitecolor,
+      color: AppColors.backgroundWhiteColor,
       child: Row(
         //mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -245,9 +245,9 @@ class AddNewFieldsState extends State<AddNewFields> {
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButtonText,
-      foregroundColor: AppColors.textgreyThemecolor,
+      foregroundColor: AppColors.textGreyThemeColor,
       textStyle: Styles.styleHeaderGreyText16,
-      boarderColor: AppColors.textgreyThemecolor,
+      boarderColor: AppColors.textGreyThemeColor,
       onTap: () {
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
@@ -270,8 +270,8 @@ class AddNewFieldsState extends State<AddNewFields> {
       key: const Key(Keys.saveButton),
       buttonText: Constants.save,
       buttonTextKey: Keys.saveButtonText,
-      boarderColor: AppColors.navigationSkybluecolor,
-      backgroundColor: AppColors.navigationSkybluecolor,
+      boarderColor: AppColors.navigationSkyBlueColor,
+      backgroundColor: AppColors.navigationSkyBlueColor,
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {

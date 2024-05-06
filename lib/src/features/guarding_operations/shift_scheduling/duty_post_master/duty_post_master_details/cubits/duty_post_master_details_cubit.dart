@@ -33,10 +33,6 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  String _getCurrentDate() {
-    return DateFormat(Constants.fulldateFormat).format(DateTime.now());
-  }
-
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     Organisation? location;
@@ -81,7 +77,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       dynamic responseLabels = futures[5];
       Organisation? defaultLocation = futures[6];
       List<Organisation> dutyPosts = [];
-      Organisation? location = state.model.location;
+      // Organisation? location = state.model.location;
 
       if (state.model.location == null && defaultLocation != null) {
         // SerialNumberModel slNo = await commonServices.getSlNo(
@@ -147,10 +143,10 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     );
     //Get Sl No from API
     if (location != null) {
-      SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: location.id.toString(),
-        moduleCode: Constants.guardingMasterDataModule,
-      );
+      // SerialNumberModel slNo = await commonServices.getSlNo(
+      //   locationId: location.id.toString(),
+      //   moduleCode: Constants.guardingMasterDataModule,
+      // );
       state.model.status = status ?? state.model.status;
       state.model.location = location;
       state.model.dutyPostLocation = dutyPostName;

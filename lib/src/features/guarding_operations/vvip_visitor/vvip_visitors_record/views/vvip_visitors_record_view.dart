@@ -85,8 +85,8 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
             !(widget.extraProperties != null &&
                 !widget.extraProperties!.hasWritePermission!) && widget.lock.isEmptyOrNull
             ? Flutterfloatingbutton(
-                backgroundColor: AppColors.navigationSkybluecolor,
-                foregroundColor: AppColors.backgroundWhitecolor,
+                backgroundColor: AppColors.navigationSkyBlueColor,
+                foregroundColor: AppColors.backgroundWhiteColor,
                 onPressed: () {
                   showAddVVIPVisitorsPopUp(
                     context: context,
@@ -130,7 +130,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
     return Container(
       margin: allMargin16,
       decoration: const ShapeDecoration(
-          color: AppColors.backgroundWhitecolor,
+          color: AppColors.backgroundWhiteColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
           )),

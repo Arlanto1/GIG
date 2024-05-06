@@ -23,9 +23,9 @@ class RadioButtonsYesNo extends StatelessWidget {
       children: <Widget>[
         Radio(
           activeColor: status == 6 || status == -1 || status == 10
-              ? AppColors.disabletextfieldBackground
-              : AppColors.navigationSkybluecolor,
-          focusColor: AppColors.navigationSkybluecolor,
+              ? AppColors.disableTextFieldBackground
+              : AppColors.navigationSkyBlueColor,
+          focusColor: AppColors.navigationSkyBlueColor,
           value: 1,
           groupValue: selectedValue,
           onChanged: onChangedYes,
@@ -33,9 +33,9 @@ class RadioButtonsYesNo extends StatelessWidget {
         const Text(Constants.yes),
         Radio(
           activeColor: status == 6 || status == -1 || status == 10
-              ? AppColors.disabletextfieldBackground
-              : AppColors.navigationSkybluecolor,
-          focusColor: AppColors.navigationSkybluecolor,
+              ? AppColors.disableTextFieldBackground
+              : AppColors.navigationSkyBlueColor,
+          focusColor: AppColors.navigationSkyBlueColor,
           value: 0,
           groupValue: selectedValue,
           onChanged: onChangedNo,

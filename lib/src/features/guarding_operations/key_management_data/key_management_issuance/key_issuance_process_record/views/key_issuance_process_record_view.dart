@@ -83,8 +83,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                 widget.parentStatus == 0 &&
                 widget.lock.isEmptyOrNull
             ? Flutterfloatingbutton(
-                backgroundColor: AppColors.navigationSkybluecolor,
-                foregroundColor: AppColors.backgroundWhitecolor,
+                backgroundColor: AppColors.navigationSkyBlueColor,
+                foregroundColor: AppColors.backgroundWhiteColor,
                 onPressed: () async {
                   KeyIssuanceProcessRecord keyIssuanceProcessModel =
                       KeyIssuanceProcessRecord();
@@ -148,7 +148,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     return Container(
       margin: allMargin16,
       decoration: const ShapeDecoration(
-          color: AppColors.backgroundWhitecolor,
+          color: AppColors.backgroundWhiteColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
           )),
