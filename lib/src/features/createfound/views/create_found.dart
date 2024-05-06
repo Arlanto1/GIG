@@ -1518,13 +1518,11 @@ class _CreateFoundState extends State<CreateFound> {
                                             textFormKey:
                                                 Keys.claimantTextController,
                                             hintText: '',
-                                            isEnable: widget.model?.status ==
-                                                        0 ||
-                                                    widget.model == null ||
-                                                    isClaimantAcceptedByemail ==
-                                                        0
-                                                ? false
-                                                : true,
+                                            isEnable:
+                                                widget.model?.status == 0 ||
+                                                        widget.model == null
+                                                    ? false
+                                                    : true,
                                             isDisableColor:
                                                 widget.model?.status != 0
                                                     ? false
@@ -1746,11 +1744,7 @@ class _CreateFoundState extends State<CreateFound> {
                                         // widget.model?.status == 2
                                         //     ? '${state.loggedInUser?.firstName ?? ''} ${state.loggedInUser?.lastName ?? ''}'
                                         //     : '',
-                                        // '${widget.model != null ? widget.model?.handoverSecurity?.firstName : state.loggedInUser?.firstName ?? ''} ${widget.model != null ? widget.model?.handoverSecurity?.lastName : state.loggedInUser?.lastName ?? ''}',
-
-                                        widget.model?.status == 2
-                                            ? '${widget.model?.handoverSecurity?.firstName ?? ''} ${widget.model?.handoverSecurity?.lastName ?? ''}'
-                                            : '',
+                                        '${widget.model?.handoverSecurity != null ? widget.model?.handoverSecurity?.firstName : state.loggedInUser?.firstName ?? ''} ${widget.model?.handoverSecurity != null ? widget.model?.handoverSecurity?.lastName : state.loggedInUser?.lastName ?? ''}',
                                         isMandatory: true),
 
                                     /// Handed over date
