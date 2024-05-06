@@ -34,8 +34,8 @@ class VisitingOfficialListBloc
       List<LawVisitingOfficial> items =
           await services.getLeoVisitingOfficials(id: parentId);
 
-      LeoDepartments leodepartments =
-          await services.getLeodepartments('ATOM_LEO_DEPARTMENTS');
+      // LeoDepartments leodepartments =
+      //     await services.getLeodepartments('ATOM_LEO_DEPARTMENTS');
 
       return emit(
         state.copyWith(

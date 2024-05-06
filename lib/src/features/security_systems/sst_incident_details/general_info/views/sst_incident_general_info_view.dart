@@ -763,7 +763,7 @@ class _SstIncidentGeneralInfoViewState
                               BaseImageUpload().uploadWidget(
                                 context: context,
                                 loggedInUserDetails:
-                                    state.loggedInUserDetails ?? User(),
+                                    state.loggedInUserDetails,
                                 getFiles: uploadFiles,
                                 onImageSelected: (ImageContent data) {
                                   List<ImageContent>? files = [];
