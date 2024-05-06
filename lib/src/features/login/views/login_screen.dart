@@ -248,35 +248,35 @@ class _LoginState extends State<Login> {
                                 title: Constants.resetPwdTitle,
                               ),
                               CommonWidgets.verticalSpacerWidget(
-                                height * 0.17,
+                                height * 0.24,
                               ),
 
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Center(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const Text(
-                                          Constants.support,
-                                          style: Styles.textStyleBlack16,
-                                        ),
-                                        IconButton(
-                                          onPressed: () {
-                                            // do action on view
-                                          },
-                                          icon: SvgPicture.asset(AppIcon.email),
-                                        ),
-                                        const Text(
-                                          Constants.supportContact,
-                                          style: Styles.textStyleBlack16,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                  // Center(
+                                  //   child: Row(
+                                  //     mainAxisAlignment:
+                                  //         MainAxisAlignment.center,
+                                  //     children: [
+                                  //       const Text(
+                                  //         Constants.support,
+                                  //         style: Styles.textStyleBlack16,
+                                  //       ),
+                                  //       IconButton(
+                                  //         onPressed: () {
+                                  //           // do action on view
+                                  //         },
+                                  //         icon: SvgPicture.asset(AppIcon.email),
+                                  //       ),
+                                  //       const Text(
+                                  //         Constants.supportContact,
+                                  //         style: Styles.textStyleBlack16,
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
                                   CommonWidgets.verticalSpacerWidget(
                                     height * 0.003,
                                   ),
