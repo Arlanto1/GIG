@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/utils/network_handler.dart' as network_handler;
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class CreateFound extends StatefulWidget {
   final FoundListArticleDetails? model;
@@ -861,9 +862,9 @@ class _CreateFoundState extends State<CreateFound> {
                 if (state.status == FormStatus.loading) {
                   return const BaseLoader();
                 }
-                if (widget.model?.status == 2) {
-                  isDisabled = true;
-                }
+                // if (widget.model?.status == 2) {
+                //   isDisabled = true;
+                // }
 
                 if (widget.extraProperties != null &&
                     !widget.extraProperties!.hasWritePermission!) {
@@ -1117,10 +1118,9 @@ class _CreateFoundState extends State<CreateFound> {
                                   BaseDate().datePickerWidgetLoading(
                                     showFutureDate: false,
                                     textController: foundDateTextController,
-                                    isDisabled: (widget.model?.status == 1 ||
-                                            widget.model?.status == -1)
-                                        ? true
-                                        : false,
+                                    isDisabled: (widget.model?.status == 0 || widget.model == null)
+                                        ? false
+                                        : true,
                                     //initialDate: DateTime.now().subtract(Duration(days: 1)),
                                     onChange: (String value) {
                                       widget.model?.foundDate =
@@ -1520,7 +1520,7 @@ class _CreateFoundState extends State<CreateFound> {
                                             hintText: '',
                                             isEnable:
                                                 widget.model?.status == 0 ||
-                                                        widget.model == null
+                                                        widget.model == null || widget.model?.status == 2
                                                     ? false
                                                     : true,
                                             isDisableColor:
@@ -1851,7 +1851,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   //         getFiles, getAttachments),
 
                                   // if (!getAttachments.isEmptyOrNull ) ...[
-                                  BaseImageUpload().getAttachment(
+                              BaseImageUpload().getAttachment(
                                     height: height,
                                     attachments: getAttachments.isEmptyOrNull
                                         ? getFiles
@@ -1886,6 +1886,7 @@ class _CreateFoundState extends State<CreateFound> {
                             ),
                           ),
                         ),
+
                         if (widget.model?.status == 2 ||
                             widget.model?.status == -1) ...[
                           Container(
