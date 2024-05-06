@@ -17,12 +17,12 @@ class AddButtonWidget extends StatelessWidget {
       width: 50,
       decoration: BoxDecoration(
           color: (isDisableColor ?? false)
-              ? AppColors.gerylightBackground
-              : AppColors.navigationSkybluecolor,
+              ? AppColors.geryLightBackground
+              : AppColors.navigationSkyBlueColor,
           border: Border.all(
             color: (isDisableColor ?? false)
-                ? AppColors.gerylightBackground
-                : AppColors.navigationSkybluecolor,
+                ? AppColors.geryLightBackground
+                : AppColors.navigationSkyBlueColor,
           ),
           borderRadius: const BorderRadius.all(Radius.circular(8))),
       child: const Center(

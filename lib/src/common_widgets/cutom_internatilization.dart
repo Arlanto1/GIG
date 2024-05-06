@@ -21,7 +21,7 @@ class ArticleDialog extends StatelessWidget {
         width: width - 40,
         padding: const EdgeInsets.all(20.0),
         decoration: const ShapeDecoration(
-          color: AppColors.backgroundWhitecolor,
+          color: AppColors.backgroundWhiteColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(40.0)),
           ),
@@ -35,7 +35,7 @@ class ArticleDialog extends StatelessWidget {
                   style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
-                      color: AppColors.navigationSkybluecolor),
+                      color: AppColors.navigationSkyBlueColor),
                 ),
                 const Spacer(),
                 IconButton(

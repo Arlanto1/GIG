@@ -129,7 +129,7 @@ class KeyHistoryRecordBloc
       ),
     );
     try {
-      KeyHistoryRecordRequest request = KeyHistoryRecordRequest();
+      // KeyHistoryRecordRequest request = KeyHistoryRecordRequest();
 
       // request.keyLossGi = event.contactInfo;
       // await KeyManagementMasterServices()

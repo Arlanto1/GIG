@@ -117,7 +117,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                   .submitForm(isSaveOnly: false);
             },
           ),
-          backgroundColor: AppColors.backgroundWhitecolor,
+          backgroundColor: AppColors.backgroundWhiteColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -129,17 +129,17 @@ class _ContactInfoViewState extends State<ContactInfoView> {
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.navigationSkybluecolor,
+      color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkybluecolor,
+              color: AppColors.navigationSkyBlueColor,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
+                  color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -882,8 +882,8 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                                 Styles.textStyleBlack14,
                               ),
                               Checkbox(
-                                  activeColor: AppColors.navigationSkybluecolor,
-                                  focusColor: AppColors.navigationSkybluecolor,
+                                  activeColor: AppColors.navigationSkyBlueColor,
+                                  focusColor: AppColors.navigationSkyBlueColor,
                                   value: state.model.extraSecurityDeployed ??
                                       false,
                                   onChanged: (bool? value) {

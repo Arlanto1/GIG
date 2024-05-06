@@ -65,7 +65,7 @@ class Validator {
         action: SnackBarAction(
           label: 'Ok',
           onPressed: scaffold.hideCurrentSnackBar,
-          textColor: AppColors.navigationSkybluecolor,
+          textColor: AppColors.navigationSkyBlueColor,
         ),
       ),
     );

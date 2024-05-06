@@ -19,7 +19,7 @@ import '../../passmanagement/daypassmgmt/createpassmgmt/services/create_pass_mgm
 
 class CreateFoundNewUser extends StatefulWidget {
   //const CreateFoundNewUser({super.key});
-  CreateFoundNewUser({
+  const CreateFoundNewUser({
     super.key,
     required this.title,
     this.lawstate,
@@ -28,9 +28,9 @@ class CreateFoundNewUser extends StatefulWidget {
   });
 
   final String title;
-  LawEnforcementState? lawstate;
-  CreateFoundState? createoundstate;
-  CreatePassMgmtState? createpassmgmtstate;
+  final LawEnforcementState? lawstate;
+  final CreateFoundState? createoundstate;
+  final CreatePassMgmtState? createpassmgmtstate;
 
   @override
   State<CreateFoundNewUser> createState() => CreateFoundNewUserState();
@@ -83,10 +83,10 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
       surfaceTintColor: Colors.white,
       title: Text(
         Constants.newuser,
-        style: Styles.textFontSet(18, AppColors.textgreyThemecolor,
+        style: Styles.textFontSet(18, AppColors.textGreyThemeColor,
             FontWeight.normal, Constants.customFontMediumFamily),
       ),
-      backgroundColor: AppColors.backgroundWhitecolor,
+      backgroundColor: AppColors.backgroundWhiteColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
@@ -188,7 +188,7 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
     return Align(
       alignment: Alignment.bottomRight,
       child: Container(
-          color: AppColors.backgroundWhitecolor,
+          color: AppColors.backgroundWhiteColor,
           child: createNewuserButton(width)),
     );
   }
@@ -199,8 +199,8 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
       key: const Key(Keys.createnewuserButton),
       buttonText: Constants.createnewuser,
       buttonTextKey: Keys.createnewuserButtonText,
-      boarderColor: AppColors.navigationSkybluecolor,
-      backgroundColor: AppColors.navigationSkybluecolor,
+      boarderColor: AppColors.navigationSkyBlueColor,
+      backgroundColor: AppColors.navigationSkyBlueColor,
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {

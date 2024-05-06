@@ -163,7 +163,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     }
   }
 
-  Future<void> addAttchment(List<ImageContent>? data) async {
+  Future<void> addAttachment(List<ImageContent>? data) async {
     // List<CreateImage> value = createFoundArticleCubit.loadAttachments ?? [];
     // loadAttachments ??= [];
     // loadAttachments?.add(data);
@@ -299,7 +299,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
-            context, 'Added sucessfully', Constants.addarticletype, '');
+            context, 'Added successfully', Constants.addarticletype, '');
       });
     } catch (e) {
       emit(
@@ -317,7 +317,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   }
 
   // Create organisation call
-  Future<void> createEmplyeeDepartments(
+  Future<void> createEmployeeDepartments(
       String name, String orgName, BuildContext context) async {
     try {
       // Organisation createEmployeeDeptData =
@@ -380,7 +380,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       await createFoundArticleCubit.getUserByRoleDepositor(
           'ATOM_STATIC_USER', context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        Utils.dynamicAlert(context, 'Added sucessfully', Constants.newuser, '');
+        Utils.dynamicAlert(context, 'Added successfully', Constants.newuser, '');
       });
     } catch (e) {
       emit(

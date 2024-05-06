@@ -99,7 +99,6 @@ class EventProtectionServices {
     required bool isSubmit,
     // required int eventDuration,
   }) async {
-    var userId = await SharedPrefs.getUserId();
     final String url =
         "${Apis._createEventGeneralInformation}isSubmit=$isSubmit";
     log("API URL------2-2-2-2-2-: $url");
@@ -115,7 +114,6 @@ class EventProtectionServices {
     required bool isSubmit,
     required int eventDuration,
   }) async {
-    var userId = await SharedPrefs.getUserId();
     final String url =
         "${Apis._createEventEi}?isSubmit=$isSubmit&event=$eventDuration";
     log("API URL------2-2-2-2-2-: $url");

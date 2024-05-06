@@ -22,13 +22,13 @@ class CustomPopmenu extends StatelessWidget {
     var appBarHeight = AppBar().preferredSize.height;
 
     return PopupMenuButton(
-      color: AppColors.backgroundWhitecolor,
+      color: AppColors.backgroundWhiteColor,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
       icon: SvgPicture.asset(
         popupimagename,
         colorFilter: const ColorFilter.mode(
-          AppColors.backgroundWhitecolor,
+          AppColors.backgroundWhiteColor,
           BlendMode.srcIn,
         ),
         width: 18,
@@ -58,7 +58,7 @@ class CustomPopmenu extends StatelessWidget {
             SvgPicture.asset(
               popItem.imageName,
               colorFilter: const ColorFilter.mode(
-                AppColors.textgreyThemecolor,
+                AppColors.textGreyThemeColor,
                 BlendMode.srcIn,
               ),
               width: 15,

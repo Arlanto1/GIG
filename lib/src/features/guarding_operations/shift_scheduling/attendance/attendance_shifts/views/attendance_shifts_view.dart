@@ -358,7 +358,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               const Text(
                 'Add SLA',
                 style: TextStyle(
-                  color: AppColors.navigationSkybluecolor,
+                  color: AppColors.navigationSkyBlueColor,
                   decoration: TextDecoration.underline,
                 ),
               ),
@@ -441,7 +441,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               const Text(
                 Constants.addReplacement,
                 style: TextStyle(
-                  color: AppColors.navigationSkybluecolor,
+                  color: AppColors.navigationSkyBlueColor,
                   decoration: TextDecoration.underline,
                 ),
               ),
@@ -546,7 +546,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
-        color: AppColors.disabletextfieldBackground,
+        color: AppColors.disableTextFieldBackground,
       ),
       height: MediaQuery.of(context).size.height / 3.3,
       width: MediaQuery.of(context).size.width / 4.7,
@@ -559,7 +559,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             onTap: () => handleUserTap(element),
             child: Card(
               color: selectedGuard == element
-                  ? AppColors.navigationSkybluecolor
+                  ? AppColors.navigationSkyBlueColor
                   : null,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

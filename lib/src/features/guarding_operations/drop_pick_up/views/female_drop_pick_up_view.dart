@@ -61,8 +61,8 @@ class _FemaleDropPickUpViewState extends State<FemaleDropPickUpView> {
     return Scaffold(
         backgroundColor: AppColors.cardBgColor,
         floatingActionButton: Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkybluecolor,
-          foregroundColor: AppColors.backgroundWhitecolor,
+          backgroundColor: AppColors.navigationSkyBlueColor,
+          foregroundColor: AppColors.backgroundWhiteColor,
           onPressed: () => {
             Navigator.pushNamed(context, guardingRateDetailsRoute, arguments: {
               "title": Constants.createGuardingRatingCards,
@@ -90,7 +90,7 @@ class _FemaleDropPickUpViewState extends State<FemaleDropPickUpView> {
           return Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhitecolor,
+                color: AppColors.backgroundWhiteColor,
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),

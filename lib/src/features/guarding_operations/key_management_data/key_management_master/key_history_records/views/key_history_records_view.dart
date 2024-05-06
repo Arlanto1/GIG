@@ -76,8 +76,8 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                     widget.type != ConstantsIntValue.keyDamageHistoryInt &&
                     widget.model?.status != 0
                 ? Flutterfloatingbutton(
-                    backgroundColor: AppColors.navigationSkybluecolor,
-                    foregroundColor: AppColors.backgroundWhitecolor,
+                    backgroundColor: AppColors.navigationSkyBlueColor,
+                    foregroundColor: AppColors.backgroundWhiteColor,
                     onPressed: () => {
                       Navigator.pushNamed(
                           context, keyHistoryRecordsDetailsRoute,
@@ -136,7 +136,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
               return Container(
                 margin: allMargin16,
                 decoration: const ShapeDecoration(
-                    color: AppColors.backgroundWhitecolor,
+                    color: AppColors.backgroundWhiteColor,
                     shape: RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(20.0)),

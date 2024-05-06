@@ -39,8 +39,8 @@ class TextFieldAddButton extends StatelessWidget {
             height: height,
             decoration: BoxDecoration(
                 color: (isDisableColor ?? false)
-                    ? AppColors.disabletextfieldBackground
-                    : AppColors.enabletextfieldBackground,
+                    ? AppColors.disableTextFieldBackground
+                    : AppColors.enableTextFieldBackground,
                 border: Border.all(
                   color: const Color(0xFFCACACA),
                   width: 1.0,

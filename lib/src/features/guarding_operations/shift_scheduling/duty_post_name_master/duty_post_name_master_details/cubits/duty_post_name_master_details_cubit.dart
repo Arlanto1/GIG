@@ -41,10 +41,6 @@ class DutyPostNameMasterDetailsCubit
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  String _getCurrentDate() {
-    return DateFormat(Constants.fulldateFormat).format(DateTime.now());
-  }
-
   Future<void> initializeValues() async {
     emit(
       state.copyWith(

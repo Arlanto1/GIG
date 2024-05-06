@@ -95,7 +95,11 @@ class CustomListTextsState extends State<CustomListTexts> {
                       },
                       child: SvgPicture.asset(
                         widget.leftImageName ?? '',
-                        color: AppColors.navigationSkybluecolor,
+                        colorFilter: const ColorFilter.mode(
+                          AppColors.navigationSkyBlueColor,
+                          BlendMode.srcIn,
+                        ),
+                        // color: AppColors.navigationSkyBlueColor,
                       ) //Icon(Icons.cancel)
                       ),
                   GestureDetector(
@@ -115,7 +119,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                   child:
                       SvgPicture.asset(AppIcon.closeicon) //Icon(Icons.cancel)
                   )),
-      backgroundColor: AppColors.backgroundWhitecolor,
+      backgroundColor: AppColors.backgroundWhiteColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
@@ -163,9 +167,9 @@ class CustomListTextsState extends State<CustomListTexts> {
       },
       focusChange: (bool focus) {
         if (focus) {
-          borderColor = AppColors.navigationSkybluecolor;
+          borderColor = AppColors.navigationSkyBlueColor;
         } else {
-          borderColor = AppColors.textgreyThemecolor;
+          borderColor = AppColors.textGreyThemeColor;
         }
         setState(() {});
       },

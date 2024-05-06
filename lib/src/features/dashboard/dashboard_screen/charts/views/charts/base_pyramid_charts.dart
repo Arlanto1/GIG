@@ -55,7 +55,7 @@ class BasePyramidChartsState extends State<BasePyramidCharts> {
                           widget.chartTitle,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: AppColors.navigationSkybluecolor,
+                            color: AppColors.navigationSkyBlueColor,
                             fontSize: 16,
                           ),
                         ),

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class Dividers {
   static verticalDivider() {
     return const VerticalDivider(
-      color: AppColors.dividelineGreycolor,
+      color: AppColors.divideLineGreyColor,
       //color of divider
       width: 10,
       //width space of divider
@@ -18,7 +18,7 @@ class Dividers {
 
   static horizentalDivider() {
     return const Divider(
-      color: AppColors.dividelineGreycolor,
+      color: AppColors.divideLineGreyColor,
       //color of divider
       height: 5,
       //height spacing of divider

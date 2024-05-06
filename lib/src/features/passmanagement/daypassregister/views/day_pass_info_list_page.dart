@@ -165,7 +165,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
             if (state.stateType == DayPassInfoStateType.loading) {
               return const Center(
                   child: CircularProgressIndicator(
-                      color: AppColors.navigationSkybluecolor));
+                      color: AppColors.navigationSkyBlueColor));
             } else if (state.stateType == DayPassInfoStateType.failure) {
               return Center(
                 child: Padding(
@@ -192,18 +192,18 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
   Widget listWidgetLoading(double height, DayPassInfoState state,
       ScrollController? scrollController, List<PassInfo>? foundList) {
     return Container(
-        color: AppColors.navigationSkybluecolor,
+        color: AppColors.navigationSkyBlueColor,
         child: SingleChildScrollView(
           controller: scrollController,
           child: Column(children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkybluecolor,
+              color: AppColors.navigationSkyBlueColor,
             ),
             Container(
               //padding: const EdgeInsets.all(20.0),
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
+                  color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -235,9 +235,9 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
         isEnabled: false,
         focusChange: (bool focus) {
           if (focus) {
-            borderColor = AppColors.navigationSkybluecolor;
+            borderColor = AppColors.navigationSkyBlueColor;
           } else {
-            borderColor = AppColors.textgreyThemecolor;
+            borderColor = AppColors.textGreyThemeColor;
           }
           setState(() {});
         },

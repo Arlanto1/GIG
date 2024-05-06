@@ -32,7 +32,7 @@ class CustomAlertDialog extends StatelessWidget {
       title: title != null
           ? Text(
               title ?? "",
-              style: Styles.textFontSet(18, AppColors.navigationSkybluecolor,
+              style: Styles.textFontSet(18, AppColors.navigationSkyBlueColor,
                   FontWeight.normal, Constants.customFontMediumFamily),
             )
           : null,
@@ -50,7 +50,7 @@ class CustomAlertDialog extends StatelessWidget {
                 child: Text(negativeBtnText ?? '',
                     style: Styles.textFontSet(
                         16,
-                        AppColors.navigationSkybluecolor,
+                        AppColors.navigationSkyBlueColor,
                         FontWeight.normal,
                         Constants.customFontMediumFamily)),
                 //  textColor: Theme.of(context).colorScheme.secondary,
@@ -68,7 +68,7 @@ class CustomAlertDialog extends StatelessWidget {
                 child: Text(positiveBtnText ?? '',
                     style: Styles.textFontSet(
                         16,
-                        AppColors.navigationSkybluecolor,
+                        AppColors.navigationSkyBlueColor,
                         FontWeight.normal,
                         Constants.customFontMediumFamily)),
               )

@@ -25,9 +25,14 @@ enum RequestType {
 class BaseApiService {
   Future<Map<String, String>> getHeaders({bool? isAuthenticated}) async {
     Map<String, String> headers = {'Content-Type': 'application/json'};
-    Position position = await determinePosition();
-    headers.addAll({"Latitude": position.latitude.toString()});
-    headers.addAll({"Longitude": position.longitude.toString()});
+
+    // Passing Location Parameter only if the location service is Enabled
+    LocationPermission locationPermission = await Geolocator.requestPermission();
+    if (locationPermission !=LocationPermission.deniedForever) {
+      Position position = await determinePosition();
+      headers.addAll({"Latitude": position.latitude.toString()});
+      headers.addAll({"Longitude": position.longitude.toString()});
+    }
     if (isAuthenticated != null && isAuthenticated) {
       String token = await SharedPrefs.getToken();
       log("token is:$token");

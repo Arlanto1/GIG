@@ -50,10 +50,6 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     ));
   }
 
-  String _getCurrentDate() {
-    return DateFormat(Constants.fulldateFormat).format(DateTime.now());
-  }
-
   void onCheckBoxChange(ShiftScheduleModel model) {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 

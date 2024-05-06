@@ -78,8 +78,8 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
           backgroundColor: AppColors.cardBgColor,
           floatingActionButton: widget.showSaveButton
               ? Flutterfloatingbutton(
-                  backgroundColor: AppColors.navigationSkybluecolor,
-                  foregroundColor: AppColors.backgroundWhitecolor,
+                  backgroundColor: AppColors.navigationSkyBlueColor,
+                  foregroundColor: AppColors.backgroundWhiteColor,
                   onPressed: () {
                     showAddContactPopUp(
                       context: context,
@@ -154,7 +154,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
     return Container(
       margin: allMargin16,
       decoration: const ShapeDecoration(
-          color: AppColors.backgroundWhitecolor,
+          color: AppColors.backgroundWhiteColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
           )),

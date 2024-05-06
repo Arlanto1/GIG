@@ -102,8 +102,8 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
     return Scaffold(
       backgroundColor: AppColors.cardBgColor,
       floatingActionButton: Flutterfloatingbutton(
-        backgroundColor: AppColors.navigationSkybluecolor,
-        foregroundColor: AppColors.backgroundWhitecolor,
+        backgroundColor: AppColors.navigationSkyBlueColor,
+        foregroundColor: AppColors.backgroundWhiteColor,
         onPressed: () {
           // Navigator.pushNamed(context, createpassmgmtRoute);
           String titleIdentify = '';
@@ -237,7 +237,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
             if (state.stateType == FormStatus.loading) {
               return const Center(
                   child: CircularProgressIndicator(
-                      color: AppColors.navigationSkybluecolor));
+                      color: AppColors.navigationSkyBlueColor));
             } else if (state.stateType == FormStatus.failure &&
                 (localfoundlist ?? []).isEmpty) {
               return Center(
@@ -268,18 +268,18 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
       ScrollController? scrollController,
       List<PassManagementModel>? foundList) {
     return Container(
-        color: AppColors.navigationSkybluecolor,
+        color: AppColors.navigationSkyBlueColor,
         child: SingleChildScrollView(
           controller: scrollController,
           child: Column(children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkybluecolor,
+              color: AppColors.navigationSkyBlueColor,
             ),
             Container(
               //padding: const EdgeInsets.all(20.0),
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
+                  color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -311,9 +311,9 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
         isEnabled: false,
         focusChange: (bool focus) {
           if (focus) {
-            borderColor = AppColors.navigationSkybluecolor;
+            borderColor = AppColors.navigationSkyBlueColor;
           } else {
-            borderColor = AppColors.textgreyThemecolor;
+            borderColor = AppColors.textGreyThemeColor;
           }
           setState(() {});
         },

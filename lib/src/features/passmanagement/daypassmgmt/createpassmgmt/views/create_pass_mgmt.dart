@@ -5,12 +5,12 @@ import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/mod
 import 'package:intl/intl.dart';
 
 class CreatePassManagement extends StatefulWidget {
-  PassManagementModel? model;
+  final PassManagementModel? model;
   final int passId;
   final String? title;
   final ExtraProperties? extraProperties;
 
-  CreatePassManagement({
+  const CreatePassManagement({
     super.key,
     this.model,
     required this.passId,
@@ -133,7 +133,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 padding: EdgeInsets.only(right: 20.0),
                 child: Icon(
                   Icons.send,
-                  color: AppColors.backgroundWhitecolor,
+                  color: AppColors.backgroundWhiteColor,
                 ),
                 // SvgPicture.asset(
                 //   AppIcon.createfoundsaveicon,
@@ -144,7 +144,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         ],
         //backgroundColor: AppColors.navigationSkybluecolor,
       ),
-      backgroundColor: AppColors.backgroundWhitecolor,
+      backgroundColor: AppColors.backgroundWhiteColor,
       body: BlocConsumer<CreatePassMgmtCubit, CreatePassMgmtState>(
         listener: (context, state) {
           log('-state.stateType---${state.stateType}----');
@@ -253,12 +253,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   children: [
                     Container(
                       height: height * 0.01,
-                      color: AppColors.navigationSkybluecolor,
+                      color: AppColors.navigationSkyBlueColor,
                     ),
                     Container(
                       //padding: const EdgeInsets.all(20.0),
                       decoration: const ShapeDecoration(
-                          color: AppColors.backgroundWhitecolor,
+                          color: AppColors.backgroundWhiteColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(20.0)),
@@ -315,7 +315,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             //AppIcon.dropdownicon,
                                             AppIcon.dropdownicon,
                                             //fit: BoxFit.,
-                                            color: AppColors.textgreyThemecolor,
+                                            colorFilter: const ColorFilter.mode(
+                                              AppColors.textGreyThemeColor,
+                                              BlendMode.srcIn,
+                                            ),
+                                            // color: AppColors.textGreyThemeColor,
                                             width: 10,
                                             height: 10,
                                             key: const Key(Keys.userIcon),
@@ -2142,9 +2146,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       children: <Widget>[
         Radio(
           activeColor: isEditable
-              ? AppColors.navigationSkybluecolor
-              : AppColors.disabletextfieldBackground,
-          focusColor: AppColors.navigationSkybluecolor,
+              ? AppColors.navigationSkyBlueColor
+              : AppColors.disableTextFieldBackground,
+          focusColor: AppColors.navigationSkyBlueColor,
           value: 1,
           groupValue: selectedValue,
           onChanged: isEditable
@@ -2158,8 +2162,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         const Text(Constants.yes),
         Radio(
           activeColor: isEditable
-              ? AppColors.navigationSkybluecolor
-              : AppColors.disabletextfieldBackground,
+              ? AppColors.navigationSkyBlueColor
+              : AppColors.disableTextFieldBackground,
           value: 0,
           groupValue: selectedValue,
           onChanged: isEditable
@@ -2639,8 +2643,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       title: state.selectedDepartment?.name ?? '',
       height: 60,
       isDisableColor: (widget.model == null || widget.model?.status == 0) &&
-          !(widget.extraProperties != null &&
-              !widget.extraProperties!.hasWritePermission!)
+              !(widget.extraProperties != null &&
+                  !widget.extraProperties!.hasWritePermission!)
           ? false
           : true,
       onTap: () {
@@ -2755,19 +2759,23 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             {
               datePickerDialog(controller);
             }
-            DateTime? pickedDate = await showDateTimePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2000),
-                lastDate: DateTime(2101));
-            String formattedDate = DateFormat(Constants.fulldateFormat)
-                .format(pickedDate ?? DateTime.now());
+            // DateTime? pickedDate = await showDateTimePicker(
+            //     context: context,
+            //     initialDate: DateTime.now(),
+            //     firstDate: DateTime(2000),
+            //     lastDate: DateTime(2101));
+            // String formattedDate = DateFormat(Constants.fulldateFormat)
+            //     .format(pickedDate ?? DateTime.now());
           },
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: SvgPicture.asset(
               AppIcon.calendaricon,
-              color: AppColors.textgreyThemecolor,
+              colorFilter: const ColorFilter.mode(
+                AppColors.textGreyThemeColor,
+                BlendMode.srcIn,
+              ),
+              // color: AppColors.textGreyThemeColor,
               width: 20,
               key: const Key(Keys.userIcon),
             ),
@@ -2841,7 +2849,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                         fixedSize: const Size(140, 50),
-                        backgroundColor: AppColors.navigationSkybluecolor,
+                        backgroundColor: AppColors.navigationSkyBlueColor,
                       ),
                       onPressed: () {
                         showDialog(
@@ -2861,7 +2869,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                         //AppIcon.dropdownicon,
                         AppIcon.uploadicon,
                         //fit: BoxFit.,
-                        color: AppColors.backgroundWhitecolor,
+                        colorFilter: const ColorFilter.mode(
+                          AppColors.backgroundWhiteColor,
+                          BlendMode.srcIn,
+                        ),
+                        // color: AppColors.backgroundWhiteColor,
                         width: 13,
                         height: 13,
                         key: const Key(Keys.userIcon),
@@ -2926,7 +2938,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         createPassMgmtCubit.getEntityData(list);
         Navigator.pop(context);
       },
-      enabled: widget.model == null || widget.model?.status == 0 ,
+      enabled: widget.model == null || widget.model?.status == 0,
       addTitle: Constants.addentitytype,
       orgName: 'ATOM_ENTITIES',
       createEntity: widget.model == null || widget.model?.status == 0,
@@ -3188,8 +3200,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       height: 60,
       isDisableColor: widget.model?.status == 0 ||
               widget.model?.status == null ||
-                  !(widget.extraProperties != null &&
-                      !widget.extraProperties!.hasWritePermission!)
+              !(widget.extraProperties != null &&
+                  !widget.extraProperties!.hasWritePermission!)
           ? false
           : true,
       onTap: () {
@@ -3451,7 +3463,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                       child: TextButton(
                         style: const ButtonStyle(
                           backgroundColor: MaterialStatePropertyAll(
-                              AppColors.normaltextBackground),
+                              AppColors.normalTextBackground),
                         ),
                         onPressed: () {},
                         child: Text(

@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../../../index.dart';
 
-part 'annual_power_shutsown_list_details_state.dart';
+part 'annual_power_shutdown_list_details_state.dart';
 
 class AnnualPowerShutdownListDetailsCubit
     extends Cubit<AnnualPowerShutdownListDetailsState> {
@@ -113,7 +113,6 @@ class AnnualPowerShutdownListDetailsCubit
       Locations getLocationsData = results[0];
       Organisation? defaultLocation = results[1];
       User loggedInUserDetails = results[2];
-      dynamic responseLabels = results[3];
       Analyst users = results[4];
       GetDepositor emailUsers = results[5];
       List<Organisation>? entities = results[6];

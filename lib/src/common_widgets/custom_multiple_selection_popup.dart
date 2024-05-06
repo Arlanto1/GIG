@@ -121,7 +121,7 @@ class CustomMultipleSelectionListTextsState
                       child: SvgPicture.asset(
                         widget.leftimagename ?? '',
                         colorFilter: const ColorFilter.mode(
-                          AppColors.textgreyThemecolor,
+                          AppColors.textGreyThemeColor,
                           BlendMode.srcIn,
                         ),
                       ) //Icon(Icons.cancel)
@@ -135,11 +135,11 @@ class CustomMultipleSelectionListTextsState
               },
               child: const Icon(
                 Icons.send,
-                color: AppColors.navigationSkybluecolor,
+                color: AppColors.navigationSkyBlueColor,
               ),
             ),
           ]),
-      backgroundColor: AppColors.backgroundWhitecolor,
+      backgroundColor: AppColors.backgroundWhiteColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
@@ -187,9 +187,9 @@ class CustomMultipleSelectionListTextsState
       },
       focusChange: (bool focus) {
         if (focus) {
-          borderColor = AppColors.navigationSkybluecolor;
+          borderColor = AppColors.navigationSkyBlueColor;
         } else {
-          borderColor = AppColors.textgreyThemecolor;
+          borderColor = AppColors.textGreyThemeColor;
         }
         setState(() {});
       },
@@ -312,8 +312,8 @@ class CustomMultipleSelectionListTextsState
                             fontFamily: Constants.customFontRegularFamily,
                             fontWeight: FontWeight.w600,
                             color: selectedListindexes.contains(index)
-                                ? AppColors.navigationSkybluecolor
-                                : AppColors.textgreyThemecolor)),
+                                ? AppColors.navigationSkyBlueColor
+                                : AppColors.textGreyThemeColor)),
                   ));
             }
             return null;

@@ -110,7 +110,7 @@ class NavigationDrawer1 extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(
         canvasColor: AppColors
-            .backgroundWhitecolor, //This will change the drawer background to blue.
+            .backgroundWhiteColor, //This will change the drawer background to blue.
         //other styles
       ),
       child: Drawer(
@@ -118,19 +118,27 @@ class NavigationDrawer1 extends StatelessWidget {
           create: (context) => DrawerCubit(),
           child: BlocBuilder<DrawerCubit, DrawerState>(
             builder: (context, state) {
-              if (state is DrawerInitial) {
-                // getIndeifydrawerIndex();
-                _lastSelectedItem = state.index;
-              } else if (state is GetDrawerItemChange) {
-                _lastSelectedItem = state.index;
-              } else if (state is OperationsGetDrawerItemChange) {
-                log('drawer operation ');
-                _opearationsLastSelectedItem = state.index;
-              } else if (state is SecurityFunctionsGetDrawerItemChange) {
-                _securityfunfunctionslastSelectedItem = state.index;
-              } else if (state is PassMgmtGetDrawerItemChange) {
-                _passlastSelectedItem = state.index;
+              switch (state.runtimeType) {
+                case DrawerInitial:
+                  _lastSelectedItem = (state as DrawerInitial).index;
+                  break;
+                case GetDrawerItemChange:
+                  _lastSelectedItem = (state as GetDrawerItemChange).index;
+                  break;
+                case OperationsGetDrawerItemChange:
+                  log('drawer operation ');
+                  _opearationsLastSelectedItem = (state as OperationsGetDrawerItemChange).index;
+                  break;
+                case SecurityFunctionsGetDrawerItemChange:
+                  _securityfunfunctionslastSelectedItem = (state as SecurityFunctionsGetDrawerItemChange).index;
+                  break;
+                case PassMgmtGetDrawerItemChange:
+                  _passlastSelectedItem = (state as PassMgmtGetDrawerItemChange).index;
+                  break;
+                default:
+                  break;
               }
+
 
               return ListView(
                 children: <Widget>[
@@ -190,7 +198,7 @@ class NavigationDrawer1 extends StatelessWidget {
         Container(
           decoration: const BoxDecoration(
             border: Border(
-                bottom: BorderSide(color: AppColors.dividelineGreycolor)),
+                bottom: BorderSide(color: AppColors.divideLineGreyColor)),
           ),
           child: ListTile(
             leading: SizedBox(
@@ -199,8 +207,8 @@ class NavigationDrawer1 extends StatelessWidget {
                 child: Image.asset(drawerItem.imageName,
                     fit: BoxFit.scaleDown,
                     color: (i == _passlastSelectedItem)
-                        ? AppColors.navigationSkybluecolor
-                        : AppColors.boldgreyBackground)),
+                        ? AppColors.navigationSkyBlueColor
+                        : AppColors.boldGreyBackground)),
             title: Text(drawerItem.title,
                 //style: Styles.textStyleBlack16,
                 style: TextStyle(
@@ -208,8 +216,8 @@ class NavigationDrawer1 extends StatelessWidget {
                     fontFamily: Constants.customFontSemiBoldFamily,
                     fontWeight: FontWeight.w600,
                     color: (i == _passlastSelectedItem)
-                        ? AppColors.navigationSkybluecolor
-                        : AppColors.textgreyThemecolor)),
+                        ? AppColors.navigationSkyBlueColor
+                        : AppColors.textGreyThemeColor)),
             //selected: i == _lastSelectedItem,
             onTap: () {
               log('-_genericItemSelection---title---$title---');
@@ -337,16 +345,32 @@ class NavigationDrawer1 extends StatelessWidget {
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getPassMgmtIndexChange(index);
-    if (index == 0) {
-      Navigator.pushNamed(context, keyManagementMasterListRoute,
-          arguments: {"Key Management Master": false});
-    } else if (index == 1) {
-      Navigator.pushNamed(context, keyManagementIssuanceListRoute,
-          arguments: {"Key Management Issuance List": false});
-    } else if (index == 2) {
-      Navigator.pushNamed(context, keyLossDestructionListRoute,
-          arguments: {"Key Loss Destruction List": false});
+    switch (index) {
+      case 0:
+        Navigator.pushNamed(context, keyManagementMasterListRoute,
+            arguments: {"Key Management Master": false});
+        break;
+      case 1:
+        Navigator.pushNamed(context, keyManagementIssuanceListRoute,
+            arguments: {"Key Management Issuance List": false});
+        break;
+      case 2:
+        Navigator.pushNamed(context, keyLossDestructionListRoute,
+            arguments: {"Key Loss Destruction List": false});
+        break;
     }
+    // if (index == 0) {
+    //   Navigator.pushNamed(context, keyManagementMasterListRoute,
+    //       arguments: {"Key Management Master": false});
+    // } else if (index == 1) {
+    //   Navigator.pushNamed(context, keyManagementIssuanceListRoute,
+    //       arguments: {"Key Management Issuance List": false});
+    // } else if (index == 2) {
+    //   Navigator.pushNamed(context, keyLossDestructionListRoute,
+    //       arguments: {"Key Loss Destruction List": false});
+    // }
+
+
     // else if (index == 3) {
     //   Navigator.pushNamed(context, keyReconciliationListRoute,
     //       arguments: {"Key Reconciliation List": false});
@@ -360,23 +384,42 @@ class NavigationDrawer1 extends StatelessWidget {
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getPassMgmtIndexChange(index);
-    if (index == 0) {
-      Navigator.pushNamed(context, attendanceListRoute);
-    } else if (index == 1) {
-      Navigator.pushNamed(context, dutyPostMasterListRoute);
-    } else if (index == 2) {
-      Navigator.pushNamed(context, dutyPostNameMasterListRoute);
-    } else if (index == 3) {
-      Navigator.pushNamed(
-        context,
-        shiftScheduleListRoute,
-      );
-    } else if (index == 4) {
-      Navigator.pushNamed(
-        context,
-        attendanceReportBillingListRoute,
-      );
+    switch (index) {
+      case 0:
+        Navigator.pushNamed(context, attendanceListRoute);
+        break;
+      case 1:
+        Navigator.pushNamed(context, dutyPostMasterListRoute);
+        break;
+      case 2:
+        Navigator.pushNamed(context, dutyPostNameMasterListRoute);
+        break;
+      case 3:
+        Navigator.pushNamed(context, shiftScheduleListRoute);
+        break;
+      case 4:
+        Navigator.pushNamed(context, attendanceReportBillingListRoute);
+        break;
+      default:
+        break;
     }
+    // if (index == 0) {
+    //   Navigator.pushNamed(context, attendanceListRoute);
+    // } else if (index == 1) {
+    //   Navigator.pushNamed(context, dutyPostMasterListRoute);
+    // } else if (index == 2) {
+    //   Navigator.pushNamed(context, dutyPostNameMasterListRoute);
+    // } else if (index == 3) {
+    //   Navigator.pushNamed(
+    //     context,
+    //     shiftScheduleListRoute,
+    //   );
+    // } else if (index == 4) {
+    //   Navigator.pushNamed(
+    //     context,
+    //     attendanceReportBillingListRoute,
+    //   );
+    // }
   }
 
   _onCostAndBillingItemSelected(int index, BuildContext context) async {
@@ -398,23 +441,27 @@ class NavigationDrawer1 extends StatelessWidget {
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getPassMgmtIndexChange(index);
-    if (index == 0) {
-      Navigator.pushNamed(context, contactDetailsListRoute,
-          arguments: {"Contact Details": true});
-    } else if (index == 1) {
-      Navigator.pushNamed(context, guardingMasterDataRoute,
-          arguments: {"Guarding Master Data": true});
-    } else if (index == 2) {
-      Navigator.pushNamed(context, guardingMasterReportRoute);
-    } else if (index == 3) {
-      Navigator.pushNamed(context, occurrenceRoute);
-    } else if (index == 4) {
-      Navigator.pushNamed(context, slaViolationPenaltyListRoute,
-          arguments: {"SLA Violation Penalty": false});
-    } else if (index == 5) {
-    } else if (index == 6) {
+    switch (index) {
+      case 0:
+        Navigator.pushNamed(context, contactDetailsListRoute,
+            arguments: {"Contact Details": true});
+        break;
+      case 1:
+        Navigator.pushNamed(context, guardingMasterDataRoute,
+            arguments: {"Guarding Master Data": true});
+        break;
+      case 2:
+        Navigator.pushNamed(context, guardingMasterReportRoute);
+        break;
+      case 3:
+        Navigator.pushNamed(context, occurrenceRoute);
+        break;
+      case 4:
+        Navigator.pushNamed(context, slaViolationPenaltyListRoute,
+            arguments: {"SLA Violation Penalty": false});
+        break;
+      case 6:
       // TODO: Show Dropdown
-
       // log('--keyManagementDataItems--_genericBuildDrawerChildren--');
       // return _genericItemSelection(
       //   context,
@@ -423,7 +470,37 @@ class NavigationDrawer1 extends StatelessWidget {
       // );
       // Navigator.pushNamed(context, keyManagementMasterListRoute,
       //     arguments: {"Key Management Master": false});
+        break;
+      default:
+        break;
     }
+
+    // if (index == 0) {
+    //   Navigator.pushNamed(context, contactDetailsListRoute,
+    //       arguments: {"Contact Details": true});
+    // } else if (index == 1) {
+    //   Navigator.pushNamed(context, guardingMasterDataRoute,
+    //       arguments: {"Guarding Master Data": true});
+    // } else if (index == 2) {
+    //   Navigator.pushNamed(context, guardingMasterReportRoute);
+    // } else if (index == 3) {
+    //   Navigator.pushNamed(context, occurrenceRoute);
+    // } else if (index == 4) {
+    //   Navigator.pushNamed(context, slaViolationPenaltyListRoute,
+    //       arguments: {"SLA Violation Penalty": false});
+    // } else if (index == 5) {
+    // } else if (index == 6) {
+    //   // TODO: Show Dropdown
+    //
+    //   // log('--keyManagementDataItems--_genericBuildDrawerChildren--');
+    //   // return _genericItemSelection(
+    //   //   context,
+    //   //   keyManagementDataItems,
+    //   //   Constants.keyManagementMaster,
+    //   // );
+    //   // Navigator.pushNamed(context, keyManagementMasterListRoute,
+    //   //     arguments: {"Key Management Master": false});
+    // }
   }
 
   List<Widget> _buildDrawerChildren(BuildContext context, DrawerState state) {
@@ -436,7 +513,7 @@ class NavigationDrawer1 extends StatelessWidget {
             ? Container(
                 decoration: const BoxDecoration(
                   border: Border(
-                      bottom: BorderSide(color: AppColors.dividelineGreycolor)),
+                      bottom: BorderSide(color: AppColors.divideLineGreyColor)),
                 ),
                 child: ListTile(
                   leading: SizedBox(
@@ -445,8 +522,8 @@ class NavigationDrawer1 extends StatelessWidget {
                       child: Image.asset(drawerItem.imageName,
                           fit: BoxFit.cover,
                           color: (i == _lastSelectedItem)
-                              ? AppColors.navigationSkybluecolor
-                              : AppColors.textgreyThemecolor)),
+                              ? AppColors.navigationSkyBlueColor
+                              : AppColors.textGreyThemeColor)),
                   title: Text(drawerItem.title,
                       //style: Styles.textStyleBlack16,
                       style: TextStyle(
@@ -454,8 +531,8 @@ class NavigationDrawer1 extends StatelessWidget {
                           fontFamily: Constants.customFontSemiBoldFamily,
                           fontWeight: FontWeight.w600,
                           color: (i == _lastSelectedItem)
-                              ? AppColors.navigationSkybluecolor
-                              : AppColors.textgreyThemecolor)),
+                              ? AppColors.navigationSkyBlueColor
+                              : AppColors.textGreyThemeColor)),
                   //selected: i == _lastSelectedItem,
                   onTap: () => _onSelectItem(
                     i,
@@ -470,7 +547,7 @@ class NavigationDrawer1 extends StatelessWidget {
                   decoration: const BoxDecoration(
                     border: Border(
                         bottom:
-                            BorderSide(color: AppColors.dividelineGreycolor)),
+                            BorderSide(color: AppColors.divideLineGreyColor)),
                   ),
                   child: ExpansionTile(
                       onExpansionChanged: (value) {
@@ -497,8 +574,8 @@ class NavigationDrawer1 extends StatelessWidget {
                             fontFamily: Constants.customFontSemiBoldFamily,
                             fontWeight: FontWeight.w600,
                             color: (i == _lastSelectedItem)
-                                ? AppColors.navigationSkybluecolor
-                                : AppColors.textgreyThemecolor),
+                                ? AppColors.navigationSkyBlueColor
+                                : AppColors.textGreyThemeColor),
                         // style: Styles.textStyleBlack16,
                       ),
                       leading: SizedBox(
@@ -507,8 +584,8 @@ class NavigationDrawer1 extends StatelessWidget {
                           child: Image.asset(AppIcon.securityFunctionsIcon,
                               fit: BoxFit.cover,
                               color: (i == _lastSelectedItem)
-                                  ? AppColors.navigationSkybluecolor
-                                  : AppColors.textgreyThemecolor)),
+                                  ? AppColors.navigationSkyBlueColor
+                                  : AppColors.textGreyThemeColor)),
                       childrenPadding: const EdgeInsets.only(left: 20),
                       //children padding
                       children: _buildOperationsFromSecurity(context, state)),
@@ -531,7 +608,7 @@ class NavigationDrawer1 extends StatelessWidget {
             ? Container(
                 decoration: const BoxDecoration(
                   border: Border(
-                      bottom: BorderSide(color: AppColors.dividelineGreycolor)),
+                      bottom: BorderSide(color: AppColors.divideLineGreyColor)),
                 ),
                 child: ListTile(
                   leading: SizedBox(
@@ -541,8 +618,8 @@ class NavigationDrawer1 extends StatelessWidget {
                         drawerItem.imageName,
                         //fit: BoxFit.cover,
                         color: (i == _securityfunfunctionslastSelectedItem)
-                            ? AppColors.navigationSkybluecolor
-                            : AppColors.gerylightBackground,
+                            ? AppColors.navigationSkyBlueColor
+                            : AppColors.geryLightBackground,
                       )),
                   title: Text(drawerItem.title,
                       //style: Styles.textStyleBlack16,
@@ -551,8 +628,8 @@ class NavigationDrawer1 extends StatelessWidget {
                           fontFamily: Constants.customFontSemiBoldFamily,
                           fontWeight: FontWeight.w600,
                           color: (i == _securityfunfunctionslastSelectedItem)
-                              ? AppColors.navigationSkybluecolor
-                              : AppColors.textgreyThemecolor)),
+                              ? AppColors.navigationSkyBlueColor
+                              : AppColors.textGreyThemeColor)),
                   //selected: i == _lastSelectedItem,
                   onTap: () => _onSecurityExpansionSelectItem(i, context),
                 ),
@@ -564,7 +641,7 @@ class NavigationDrawer1 extends StatelessWidget {
                   decoration: const BoxDecoration(
                     border: Border(
                         bottom:
-                            BorderSide(color: AppColors.dividelineGreycolor)),
+                            BorderSide(color: AppColors.divideLineGreyColor)),
                   ),
                   child: ExpansionTile(
                     onExpansionChanged: (value) {
@@ -588,8 +665,8 @@ class NavigationDrawer1 extends StatelessWidget {
                           fontFamily: Constants.customFontSemiBoldFamily,
                           fontWeight: FontWeight.w600,
                           color: (i == _securityfunfunctionslastSelectedItem)
-                              ? AppColors.navigationSkybluecolor
-                              : AppColors.textgreyThemecolor),
+                              ? AppColors.navigationSkyBlueColor
+                              : AppColors.textGreyThemeColor),
                       // style: Styles.textStyleBlack16,
                     ),
                     leading: SizedBox(
@@ -603,8 +680,8 @@ class NavigationDrawer1 extends StatelessWidget {
                                   : AppIcon.securitySystemIcon,
                           fit: BoxFit.cover,
                           color: (i == _securityfunfunctionslastSelectedItem)
-                              ? AppColors.navigationSkybluecolor
-                              : AppColors.textgreyThemecolor),
+                              ? AppColors.navigationSkyBlueColor
+                              : AppColors.textGreyThemeColor),
                     ),
                     childrenPadding: const EdgeInsets.only(left: 20),
                     //children padding
@@ -659,7 +736,7 @@ class NavigationDrawer1 extends StatelessWidget {
             ? Container(
                 decoration: const BoxDecoration(
                   border: Border(
-                      bottom: BorderSide(color: AppColors.dividelineGreycolor)),
+                      bottom: BorderSide(color: AppColors.divideLineGreyColor)),
                 ),
                 child: ListTile(
                   leading: SizedBox(
@@ -668,8 +745,8 @@ class NavigationDrawer1 extends StatelessWidget {
                       child: Image.asset(drawerItem.imageName,
                           fit: BoxFit.cover,
                           color: (i == _opearationsLastSelectedItem)
-                              ? AppColors.navigationSkybluecolor
-                              : AppColors.textgreyThemecolor)),
+                              ? AppColors.navigationSkyBlueColor
+                              : AppColors.textGreyThemeColor)),
                   title: Text(drawerItem.title,
                       //style: Styles.textStyleBlack16,
                       style: TextStyle(
@@ -677,8 +754,8 @@ class NavigationDrawer1 extends StatelessWidget {
                           fontFamily: Constants.customFontSemiBoldFamily,
                           fontWeight: FontWeight.w600,
                           color: (i == _opearationsLastSelectedItem)
-                              ? AppColors.navigationSkybluecolor
-                              : AppColors.textgreyThemecolor)),
+                              ? AppColors.navigationSkyBlueColor
+                              : AppColors.textGreyThemeColor)),
                   // selected: i == _lastSelectedItem,
                   onTap: () {
                     log('-onTap-----title---$title---');
@@ -709,7 +786,7 @@ class NavigationDrawer1 extends StatelessWidget {
                   decoration: const BoxDecoration(
                     border: Border(
                         bottom:
-                            BorderSide(color: AppColors.dividelineGreycolor)),
+                            BorderSide(color: AppColors.divideLineGreyColor)),
                   ),
                   child: ExpansionTile(
                     onExpansionChanged: (value) {
@@ -734,8 +811,8 @@ class NavigationDrawer1 extends StatelessWidget {
                           fontFamily: Constants.customFontSemiBoldFamily,
                           fontWeight: FontWeight.w600,
                           color: (i == _opearationsLastSelectedItem)
-                              ? AppColors.navigationSkybluecolor
-                              : AppColors.textgreyThemecolor),
+                              ? AppColors.navigationSkyBlueColor
+                              : AppColors.textGreyThemeColor),
                       // style: Styles.textStyleBlack16,
                     ),
                     leading: SizedBox(
@@ -744,8 +821,8 @@ class NavigationDrawer1 extends StatelessWidget {
                       child: Image.asset(drawerItem.imageName,
                           fit: BoxFit.fitHeight,
                           color: (i == _opearationsLastSelectedItem)
-                              ? AppColors.navigationSkybluecolor
-                              : AppColors.textgreyThemecolor),
+                              ? AppColors.navigationSkyBlueColor
+                              : AppColors.textGreyThemeColor),
                     ),
                     childrenPadding: const EdgeInsets.only(left: 20),
                     //children padding
@@ -791,58 +868,110 @@ class NavigationDrawer1 extends StatelessWidget {
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
     context.read<DrawerCubit>().getPassMgmtIndexChange(index);
-    if (index == 0) {
-      //day pass mng = 0
-      log('day pass mangement index0');
-      Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
-        "passMngDetails": PassMngArguments(0, 'Day Pass Management', false)
-      });
-    } else if (index == 1) {
-      log('day pass registry index1');
-      //day pass mng = 0
-      Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
-        "passMngRegisterDetails": PassMngArguments(0, 'Day Pass Register', true)
-      });
-    } else if (index == 2) {
-      //vendor pass mng = 3
-
-      log('Sez pass Management index6');
-      Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
-        "passMngDetails": PassMngArguments(3, 'Sez Pass Management', false)
-      });
-    } else if (index == 3) {
-      log('Sez pass registory index7');
-      Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
-        "passMngRegisterDetails": PassMngArguments(3, 'Sez Pass Register', true)
-      });
-    } else if (index == 4) {
-      log('vendor pass management index4');
-      Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
-        "passMngDetails": PassMngArguments(2, 'Vendor Pass Management', false)
-      });
-    } else if (index == 5) {
-      //vendor pass mng = 2
-
-      log('vendor pass registory index5');
-      Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
-        "passMngRegisterDetails":
-            PassMngArguments(2, 'Vendor Pass Register', true)
-      });
-    } else if (index == 6) {
-      //visitor pass mng = 1
-
-      log('visitor pass mangement index2');
-      Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
-        "passMngDetails": PassMngArguments(1, 'Visitor Pass Management', false)
-      });
-    } else if (index == 7) {
-      //visitor pass mng = 1
-      log('visitor pass registory index3');
-      Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
-        "passMngRegisterDetails":
-            PassMngArguments(1, 'Visitor Pass Register', true)
-      });
+    switch (index) {
+      case 0:
+        log('day pass management index0');
+        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+          "passMngDetails": PassMngArguments(0, 'Day Pass Management', false)
+        });
+        break;
+      case 1:
+        log('day pass registry index1');
+        Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
+          "passMngRegisterDetails": PassMngArguments(0, 'Day Pass Register', true)
+        });
+        break;
+      case 2:
+        log('Sez pass Management index6');
+        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+          "passMngDetails": PassMngArguments(3, 'Sez Pass Management', false)
+        });
+        break;
+      case 3:
+        log('Sez pass registry index7');
+        Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
+          "passMngRegisterDetails": PassMngArguments(3, 'Sez Pass Register', true)
+        });
+        break;
+      case 4:
+        log('vendor pass management index4');
+        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+          "passMngDetails": PassMngArguments(2, 'Vendor Pass Management', false)
+        });
+        break;
+      case 5:
+        log('vendor pass registry index5');
+        Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
+          "passMngRegisterDetails": PassMngArguments(2, 'Vendor Pass Register', true)
+        });
+        break;
+      case 6:
+        log('visitor pass management index2');
+        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+          "passMngDetails": PassMngArguments(1, 'Visitor Pass Management', false)
+        });
+        break;
+      case 7:
+        log('visitor pass registry index3');
+        Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
+          "passMngRegisterDetails": PassMngArguments(1, 'Visitor Pass Register', true)
+        });
+        break;
+      default:
+        break;
     }
+    // if (index == 0) {
+    //   //day pass mng = 0
+    //   log('day pass mangement index0');
+    //   Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+    //     "passMngDetails": PassMngArguments(0, 'Day Pass Management', false)
+    //   });
+    // } else if (index == 1) {
+    //   log('day pass registry index1');
+    //   //day pass mng = 0
+    //   Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
+    //     "passMngRegisterDetails": PassMngArguments(0, 'Day Pass Register', true)
+    //   });
+    // } else if (index == 2) {
+    //   //vendor pass mng = 3
+    //
+    //   log('Sez pass Management index6');
+    //   Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+    //     "passMngDetails": PassMngArguments(3, 'Sez Pass Management', false)
+    //   });
+    // } else if (index == 3) {
+    //   log('Sez pass registory index7');
+    //   Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
+    //     "passMngRegisterDetails": PassMngArguments(3, 'Sez Pass Register', true)
+    //   });
+    // } else if (index == 4) {
+    //   log('vendor pass management index4');
+    //   Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+    //     "passMngDetails": PassMngArguments(2, 'Vendor Pass Management', false)
+    //   });
+    // } else if (index == 5) {
+    //   //vendor pass mng = 2
+    //
+    //   log('vendor pass registory index5');
+    //   Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
+    //     "passMngRegisterDetails":
+    //         PassMngArguments(2, 'Vendor Pass Register', true)
+    //   });
+    // } else if (index == 6) {
+    //   //visitor pass mng = 1
+    //
+    //   log('visitor pass mangement index2');
+    //   Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+    //     "passMngDetails": PassMngArguments(1, 'Visitor Pass Management', false)
+    //   });
+    // } else if (index == 7) {
+    //   //visitor pass mng = 1
+    //   log('visitor pass registory index3');
+    //   Navigator.pushNamed(context, daypassregistertListRoute, arguments: {
+    //     "passMngRegisterDetails":
+    //         PassMngArguments(1, 'Visitor Pass Register', true)
+    //   });
+    // }
   }
 
   _onSecurityExpansionSelectItem(int index, BuildContext context) async {
@@ -893,71 +1022,71 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 4) {}
   }
 
-  _logout(BuildContext context) {
-    var dialog = CustomAlertDialog(
-        title: Constants.logout,
-        message: Constants.logoutValidation,
-        onPositivePressed: () {
-          InactivityFunctions().logoutUser(navigatorKey);
-        },
-        positiveBtnText: Constants.yes,
-        negativeBtnText: Constants.no);
-    showDialog(context: context, builder: (BuildContext context) => dialog);
-  }
+  // _logout(BuildContext context) {
+  //   var dialog = CustomAlertDialog(
+  //       title: Constants.logout,
+  //       message: Constants.logoutValidation,
+  //       onPositivePressed: () {
+  //         InactivityFunctions().logoutUser(navigatorKey);
+  //       },
+  //       positiveBtnText: Constants.yes,
+  //       negativeBtnText: Constants.no);
+  //   showDialog(context: context, builder: (BuildContext context) => dialog);
+  // }
 
   List<Widget> buildDrawerChildren(
-    BuildContext context,
-    String title,
-  ) {
-    if (title == Constants.materialMovement) {
-      return _genericItemSelection(context, materialMovementDrawerItems, title);
-    } else if (title == Constants.securitySystemTickets) {
-      return _genericItemExpandable(
-        context,
-        securitySystemTicketsItems,
-        Constants.securitySystemTickets,
-      );
-    } else if (title == Constants.guardingOperations) {
-      return _genericItemExpandable(
-        context,
-        guardingOperationDrawerItems,
-        Constants.guardingOperations,
-      );
-    } else if (title == Constants.securityFunctions) {
-      return _genericItemSelection(
-        context,
-        securitySystemTicketsItems,
-        title,
-      );
-    } else if (title == keyManagementDataTitle) {
-      return _genericItemSelection(
-        context,
-        keyManagementDataItems,
-        title,
-      );
-    } else if (title == shiftSchedulingTitle) {
-      return _genericItemSelection(
-        context,
-        shiftSchedulingDataItems,
-        title,
-      );
-    } else if (title == Constants.passManagement) {
-      return _genericItemSelection(
-        context,
-        passTileDrawerItems,
-        title,
-      );
-    } else if (title == Constants.sCRI) {
-      return _genericItemSelection(
-        context,
-        sCRIItems,
-        title,
-      );
-    } else {
-      log('-buildDrawerChildren-----else-----title--$title--');
-
-      return _genericItemSelection(
-          context, guardingOperationDrawerItems, title);
+      BuildContext context,
+      String title,
+      ) {
+    switch (title) {
+      case Constants.materialMovement:
+        return _genericItemSelection(context, materialMovementDrawerItems, title);
+      case Constants.securitySystemTickets:
+        return _genericItemExpandable(
+          context,
+          securitySystemTicketsItems,
+          Constants.securitySystemTickets,
+        );
+      case Constants.guardingOperations:
+        return _genericItemExpandable(
+          context,
+          guardingOperationDrawerItems,
+          Constants.guardingOperations,
+        );
+      case Constants.securityFunctions:
+        return _genericItemSelection(
+          context,
+          securitySystemTicketsItems,
+          title,
+        );
+      case keyManagementDataTitle:
+        return _genericItemSelection(
+          context,
+          keyManagementDataItems,
+          title,
+        );
+      case shiftSchedulingTitle:
+        return _genericItemSelection(
+          context,
+          shiftSchedulingDataItems,
+          title,
+        );
+      case Constants.passManagement:
+        return _genericItemSelection(
+          context,
+          passTileDrawerItems,
+          title,
+        );
+      case Constants.sCRI:
+        return _genericItemSelection(
+          context,
+          sCRIItems,
+          title,
+        );
+      default:
+        log('-buildDrawerChildren-----else-----title--$title--');
+        return _genericItemSelection(
+            context, guardingOperationDrawerItems, title);
     }
   }
 }

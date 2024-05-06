@@ -10,7 +10,7 @@ export 'package:flutter_svg/svg.dart';
 
 class CommonWidgets {
   static Widget svgAsset(String assetName,
-      {Color color = AppColors.navigationSkybluecolor,
+      {Color color = AppColors.navigationSkyBlueColor,
       double width = 24.0,
       double height = 24.0}) {
     return SvgPicture.asset(

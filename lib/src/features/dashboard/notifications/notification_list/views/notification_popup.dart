@@ -24,7 +24,7 @@ class _NotificationPopUpItemsState extends State<NotificationPopUpItems> {
       child: Container(
         padding: const EdgeInsets.all(10.0),
         decoration: const ShapeDecoration(
-            color: AppColors.backgroundWhitecolor,
+            color: AppColors.backgroundWhiteColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10.0)),
             )),

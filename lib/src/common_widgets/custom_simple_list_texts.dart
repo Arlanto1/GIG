@@ -37,7 +37,7 @@ class CustomSimpleListTextsState extends State<CustomSimpleListTexts> {
             child: SvgPicture.asset(AppIcon.closeicon) //Icon(Icons.cancel)
             ),
       ),
-      backgroundColor: AppColors.backgroundWhitecolor,
+      backgroundColor: AppColors.backgroundWhiteColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.

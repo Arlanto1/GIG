@@ -121,7 +121,7 @@ dependencies:
 
 dev_dependencies:
 #  flutter_launcher_icons:
-  flutter_native_splash: ^2.4.0
+#  flutter_native_splash: ^2.4.0
 
 
   flutter_test:
@@ -137,10 +137,10 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.1
-flutter_native_splash:
-   color: "#ffffff" #white color
-   image: assets/app_icon/app_icon.jpg
-   background_image: assets/app_icon/app_icon.jpg
+#flutter_native_splash:
+#   color: "#ffffff" #white color
+#   image: assets/app_icon/app_icon.jpg
+#   background_image: assets/app_icon/app_icon.jpg
 flutter_obfuscate:
   entry_points:
     - lib/main.dart

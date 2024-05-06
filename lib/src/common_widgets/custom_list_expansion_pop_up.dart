@@ -45,9 +45,9 @@ class CustomExpansionListTextsState extends State<CustomExpansionListTexts> {
       isEnabled: false,
       focusChange: (bool focus) {
         if (focus) {
-          borderColor = AppColors.navigationSkybluecolor;
+          borderColor = AppColors.navigationSkyBlueColor;
         } else {
-          borderColor = AppColors.textgreyThemecolor;
+          borderColor = AppColors.textGreyThemeColor;
         }
         setState(() {});
       },
@@ -216,8 +216,8 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
                     fontFamily: Constants.customFontSemiBoldFamily,
                     fontWeight: FontWeight.w600,
                     color: ((i == selectedIndex) && (stitle == selectedTitle))
-                        ? AppColors.navigationSkybluecolor
-                        : AppColors.textgreyThemecolor),
+                        ? AppColors.navigationSkyBlueColor
+                        : AppColors.textGreyThemeColor),
                 // style: Styles.textStyleBlack16,
               ),
               onTap: () => _onExpansionSelectItem(i, context, items),

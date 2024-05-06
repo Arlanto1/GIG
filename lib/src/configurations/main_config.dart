@@ -51,7 +51,7 @@ class MainConfig with WidgetsBindingObserver {
       InitializeProviders(
         child: MaterialApp(
           theme: ThemeData(
-            disabledColor: AppColors.textgreyThemecolor,
+            disabledColor: AppColors.textGreyThemeColor,
             fontFamily: Constants.customFontFamily,
             primarySwatch: AppColors.colorCustom,
           ),

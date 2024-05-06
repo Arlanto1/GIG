@@ -53,7 +53,7 @@ class _RatesInfoState extends State<RatesInfo> {
             showDisLikeButton: false,
             showLikeButton: false,
           ),
-          backgroundColor: AppColors.backgroundWhitecolor,
+          backgroundColor: AppColors.backgroundWhiteColor,
           body: getBody(context, state, height),
         );
       },
@@ -67,16 +67,16 @@ class _RatesInfoState extends State<RatesInfo> {
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.navigationSkybluecolor,
+      color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
         child: Column(children: [
           Container(
             height: height * 0.01,
-            color: AppColors.navigationSkybluecolor,
+            color: AppColors.navigationSkyBlueColor,
           ),
           Container(
             decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhitecolor,
+                color: AppColors.backgroundWhiteColor,
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),

@@ -98,19 +98,19 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
           //   },
           // ),
         ),
-        backgroundColor: AppColors.backgroundWhitecolor,
+        backgroundColor: AppColors.backgroundWhiteColor,
         body: Container(
-            color: AppColors.navigationSkybluecolor,
+            color: AppColors.navigationSkyBlueColor,
             child: SingleChildScrollView(
                 child: Column(children: [
               Container(
                 height: height * 0.01,
-                color: AppColors.navigationSkybluecolor,
+                color: AppColors.navigationSkyBlueColor,
               ),
               Container(
                 padding: const EdgeInsets.all(20.0),
                 decoration: const ShapeDecoration(
-                    color: AppColors.backgroundWhitecolor,
+                    color: AppColors.backgroundWhiteColor,
                     shape: RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -230,7 +230,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                                                     decoration:
                                                         const ShapeDecoration(
                                                             color: AppColors
-                                                                .backgroundWhitecolor,
+                                                                .backgroundWhiteColor,
                                                             shape:
                                                                 RoundedRectangleBorder(
                                                               borderRadius: BorderRadius
@@ -285,7 +285,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                                           style: ElevatedButton.styleFrom(
                                             fixedSize: const Size(140, 50),
                                             backgroundColor: AppColors
-                                                .navigationSkybluecolor,
+                                                .navigationSkyBlueColor,
                                           ),
                                           onPressed: () {
                                             //_askPermission(Documnets.Photo);
@@ -295,8 +295,12 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                                             //AppIcon.dropdownicon,
                                             AppIcon.uploadicon,
                                             //fit: BoxFit.,
-                                            color:
-                                                AppColors.backgroundWhitecolor,
+                                            colorFilter: const ColorFilter.mode(
+                                              AppColors.backgroundWhiteColor,
+                                              BlendMode.srcIn,
+                                            ),
+                                            // color:
+                                            //     AppColors.backgroundWhiteColor,
                                             width: 13,
                                             height: 13,
                                             key: const Key(Keys.userIcon),
@@ -320,7 +324,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
 
   Widget buttonViews(BuildContext context, double width) {
     return Container(
-      color: AppColors.backgroundWhitecolor,
+      color: AppColors.backgroundWhiteColor,
       child: Row(
         //mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -335,9 +339,9 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButtonText,
-      foregroundColor: AppColors.textgreyThemecolor,
+      foregroundColor: AppColors.textGreyThemeColor,
       textStyle: Styles.styleHeaderGreyText16,
-      boarderColor: AppColors.textgreyThemecolor,
+      boarderColor: AppColors.textGreyThemeColor,
       onTap: () {
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
@@ -360,8 +364,8 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
       key: const Key(Keys.saveButton),
       buttonText: Constants.save,
       buttonTextKey: Keys.saveButtonText,
-      boarderColor: AppColors.navigationSkybluecolor,
-      backgroundColor: AppColors.navigationSkybluecolor,
+      boarderColor: AppColors.navigationSkyBlueColor,
+      backgroundColor: AppColors.navigationSkyBlueColor,
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {
@@ -524,7 +528,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                                 child: Container(
                               padding: const EdgeInsets.all(20.0),
                               decoration: const ShapeDecoration(
-                                  color: AppColors.lightgreyBackground,
+                                  color: AppColors.lightGreyBackground,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.vertical(
                                         top: Radius.circular(20.0),
@@ -554,7 +558,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                                 child: Container(
                               padding: const EdgeInsets.all(20.0),
                               decoration: const ShapeDecoration(
-                                  color: AppColors.lightgreyBackground,
+                                  color: AppColors.lightGreyBackground,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.vertical(
                                         top: Radius.circular(20.0),
@@ -587,7 +591,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                                 child: Container(
                               padding: const EdgeInsets.all(20.0),
                               decoration: const ShapeDecoration(
-                                  color: AppColors.lightgreyBackground,
+                                  color: AppColors.lightGreyBackground,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.vertical(
                                         top: Radius.circular(20.0),

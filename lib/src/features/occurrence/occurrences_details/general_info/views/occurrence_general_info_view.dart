@@ -121,7 +121,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
             },
             title: Constants.createOccurrence,
           ),
-          backgroundColor: AppColors.backgroundWhitecolor,
+          backgroundColor: AppColors.backgroundWhiteColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -156,17 +156,17 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
     // }
 
     return Container(
-      color: AppColors.navigationSkybluecolor,
+      color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkybluecolor,
+              color: AppColors.navigationSkyBlueColor,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
+                  color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -694,13 +694,17 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     const SizedBox(width: 14),
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
-                                      color: AppColors.navigationSkybluecolor,
+                                      colorFilter: const ColorFilter.mode(
+                                        AppColors.navigationSkyBlueColor,
+                                        BlendMode.srcIn,
+                                      ),
+                                      // color: AppColors.navigationSkyBlueColor,
                                     ),
                                     const SizedBox(width: 10),
                                     const Text(
                                       'Add Incident Item List',
                                       style: TextStyle(
-                                        color: AppColors.navigationSkybluecolor,
+                                        color: AppColors.navigationSkyBlueColor,
                                         decoration: TextDecoration.underline,
                                       ),
                                     ),
@@ -823,7 +827,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
                                       colorFilter: const ColorFilter.mode(
-                                        AppColors.navigationSkybluecolor,
+                                        AppColors.navigationSkyBlueColor,
                                         BlendMode.srcIn,
                                       ),
                                     ),
@@ -831,7 +835,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     const Text(
                                       'Add Incident Item List',
                                       style: TextStyle(
-                                        color: AppColors.navigationSkybluecolor,
+                                        color: AppColors.navigationSkyBlueColor,
                                         decoration: TextDecoration.underline,
                                       ),
                                     ),
@@ -1003,13 +1007,17 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     const SizedBox(width: 14),
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
-                                      color: AppColors.navigationSkybluecolor,
+                                      colorFilter: const ColorFilter.mode(
+                                        AppColors.navigationSkyBlueColor,
+                                        BlendMode.srcIn,
+                                      ),
+                                      // color: AppColors.navigationSkyBlueColor,
                                     ),
                                     const SizedBox(width: 10),
                                     const Text(
                                       'Add Security System SLA List',
                                       style: TextStyle(
-                                        color: AppColors.navigationSkybluecolor,
+                                        color: AppColors.navigationSkyBlueColor,
                                         decoration: TextDecoration.underline,
                                       ),
                                     ),
@@ -1283,16 +1291,16 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     Icon(
                                       Icons.add_circle_outline_rounded,
                                       color: showSaveSubmitButtons
-                                          ? AppColors.navigationSkybluecolor
-                                          : AppColors.boldgreyBackground,
+                                          ? AppColors.navigationSkyBlueColor
+                                          : AppColors.boldGreyBackground,
                                     ),
                                     const SizedBox(width: 10),
                                     Text(
                                       Constants.addPowerFailuresDates,
                                       style: TextStyle(
                                         color: showSaveSubmitButtons
-                                            ? AppColors.navigationSkybluecolor
-                                            : AppColors.boldgreyBackground,
+                                            ? AppColors.navigationSkyBlueColor
+                                            : AppColors.boldGreyBackground,
                                         decoration: TextDecoration.underline,
                                       ),
                                     ),
@@ -1470,7 +1478,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
               Container(
                 padding: const EdgeInsets.all(15.0),
                 decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhitecolor,
+                  color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(00.0)),
@@ -1782,7 +1790,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                     Icons.close,
                     size: 30,
                   ),
-                  color: AppColors.gerylightBackground,
+                  color: AppColors.geryLightBackground,
                 )
               ],
             ),
