@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/utils/network_handler.dart' as network_handler;
 import 'package:intl/intl.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class CreateFound extends StatefulWidget {
   final FoundListArticleDetails? model;
