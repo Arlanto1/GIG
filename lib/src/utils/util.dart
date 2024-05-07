@@ -88,7 +88,7 @@ class Utils {
     var dialog = CustomAlertDialog(
       title: title,
       message: message,
-      positiveBtnText: Constants.ok,
+      negativeBtnText: Constants.ok,//positiveBtnText is
       onPositivePressed: () {
         if (error.isNotEmpty) {
           Navigator.pop(context);

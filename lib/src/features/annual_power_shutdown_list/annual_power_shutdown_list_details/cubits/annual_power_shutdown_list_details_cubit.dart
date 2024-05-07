@@ -465,12 +465,13 @@ class AnnualPowerShutdownListDetailsCubit
       log('--budgetCostResponse--${budgetCostResponse.budgetCost}--');
       state.model.budget = budgetCostResponse.budgetCost;
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
+      Utils().emitErrorState(e, emit, state);
+      // emit(
+      //   state.copyWith(
+      //     message: e.message,
+      //     status: FormStatus.error,
+      //   ),
+      // );
       return;
     } on Exception catch (e) {
       emit(
