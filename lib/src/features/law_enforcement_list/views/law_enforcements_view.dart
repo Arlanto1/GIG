@@ -120,7 +120,7 @@ class _LnPageState extends State<LnPage> {
               : const SizedBox(),
           appBar: AppHeader(
             isTitleCenter: false,
-            title: Constants.lawEnforcementVisitsList,
+            title: Constants.lawEnforcementVisitsListTitle,
             backBtn: IconButton(
               onPressed: () {
                 Navigator.pop(context);

@@ -164,16 +164,16 @@ class Constants {
   static const String settings = "Settings";
   static const String administration = "Administration";
   static const String profile = 'Profile';
-  static const String articleFoundRegister = 'Article Found Register';
-  static const String lawEnforcementVisitsList = 'Law Enforcement Visits List';
+  static const String articleFoundRegisterListTitle = 'Article Found Register';
+  static const String lawEnforcementVisitsListTitle = 'Law Enforcement Visits List';
   static const String eventProtectionList = 'Event Protection List';
-  static const String annualPowerShutdownList = 'Annual Power Shutdown List';
+  static const String annualPowerShutdownListTitle = 'Annual Power Shutdown List';
   static const String annualPowerShutdownListDetails =
       'Annual Power Shutdown List Details';
   static const String sCRI = 'SCRI';
-  static const String incidentManagement = 'Incident Management';
+  static const String incidentManagementTitle = 'Incident Management';
   static const String shiftOccurrence = 'Shift Occurrence';
-  static const String occurrenceList = 'Occurrence List';
+  static const String occurrenceListTitle = 'Occurrence List';
   static const String materialMovement = 'Material Movement';
   static const String passManagement = 'Non-Magnetic Pass Management';
   static const String guardingOperations = 'Guarding Operations';
@@ -223,7 +223,7 @@ class Constants {
   // Create Found
   static const String createFound = 'Create Found';
   static const String editFound = 'Edit Found';
-  static const String foundList = 'Found List';
+  static const String foundListTitle = 'Found List';
   static const String generalinformation = 'General Information';
   static const String assettype = 'Asset Type';
   static const String foundlocation = 'Found Location';
@@ -470,7 +470,7 @@ class Constants {
   static const String escalationMatrix = 'Escalation Matrix';
   static const String femaleDropPickUp = 'Female Drop PickUp';
   static const String keyManagementData = 'Key Management Data';
-  static const String slaViolationPenalty = 'SLA Violation Penalty';
+  static const String slaViolationPenaltyTitle = 'SLA Violation Penalty';
 
   static const String vendor = 'Vendor';
   static const String guardingVendor = 'Guarding Vendor';
@@ -854,7 +854,7 @@ class Constants {
   static const String addPOC = 'Add POC';
 
   ///VVIP Visitors
-  static const String vVipVisitors = 'VVIP Visitor';
+  static const String vVipVisitorsTitle = 'VVIP Visitor';
   static const String listVvipVisitors = 'List of VVIP Visitor';
   static const String visitorsName = 'Visitor Name';
   static const String visitorsEmailId = 'Visitor Email ID';
