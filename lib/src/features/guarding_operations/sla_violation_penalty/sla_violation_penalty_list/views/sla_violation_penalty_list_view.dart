@@ -86,14 +86,14 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                           Navigator.pushNamed(
                               context, slaViolationPenaltyDetailsRoute,
                               arguments: {
-                                "title": Constants.slaViolationPenalty,
+                                "title": Constants.slaViolationPenaltyTitle,
                               })
                         },
                       )
                     : const SizedBox(),
             appBar: BaseAppBar().buildAppHeader(
               context: context,
-              title: Constants.slaViolationPenalty,
+              title: Constants.slaViolationPenaltyTitle,
               showPopUp: true,
               showSaveButton: false,
               showSubmitButton: false,
@@ -286,7 +286,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
         slaViolationPenaltyDetailsRoute,
         arguments: {
           "model": model,
-          "title": Constants.slaViolationPenalty,
+          "title": Constants.slaViolationPenaltyTitle,
           ConstantsArgument.extraProperties:
               ExtraProperties(hasWritePermission: hasWritePermission),
         },

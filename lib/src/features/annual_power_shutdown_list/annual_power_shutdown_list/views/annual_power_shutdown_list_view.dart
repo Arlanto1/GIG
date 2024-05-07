@@ -98,7 +98,7 @@ class _AnnualPowerShutdownListViewState
                     : const SizedBox(),
             appBar: BaseAppBar().buildAppHeader(
               context: context,
-              title: Constants.annualPowerShutdownList,
+              title: Constants.annualPowerShutdownListTitle,
               showPopUp: true,
               showSaveButton: false,
               showSubmitButton: false,

@@ -210,7 +210,7 @@ class _BaseFilterSheetState extends State<BaseFilterSheet> {
     final size = MediaQuery.of(context).size;
     double height = size.height;
     double width = size.width;
-    double textFieldWidth = width * 0.45;
+    double textFieldWidth = width > 430 ? width * 0.29 : width * 0.45;
     return BlocConsumer<BaseFilterCubit, BaseFilterState>(
       listener: (context, state) {
         // TODO: implement listener

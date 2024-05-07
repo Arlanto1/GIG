@@ -292,7 +292,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                                     vipVisitorsRecordsRoute,
                                     arguments: {
                                       ConstantsArgument.title:
-                                          Constants.vVipVisitors,
+                                          Constants.vVipVisitorsTitle,
                                       ConstantsArgument.id: state.model.id,
                                       ConstantsArgument.lock: state.model.lock,
                                       ConstantsArgument.parentStatus: state.model.status,
