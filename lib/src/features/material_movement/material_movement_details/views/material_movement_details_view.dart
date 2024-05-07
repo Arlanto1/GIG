@@ -143,6 +143,7 @@ class _MaterialMovementDetailsViewState
         }
 
         showSaveSubmitButtons = (state.model.status == 0 ||
+            state.model == null||
                 state.model.status == 8 ||
                 // state.model.status == 1 ||
                 state.model.status == 6 ||
@@ -286,7 +287,7 @@ class _MaterialMovementDetailsViewState
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
               child: AbsorbPointer(
-                absorbing: !isReadOnly && state.model.lock.isEmptyOrNull,
+                absorbing: !showSaveSubmitButtons,
                 child: Form(
                   key: _formKey,
                   autovalidateMode: isReadOnly
