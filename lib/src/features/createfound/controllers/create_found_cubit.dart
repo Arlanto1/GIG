@@ -292,7 +292,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       emit(
         state.copyWith(
           createOrganisationResponse: createOrganisationData,
-          status: FormStatus.success,
+          status: FormStatus.initial,
         ),
       );
       await createFoundArticleCubit.getArticleType('ARTICLE_LIST', context);
@@ -349,10 +349,11 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         ),
       );
       dismissLoadingDialog(context);
-      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        Utils.dynamicAlert(context, Constants.errorText,
-            Constants.addemployeedepartment, Constants.errorText);
-      });
+      // SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      //   Utils.dynamicAlert(context, Constants.errorText,
+      //       Constants.addemployeedepartment, Constants.errorText);
+      // }
+      // );
     }
   }
 
