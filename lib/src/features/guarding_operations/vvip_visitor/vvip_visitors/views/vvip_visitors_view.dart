@@ -133,15 +133,14 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
                           ),
                     ),
                     CommonWidgets.verticalSpacerWidget(height * 0.001),
-                    // if (state.status == FormStatus.loading) ...[
-                    //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                    //   const BaseLoader(),
-                    //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                    // ],
+                    if (state.status == FormStatus.loading) ...[
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      const BaseLoader(),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                    ],
                     // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                     // Text('state.status=====${state.status}'),
                     if (state.items.isEmptyOrNull &&
-                        state.status != FormStatus.initial &&
                         state.status != FormStatus.loading) ...[
                       CommonWidgets.verticalSpacerWidget(height * 0.1),
                       const NoRecordFoundWidget(),
@@ -199,7 +198,7 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
                                       state.items[index].location?.name ?? ''));
                             }
                             return index >= state.items.length
-                                ? const BaseLoader()
+                                ? const SizedBox()
                                 : BaseListTileItem(
                                     id: state.items[index].id,
                                     labels: labels,

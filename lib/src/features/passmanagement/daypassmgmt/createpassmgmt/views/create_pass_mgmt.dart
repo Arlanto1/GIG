@@ -1714,7 +1714,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                   int.parse(
                                                       widget.model?.startTime ??
                                                           '0'),
-                                                  Constants.dateFormat);
+                                                  Constants.fulldateFormat);
                                         },
                                         context: context,
                                       ),
@@ -3205,7 +3205,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           ? false
           : true,
       onTap: () {
-        if ((state.model.status == 0 || widget.model == null) &&
+        if ((state.model.status == 0 || widget.model == null) ||
             !(widget.extraProperties != null &&
                 !widget.extraProperties!.hasWritePermission!)) {
           BaseOrganisationDialog().userDialog(
