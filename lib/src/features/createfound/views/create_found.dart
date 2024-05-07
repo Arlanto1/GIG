@@ -742,8 +742,6 @@ class _CreateFoundState extends State<CreateFound> {
         widget.model == null) {
       locationSelectedlist = Organisation(id: 323, name: "SunGard");
       locationselectedText = 'SunGard';
-      await createFoundArticleCubit.getSerialnumberDetails(
-          '323', 'AF', context);
     }
   }
 
@@ -1117,7 +1115,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   BaseDate().datePickerWidgetLoading(
                                     showFutureDate: false,
                                     textController: foundDateTextController,
-                                    isDisabled: (widget.model?.status == 0 || widget.model == null)
+                                    isDisabled: (widget.model?.status != 0 || widget.model != null)
                                         ? false
                                         : true,
                                     //initialDate: DateTime.now().subtract(Duration(days: 1)),
@@ -2089,7 +2087,7 @@ class _CreateFoundState extends State<CreateFound> {
                 locationList: state.getLocationsResponse ?? Locations(),
                 onTap: (Organisation? list) async {
                   await createFoundArticleCubit.getSerialnumberDetails(
-                      list?.id.toString() ?? '', 'AF', context);
+                      list?.id.toString() ?? '', Constants.articleFoundModuleCode, context);
                   locationselectedText = list?.name ?? '';
                   locationSelectedlist = list;
                   setState(() {});

@@ -342,7 +342,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               context,
               slaViolationPenaltyDetailsRoute,
               arguments: {
-                "title": Constants.slaViolationPenalty,
+                "title": Constants.slaViolationPenaltyTitle,
                 "attdInfoId": state.model.id.toString(),
                 ConstantsArgument.location: widget.location,
                 ConstantsArgument.locationRegion: widget.locationRegion,
@@ -399,7 +399,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           slaViolationPenaltyDetailsRoute,
           arguments: {
             "model": model,
-            "title": Constants.slaViolationPenalty,
+            "title": Constants.slaViolationPenaltyTitle,
           },
         );
       },

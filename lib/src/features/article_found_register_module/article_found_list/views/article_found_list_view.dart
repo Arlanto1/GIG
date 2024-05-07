@@ -97,7 +97,7 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
                   : const SizedBox(),
           appBar: BaseAppBar().buildAppHeader(
             context: context,
-            title: Constants.foundList,
+            title: Constants.foundListTitle,
             showPopUp: true,
             showSaveButton: false,
             showSubmitButton: false,
