@@ -142,8 +142,7 @@ class _MaterialMovementDetailsViewState
           isReadOnly = true;
         }
 
-        showSaveSubmitButtons = (state.model.status == 0 ||
-            state.model == null||
+        showSaveSubmitButtons = (state.model.status == 0||
                 state.model.status == 8 ||
                 // state.model.status == 1 ||
                 state.model.status == 6 ||

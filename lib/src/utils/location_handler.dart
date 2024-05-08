@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:db_atom/src/models/responseModels/permission_error.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 Future<Position> determinePosition() async {
   bool serviceEnabled;
@@ -21,7 +23,10 @@ Future<Position> determinePosition() async {
   }
 
   permission = await Geolocator.checkPermission();
+  log('-permission----checkPermission-----${permission.name}----');
   if (permission == LocationPermission.denied) {
+
+    log('-permission--${permission.name}----');
     permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied) {
       // Permissions are denied, next time you could try
@@ -71,6 +76,24 @@ Future<Position> getLocation() async {
     // Wait for the future to complete and then return its result
     return await _positionFuture!;
   }
+}
+
+Completer<PermissionStatus>? _permissionCompleter;
+
+Future<PermissionStatus> requestLocationPermission() {
+  if (_permissionCompleter != null && !_permissionCompleter!.isCompleted) {
+    return _permissionCompleter!.future;
+  } else {
+    _permissionCompleter = Completer<PermissionStatus>();
+  }
+
+  _requestLocationPermission();
+  return _permissionCompleter!.future;
+}
+
+void _requestLocationPermission() async {
+  PermissionStatus permissionStatus = await Permission.location.request();
+  _permissionCompleter!.complete(permissionStatus);
 }
 // Future<Position> getPosition() async {
 //   log('Will get Current Position now.');

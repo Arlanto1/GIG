@@ -32,30 +32,24 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       password = data.request?.password ?? '';
 
       deviceToken = await SharedPrefs.getDeviceToken();
-      log('-1-----');
 
       /// Verify OTP
       if (!event.isFromLogin) {
-        log('-2-----');
         log('email address is ${loginData.user?.email}');
         await SharedPrefs.setUsername(userName);
         await SharedPrefs.setUserId('${loginData.user?.userId}');
-        log('-2-22----');
         await SharedPrefs.setEmail(loginData.user?.email ?? '');
         await SharedPrefs.setIdentifymenuindex(0);
         await SharedPrefs.setToken(loginData.token ?? '');
         await SharedPrefs.setRefreshToken(loginData.refreshToken ?? '');
-        log('-2-33----');
 
         if (loginData.user?.displayMenu == null) {
-          log('-2-33-44---');
           emit(LoginFailureState(
             message: 'Menu Roles are not defined',
             status: FormStatus.error,
           ));
           return null;
         }
-        log('-3-----');
 
         /// Setting Menu Items according to User Role
         await SharedPrefs.setDisplayMenu(loginData.user!.displayMenu!);
@@ -63,7 +57,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         /// Setting Default Location
         await SharedPrefs.setDefaultLocation(loginData.user!.defaultLocation!);
 
-        log('-4-----');
         if (loginData.requirePasswordChange == true) {
           await SharedPrefs.setIsRequiredPasswordChange(true);
 
@@ -72,7 +65,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           emit(LoginVerifyOtpActionState());
         }
       } else {
-        log('-5-----');
         emit(LoginSuccessState(
           message: loginData.message ?? '',
           status: FormStatus.success,
