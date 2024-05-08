@@ -102,8 +102,8 @@ dependencies:
   json_annotation:
   otp_text_field:
   firebase_core:
-  firebase_messaging: ^14.7.9
-  firebase_analytics:
+#  firebase_messaging: ^14.7.9
+#  firebase_analytics:
   rxdart:
   flutter_slidable:
 #  intl: ^0.18.1
