@@ -91,8 +91,8 @@ class _OtpVerifyState extends State<OtpVerify> {
                   },
                   positiveBtnText: Constants.settings,
                   negativeBtnText: Constants.no);
-              showDialog(
-                  context: context, builder: (BuildContext context) => dialog);
+              // showDialog(
+              //     context: context, builder: (BuildContext context) => dialog);
               return;
             }
 

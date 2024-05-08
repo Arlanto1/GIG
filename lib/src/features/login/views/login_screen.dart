@@ -65,8 +65,8 @@ class _LoginState extends State<Login> {
                   },
                   positiveBtnText: Constants.settings,
                   negativeBtnText: Constants.no);
-              showDialog(
-                  context: context, builder: (BuildContext context) => dialog);
+              // showDialog(
+              //     context: context, builder: (BuildContext context) => dialog);
               return;
             }
 

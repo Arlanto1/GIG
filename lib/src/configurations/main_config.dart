@@ -45,7 +45,7 @@ class MainConfig with WidgetsBindingObserver {
     //   log('Firebase initialization failed: $e');
     // }
 
-    Locale? locale;
+    // Locale? locale;
     String initialRouteName = await initRouting();
     runApp(
       InitializeProviders(
@@ -59,12 +59,12 @@ class MainConfig with WidgetsBindingObserver {
           debugShowCheckedModeBanner: false,
           initialRoute: initialRouteName,
           onGenerateRoute: RouteGenerator.generateRoute,
-          locale: locale,
-          supportedLocales: LocaleSupportedMethod.supportedLocale,
-          localizationsDelegates:
-              LocaleSupportedMethod.getLocalizationsDelegates(),
-          localeResolutionCallback: (locale, supportedLocales) =>
-              LocaleSupportedMethod.getLocale(locale, supportedLocales),
+          // locale: locale,
+          // supportedLocales: LocaleSupportedMethod.supportedLocale,
+          // localizationsDelegates:
+          //     LocaleSupportedMethod.getLocalizationsDelegates(),
+          // localeResolutionCallback: (locale, supportedLocales) =>
+          //     LocaleSupportedMethod.getLocale(locale, supportedLocales),
           // Add a builder to wrap your MaterialApp with a GestureDetector
           builder: (context, child) {
             return GestureDetector(

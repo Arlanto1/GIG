@@ -8,6 +8,7 @@ import 'package:db_atom/src/utils/location_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:permission_handler/permission_handler.dart';
 
 import '../features/login/models/login_model.dart';
 import '../features/login/models/refresh_token_request.dart';
@@ -27,12 +28,30 @@ class BaseApiService {
     Map<String, String> headers = {'Content-Type': 'application/json'};
 
     // Passing Location Parameter only if the location service is Enabled
-    LocationPermission locationPermission = await Geolocator.requestPermission();
-    if (locationPermission !=LocationPermission.deniedForever) {
-      Position position = await determinePosition();
-      headers.addAll({"Latitude": position.latitude.toString()});
-      headers.addAll({"Longitude": position.longitude.toString()});
+
+    Position position;
+    bool isIOS = Platform.isIOS;
+    log('---isIOS-$isIOS--');
+    if (isIOS ) {
+      LocationPermission locationPermission = await Geolocator.checkPermission();
+      log('-locationPermission.name--${locationPermission.name}-----');
+      if(locationPermission != LocationPermission.deniedForever) {
+        position = await determinePosition();
+        headers.addAll({"Latitude": position.latitude.toString()});
+        headers.addAll({"Longitude": position.longitude.toString()});
+      }
+    } else {
+      PermissionStatus permissionStatus = await requestLocationPermission();
+      log('-permissionStatus--${permissionStatus.toString()}-----');
+      if (!permissionStatus.isPermanentlyDenied) {
+        position = await determinePosition();
+        headers.addAll({"Latitude": position.latitude.toString()});
+        headers.addAll({"Longitude": position.longitude.toString()});
+      }
     }
+
+
+
     if (isAuthenticated != null && isAuthenticated) {
       String token = await SharedPrefs.getToken();
       log("token is:$token");
