@@ -4,22 +4,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="localization removed and minimum iOS version set to iOS 17">
-      <change beforePath="$PROJECT_DIR$/.dart_tool/dartpad/web_plugin_registrant.dart" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/dartpad/web_plugin_registrant.dart" afterDir="false" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="splash screen code improved and changed&#10;login screen on back button issue">
       <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/index.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/index.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/configurations/fcm_handler.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/fcm_handler.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/configurations/base_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/base_api_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/login/views/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/login/views/login_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/login/views/otp_verify_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/login/views/otp_verify_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/utils/location_handler.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/utils/location_handler.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,20 +29,14 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <branch-grouping />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
-  &quot;history&quot;: [
-    {
-      &quot;state&quot;: &quot;OPEN&quot;
-    }
-  ],
   &quot;lastFilter&quot;: {
     &quot;state&quot;: &quot;OPEN&quot;
   }
@@ -105,12 +91,12 @@
     &quot;com.android.tools.idea.streaming.emulator.zoom.toolbar.visible&quot;: &quot;false&quot;,
     &quot;com.android.tools.idea.streaming.zoom.toolbar.visible&quot;: &quot;false&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;localization-removed&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/models/responseModels&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;flutter.settings&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
 }</component>
@@ -130,7 +116,7 @@
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views" />
     </key>
   </component>
-  <component name="RunManager" selected="Flutter.qa">
+  <component name="RunManager" selected="Flutter.main.dart">
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="buildFlavor" value="PROD" />
       <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
@@ -518,7 +504,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="318" />
+    <option name="localTasksCounter" value="307" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -532,11 +518,6 @@
     </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
-    <option name="OPEN_GENERIC_TABS">
-      <map>
-        <entry key="d50e5ac5-cb22-4ced-b716-8e909fea9551" value="TOOL_WINDOW" />
-      </map>
-    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
@@ -547,21 +528,10 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="leo-serialno" />
+                        <option value="origin/shift-schedule" />
                       </list>
                     </value>
                   </entry>
-                </map>
-              </option>
-            </State>
-          </value>
-        </entry>
-        <entry key="d50e5ac5-cb22-4ced-b716-8e909fea9551">
-          <value>
-            <State>
-              <option name="CUSTOM_BOOLEAN_PROPERTIES">
-                <map>
-                  <entry key="Show.Git.Branches" value="true" />
                 </map>
               </option>
             </State>
@@ -571,6 +541,16 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="shift schedule poc added" />
+    <MESSAGE value="duty post name dropdown issue" />
+    <MESSAGE value="WIP: submit" />
+    <MESSAGE value="poc list" />
+    <MESSAGE value="shift schedule redirect" />
+    <MESSAGE value="WIP: Key Managment History" />
+    <MESSAGE value="ui" />
+    <MESSAGE value="merge" />
+    <MESSAGE value="WIP: ios location issue" />
+    <MESSAGE value="bugs" />
     <MESSAGE value="cancel button" />
     <MESSAGE value="multiple issues fixed" />
     <MESSAGE value="visiting officials" />
@@ -586,17 +566,7 @@
     <MESSAGE value="code improvement" />
     <MESSAGE value="location error handling pop" />
     <MESSAGE value="splash screen code improved and changed&#10;login screen on back button issue" />
-    <MESSAGE value="drawer performance improvements" />
-    <MESSAGE value="code improvements" />
-    <MESSAGE value="support number removed" />
-    <MESSAGE value="location coordinates disabled when location permissions are turned off." />
-    <MESSAGE value="permission strings" />
-    <MESSAGE value="leo default location" />
-    <MESSAGE value="wip: article found location and slno" />
-    <MESSAGE value="drawer improvements" />
-    <MESSAGE value="base filter improvements" />
-    <MESSAGE value="localization removed and minimum iOS version set to iOS 17" />
-    <option name="LAST_COMMIT_MESSAGE" value="localization removed and minimum iOS version set to iOS 17" />
+    <option name="LAST_COMMIT_MESSAGE" value="splash screen code improved and changed&#10;login screen on back button issue" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>
