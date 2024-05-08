@@ -434,12 +434,6 @@
       "languageVersion": "3.0"
     },
     {
-      "name": "flutter_localizations",
-      "rootUri": "file:///Users/anurag/Downloads/flutter/packages/flutter_localizations",
-      "packageUri": "lib/",
-      "languageVersion": "3.2"
-    },
-    {
       "name": "flutter_plugin_android_lifecycle",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.17",
       "packageUri": "lib/",
@@ -1364,7 +1358,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2024-05-06T13:20:39.978148Z",
+  "generated": "2024-05-08T09:24:52.202557Z",
   "generator": "pub",
   "generatorVersion": "3.3.4"
 }
