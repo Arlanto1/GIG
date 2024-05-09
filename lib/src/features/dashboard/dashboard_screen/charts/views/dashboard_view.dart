@@ -32,14 +32,14 @@ class DashboardViewState extends State<DashboardView>
     email = await SharedPrefs.getEmail();
     log('username : $userName email is : $email');
 
-    try {
-      await FCMHandler.initializeFCM();
-      FCMHandler.setupForegroundMessageHandler();
-      FCMHandler.setupBackgroundMessageHandler();
-    } catch (e) {
-      // Handle Firebase initialization error
-      log('Firebase initialization failed: $e');
-    }
+    // try {
+    //   await FCMHandler.initializeFCM();
+    //   FCMHandler.setupForegroundMessageHandler();
+    //   FCMHandler.setupBackgroundMessageHandler();
+    // } catch (e) {
+    //   // Handle Firebase initialization error
+    //   log('Firebase initialization failed: $e');
+    // }
     setState(() {});
   }
 
