@@ -130,6 +130,15 @@ class DisplayMenu {
   bool? dP;
   bool? pM;
   bool? oCC;
+  bool? vIP;
+  bool? sS;
+  bool? kLD;
+  bool? kMISS;
+  bool? kR;
+  bool? sVP;
+  bool? keyMM;
+  bool? aTD;
+  bool? ssDPM;
 
   DisplayMenu({
     this.mM,
@@ -145,6 +154,14 @@ class DisplayMenu {
     this.dP,
     this.pM,
     this.oCC,
+    this.vIP,
+    this.sS,
+    this.kLD,
+    this.kMISS,
+    this.kR,
+    this.sVP,
+    this.keyMM,
+    this.ssDPM,
   });
 
   DisplayMenu.fromJson(Map<String, dynamic> json)
@@ -160,7 +177,16 @@ class DisplayMenu {
         aps = json['APS'] as bool?,
         dP = json['DP'] as bool?,
         pM = json['PM'] as bool?,
-        oCC = json['OCC'] as bool?;
+        oCC = json['OCC'] as bool?,
+        vIP = json['VIP'] as bool?,
+        sS = json['SS'] as bool?,
+        kLD = json['KLD'] as bool?,
+        kMISS = json['KMISS'] as bool?,
+        kR = json['KR'] as bool?,
+        sVP = json['SVP'] as bool?,
+        keyMM = json['KeyMM'] as bool?,
+        aTD = json['ATD'] as bool?,
+        ssDPM = json['SSDPM'] as bool?;
 
   Map<String, dynamic> toJson() => {
         'MM': mM,
@@ -175,6 +201,15 @@ class DisplayMenu {
         'APS': aps,
         'DP': dP,
         'PM': pM,
-        'OCC': oCC
+        'OCC': oCC,
+        'VIP': vIP,
+        'SS': sS,
+        'KLD': kLD,
+        'KMISS': kMISS,
+        'KR': kR,
+        'SVP': sVP,
+        'KeyMM': keyMM,
+        'ATD': aTD,
+        'SSDPM': ssDPM,
       };
 }
