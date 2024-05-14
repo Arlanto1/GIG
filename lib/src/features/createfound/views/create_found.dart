@@ -80,8 +80,13 @@ class _CreateFoundState extends State<CreateFound> {
         penStrokeWidth: 2,
         penColor: Colors.black,
         exportBackgroundColor: Colors.white);
-    populateData();
-    BlocProvider.of<CreateFoundArticleCubit>(context).initializeValues();
+    if (widget.model != null) {
+      populateData();
+      BlocProvider.of<CreateFoundArticleCubit>(context)
+          .initializeValues(widget.model);
+    } else {
+      createFoundArticleCubit.initializeValues(widget.model);
+    }
     _getFoundArticleList();
     _getCurrentDate();
   }
@@ -738,10 +743,10 @@ class _CreateFoundState extends State<CreateFound> {
 
   initiallyLocationandSerialnumberdataset(CreateFoundState state) async {
     if (locationSelectedlist == null &&
-        state.getLocationsResponse != null &&
+        state.location != null &&
         widget.model == null) {
-      locationSelectedlist = Organisation(id: 323, name: "SunGard");
-      locationselectedText = 'SunGard';
+      locationSelectedlist = state.location;
+      locationselectedText = locationSelectedlist!.name.toString();
     }
   }
 
@@ -1115,7 +1120,8 @@ class _CreateFoundState extends State<CreateFound> {
                                   BaseDate().datePickerWidgetLoading(
                                     showFutureDate: false,
                                     textController: foundDateTextController,
-                                    isDisabled: (widget.model?.status != 0 || widget.model != null)
+                                    isDisabled: (widget.model?.status != 0 ||
+                                            widget.model != null)
                                         ? false
                                         : true,
                                     //initialDate: DateTime.now().subtract(Duration(days: 1)),
@@ -1515,11 +1521,12 @@ class _CreateFoundState extends State<CreateFound> {
                                             textFormKey:
                                                 Keys.claimantTextController,
                                             hintText: '',
-                                            isEnable:
-                                                widget.model?.status == 0 ||
-                                                        widget.model == null || widget.model?.status == 2
-                                                    ? false
-                                                    : true,
+                                            isEnable: widget.model?.status ==
+                                                        0 ||
+                                                    widget.model == null ||
+                                                    widget.model?.status == 2
+                                                ? false
+                                                : true,
                                             isDisableColor:
                                                 widget.model?.status != 0
                                                     ? false
@@ -1848,7 +1855,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   //         getFiles, getAttachments),
 
                                   // if (!getAttachments.isEmptyOrNull ) ...[
-                              BaseImageUpload().getAttachment(
+                                  BaseImageUpload().getAttachment(
                                     height: height,
                                     attachments: getAttachments.isEmptyOrNull
                                         ? getFiles
@@ -1883,7 +1890,6 @@ class _CreateFoundState extends State<CreateFound> {
                             ),
                           ),
                         ),
-
                         if (widget.model?.status == 2 ||
                             widget.model?.status == -1) ...[
                           Container(
@@ -2087,7 +2093,9 @@ class _CreateFoundState extends State<CreateFound> {
                 locationList: state.getLocationsResponse ?? Locations(),
                 onTap: (Organisation? list) async {
                   await createFoundArticleCubit.getSerialnumberDetails(
-                      list?.id.toString() ?? '', Constants.articleFoundModuleCode, context);
+                      list?.id.toString() ?? '',
+                      Constants.articleFoundModuleCode,
+                      context);
                   locationselectedText = list?.name ?? '';
                   locationSelectedlist = list;
                   setState(() {});

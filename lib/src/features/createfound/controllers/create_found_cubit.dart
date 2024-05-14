@@ -14,13 +14,14 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     this.loadAttachments,
   }) : super(
           CreateFoundState(
+            model: FoundListArticleDetails(),
             createFoundResponse: SubmitCreateFoundModel(),
             status: FormStatus.initial,
           ),
         );
   CommonServices commonServices = CommonServices();
 
-  Future<void> initializeValues() async {
+  Future<void> initializeValues(FoundListArticleDetails? model) async {
     //Show Loader and emit loading state
     emit(
       state.copyWith(
@@ -30,11 +31,25 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
 
     var userId = await SharedPrefs.getUserId();
     try {
+      model ??= FoundListArticleDetails();
+
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
+      Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
 
+      SerialNumberModel serialNumberResponse;
+      serialNumberResponse = await commonServices.getSlNo(
+        locationId: defaultLocation!.id.toString(),
+        moduleCode: Constants.leoModuleCode,
+      );
+
+      model.location = defaultLocation;
+      model.slNo = serialNumberResponse.serialNo;
       emit(
         state.copyWith(
+          model: model,
+          location: defaultLocation,
+          getSerialnumberResponse: serialNumberResponse,
           loggedInUser: loggedInUserDetails,
         ),
       );
@@ -207,10 +222,8 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   // Get locations api call
   Future<void> getLocations(String locationsStr, BuildContext context) async {
     try {
-      // GetLocations getLocationsData =
-      //     await createFoundServices.getLocations(locationsStr, context);
-      Locations getLocationsData = await commonServices.getRegionsWithLocations(
-          name: locationsStr, context: context);
+      Locations getLocationsData =
+          await commonServices.getRegionsWithLocations(name: locationsStr);
 
       emit(
         state.copyWith(
@@ -381,7 +394,8 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       await createFoundArticleCubit.getUserByRoleDepositor(
           'ATOM_STATIC_USER', context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        Utils.dynamicAlert(context, 'Added successfully', Constants.newuser, '');
+        Utils.dynamicAlert(
+            context, 'Added successfully', Constants.newuser, '');
       });
     } catch (e) {
       emit(
