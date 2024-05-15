@@ -87,13 +87,22 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery
+        .of(context)
+        .size;
     final height = size.height;
     return BlocConsumer<LawEnforcementCubit, LawEnforcementState>(
       listener: (context, state) {},
       builder: (context, state) {
         if (widget.extraProperties != null &&
             !widget.extraProperties!.hasWritePermission!) {
+          isDistrbuted = true;
+        }
+        if (!widget.model!.lock.isEmptyOrNull) {
+          isDistrbuted = true;
+        }
+
+        if (widget.model?.status == 3) {
           isDistrbuted = true;
         }
         return Scaffold(
@@ -250,7 +259,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       top: Radius.circular(20.0)),
                                 )),
                             child: AbsorbPointer(
-                              absorbing: widget.model?.status == 3,
+                              absorbing: isDistrbuted,
                               child: Form(
                                 key: lawEnforcementFormKey,
                                 child: Column(
@@ -258,18 +267,14 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
-
-                                    // TODO: show lock message
-                                    // if (!widget.model!.lock.isEmptyOrNull) ...[
-                                    //   RecordLockedWidget(text: '${widget.model?.lock}'),
-                                    // ],
+                                    if (!widget.model!.lock.isEmptyOrNull) ...[
+                                      RecordLockedWidget(
+                                          text: '${widget.model?.lock}'),
+                                    ],
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 20.0, right: 20),
                                       child: Column(children: [
-                                        if (!state.model!.lock.isEmptyOrNull) ...[
-                                          RecordLockedWidget(text: '${state.model?.lock}'),
-                                        ],
                                         Container(
                                           alignment: Alignment.topLeft,
                                           child: Text(
@@ -307,7 +312,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                                 //AppIcon.dropdownicon,
                                                 AppIcon.dropdownicon,
                                                 //fit: BoxFit.,
-                                                colorFilter: const ColorFilter.mode(
+                                                colorFilter: const ColorFilter
+                                                    .mode(
                                                   AppColors.textGreyThemeColor,
                                                   BlendMode.srcIn,
                                                 ),
@@ -328,7 +334,16 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                             Constants.createdby,
                                             isMandatory: true,
                                             // '${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
-                                            '${widget.model != null ? widget.model?.entrySecurity?.firstName : state.getUserDetailsResponse?.firstName ?? ''} ${widget.model != null ? widget.model?.entrySecurity?.lastName : state.getUserDetailsResponse?.lastName ?? ''}'),
+                                            '${widget.model != null
+                                                ? widget.model?.entrySecurity
+                                                ?.firstName
+                                                : state.getUserDetailsResponse
+                                                ?.firstName ?? ''} ${widget
+                                                .model != null
+                                                ? widget.model?.entrySecurity
+                                                ?.lastName
+                                                : state.getUserDetailsResponse
+                                                ?.lastName ?? ''}'),
 
                                         /// Location
                                         CommonWidgets.textDisplay(
@@ -465,10 +480,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           hintText: Constants.informationhere,
                                           focusNode:
                                           dbOfficialWantToMeetFocusNode,
-                                          isEnable: widget.model?.status == 0 ||
+                                          isEnable: (widget.model?.status ==
+                                              0 ||
                                               widget.model?.status == 1 ||
                                               widget.model?.status == 2 ||
-                                              widget.model == null
+                                              widget.model == null) &&
+                                              widget.model!.lock.isEmptyOrNull
                                               ? true
                                               : false,
                                           isDisableColor: widget
@@ -476,7 +493,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                               0 ||
                                               widget.model?.status == 1 ||
                                               widget.model?.status == 2 ||
-                                              widget.model == null
+                                              widget.model == null ||
+                                              widget.model!.lock.isEmptyOrNull
                                               ? false
                                               : true,
                                           onChange: (String username) {
@@ -527,18 +545,20 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           hintText: Constants.informationhere,
                                           focusNode:
                                           additionalInformationFocusNode,
-                                          isEnable: widget.model?.status == 0 ||
+                                          isEnable: (widget.model?.status ==
+                                              0 ||
                                               widget.model?.status == 1 ||
                                               widget.model?.status == 2 ||
-                                              widget.model == null
+                                              widget.model == null)
                                               ? true
                                               : false,
-                                          isDisableColor: widget
+                                          isDisableColor: (widget
                                               .model?.status ==
                                               0 ||
                                               widget.model?.status == 1 ||
                                               widget.model?.status == 2 ||
-                                              widget.model == null
+                                              widget.model == null) &&
+                                              widget.model!.lock.isEmptyOrNull
                                               ? false
                                               : true,
                                           onChange: (String username) {
@@ -550,7 +570,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                             additionalInformationTextController
                                                 .value = TextEditingValue(
                                               text:
-                                              '${additionalInformationTextController.text}\n',
+                                              '${additionalInformationTextController
+                                                  .text}\n',
                                               selection:
                                               TextSelection.collapsed(
                                                 offset:
@@ -592,57 +613,66 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       left: 20.0, right: 20),
                                   child: Column(
                                     children: [
+
                                       /// Visiting Official Details
                                       CommonWidgets.textDisplay(
                                         Constants.visitingOfficialDetails,
                                         Styles.textStyleDarkGrey16,
                                         isMandatory: true,
                                       ),
-
                                       GestureDetector(
                                         onTap: () async {
-                                          NavigatorState nav =
-                                          Navigator.of(context);
+                                          if (widget.model!.lock
+                                              .isEmptyOrNull) {
+                                            NavigatorState nav =
+                                            Navigator.of(context);
 
-                                          bool isSaveSuccess = await submitForm(
-                                            isSubmit: false,
-                                            state: state,
-                                            navigateToNextScreen: true,
-                                          );
-                                          if (!isSaveSuccess) {
-                                            return;
+                                            bool isSaveSuccess = await submitForm(
+                                              isSubmit: false,
+                                              state: state,
+                                              navigateToNextScreen: true,
+                                            );
+                                            if (!isSaveSuccess) {
+                                              return;
+                                            }
+                                            log(
+                                                '--widget.model.status---${widget
+                                                    .model?.status}--');
+                                            List<LawVisitingOfficial>
+                                            visitingOfficials =
+                                            await LawEnforcementServices()
+                                                .getLeoVisitingOfficials(
+                                                id: state.model!.id!);
+
+                                            log('--atomLeoDepartments--${state
+                                                .departmentResponse
+                                                ?.atomLeoDepartments
+                                                ?.length}-');
+                                            nav.pushNamed(
+                                              visitingOfficialListRoute,
+                                              arguments: {
+                                                ConstantsArgument.title:
+                                                Constants.visitingOfficials,
+                                                ConstantsArgument.type: 0,
+                                                ConstantsArgument.id:
+                                                state.model?.id,
+                                                ConstantsArgument.rankType:
+                                                Constants.contactGeneralRank,
+                                                ConstantsArgument.models:
+                                                visitingOfficials,
+                                                ConstantsArgument
+                                                    .departments: state
+                                                    .departmentResponse
+                                                    ?.atomLeoDepartments ??
+                                                    [],
+                                                ConstantsArgument
+                                                    .showSaveButton:
+                                                (widget.model?.status != 3)
+                                                    ? true
+                                                    : false,
+                                              },
+                                            );
                                           }
-                                          log('--widget.model.status---${widget.model?.status}--');
-                                          List<LawVisitingOfficial>
-                                          visitingOfficials =
-                                          await LawEnforcementServices()
-                                              .getLeoVisitingOfficials(
-                                              id: state.model!.id!);
-
-                                          log('--atomLeoDepartments--${state.departmentResponse?.atomLeoDepartments?.length}-');
-                                          nav.pushNamed(
-                                            visitingOfficialListRoute,
-                                            arguments: {
-                                              ConstantsArgument.title:
-                                              Constants.visitingOfficials,
-                                              ConstantsArgument.type: 0,
-                                              ConstantsArgument.id:
-                                              state.model?.id,
-                                              ConstantsArgument.rankType:
-                                              Constants.contactGeneralRank,
-                                              ConstantsArgument.models:
-                                              visitingOfficials,
-                                              ConstantsArgument
-                                                  .departments: state
-                                                  .departmentResponse
-                                                  ?.atomLeoDepartments ??
-                                                  [],
-                                              ConstantsArgument.showSaveButton:
-                                              (widget.model?.status != 3)
-                                                  ? true
-                                                  : false,
-                                            },
-                                          );
                                         },
                                         child: Row(
                                           mainAxisAlignment:
@@ -650,8 +680,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           children: <Widget>[
                                             SvgPicture.asset(
                                               AppIcon.pluscircle,
-                                              colorFilter: const ColorFilter.mode(
-                                                AppColors.navigationSkyBlueColor,
+                                              colorFilter: const ColorFilter
+                                                  .mode(
+                                                AppColors
+                                                    .navigationSkyBlueColor,
                                                 BlendMode.srcIn,
                                               ),
                                               // color: AppColors
@@ -727,38 +759,48 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       // ),
 
                                       // Upload
-                                      widget.model == null ||
+                                      (widget.model == null ||
                                           widget.model?.status == 0 ||
                                           widget.model?.status == 1 ||
-                                          widget.model?.status == 2
+                                          widget.model?.status == 2) &&
+                                          widget.model!.lock.isEmptyOrNull
                                           ? CommonWidgets.textDisplay(
                                           Constants.upload,
                                           Styles.textStyleBlack14)
                                           : Container(),
-                                      widget.model == null ||
+                                      (widget.model == null ||
                                           widget.model?.status == 0 ||
                                           widget.model?.status == 1 ||
-                                          widget.model?.status == 2
+                                          widget.model?.status == 2) &&
+                                          widget.model!.lock.isEmptyOrNull
                                           ? CommonWidgets.verticalSpacerWidget(
                                           height * 0.001)
                                           : Container(),
-                                      widget.model == null ||
+                                      (widget.model == null ||
                                           widget.model?.status == 0 ||
                                           widget.model?.status == 1 ||
-                                          widget.model?.status == 2
+                                          widget.model?.status == 2) &&
+                                          widget.model!.lock.isEmptyOrNull
                                           ? uploadWidget(state)
                                           : Container(),
 
                                       BaseImageUpload().getAttachment(
-                                        height: height,
-                                        attachments: state.loadAttachments.isEmptyOrNull? getFiles:state.loadAttachments,
-                                        files: getFiles.isEmptyOrNull? getAttachments:getFiles,
-                                        showDownloadIcon:
-                                        widget.model == null ||
-                                            widget.model?.status == 0,
-                                        moduleCode: Constants.leoModuleCode,
-                                        showDeleteIcon:   widget.model == null ||
-                                            widget.model?.status == 0,
+                                          height: height,
+                                          attachments: state.loadAttachments
+                                              .isEmptyOrNull ? getFiles : state
+                                              .loadAttachments,
+                                          files: getFiles.isEmptyOrNull
+                                              ? getAttachments
+                                              : getFiles,
+                                          showDownloadIcon:
+                                          (widget.model == null ||
+                                              widget.model?.status == 0) &&
+                                              widget.model!.lock.isEmptyOrNull,
+                                          moduleCode: Constants.leoModuleCode,
+                                          showDeleteIcon: (widget.model ==
+                                              null ||
+                                              widget.model?.status == 0) &&
+                                              widget.model!.lock.isEmptyOrNull,
                                       ),
                                       // Attachments
                                       // getSpaceattchment(height),
@@ -767,6 +809,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       if (widget.model?.status == 1 ||
                                           widget.model?.status == 2 ||
                                           widget.model?.status == 3) ...[
+
                                         /// Distribution Groups
                                         CommonWidgets.textDisplay(
                                           Constants.distributiongroups,
@@ -783,11 +826,13 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           all: state
                                               .groups?.distributionGroups ??
                                               [],
-                                          enabled: widget.model?.status == 1 ||
-                                              widget.model?.status == 2,
+                                          enabled: (widget.model?.status == 1 ||
+                                              widget.model?.status == 2) && widget.model!.lock.isEmptyOrNull,
                                           onTap: (List<Organisation>
                                           selectedEntities) {
-                                            log('--selectedEntities----${selectedEntities.length}');
+                                            log(
+                                                '--selectedEntities----${selectedEntities
+                                                    .length}');
 
                                             widget.model?.mailList =
                                                 selectedEntities;
@@ -804,7 +849,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           height * 0.01),
                                       // SubmitButton
                                       if (widget.model?.status != 3 &&
-                                          widget.model?.status != -1) ...[
+                                          widget.model?.status != -1 && widget.model!.lock.isEmptyOrNull) ...[
                                         Row(
                                           mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
@@ -865,13 +910,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     );
   }
 
-  Widget listVisitingOfficialDetails(
-      double height,
+  Widget listVisitingOfficialDetails(double height,
       double width,
       BuildContext context,
       LawEnforcementState state,
-      int visitingOfficialDetailsArray,
-      ) {
+      int visitingOfficialDetailsArray,) {
     return Column(
       children: <Widget>[
         for (int i = 0; i < visitingOfficialDetailsArray; i++)
@@ -889,14 +932,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     );
   }
 
-  Widget loadData(
-      double height,
+  Widget loadData(double height,
       double width,
       BuildContext context,
       LawEnforcementState state,
       int visitingOfficialDetailsArray,
-      int index,
-      ) {
+      int index,) {
     return Column(
       children: [
         if (index != 0) ...[
@@ -1325,7 +1366,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio(
-          activeColor: widget.model?.status != 0 && widget.model != null
+          activeColor: widget.model?.status != 0 && widget.model != null ||
+              !widget.model!.lock.isEmptyOrNull
               ? AppColors.disableTextFieldBackground
               : AppColors.navigationSkyBlueColor,
           focusColor: AppColors.navigationSkyBlueColor,
@@ -1350,7 +1392,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         ),
         const Text(Constants.yes),
         Radio(
-          activeColor: widget.model?.status != 0 && widget.model != null
+          activeColor: widget.model?.status != 0 && widget.model != null ||
+              !widget.model!.lock.isEmptyOrNull
               ? AppColors.disableTextFieldBackground
               : AppColors.navigationSkyBlueColor,
           value: 0,
@@ -1470,10 +1513,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         firstDate: DateTime(2000),
         lastDate: DateTime.now());
 
-    log('pickedDate---$pickedDate'); //pickedDate output format => 2021-03-10 00:00:00.000
+    log(
+        'pickedDate---$pickedDate'); //pickedDate output format => 2021-03-10 00:00:00.000
     String formattedDate = DateFormat(Constants.fulldateFormat)
         .format(pickedDate ?? DateTime.now());
-    log(formattedDate); //formatted date output using intl package =>  2021-03-16
+    log(
+        formattedDate); //formatted date output using intl package =>  2021-03-16
     //you can implement different kind of Date Format here according to your requirement
     // if (textfield == actualDateTextController) {
     //   actualDateTextController.text = formattedDate;
@@ -1576,10 +1621,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         setState(() {});
         Navigator.pop(context);
       },
-      enabled: widget.model?.status == 0 ||
+      enabled: (widget.model?.status == 0 ||
           widget.model == null ||
           widget.model?.status == 1 ||
-          widget.model?.status == 2,
+          widget.model?.status == 2) && widget.model!.lock.isEmptyOrNull,
       addTitle: Constants.addentitytype,
       orgName: 'ATOM_ENTITIES',
       createEntity: widget.model?.status == 0 ||
@@ -1680,12 +1725,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     return TextFieldAddButton(
       title: state.leoPurposeVisitResponse?.name ?? '',
       height: 60,
-      isDisableColor: widget.model?.status != 0 &&
-          widget.model != null &&
-          widget.model?.status != 1 &&
-          widget.model?.status != 2
-          ? true
-          : false,
+      isDisableColor: (widget.model?.status == 0 ||
+          widget.model == null ||
+          widget.model?.status == 1 ||
+          widget.model?.status == 2) && widget.model!.lock.isEmptyOrNull
+          ? false
+          : true,
       onTap: () {
         if (widget.model?.status == 0 ||
             widget.model?.status == 1 ||
@@ -1698,8 +1743,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     );
   }
 
-  Widget departmentaddButtonwidgetLoading(
-      LawEnforcementState state, int index) {
+  Widget departmentaddButtonwidgetLoading(LawEnforcementState state,
+      int index) {
     Organisation? dept = Organisation();
     if ((state.visitingOfficials?.length ?? 0) > 0) {
       dept = state.visitingOfficials![index].department;
@@ -1726,12 +1771,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     return TextFieldAddButton(
       title: state.selectedemployeeDepartmentResponse?.name ?? '',
       height: 60,
-      isDisableColor: widget.model?.status != 0 &&
-          widget.model?.status != 1 &&
-          widget.model?.status != 2 &&
-          widget.model != null
-          ? true
-          : false,
+      isDisableColor: (widget.model?.status == 0 ||
+          widget.model?.status == 1 ||
+          widget.model?.status == 2 ||
+          widget.model == null) && widget.model!.lock.isEmptyOrNull
+          ? false
+          : true,
       onTap: () {
         if (widget.model?.status == 0 ||
             widget.model?.status == 1 ||
@@ -1761,15 +1806,16 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     return TextFieldAddButton(
       title: state.getuserResponse != null &&
           (state.getuserResponse?.name ?? '').isNotEmpty
-          ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
+          ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse
+          ?.email ?? ''})')
           : '',
       height: 70,
-      isDisableColor: widget.model?.status != 0 &&
-          widget.model?.status != 1 &&
-          widget.model?.status != 2 &&
-          widget.model != null
-          ? true
-          : false,
+      isDisableColor: (widget.model?.status == 0 ||
+          widget.model?.status == 1 ||
+          widget.model?.status == 2 ||
+          widget.model == null) && widget.model!.lock.isEmptyOrNull
+          ? false
+          : true,
       onTap: () {
         if (widget.model?.status == 0 ||
             widget.model?.status == 1 ||
@@ -1847,7 +1893,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     log('---submitForm----');
     int actualDate = Utils.dateToTimestampConversion(
         actualDateTextController.text, Constants.fulldateFormat);
-    int inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    int inputDate = (DateTime
+        .now()
+        .millisecondsSinceEpoch ~/ 1000);
     int statusValue = 0;
     if (statusTextController.text.toLowerCase() == "draft") {
       statusValue = 0;
@@ -2156,10 +2204,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     }
   }
 
-  Widget attachmentListviews(
-      List<ImageContent>? attachmentListviews,
-      List<ImageContent>? attachmentListviews1,
-      ) {
+  Widget attachmentListviews(List<ImageContent>? attachmentListviews,
+      List<ImageContent>? attachmentListviews1,) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(

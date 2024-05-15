@@ -666,20 +666,20 @@ class NavigationDrawer1 extends StatelessWidget {
       BuildContext context, DrawerState state) {
     List<Widget> children = [];
 
-    // List<MenuItem> menuItems = [];
-    // menuItems
-    //     .add(const MenuItem(Constants.operations, AppIcon.operationsIcon, 1));
-    // if (displayMenu?.gR ?? false) {
-    //   menuItems.add(
-    //       const MenuItem(Constants.costAndBilling, AppIcon.costBillingIcon, 1));
-    // }
-    // if (displayMenu?.sSSLA ?? false) {
-    //   menuItems.add(
-    //       const MenuItem(Constants.costAndBilling, AppIcon.costBillingIcon, 1));
-    // }
+    List<MenuItem> menuItems = [];
+    menuItems
+        .add(const MenuItem(Constants.operations, AppIcon.operationsIcon, 1));
+    if (displayMenu?.gR ?? false) {
+      menuItems.add(
+          const MenuItem(Constants.costAndBilling, AppIcon.costBillingIcon, 1));
+    }
+    if (displayMenu?.sSSLA ?? false) {
+      menuItems.add(const MenuItem(
+          Constants.securitySystems, AppIcon.securitySystemIcon, 1));
+    }
 
-    for (int i = 0; i < securityItems.length; i++) {
-      MenuItem drawerItem = securityItems[i];
+    for (int i = 0; i < menuItems.length; i++) {
+      MenuItem drawerItem = menuItems[i];
       children.add(
         drawerItem.numberOfChildren == 0
             ? Container(

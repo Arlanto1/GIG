@@ -814,8 +814,9 @@ class _CreateFoundState extends State<CreateFound> {
 
               action: [
                 Visibility(
-                  visible:
-                      widget.model?.status != 2 && widget.model?.status != -1,
+                  visible: widget.model?.status != 2 &&
+                      widget.model?.status != -1 &&
+                      widget.model!.lock.isEmptyOrNull,
                   child: GestureDetector(
                     onTap: () {
                       //for now the new param is isSubmit added, if any new params needed we can add to this.
@@ -832,8 +833,9 @@ class _CreateFoundState extends State<CreateFound> {
                   ),
                 ),
                 Visibility(
-                  visible:
-                      widget.model?.status != -1 && widget.model?.status != 2,
+                  visible: widget.model?.status != -1 &&
+                      widget.model?.status != 2 &&
+                      widget.model!.lock.isEmptyOrNull,
                   child: GestureDetector(
                     onTap: () async {
                       //loginFormKey.currentState!.validate();
@@ -870,6 +872,9 @@ class _CreateFoundState extends State<CreateFound> {
 
                 if (widget.extraProperties != null &&
                     !widget.extraProperties!.hasWritePermission!) {
+                  isDisabled = true;
+                }
+                if (!widget.model!.lock.isEmptyOrNull) {
                   isDisabled = true;
                 }
                 createfoundResponse = state.createFoundResponse;
@@ -934,6 +939,10 @@ class _CreateFoundState extends State<CreateFound> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
+                                  if (!widget.model!.lock.isEmptyOrNull) ...[
+                                    RecordLockedWidget(
+                                        text: '${widget.model?.lock}'),
+                                  ],
                                   Container(
                                     alignment: Alignment.topLeft,
                                     child: Text(
@@ -1470,7 +1479,7 @@ class _CreateFoundState extends State<CreateFound> {
                                                             .model?.status ==
                                                         2 ||
                                                     isClaimantAcceptedByemail !=
-                                                        0)
+                                                        0 || !widget.model!.lock.isEmptyOrNull)
                                                 ? true
                                                 : false,
                                             Constants.isclaimantdbemployee,
@@ -1521,14 +1530,14 @@ class _CreateFoundState extends State<CreateFound> {
                                             textFormKey:
                                                 Keys.claimantTextController,
                                             hintText: '',
-                                            isEnable: widget.model?.status ==
+                                            isEnable: (widget.model?.status ==
                                                         0 ||
                                                     widget.model == null ||
-                                                    widget.model?.status == 2
+                                                    widget.model?.status == 2) && !widget.model!.lock.isEmptyOrNull
                                                 ? false
                                                 : true,
                                             isDisableColor:
-                                                widget.model?.status != 0
+                                                widget.model?.status != 0 || widget.model!.lock.isEmptyOrNull
                                                     ? false
                                                     : true,
                                             onChange: (String username) {
@@ -1873,7 +1882,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
                                   if (widget.model?.status != 2 &&
-                                      widget.model?.status != -1) ...[
+                                      widget.model?.status != -1&&widget.model!.lock.isEmptyOrNull) ...[
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
