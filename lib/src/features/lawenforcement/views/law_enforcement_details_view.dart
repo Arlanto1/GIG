@@ -258,6 +258,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
+
+                                    // TODO: show lock message
+                                    // if (!widget.model!.lock.isEmptyOrNull) ...[
+                                    //   RecordLockedWidget(text: '${widget.model?.lock}'),
+                                    // ],
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 20.0, right: 20),

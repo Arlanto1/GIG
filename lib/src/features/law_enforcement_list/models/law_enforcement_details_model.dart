@@ -1,13 +1,6 @@
-// To parse this JSON data, do
-//
-//     final lawEnforcementDetails = lawEnforcementDetailsFromJson(jsonString);
-
 import 'dart:convert';
 
-import 'package:db_atom/src/models/image_content.dart';
-import 'package:db_atom/src/models/organisation.dart';
-
-import '../../createfound/models/user.dart';
+import 'package:db_atom/index.dart';
 
 LawEnforcementDetailsModel lawEnforcementDetailsFromJson(String str) =>
     LawEnforcementDetailsModel.fromJson(json.decode(str));
