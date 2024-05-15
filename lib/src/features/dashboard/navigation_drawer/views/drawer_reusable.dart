@@ -14,9 +14,13 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   late List<MenuItem> expansionTileDrawerItems = [];
+  late List<MenuItem> costAndBillingExpansionTileDrawerItems = [];
+  late List<MenuItem> securitySystemTicketsItems = [];
 
   Future<void> initializeDrawerItems() async {
     expansionTileDrawerItems = await checkDisplayMenu();
+    costAndBillingExpansionTileDrawerItems = await costBillingDisplayMenu();
+    securitySystemTicketsItems = await securitySystemsDisplayMenu();
   }
 
   DisplayMenu? displayMenu;
@@ -76,20 +80,41 @@ class NavigationDrawer1 extends StatelessWidget {
     }
 
     // if (displayMenu.gM ?? false) {
-    expansionTileDrawerItems.add(
-        const MenuItem(shiftSchedulingTitle, AppIcon.eventProtectionIcon, 1));
+    expansionTileDrawerItems.add(const MenuItem(
+        Constants.shiftSchedule, AppIcon.eventProtectionIcon, 1));
     // }
 
     if (displayMenu?.vIP ?? false) {
       expansionTileDrawerItems
           .add(const MenuItem(vVipVisitorsTitle, AppIcon.vvipVisitorIcon, 0));
     }
-
-    // if (displayMenu. ?? false) {
-    // expansionTileDrawerItems
-    //     .add(const MenuItem(Constants.sCRI, AppIcon.guardingOperationIcon, 1));
-    //}
     return expansionTileDrawerItems;
+  }
+
+  Future<List<MenuItem>> costBillingDisplayMenu() async {
+    displayMenu = await SharedPrefs.getDisplayMenu();
+    if (displayMenu == null) {
+      return [];
+    }
+    List<MenuItem> costAndBillingExpansionTileDrawerItems = [];
+    if (displayMenu?.gR ?? false) {
+      costAndBillingExpansionTileDrawerItems.add(const MenuItem(
+          Constants.guardingRates, AppIcon.guardingRatesIcon, 0));
+    }
+    return costAndBillingExpansionTileDrawerItems;
+  }
+
+  Future<List<MenuItem>> securitySystemsDisplayMenu() async {
+    displayMenu = await SharedPrefs.getDisplayMenu();
+    if (displayMenu == null) {
+      return [];
+    }
+    List<MenuItem> securitySystemTicketsItems = [];
+    if (displayMenu?.gR ?? false) {
+      securitySystemTicketsItems
+          .add(const MenuItem(Constants.incident, AppIcon.incidentIcon, 0));
+    }
+    return securitySystemTicketsItems;
   }
 
   final String? username;
@@ -259,12 +284,19 @@ class NavigationDrawer1 extends StatelessWidget {
                   buildDrawerChildren(context, drawerItem.title);
                   break;
 
+                case Constants.costAndBilling:
+                  _onCostAndBillingItemSelected(i, context);
+                  break;
+
                 case Constants.securitySystems:
-                  buildDrawerChildren(context, drawerItem.title);
+                  _onSecuritySystemIncidentItemSelected(i, context);
                   break;
 
                 case Constants.keyManagementData:
-                  _onKeyManagementItemSelected(i, context);
+                  _onKeyManagementItemSelected(
+                    i,
+                    context,
+                  );
                   break;
 
                 case Constants.shiftSchedule:
@@ -749,11 +781,11 @@ class NavigationDrawer1 extends StatelessWidget {
           operationsTitle,
         );
 
-      case costAndBillingTitle:
+      case Constants.costAndBilling:
         return _genericItemExpandable(
           context,
           costAndBillingExpansionTileDrawerItems,
-          costAndBillingTitle,
+          Constants.costAndBilling,
         );
 
       case Constants.securitySystems:
@@ -809,13 +841,21 @@ class NavigationDrawer1 extends StatelessWidget {
                       return;
                     }
 
-                    if (title == costAndBillingTitle) {
+                    if (title == Constants.keyManagementData) {
+                      _onKeyManagementItemSelected(i, context);
+                      return;
+                    }
+                    if (title == Constants.shiftSchedule) {
+                      _onShiftScheduleItemSelected(i, context);
+                      return;
+                    }
+                    if (title == Constants.costAndBilling) {
                       _onCostAndBillingItemSelected(i, context);
                       return;
                     }
 
                     log('--title-$title-');
-                    if (title == securitySystemsTitle) {
+                    if (title == Constants.securitySystems) {
                       _onSecuritySystemIncidentItemSelected(i, context);
                       return;
                     }
@@ -1060,11 +1100,7 @@ class NavigationDrawer1 extends StatelessWidget {
     context.read<DrawerCubit>().getSecurityIndexChange(index);
     if (index == 0) {
       Navigator.pushNamed(context, sstIncidentListRoute);
-    } else if (index == 1) {
-    } else if (index == 2) {
-    } else if (index == 3) {
-    } else if (index == 4) {
-    } else if (index == 5) {}
+    }
   }
 
   _onSelectItem(
@@ -1120,12 +1156,12 @@ class NavigationDrawer1 extends StatelessWidget {
       case Constants.materialMovement:
         return _genericItemSelection(
             context, materialMovementDrawerItems, title);
-      case Constants.securitySystemTickets:
-        return _genericItemExpandable(
-          context,
-          securitySystemTicketsItems,
-          Constants.securitySystemTickets,
-        );
+      // case Constants.securitySystemTickets:
+      //   return _genericItemExpandable(
+      //     context,
+      //     securitySystemTicketsItems,
+      //     Constants.securitySystemTickets,
+      //   );
       // case Constants.guardingOperations:
       //   return _genericItemExpandable(
       //     context,
@@ -1145,17 +1181,16 @@ class NavigationDrawer1 extends StatelessWidget {
               Constants.guardingMasterData, AppIcon.guardingMasterDataIcon, 0));
         }
 
-        ///TODO: Need module code for this.
-        // if (displayMenu?.gM ?? false) {
-        menuItems.add(const MenuItem(Constants.guardingMasterReport,
-            AppIcon.guardingMasterReportIcon, 0));
-        // }
+        if (displayMenu?.gMR ?? false) {
+          menuItems.add(const MenuItem(Constants.guardingMasterReport,
+              AppIcon.guardingMasterReportIcon, 0));
+        }
 
         if (displayMenu?.oCC ?? false) {
           menuItems.add(const MenuItem(
               Constants.shiftOccurrence, AppIcon.shiftOccurrenceIcon, 0));
         }
-        if (displayMenu?.sSSLA ?? false) {
+        if (displayMenu?.sVP ?? false) {
           menuItems.add(const MenuItem(Constants.slaViolationPenaltyTitle,
               AppIcon.slaViolationPenaltyIcon, 0));
         }
@@ -1165,12 +1200,13 @@ class NavigationDrawer1 extends StatelessWidget {
           Constants.guardingOperations,
         );
 
-      case Constants.securityFunctions:
-        return _genericItemSelection(
-          context,
-          securitySystemTicketsItems,
-          title,
-        );
+      // case Constants.securityFunctions:
+      //   return _genericItemSelection(
+      //     context,
+      //     securitySystemTicketsItems,
+      //     title,
+      //   );
+
       // case keyManagementDataTitle:
       //   return _genericItemSelection(
       //     context,
@@ -1219,16 +1255,16 @@ class NavigationDrawer1 extends StatelessWidget {
               Constants.dutyPostMaster, AppIcon.dutyPostMasterIcon, 0));
         }
 
-        ///TODO: Need module code for this.
-        // if (displayMenu?.ssDPM ?? false) {
-        menuItems.add(const MenuItem(
-            Constants.dutyPostNameMaster, AppIcon.dutyPostNameMasterIcon, 0));
-        // }
+        if (displayMenu?.sSDP ?? false) {
+          menuItems.add(const MenuItem(
+              Constants.dutyPostNameMaster, AppIcon.dutyPostNameMasterIcon, 0));
+        }
         return _genericItemExpandable(
           context,
           menuItems,
-          Constants.keyManagementData,
+          Constants.shiftSchedule,
         );
+
       case Constants.passManagement:
         return _genericItemSelection(
           context,
