@@ -2,7 +2,7 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/af_ui_labels.dart';
 
 class CreateFoundState extends Equatable {
-  final FoundListArticleDetails? model;
+  final FoundListArticleDetails model;
   final GetDepositor? getDepositorResponse;
   final Locations? getLocationsResponse;
   final Organisation? location;
@@ -22,7 +22,7 @@ class CreateFoundState extends Equatable {
   final AFUiLabels? labels;
 
   const CreateFoundState({
-    this.model,
+    required this.model,
     this.getDepositorResponse,
     this.getLocationsResponse,
     this.location,
@@ -58,7 +58,7 @@ class CreateFoundState extends Equatable {
     String? message,
     FormStatus? status,
     List<ImageContent>? loadAttachments,
-    FoundListArticleDetails? model,
+    required FoundListArticleDetails? model,
     final int? eventId,
   }) {
     return CreateFoundState(
@@ -84,7 +84,7 @@ class CreateFoundState extends Equatable {
       loadAttachments: loadAttachments ?? this.loadAttachments,
       eventId: eventId ?? this.eventId,
       labels: labels ?? labels,
-      model: model ?? model,
+      model: model ?? this.model,
     );
   }
 
