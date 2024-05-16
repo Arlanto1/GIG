@@ -98,7 +98,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             !widget.extraProperties!.hasWritePermission!) {
           isDistrbuted = true;
         }
-        if (!widget.model!.lock.isEmptyOrNull) {
+        if (!state.model.lock.isEmptyOrNull) {
           isDistrbuted = true;
         }
 
@@ -267,7 +267,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    if (!widget.model!.lock.isEmptyOrNull) ...[
+                                    if (!state.model.lock.isEmptyOrNull) ...[
                                       RecordLockedWidget(
                                           text: '${widget.model?.lock}'),
                                     ],
@@ -421,7 +421,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                             isMandatory: true),
                                         radioButtonHandling(
                                             isOfficialIdcardSelected,
-                                            Constants.officialsidcardverified),
+                                            Constants.officialsidcardverified,state),
 
                                         /// Purpose of visit
                                         CommonWidgets.textDisplay(
@@ -445,7 +445,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                         radioButtonHandling(
                                             isDocumentifanySelected,
                                             Constants
-                                                .documentifanytoconfirmpurpose),
+                                                .documentifanytoconfirmpurpose,state),
 
                                         /// In case of Police, was official in uniform?
                                         CommonWidgets.textDisplay(
@@ -457,7 +457,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                             isIncaseofpoliceSelected,
                                             // state.isIncaseofpoliceSelected ?? 0,
                                             Constants
-                                                .incaseofpolicewasofficialinuniform),
+                                                .incaseofpolicewasofficialinuniform,state),
 
                                         /// DB official want to meet
                                         CommonWidgets.textDisplay(
@@ -485,7 +485,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                               widget.model?.status == 1 ||
                                               widget.model?.status == 2 ||
                                               widget.model == null) &&
-                                              widget.model!.lock.isEmptyOrNull
+                                              state.model.lock.isEmptyOrNull
                                               ? true
                                               : false,
                                           isDisableColor: widget
@@ -494,7 +494,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                               widget.model?.status == 1 ||
                                               widget.model?.status == 2 ||
                                               widget.model == null ||
-                                              widget.model!.lock.isEmptyOrNull
+                                              state.model.lock.isEmptyOrNull
                                               ? false
                                               : true,
                                           onChange: (String username) {
@@ -558,7 +558,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                               widget.model?.status == 1 ||
                                               widget.model?.status == 2 ||
                                               widget.model == null) &&
-                                              widget.model!.lock.isEmptyOrNull
+                                              state.model.lock.isEmptyOrNull
                                               ? false
                                               : true,
                                           onChange: (String username) {
@@ -622,7 +622,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       ),
                                       GestureDetector(
                                         onTap: () async {
-                                          if (widget.model!.lock
+                                          if (state.model.lock
                                               .isEmptyOrNull) {
                                             NavigatorState nav =
                                             Navigator.of(context);
@@ -642,7 +642,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                             visitingOfficials =
                                             await LawEnforcementServices()
                                                 .getLeoVisitingOfficials(
-                                                id: state.model!.id!);
+                                                id: state.model.id!);
 
                                             log('--atomLeoDepartments--${state
                                                 .departmentResponse
@@ -655,7 +655,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                                 Constants.visitingOfficials,
                                                 ConstantsArgument.type: 0,
                                                 ConstantsArgument.id:
-                                                state.model?.id,
+                                                state.model.id,
                                                 ConstantsArgument.rankType:
                                                 Constants.contactGeneralRank,
                                                 ConstantsArgument.models:
@@ -763,7 +763,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           widget.model?.status == 0 ||
                                           widget.model?.status == 1 ||
                                           widget.model?.status == 2) &&
-                                          widget.model!.lock.isEmptyOrNull
+                                          state.model.lock.isEmptyOrNull
                                           ? CommonWidgets.textDisplay(
                                           Constants.upload,
                                           Styles.textStyleBlack14)
@@ -772,7 +772,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           widget.model?.status == 0 ||
                                           widget.model?.status == 1 ||
                                           widget.model?.status == 2) &&
-                                          widget.model!.lock.isEmptyOrNull
+                                          state.model.lock.isEmptyOrNull
                                           ? CommonWidgets.verticalSpacerWidget(
                                           height * 0.001)
                                           : Container(),
@@ -780,7 +780,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           widget.model?.status == 0 ||
                                           widget.model?.status == 1 ||
                                           widget.model?.status == 2) &&
-                                          widget.model!.lock.isEmptyOrNull
+                                          state.model.lock.isEmptyOrNull
                                           ? uploadWidget(state)
                                           : Container(),
 
@@ -795,12 +795,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           showDownloadIcon:
                                           (widget.model == null ||
                                               widget.model?.status == 0) &&
-                                              widget.model!.lock.isEmptyOrNull,
+                                              state.model.lock.isEmptyOrNull,
                                           moduleCode: Constants.leoModuleCode,
                                           showDeleteIcon: (widget.model ==
                                               null ||
                                               widget.model?.status == 0) &&
-                                              widget.model!.lock.isEmptyOrNull,
+                                              state.model.lock.isEmptyOrNull,
                                       ),
                                       // Attachments
                                       // getSpaceattchment(height),
@@ -827,7 +827,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                               .groups?.distributionGroups ??
                                               [],
                                           enabled: (widget.model?.status == 1 ||
-                                              widget.model?.status == 2) && widget.model!.lock.isEmptyOrNull,
+                                              widget.model?.status == 2) && state.model.lock.isEmptyOrNull,
                                           onTap: (List<Organisation>
                                           selectedEntities) {
                                             log(
@@ -849,7 +849,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           height * 0.01),
                                       // SubmitButton
                                       if (widget.model?.status != 3 &&
-                                          widget.model?.status != -1 && widget.model!.lock.isEmptyOrNull) ...[
+                                          widget.model?.status != -1 && state.model.lock.isEmptyOrNull) ...[
                                         Row(
                                           mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
@@ -1361,13 +1361,13 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       );
   }
 
-  Widget radioButtonHandling(int selectedValue, String name) {
+  Widget radioButtonHandling(int selectedValue, String name, LawEnforcementState state) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio(
           activeColor: widget.model?.status != 0 && widget.model != null ||
-              !widget.model!.lock.isEmptyOrNull
+              !state.model.lock.isEmptyOrNull
               ? AppColors.disableTextFieldBackground
               : AppColors.navigationSkyBlueColor,
           focusColor: AppColors.navigationSkyBlueColor,
@@ -1393,7 +1393,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         const Text(Constants.yes),
         Radio(
           activeColor: widget.model?.status != 0 && widget.model != null ||
-              !widget.model!.lock.isEmptyOrNull
+              !state.model.lock.isEmptyOrNull
               ? AppColors.disableTextFieldBackground
               : AppColors.navigationSkyBlueColor,
           value: 0,
@@ -1624,7 +1624,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       enabled: (widget.model?.status == 0 ||
           widget.model == null ||
           widget.model?.status == 1 ||
-          widget.model?.status == 2) && widget.model!.lock.isEmptyOrNull,
+          widget.model?.status == 2) && state.model.lock.isEmptyOrNull,
       addTitle: Constants.addentitytype,
       orgName: 'ATOM_ENTITIES',
       createEntity: widget.model?.status == 0 ||
@@ -1728,7 +1728,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       isDisableColor: (widget.model?.status == 0 ||
           widget.model == null ||
           widget.model?.status == 1 ||
-          widget.model?.status == 2) && widget.model!.lock.isEmptyOrNull
+          widget.model?.status == 2) && state.model.lock.isEmptyOrNull
           ? false
           : true,
       onTap: () {
@@ -1774,7 +1774,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       isDisableColor: (widget.model?.status == 0 ||
           widget.model?.status == 1 ||
           widget.model?.status == 2 ||
-          widget.model == null) && widget.model!.lock.isEmptyOrNull
+          widget.model == null) && state.model.lock.isEmptyOrNull
           ? false
           : true,
       onTap: () {
@@ -1813,7 +1813,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       isDisableColor: (widget.model?.status == 0 ||
           widget.model?.status == 1 ||
           widget.model?.status == 2 ||
-          widget.model == null) && widget.model!.lock.isEmptyOrNull
+          widget.model == null) && state.model.lock.isEmptyOrNull
           ? false
           : true,
       onTap: () {
