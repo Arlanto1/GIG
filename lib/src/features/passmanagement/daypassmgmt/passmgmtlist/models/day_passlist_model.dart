@@ -1,10 +1,9 @@
 import 'dart:convert';
 
-import 'package:db_atom/src/features/createfound/models/user.dart';
+
+import 'package:db_atom/index.dart';
 
 import '../../../../../models/history.dart';
-import '../../../../../models/image_content.dart';
-import '../../../../../models/organisation.dart';
 
 DayPassListResponse dayPassListResponseFromJson(String str) =>
     DayPassListResponse.fromJson(json.decode(str));
@@ -46,7 +45,7 @@ class DayPassListResponse {
       };
 }
 
-class PassManagementModel {
+class PassManagementModel extends BaseObject{
   int? id;
   String? slNo;
   String? inputDate;

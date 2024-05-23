@@ -57,6 +57,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           model:model,
+
           message: Constants.errorText,
           status: FormStatus.failure,
         ),
@@ -77,7 +78,6 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       await services.createOrganisation(name, orgName, context);
       emit(
         state.copyWith(
-          model:model,
           createEmployeeDepartments: createEmployeeDeptData,
           status: FormStatus.success,
         ),
@@ -92,7 +92,6 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          model:model,
           message: Constants.errorText,
           status: FormStatus.failure,
         ),
@@ -112,9 +111,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     required String title,
     required bool navigateToNextScreen,
   }) async {
-    emit(state.copyWith(
-        model:model,
-        status: FormStatus.loading));
+    emit(state.copyWith(status: FormStatus.loading));
     try {
       SubmitLawEnforcementResponse? response =
       await services.createLawFoundArticle(
@@ -150,7 +147,6 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } on Exception catch (e) {
       emit(
         state.copyWith(
-          model:model,
           message: e.toString(),
           status: FormStatus.failure,
         ),
@@ -159,7 +155,6 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          model:model,
           message: Constants.errorText,
           status: FormStatus.failure,
         ),
@@ -174,7 +169,6 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       Locations getLocationsData = await services.getLocations(name, context);
       emit(
         state.copyWith(
-          model:model,
           getLocationsResponse: getLocationsData,
           status: FormStatus.success,
         ),
@@ -182,7 +176,6 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
-          model:model,
           message: Constants.errorText,
           status: FormStatus.failure,
         ),
@@ -198,7 +191,6 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
           .getSerialnumberDetails(locationId, moduleCode, context);
       emit(
         state.copyWith(
-          model:model,
           getSerialnumberResponse: getserialnumberResponse,
           status: FormStatus.success,
         ),

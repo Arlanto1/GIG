@@ -8,7 +8,7 @@ LawEnforcementDetailsModel lawEnforcementDetailsFromJson(String str) =>
 String lawEnforcementDetailsToJson(LawEnforcementDetailsModel data) =>
     json.encode(data.toJson());
 
-class LawEnforcementDetailsModel {
+class LawEnforcementDetailsModel extends BaseObject{
   int? id;
   String? slNo;
   String? inputDate;
@@ -34,7 +34,6 @@ class LawEnforcementDetailsModel {
   List<Organisation>? mailList;
   String? entityDesc;
   String? entrySecurityName;
-  String? lock;
 
   LawEnforcementDetailsModel({
     this.id,
@@ -62,7 +61,6 @@ class LawEnforcementDetailsModel {
     this.mailList,
     this.entityDesc,
     this.entrySecurityName,
-    this.lock,
   });
 
   factory LawEnforcementDetailsModel.fromJson(Map<String, dynamic> json) =>
@@ -116,7 +114,6 @@ class LawEnforcementDetailsModel {
                 json["mailList"]!.map((x) => Organisation.fromJson(x))),
         entityDesc: json["entityDesc"],
         entrySecurityName: json["entrySecurityName"],
-        lock: json["lock"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -152,7 +149,6 @@ class LawEnforcementDetailsModel {
         'mailList': mailList?.map((e) => e.toJson()).toList(),
         "entityDesc": entityDesc,
         "entrySecurityName": entrySecurityName,
-        "lock": lock,
       };
 }
 

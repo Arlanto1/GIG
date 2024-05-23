@@ -760,6 +760,7 @@ class _CreateFoundState extends State<CreateFound> {
     return BlocConsumer<CreateFoundArticleCubit, CreateFoundState>(
       listener: (context, state) {
         log('-state.status----${state.status}--');
+        log('state.model.lock.isEmptyOrNull ${state.model.lock.isEmptyOrNull}');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 

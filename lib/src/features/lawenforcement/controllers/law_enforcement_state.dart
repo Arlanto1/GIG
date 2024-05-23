@@ -4,7 +4,7 @@ import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart'
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 
 class LawEnforcementState extends Equatable {
-  final LawEnforcementDetailsModel model;
+  final LawEnforcementDetailsModel? model;
   GetDepositor? getDepositorResponse;
   AddEntities? getEntitiesResponse;
   LeoDepartments? departmentResponse;
@@ -43,7 +43,7 @@ class LawEnforcementState extends Equatable {
   bool? isDistributed;
 
   LawEnforcementState({
-    required this.model,
+    this.model,
     this.getEntitiesResponse,
     this.departmentResponse,
     this.getLeopurposeResponse,
@@ -113,7 +113,7 @@ class LawEnforcementState extends Equatable {
     Organisation? createEmployeeDepartments,
     CreateUserModel? createUserResponse,
     bool? isDistributed,
-     LawEnforcementDetailsModel? model,
+    LawEnforcementDetailsModel? model,
   }) {
     return LawEnforcementState(
       model: model ?? this.model,
