@@ -132,7 +132,7 @@ class DashboardViewState extends State<DashboardView>
   }
 
   Widget getBody(ChartsState state) {
-    log('--getBody---');
+    // log('--getBody---');
     Utils().errorAndLogout(state, context);
     if (state.status == FormStatus.loading) {
       return const BaseLoader();

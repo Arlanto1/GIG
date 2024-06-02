@@ -23,7 +23,7 @@ Future<Position> determinePosition() async {
   }
 
   permission = await Geolocator.checkPermission();
-  log('-permission----checkPermission-----${permission.name}----');
+  // log('-permission----checkPermission-----${permission.name}----');
   if (permission == LocationPermission.denied) {
 
     log('-permission--${permission.name}----');
