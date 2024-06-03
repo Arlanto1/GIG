@@ -3203,13 +3203,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       title: state.hostResponse?.userInfo ?? state.hostResponse?.name,
       height: 60,
       isDisableColor: widget.model?.status == 0 ||
-              widget.model?.status == null ||
+              widget.model?.status == null &&
               !(widget.extraProperties != null &&
                   !widget.extraProperties!.hasWritePermission!)
           ? false
           : true,
       onTap: () {
-        if ((state.model.status == 0 || widget.model == null) ||
+        if ((widget.model == null || widget.model?.status == 0) &&
             !(widget.extraProperties != null &&
                 !widget.extraProperties!.hasWritePermission!)) {
           BaseOrganisationDialog().userDialog(
