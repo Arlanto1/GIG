@@ -106,8 +106,9 @@ class _KeyManagementMasterDetailsViewState
         }
 
         showSaveSubmitButton =
-            (state.model.status == 0 || state.model.status == 1) &&
-                !isReadOnly &&
+            state.model.status != 2 &&
+                state.model.status != -1 &&
+                !isReadOnly  &&
                 state.model.lock.isEmptyOrNull;
 
         initializeDates();
@@ -944,9 +945,7 @@ class _KeyManagementMasterDetailsViewState
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               cancelButtonDisplay(state),
-                              if (state.model.status != 2 &&
-                                  state.model.status != -1 &&
-                                  !isReadOnly) ...[submitButtonDisplay()],
+                              if (showSaveSubmitButton) ...[submitButtonDisplay()],
                             ],
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.04),
