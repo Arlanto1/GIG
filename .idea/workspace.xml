@@ -4,25 +4,16 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="lock in leo">
-      <change afterPath="$PROJECT_DIR$/lib/src/features/login/services/key_clock_services.dart" afterDir="false" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="key clock and bug fixes">
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/QA/profile/output-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/QA/profile/output-metadata.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_image_upload.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_image_upload.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/configurations/base_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/base_api_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list/views/annual_power_shutdown_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list/views/annual_power_shutdown_list_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_rate/guarding_rates/views/gaurading_rates_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_rate/guarding_rates/views/gaurading_rates_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance/views/attendance_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance/views/attendance_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance_report_billing/views/attendance_report_billing_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance_report_billing/views/attendance_report_billing_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/vvip_visitor/vvip_visitors/views/vvip_visitors_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/vvip_visitor/vvip_visitors/views/vvip_visitors_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/incident_management/incident_managements/views/incident_managements_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/incident_management/incident_managements/views/incident_managements_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/login/bloc/login_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/login/bloc/login_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/utils/location_handler.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/utils/location_handler.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/configurations/base_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/base_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/configurations/dev_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/dev_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/configurations/prod_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/prod_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/configurations/qa_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/qa_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/configurations/uat_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/uat_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/login/services/key_clock_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/login/services/key_clock_services.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,30 +78,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
-    &quot;Flutter.qa.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.android.tools.idea.streaming.emulator.frame.visible&quot;: &quot;false&quot;,
-    &quot;com.android.tools.idea.streaming.emulator.zoom.toolbar.visible&quot;: &quot;false&quot;,
-    &quot;com.android.tools.idea.streaming.zoom.toolbar.visible&quot;: &quot;false&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;cost-menu&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/models/responseModels&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "Flutter.main.dart.executor": "Run",
+    "Flutter.qa.executor": "Run",
+    "Flutter.uat.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "com.android.tools.idea.streaming.emulator.frame.visible": "false",
+    "com.android.tools.idea.streaming.emulator.zoom.toolbar.visible": "false",
+    "com.android.tools.idea.streaming.zoom.toolbar.visible": "false",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "cost-menu",
+    "io.flutter.reload.alreadyRun": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/models/responseModels",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/lib/src/models/responseModels" />
@@ -127,7 +119,7 @@
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views" />
     </key>
   </component>
-  <component name="RunManager" selected="Flutter.qa">
+  <component name="RunManager" selected="Flutter.uat">
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="buildFlavor" value="PROD" />
       <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
@@ -515,7 +507,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="310" />
+    <option name="localTasksCounter" value="311" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -552,7 +544,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="poc list" />
     <MESSAGE value="shift schedule redirect" />
     <MESSAGE value="WIP: Key Managment History" />
     <MESSAGE value="ui" />
@@ -577,7 +568,8 @@
     <MESSAGE value="location handling improved for Android" />
     <MESSAGE value="condition added" />
     <MESSAGE value="lock in leo" />
-    <option name="LAST_COMMIT_MESSAGE" value="lock in leo" />
+    <MESSAGE value="key clock and bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="key clock and bug fixes" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>
