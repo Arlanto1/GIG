@@ -100,7 +100,6 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
         Utils().errorAndLogout(state, context);
       },
       builder: (context, state) {
-        log('state.extraProperties?.hasWritePermission ${state.extraProperties?.hasWritePermission}');
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,
             floatingActionButton:

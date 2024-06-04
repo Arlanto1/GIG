@@ -272,6 +272,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.max,
                             children: [
+                              if (!state.model.lock.isEmptyOrNull) ...[
+                                RecordLockedWidget(
+                                    text: '${state.model?.lock}'),
+                              ],
                               Padding(
                                 padding: const EdgeInsets.only(
                                     left: 20.0, right: 20),
@@ -3199,13 +3203,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       title: state.hostResponse?.userInfo ?? state.hostResponse?.name,
       height: 60,
       isDisableColor: widget.model?.status == 0 ||
-              widget.model?.status == null ||
+              widget.model?.status == null &&
               !(widget.extraProperties != null &&
                   !widget.extraProperties!.hasWritePermission!)
           ? false
           : true,
       onTap: () {
-        if ((state.model.status == 0 || widget.model == null) ||
+        if ((widget.model == null || widget.model?.status == 0) &&
             !(widget.extraProperties != null &&
                 !widget.extraProperties!.hasWritePermission!)) {
           BaseOrganisationDialog().userDialog(
@@ -3969,8 +3973,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         "Please enter contact no",
       );
     } else if ((widget.passId == ConstantsIntValue.passIdVisitor || widget.passId == ConstantsIntValue.passIdVendor) &&
-        contactnoTextController.text.length <= 10 &&
-        contactnoTextController.text.length <= 17) {
+        contactnoTextController.text.length < 10 &&
+        contactnoTextController.text.length <= 18) {
       Validator().showToast(
         context,
         "Please enter valid contact no",

@@ -72,11 +72,13 @@ FoundListArticleDetails _$FoundListArticleDetailsFromJson(
       location: json['location'] == null
           ? null
           : Organisation.fromJson(json['location'] as Map<String, dynamic>),
+      lock: json['lock'] as String?,
     )..eventProtection = json['eventProtection'] as int?;
 
 Map<String, dynamic> _$FoundListArticleDetailsToJson(
         FoundListArticleDetails instance) =>
     <String, dynamic>{
+      'lock': instance.lock,
       'id': instance.id,
       'slNo': instance.slNo,
       'eventProtection': instance.eventProtection,

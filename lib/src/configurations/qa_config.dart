@@ -15,4 +15,16 @@ class QaConfig implements BaseConfig {
 
   @override
   Duration get inactivityDuration => const Duration(minutes: 50);
+
+  @override
+  String get keyClockApiHost => "https://qa.keycloak.arlanto.com";
+
+  @override
+  String get keyClockClientId => 'atom';
+
+  @override
+  String get keyClockClientSecret => 'JbU8TZf8juktrQgsDjBwjb2W3FehRtPl';
+
+  @override
+  String get keyClockRealm => 'Atom';
 }

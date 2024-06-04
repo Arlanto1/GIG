@@ -1,5 +1,4 @@
-import '../../../models/role.dart';
-import '../../../models/role_extension.dart';
+import 'package:db_atom/index.dart';
 
 class User {
   int? userId;

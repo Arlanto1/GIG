@@ -4,15 +4,16 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="location handling improved for Android">
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="key clock and bug fixes">
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Info.plist" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/configurations/base_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/base_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/configurations/dev_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/dev_config.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/configurations/prod_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/prod_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/configurations/qa_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/qa_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/configurations/uat_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/uat_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/login/services/key_clock_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/login/services/key_clock_services.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +33,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -82,6 +83,7 @@
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "Flutter.main.dart.executor": "Run",
     "Flutter.qa.executor": "Run",
+    "Flutter.uat.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
@@ -92,7 +94,7 @@
     "com.android.tools.idea.streaming.emulator.zoom.toolbar.visible": "false",
     "com.android.tools.idea.streaming.zoom.toolbar.visible": "false",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "localization-removed",
+    "git-widget-placeholder": "cost-menu",
     "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/models/responseModels",
@@ -117,7 +119,7 @@
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views" />
     </key>
   </component>
-  <component name="RunManager" selected="Flutter.main.dart">
+  <component name="RunManager" selected="Flutter.uat">
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="buildFlavor" value="PROD" />
       <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
@@ -505,7 +507,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="308" />
+    <option name="localTasksCounter" value="311" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -542,9 +544,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="duty post name dropdown issue" />
-    <MESSAGE value="WIP: submit" />
-    <MESSAGE value="poc list" />
     <MESSAGE value="shift schedule redirect" />
     <MESSAGE value="WIP: Key Managment History" />
     <MESSAGE value="ui" />
@@ -567,7 +566,10 @@
     <MESSAGE value="location error handling pop" />
     <MESSAGE value="splash screen code improved and changed&#10;login screen on back button issue" />
     <MESSAGE value="location handling improved for Android" />
-    <option name="LAST_COMMIT_MESSAGE" value="location handling improved for Android" />
+    <MESSAGE value="condition added" />
+    <MESSAGE value="lock in leo" />
+    <MESSAGE value="key clock and bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="key clock and bug fixes" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

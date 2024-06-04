@@ -16,4 +16,16 @@ class ProdConfig implements BaseConfig {
 
   @override
   Duration get inactivityDuration => const Duration(minutes: 100);
+
+  @override
+  String get keyClockApiHost => "https://websso.uat.dbatom.com";
+
+  @override
+  String get keyClockClientId => 'atom';
+
+  @override
+  String get keyClockClientSecret => 'JbU8TZf8juktrQgsDjBwjb2W3FehRtPl';
+
+  @override
+  String get keyClockRealm => 'Atom';
 }

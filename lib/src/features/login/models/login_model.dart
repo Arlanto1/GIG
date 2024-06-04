@@ -139,6 +139,8 @@ class DisplayMenu {
   bool? keyMM;
   bool? aTD;
   bool? ssDPM;
+  bool? gMR;
+  bool? sSDP;
 
   DisplayMenu({
     this.mM,
@@ -162,6 +164,8 @@ class DisplayMenu {
     this.sVP,
     this.keyMM,
     this.ssDPM,
+    this.gMR,
+    this.sSDP,
   });
 
   DisplayMenu.fromJson(Map<String, dynamic> json)
@@ -186,7 +190,9 @@ class DisplayMenu {
         sVP = json['SVP'] as bool?,
         keyMM = json['KeyMM'] as bool?,
         aTD = json['ATD'] as bool?,
-        ssDPM = json['SSDPM'] as bool?;
+        ssDPM = json['SSDPM'] as bool?,
+        gMR = json['GMR'] as bool?,
+        sSDP = json['SSDP'] as bool?;
 
   Map<String, dynamic> toJson() => {
         'MM': mM,
@@ -211,5 +217,7 @@ class DisplayMenu {
         'KeyMM': keyMM,
         'ATD': aTD,
         'SSDPM': ssDPM,
+        'GMR': gMR,
+        'SSDP': sSDP,
       };
 }

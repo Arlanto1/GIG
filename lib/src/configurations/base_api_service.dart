@@ -31,7 +31,7 @@ class BaseApiService {
 
     Position position;
     bool isIOS = Platform.isIOS;
-    log('---isIOS-$isIOS--');
+    // log('---isIOS-$isIOS--');
     if (isIOS ) {
       LocationPermission locationPermission = await Geolocator.checkPermission();
       log('-locationPermission.name--${locationPermission.name}-----');
@@ -54,13 +54,13 @@ class BaseApiService {
 
     if (isAuthenticated != null && isAuthenticated) {
       String token = await SharedPrefs.getToken();
-      log("token is:$token");
+      // log("token is:$token");
       if (token.isEmptyOrNull) {
         throw TokenExpiredException(message: 'Session has Expired');
       }
       headers.addAll({"Authorization": 'Bearer $token'});
     }
-    log("headers: $headers");
+    // log("headers: $headers");
     return headers;
   }
 
@@ -79,9 +79,9 @@ class BaseApiService {
         headers: headers,
       );
       log('response.statusCode----${response.statusCode}');
-      if (!url.contains('getLabels') || url.contains('Location')) {
-        log('response.body----${response.body}');
-      }
+      // if (!url.contains('getLabels') || url.contains('Location')) {
+      //   log('response.body----${response.body}');
+      // }
       final responseBody = json.decode(response.body);
       if (response.statusCode == HttpStatus.ok) {
         // log('response.body----${response.body}');
@@ -179,7 +179,8 @@ class BaseApiService {
       );
 
       log("HTTP Status Code: ${response.statusCode}");
-      if (!url.contains('get')) {
+      // log("Response: ${response.body}");
+      if (url.contains('getIncidentMgmtById')) {
         log("Response: ${response.body}");
       }
       var responseBody;

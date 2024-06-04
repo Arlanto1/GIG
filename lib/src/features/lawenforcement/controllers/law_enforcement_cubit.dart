@@ -14,7 +14,7 @@ import 'package:db_atom/src/services/common_services.dart';
 class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   LawEnforcementServices services;
   List<ImageContent>? loadAttachments;
-
+  LawEnforcementDetailsModel? model;
   LawEnforcementCubit({required this.services, this.loadAttachments})
       : super(
     LawEnforcementState(
@@ -34,6 +34,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       await services.createOrganisation(name, orgName, context);
       emit(
         state.copyWith(
+          model:model,
           createOrganisationResponse: createOrganisationData,
           status: FormStatus.success,
         ),
@@ -55,6 +56,8 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } catch (e) {
       emit(
         state.copyWith(
+          model:model,
+
           message: Constants.errorText,
           status: FormStatus.failure,
         ),

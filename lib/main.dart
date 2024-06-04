@@ -4,7 +4,7 @@ import 'package:db_atom/index.dart';
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
-  F.appFlavor = Flavor.prod;
+  F.appFlavor = Flavor.uat;
   //runApp(App());
   MainConfig.initialSetup(navigatorKey);
   // InactivityFunctions().startInactivityTimer(navigatorKey);
