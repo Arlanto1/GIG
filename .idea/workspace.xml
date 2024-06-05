@@ -4,16 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="key clock and bug fixes">
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="key clock improvements">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/configurations/base_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/base_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/configurations/dev_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/dev_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/configurations/prod_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/prod_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/configurations/qa_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/qa_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/configurations/uat_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/uat_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/login/services/key_clock_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/login/services/key_clock_services.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +88,7 @@
     "com.android.tools.idea.streaming.emulator.zoom.toolbar.visible": "false",
     "com.android.tools.idea.streaming.zoom.toolbar.visible": "false",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "cost-menu",
+    "git-widget-placeholder": "dev",
     "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/models/responseModels",

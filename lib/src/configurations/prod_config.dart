@@ -1,9 +1,11 @@
 import 'package:db_atom/src/configurations/base_config.dart';
 
 class ProdConfig implements BaseConfig {
+  // @override
+  // String get apiHost =>
+  //     "https://api.integration.dbatom.arlanto.com/api/atomrestservice";
   @override
-  String get apiHost =>
-      "https://api.integration.dbatom.arlanto.com/api/atomrestservice";
+  String get apiHost => "https://api.uat.dbatom.com/api/atomrestservice";
 
   @override
   bool get reportErrors => false;
@@ -24,8 +26,8 @@ class ProdConfig implements BaseConfig {
   String get keyClockClientId => 'atom';
 
   @override
-  String get keyClockClientSecret => 'JbU8TZf8juktrQgsDjBwjb2W3FehRtPl';
+  String get keyClockClientSecret => 'pEreyh84RiyY6at0deM3V8MGjlMzZgAO';
 
   @override
-  String get keyClockRealm => 'Atom';
+  String get keyClockRealm => 'Atom-UAT';
 }
