@@ -23,9 +23,9 @@ class BasePyramidChartsState extends State<BasePyramidCharts> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        setState(() {
-          isChartVisible = !isChartVisible;
-        });
+        // setState(() {
+        //   isChartVisible = !isChartVisible;
+        // });
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
