@@ -35,11 +35,37 @@ class UtilsCommon {
       );
     }
     if (e is TokenExpiredException) {
-      copyWith =state.copyWith(
+      copyWith = state.copyWith(
         message: e.message,
         status: FormStatus.sessionExpired,
       );
     }
     return copyWith;
+  }
+
+  Widget showNoRecordWidget(
+      {required dynamic state, required double height, required List items}) {
+    log('----showNoRecordWidget---');
+    if (items.isEmptyOrNull &&
+        state.status != FormStatus.loading &&
+        state.status != FormStatus.initial) {
+      log('----showNoRecordWidget--ifff-');
+      return Column(
+        children: [
+          CommonWidgets.verticalSpacerWidget(height * 0.1),
+          const NoRecordFoundWidget(),
+        ],
+      );
+    } else if (items.isEmptyOrNull && state.status == FormStatus.initial){
+      return Column(
+        children: [
+          CommonWidgets.verticalSpacerWidget(height * 0.1),
+          const NoRecordFoundWidget(),
+        ],
+      );
+
+    }
+    log('----showNoRecordWidget--else-');
+    return const SizedBox();
   }
 }

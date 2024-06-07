@@ -490,13 +490,14 @@ class NavigationDrawer1 extends StatelessWidget {
       case Constants.escalationMatrix:
         Navigator.pushNamed(context, contactDetailsListRoute);
         break;
-      case Constants.guardingMasterDataTitle:
+      case Constants.guardingMasterData:
         Navigator.pushNamed(context, guardingMasterDataRoute);
         break;
-      case Constants.guardingMasterReportTitle:
-        Navigator.pushNamed(context, guardingMasterReportRoute);
-        break;
-      case Constants.occurrenceListTitle:
+      case Constants.guardingMasterReport:
+        log('--Constants.guardingMasterReportTitle--${item.title}--');
+        return Navigator.pushNamed(context, guardingMasterReportRoute);
+        // break;
+      case Constants.shiftOccurrence:
         Navigator.pushNamed(context, occurrenceRoute);
         break;
       case Constants.slaViolationPenaltyTitle:

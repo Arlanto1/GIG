@@ -154,12 +154,8 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                       const BaseLoader(),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                     ],
-                    if (state.items.isEmptyOrNull &&
-                        state.status != FormStatus.loading &&
-                        state.status != FormStatus.initial) ...[
-                      CommonWidgets.verticalSpacerWidget(height * 0.1),
-                      const NoRecordFoundWidget(),
-                    ],
+                    UtilsCommon().showNoRecordWidget(
+                        state: state, height: height, items: state.items),
                     Expanded(
                       child: SmartRefresher(
                         controller: refreshController,

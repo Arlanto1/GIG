@@ -73,37 +73,41 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
     double height = size.height;
     return BlocConsumer<SLAViolationPenaltyListBloc,
         SLAViolationPenaltyListState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
+      },
       builder: (context, state) {
         return Scaffold(
-            backgroundColor: AppColors.cardBgColor,
-            floatingActionButton:
-                state.extraProperties?.hasWritePermission ?? false
-                    ? Flutterfloatingbutton(
-                        backgroundColor: AppColors.navigationSkyBlueColor,
-                        foregroundColor: AppColors.backgroundWhiteColor,
-                        onPressed: () => {
-                          Navigator.pushNamed(
-                              context, slaViolationPenaltyDetailsRoute,
-                              arguments: {
-                                "title": Constants.slaViolationPenaltyTitle,
-                              })
-                        },
-                      )
-                    : const SizedBox(),
-            appBar: BaseAppBar().buildAppHeader(
-              context: context,
-              title: Constants.slaViolationPenaltyTitle,
-              showPopUp: true,
-              showSaveButton: false,
-              showSubmitButton: false,
-              showDisLikeButton: false,
-              showLikeButton: false,
-              excelAPIName: 'exportSvpExcel',
-              pdfAPIName: 'exportSvpPDF',
-            ),
-            body: BlocBuilder<SLAViolationPenaltyListBloc,
-                SLAViolationPenaltyListState>(builder: (context, state) {
+          backgroundColor: AppColors.cardBgColor,
+          floatingActionButton:
+              state.extraProperties?.hasWritePermission ?? false
+                  ? Flutterfloatingbutton(
+                      backgroundColor: AppColors.navigationSkyBlueColor,
+                      foregroundColor: AppColors.backgroundWhiteColor,
+                      onPressed: () => {
+                        Navigator.pushNamed(
+                            context, slaViolationPenaltyDetailsRoute,
+                            arguments: {
+                              "title": Constants.slaViolationPenaltyTitle,
+                            })
+                      },
+                    )
+                  : const SizedBox(),
+          appBar: BaseAppBar().buildAppHeader(
+            context: context,
+            title: Constants.slaViolationPenaltyTitle,
+            showPopUp: true,
+            showSaveButton: false,
+            showSubmitButton: false,
+            showDisLikeButton: false,
+            showLikeButton: false,
+            excelAPIName: 'exportSvpExcel',
+            pdfAPIName: 'exportSvpPDF',
+          ),
+          body: BlocBuilder<SLAViolationPenaltyListBloc,
+              SLAViolationPenaltyListState>(
+            builder: (context, state) {
               // if (state.status == FormStatus.initial) {
               //   return const BaseLoader();
               // }
@@ -138,13 +142,23 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                     // ],
                     // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                     // Text('state.status=====${state.status}'),
-                    if (state.items.isEmptyOrNull &&
-                        state.status != FormStatus.initial &&
-                        state.status != FormStatus.loading) ...[
+                    // if (state.items.isEmptyOrNull &&
+                    //     state.status != FormStatus.initial &&
+                    //     state.status != FormStatus.loading) ...[
+                    //   CommonWidgets.verticalSpacerWidget(height * 0.1),
+                    //   const NoRecordFoundWidget(),
+                    // ],
+                    //
+                    // if (state.items.isEmptyOrNull &&
+                    //     state.status == FormStatus.initial) ...[
+                    //   CommonWidgets.verticalSpacerWidget(height * 0.1),
+                    //   const NoRecordFoundWidget(),
+                    // ],
+                    if (state.items.isEmptyOrNull) ...[
                       CommonWidgets.verticalSpacerWidget(height * 0.1),
-                      const NoRecordFoundWidget(),
+                      if (state.status != FormStatus.loading) const NoRecordFoundWidget(),
                     ],
-
+                    // Text('${state.status}, ${state.items}'),
                     Expanded(
                       child: SmartRefresher(
                         controller: refreshController,
@@ -204,58 +218,65 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                                                   '0'),
                                           Constants.dateFormat)
                                       : ''));
+                              return index >= state.items.length
+                                  ? const BaseLoader()
+                                  : BaseListTileItem(
+                                      id: state.items[index].id,
+                                      status: state.items[index].status,
+                                      labels: labels,
+                                      isEventProtectionStatus: false,
+                                      isSLAViolationStatus: true,
+                                      onTap: (selectedIndex) {
+                                        showDialog(
+                                          context: context,
+                                          builder:
+                                              (BuildContext dialogContext) {
+                                            return BasePopUpItems(
+                                              id: state.items[selectedIndex].id
+                                                  .toString(),
+                                              status: state
+                                                  .items[selectedIndex].status,
+                                              isSLAViolationStatus: true,
+                                              isEventProtectionStatus: false,
+                                              isMasterGuard: false,
+                                              labels: labels,
+                                            );
+                                          },
+                                        );
+                                      },
+                                      onEditTap: (selectedIndex) {
+                                        getById(
+                                            state.extraProperties
+                                                    ?.hasWritePermission ??
+                                                false,
+                                            state.items[index].id ?? 0);
+                                      },
+                                      onViewTap: (selectedIndex) {
+                                        showDialog(
+                                          context: context,
+                                          builder:
+                                              (BuildContext dialogContext) {
+                                            return BasePopUpItems(
+                                              id: state.items[selectedIndex].id
+                                                  .toString(),
+                                              status: state
+                                                  .items[selectedIndex].status,
+                                              isSLAViolationStatus: true,
+                                              isEventProtectionStatus: false,
+                                              isMasterGuard: false,
+                                              labels: labels,
+                                            );
+                                          },
+                                        );
+                                      },
+                                      index: index,
+                                    );
                             }
-                            return index >= state.items.length
-                                ? const BaseLoader()
-                                : BaseListTileItem(
-                                    id: state.items[index].id,
-                                    status: state.items[index].status,
-                                    labels: labels,
-                                    isEventProtectionStatus: false,
-                                    isSLAViolationStatus: true,
-                                    onTap: (selectedIndex) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext dialogContext) {
-                                          return BasePopUpItems(
-                                            id: state.items[selectedIndex].id
-                                                .toString(),
-                                            status: state
-                                                .items[selectedIndex].status,
-                                            isSLAViolationStatus: true,
-                                            isEventProtectionStatus: false,
-                                            isMasterGuard: false,
-                                            labels: labels,
-                                          );
-                                        },
-                                      );
-                                    },
-                                    onEditTap: (selectedIndex) {
-                                      getById(
-                                          state.extraProperties
-                                                  ?.hasWritePermission ??
-                                              false,
-                                          state.items[index].id ?? 0);
-                                    },
-                                    onViewTap: (selectedIndex) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext dialogContext) {
-                                          return BasePopUpItems(
-                                            id: state.items[selectedIndex].id
-                                                .toString(),
-                                            status: state
-                                                .items[selectedIndex].status,
-                                            isSLAViolationStatus: true,
-                                            isEventProtectionStatus: false,
-                                            isMasterGuard: false,
-                                            labels: labels,
-                                          );
-                                        },
-                                      );
-                                    },
-                                    index: index,
-                                  );
+
+                            // Handle the case where index is out of bounds
+                            return const Center(
+                              child: SizedBox(),
+                            );
                           },
                         ),
                       ),
@@ -263,7 +284,9 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                   ],
                 ),
               );
-            }));
+            },
+          ),
+        );
       },
     );
   }

@@ -173,12 +173,8 @@ class _PassManagementListViewState extends State<PassManagementListView> {
                       const BaseLoader(),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                     ],
-                    if (state.items.isEmptyOrNull &&
-                        state.status != FormStatus.initial &&
-                        state.status != FormStatus.loading) ...[
-                      CommonWidgets.verticalSpacerWidget(height * 0.1),
-                      const NoRecordFoundWidget(),
-                    ],
+                    UtilsCommon().showNoRecordWidget(
+                        state: state, height: height, items: state.items),
                     Expanded(
                       child: SmartRefresher(
                         controller: refreshController,

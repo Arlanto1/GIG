@@ -971,6 +971,7 @@ class RouteGenerator {
                 ));
 
       case guardingMasterDataRoute:
+        log('--guardingMasterDataRoute-');
         return MaterialPageRoute(
             builder: (context) => BlocProvider<GuardingMasterDataBloc>(
                   create: (_) => GuardingMasterDataBloc()
