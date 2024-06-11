@@ -70,30 +70,38 @@ class BasePieChartState extends State<BasePieChart> {
                     // ),
                   ],
                 ),
-                Expanded(
-                  child: SfCircularChart(
-                    legend: const Legend(isVisible: true),
-                    tooltipBehavior: TooltipBehavior(enable: true),
-                    series: <CircularSeries>[
-                      PieSeries<PieChartData, String>(
-                        // name: 'DWS',
-                        //innerRadius: '40',
-                        radius: '85',
-                        //cornerStyle: CornerStyle.bothCurve,
-                        legendIconType: LegendIconType.seriesType,
-                        dataSource: widget.chartData,
-                        xValueMapper: (PieChartData data, _) => data.x,
-                        yValueMapper: (PieChartData data, _) => data.y,
-                        pointColorMapper: (PieChartData data, _) => data.color,
-                        dataLabelSettings: const DataLabelSettings(
-                          isVisible: true,
+                widget.chartData.isEmptyOrNull
+                    ? const Padding(
+                        padding: EdgeInsets.only(top: 100.0),
+                        child: Center(
+                          child: Text('No Data Found.'),
                         ),
-                        enableTooltip: true,
-                        explode: true,
+                      )
+                    : Expanded(
+                        child: SfCircularChart(
+                          legend: const Legend(isVisible: true),
+                          tooltipBehavior: TooltipBehavior(enable: true),
+                          series: <CircularSeries>[
+                            PieSeries<PieChartData, String>(
+                              // name: 'DWS',
+                              //innerRadius: '40',
+                              radius: '85',
+                              //cornerStyle: CornerStyle.bothCurve,
+                              legendIconType: LegendIconType.seriesType,
+                              dataSource: widget.chartData,
+                              xValueMapper: (PieChartData data, _) => data.x,
+                              yValueMapper: (PieChartData data, _) => data.y,
+                              pointColorMapper: (PieChartData data, _) =>
+                                  data.color,
+                              dataLabelSettings: const DataLabelSettings(
+                                isVisible: true,
+                              ),
+                              enableTooltip: true,
+                              explode: true,
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),

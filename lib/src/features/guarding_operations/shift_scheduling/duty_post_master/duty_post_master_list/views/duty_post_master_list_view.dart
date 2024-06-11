@@ -220,53 +220,60 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                         'Shift G',
                                     value:
                                         state.list[index].shiftG.toString()));
-                              }
-                              return index >= state.list.length
-                                  ? const BaseLoader()
-                                  : BaseListTileItem(
-                                      id: state.list[index].id,
-                                      labels: labels,
-                                      onTap: (selectedIndex) {
-                                        showDialog(
-                                          context: context,
-                                          builder:
-                                              (BuildContext dialogContext) {
-                                            return BasePopUpItems(
-                                              id: state.list[selectedIndex].id
-                                                  .toString(),
-                                              labels: labels,
-                                              guardRank: state
-                                                  .list[selectedIndex].rankId,
-                                              isMasterGuard: true,
-                                            );
-                                          },
-                                        );
-                                      },
-                                      onEditTap: (selectedIndex) {
-                                        getById(
-                                            state.extraProperties
-                                                    ?.hasWritePermission ??
-                                                false,state.list[index].id ?? 0);
-                                },
-                                showDutyPostEditButton: true,
-                                showEditButton: false,
-                                onViewTap: (selectedIndex) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext dialogContext) {
-                                      return BasePopUpItems(
-                                        id: state.list[selectedIndex].id
-                                            .toString(),
+                                return index >= state.list.length
+                                    ? const BaseLoader()
+                                    : BaseListTileItem(
+                                        id: state.list[index].id,
                                         labels: labels,
-                                        guardRank:state
-                                                  .list[selectedIndex].rankId,
-                                              isMasterGuard: true,
-                                            );
-                                          },
-                                        );
-                                      },
-                                      index: index,
-                                    );
+                                        onTap: (selectedIndex) {
+                                          showDialog(
+                                            context: context,
+                                            builder:
+                                                (BuildContext dialogContext) {
+                                              return BasePopUpItems(
+                                                id: state.list[selectedIndex].id
+                                                    .toString(),
+                                                labels: labels,
+                                                guardRank: state
+                                                    .list[selectedIndex].rankId,
+                                                isMasterGuard: true,
+                                              );
+                                            },
+                                          );
+                                        },
+                                        onEditTap: (selectedIndex) {
+                                          getById(
+                                              state.extraProperties
+                                                      ?.hasWritePermission ??
+                                                  false,
+                                              state.list[index].id ?? 0);
+                                        },
+                                        showDutyPostEditButton: true,
+                                        showEditButton: false,
+                                        onViewTap: (selectedIndex) {
+                                          showDialog(
+                                            context: context,
+                                            builder:
+                                                (BuildContext dialogContext) {
+                                              return BasePopUpItems(
+                                                id: state.list[selectedIndex].id
+                                                    .toString(),
+                                                labels: labels,
+                                                guardRank: state
+                                                    .list[selectedIndex].rankId,
+                                                isMasterGuard: true,
+                                              );
+                                            },
+                                          );
+                                        },
+                                        index: index,
+                                      );
+                              }
+
+                              // Handle the case where index is out of bounds
+                              return const Center(
+                                child: SizedBox(),
+                              );
                             },
                           ),
                         ),

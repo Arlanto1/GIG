@@ -135,12 +135,8 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                     // ],
                     // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                     // Text('state.status=====${state.status}'),
-                    if (state.list.isEmptyOrNull &&
-                        state.status != FormStatus.initial &&
-                        state.status != FormStatus.loading) ...[
-                      CommonWidgets.verticalSpacerWidget(height * 0.1),
-                      const NoRecordFoundWidget(),
-                    ],
+                     UtilsCommon().showNoRecordWidget(
+                        state: state, height: height, items: state.list),
                     Expanded(
                       child: SmartRefresher(
                         controller: refreshController,
@@ -197,7 +193,6 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                                       'Shift Handed Over By',
                                   value:
                                       '${state.list[index].entrySecurity?.firstName ?? ''} ${state.list[index].entrySecurity?.lastName ?? ''}'));
-                            }
                             return index >= state.list.length
                                 ? const BaseLoader()
                                 : BaseListTileItem(
@@ -273,9 +268,15 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                                         },
                                       );
                                     },
-                                    index: index,
-                                  );
-                          },
+                              index: index,
+                            );
+                          }
+
+                            // Handle the case where index is out of bounds
+                            return const Center(
+                            child: SizedBox(),
+              );
+                },
                         ),
                       ),
                     ),

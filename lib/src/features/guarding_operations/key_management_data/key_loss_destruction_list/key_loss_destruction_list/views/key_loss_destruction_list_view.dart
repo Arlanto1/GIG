@@ -85,165 +85,184 @@ class _KeyLossDestructionListViewState
           excelAPIName: 'exportKmKldExcel',
           pdfAPIName: 'exportKmKldPDF',
         ),
-        body: BlocBuilder<KeyLossDestructionListBloc,
-            KeyLossDestructionListState>(builder: (context, state) {
-          // if (state.status == FormStatus.initial) {
-          //   return const BaseLoader();
-          // }
-          // if (state.list.isEmptyOrNull) {
-          //   return const NoRecordFoundWidget();
-          // }
-          // log('--labels-${state.labels?.locale.locationRegion}');
-          return Container(
-            margin: allMargin16,
-            decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhiteColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20.0)),
-                )),
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                BaseSearchWidget(
-                  applySearchFilters: applySearchFilters,
-                  applyFilters: applyFilters,
-                  commonFilters: state.commonFilters ??
-                      CommonFilters(
-                        statuses: [],
-                        regions: [],
-                      ),
-                ),
-                CommonWidgets.verticalSpacerWidget(height * 0.001),
-                // if (state.status == FormStatus.loading) ...[
-                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                //   const BaseLoader(),
-                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                // ],
-                // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
-                // Text('state.status=====${state.status}'),
-                // if (state.list.isEmptyOrNull &&
-                //     state.status != FormStatus.loading&& state.status != FormStatus.initial) ...[
-                //   CommonWidgets.verticalSpacerWidget(height * 0.1),
-                //   const NoRecordFoundWidget(),
-                // ],
+        body: BlocListener<KeyLossDestructionListBloc,
+            KeyLossDestructionListState>(
+          listener: (context, state) {
+            Utils().formError(state, context);
+            Utils().errorAndLogout(state, context);
+          },
+          child: BlocBuilder<KeyLossDestructionListBloc,
+              KeyLossDestructionListState>(builder: (context, state) {
+            // if (state.status == FormStatus.initial) {
+            //   return const BaseLoader();
+            // }
+            // if (state.list.isEmptyOrNull) {
+            //   return const NoRecordFoundWidget();
+            // }
+            // log('--labels-${state.labels?.locale.locationRegion}');
+            return Container(
+              margin: allMargin16,
+              decoration: const ShapeDecoration(
+                  color: AppColors.backgroundWhiteColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20.0)),
+                  )),
+              child: Column(
+                // crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  BaseSearchWidget(
+                    applySearchFilters: applySearchFilters,
+                    applyFilters: applyFilters,
+                    commonFilters: state.commonFilters ??
+                        CommonFilters(
+                          statuses: [],
+                          regions: [],
+                        ),
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.001),
+                  // if (state.status == FormStatus.loading) ...[
+                  //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  //   const BaseLoader(),
+                  //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  // ],
+                  // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+                  // Text('state.status=====${state.status}'),
+                  // if (state.list.isEmptyOrNull &&
+                  //     state.status != FormStatus.loading&& state.status != FormStatus.initial) ...[
+                  //   CommonWidgets.verticalSpacerWidget(height * 0.1),
+                  //   const NoRecordFoundWidget(),
+                  // ],
 
-                Expanded(
-                  child: SmartRefresher(
-                    controller: refreshController,
-                    enablePullDown: true,
-                    physics: const BouncingScrollPhysics(),
-                    header: WaterDropHeader(
-                      waterDropColor: AppColors.navigationSkyBlueColor,
-                      refresh: state.status != FormStatus.loading
-                          ? const BaseLoader()
-                          : null,
-                    ),
-                    key: const Key(Keys.refreshKey),
-                    onRefresh: _onRefresh,
-                    onLoading: _onLoading,
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: state.hasReachedMax
-                          ? state.list.length
-                          : state.list.length + 1,
-                      itemBuilder: (context, index) {
-                        List<Label> labels = [];
-                        if (index < state.list.length) {
-                          labels.add(Label(
-                              key:
-                                  // state.labels?.locale.reg ??
-                                  //  state.labels?.defaultLocale.locationRegion ??
-                                  'Created Date',
-                              value: state.list[index].createdDate != null
-                                  ? Utils.timestampToDateConversion(
-                                      int.parse(
-                                          state.list[index].createdDate ?? '0'),
-                                      Constants.dateFormat)
-                                  : ''));
-                          labels.add(Label(
-                              key: state.labels?.locale.createdBy ??
-                                  state.labels?.defaultLocale.createdBy ??
-                                  'Created By',
-                              value:
-                                  '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
-                        }
-                        return index >= state.list.length
+                  UtilsCommon().showNoRecordWidget(
+                      state: state, height: height, items: state.list),
+                  Expanded(
+                    child: SmartRefresher(
+                      controller: refreshController,
+                      enablePullDown: true,
+                      physics: const BouncingScrollPhysics(),
+                      header: WaterDropHeader(
+                        waterDropColor: AppColors.navigationSkyBlueColor,
+                        refresh: state.status != FormStatus.loading
                             ? const BaseLoader()
-                            : BaseListTileItem(
-                                id: state.list[index].id,
-                                labels: labels,
-                                status: state.list[index].status,
-                                isKeyLossStatus: true,
-                                isEventProtectionStatus: false,
-                                onTap: (selectedIndex) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext dialogContext) {
-                                      return BasePopUpItems(
-                                        id: state.list[selectedIndex].id
-                                            .toString(),
-                                        slNo: state.list[selectedIndex].slNo,
-                                        labels: labels,
-                                        isKeyLossStatus: true,
-                                        isEventProtectionStatus: false,
-                                        isMasterGuard: false,
-                                        status:
-                                            state.list[selectedIndex].status,
-                                        keyType:
-                                            state.list[selectedIndex].keyType,
-                                        type: state.list[selectedIndex].type,
-                                        srh: state.list[selectedIndex].srh,
-                                        securityManager: state
-                                            .list[selectedIndex]
-                                            .securityManager,
+                            : null,
+                      ),
+                      key: const Key(Keys.refreshKey),
+                      onRefresh: _onRefresh,
+                      onLoading: _onLoading,
+                      child: ListView.builder(
+                        controller: _scrollController,
+                        itemCount: state.hasReachedMax
+                            ? state.list.length
+                            : state.list.length + 1,
+                        itemBuilder: (context, index) {
+                          List<Label> labels = [];
+                          if (index < state.list.length) {
+                            labels.add(Label(
+                                key:
+                                    // state.labels?.locale.reg ??
+                                    //  state.labels?.defaultLocale.locationRegion ??
+                                    'Created Date',
+                                value: state.list[index].createdDate != null
+                                    ? Utils.timestampToDateConversion(
+                                        int.parse(
+                                            state.list[index].createdDate ??
+                                                '0'),
+                                        Constants.dateFormat)
+                                    : ''));
+                            labels.add(Label(
+                                key: state.labels?.locale.createdBy ??
+                                    state.labels?.defaultLocale.createdBy ??
+                                    'Created By',
+                                value:
+                                    '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
+                            return index >= state.list.length
+                                ? const BaseLoader()
+                                : BaseListTileItem(
+                                    id: state.list[index].id,
+                                    labels: labels,
+                                    status: state.list[index].status,
+                                    isKeyLossStatus: true,
+                                    isEventProtectionStatus: false,
+                                    onTap: (selectedIndex) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext dialogContext) {
+                                          return BasePopUpItems(
+                                            id: state.list[selectedIndex].id
+                                                .toString(),
+                                            slNo:
+                                                state.list[selectedIndex].slNo,
+                                            labels: labels,
+                                            isKeyLossStatus: true,
+                                            isEventProtectionStatus: false,
+                                            isMasterGuard: false,
+                                            status: state
+                                                .list[selectedIndex].status,
+                                            keyType: state
+                                                .list[selectedIndex].keyType,
+                                            type:
+                                                state.list[selectedIndex].type,
+                                            srh: state.list[selectedIndex].srh,
+                                            securityManager: state
+                                                .list[selectedIndex]
+                                                .securityManager,
+                                          );
+                                        },
                                       );
                                     },
-                                  );
-                                },
-                                onEditTap: (selectedIndex) {
-                                  getById(
-                                      state.extraProperties
-                                              ?.hasWritePermission ??
-                                          false,
-                                      state.list[index].id ?? 0);
-                                },
-                                showEditButton: true,
-                                onViewTap: (selectedIndex) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext dialogContext) {
-                                      return BasePopUpItems(
-                                        id: state.list[selectedIndex].id
-                                            .toString(),
-                                        slNo: state.list[selectedIndex].slNo,
-                                        labels: labels,
-                                        status:
-                                            state.list[selectedIndex].status,
-                                        isKeyLossStatus: true,
-                                        isEventProtectionStatus: false,
-                                        isMasterGuard: false,
-                                        keyType:
-                                            state.list[selectedIndex].keyType,
-                                        type: state.list[selectedIndex].type,
-                                        srh: state.list[selectedIndex].srh,
-                                        securityManager: state
-                                            .list[selectedIndex]
-                                            .securityManager,
+                                    onEditTap: (selectedIndex) {
+                                      getById(
+                                          state.extraProperties
+                                                  ?.hasWritePermission ??
+                                              false,
+                                          state.list[index].id ?? 0);
+                                    },
+                                    showEditButton: true,
+                                    onViewTap: (selectedIndex) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext dialogContext) {
+                                          return BasePopUpItems(
+                                            id: state.list[selectedIndex].id
+                                                .toString(),
+                                            slNo:
+                                                state.list[selectedIndex].slNo,
+                                            labels: labels,
+                                            status: state
+                                                .list[selectedIndex].status,
+                                            isKeyLossStatus: true,
+                                            isEventProtectionStatus: false,
+                                            isMasterGuard: false,
+                                            keyType: state
+                                                .list[selectedIndex].keyType,
+                                            type:
+                                                state.list[selectedIndex].type,
+                                            srh: state.list[selectedIndex].srh,
+                                            securityManager: state
+                                                .list[selectedIndex]
+                                                .securityManager,
+                                          );
+                                        },
                                       );
                                     },
+                                    index: index,
                                   );
-                                },
-                                index: index,
-                              );
-                      },
+                          }
+
+                          // Handle the case where index is out of bounds
+                          return const Center(
+                            child: SizedBox(),
+                          );
+                        },
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          );
-        }));
+                ],
+              ),
+            );
+          }),
+        ));
   }
 
   getById(bool hasWritePermission, int id) async {

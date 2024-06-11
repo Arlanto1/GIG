@@ -92,6 +92,10 @@ class MaterialMovementBloc
         filters: BaseFilterModel(),
       );
 
+      // if (response.items?.isEmpty == true) {
+      //   return emit(state.copyWith(hasReachedMax: true));
+      // }
+      log('--_refreshList-${state.status}--');
       return emit(
         state.copyWith(
           items: response.items,
@@ -152,7 +156,7 @@ class MaterialMovementBloc
       );
 
       if (response.items?.isEmpty == true) {
-        return emit(state.copyWith(hasReachedMax: true));
+        return emit(state.copyWith(hasReachedMax: true, status: FormStatus.success));
       }
       return emit(
         state.copyWith(

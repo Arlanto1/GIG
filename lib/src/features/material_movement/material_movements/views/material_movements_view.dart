@@ -161,9 +161,11 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                         controller: refreshController,
                         enablePullDown: true,
                         physics: const BouncingScrollPhysics(),
-                        header: const WaterDropHeader(
+                        header: WaterDropHeader(
                           waterDropColor: AppColors.navigationSkyBlueColor,
-                          refresh: BaseLoader(),
+                          refresh: state.status != FormStatus.loading
+                              ? const BaseLoader()
+                              : null,
                         ),
                         key: const Key(Keys.refreshKey),
                         onRefresh: _onRefresh,
