@@ -80,8 +80,6 @@ class _KeyLossDestructionListViewState
           showSubmitButton: false,
           showDisLikeButton: false,
           showLikeButton: false,
-          excelAPIName: 'exportGMDataExcel',
-          pdfAPIName: 'exportGMDataPDF',
         ),
         body:
             BlocBuilder<KeyReconciliationListBloc, KeyReconciliationListState>(

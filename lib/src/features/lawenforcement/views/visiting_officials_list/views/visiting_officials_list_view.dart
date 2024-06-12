@@ -110,8 +110,6 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
               await backButtonFunction(context);
             },
             showLikeButton: false,
-            excelAPIName: 'exportMMExcel',
-            pdfAPIName: 'exportMMPDF',
           ),
           body: getBody(state),
         ),
