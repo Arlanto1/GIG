@@ -2,11 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:flutter_file_dialog/flutter_file_dialog.dart';
+import 'package:db_atom/index.dart';
 import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
-
-import '../../index.dart';
 
 class DownloadImage {
   Future<void> saveImage(
@@ -48,7 +45,7 @@ class DownloadImage {
     log('url: $url');
 
     final uri = Uri.parse(url);
-    downloadData(context, name, uri);
+    downloadData(context, name, uri, isPDF: true);
   }
 
   Future<void> exportExcel(
@@ -82,7 +79,7 @@ class DownloadImage {
     // );
     final uri = Uri.parse(url);
 
-    return downloadData(context, name, uri);
+    return downloadData(context, name, uri, isPDF: true);
   }
 
   Future<void> passexportExcel(BuildContext context, int id, String name,
@@ -101,7 +98,8 @@ class DownloadImage {
     return downloadData(context, name, uri);
   }
 
-  downloadData(BuildContext context, String name, Uri url) async {
+  downloadData(BuildContext context, String name, Uri url,
+      {bool? isPDF}) async {
     String? message;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     try {
@@ -128,18 +126,22 @@ class DownloadImage {
 
       // Get temporary directory
       final dir = await getTemporaryDirectory();
-      log('---1---');
-
       // Create an image name
       var filename = '${dir.path}/$name';
-      log('---1-1--');
 
       // Save to filesystem
       final file = File(filename);
-      log('---1--3-');
       await file.writeAsBytes(response.bodyBytes);
-      log('---1-4--');
 
+      if (isPDF ?? false) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ShowPdf(
+                      filePath: file.path,
+                    )));
+        return;
+      }
       log('pdf---$file');
       // Ask the user to save it
       final params = SaveFileDialogParams(sourceFilePath: file.path);

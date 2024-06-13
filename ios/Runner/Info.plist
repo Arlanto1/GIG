@@ -39,6 +39,8 @@
 	<string>To capture proofs or evidence, please grant the app access to your camera.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>ATOM Edge relies on your location to enhance security measures and ensure your safety within designated areas. For instance, we use this information to verify your presence in authorized zones and customize alerts based on your proximity to relevant locations. Your location data is strictly utilized within the app for these purposes and is not shared externally. Please grant permission to access your location to enable these safety features.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>ATOM Edge relies on your location to enhance security measures and ensure your safety within designated areas. For instance, we use this information to verify your presence in authorized zones and customize alerts based on your proximity to relevant locations. Your location data is strictly utilized within the app for these purposes and is not shared externally. Please grant permission to access your location to enable these safety features.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app does not require access to the microphone.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -46,9 +48,7 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
-	<array>
-		<string>fetch</string>
-	</array>
+	<array/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

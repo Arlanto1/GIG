@@ -4,6 +4,10 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
     id "com.google.gms.google-services"
 }
+def keystorePropertiesFile = rootProject.file('key.properties')
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -11,11 +15,6 @@ if (localPropertiesFile.exists()) {
         localProperties.load(reader)
     }
 }
-
-//def flutterRoot = localProperties.getProperty('flutter.sdk')
-//if (flutterRoot == null) {
-//    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
-//}
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
@@ -27,13 +26,6 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0.1'
 }
 
-//apply plugin: 'com.android.application'
-// START: FlutterFire Configuration
-//apply plugin: 'com.google.gms.google-services'
-// END: FlutterFire Configuration
-//apply plugin: 'kotlin-android'
-//apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
-
 android {
     signingConfigs {
         debug {
@@ -42,6 +34,13 @@ android {
             storePassword 'Bnaren@513'
             keyAlias 'AtomEdge'
             keyPassword 'Bvineela@513'
+        }
+
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
         }
     }
 
@@ -122,7 +121,7 @@ android {
         defaultConfig {
             compileSdk 34
         }
-        versionCode 3+2
+        versionCode 7
         versionName flutterVersionName
         multiDexEnabled true
         resValue "string", "app_name", "AtomEdge"
@@ -142,9 +141,15 @@ android {
             // signingConfig signingConfigs.release
             minifyEnabled true
             shrinkResources true
-            // proguardFile 'proguard-project.txt'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             debuggable false
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
+
+            // Add NDK debug symbol generation
+            ndk {
+                debugSymbolLevel 'FULL'
+            }
+
 //        splits {
 //            abi {
 //                enable true
