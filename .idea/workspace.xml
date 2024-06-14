@@ -4,8 +4,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="bug fixes and improvements">
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/pass_management_list/views/pass_manangement_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/pass_management_list/views/pass_manangement_list_view.dart" afterDir="false" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="pass management export pdf issue fixed">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_app_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_app_bar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/image_download.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/image_download.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/views/law_enforcements_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/views/law_enforcements_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -499,7 +504,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="315" />
+    <option name="localTasksCounter" value="316" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -536,7 +541,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="WIP: ios location issue" />
     <MESSAGE value="bugs" />
     <MESSAGE value="cancel button" />
     <MESSAGE value="multiple issues fixed" />
@@ -561,7 +565,8 @@
     <MESSAGE value="pyramid hide issue fixed" />
     <MESSAGE value="no record found issue fixed and other redirecting issues" />
     <MESSAGE value="bug fixes and improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug fixes and improvements" />
+    <MESSAGE value="pass management export pdf issue fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="pass management export pdf issue fixed" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

@@ -142,7 +142,7 @@ class _MaterialMovementDetailsViewState
           isReadOnly = true;
         }
 
-        showSaveSubmitButtons = (state.model.status == 0||
+        showSaveSubmitButtons = (state.model.status == 0 ||
                 state.model.status == 8 ||
                 // state.model.status == 1 ||
                 state.model.status == 6 ||
@@ -157,6 +157,7 @@ class _MaterialMovementDetailsViewState
             title: widget.title,
             showPopUp: false,
             showSaveButton: showSaveSubmitButtons,
+            // pdfAPIName: 'exportMMPDF?mmType=${widget.isInward ? 1 : 0}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(

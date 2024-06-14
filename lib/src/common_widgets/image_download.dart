@@ -32,7 +32,6 @@ class DownloadImage {
 
   Future<void> exportPdf(
     BuildContext context,
-    int id,
     String name,
     String path, {
     String? customParameter,
@@ -50,7 +49,6 @@ class DownloadImage {
 
   Future<void> exportExcel(
     BuildContext context,
-    int id,
     String name,
     String path, {
     String? customParameter,
@@ -99,7 +97,7 @@ class DownloadImage {
   }
 
   downloadData(BuildContext context, String name, Uri url,
-      {bool? isPDF}) async {
+      {bool? isPDF,}) async {
     String? message;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     try {

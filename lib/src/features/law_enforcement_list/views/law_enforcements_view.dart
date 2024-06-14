@@ -138,13 +138,12 @@ class _LnPageState extends State<LnPage> {
                   //PopMenuItems("Close", AppIcon.close),
                 ],
                 itemTap: (value) async {
-                  String userid = await SharedPrefs.getUserId();
                   if (value == 0) {
-                    DownloadImage().exportExcel(context, int.parse(userid),
-                        'export.xslx', '/exportLEOExcel');
+                    DownloadImage()
+                        .exportExcel(context, 'export.xslx', '/exportLEOExcel');
                   } else if (value == 1) {
-                    DownloadImage().exportPdf(context, int.parse(userid),
-                        'export.pdf', '/exportLEOPDF');
+                    DownloadImage()
+                        .exportPdf(context, 'export.pdf', '/exportLEOPDF');
                   }
                 },
                 popupimagename: AppIcon.morewhiteicon,
