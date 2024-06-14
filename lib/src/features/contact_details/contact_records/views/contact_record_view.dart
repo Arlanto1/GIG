@@ -123,8 +123,6 @@ class _ContactRecordViewState extends State<ContactRecordView> {
           showSubmitButton: false,
           showDisLikeButton: false,
           showLikeButton: false,
-          excelAPIName: 'exportMMExcel',
-          pdfAPIName: 'exportMMPDF',
         ),
         body: getBody(state),
       );

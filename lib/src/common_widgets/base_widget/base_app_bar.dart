@@ -18,8 +18,9 @@ class BaseAppBar {
     void Function()? popAndReplace,
     bool? showCustomIcon,
     Function? onTapCustomIcon,
+    Function? onTapPDFIcon,
     String? excelAPIName,
-    String? pdfAPIName,
+    String? pdfAPIName,   // used for Listing Page and Details Page
     IconData? customIcon,
   }) {
     return AppHeader(
@@ -43,15 +44,15 @@ class BaseAppBar {
               //PopMenuItems("Close", AppIcon.close),
             ],
             itemTap: (value) async {
-              String userid = await SharedPrefs.getUserId();
+              // String userid = await SharedPrefs.getUserId();
 
               log('value--$value');
               if (value == 0) {
-                DownloadImage().exportExcel(context, int.parse(userid),
-                    'export.xslx', '/$excelAPIName');
+                DownloadImage()
+                    .exportExcel(context, 'export.xslx', '/$excelAPIName');
               } else if (value == 1) {
-                DownloadImage().exportPdf(
-                    context, int.parse(userid), 'export.pdf', '/$pdfAPIName');
+                DownloadImage()
+                    .exportPdf(context, 'export.pdf', '/$pdfAPIName');
               }
               // else if(value == 2){
               //   Navigator.pop(context);
@@ -123,6 +124,18 @@ class BaseAppBar {
             child: Padding(
               padding: const EdgeInsets.only(right: 20.0),
               child: Icon(customIcon ?? Icons.add, color: Colors.white),
+            ),
+          )
+        ],
+        if (!pdfAPIName.isEmptyOrNull) ...[
+          GestureDetector(
+            onTap: () {
+              DownloadImage().exportPdf(context, 'export.pdf',
+                  '/$pdfAPIName');
+            },
+            child: const Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: Icon(Icons.picture_as_pdf, color: Colors.white),
             ),
           )
         ],

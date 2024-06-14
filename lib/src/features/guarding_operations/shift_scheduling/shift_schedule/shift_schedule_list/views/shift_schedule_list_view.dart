@@ -132,12 +132,8 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                     ],
                     // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                     // Text('state.status=====${state.status}'),
-                    if (state.items.isEmptyOrNull &&
-                        state.status != FormStatus.loading &&
-                        state.status != FormStatus.initial) ...[
-                      CommonWidgets.verticalSpacerWidget(height * 0.1),
-                      const NoRecordFoundWidget(),
-                    ],
+                    UtilsCommon().showNoRecordWidget(
+                        state: state, height: height, items: state.items),
 
                     Expanded(
                       child: SmartRefresher(

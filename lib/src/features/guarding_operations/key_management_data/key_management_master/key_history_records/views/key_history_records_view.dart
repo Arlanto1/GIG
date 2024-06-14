@@ -121,8 +121,6 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
               showSubmitButton: false,
               showDisLikeButton: false,
               showLikeButton: false,
-              excelAPIName: 'exportGMDataExcel',
-              pdfAPIName: 'exportGMDataPDF',
             ),
             body: BlocBuilder<KeyHistoryRecordBloc, KeyHistoryRecordState>(
                 builder: (context, state) {

@@ -64,53 +64,64 @@ class BaseVerticleBarChartsState extends State<BaseVerticleBarCharts> {
                     // ),
                   ],
                 ),
-                Expanded(
-                  child: SfCartesianChart(
-                    primaryXAxis: const NumericAxis(),
-                    primaryYAxis: const NumericAxis(),
-                    series: <CartesianSeries>[
-                      StackedColumnSeries<PieChartData, num>(
-                        enableTooltip: true,
-                        dataLabelSettings: const DataLabelSettings(
-                          isVisible: true,
-                          labelPosition: ChartDataLabelPosition.outside,
-                          labelAlignment: ChartDataLabelAlignment.outer,
+                widget.chartData.isEmptyOrNull
+                    ? const Padding(
+                        padding: EdgeInsets.only(top: 100.0),
+                        child: Center(
+                          child: Text('No Data Found.'),
                         ),
-                        dataSource: widget.chartData,
-                        xValueMapper: (PieChartData data, _) =>
-                            widget.chartData.indexOf(data),
-                        yValueMapper: (PieChartData data, _) => data.y,
-                        pointColorMapper: (PieChartData data, _) => data.color,
-                        emptyPointSettings: const EmptyPointSettings(
-                          mode: EmptyPointMode.average,
+                      )
+                    : Expanded(
+                        child: SfCartesianChart(
+                          primaryXAxis: const NumericAxis(),
+                          primaryYAxis: const NumericAxis(),
+                          series: <CartesianSeries>[
+                            StackedColumnSeries<PieChartData, num>(
+                              enableTooltip: true,
+                              dataLabelSettings: const DataLabelSettings(
+                                isVisible: true,
+                                labelPosition: ChartDataLabelPosition.outside,
+                                labelAlignment: ChartDataLabelAlignment.outer,
+                              ),
+                              dataSource: widget.chartData,
+                              xValueMapper: (PieChartData data, _) =>
+                                  widget.chartData.indexOf(data),
+                              yValueMapper: (PieChartData data, _) => data.y,
+                              pointColorMapper: (PieChartData data, _) =>
+                                  data.color,
+                              emptyPointSettings: const EmptyPointSettings(
+                                mode: EmptyPointMode.average,
+                              ),
+                            ),
+                          ],
+                          tooltipBehavior: TooltipBehavior(
+                            enable: true,
+                            builder: (dynamic data,
+                                dynamic point,
+                                dynamic series,
+                                int pointIndex,
+                                int seriesIndex) {
+                              return Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(5),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.black.withOpacity(0.2),
+                                        spreadRadius: 2,
+                                        blurRadius: 5),
+                                  ],
+                                ),
+                                child: Text(
+                                  '${data.x} : ${data.y}',
+                                  style: const TextStyle(color: Colors.black),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
-                    ],
-                    tooltipBehavior: TooltipBehavior(
-                      enable: true,
-                      builder: (dynamic data, dynamic point, dynamic series,
-                          int pointIndex, int seriesIndex) {
-                        return Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  spreadRadius: 2,
-                                  blurRadius: 5),
-                            ],
-                          ),
-                          child: Text(
-                            '${data.x} : ${data.y}',
-                            style: const TextStyle(color: Colors.black),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
               ],
             ),
           ),

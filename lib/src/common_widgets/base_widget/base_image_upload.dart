@@ -60,7 +60,7 @@ class BaseImageUpload {
     List<ImageContent>? attachments,
     required bool showDownloadIcon,
     required String moduleCode,
-    bool? showDeleteIcon,
+    bool? showDeleteIcon = true,
   }) {
     if (attachments != null) {
       return Column(

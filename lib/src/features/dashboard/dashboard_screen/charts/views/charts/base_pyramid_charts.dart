@@ -23,9 +23,9 @@ class BasePyramidChartsState extends State<BasePyramidCharts> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        setState(() {
-          isChartVisible = !isChartVisible;
-        });
+        // setState(() {
+        //   isChartVisible = !isChartVisible;
+        // });
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -70,46 +70,57 @@ class BasePyramidChartsState extends State<BasePyramidCharts> {
                       // ),
                     ],
                   ),
-                  Expanded(
-                    child: SfPyramidChart(
-                      legend: const Legend(isVisible: true),
-                      series: PyramidSeries<PieChartData, String>(
-                        legendIconType: LegendIconType.seriesType,
-                        dataSource: widget.chartData,
-                        xValueMapper: (PieChartData data, _) => data.x,
-                        yValueMapper: (PieChartData data, _) => data.y,
-                        pointColorMapper: (PieChartData data, _) => data.color,
-                        dataLabelSettings: const DataLabelSettings(
-                          isVisible: true,
-                          // You can further customize the data labels here
+                  widget.chartData.isEmptyOrNull
+                      ? const Padding(
+                          padding: EdgeInsets.only(top: 100.0),
+                          child: Center(
+                            child: Text('No Data Found.'),
+                          ),
+                        )
+                      : Expanded(
+                          child: SfPyramidChart(
+                            legend: const Legend(isVisible: true),
+                            series: PyramidSeries<PieChartData, String>(
+                              legendIconType: LegendIconType.seriesType,
+                              dataSource: widget.chartData,
+                              xValueMapper: (PieChartData data, _) => data.x,
+                              yValueMapper: (PieChartData data, _) => data.y,
+                              pointColorMapper: (PieChartData data, _) =>
+                                  data.color,
+                              dataLabelSettings: const DataLabelSettings(
+                                isVisible: true,
+                                // You can further customize the data labels here
+                              ),
+                              explode: true,
+                            ),
+                            tooltipBehavior: TooltipBehavior(
+                              enable: true,
+                              builder: (dynamic data,
+                                  dynamic point,
+                                  dynamic series,
+                                  int pointIndex,
+                                  int seriesIndex) {
+                                return Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(5),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          spreadRadius: 2,
+                                          blurRadius: 0),
+                                    ],
+                                  ),
+                                  child: Text(
+                                    '${data.x} : ${data.y}',
+                                    style: const TextStyle(color: Colors.black),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
                         ),
-                        explode: true,
-                      ),
-                      tooltipBehavior: TooltipBehavior(
-                        enable: true,
-                        builder: (dynamic data, dynamic point, dynamic series,
-                            int pointIndex, int seriesIndex) {
-                          return Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(5),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.2),
-                                    spreadRadius: 2,
-                                    blurRadius: 0),
-                              ],
-                            ),
-                            child: Text(
-                              '${data.x} : ${data.y}',
-                              style: const TextStyle(color: Colors.black),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),

@@ -108,8 +108,8 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
             showSubmitButton: false,
             showDisLikeButton: false,
             showLikeButton: false,
-            excelAPIName: 'exportMMExcel&mmType=${widget.isInward ? 1 : 0}',
-            pdfAPIName: 'exportMMPDF&mmType=${widget.isInward ? 1 : 0}',
+            excelAPIName: 'exportMMExcel?mmType=${widget.isInward ? 1 : 0}',
+            pdfAPIName: 'exportMMPDF?mmType=${widget.isInward ? 1 : 0}',
           ),
           body: BlocConsumer<MaterialMovementBloc, MaterialMovementState>(
             listener: (context, state) {
@@ -154,20 +154,18 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                       const BaseLoader(),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                     ],
-                    if (state.items.isEmptyOrNull &&
-                        state.status != FormStatus.loading &&
-                        state.status != FormStatus.initial) ...[
-                      CommonWidgets.verticalSpacerWidget(height * 0.1),
-                      const NoRecordFoundWidget(),
-                    ],
+                    UtilsCommon().showNoRecordWidget(
+                        state: state, height: height, items: state.items),
                     Expanded(
                       child: SmartRefresher(
                         controller: refreshController,
                         enablePullDown: true,
                         physics: const BouncingScrollPhysics(),
-                        header: const WaterDropHeader(
+                        header: WaterDropHeader(
                           waterDropColor: AppColors.navigationSkyBlueColor,
-                          refresh: BaseLoader(),
+                          refresh: state.status != FormStatus.loading
+                              ? const BaseLoader()
+                              : null,
                         ),
                         key: const Key(Keys.refreshKey),
                         onRefresh: _onRefresh,

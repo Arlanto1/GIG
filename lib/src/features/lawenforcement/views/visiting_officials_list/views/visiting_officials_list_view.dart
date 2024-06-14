@@ -13,12 +13,14 @@ class VisitingOfficialListView extends StatefulWidget {
     required this.title,
     required this.type,
     required this.showSaveButton,
+    this.lock,
   });
 
   final int id;
   final String title;
   final int type;
   final bool showSaveButton;
+  final String? lock;
 
   @override
   State<VisitingOfficialListView> createState() =>
@@ -108,8 +110,6 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
               await backButtonFunction(context);
             },
             showLikeButton: false,
-            excelAPIName: 'exportMMExcel',
-            pdfAPIName: 'exportMMPDF',
           ),
           body: getBody(state),
         ),
@@ -199,8 +199,8 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
                         },
                       );
                     },
-                    showEditButton: widget.showSaveButton ? false:true,
-                    showDutyPostEditButton: widget.showSaveButton ? true:false,
+                    showEditButton: widget.showSaveButton || !widget.lock.isEmptyOrNull ? false:true,
+                    showDutyPostEditButton: widget.showSaveButton &&  widget.lock.isEmptyOrNull ? true:false,
                     onEditTap: (selectedIndex) async {
                       LawVisitingOfficial model = await LawEnforcementServices()
                           .getLeoVisitingOfficialById(
@@ -226,7 +226,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
                         },
                       );
                     },
-                    showDeleteButton: widget.showSaveButton,
+                    showDeleteButton: widget.showSaveButton && widget.lock.isEmptyOrNull,
                     onDeleteTap: (selectedIndex) async {
                       // Call Delete API
                       BlocProvider.of<VisitingOfficialListBloc>(context).add(
@@ -256,7 +256,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
           model: visitingOfficialDetails,
           mainContext: context,
           departments: departments,
-          showSaveButton: widget.showSaveButton,
+          showSaveButton: widget.showSaveButton && widget.lock.isEmptyOrNull,
           onSubmit: (LawVisitingOfficial model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();

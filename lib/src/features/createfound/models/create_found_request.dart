@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/models/image_content.dart';
 
-import '../../../models/organisation.dart';
+import '../../../../index.dart';
 
 CreateFoundRequestBody foundListArticleDetailsFromJson(String str) =>
     CreateFoundRequestBody.fromJson(json.decode(str));
@@ -28,7 +26,7 @@ class CreateFoundRequestBody {
       };
 }
 
-class Found {
+class Found extends BaseObject{
   String? slNo;
   int? eventProtection;
   int? typeOfAsset;
@@ -60,7 +58,6 @@ class Found {
   int? claimantEmployeeId;
 
   ImageContent? claimantSign;
-  String? lock;
 
   Found({
     this.slNo,
@@ -93,7 +90,6 @@ class Found {
     this.claimantNoSign,
     this.handoverDate,
     this.claimantConfirmByEmail,
-    this.lock,
   });
 
   factory Found.fromJson(Map<String, dynamic> json) => Found(
@@ -146,9 +142,9 @@ class Found {
         handoverSecurity: json["handoverSecurity"] == null
             ? null
             : User.fromJson(json["handoverSecurity"]),
-        lock: json["lock"],
       );
 
+  @override
   Map<String, dynamic> toJson() => {
         "slNo": slNo,
         "eventProtection": eventProtection,
@@ -182,6 +178,5 @@ class Found {
         "claimantDepartment": claimantDepartment?.toJson(),
         "handoverSecurity": handoverSecurity?.toJson(),
         "claimantConfirmByEmail": claimantConfirmByEmail,
-        "lock": lock
       };
 }

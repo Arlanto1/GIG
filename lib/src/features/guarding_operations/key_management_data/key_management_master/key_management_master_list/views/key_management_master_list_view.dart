@@ -141,12 +141,8 @@ class _KeyManagementMasterListViewState
                     ],
                     // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                     // Text('state.status=====${state.status}'),
-                    if (state.list.isEmptyOrNull &&
-                        state.status != FormStatus.initial &&
-                        state.status != FormStatus.loading) ...[
-                      CommonWidgets.verticalSpacerWidget(height * 0.1),
-                      const NoRecordFoundWidget(),
-                    ],
+                     UtilsCommon().showNoRecordWidget(
+                        state: state, height: height, items: state.list),
 
                     Expanded(
                       child: SmartRefresher(

@@ -191,12 +191,14 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                     // ],
                     // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                     // Text('state.status=====${state.status}'),
-                    if (state.items.isEmptyOrNull &&
-                        state.status != FormStatus.loading &&
-                        state.status != FormStatus.initial) ...[
-                      CommonWidgets.verticalSpacerWidget(height * 0.1),
-                      const NoRecordFoundWidget(),
-                    ],
+                    UtilsCommon().showNoRecordWidget(
+                        state: state, height: height, items: state.items),
+
+                    // if (state.items.isEmptyOrNull) ...[
+                    //   CommonWidgets.verticalSpacerWidget(height * 0.1),
+                    //   if (state.status != FormStatus.loading)
+                    //     const NoRecordFoundWidget(),
+                    // ],
                     Expanded(
                       child: SmartRefresher(
                         controller: refreshController,
@@ -313,8 +315,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                       showEmailButton: true,
                                       onEmailTap: (selectedIndex) async {
                                         FocusScope.of(context).unfocus();
-                                        int? id = state.items[selectedIndex]
-                                            .id;
+                                        int? id = state.items[selectedIndex].id;
                                         SstIncident selectedIncident =
                                             state.items.firstWhere(
                                           (incident) => incident.id == id,

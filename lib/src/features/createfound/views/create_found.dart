@@ -80,8 +80,13 @@ class _CreateFoundState extends State<CreateFound> {
         penStrokeWidth: 2,
         penColor: Colors.black,
         exportBackgroundColor: Colors.white);
-    populateData();
-    BlocProvider.of<CreateFoundArticleCubit>(context).initializeValues();
+    if (widget.model != null) {
+      populateData();
+      BlocProvider.of<CreateFoundArticleCubit>(context)
+          .initializeValues(widget.model);
+    } else {
+      createFoundArticleCubit.initializeValues(widget.model);
+    }
     _getFoundArticleList();
     _getCurrentDate();
   }
@@ -738,10 +743,10 @@ class _CreateFoundState extends State<CreateFound> {
 
   initiallyLocationandSerialnumberdataset(CreateFoundState state) async {
     if (locationSelectedlist == null &&
-        state.getLocationsResponse != null &&
+        state.location != null &&
         widget.model == null) {
-      locationSelectedlist = Organisation(id: 323, name: "SunGard");
-      locationselectedText = 'SunGard';
+      locationSelectedlist = state.location;
+      locationselectedText = locationSelectedlist!.name.toString();
     }
   }
 
@@ -755,6 +760,7 @@ class _CreateFoundState extends State<CreateFound> {
     return BlocConsumer<CreateFoundArticleCubit, CreateFoundState>(
       listener: (context, state) {
         log('-state.status----${state.status}--');
+        log('state.model.lock.isEmptyOrNull ${state.model.lock.isEmptyOrNull}');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
@@ -809,8 +815,10 @@ class _CreateFoundState extends State<CreateFound> {
 
               action: [
                 Visibility(
-                  visible:
-                      widget.model?.status != 2 && widget.model?.status != -1,
+                  visible: widget.model?.status != 2 &&
+                      widget.model?.status != -1
+                       &&
+                       state.model!.lock.isEmptyOrNull,
                   child: GestureDetector(
                     onTap: () {
                       //for now the new param is isSubmit added, if any new params needed we can add to this.
@@ -827,8 +835,9 @@ class _CreateFoundState extends State<CreateFound> {
                   ),
                 ),
                 Visibility(
-                  visible:
-                      widget.model?.status != -1 && widget.model?.status != 2,
+                  visible: widget.model?.status != -1 &&
+                      widget.model?.status != 2 &&
+                      state.model.lock.isEmptyOrNull,
                   child: GestureDetector(
                     onTap: () async {
                       //loginFormKey.currentState!.validate();
@@ -865,6 +874,9 @@ class _CreateFoundState extends State<CreateFound> {
 
                 if (widget.extraProperties != null &&
                     !widget.extraProperties!.hasWritePermission!) {
+                  isDisabled = true;
+                }
+                if (!state.model.lock.isEmptyOrNull) {
                   isDisabled = true;
                 }
                 createfoundResponse = state.createFoundResponse;
@@ -929,6 +941,10 @@ class _CreateFoundState extends State<CreateFound> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
+                                  if (!state.model.lock.isEmptyOrNull) ...[
+                                    RecordLockedWidget(
+                                        text: '${widget.model?.lock}'),
+                                  ],
                                   Container(
                                     alignment: Alignment.topLeft,
                                     child: Text(
@@ -1115,7 +1131,8 @@ class _CreateFoundState extends State<CreateFound> {
                                   BaseDate().datePickerWidgetLoading(
                                     showFutureDate: false,
                                     textController: foundDateTextController,
-                                    isDisabled: (widget.model?.status != 0 || widget.model != null)
+                                    isDisabled: (widget.model?.status != 0 ||
+                                            widget.model != null)
                                         ? false
                                         : true,
                                     //initialDate: DateTime.now().subtract(Duration(days: 1)),
@@ -1145,8 +1162,8 @@ class _CreateFoundState extends State<CreateFound> {
                                         Keys.foundLocationTextController,
                                     hintText: '',
                                     focusNode: foundLocationFocusNode,
-                                    isEnable: widget.model?.status == 0 ||
-                                            widget.model == null
+                                    isEnable: (widget.model?.status == 0 ||
+                                            widget.model == null) &&  state.model.lock.isEmptyOrNull
                                         ? true
                                         : false,
                                     isDisableColor: widget.model?.status == 0
@@ -1180,12 +1197,12 @@ class _CreateFoundState extends State<CreateFound> {
                                     textFormKey: Keys
                                         .additionalinformationTextController,
                                     hintText: Constants.informationhere,
-                                    isEnable: widget.model?.status == 0 ||
-                                            widget.model == null
+                                    isEnable: (widget.model?.status == 0 ||
+                                        widget.model == null) &&  state.model.lock.isEmptyOrNull
                                         ? true
                                         : false,
-                                    isDisableColor: widget.model?.status == 0 ||
-                                            widget.model == null
+                                    isDisableColor: (widget.model?.status == 0 ||
+                                        widget.model == null) &&  state.model.lock.isEmptyOrNull
                                         ? false
                                         : true,
                                     onChange: (String username) {
@@ -1223,8 +1240,8 @@ class _CreateFoundState extends State<CreateFound> {
                                     controller: quantityTextController,
                                     textFormKey: Keys.quantityTextController,
                                     hintText: '',
-                                    isEnable: widget.model?.status == 0 ||
-                                            widget.model == null
+                                    isEnable: (widget.model?.status == 0 ||
+                                        widget.model == null) &&  state.model.lock.isEmptyOrNull
                                         ? true
                                         : false,
                                     isDisableColor: widget.model?.status == 0
@@ -1253,8 +1270,8 @@ class _CreateFoundState extends State<CreateFound> {
                                     controller: colorTextController,
                                     textFormKey: Keys.colorTextController,
                                     hintText: '',
-                                    isEnable: widget.model?.status == 0 ||
-                                            widget.model == null
+                                    isEnable: (widget.model?.status == 0 ||
+                                        widget.model == null) &&  state.model.lock.isEmptyOrNull
                                         ? true
                                         : false,
                                     isDisableColor: widget.model?.status == 0
@@ -1284,8 +1301,8 @@ class _CreateFoundState extends State<CreateFound> {
                                       isDepositorDBEmployeeSelected,
                                       Constants.isdepositordbemployee,
                                       isDisableColor:
-                                          (widget.model?.status == null ||
-                                                  widget.model?.status == 0)
+                                      (widget.model?.status == 0 ||
+                                          widget.model == null) &&  state.model.lock.isEmptyOrNull
                                               ? false
                                               : true),
 
@@ -1313,7 +1330,7 @@ class _CreateFoundState extends State<CreateFound> {
                                               widget.model?.status == 1 ||
                                                       widget.model?.status ==
                                                           2 ||
-                                                      widget.model?.status == -1
+                                                      widget.model?.status == -1 || !state.model.lock.isEmptyOrNull
                                                   ? true
                                                   : false,
                                           onTap: () {
@@ -1330,8 +1347,8 @@ class _CreateFoundState extends State<CreateFound> {
                                           textFormKey:
                                               Keys.depositorTextController,
                                           hintText: '',
-                                          isEnable: widget.model?.status == 0 ||
-                                                  widget.model == null
+                                          isEnable: (widget.model?.status == 0 ||
+                                              widget.model == null) &&  state.model.lock.isEmptyOrNull
                                               ? true
                                               : false,
                                           isDisableColor:
@@ -1372,8 +1389,8 @@ class _CreateFoundState extends State<CreateFound> {
                                               Keys.depositorEmpIdTextController,
                                           hintText: '',
                                           isEnable:
-                                              (widget.model?.status == null ||
-                                                      widget.model?.status == 0)
+                                          (widget.model?.status == 0 ||
+                                              widget.model == null) &&  state.model.lock.isEmptyOrNull
                                                   ? true
                                                   : false,
                                           isDisableColor:
@@ -1418,7 +1435,7 @@ class _CreateFoundState extends State<CreateFound> {
                                               widget.model?.status == 1 ||
                                                       widget.model?.status ==
                                                           2 ||
-                                                      widget.model?.status == -1
+                                                      widget.model?.status == -1 ||!state.model.lock.isEmptyOrNull
                                                   ? true
                                                   : false,
                                           onTap: () {
@@ -1464,7 +1481,7 @@ class _CreateFoundState extends State<CreateFound> {
                                                             .model?.status ==
                                                         2 ||
                                                     isClaimantAcceptedByemail !=
-                                                        0)
+                                                        0 || !state.model.lock.isEmptyOrNull)
                                                 ? true
                                                 : false,
                                             Constants.isclaimantdbemployee,
@@ -1488,11 +1505,11 @@ class _CreateFoundState extends State<CreateFound> {
                                                 ? ('${selectedClaimList?.name ?? ''}(${selectedClaimList?.email ?? ''})')
                                                 : '',
                                             height: 70,
-                                            isDisableColor: widget
+                                            isDisableColor:( widget
                                                             .model?.status !=
                                                         2 &&
                                                     isClaimantAcceptedByemail ==
-                                                        0
+                                                        0) && state.model.lock.isEmptyOrNull
                                                 ? false
                                                 : true,
                                             onTap: () {
@@ -1515,13 +1532,14 @@ class _CreateFoundState extends State<CreateFound> {
                                             textFormKey:
                                                 Keys.claimantTextController,
                                             hintText: '',
-                                            isEnable:
-                                                widget.model?.status == 0 ||
-                                                        widget.model == null || widget.model?.status == 2
-                                                    ? false
-                                                    : true,
+                                            isEnable: (widget.model?.status ==
+                                                        0 ||
+                                                    widget.model == null ||
+                                                    widget.model?.status == 2) && !state.model.lock.isEmptyOrNull
+                                                ? false
+                                                : true,
                                             isDisableColor:
-                                                widget.model?.status != 0
+                                                widget.model?.status != 0 || state.model.lock.isEmptyOrNull
                                                     ? false
                                                     : true,
                                             onChange: (String username) {
@@ -1614,11 +1632,11 @@ class _CreateFoundState extends State<CreateFound> {
                                                     ?.name ??
                                                 ''),
                                             height: 60,
-                                            isDisableColor: widget
+                                            isDisableColor: (widget
                                                             .model?.status !=
                                                         2 &&
                                                     isClaimantAcceptedByemail ==
-                                                        0
+                                                        0) && state.model.lock.isEmptyOrNull
                                                 ? false
                                                 : true,
                                             onTap: () {
@@ -1671,7 +1689,7 @@ class _CreateFoundState extends State<CreateFound> {
                                                               .model?.status ==
                                                           2 ||
                                                       isClaimantAcceptedByemail !=
-                                                          0)
+                                                          0) || !state.model.lock.isEmptyOrNull
                                                   ? true
                                                   : false,
                                             )
@@ -1848,7 +1866,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   //         getFiles, getAttachments),
 
                                   // if (!getAttachments.isEmptyOrNull ) ...[
-                              BaseImageUpload().getAttachment(
+                                  BaseImageUpload().getAttachment(
                                     height: height,
                                     attachments: getAttachments.isEmptyOrNull
                                         ? getFiles
@@ -1866,7 +1884,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
                                   if (widget.model?.status != 2 &&
-                                      widget.model?.status != -1) ...[
+                                      widget.model?.status != -1 && state.model.lock.isEmptyOrNull) ...[
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
@@ -1883,7 +1901,6 @@ class _CreateFoundState extends State<CreateFound> {
                             ),
                           ),
                         ),
-
                         if (widget.model?.status == 2 ||
                             widget.model?.status == -1) ...[
                           Container(
@@ -2087,7 +2104,9 @@ class _CreateFoundState extends State<CreateFound> {
                 locationList: state.getLocationsResponse ?? Locations(),
                 onTap: (Organisation? list) async {
                   await createFoundArticleCubit.getSerialnumberDetails(
-                      list?.id.toString() ?? '', Constants.articleFoundModuleCode, context);
+                      list?.id.toString() ?? '',
+                      Constants.articleFoundModuleCode,
+                      context);
                   locationselectedText = list?.name ?? '';
                   locationSelectedlist = list;
                   setState(() {});
@@ -2234,7 +2253,7 @@ class _CreateFoundState extends State<CreateFound> {
       height: 60,
       isDisableColor: widget.model?.status == 1 ||
               widget.model?.status == 2 ||
-              widget.model?.status == -1
+              widget.model?.status == -1 || !state.model.lock.isEmptyOrNull
           ? true
           : false,
       onTap: () {

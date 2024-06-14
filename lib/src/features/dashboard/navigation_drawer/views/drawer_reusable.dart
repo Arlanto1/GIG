@@ -14,74 +14,107 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   late List<MenuItem> expansionTileDrawerItems = [];
+  late List<MenuItem> costAndBillingExpansionTileDrawerItems = [];
+  late List<MenuItem> securitySystemTicketsItems = [];
 
   Future<void> initializeDrawerItems() async {
     expansionTileDrawerItems = await checkDisplayMenu();
+    costAndBillingExpansionTileDrawerItems = await costBillingDisplayMenu();
+    securitySystemTicketsItems = await securitySystemsDisplayMenu();
   }
 
+  DisplayMenu? displayMenu;
+
   Future<List<MenuItem>> checkDisplayMenu() async {
-    DisplayMenu? displayMenu = await SharedPrefs.getDisplayMenu();
+    displayMenu = await SharedPrefs.getDisplayMenu();
     if (displayMenu == null) {
       return [];
     }
     List<MenuItem> expansionTileDrawerItems = [];
-    if (displayMenu.aps ?? false) {
+    if (displayMenu?.aps ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
           Constants.annualPowerShutdownListTitle,
           AppIcon.annualPowerShutdownIcon,
           0));
     }
-    if (displayMenu.aF ?? false) {
+    if (displayMenu?.aF ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
-          Constants.articleFoundRegisterListTitle, AppIcon.articleFoundRegisterIcon, 0));
+          Constants.articleFoundRegisterListTitle,
+          AppIcon.articleFoundRegisterIcon,
+          0));
     }
-    if (displayMenu.eP ?? false) {
+    if (displayMenu?.eP ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
           Constants.eventProtectionList, AppIcon.eventProtectionIcon, 0));
     }
 
-    if (displayMenu.gM ?? false) {
-      expansionTileDrawerItems.add(const MenuItem(
-          Constants.guardingOperations, AppIcon.guardingOperationIcon, 1));
-    }
+    // if (displayMenu?.gM ?? false) {
+    expansionTileDrawerItems.add(const MenuItem(
+        Constants.guardingOperations, AppIcon.guardingOperationIcon, 1));
+    // }
 
-    if (displayMenu.iM ?? false) {
+    if (displayMenu?.iM ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
-          Constants.incidentManagementTitle, AppIcon.incidentManagementIcon, 0));
+          Constants.incidentManagementTitle,
+          AppIcon.incidentManagementIcon,
+          0));
     }
     // if (displayMenu.gM ?? false) {
     expansionTileDrawerItems.add(const MenuItem(
-        keyManagementDataTitle, AppIcon.keyManagementDataIcon, 1));
+        Constants.keyManagementData, AppIcon.keyManagementDataIcon, 1));
     // }
-    if (displayMenu.lEO ?? false) {
+    if (displayMenu?.lEO ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
-          Constants.lawEnforcementVisitsListTitle, AppIcon.lawEnforcementIcon, 0));
+          Constants.lawEnforcementVisitsListTitle,
+          AppIcon.lawEnforcementIcon,
+          0));
     }
 
-    if (displayMenu.mM ?? false) {
+    if (displayMenu?.mM ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
           Constants.materialMovement, AppIcon.materialMovementIcon, 1));
     }
-    if (displayMenu.pM ?? false) {
+    if (displayMenu?.pM ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
           Constants.passManagement, AppIcon.passManagementIcon, 1));
     }
 
     // if (displayMenu.gM ?? false) {
-    expansionTileDrawerItems.add(
-        const MenuItem(shiftSchedulingTitle, AppIcon.eventProtectionIcon, 1));
+    expansionTileDrawerItems.add(const MenuItem(
+        Constants.shiftSchedule, AppIcon.eventProtectionIcon, 1));
     // }
 
-    // if (displayMenu.gM ?? false) {
-    expansionTileDrawerItems
-        .add(const MenuItem(vVipVisitorsTitle, AppIcon.vvipVisitorIcon, 0));
-    // }
-
-    // if (displayMenu. ?? false) {
-    // expansionTileDrawerItems
-    //     .add(const MenuItem(Constants.sCRI, AppIcon.guardingOperationIcon, 1));
-    //}
+    if (displayMenu?.vIP ?? false) {
+      expansionTileDrawerItems
+          .add(const MenuItem(vVipVisitorsTitle, AppIcon.vvipVisitorIcon, 0));
+    }
     return expansionTileDrawerItems;
+  }
+
+  Future<List<MenuItem>> costBillingDisplayMenu() async {
+    displayMenu = await SharedPrefs.getDisplayMenu();
+    if (displayMenu == null) {
+      return [];
+    }
+    List<MenuItem> costAndBillingExpansionTileDrawerItems = [];
+    if (displayMenu?.gR ?? false) {
+      costAndBillingExpansionTileDrawerItems.add(const MenuItem(
+          Constants.guardingRates, AppIcon.guardingRatesIcon, 0));
+    }
+    return costAndBillingExpansionTileDrawerItems;
+  }
+
+  Future<List<MenuItem>> securitySystemsDisplayMenu() async {
+    displayMenu = await SharedPrefs.getDisplayMenu();
+    if (displayMenu == null) {
+      return [];
+    }
+    List<MenuItem> securitySystemTicketsItems = [];
+    if (displayMenu?.gR ?? false) {
+      securitySystemTicketsItems
+          .add(const MenuItem(Constants.incident, AppIcon.incidentIcon, 0));
+    }
+    return securitySystemTicketsItems;
   }
 
   final String? username;
@@ -251,15 +284,22 @@ class NavigationDrawer1 extends StatelessWidget {
                   buildDrawerChildren(context, drawerItem.title);
                   break;
 
+                case Constants.costAndBilling:
+                  _onCostAndBillingItemSelected(i, context);
+                  break;
+
                 case Constants.securitySystems:
-                  buildDrawerChildren(context, drawerItem.title);
+                  _onSecuritySystemIncidentItemSelected(i, context);
                   break;
 
-                case keyManagementDataTitle:
-                  _onKeyManagementItemSelected(i, context);
+                case Constants.keyManagementData:
+                  _onKeyManagementItemSelected(
+                    i,
+                    context,
+                  );
                   break;
 
-                case shiftSchedulingTitle:
+                case Constants.shiftSchedule:
                   _onShiftScheduleItemSelected(i, context);
                   break;
 
@@ -450,14 +490,14 @@ class NavigationDrawer1 extends StatelessWidget {
       case Constants.escalationMatrix:
         Navigator.pushNamed(context, contactDetailsListRoute);
         break;
-      case Constants.guardingMasterDataTitle:
-        Navigator.pushNamed(context, guardingMasterDataRoute
-            );
+      case Constants.guardingMasterData:
+        Navigator.pushNamed(context, guardingMasterDataRoute);
         break;
-      case Constants.guardingMasterReportTitle:
-        Navigator.pushNamed(context, guardingMasterReportRoute);
-        break;
-      case Constants.occurrenceListTitle:
+      case Constants.guardingMasterReport:
+        log('--Constants.guardingMasterReportTitle--${item.title}--');
+        return Navigator.pushNamed(context, guardingMasterReportRoute);
+        // break;
+      case Constants.shiftOccurrence:
         Navigator.pushNamed(context, occurrenceRoute);
         break;
       case Constants.slaViolationPenaltyTitle:
@@ -627,8 +667,20 @@ class NavigationDrawer1 extends StatelessWidget {
       BuildContext context, DrawerState state) {
     List<Widget> children = [];
 
-    for (int i = 0; i < securityItems.length; i++) {
-      MenuItem drawerItem = securityItems[i];
+    List<MenuItem> menuItems = [];
+    menuItems
+        .add(const MenuItem(Constants.operations, AppIcon.operationsIcon, 1));
+    if (displayMenu?.gR ?? false) {
+      menuItems.add(
+          const MenuItem(Constants.costAndBilling, AppIcon.costBillingIcon, 1));
+    }
+    if (displayMenu?.sSSLA ?? false) {
+      menuItems.add(const MenuItem(
+          Constants.securitySystems, AppIcon.securitySystemIcon, 1));
+    }
+
+    for (int i = 0; i < menuItems.length; i++) {
+      MenuItem drawerItem = menuItems[i];
       children.add(
         drawerItem.numberOfChildren == 0
             ? Container(
@@ -730,11 +782,11 @@ class NavigationDrawer1 extends StatelessWidget {
           operationsTitle,
         );
 
-      case costAndBillingTitle:
+      case Constants.costAndBilling:
         return _genericItemExpandable(
           context,
           costAndBillingExpansionTileDrawerItems,
-          costAndBillingTitle,
+          Constants.costAndBilling,
         );
 
       case Constants.securitySystems:
@@ -790,13 +842,21 @@ class NavigationDrawer1 extends StatelessWidget {
                       return;
                     }
 
-                    if (title == costAndBillingTitle) {
+                    if (title == Constants.keyManagementData) {
+                      _onKeyManagementItemSelected(i, context);
+                      return;
+                    }
+                    if (title == Constants.shiftSchedule) {
+                      _onShiftScheduleItemSelected(i, context);
+                      return;
+                    }
+                    if (title == Constants.costAndBilling) {
                       _onCostAndBillingItemSelected(i, context);
                       return;
                     }
 
                     log('--title-$title-');
-                    if (title == securitySystemsTitle) {
+                    if (title == Constants.securitySystems) {
                       _onSecuritySystemIncidentItemSelected(i, context);
                       return;
                     }
@@ -862,7 +922,7 @@ class NavigationDrawer1 extends StatelessWidget {
     return children;
   }
 
-  _onExpansionSelectItem(int index, BuildContext context , MenuItem item) async {
+  _onExpansionSelectItem(int index, BuildContext context, MenuItem item) async {
     log('---_onExpansionSelectItem--$index-');
     _menuScaffoldKey.currentState!.closeDrawer();
     _opearationsLastSelectedItem = index;
@@ -1041,11 +1101,7 @@ class NavigationDrawer1 extends StatelessWidget {
     context.read<DrawerCubit>().getSecurityIndexChange(index);
     if (index == 0) {
       Navigator.pushNamed(context, sstIncidentListRoute);
-    } else if (index == 1) {
-    } else if (index == 2) {
-    } else if (index == 3) {
-    } else if (index == 4) {
-    } else if (index == 5) {}
+    }
   }
 
   _onSelectItem(
@@ -1101,36 +1157,115 @@ class NavigationDrawer1 extends StatelessWidget {
       case Constants.materialMovement:
         return _genericItemSelection(
             context, materialMovementDrawerItems, title);
-      case Constants.securitySystemTickets:
-        return _genericItemExpandable(
-          context,
-          securitySystemTicketsItems,
-          Constants.securitySystemTickets,
-        );
+      // case Constants.securitySystemTickets:
+      //   return _genericItemExpandable(
+      //     context,
+      //     securitySystemTicketsItems,
+      //     Constants.securitySystemTickets,
+      //   );
+      // case Constants.guardingOperations:
+      //   return _genericItemExpandable(
+      //     context,
+      //     guardingOperationDrawerItems,
+      //     Constants.guardingOperations,
+      //   );
       case Constants.guardingOperations:
+        List<MenuItem> menuItems = [];
+
+        if (displayMenu?.cD ?? false) {
+          menuItems.add(const MenuItem(
+              Constants.escalationMatrix, AppIcon.escalationMatrixIcon, 0));
+        }
+
+        if (displayMenu?.gM ?? false) {
+          menuItems.add(const MenuItem(
+              Constants.guardingMasterData, AppIcon.guardingMasterDataIcon, 0));
+        }
+
+        if (displayMenu?.gMR ?? false) {
+          menuItems.add(const MenuItem(Constants.guardingMasterReport,
+              AppIcon.guardingMasterReportIcon, 0));
+        }
+
+        if (displayMenu?.oCC ?? false) {
+          menuItems.add(const MenuItem(
+              Constants.shiftOccurrence, AppIcon.shiftOccurrenceIcon, 0));
+        }
+        if (displayMenu?.sVP ?? false) {
+          menuItems.add(const MenuItem(Constants.slaViolationPenaltyTitle,
+              AppIcon.slaViolationPenaltyIcon, 0));
+        }
         return _genericItemExpandable(
           context,
-          guardingOperationDrawerItems,
+          menuItems,
           Constants.guardingOperations,
         );
-      case Constants.securityFunctions:
-        return _genericItemSelection(
+
+      // case Constants.securityFunctions:
+      //   return _genericItemSelection(
+      //     context,
+      //     securitySystemTicketsItems,
+      //     title,
+      //   );
+
+      // case keyManagementDataTitle:
+      //   return _genericItemSelection(
+      //     context,
+      //     keyManagementDataItems,
+      //     title,
+      //   );
+      case Constants.keyManagementData:
+        List<MenuItem> menuItems = [];
+
+        if (displayMenu?.keyMM ?? false) {
+          menuItems.add(const MenuItem(
+              Constants.keyManagementMaster, AppIcon.keyManagementDataIcon, 0));
+        }
+
+        if (displayMenu?.kMISS ?? false) {
+          menuItems.add(const MenuItem(Constants.keyManagementIssuance,
+              AppIcon.keyManagementIssuanceIcon, 0));
+        }
+        if (displayMenu?.kLD ?? false) {
+          menuItems.add(const MenuItem(Constants.keyLossDestructionList,
+              AppIcon.keyLossDestructionListIcon, 0));
+        }
+        return _genericItemExpandable(
           context,
-          securitySystemTicketsItems,
-          title,
+          menuItems,
+          Constants.keyManagementData,
         );
-      case keyManagementDataTitle:
-        return _genericItemSelection(
+
+      // case shiftSchedulingTitle:
+      //   return _genericItemSelection(
+      //     context,
+      //     shiftSchedulingDataItems,
+      //     title,
+      //   );
+
+      case Constants.shiftSchedule:
+        List<MenuItem> menuItems = [];
+
+        if (displayMenu?.aTD ?? false) {
+          menuItems.add(
+              const MenuItem(Constants.attendance, AppIcon.attendanceIcon, 0));
+        }
+
+        if (displayMenu?.ssDPM ?? false) {
+          menuItems.add(const MenuItem(
+              Constants.dutyPostMaster, AppIcon.dutyPostMasterIcon, 0));
+        }
+
+        if (displayMenu?.sSDP ?? false) {
+          menuItems.add(const MenuItem(
+              Constants.dutyPostNameMaster, AppIcon.dutyPostNameMasterIcon, 0));
+        }
+        return _genericItemExpandable(
           context,
-          keyManagementDataItems,
-          title,
+          menuItems,
+          Constants.shiftSchedule,
         );
-      case shiftSchedulingTitle:
-        return _genericItemSelection(
-          context,
-          shiftSchedulingDataItems,
-          title,
-        );
+
       case Constants.passManagement:
         return _genericItemSelection(
           context,

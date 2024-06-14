@@ -121,8 +121,8 @@ class _PassManagementListViewState extends State<PassManagementListView> {
             showDisLikeButton: false,
             showLikeButton: false,
             excelAPIName:
-                'exportPassMgmtExcel&passType=${widget.passId}&isList=1',
-            pdfAPIName: 'exportPassMgmtPDF&passType=${widget.passId}&isList=1',
+                'exportPassMgmtExcel?passType=${widget.passId}&isList=1',
+            pdfAPIName: 'exportPassMgmtPDF?passType=${widget.passId}&isList=1',
           ),
           body: BlocConsumer<PassManagementListBloc, PassManagementListState>(
             listener: (context, state) {
@@ -173,12 +173,8 @@ class _PassManagementListViewState extends State<PassManagementListView> {
                       const BaseLoader(),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                     ],
-                    if (state.items.isEmptyOrNull &&
-                        state.status != FormStatus.initial &&
-                        state.status != FormStatus.loading) ...[
-                      CommonWidgets.verticalSpacerWidget(height * 0.1),
-                      const NoRecordFoundWidget(),
-                    ],
+                    UtilsCommon().showNoRecordWidget(
+                        state: state, height: height, items: state.items),
                     Expanded(
                       child: SmartRefresher(
                         controller: refreshController,

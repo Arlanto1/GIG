@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:db_atom/src/models/image_content.dart';
-import 'package:db_atom/src/models/organisation.dart';
 
-import '../../../../createfound/models/user.dart';
+import '../../../../../../index.dart';
 import '../../passmgmtlist/models/day_passlist_model.dart';
 
 CreatePassMgmtBody createPassMgmtBodyFromJson(String str) =>
@@ -31,7 +29,7 @@ class CreatePassMgmtBody {
       };
 }
 
-class PassManagement {
+class PassManagement extends BaseObject{
   int? id;
   String? slNo;
   String? inputDate;
@@ -222,6 +220,7 @@ class PassManagement {
         returnedTime: json["returnedTime"],
       );
 
+  @override
   Map<String, dynamic> toJson() => {
         "id": id,
         "slNo": slNo,

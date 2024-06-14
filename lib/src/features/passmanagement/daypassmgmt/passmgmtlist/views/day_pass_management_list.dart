@@ -186,13 +186,12 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
               // PopMenuItems("Close", AppIcon.close),
             ],
             itemTap: (value) async {
-              String userid = await SharedPrefs.getUserId();
               if (value == 0) {
-                DownloadImage().exportExcel(context, int.parse(userid),
-                    'export.xslx', '/exportPassMgmtExcel');
+                DownloadImage().exportExcel(
+                    context, 'export.xslx', '/exportPassMgmtExcel');
               } else if (value == 1) {
-                DownloadImage().exportPdf(context, int.parse(userid),
-                    'export.pdf', '/exportPassMgmtPDF');
+                DownloadImage()
+                    .exportPdf(context, 'export.pdf', '/exportPassMgmtPDF');
               }
             },
             popupimagename: AppIcon.morewhiteicon,

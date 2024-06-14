@@ -100,7 +100,6 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
         Utils().errorAndLogout(state, context);
       },
       builder: (context, state) {
-        log('state.extraProperties?.hasWritePermission ${state.extraProperties?.hasWritePermission}');
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,
             floatingActionButton:
@@ -143,7 +142,8 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
     // if (state.items.isEmptyOrNull) {
     //   return const NoRecordFoundWidget();
     // }
-
+    final size = MediaQuery.of(context).size;
+    double height = size.height;
     return Container(
       margin: allMargin16,
       decoration: const ShapeDecoration(
@@ -173,14 +173,19 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
               state.status != FormStatus.loading) ...[
             const NoRecordFoundWidget(),
           ],
+
+          UtilsCommon().showNoRecordWidget(
+              state: state, height: height, items: state.items),
           Expanded(
             child: SmartRefresher(
               controller: refreshController,
               enablePullDown: true,
               physics: const BouncingScrollPhysics(),
-              header: const WaterDropHeader(
+              header: WaterDropHeader(
                 waterDropColor: AppColors.navigationSkyBlueColor,
-                refresh: BaseLoader(),
+                refresh: state.status != FormStatus.loading
+                    ? const BaseLoader()
+                    : null,
               ),
               key: const Key(Keys.refreshKey),
               onRefresh: _onRefresh,
