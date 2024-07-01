@@ -110,6 +110,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
             showSaveButton: isReadOnly ? false : true,
             showDisLikeButton: false,
             showLikeButton: false,
+            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.attendanceModuleCode}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<AttendanceDetailsCubit>(context)

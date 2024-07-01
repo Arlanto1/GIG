@@ -101,6 +101,7 @@ class _KeyLossDestructionDetailsViewState
             showSubmitButton: state.model.status != 7 && !isReadOnly ,
             showDisLikeButton: state.model.status == 7 && !isReadOnly,
             showLikeButton: state.model.status == 7 && !isReadOnly,
+            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.keyLossDestructionModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyLossDestructionDetailsCubit>(context)

@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/ss_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
-import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
 part 'shift_schedule_details_state.dart';
@@ -142,7 +141,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       if (model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.shiftScheduleModule,
+          moduleCode: Constants.shiftScheduleModuleCode,
         );
         model.location = defaultLocation;
         model.slNo = slNo.serialNo;
@@ -215,7 +214,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       log('--location--${location.name}--');
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.shiftScheduleModule,
+        moduleCode: Constants.shiftScheduleModuleCode,
       );
 
       state.model.location = location;
@@ -526,6 +525,6 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
 
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
-        id: id, module: Constants.shiftScheduleModule);
+        id: id, module: Constants.shiftScheduleModuleCode);
   }
 }

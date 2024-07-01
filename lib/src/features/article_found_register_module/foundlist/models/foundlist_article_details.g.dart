@@ -78,7 +78,6 @@ FoundListArticleDetails _$FoundListArticleDetailsFromJson(
 Map<String, dynamic> _$FoundListArticleDetailsToJson(
         FoundListArticleDetails instance) =>
     <String, dynamic>{
-      'lock': instance.lock,
       'id': instance.id,
       'slNo': instance.slNo,
       'eventProtection': instance.eventProtection,
@@ -117,4 +116,5 @@ Map<String, dynamic> _$FoundListArticleDetailsToJson(
       'depositorDepartmentName': instance.depositorDepartmentName,
       'claimantDepartmentName': instance.claimantDepartmentName,
       'location': instance.location,
+      'lock': instance.lock,
     };

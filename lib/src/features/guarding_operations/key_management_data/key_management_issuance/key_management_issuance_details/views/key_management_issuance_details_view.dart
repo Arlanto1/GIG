@@ -139,6 +139,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             showSaveButton: showSaveSubmitButton ? true : false,
             showDisLikeButton: false,
             showLikeButton: false,
+            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.keyManagementIssuanceModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)

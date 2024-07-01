@@ -137,6 +137,7 @@ class _SstIncidentGeneralInfoViewState
                 disableForm ? false : true,
             showDisLikeButton: false,
             showLikeButton: false,
+            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.securitySystemModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<SstIncidentGeneralInfoCubit>(context)

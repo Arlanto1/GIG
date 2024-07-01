@@ -132,6 +132,7 @@ class _GuardingMasterDataDetailsViewState
             showSubmitButton: false,
             showDisLikeButton: false,
             showLikeButton: false,
+            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.guardingMasterDataModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<GuardingMasterDataDetailsCubit>(context)

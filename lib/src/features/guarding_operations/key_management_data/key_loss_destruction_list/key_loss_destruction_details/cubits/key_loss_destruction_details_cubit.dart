@@ -159,7 +159,7 @@ class KeyLossDestructionDetailsCubit
     //   return;
     // }
     bool isReadOnly;
-    if ((state.model.securityManager!.name
+    if ((state.model.securityManager != null &&state.model.securityManager!.name
             .equalsIgnoreCase(state.loggedInUserDetails?.name))) {
       isReadOnly = false;
     } else {

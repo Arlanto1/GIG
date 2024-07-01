@@ -99,6 +99,8 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                   isReadOnly || !state.model.lock.isEmptyOrNull ? false : true,
               showDisLikeButton: false,
               showLikeButton: false,
+              pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.dutyPostMasterModuleCode}',
+
               onTapSave: () {
                 FocusScope.of(context).unfocus();
                 BlocProvider.of<DutyPostMasterDetailsCubit>(context)

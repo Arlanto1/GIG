@@ -109,6 +109,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
             showSubmitButton: showSaveSubmitButtons,
             showDisLikeButton: false,
             showLikeButton: false,
+            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.occurrenceModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<OccurrenceGeneralInfoCubit>(context)

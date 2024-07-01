@@ -114,6 +114,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
               (state.model.status != -1 || !isReadOnly ) &&  state.model.lock.isEmptyOrNull ? true : false,
               showDisLikeButton: false,
               showLikeButton: false,
+              pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.shiftScheduleModuleCode}',
               onTapSave: () {
                 FocusScope.of(context).unfocus();
                 BlocProvider.of<ShiftScheduleDetailsCubit>(context)

@@ -22,6 +22,9 @@ Locations _$LocationsFromJson(Map<String, dynamic> json) => Locations(
       central: (json['Central'] as List<dynamic>?)
           ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
           .toList(),
+      regions: (json['regions'] as List<dynamic>?)
+          ?.map((e) => Region.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$LocationsToJson(Locations instance) => <String, dynamic>{
@@ -30,4 +33,5 @@ Map<String, dynamic> _$LocationsToJson(Locations instance) => <String, dynamic>{
       'North & East': instance.northEast,
       'Mumbai': instance.mumbai,
       'Central': instance.central,
+      'regions': instance.regions,
     };

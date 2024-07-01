@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_add_organisation_dialog.dart';
+import 'package:db_atom/src/services/common_services.dart';
 
 import 'add_rejection_commnet_pop_up.dart';
 
@@ -68,6 +69,7 @@ class _MaterialMovementDetailsViewState
     BlocProvider.of<MaterialMovementDetailsCubit>(context).initializeValues();
     //initializeDates(state);
   }
+  static const String moduleCode = Constants.materialMovementModuleCode;
 
   @override
   void dispose() {
@@ -157,7 +159,7 @@ class _MaterialMovementDetailsViewState
             title: widget.title,
             showPopUp: false,
             showSaveButton: showSaveSubmitButtons,
-            // pdfAPIName: 'exportMMPDF?mmType=${widget.isInward ? 1 : 0}',
+            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=$moduleCode',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -2588,7 +2590,7 @@ class _MaterialMovementDetailsViewState
                             files: getFiles,
                             showDownloadIcon:
                                 widget.model?.images != null ? true : false,
-                            moduleCode: Constants.materialMovementModuleCode,
+                            moduleCode: moduleCode,
                           ),
                         ]),
                       ),
@@ -3019,7 +3021,7 @@ class _MaterialMovementDetailsViewState
                     context,
                     imageData1?.id ?? 0,
                     imageData1?.title ?? '',
-                    Constants.materialMovementModuleCode,
+                    moduleCode,
                   );
                 },
                 title: widget.model != null

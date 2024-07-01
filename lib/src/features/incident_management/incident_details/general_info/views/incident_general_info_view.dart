@@ -105,6 +105,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
             showSubmitButton: !disableForm,
             showDisLikeButton: false,
             showLikeButton: false,
+            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.incidentManagementModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<IncidentGeneralInfoCubit>(context)

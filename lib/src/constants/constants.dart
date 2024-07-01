@@ -35,7 +35,6 @@ class Constants {
   static const String keyManagementMasterModule = 'KeyMM';
   static const String keyLossDestructionModule = 'KLD';
   static const String vipVisitorsDetailsModule = 'VIP';
-  static const String shiftScheduleModule = 'SS';
   static const String dutyPostNameMasterModule = 'SSDP';
   static const String attendanceModule = 'ATD';
   static const String keyReconciliationModule = 'KR';
@@ -50,6 +49,7 @@ class Constants {
   static const String eventProtectionModuleCode = 'EP';
   static const String slaViolationPenaltyDetailsModuleCode = 'SVP';
   static const String shiftScheduleModuleCode = 'SS';
+  static const String dutyPostMasterModuleCode = 'SSDPM';
   static const String dutyPostNameMasterModuleCode = 'SSDP';
   static const String attendanceModuleCode = 'ATD';
 

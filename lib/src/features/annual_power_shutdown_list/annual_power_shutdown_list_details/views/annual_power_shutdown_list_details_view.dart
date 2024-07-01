@@ -1,9 +1,7 @@
 import 'dart:developer';
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart';
-
-import '../../../../../index.dart';
-import '../../../../common_widgets/base_widget/basic_widget_functions.dart';
 
 class AnnualPowerShutdownListDetailsView extends StatefulWidget {
   final AnnualPowerShutdownListModel? model;
@@ -122,6 +120,7 @@ class _AnnualPowerShutdownListDetailsViewState
             showSubmitButton: disableForm ? false : true,
             showDisLikeButton: false,
             showLikeButton: false,
+            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.annualPowerShutDownModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)

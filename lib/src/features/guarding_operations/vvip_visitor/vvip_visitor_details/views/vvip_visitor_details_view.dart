@@ -96,6 +96,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
             showSubmitButton: showSaveSubmitButton ? true : false,
             showDisLikeButton: false,
             showLikeButton: false,
+            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.vipVisitorsDetailsModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<VVIPVisitorDetailsCubit>(context).submitForm(

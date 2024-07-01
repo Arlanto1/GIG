@@ -818,7 +818,7 @@ class _CreateFoundState extends State<CreateFound> {
                   visible: widget.model?.status != 2 &&
                       widget.model?.status != -1
                        &&
-                       state.model!.lock.isEmptyOrNull,
+                       state.model.lock.isEmptyOrNull,
                   child: GestureDetector(
                     onTap: () {
                       //for now the new param is isSubmit added, if any new params needed we can add to this.
@@ -856,6 +856,17 @@ class _CreateFoundState extends State<CreateFound> {
                         ],
                       ),
                     ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    DownloadImage().exportPdf(context, 'export.pdf',
+                        '/${CommonApis.exportDetailPagePDF}${widget.model
+                            ?.id}&moduleCode=${Constants.articleFoundModuleCode}');
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(right: 20.0),
+                    child: Icon(Icons.picture_as_pdf, color: Colors.white),
                   ),
                 ),
               ],

@@ -100,6 +100,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
             context: context,
             title: widget.title,
             showPopUp: false,
+            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.slaViolationPenaltyDetailsModuleCode}',
             showSaveButton: state.model.status != 2 &&
                     state.model.status != -1 &&
                     !isReadOnly

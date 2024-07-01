@@ -123,6 +123,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
             showSubmitButton: !isReadOnly ? true : false,
             showDisLikeButton: false,
             showLikeButton: false,
+            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.contactDetailsModuleCode}',
             popAndReplace: () {
               log('--popAndReplace-----');
               // Navigator.pop(context);

@@ -2,13 +2,14 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 
-class Apis {
+class CommonApis {
   static final String baseUrl = Environment().config.apiHost;
   static const String v2 = '';
 
   // static const String v2 = '/v2';
   static final String _getUiLabels = '$baseUrl/getLabels?';
   static final String _getOrganisations = '$baseUrl/getOrganisation?name=';
+  static final String _getLocationsNew = '$baseUrl/getLocations?name=';
   static final String _getArticleType = '$baseUrl/getOrganisation?name=';
   static final String _getUserDetails = '$baseUrl/getUserDetails?userId=';
   static final String _getSlNo = '$baseUrl/getSlNo?';
@@ -28,6 +29,10 @@ class Apis {
   static final String _getStatusesByModuleId = '$baseUrl/getStatus?';
   static final String _getModuleAccessByUserRole =
       '$baseUrl/getModuleAccessByUserRole?';
+
+  static const String exportDetailPagePDF =
+      'exportDeatilPagePDF?id=';
+
 }
 
 class CommonServices {
@@ -36,7 +41,7 @@ class CommonServices {
     required String moduleCode,
     BuildContext? context,
   }) async {
-    String url = '${Apis._getUiLabels}locale=$language&module=$moduleCode';
+    String url = '${CommonApis._getUiLabels}locale=$language&module=$moduleCode';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -49,7 +54,7 @@ class CommonServices {
     BuildContext? context,
   }) async {
     String url =
-        '${Apis._getOrganisations}$name&noRole=true&filter=${filter ?? ''}';
+        '${CommonApis._getOrganisations}$name&noRole=true&filter=${filter ?? ''}';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -61,12 +66,24 @@ class CommonServices {
         response['dimension'].map((x) => Organisation.fromJson(x)));
   }
 
+  // Future<Locations> getRegionsWithLocations({
+  //   required String name,
+  //   BuildContext? context,
+  //   int? filter,
+  // }) async {
+  //   String url = '${CommonApis._getOrganisations}$name&filter=${filter ?? ''}';
+  //   final response = await BaseApiService().getRequest(
+  //     url: url,
+  //   );
+  //   return Locations.fromJson(response);
+  // }
+
   Future<Locations> getRegionsWithLocations({
     required String name,
     BuildContext? context,
     int? filter,
   }) async {
-    String url = '${Apis._getOrganisations}$name&filter=${filter ?? ''}';
+    String url = '${CommonApis._getLocationsNew}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -77,7 +94,7 @@ class CommonServices {
     required String name,
     BuildContext? context,
   }) async {
-    String url = '${Apis._getOrganisations}$name';
+    String url = '${CommonApis._getOrganisations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -88,7 +105,7 @@ class CommonServices {
     required String name,
     BuildContext? context,
   }) async {
-    String url = '${Apis._getOrganisations}$name';
+    String url = '${CommonApis._getOrganisations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -99,7 +116,7 @@ class CommonServices {
     required String name,
     BuildContext? context,
   }) async {
-    String url = '${Apis._getOrganisations}$name';
+    String url = '${CommonApis._getOrganisations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -109,7 +126,7 @@ class CommonServices {
   Future<Vendors> getVendors({
     required String name,
   }) async {
-    String url = '${Apis._getOrganisations}$name';
+    String url = '${CommonApis._getOrganisations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -119,7 +136,7 @@ class CommonServices {
   Future<KeyType> getKeyType({
     required String name,
   }) async {
-    String url = '${Apis._getOrganisations}$name';
+    String url = '${CommonApis._getOrganisations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -129,7 +146,7 @@ class CommonServices {
   Future<TypeOfServices> getTypeOfService({
     required String name,
   }) async {
-    String url = '${Apis._getOrganisations}$name';
+    String url = '${CommonApis._getOrganisations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -140,7 +157,7 @@ class CommonServices {
     required String name,
     BuildContext? context,
   }) async {
-    String url = '${Apis._getArticleType}$name';
+    String url = '${CommonApis._getArticleType}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -151,7 +168,7 @@ class CommonServices {
     required String userId,
     BuildContext? context,
   }) async {
-    String url = '${Apis._getUserDetails}$userId';
+    String url = '${CommonApis._getUserDetails}$userId';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -164,7 +181,7 @@ class CommonServices {
     BuildContext? context,
   }) async {
     String url =
-        '${Apis._getSlNo}locationId=$locationId&moduleCode=$moduleCode';
+        '${CommonApis._getSlNo}locationId=$locationId&moduleCode=$moduleCode';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -181,7 +198,7 @@ class CommonServices {
     int? type,
   }) async {
     String url =
-        '${Apis._getSlNo}locationId=$locationId&moduleCode=$moduleCode&type=$type&kmId=$kmId';
+        '${CommonApis._getSlNo}locationId=$locationId&moduleCode=$moduleCode&type=$type&kmId=$kmId';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -194,7 +211,7 @@ class CommonServices {
     required String roleName,
     BuildContext? context,
   }) async {
-    String url = '${Apis._getUsersByRole}$roleName';
+    String url = '${CommonApis._getUsersByRole}$roleName';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -205,7 +222,7 @@ class CommonServices {
     required String roleName,
     BuildContext? context,
   }) async {
-    String url = '${Apis._getUsersByRole}$roleName';
+    String url = '${CommonApis._getUsersByRole}$roleName';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -221,7 +238,7 @@ class CommonServices {
     required String roleNames,
     BuildContext? context,
   }) async {
-    String url = '${Apis._getUsersByRoles}$roleNames';
+    String url = '${CommonApis._getUsersByRoles}$roleNames';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -234,7 +251,7 @@ class CommonServices {
     required String roleName,
     BuildContext? context,
   }) async {
-    String url = '${Apis._getUsersByRole}$roleName';
+    String url = '${CommonApis._getUsersByRole}$roleName';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -244,7 +261,7 @@ class CommonServices {
   Future<AddEntities> getEntities({
     required String name,
   }) async {
-    String url = '${Apis._getOrganisations}$name';
+    String url = '${CommonApis._getOrganisations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -254,7 +271,7 @@ class CommonServices {
   Future<AddQualifications> getQualification({
     required String name,
   }) async {
-    String url = Apis._getQualification;
+    String url = CommonApis._getQualification;
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -262,7 +279,7 @@ class CommonServices {
   }
 
   Future<List<User>> getUsers() async {
-    String url = Apis._getUsers;
+    String url = CommonApis._getUsers;
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -277,7 +294,7 @@ class CommonServices {
     BuildContext? context,
   }) async {
     final String url =
-        "${Apis._createOrganisation}name=$name&orgName=$orgName&keyname=$keyname";
+        "${CommonApis._createOrganisation}name=$name&orgName=$orgName&keyname=$keyname";
     final response =
         await BaseApiService().postRequest(url: url, requestedData: {});
     return Organisation.fromJson(response);
@@ -291,14 +308,14 @@ class CommonServices {
     BuildContext? context,
   }) async {
     final String url =
-        "${Apis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role";
+        "${CommonApis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role";
     final response =
         await BaseApiService().postRequest(url: url, requestedData: {});
     return CreateUserModel.fromJson(response);
   }
 
   Future<List<PieChartData>> getDashboardChart({required String module}) async {
-    String url = Apis._getDashboardChart + module;
+    String url = CommonApis._getDashboardChart + module;
     Map<String, dynamic> response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,
@@ -325,7 +342,7 @@ class CommonServices {
     BuildContext? context,
   }) async {
     String url =
-        '${Apis._updateRecordStatus}$id?module=$module&status=$status&type=$type&aps=$aps';
+        '${CommonApis._updateRecordStatus}$id?module=$module&status=$status&type=$type&aps=$aps';
     await BaseApiService().patchRequest(
       url: url,
     );
@@ -338,7 +355,7 @@ class CommonServices {
     int? id = 2,
     BuildContext? context,
   }) async {
-    String url = '${Apis._getLocations}$id';
+    String url = '${CommonApis._getLocations}$id';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -356,7 +373,7 @@ class CommonServices {
     BuildContext? context,
   }) async {
     String url =
-        '${Apis._getStatusesByModuleId}module=$module&filter=${filter ?? ''}';
+        '${CommonApis._getStatusesByModuleId}module=$module&filter=${filter ?? ''}';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -373,7 +390,7 @@ class CommonServices {
     BuildContext? context,
     int? filter,
   }) async {
-    String url = '${Apis._getModuleAccessByUserRole}moduleCode=$moduleCode';
+    String url = '${CommonApis._getModuleAccessByUserRole}moduleCode=$moduleCode';
     final response = await BaseApiService().getRequest(
       url: url,
     );

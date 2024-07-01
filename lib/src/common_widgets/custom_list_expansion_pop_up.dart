@@ -138,25 +138,38 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: <Widget>[
-        if (widget.locations!.central != null) ...[
-          _buildPlayerModelList(widget.locations!.central, 'Central', context),
-        ],
-        if (widget.locations!.mumbai != null) ...[
-          _buildPlayerModelList(widget.locations!.mumbai, 'Mumbai', context),
-        ],
-        if (widget.locations!.northEast != null) ...[
-          _buildPlayerModelList(
-              widget.locations!.northEast, 'North East', context),
-        ],
-        if (widget.locations!.south != null) ...[
-          _buildPlayerModelList(widget.locations!.south, 'South', context),
-        ],
-        if (widget.locations!.west != null) ...[
-          _buildPlayerModelList(widget.locations!.west, 'West', context),
-        ],
-      ],
+      children: getLocations(context),
     );
+  }
+
+  List<Widget> getLocations(BuildContext context) {
+    List<Widget> widgets = [];
+    for (Region region in widget.locations?.regions ?? []) {
+      widgets.add(
+        _buildPlayerModelList(
+            region.locations, region.name ?? '', context),
+      );
+    }
+
+    return widgets;
+    // return <Widget>[
+    //   if (widget.locations!.central != null) ...[
+    //     _buildPlayerModelList(widget.locations!.central, 'Central', context),
+    //   ],
+    //   if (widget.locations!.mumbai != null) ...[
+    //     _buildPlayerModelList(widget.locations!.mumbai, 'Mumbai', context),
+    //   ],
+    //   if (widget.locations!.northEast != null) ...[
+    //     _buildPlayerModelList(
+    //         widget.locations!.northEast, 'North East', context),
+    //   ],
+    //   if (widget.locations!.south != null) ...[
+    //     _buildPlayerModelList(widget.locations!.south, 'South', context),
+    //   ],
+    //   if (widget.locations!.west != null) ...[
+    //     _buildPlayerModelList(widget.locations!.west, 'West', context),
+    //   ],
+    // ];
   }
 
   Widget _buildPlayerModelList(

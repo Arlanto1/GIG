@@ -1260,6 +1260,11 @@ class NavigationDrawer1 extends StatelessWidget {
           menuItems.add(const MenuItem(
               Constants.dutyPostNameMaster, AppIcon.dutyPostNameMasterIcon, 0));
         }
+
+        if (displayMenu?.sS ?? false) {
+          menuItems.add(const MenuItem(
+              shiftSchedulingTitle, AppIcon.shiftScheduleIcon, 0));
+        }
         return _genericItemExpandable(
           context,
           menuItems,
