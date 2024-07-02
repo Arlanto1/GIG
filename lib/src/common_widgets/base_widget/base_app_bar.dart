@@ -127,7 +127,7 @@ class BaseAppBar {
             ),
           )
         ],
-        if (!pdfAPIName.isEmptyOrNull) ...[
+        if (!pdfAPIName.isEmptyOrNull && containsInteger(pdfAPIName!)) ...[
           GestureDetector(
             onTap: () {
               DownloadImage().exportPdf(context, 'export.pdf',
@@ -141,5 +141,11 @@ class BaseAppBar {
         ],
       ],
     );
+  }
+
+  bool containsInteger(String input) {
+    // Regular expression to check if the string contains any digits
+    RegExp regExp = RegExp(r'\d');
+    return regExp.hasMatch(input);
   }
 }
