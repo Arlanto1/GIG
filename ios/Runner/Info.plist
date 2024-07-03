@@ -70,6 +70,17 @@
 	</array>
 	<key>UISupportsDocumentBrowser</key>
 	<true/>
+	<key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>com.arlanto.atomedge</string>
+            </array>
+            <key>CFBundleURLName</key>
+            <string></string>
+        </dict>
+    </array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>

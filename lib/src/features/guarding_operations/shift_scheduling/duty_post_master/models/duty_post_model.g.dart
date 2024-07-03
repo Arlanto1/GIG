@@ -7,7 +7,7 @@ part of 'duty_post_model.dart';
 // **************************************************************************
 
 Rank _$RankFromJson(Map<String, dynamic> json) => Rank(
-      rank: json['rank'] as int?,
+      rank: (json['rank'] as num?)?.toInt(),
       shifts: (json['shifts'] as List<dynamic>?)
           ?.map((e) => Shift.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -24,9 +24,9 @@ Map<String, dynamic> _$RankToJson(Rank instance) => <String, dynamic>{
 
 Shift _$ShiftFromJson(Map<String, dynamic> json) => Shift(
       shift: json['shift'] as String?,
-      allowed: json['allowed'] as int?,
-      attendanceShiftId: json['attendanceShiftId'] as int?,
-      attdStatus: json['attdStatus'] as int?,
+      allowed: (json['allowed'] as num?)?.toInt(),
+      attendanceShiftId: (json['attendanceShiftId'] as num?)?.toInt(),
+      attdStatus: (json['attdStatus'] as num?)?.toInt(),
       activeShift: json['activeShift'] as bool? ?? false,
       selectedGuards: (json['selectedGuards'] as List<dynamic>?)
           ?.map((e) => BaseUser.fromJson(e as Map<String, dynamic>))
@@ -65,7 +65,7 @@ Map<String, dynamic> _$ShiftToJson(Shift instance) => <String, dynamic>{
     };
 
 Replacement _$ReplacementFromJson(Map<String, dynamic> json) => Replacement(
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       replacedFor: json['replacedFor'] == null
           ? null
           : BaseUser.fromJson(json['replacedFor'] as Map<String, dynamic>),
@@ -74,7 +74,7 @@ Replacement _$ReplacementFromJson(Map<String, dynamic> json) => Replacement(
           : BaseUser.fromJson(json['replacementBy'] as Map<String, dynamic>),
       fromDate: json['fromDate'] as String?,
       toDate: json['toDate'] as String?,
-      status: json['status'] as int?,
+      status: (json['status'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ReplacementToJson(Replacement instance) =>

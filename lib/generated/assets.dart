@@ -5,52 +5,35 @@ class Assets {
   static const String appIconAppIcon = 'assets/app_icon/app_icon.jpg';
   static const String assetsAtomSplash = 'assets/atom_splash.png';
   static const String assetsImagesDaypassreg = 'assets/images/daypassreg.svg';
-  static const String fontsDeutscheBankOFL =
-      'assets/fonts/DeutscheBank-OFL.txt';
-  static const String fontsDeutscheBankTextItalic =
-      'assets/fonts/DeutscheBankText-Italic.ttf';
-  static const String fontsDeutscheBankTextRegular =
-      'assets/fonts/DeutscheBankText-Regular.ttf';
+  static const String fontsDeutscheBankTextAIt = 'assets/fonts/DeutscheBankText_A_It.ttf';
+  static const String fontsDeutscheBankTextARg = 'assets/fonts/DeutscheBankText_A_Rg.ttf';
   static const String fontsOFL = 'assets/fonts/OFL.txt';
   static const String fontsPoppinsBlack = 'assets/fonts/Poppins-Black.ttf';
-  static const String fontsPoppinsBlackItalic =
-      'assets/fonts/Poppins-BlackItalic.ttf';
+  static const String fontsPoppinsBlackItalic = 'assets/fonts/Poppins-BlackItalic.ttf';
   static const String fontsPoppinsBold = 'assets/fonts/Poppins-Bold.ttf';
-  static const String fontsPoppinsBoldItalic =
-      'assets/fonts/Poppins-BoldItalic.ttf';
-  static const String fontsPoppinsExtraBold =
-      'assets/fonts/Poppins-ExtraBold.ttf';
-  static const String fontsPoppinsExtraBoldItalic =
-      'assets/fonts/Poppins-ExtraBoldItalic.ttf';
-  static const String fontsPoppinsExtraLight =
-      'assets/fonts/Poppins-ExtraLight.ttf';
-  static const String fontsPoppinsExtraLightItalic =
-      'assets/fonts/Poppins-ExtraLightItalic.ttf';
+  static const String fontsPoppinsBoldItalic = 'assets/fonts/Poppins-BoldItalic.ttf';
+  static const String fontsPoppinsExtraBold = 'assets/fonts/Poppins-ExtraBold.ttf';
+  static const String fontsPoppinsExtraBoldItalic = 'assets/fonts/Poppins-ExtraBoldItalic.ttf';
+  static const String fontsPoppinsExtraLight = 'assets/fonts/Poppins-ExtraLight.ttf';
+  static const String fontsPoppinsExtraLightItalic = 'assets/fonts/Poppins-ExtraLightItalic.ttf';
   static const String fontsPoppinsItalic = 'assets/fonts/Poppins-Italic.ttf';
   static const String fontsPoppinsLight = 'assets/fonts/Poppins-Light.ttf';
-  static const String fontsPoppinsLightItalic =
-      'assets/fonts/Poppins-LightItalic.ttf';
+  static const String fontsPoppinsLightItalic = 'assets/fonts/Poppins-LightItalic.ttf';
   static const String fontsPoppinsMedium = 'assets/fonts/Poppins-Medium.ttf';
-  static const String fontsPoppinsMediumItalic =
-      'assets/fonts/Poppins-MediumItalic.ttf';
+  static const String fontsPoppinsMediumItalic = 'assets/fonts/Poppins-MediumItalic.ttf';
   static const String fontsPoppinsRegular = 'assets/fonts/Poppins-Regular.ttf';
-  static const String fontsPoppinsSemiBold =
-      'assets/fonts/Poppins-SemiBold.ttf';
-  static const String fontsPoppinsSemiBoldItalic =
-      'assets/fonts/Poppins-SemiBoldItalic.ttf';
+  static const String fontsPoppinsSemiBold = 'assets/fonts/Poppins-SemiBold.ttf';
+  static const String fontsPoppinsSemiBoldItalic = 'assets/fonts/Poppins-SemiBoldItalic.ttf';
   static const String fontsPoppinsThin = 'assets/fonts/Poppins-Thin.ttf';
-  static const String fontsPoppinsThinItalic =
-      'assets/fonts/Poppins-ThinItalic.ttf';
+  static const String fontsPoppinsThinItalic = 'assets/fonts/Poppins-ThinItalic.ttf';
+  static const String fontsReleaseNotesDeutscheBankTextV1.100 = 'assets/fonts/Release_notes_DeutscheBankText_V1.100.txt';
   static const String imagesAdd = 'assets/images/add.svg';
-  static const String imagesAnnualPowerShutdown =
-      'assets/images/annualPowerShutdown.png';
-  static const String imagesArticleFoundRegisterIcon =
-      'assets/images/articleFoundRegisterIcon.png';
+  static const String imagesAnnualPowerShutdown = 'assets/images/annualPowerShutdown.png';
+  static const String imagesArticleFoundRegisterIcon = 'assets/images/articleFoundRegisterIcon.png';
   static const String imagesAtom = 'assets/images/atom.png';
   static const String imagesAtomLogin = 'assets/images/atom_login.png';
   static const String imagesAttendance = 'assets/images/attendance.png';
-  static const String imagesAttendanceReportBilling =
-      'assets/images/attendanceReportBilling.png';
+  static const String imagesAttendanceReportBilling = 'assets/images/attendanceReportBilling.png';
   static const String imagesBackicon = 'assets/images/backicon.svg';
   static const String imagesBg = 'assets/images/bg.png';
   static const String imagesCalendar = 'assets/images/calendar.svg';
@@ -59,122 +42,91 @@ class Assets {
   static const String imagesClose = 'assets/images/close.svg';
   static const String imagesCloseicon = 'assets/images/closeicon.svg';
   static const String imagesCostBilling = 'assets/images/costBilling.png';
-  static const String imagesCreatefoundsave =
-      'assets/images/createfoundsave.svg';
-  static const String imagesDashboardSelect =
-      'assets/images/dashboard-select.png';
-  static const String imagesDayPassManagementRegister =
-      'assets/images/dayPassManagement_Register.png';
+  static const String imagesCreatefoundsave = 'assets/images/createfoundsave.svg';
+  static const String imagesDashboardSelect = 'assets/images/dashboard-select.png';
+  static const String imagesDayPassManagementRegister = 'assets/images/dayPassManagement_Register.png';
   static const String imagesDaypassmgmt = 'assets/images/daypassmgmt.png';
   static const String imagesDaypassreg = 'assets/images/daypassreg.png';
+  static const String imagesDeutscheBankLogo = 'assets/images/deutsche-bank-logo.png';
   static const String imagesDocuments = 'assets/images/documents.svg';
   static const String imagesDollar = 'assets/images/dollar.png';
   static const String imagesDownload = 'assets/images/download.svg';
   static const String imagesDropdown = 'assets/images/dropdown.svg';
   static const String imagesDutyPostMaster = 'assets/images/dutyPostMaster.png';
-  static const String imagesDutyPostNameMaster =
-      'assets/images/dutyPostNameMaster.png';
+  static const String imagesDutyPostNameMaster = 'assets/images/dutyPostNameMaster.png';
   static const String imagesEditicon = 'assets/images/editicon.svg';
   static const String imagesEmail = 'assets/images/email.svg';
-  static const String imagesEscalationMatrix =
-      'assets/images/escalationMatrix.png';
-  static const String imagesEventProtection =
-      'assets/images/eventProtection.png';
+  static const String imagesEscalationMatrix = 'assets/images/escalationMatrix.png';
+  static const String imagesEventProtection = 'assets/images/eventProtection.png';
   static const String imagesExportexcel = 'assets/images/exportexcel.svg';
   static const String imagesExportpdf = 'assets/images/exportpdf.svg';
   static const String imagesExportxml = 'assets/images/exportxml.svg';
   static const String imagesEye = 'assets/images/eye.svg';
   static const String imagesEyeSlash = 'assets/images/eye-slash.svg';
-  static const String imagesFemalePickUpDrop =
-      'assets/images/femalePickUpDrop.png';
+  static const String imagesFemalePickUpDrop = 'assets/images/femalePickUpDrop.png';
   static const String imagesFile = 'assets/images/file.png';
   static const String imagesGallery = 'assets/images/gallery.svg';
-  static const String imagesGuardigMasterReport =
-      'assets/images/guardigMasterReport.png';
-  static const String imagesGuardingMasterData =
-      'assets/images/guardingMasterData.png';
-  static const String imagesGuardingMasterRates =
-      'assets/images/guardingMasterRates.png';
-  static const String imagesGuardingMasterReport =
-      'assets/images/guardingMasterReport.png';
-  static const String imagesGuardingOperation =
-      'assets/images/guardingOperation.png';
-  static const String imagesGuardingOperations =
-      'assets/images/guardingOperations.png';
+  static const String imagesGuardingMasterData = 'assets/images/guardingMasterData.png';
+  static const String imagesGuardingMasterReport = 'assets/images/guardingMasterReport.png';
+  static const String imagesGuardingOperation = 'assets/images/guardingOperation.png';
+  static const String imagesGuardingOperations = 'assets/images/guardingOperations.png';
   static const String imagesGuardingRates = 'assets/images/guardingRates.png';
-  static const String imagesGuardingRatesInformaation =
-      'assets/images/guarding_rates_informaation.png';
+  static const String imagesGuardingRatesInformaation = 'assets/images/guarding_rates_informaation.png';
   static const String imagesGunMan = 'assets/images/gun_man.png';
   static const String imagesImg = 'assets/images/img.png';
   static const String imagesImg1 = 'assets/images/img_1.png';
   static const String imagesImg2 = 'assets/images/img_2.png';
   static const String imagesIncident = 'assets/images/incident.png';
-  static const String imagesIncidentManagement =
-      'assets/images/incidentManagement.png';
-  static const String imagesKeyLossDestructionList =
-      'assets/images/keyLossDestructionList.png';
-  static const String imagesKeyManagementData =
-      'assets/images/keyManagementData.png';
-  static const String imagesKeyManagementIssuance =
-      'assets/images/keyManagementIssuance.png';
-  static const String imagesKeyManagementList =
-      'assets/images/keyManagementList.png';
+  static const String imagesIncidentManagement = 'assets/images/incidentManagement.png';
+  static const String imagesKeyLossDestructionList = 'assets/images/keyLossDestructionList.png';
+  static const String imagesKeyManagementData = 'assets/images/keyManagementData.png';
+  static const String imagesKeyManagementIssuance = 'assets/images/keyManagementIssuance.png';
+  static const String imagesKeyManagementList = 'assets/images/keyManagementList.png';
+  static const String imagesLawEnforcement = 'assets/images/lawEnforcement.png';
   static const String imagesList = 'assets/images/list.png';
   static const String imagesLock = 'assets/images/lock.svg';
   static const String imagesLogout = 'assets/images/logout.png';
-  static const String imagesManInSuitAndTie =
-      'assets/images/man-in-suit-and-tie.png';
-  static const String imagesMaterialMovement =
-      'assets/images/materialMovement.png';
-  static const String imagesMaterialMovementInwardIcon =
-      'assets/images/material_movement_inward_icon.png';
-  static const String imagesMaterialMovementOutwardIcon =
-      'assets/images/material_movement_outward_icon.png';
+  static const String imagesManInSuitAndTie = 'assets/images/man-in-suit-and-tie.png';
+  static const String imagesMaterialMovement = 'assets/images/materialMovement.png';
+  static const String imagesMaterialMovementInwardIcon = 'assets/images/material_movement_inward_icon.png';
+  static const String imagesMaterialMovementOutwardIcon = 'assets/images/material_movement_outward_icon.png';
   static const String imagesMoreicon = 'assets/images/moreicon.svg';
   static const String imagesMoreiconwhite = 'assets/images/moreiconwhite.svg';
+  static const String imagesNonMagneticPassManagement = 'assets/images/nonMagneticPassManagement.png';
   static const String imagesOccurence = 'assets/images/occurence.png';
-  static const String imagesOperatingSystem =
-      'assets/images/operating-system.png';
+  static const String imagesOperatingSystem = 'assets/images/operating-system.png';
   static const String imagesOperations = 'assets/images/operations.png';
-  static const String imagesPassmanagement = 'assets/images/passmanagement.png';
   static const String imagesPluscircle = 'assets/images/pluscircle.svg';
   static const String imagesQuestionmark = 'assets/images/questionmark.svg';
   static const String imagesSGVMMList = 'assets/images/sGVMMList.png';
   static const String imagesSearchIcon = 'assets/images/searchIcon.svg';
   static const String imagesSecurity = 'assets/images/security.png';
-  static const String imagesSecurityFunctions =
-      'assets/images/securityFunctions.png';
+  static const String imagesSecurityFunctions = 'assets/images/securityFunctions.png';
   static const String imagesSecurityGuard = 'assets/images/security_guard.png';
   static const String imagesSecurityGunMan = 'assets/images/securityGunMan.png';
   static const String imagesSecuritySystem = 'assets/images/securitySystem.png';
-  static const String imagesSecurityprotection =
-      'assets/images/securityprotection.png';
+  static const String imagesSecurityprotection = 'assets/images/securityprotection.png';
   static const String imagesSegpassreg = 'assets/images/segpassreg.png';
   static const String imagesSettings = 'assets/images/settings.png';
-  static const String imagesSezPassManagementRegister =
-      'assets/images/sezPassManagement_Register.png';
+  static const String imagesSezPassManagementRegister = 'assets/images/sezPassManagement_Register.png';
   static const String imagesSezpassmgmt = 'assets/images/sezpassmgmt.png';
-  static const String imagesShiftOccurrence =
-      'assets/images/shiftOccurrence.png';
+  static const String imagesShiftOccurrence = 'assets/images/shiftOccurrence.png';
   static const String imagesShiftSchedule = 'assets/images/shiftSchedule.png';
-  static const String imagesSlaViolationPenalty =
-      'assets/images/slaViolationPenalty.png';
+  static const String imagesSlaViolationPenalty = 'assets/images/slaViolationPenalty.png';
   static const String imagesTaskList = 'assets/images/task-list.png';
   static const String imagesUpload = 'assets/images/upload.svg';
+  static const String imagesUser = 'assets/images/user.png';
   static const String imagesUserCircle = 'assets/images/user-circle.svg';
   static const String imagesVector = 'assets/images/Vector.svg';
   static const String imagesVectoridentify = 'assets/images/Vectoridentify.svg';
-  static const String imagesVendorPassManagement =
-      'assets/images/vendorPassManagement.png';
+  static const String imagesVendorPassManagement = 'assets/images/vendorPassManagement.png';
   static const String imagesVendorpassreg = 'assets/images/vendorpassreg.png';
   static const String imagesViewicon = 'assets/images/viewicon.svg';
-  static const String imagesViolationPenalty =
-      'assets/images/violationPenalty.png';
-  static const String imagesVisitorPassManagementRegister =
-      'assets/images/visitorPassManagement_Register.png';
-  static const String imagesVisitorpassmgmt =
-      'assets/images/visitorpassmgmt.png';
+  static const String imagesViolationPenalty = 'assets/images/violationPenalty.png';
+  static const String imagesVisitorPassManagementRegister = 'assets/images/visitorPassManagement_Register.png';
+  static const String imagesVisitorpassmgmt = 'assets/images/visitorpassmgmt.png';
   static const String imagesVisitorpassreg = 'assets/images/visitorpassreg.png';
   static const String imagesVvipVisitor = 'assets/images/vvipVisitor.png';
   static const String translationEn = 'assets/translation/en.json';
+
 }

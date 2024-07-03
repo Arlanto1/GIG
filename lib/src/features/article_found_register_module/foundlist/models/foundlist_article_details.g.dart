@@ -9,14 +9,14 @@ part of 'foundlist_article_details.dart';
 FoundListArticleDetails _$FoundListArticleDetailsFromJson(
         Map<String, dynamic> json) =>
     FoundListArticleDetails(
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       slNo: json['slNo'] as String?,
       inputDate: json['inputDate'] as String?,
       locationRegion: json['locationRegion'] == null
           ? null
           : Organisation.fromJson(
               json['locationRegion'] as Map<String, dynamic>),
-      typeOfAsset: json['typeOfAsset'] as int?,
+      typeOfAsset: (json['typeOfAsset'] as num?)?.toInt(),
       typeOfArticle: json['typeOfArticle'] == null
           ? null
           : Organisation.fromJson(
@@ -24,7 +24,7 @@ FoundListArticleDetails _$FoundListArticleDetailsFromJson(
       foundDate: json['foundDate'] as String?,
       foundLocation: json['foundLocation'] as String?,
       additionalInformation: json['additionalInformation'] as String?,
-      quantity: json['quantity'] as int?,
+      quantity: (json['quantity'] as num?)?.toInt(),
       color: json['color'] as String?,
       claimantSign: json['claimantSign'] == null
           ? null
@@ -59,7 +59,7 @@ FoundListArticleDetails _$FoundListArticleDetailsFromJson(
       handoverSecurity: json['handoverSecurity'] == null
           ? null
           : User.fromJson(json['handoverSecurity'] as Map<String, dynamic>),
-      status: json['status'] as int?,
+      status: (json['status'] as num?)?.toInt(),
       modifiedDate: json['modifiedDate'] as String?,
       modifiedBy: json['modifiedBy'] as String?,
       depositorName: json['depositorName'] as String?,
@@ -73,7 +73,7 @@ FoundListArticleDetails _$FoundListArticleDetailsFromJson(
           ? null
           : Organisation.fromJson(json['location'] as Map<String, dynamic>),
       lock: json['lock'] as String?,
-    )..eventProtection = json['eventProtection'] as int?;
+    )..eventProtection = (json['eventProtection'] as num?)?.toInt();
 
 Map<String, dynamic> _$FoundListArticleDetailsToJson(
         FoundListArticleDetails instance) =>
