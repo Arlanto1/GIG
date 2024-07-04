@@ -81,7 +81,7 @@ class NavigationDrawer1 extends StatelessWidget {
 
     // if (displayMenu.gM ?? false) {
     expansionTileDrawerItems.add(const MenuItem(
-        Constants.shiftSchedule, AppIcon.eventProtectionIcon, 1));
+        shiftSchedulingTitle, AppIcon.eventProtectionIcon, 1));
     // }
 
     if (displayMenu?.vIP ?? false) {
@@ -299,7 +299,7 @@ class NavigationDrawer1 extends StatelessWidget {
                   );
                   break;
 
-                case Constants.shiftSchedule:
+                case shiftSchedulingTitle:
                   _onShiftScheduleItemSelected(i, context);
                   break;
 
@@ -809,6 +809,7 @@ class NavigationDrawer1 extends StatelessWidget {
 
     for (int i = 0; i < items.length; i++) {
       MenuItem drawerItem = items[i];
+      log('--drawerItem-title-${drawerItem.title}--');
       children.add(
         drawerItem.numberOfChildren == 0
             ? Container(
@@ -1153,6 +1154,7 @@ class NavigationDrawer1 extends StatelessWidget {
     BuildContext context,
     String title,
   ) {
+    log('--title---$title--');
     switch (title) {
       case Constants.materialMovement:
         return _genericItemSelection(
@@ -1243,7 +1245,7 @@ class NavigationDrawer1 extends StatelessWidget {
       //     title,
       //   );
 
-      case Constants.shiftSchedule:
+      case shiftSchedulingTitle:
         List<MenuItem> menuItems = [];
 
         if (displayMenu?.aTD ?? false) {
@@ -1263,7 +1265,7 @@ class NavigationDrawer1 extends StatelessWidget {
 
         if (displayMenu?.sS ?? false) {
           menuItems.add(const MenuItem(
-              shiftSchedulingTitle, AppIcon.shiftScheduleIcon, 0));
+              Constants.shiftSchedule, AppIcon.shiftScheduleIcon, 0));
         }
         return _genericItemExpandable(
           context,
