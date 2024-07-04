@@ -1,3 +1,4 @@
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
 import 'package:db_atom/src/common_widgets/pop_button.dart';
@@ -185,16 +186,16 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
             "Please enter all the required fields",
           );
         } else {
+          var sca = ScaffoldMessenger.of(context);
           try {
             var nav = Navigator.of(context);
-            var sca = ScaffoldMessenger.of(context);
-            // CreateUserModel createUserData = await CommonServices().createUser(
-            //   firstName: firstnameTextController.text,
-            //   lastName: lastnameTextController.text,
-            //   email: emailTextController.text,
-            //   role: widget.roleName,
-            //   context: context,
-            // );
+            CreateUserModel createUserData = await CommonServices().createUser(
+              firstName: firstnameTextController.text,
+              lastName: lastnameTextController.text,
+              email: emailTextController.text,
+              role: widget.roleName,
+              context: context,
+            );
 
             nav.pop();
             widget.functionToCall();
@@ -205,8 +206,21 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
                 duration: Duration(seconds: 3), // Adjust the duration
               ),
             );
-          } catch (e) {
-            // present userwith error message
+          }  on GenericResponse catch (e) {
+            sca.showSnackBar(
+               SnackBar(backgroundColor: Colors.red,
+                content: Text('${e.message}'),
+                duration: const Duration(seconds: 3), // Adjust the duration
+              ),
+            );
+            return;
+          } on Exception catch (e) {
+            sca.showSnackBar(
+               SnackBar(
+                content: Text('$e'),
+                duration: const Duration(seconds: 3), // Adjust the duration
+              ),
+            );
           }
         }
       },

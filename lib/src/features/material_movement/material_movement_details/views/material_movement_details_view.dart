@@ -425,7 +425,19 @@ class _MaterialMovementDetailsViewState
                             isMandatory: true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          locationWidgetdislay(state),
+                          // locationWidgetdislay(state),
+                          BaseLocationDropdown().locationWidgetDisplay(
+                              isEnabled: !isReadOnly,
+                              context: context,
+                              locations: state.locations ?? Locations(),
+                              selectedLocationName:
+                              state.model.location?.name ?? '',
+                              onTap: (Organisation? location) {
+                                BlocProvider.of<
+                                    MaterialMovementDetailsCubit>(
+                                    context)
+                                    .updateDropdownValues(location: location);
+                              }),
 
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -2933,35 +2945,35 @@ class _MaterialMovementDetailsViewState
         : Container();
   }
 
-  Widget locationWidgetdislay(MaterialMovementDetailsState state) {
-    return GestureDetector(
-      onTap: () {
-        if (((widget.model?.status == null || widget.model?.status == 0) &&
-                state.model.lock.isEmptyOrNull)
-            ? true
-            : false) {
-          showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) {
-              return CustomExpansionListTexts(
-                locationList: state.locations,
-                onTap: (Organisation? list) async {
-                  Organisation location = Organisation();
-                  location.id = list?.id;
-                  location.name = list?.name;
-                  state.model.location = location;
-
-                  BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                      .updateDropdownValues(location: location);
-                },
-              );
-            },
-          );
-        }
-      },
-      child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
-    );
-  }
+  // Widget locationWidgetdislay(MaterialMovementDetailsState state) {
+  //   return GestureDetector(
+  //     onTap: () {
+  //       if (((widget.model?.status == null || widget.model?.status == 0) &&
+  //               state.model.lock.isEmptyOrNull)
+  //           ? true
+  //           : false) {
+  //         showDialog(
+  //           context: context,
+  //           builder: (BuildContext dialogContext) {
+  //             return CustomExpansionListTexts(
+  //               locationList: state.locations,
+  //               onTap: (Organisation? list) async {
+  //                 Organisation location = Organisation();
+  //                 location.id = list?.id;
+  //                 location.name = list?.name;
+  //                 state.model.location = location;
+  //
+  //                 BlocProvider.of<MaterialMovementDetailsCubit>(context)
+  //                     .updateDropdownValues(location: location);
+  //               },
+  //             );
+  //           },
+  //         );
+  //       }
+  //     },
+  //     child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
+  //   );
+  // }
 
   Widget datecreateWidgetdisplay(String date) {
     return FlutterInputField(
