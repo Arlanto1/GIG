@@ -41,7 +41,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       SerialNumberModel serialNumberResponse;
       serialNumberResponse = await commonServices.getSlNo(
         locationId: defaultLocation!.id.toString(),
-        moduleCode: Constants.leoModuleCode,
+        moduleCode: Constants.articleFoundModuleCode,
       );
 
       model.location = defaultLocation;

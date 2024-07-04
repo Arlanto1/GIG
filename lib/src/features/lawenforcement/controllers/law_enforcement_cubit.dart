@@ -9,7 +9,6 @@ import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart'
 import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   LawEnforcementServices services;
@@ -166,7 +165,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   // Get locations api call
   Future<void> getLocations(String name, BuildContext context) async {
     try {
-      Locations getLocationsData = await services.getLocations(name, context);
+      Locations getLocationsData = await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
       emit(
         state.copyWith(
           getLocationsResponse: getLocationsData,
