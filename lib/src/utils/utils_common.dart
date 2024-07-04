@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/models/responseModels/permission_error.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 class UtilsCommon {
   Future<ExtraProperties> checkWritePermission({
@@ -43,27 +42,32 @@ class UtilsCommon {
     return copyWith;
   }
 
-  Widget showNoRecordWidget(
-      {required dynamic state, required double height, required List items}) {
+  Widget showNoRecordWidget({
+    required dynamic state,
+    required double height,
+    required List items,
+  }) {
     log('----showNoRecordWidget---');
+    // if (items.isEmptyOrNull &&
+    //     state.status != FormStatus.loading &&
+    //     state.status != FormStatus.initial) {
+    //   log('----showNoRecordWidget--ifff-');
+    //   return Column(
+    //     children: [
+    //       CommonWidgets.verticalSpacerWidget(height * 0.1),
+    //       const NoRecordFoundWidget(),
+    //     ],
+    //   );
+    // } else
     if (items.isEmptyOrNull &&
-        state.status != FormStatus.loading &&
-        state.status != FormStatus.initial) {
-      log('----showNoRecordWidget--ifff-');
+        (state.status == FormStatus.initial ||
+            state.status == FormStatus.success)) {
       return Column(
         children: [
           CommonWidgets.verticalSpacerWidget(height * 0.1),
           const NoRecordFoundWidget(),
         ],
       );
-    } else if (items.isEmptyOrNull && state.status == FormStatus.initial){
-      return Column(
-        children: [
-          CommonWidgets.verticalSpacerWidget(height * 0.1),
-          const NoRecordFoundWidget(),
-        ],
-      );
-
     }
     log('----showNoRecordWidget--else-');
     return const SizedBox();
