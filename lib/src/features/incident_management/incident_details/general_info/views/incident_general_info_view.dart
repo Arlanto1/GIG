@@ -893,8 +893,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
   Widget cancelButtonDisplay(IncidentGeneralInfoState state) {
     bool condition = state.model.id == null ||
-        state.model.status == ConstantsIntValue.cancelledStatus ||
-        state.model.status == 39 || !state.model.lock.isEmptyOrNull;
+        state.model.status == ConstantsIntValue.cancelledStatus || state.model.status == 40 ||state.model.status == -1||
+    !state.model.lock.isEmptyOrNull;
     return AppButton(
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
