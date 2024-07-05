@@ -1142,10 +1142,10 @@ class _CreateFoundState extends State<CreateFound> {
                                   BaseDate().datePickerWidgetLoading(
                                     showFutureDate: false,
                                     textController: foundDateTextController,
-                                    isDisabled: (widget.model?.status != 0 ||
-                                            widget.model != null)
-                                        ? false
-                                        : true,
+                                    isDisabled: (widget.model?.status == 2 ||
+                                        widget.model?.status == -1)
+                                        ? true
+                                        : false,
                                     //initialDate: DateTime.now().subtract(Duration(days: 1)),
                                     onChange: (String value) {
                                       widget.model?.foundDate =
