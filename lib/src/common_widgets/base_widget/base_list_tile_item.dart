@@ -399,7 +399,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                                     (widget.status == 10 ||
                                         widget.status == 11) ||
                                 (widget.isSecuritySystemSLA &&
-                                    (widget.status == -1 ||widget.status == 2||widget.status == 14) ))
+                                    (widget.status == -1 ||widget.status == 2||widget.status == 14)) ||(widget.isKeyLossStatus && (widget.status ==10 || widget.status == 11)))
                         ? const Icon(Icons.edit_off_outlined)
                         : const Icon(Icons.edit),
                   ),
