@@ -2119,25 +2119,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           height * 0.01),
                                     ],
 
-                                    /// SubmitButton
-                                    Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        cancelButtonDisplay(),
-                                        if ((widget.model?.status == null ||
-                                            widget.model?.status == 0 ||
-                                            widget.model?.status == 1 ||
-                                            widget.model?.status == 3) &&
-                                            !(widget.extraProperties != null &&
-                                                !widget.extraProperties!
-                                                    .hasWritePermission!)) ...[
-                                          submitButtonDisplay()
-                                        ],
-                                      ],
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.03),
+
                                   ],
                                   // if(widget.model?.status != 0 ||
                                   //     widget.model?.status != 1 ||
@@ -2160,6 +2142,25 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                         ),
                       ),
                     ),
+                    /// SubmitButton
+                    Row(
+                      mainAxisAlignment:
+                      MainAxisAlignment.spaceEvenly,
+                      children: [
+                        cancelButtonDisplay(),
+                        if ((widget.model?.status == null ||
+                            widget.model?.status == 0 ||
+                            widget.model?.status == 1 ||
+                            widget.model?.status == 3) &&
+                            !(widget.extraProperties != null &&
+                                !widget.extraProperties!
+                                    .hasWritePermission!)) ...[
+                          submitButtonDisplay()
+                        ],
+                      ],
+                    ),
+                    CommonWidgets.verticalSpacerWidget(
+                        height * 0.03),
                   ],
                 ),
               );
