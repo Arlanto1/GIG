@@ -400,7 +400,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       await lawEnforcementCubit.getDBofficialByRoleDepositor(
           'ATOM_STATIC_USER', context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        Utils.dynamicAlert(context, 'Added sucessfully', Constants.newuser, '');
+        Utils.dynamicAlert(context, 'Added successfully', Constants.newuser, '');
       });
     } catch (e) {
       emit(
