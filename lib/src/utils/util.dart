@@ -697,10 +697,10 @@ class Utils {
         statusText = 'Lost/De-Activated';
         break;
       case 5:
-        statusText = 'Damaged';
+        statusText = 'Damaged/De-Activated';
         break;
       case 6:
-        statusText = 'Defaced';
+        statusText = 'Defaced/De-Activated';
         break;
       case 7:
         statusText = 'Cancelled';

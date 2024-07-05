@@ -824,7 +824,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 .contactNo ??
                                             "Contact No",
                                         Styles.textStyleBlack14,
-                                        isMandatory: true),
+                                        isMandatory: passCategoryTextController.text == 'Temporary' ? false : true),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
                                     // articleaddButtonwidgetLoading(state),
@@ -878,7 +878,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             state.labels?.defaultLocale
                                                 .employeeId ??
                                             Constants.employeeid,
-                                        isMandatory: true,
+                                        isMandatory:  passCategoryTextController.text == 'Temporary' ? false : true,
                                         Styles.textStyleBlack14)
                                         : Container(),
 
@@ -913,7 +913,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 .email ??
                                             Constants.email,
                                         Styles.textStyleBlack14,
-                                        isMandatory: true)
+                                        isMandatory: true,)
                                         : Container(),
 
                                     widget.passId ==
@@ -4359,7 +4359,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                       ? Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      imageData1 != null || imageData != null
+                      (imageData1 != null || imageData != null)
                           ? IconButton(
                         icon: const Icon(Icons.delete),
                         onPressed: () {
