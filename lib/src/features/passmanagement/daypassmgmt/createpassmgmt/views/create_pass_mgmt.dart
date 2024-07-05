@@ -114,7 +114,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               widget.model?.status == 0 ||
               widget.model?.status == 1 ||
               widget.model?.status == 3) ||
-              !(widget.extraProperties != null &&
+              (widget.extraProperties != null &&
                   !widget.extraProperties!.hasWritePermission!)) ...[
             GestureDetector(
               onTap: () {
@@ -2129,7 +2129,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             widget.model?.status == 0 ||
                                             widget.model?.status == 1 ||
                                             widget.model?.status == 3) ||
-                                            !(widget.extraProperties != null &&
+                                            (widget.extraProperties != null &&
                                                 !widget.extraProperties!
                                                     .hasWritePermission!)) ...[
                                           submitButtonDisplay()
