@@ -311,6 +311,6 @@ const List<Label> materialMovementStatusValues = [
 const List<Label> shiftScheduleStatusDropDownValues = [
   Label(key: 'Draft', value: '0'),
   Label(key: 'Active', value: '1'),
-  Label(key: 'Finalized', value: '2'),
+  Label(key: 'InActive', value: '2'),
   Label(key: 'Cancelled', value: '-1'),
 ];
