@@ -75,7 +75,7 @@
         <dict>
             <key>CFBundleURLSchemes</key>
             <array>
-                <string>com.arlanto.atomedge</string>
+                <string>msauth.com.arlanto.atomedge</string>
             </array>
             <key>CFBundleURLName</key>
             <string></string>

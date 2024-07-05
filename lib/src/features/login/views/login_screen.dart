@@ -376,7 +376,7 @@ class _LoginState extends State<Login> {
   // final String redirectUrl =
   //     'https://login.microsoftonline.com/common/oauth2/nativeclient';
   final String redirectUrl =
-      'com.arlanto.atomedge:/oauthredirect';
+      'msauth.com.arlanto.atomedge://auth';
 
   final String clientSecret = 'Ly68Q~9VVXRHWeuO7EUWZSDJeH_x-ledldKl4bZ2';
   final String authority = 'https://login.microsoftonline.com/';
