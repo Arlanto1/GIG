@@ -1203,6 +1203,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   FlutterInputField(
                                     showBorder: true,
                                     lineHeight: 6,
+                                    characterLimit: Constants.characterLimitDescTextFormField,
                                     controller:
                                         additionalinformationTextController,
                                     textFormKey: Keys
