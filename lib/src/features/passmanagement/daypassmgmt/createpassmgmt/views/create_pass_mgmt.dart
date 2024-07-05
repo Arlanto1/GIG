@@ -3322,11 +3322,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       height: 60,
       isDisableColor: widget.model?.status == 0 &&
           widget.model == null &&
-          !(widget.extraProperties != null &&
+          (widget.extraProperties != null &&
               !widget.extraProperties!.hasWritePermission!)
           ? false
           : true,
       onTap: () {
+        if ((widget.model == null || widget.model?.status == 0) &&
+            !(widget.extraProperties != null &&
+                !widget.extraProperties!.hasWritePermission!)) {
         BaseOrganisationDialog().userDialog(
           context: context,
           users: state.getDepositorResponse,
@@ -3342,7 +3345,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             createPassMgmtCubit.getdbsponsorUsersResponseData(
                 User(userId: user.id, name: user.name));
           },
-        );
+        );}
       },
       // onTap: () {
       //   if (widget.model == null || widget.model?.status == 0) {
