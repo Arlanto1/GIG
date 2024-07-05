@@ -1782,7 +1782,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       showPastDate: false,
                                       textController:
                                       passValidUntilTextController,
-                                      onlyDate: true,
+                                      onlyDate:
+                                      (widget.passId ==
+                                          ConstantsIntValue.passIdSez)
+                                          ? true
+                                          : false,
                                       onChange: (String value) {
                                         /// Make Pass Valid Date Editable if the Company Type is 'Exceptions'
                                         if (widget.model != null &&
