@@ -9,7 +9,7 @@ part of 'key_reconciliation_list_model.dart';
 KeyReconciliationListModel _$KeyReconciliationListModelFromJson(
         Map<String, dynamic> json) =>
     KeyReconciliationListModel(
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       slNo: json['slNo'] as String?,
       location: json['location'] == null
           ? null
@@ -56,22 +56,22 @@ KeyReconciliationListModel _$KeyReconciliationListModelFromJson(
       pvcIssuedDate: json['pvcIssuedDate'] as String?,
       dateOfBirth: json['dateOfBirth'] as String?,
       dateOfJoining: json['dateOfJoining'] as String?,
-      status: json['status'] as int?,
+      status: (json['status'] as num?)?.toInt(),
       height: json['height'] as num?,
       weight: json['weight'] as num?,
       chest: json['chest'] as num?,
-      guardRank: json['guardRank'] as int?,
+      guardRank: (json['guardRank'] as num?)?.toInt(),
       employeeCode: json['employeeCode'] as String?,
       dbEmployeeId: json['dbEmployeeId'] as String?,
       vendor: json['vendor'] == null
           ? null
           : Organisation.fromJson(json['vendor'] as Map<String, dynamic>),
-      dutyType: json['dutyType'] as int?,
-      gender: json['gender'] as int?,
+      dutyType: (json['dutyType'] as num?)?.toInt(),
+      gender: (json['gender'] as num?)?.toInt(),
       contactNo: json['contactNo'] as String?,
-      dependentsNo: json['dependentsNo'] as int?,
-      maritalStatus: json['maritalStatus'] as int?,
-      typeOfDeployment: json['typeOfDeployment'] as int?,
+      dependentsNo: (json['dependentsNo'] as num?)?.toInt(),
+      maritalStatus: (json['maritalStatus'] as num?)?.toInt(),
+      typeOfDeployment: (json['typeOfDeployment'] as num?)?.toInt(),
       deploymentOrderSubmitted:
           json['deploymentOrderSubmitted'] as bool? ?? false,
       deploymentOrders: (json['deploymentOrders'] as List<dynamic>?)
@@ -105,13 +105,13 @@ KeyReconciliationListModel _$KeyReconciliationListModelFromJson(
       medicalCertificates: (json['medicalCertificates'] as List<dynamic>?)
           ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
           .toList(),
-      systemAccess: json['systemAccess'] as int?,
+      systemAccess: (json['systemAccess'] as num?)?.toInt(),
       onboarded: json['onboarded'] as bool? ?? false,
       esicNo: json['esicNo'] as String?,
       uanNo: json['uanNo'] as String?,
       msgbExempted: json['msgbExempted'] as bool? ?? false,
-      msgbFormBSubmitted: json['msgbFormBSubmitted'] as int?,
-      staffMsgbCompliant: json['staffMsgbCompliant'] as int?,
+      msgbFormBSubmitted: (json['msgbFormBSubmitted'] as num?)?.toInt(),
+      staffMsgbCompliant: (json['staffMsgbCompliant'] as num?)?.toInt(),
       csrParticipation: json['csrParticipation'] as bool? ?? false,
       specialAchievement: json['specialAchievement'] as bool? ?? false,
       specialAchievementText: json['specialAchievementText'] as String?,

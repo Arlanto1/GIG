@@ -10,4 +10,13 @@ import Flutter
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
+
+  override func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+          if (url.scheme == "msauth.com.arlanto.atomedge") {
+              let controller = window.rootViewController as! FlutterViewController
+              let channel = FlutterMethodChannel(name: "msauth.com.arlanto.atomedge://auth", binaryMessenger: controller.binaryMessenger)
+              channel.invokeMethod("onRedirect", arguments: url.absoluteString)
+          }
+          return super.application(app, open: url, options: options)
+      }
 }

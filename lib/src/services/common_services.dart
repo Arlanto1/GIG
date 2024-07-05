@@ -9,7 +9,7 @@ class CommonApis {
   // static const String v2 = '/v2';
   static final String _getUiLabels = '$baseUrl/getLabels?';
   static final String _getOrganisations = '$baseUrl/getOrganisation?name=';
-  static final String _getLocationsNew = '$baseUrl/getLocations?name=';
+  static final String _getLocationsNew = '$baseUrl/getAtomLocations?isSezLocations=';
   static final String _getArticleType = '$baseUrl/getOrganisation?name=';
   static final String _getUserDetails = '$baseUrl/getUserDetails?userId=';
   static final String _getSlNo = '$baseUrl/getSlNo?';
@@ -39,7 +39,7 @@ class CommonServices {
   Future<dynamic> getUiLabels({
     required String language,
     required String moduleCode,
-    BuildContext? context,
+    BuildContext? context,f
   }) async {
     String url = '${CommonApis._getUiLabels}locale=$language&module=$moduleCode';
     final response = await BaseApiService().getRequest(
@@ -79,11 +79,13 @@ class CommonServices {
   // }
 
   Future<Locations> getRegionsWithLocations({
-    required String name,
+    @Deprecated('this parameter is not required.')
+    required String name, // TODO: Remove this parameter
     BuildContext? context,
     int? filter,
+    bool? isSezLocations = false,
   }) async {
-    String url = '${CommonApis._getLocationsNew}$name';
+    String url = '${CommonApis._getLocationsNew}$isSezLocations';
     final response = await BaseApiService().getRequest(
       url: url,
     );

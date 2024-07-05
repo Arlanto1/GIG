@@ -10,10 +10,10 @@ KeyLossDestructionListModel _$KeyLossDestructionListModelFromJson(
         Map<String, dynamic> json) =>
     KeyLossDestructionListModel(
       keyManagementId: json['keyManagementId'] as String?,
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       slNo: json['slNo'] as String?,
-      type: json['type'] as int?,
-      keyType: json['keyType'] as int?,
+      type: (json['type'] as num?)?.toInt(),
+      keyType: (json['keyType'] as num?)?.toInt(),
       hasLockChanged: json['hasLockChanged'] as bool?,
       keyDestructionProcess: json['keyDestructionProcess'],
       hasKeyLost: json['hasKeyLost'],
@@ -30,8 +30,8 @@ KeyLossDestructionListModel _$KeyLossDestructionListModelFromJson(
           ? null
           : Organisation.fromJson(
               json['destructionReason'] as Map<String, dynamic>),
-      status: json['status'] as int?,
-      noOfKeys: json['noOfKeys'] as int?,
+      status: (json['status'] as num?)?.toInt(),
+      noOfKeys: (json['noOfKeys'] as num?)?.toInt(),
       createdBy: json['createdBy'] == null
           ? null
           : User.fromJson(json['createdBy'] as Map<String, dynamic>),

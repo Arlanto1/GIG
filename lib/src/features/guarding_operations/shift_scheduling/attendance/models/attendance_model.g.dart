@@ -8,7 +8,7 @@ part of 'attendance_model.dart';
 
 AttendanceModel _$AttendanceModelFromJson(Map<String, dynamic> json) =>
     AttendanceModel(
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       location: json['location'] == null
           ? null
           : Organisation.fromJson(json['location'] as Map<String, dynamic>),
@@ -21,9 +21,9 @@ AttendanceModel _$AttendanceModelFromJson(Map<String, dynamic> json) =>
       vendor: json['vendor'] == null
           ? null
           : Organisation.fromJson(json['vendor'] as Map<String, dynamic>),
-      dutyType: json['dutyType'] as int?,
-      status: json['status'] as int?,
-      attendanceType: json['attendanceType'] as int?,
+      dutyType: (json['dutyType'] as num?)?.toInt(),
+      status: (json['status'] as num?)?.toInt(),
+      attendanceType: (json['attendanceType'] as num?)?.toInt(),
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$AttendanceModelToJson(AttendanceModel instance) =>

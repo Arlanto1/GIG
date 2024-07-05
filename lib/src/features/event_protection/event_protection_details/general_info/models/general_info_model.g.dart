@@ -8,7 +8,7 @@ part of 'general_info_model.dart';
 
 EventProtectionGi _$EventProtectionGiFromJson(Map<String, dynamic> json) =>
     EventProtectionGi(
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       slNo: json['slNo'] as String?,
       createdBy: json['createdBy'] == null
           ? null
@@ -24,7 +24,7 @@ EventProtectionGi _$EventProtectionGiFromJson(Map<String, dynamic> json) =>
       entities: (json['entities'] as List<dynamic>?)
           ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: json['status'] as int?,
+      status: (json['status'] as num?)?.toInt(),
       modifiedBy: json['modifiedBy'] as String?,
       annualPowerShutdown: json['annualPowerShutdown'] as bool? ?? false,
       eventStartDate: json['eventStartDate'] as String?,
@@ -79,14 +79,19 @@ EventProtectionGi _$EventProtectionGiFromJson(Map<String, dynamic> json) =>
       extraSecurityDeployed: json['extraSecurityDeployed'] as bool? ?? false,
       vendorId: json['vendorId'] as String?,
       guardingVendorPoc: json['guardingVendorPoc'] as String?,
-      securityOfficerCount: json['securityOfficerCount'] as int?,
-      securityOfficerCountHrs: json['securityOfficerCountHrs'] as int?,
-      securitySupervisorCount: json['securitySupervisorCount'] as int?,
-      securitySupervisorCountHrs: json['securitySupervisorCountHrs'] as int?,
-      securityGuardCount: json['securityGuardCount'] as int?,
-      securityGuardCountHrs: json['securityGuardCountHrs'] as int?,
-      securityFacilitatorCount: json['securityFacilitatorCount'] as int?,
-      securityFacilitatorCountHrs: json['securityFacilitatorCountHrs'] as int?,
+      securityOfficerCount: (json['securityOfficerCount'] as num?)?.toInt(),
+      securityOfficerCountHrs:
+          (json['securityOfficerCountHrs'] as num?)?.toInt(),
+      securitySupervisorCount:
+          (json['securitySupervisorCount'] as num?)?.toInt(),
+      securitySupervisorCountHrs:
+          (json['securitySupervisorCountHrs'] as num?)?.toInt(),
+      securityGuardCount: (json['securityGuardCount'] as num?)?.toInt(),
+      securityGuardCountHrs: (json['securityGuardCountHrs'] as num?)?.toInt(),
+      securityFacilitatorCount:
+          (json['securityFacilitatorCount'] as num?)?.toInt(),
+      securityFacilitatorCountHrs:
+          (json['securityFacilitatorCountHrs'] as num?)?.toInt(),
       proposedVendors: (json['proposedVendors'] as List<dynamic>?)
           ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
           .toList(),

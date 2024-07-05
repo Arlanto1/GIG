@@ -9,7 +9,7 @@ part of 'duty_post_name_master_model.dart';
 DutyPostNameMasterModel _$DutyPostNameMasterModelFromJson(
         Map<String, dynamic> json) =>
     DutyPostNameMasterModel(
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       slNo: json['slNo'] as String?,
       location: json['location'] == null
           ? null
@@ -24,7 +24,7 @@ DutyPostNameMasterModel _$DutyPostNameMasterModelFromJson(
           : User.fromJson(json['entrySecurity'] as Map<String, dynamic>),
       modifiedDate: json['modifiedDate'] as String?,
       modifiedBy: json['modifiedBy'] as String?,
-      status: json['status'] as int?,
+      status: (json['status'] as num?)?.toInt(),
       dpName: (json['dpName'] as List<dynamic>?)
           ?.map((e) => DpName.fromJson(e as Map<String, dynamic>))
           .toList(),
