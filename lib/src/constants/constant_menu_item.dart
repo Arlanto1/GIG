@@ -7,16 +7,16 @@ const mainDrawerItems = [
   MenuItem(Constants.updatePassword, AppIcon.settings, 0),
   // MenuItem(Constants.logout, AppIcon.logout, 0),
 ];
-const securityItems = [
-  MenuItem(Constants.operations, AppIcon.operationsIcon, 1),
-  MenuItem(Constants.costAndBilling, AppIcon.costBillingIcon, 1),
-  MenuItem(Constants.securitySystems, AppIcon.securitySystemIcon, 1),
-];
+// const securityItems = [
+//   MenuItem(Constants.operations, AppIcon.operationsIcon, 1),
+//   MenuItem(Constants.costAndBilling, AppIcon.costBillingIcon, 1),
+//   MenuItem(Constants.securitySystems, AppIcon.securitySystemIcon, 1),
+// ];
 
-const costAndBillingExpansionTileDrawerItems = [
-  // MenuItem(Constants.attendanceReportBilling, AppIcon.attendanceReportBillingIcon, 0),
-  MenuItem(Constants.guardingRates, AppIcon.guardingRatesIcon, 0),
-];
+// const costAndBillingExpansionTileDrawerItems = [
+//   // MenuItem(Constants.attendanceReportBilling, AppIcon.attendanceReportBillingIcon, 0),
+//   MenuItem(Constants.guardingRates, AppIcon.guardingRatesIcon, 0),
+// ];
 // const securitySystemExpansionTileDrawerItems = [
 //   MenuItem(Constants.securitySystemTickets, AppIcon.clipboardImage, 1),
 // ];
@@ -28,13 +28,13 @@ const materialMovementDrawerItems = [
       AppIcon.materialMovementOutwardIcon, 0),
 ];
 
-const securitySystemTicketsItems = [
-  MenuItem(Constants.incident, AppIcon.incidentIcon, 0),
-];
-const securitySystemTicketsIncidentItems = [
-  MenuItem(Constants.ticketLifeCycle, AppIcon.materialMovementOutwardIcon, 0),
-  MenuItem(Constants.externalVendor, AppIcon.materialMovementOutwardIcon, 0),
-];
+// const securitySystemTicketsItems = [
+//   MenuItem(Constants.incident, AppIcon.incidentIcon, 0),
+// ];
+// const securitySystemTicketsIncidentItems = [
+//   MenuItem(Constants.ticketLifeCycle, AppIcon.materialMovementOutwardIcon, 0),
+//   MenuItem(Constants.externalVendor, AppIcon.materialMovementOutwardIcon, 0),
+// ];
 
 const guardingOperationDrawerItems = [
   MenuItem(Constants.escalationMatrix, AppIcon.escalationMatrixIcon, 0),
@@ -48,22 +48,22 @@ const guardingOperationDrawerItems = [
   // MenuItem(Constants.shiftScheduling, AppIcon.keyManagementListIcon, 1),
 ];
 
-const keyManagementDataItems = [
-  MenuItem(Constants.keyManagementMaster, AppIcon.keyManagementDataIcon, 0),
-  MenuItem(
-      Constants.keyManagementIssuance, AppIcon.keyManagementIssuanceIcon, 0),
-  MenuItem(
-      Constants.keyLossDestructionList, AppIcon.keyLossDestructionListIcon, 0),
-  // MenuItem(Constants.keyReconciliationList, AppIcon.guardingMasterRatesIcon, 0),
-];
+// const keyManagementDataItems = [
+//   MenuItem(Constants.keyManagementMaster, AppIcon.keyManagementDataIcon, 0),
+//   MenuItem(
+//       Constants.keyManagementIssuance, AppIcon.keyManagementIssuanceIcon, 0),
+//   MenuItem(
+//       Constants.keyLossDestructionList, AppIcon.keyLossDestructionListIcon, 0),
+//   // MenuItem(Constants.keyReconciliationList, AppIcon.guardingMasterRatesIcon, 0),
+// ];
 
-const shiftSchedulingDataItems = [
-  MenuItem(Constants.attendance, AppIcon.attendanceIcon, 0),
-  MenuItem(Constants.dutyPostMaster, AppIcon.dutyPostMasterIcon, 0),
-  MenuItem(Constants.dutyPostNameMaster, AppIcon.dutyPostNameMasterIcon, 0),
-  MenuItem(Constants.shiftSchedule, AppIcon.shiftScheduleIcon, 0),
-  // MenuItem(Constants.attendanceReportBilling, AppIcon.keyManagementListIcon, 0),
-];
+// const shiftSchedulingDataItems = [
+//   MenuItem(Constants.attendance, AppIcon.attendanceIcon, 0),
+//   MenuItem(Constants.dutyPostMaster, AppIcon.dutyPostMasterIcon, 0),
+//   MenuItem(Constants.dutyPostNameMaster, AppIcon.dutyPostNameMasterIcon, 0),
+//   MenuItem(Constants.shiftSchedule, AppIcon.shiftScheduleIcon, 0),
+//   // MenuItem(Constants.attendanceReportBilling, AppIcon.keyManagementListIcon, 0),
+// ];
 
 const passTileDrawerItems = [
   MenuItem(

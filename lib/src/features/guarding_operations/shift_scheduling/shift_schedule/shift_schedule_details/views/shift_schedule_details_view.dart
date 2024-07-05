@@ -200,7 +200,6 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
                               isDisabled: true,
                               textController: statusController,

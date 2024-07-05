@@ -410,6 +410,7 @@ class RouteGenerator {
         String occId = '';
         int occType = 0;
         int kldId = 0;
+        Organisation? location;
         ExtraProperties? extraProperties;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
@@ -418,6 +419,7 @@ class RouteGenerator {
           occId = arguments['occId'] ?? '';
           occType = arguments['occType'] ?? 0;
           kldId = arguments['kldId'] ?? 0;
+          location = arguments[ConstantsArgument.location];
           extraProperties = arguments[ConstantsArgument.extraProperties];
         }
         log('--occId-router--$occId--');
@@ -430,6 +432,7 @@ class RouteGenerator {
               occId: occId,
               occType: occType,
               kldId: kldId,
+              location: location,
             ),
             child: IncidentGeneralInfoView(
               viaOccurrence: !occId.isEmptyOrNull ? true : false,
@@ -467,6 +470,7 @@ class RouteGenerator {
         String occId = '';
         int occType = 0;
         bool isInternal = false;
+        Organisation? location;
         ExtraProperties? extraProperties;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
@@ -474,6 +478,7 @@ class RouteGenerator {
           occId = arguments['occId'] ?? '';
           id = arguments['id'] ?? '';
           occType = arguments['occType'] ?? 0;
+          location = arguments[ConstantsArgument.location];
           extraProperties = arguments[ConstantsArgument.extraProperties];
           if (arguments.containsKey('isInternal')) {
             isInternal = arguments['isInternal'];
@@ -489,6 +494,7 @@ class RouteGenerator {
               occType: occType,
               id: id,
               isInternal: isInternal,
+              location: location,
             ),
             child: SstIncidentGeneralInfoView(
               isInternal: isInternal,

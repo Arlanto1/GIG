@@ -127,7 +127,7 @@ class BaseAppBar {
             ),
           )
         ],
-        if (!pdfAPIName.isEmptyOrNull && containsInteger(pdfAPIName!)) ...[
+        if (!pdfAPIName.isEmptyOrNull && checkIfUrlContainsId(pdfAPIName!)) ...[
           GestureDetector(
             onTap: () {
               DownloadImage().exportPdf(context, 'export.pdf',
@@ -147,5 +147,13 @@ class BaseAppBar {
     // Regular expression to check if the string contains any digits
     RegExp regExp = RegExp(r'\d');
     return regExp.hasMatch(input);
+  }
+
+  bool checkIfUrlContainsId(String url) {
+    Uri uri = Uri.parse(url);
+
+    // Check if the query parameters contain "id" and Integer
+    RegExp regExp = RegExp(r'\d');
+    return uri.queryParameters.containsKey('id') && regExp.hasMatch(url);
   }
 }

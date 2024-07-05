@@ -78,10 +78,10 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
       builder: (context, state) {
         initializeDates();
 
-        if (state.model.status == null && state.model.lock.isEmptyOrNull ) {
+        if (state.model.status == null && state.model.lock.isEmptyOrNull) {
           isReadOnly = false;
         }
-        if (state.model.status == 0 && state.model.lock.isEmptyOrNull ) {
+        if (state.model.status == 0 && state.model.lock.isEmptyOrNull) {
           isReadOnly = false;
         }
         if (state.model.status == -1) {
@@ -97,9 +97,10 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
             !widget.extraProperties!.hasWritePermission!) {
           isReadOnly = true;
         }
-        showSaveSubmitButtons = (state.model.status == 0||
-            state.model.status == null ||
-            !isReadOnly) &&  state.model.lock.isEmptyOrNull;
+        showSaveSubmitButtons = (state.model.status == 0 ||
+                state.model.status == null ||
+                !isReadOnly) &&
+            state.model.lock.isEmptyOrNull;
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
@@ -109,7 +110,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
             showSubmitButton: showSaveSubmitButtons,
             showDisLikeButton: false,
             showLikeButton: false,
-            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.occurrenceModule}',
+            pdfAPIName:
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.occurrenceModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
@@ -269,7 +271,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 title: state.model.handoverSecurity?.userInfo ??
                                     state.model.handoverSecurity?.name,
                                 height: 70,
-                                isDisableColor: !showSaveSubmitButtons ,
+                                isDisableColor: !showSaveSubmitButtons,
                                 onTap: () {
                                   if (showSaveSubmitButtons) {
                                     BaseOrganisationDialog().userDialog(
@@ -1556,14 +1558,13 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
   Widget cancelButtonDisplay(OccurrenceGeneralInfoState state) {
     bool condition = state.model.id == null ||
         state.model.status == ConstantsIntValue.cancelledStatus ||
-        state.model.status == 1 || !state.model.lock.isEmptyOrNull;
+        state.model.status == 1 ||
+        !state.model.lock.isEmptyOrNull;
     return AppButton(
-      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: condition ? Constants.close
-          : Constants.cancelRecord,
+      buttonText: condition ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         if (condition) {
@@ -1625,7 +1626,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
     if (isInternal ?? false) {
       map.putIfAbsent('isInternal', () => isInternal ?? false);
     }
-    log('---navigateToCreateIncident--@@@----2----');
+    log('---navigateToCreateIncident--isSSTIncident---$isSSTIncident-');
+    map.putIfAbsent(ConstantsArgument.location, () => state.model.location!);
+
     nav.pushNamed(
       isSSTIncident ? sstIncidentDetailsRoute : incidentManagementDetailsRoute,
       arguments: map,
@@ -1646,7 +1649,6 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
   }) {
     log('--occId-ogi--$occId--');
     return AppButton(
-      
       height: 40,
       width: 100,
       backgroundColor: Colors.white,

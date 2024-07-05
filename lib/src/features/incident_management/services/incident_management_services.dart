@@ -36,7 +36,7 @@ class IncidentManagementServices {
     // 'userId=${await SharedPrefs.getUserId()}';
     if (!occId.isEmptyOrNull) {
       url = '$url&occuId=$occId&occType=$occType';
-    } else if (kldId != 0) {
+    } else if (kldId != 0 && kldId != null) {
       url = '$url&kldId=$kldId';
     }
     var response = await BaseApiService().postRequest(

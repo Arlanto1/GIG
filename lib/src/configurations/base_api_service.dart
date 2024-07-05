@@ -50,11 +50,9 @@ class BaseApiService {
       }
     }
 
-
-
     if (isAuthenticated != null && isAuthenticated) {
       String token = await SharedPrefs.getToken();
-      log("token is:$token");
+      // log("token is:$token");
       if (token.isEmptyOrNull) {
         throw TokenExpiredException(message: 'Session has Expired');
       }
@@ -180,9 +178,9 @@ class BaseApiService {
 
       log("HTTP Status Code: ${response.statusCode}");
       // log("Response: ${response.body}");
-      if (url.contains('getIncidentMgmtById')) {
-        log("Response: ${response.body}");
-      }
+      // if (url.contains('getIncidentMgmtById')) {
+      //   log("Response: ${response.body}");
+      // }
       var responseBody;
       if (!response.body.isEmptyOrNull) {
         responseBody = json.decode(response.body);
