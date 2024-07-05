@@ -402,7 +402,6 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Article Type
-
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.typeOfArticle ??
                                       state.labels?.defaultLocale
@@ -423,6 +422,14 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                               context)
                                           .updateDropdownValues(
                                               typeOfArticle: articleType);
+                                    },
+                                    orgName: 'ARTICLE_LIST',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          IncidentGeneralInfoCubit>(
+                                          context)
+                                          .refreshList();
                                     },
                                   );
                                 },
