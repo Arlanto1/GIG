@@ -113,7 +113,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           if ((widget.model?.status == null ||
               widget.model?.status == 0 ||
               widget.model?.status == 1 ||
-              widget.model?.status == 3) &&
+              widget.model?.status == 3) ||
               !(widget.extraProperties != null &&
                   !widget.extraProperties!.hasWritePermission!)) ...[
             GestureDetector(
@@ -237,10 +237,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   '--passtypeTextController.text--------222-${passtypeTextController
                       .text}----');
 
-              if (widget.model?.status != null &&
-                  widget.model?.status != 0 &&
-                  widget.model?.status != 1) {
-                isDisabled = true;
+              if (widget.model?.status == null ||
+                  widget.model?.status == 0 ||
+                  widget.model?.status == 1) {
+                isDisabled = false;
               }
 
               if (widget.extraProperties != null &&
@@ -506,7 +506,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       onTap: () {
                                         if ((widget.model?.status == 0 ||
                                             widget.model?.status == null ||
-                                            widget.model?.status != 1) &&
+                                            widget.model?.status != 1) ||
                                             !(widget.extraProperties != null &&
                                                 !widget.extraProperties!
                                                     .hasWritePermission!)) {
@@ -535,7 +535,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 widget.model?.status ==
                                                     null ||
                                                 widget.model?.status !=
-                                                    1) &&
+                                                    1) ||
                                                 !(widget.extraProperties !=
                                                     null &&
                                                     !widget.extraProperties!
@@ -2128,7 +2128,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         if ((widget.model?.status == null ||
                                             widget.model?.status == 0 ||
                                             widget.model?.status == 1 ||
-                                            widget.model?.status == 3) &&
+                                            widget.model?.status == 3) ||
                                             !(widget.extraProperties != null &&
                                                 !widget.extraProperties!
                                                     .hasWritePermission!)) ...[
@@ -4181,15 +4181,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         "Please enter Day Pass Number",
       );
     } else if (widget.passId == ConstantsIntValue.passIdVisitor &&
-        (state.selectedPassInfo == null ||
-            (state.selectedPassInfo?.name ?? '').isEmpty)) {
+        daypassnoTextController.text.isEmptyOrNull) {
       Validator().showToast(
         context,
         "Please enter Visitor pass no",
       );
     } else if (widget.passId == ConstantsIntValue.passIdVendor &&
-        (state.selectedPassInfo == null ||
-            (state.selectedPassInfo?.name ?? '').isEmpty)) {
+        daypassnoTextController.text.isEmptyOrNull) {
       Validator().showToast(
         context,
         "Please enter Vendor pass no",
