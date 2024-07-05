@@ -191,7 +191,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           backgroundColor: AppColors.backgroundWhiteColor,
           body: BlocConsumer<LawEnforcementCubit, LawEnforcementState>(
             listener: (context, state) {
-              log('state.model!.lock.isEmptyOrNull ${state.model?.lock.isEmptyOrNull}');
+              log('state.model!.lock.isEmptyOrNull ${widget.model?.lock.isEmptyOrNull}');
               Utils().formError(state, context);
               Utils().errorAndLogout(state, context);
               if (state.status == FormStatus.successFormSubmit) {
@@ -498,7 +498,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                               0 ||
                                               widget.model?.status == 1 ||
                                               widget.model?.status == 2 ||
-                                              widget.model == null) &&
+                                              widget.model == null) ||
                                               (widget.model != null &&widget.model!.lock.isEmptyOrNull)
                                               ? true
                                               : false,
@@ -571,7 +571,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                               0 ||
                                               widget.model?.status == 1 ||
                                               widget.model?.status == 2 ||
-                                              widget.model == null) &&
+                                              widget.model == null) ||
                                               (widget.model != null &&widget.model!.lock.isEmptyOrNull)
                                               ? false
                                               : true,
@@ -1380,7 +1380,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio(
-          activeColor: widget.model?.status != 0 && widget.model != null ||
+          activeColor: widget.model?.status != 0 && widget.model != null &&
               !(widget.model != null &&widget.model!.lock.isEmptyOrNull)
               ? AppColors.disableTextFieldBackground
               : AppColors.navigationSkyBlueColor,
@@ -1406,7 +1406,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         ),
         const Text(Constants.yes),
         Radio(
-          activeColor: widget.model?.status != 0 && widget.model != null ||
+          activeColor: widget.model?.status != 0 && widget.model != null &&
               !(widget.model != null &&widget.model!.lock.isEmptyOrNull)
               ? AppColors.disableTextFieldBackground
               : AppColors.navigationSkyBlueColor,
@@ -1638,7 +1638,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       enabled: (widget.model?.status == 0 ||
           widget.model == null ||
           widget.model?.status == 1 ||
-          widget.model?.status == 2) && (widget.model != null &&widget.model!.lock.isEmptyOrNull),
+          widget.model?.status == 2) || (widget.model != null &&widget.model!.lock.isEmptyOrNull),
       addTitle: Constants.addentitytype,
       orgName: 'ATOM_ENTITIES',
       createEntity: widget.model?.status == 0 ||
@@ -1740,9 +1740,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       title: state.leoPurposeVisitResponse?.name ?? '',
       height: 60,
       isDisableColor: (widget.model?.status == 0 ||
-          widget.model == null ||
+          widget.model == null || widget.model?.status == null ||
           widget.model?.status == 1 ||
-          widget.model?.status == 2) && (widget.model != null &&widget.model!.lock.isEmptyOrNull)
+          widget.model?.status == 2) || (widget.model != null && widget.model!.lock.isEmptyOrNull)
           ? false
           : true,
       onTap: () {
@@ -1766,11 +1766,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     return TextFieldAddButton(
       title: dept?.name ?? '',
       height: 60,
-      isDisableColor: widget.model?.status != 0 &&
-          widget.model?.status != 1 &&
-          widget.model != null
-          ? true
-          : false,
+      isDisableColor: widget.model?.status == 0 ||
+          widget.model?.status == 1 ||
+          widget.model == null ||widget.model?.status == null
+          ? false
+          : true,
       onTap: () {
         if (widget.model?.status == 0 ||
             widget.model?.status == 1 ||
@@ -1788,7 +1788,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       isDisableColor: (widget.model?.status == 0 ||
           widget.model?.status == 1 ||
           widget.model?.status == 2 ||
-          widget.model == null) && (widget.model != null &&widget.model!.lock.isEmptyOrNull)
+          widget.model == null) || (widget.model != null &&widget.model!.lock.isEmptyOrNull)
           ? false
           : true,
       onTap: () {
@@ -1827,7 +1827,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       isDisableColor: (widget.model?.status == 0 ||
           widget.model?.status == 1 ||
           widget.model?.status == 2 ||
-          widget.model == null) && (widget.model != null &&widget.model!.lock.isEmptyOrNull)
+          widget.model == null) || (widget.model != null &&widget.model!.lock.isEmptyOrNull)
           ? false
           : true,
       onTap: () {
