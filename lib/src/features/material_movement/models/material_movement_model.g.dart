@@ -16,7 +16,7 @@ MaterialMovementModel _$MaterialMovementModelFromJson(
       gatePassSecuritySign: (json['gatePassSecuritySign'] as List<dynamic>?)
           ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
           .toList(),
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       slNo: json['slNo'] as String?,
       inputDate: json['inputDate'] as String?,
       location: json['location'] == null
@@ -27,14 +27,14 @@ MaterialMovementModel _$MaterialMovementModelFromJson(
           : Organisation.fromJson(
               json['locationRegion'] as Map<String, dynamic>),
       entities: json['entities'] as List<dynamic>?,
-      returnQuantity: json['returnQuantity'] as int?,
+      returnQuantity: (json['returnQuantity'] as num?)?.toInt(),
       inwardMovement: json['inwardMovement'] as bool? ?? false,
       returnable: json['returnable'] as bool? ?? false,
       challanNo: json['challanNo'] as String?,
       materialComingFrom: json['materialComingFrom'] as String?,
       materialFromAddress: json['materialFromAddress'] as String?,
       materialDescription: json['materialDescription'] as String?,
-      quantity: json['quantity'] as int?,
+      quantity: (json['quantity'] as num?)?.toInt(),
       images: (json['images'] as List<dynamic>?)
               ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -44,7 +44,7 @@ MaterialMovementModel _$MaterialMovementModelFromJson(
       entrySecurity: json['entrySecurity'] == null
           ? null
           : User.fromJson(json['entrySecurity'] as Map<String, dynamic>),
-      status: json['status'] as int?,
+      status: (json['status'] as num?)?.toInt(),
       modifiedBy: json['modifiedBy'] as String?,
       history: (json['history'] as List<dynamic>?)
           ?.map((e) => History.fromJson(e as Map<String, dynamic>))

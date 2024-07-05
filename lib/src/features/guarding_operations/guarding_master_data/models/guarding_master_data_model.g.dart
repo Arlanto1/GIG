@@ -9,7 +9,7 @@ part of 'guarding_master_data_model.dart';
 GuardingMastersDataModel _$GuardingMastersDataModelFromJson(
         Map<String, dynamic> json) =>
     GuardingMastersDataModel(
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       slNo: json['slNo'] as String?,
       location: json['location'] == null
           ? null
@@ -31,8 +31,8 @@ GuardingMastersDataModel _$GuardingMastersDataModelFromJson(
           ? null
           : User.fromJson(json['entrySecurity'] as Map<String, dynamic>),
       inputDate: json['inputDate'] as String?,
-      status: json['status'] as int?,
-      guardRank: json['guardRank'] as int?,
+      status: (json['status'] as num?)?.toInt(),
+      guardRank: (json['guardRank'] as num?)?.toInt(),
       localAddressProof: json['localAddressProof'] == null
           ? null
           : ImageContent.fromJson(
@@ -49,12 +49,12 @@ GuardingMastersDataModel _$GuardingMastersDataModelFromJson(
           : ImageContent.fromJson(json['photoGraph'] as Map<String, dynamic>),
       employeeCode: json['employeeCode'] as String?,
       dbEmployeeId: json['dbEmployeeId'] as String?,
-      dutyType: json['dutyType'] as int?,
-      gender: json['gender'] as int?,
+      dutyType: (json['dutyType'] as num?)?.toInt(),
+      gender: (json['gender'] as num?)?.toInt(),
       contactNo: json['contactNo'] as String?,
       dateOfBirth: json['dateOfBirth'] as String?,
-      maritalStatus: json['maritalStatus'] as int?,
-      typeOfDeployment: json['typeOfDeployment'] as int?,
+      maritalStatus: (json['maritalStatus'] as num?)?.toInt(),
+      typeOfDeployment: (json['typeOfDeployment'] as num?)?.toInt(),
       deploymentOrderSubmitted:
           json['deploymentOrderSubmitted'] as bool? ?? false,
       deploymentOrders: (json['deploymentOrders'] as List<dynamic>?)
@@ -93,13 +93,13 @@ GuardingMastersDataModel _$GuardingMastersDataModelFromJson(
       medicalCertificates: (json['medicalCertificates'] as List<dynamic>?)
           ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
           .toList(),
-      systemAccess: json['systemAccess'] as int?,
+      systemAccess: (json['systemAccess'] as num?)?.toInt(),
       onboarded: json['onboarded'] as bool? ?? false,
       esicNo: json['esicNo'] as String?,
       uanNo: json['uanNo'] as String?,
       msgbExempted: json['msgbExempted'] as bool? ?? false,
-      msgbFormBSubmitted: json['msgbFormBSubmitted'] as int?,
-      staffMsgbCompliant: json['staffMsgbCompliant'] as int?,
+      msgbFormBSubmitted: (json['msgbFormBSubmitted'] as num?)?.toInt(),
+      staffMsgbCompliant: (json['staffMsgbCompliant'] as num?)?.toInt(),
       guardingPOC: json['guardingPOC'] as String?,
       csrParticipations: (json['csrParticipations'] as List<dynamic>?)
           ?.map((e) => GuardingMasterDataExtraDetails.fromJson(
@@ -129,7 +129,7 @@ GuardingMastersDataModel _$GuardingMastersDataModelFromJson(
       height: json['height'] as num?,
       weight: json['weight'] as num?,
       chest: json['chest'] as num?,
-      dependentsNo: json['dependentsNo'] as int?,
+      dependentsNo: (json['dependentsNo'] as num?)?.toInt(),
       msgbExemptionDate: json['msgbExemptionDate'] as String?,
     )..lock = json['lock'] as String?;
 

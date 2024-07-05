@@ -8,7 +8,7 @@ part of 'contact_details_list_response_model.dart';
 
 ContactDetailModel _$ContactDetailModelFromJson(Map<String, dynamic> json) =>
     ContactDetailModel(
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       slNo: json['slNo'] as String?,
       location: json['location'] == null
           ? null
@@ -23,7 +23,7 @@ ContactDetailModel _$ContactDetailModelFromJson(Map<String, dynamic> json) =>
           : User.fromJson(json['entrySecurity'] as Map<String, dynamic>),
       modifiedDate: json['modifiedDate'] as String?,
       modifiedBy: json['modifiedBy'] as String?,
-      status: json['status'] as int?,
+      status: (json['status'] as num?)?.toInt(),
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$ContactDetailModelToJson(ContactDetailModel instance) =>

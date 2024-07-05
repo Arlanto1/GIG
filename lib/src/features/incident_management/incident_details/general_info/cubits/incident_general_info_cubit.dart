@@ -38,6 +38,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
   final int occType;
   final int kldId;
   final CommonServices commonServices;
+  final Organisation? location;
 
   IncidentGeneralInfoCubit({
     required this.services,
@@ -46,6 +47,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     required this.id,
     required this.occType,
     required this.kldId,
+    this.location,
   }) : super(
           IncidentGeneralInfoState.initial(
             model: IncidentModel(),
@@ -149,7 +151,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
-      if (state.model.location == null) {
+      if (location == null && state.model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
         log('defaultLocation $defaultLocation');
         if (defaultLocation != null) {
@@ -160,6 +162,14 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           model.location = defaultLocation;
           model.slNo = slNo.serialNo;
         }
+      } else if(location != null) {
+        /// it is getting redirected from Shift Occurrence
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: location!.id.toString(),
+          moduleCode: Constants.incidentManagementModule,
+        );
+        model.location = location;
+        model.slNo = slNo.serialNo;
       }
       emit(
         state.copyWith(

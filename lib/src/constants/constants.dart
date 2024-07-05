@@ -133,6 +133,7 @@ class Constants {
   static const String loginButtonTitle = "Login";
   static const String resetPwdTitle = "Reset Password";
 
+  static const String dbSSO = "Login with DB SSO";
   static const String loginVerifyOtpTitle = "Verify";
   static const String send = "Send";
   static const String update = "Update";

@@ -77,6 +77,8 @@ class _AnnualPowerShutdownListViewState
     return BlocConsumer<AnnualPowerShutdownListBloc,
         AnnualPowerShutdownListState>(listener: (context, state) {
       log('--state.status---${state.status}--');
+
+      Utils().formError(state, context);
       Utils().errorAndLogout(state, context);
     }, builder: (context, state) {
       return Scaffold(

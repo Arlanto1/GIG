@@ -8,8 +8,8 @@ part of 'contacts_list_response_model.dart';
 
 ContactsListModel _$ContactsListModelFromJson(Map<String, dynamic> json) =>
     ContactsListModel(
-      id: json['id'] as int?,
-      status: json['status'] as int?,
+      id: (json['id'] as num?)?.toInt(),
+      status: (json['status'] as num?)?.toInt(),
       modifiedBy: json['modifiedBy'] as String?,
       contacts: (json['contact'] as List<dynamic>?)
           ?.map((e) => ContactRecord.fromJson(e as Map<String, dynamic>))

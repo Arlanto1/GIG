@@ -8,7 +8,7 @@ part of 'shift_schedule_response.dart';
 
 ShiftScheduleModel _$ShiftScheduleModelFromJson(Map<String, dynamic> json) =>
     ShiftScheduleModel(
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       entrySecurity: json['entrySecurity'] == null
           ? null
           : User.fromJson(json['entrySecurity'] as Map<String, dynamic>),
@@ -24,8 +24,8 @@ ShiftScheduleModel _$ShiftScheduleModelFromJson(Map<String, dynamic> json) =>
       vendor: json['vendor'] == null
           ? null
           : Organisation.fromJson(json['vendor'] as Map<String, dynamic>),
-      dutyType: json['dutyType'] as int?,
-      status: json['status'] as int?,
+      dutyType: (json['dutyType'] as num?)?.toInt(),
+      status: (json['status'] as num?)?.toInt(),
       fromDate: json['fromDate'] as String?,
       toDate: json['toDate'] as String?,
       modifiedBy: json['modifiedBy'] as String?,

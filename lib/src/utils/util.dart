@@ -97,6 +97,9 @@ class Utils {
           Navigator.pop(context, true);
         }
       },
+      onNegativePressed: (){
+        Navigator.pop(context);
+      },
     );
     showDialog(
         context: context,

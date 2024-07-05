@@ -71,6 +71,8 @@ class AppIcon {
 
   static const String securityFunctionsIcon =
       'assets/images/securityFunctions.png';
+  static const String deutscheBankLogo =
+      'assets/images/deutsche-bank-logo.png';
   static const String operationsIcon = 'assets/images/operations.png';
   static const String costBillingIcon = 'assets/images/costBilling.png';
   static const String securitySystemIcon = 'assets/images/securitySystem.png';

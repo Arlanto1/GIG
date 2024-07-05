@@ -10,7 +10,7 @@ KeyManagementMasterModel _$KeyManagementMasterModelFromJson(
         Map<String, dynamic> json) =>
     KeyManagementMasterModel(
       keyManagementId: json['keyManagementId'] as String?,
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       slNo: json['slNo'] as String?,
       createdBy: json['createdBy'] == null
           ? null
@@ -33,15 +33,15 @@ KeyManagementMasterModel _$KeyManagementMasterModelFromJson(
       doorLockKey: json['doorLockKey'] as bool? ?? false,
       investigationRequired: json['investigationRequired'] as bool? ?? false,
       keyNo: json['keyNo'] as String?,
-      keyTagging: json['keyTagging'] as int?,
-      noKeys: json['noKeys'] as int?,
-      noKeysIssued: json['noKeysIssued'] as int?,
+      keyTagging: (json['keyTagging'] as num?)?.toInt(),
+      noKeys: (json['noKeys'] as num?)?.toInt(),
+      noKeysIssued: (json['noKeysIssued'] as num?)?.toInt(),
       available: json['available'],
       returned: json['returned'],
       notReturned: json['notReturned'],
       lost: json['lost'],
       damaged: json['damaged'],
-      noMasterKey: json['noMasterKey'] as int?,
+      noMasterKey: (json['noMasterKey'] as num?)?.toInt(),
       noKeysIssuedMaster: json['noKeysIssuedMaster'],
       availableMaster: json['availableMaster'],
       returnedMaster: json['returnedMaster'],
@@ -57,13 +57,13 @@ KeyManagementMasterModel _$KeyManagementMasterModelFromJson(
       loss: json['loss'] as List<dynamic>?,
       damage: json['damage'] as List<dynamic>?,
       destroy: json['destroy'] as List<dynamic>?,
-      status: json['status'] as int?,
-      keyType: json['keyType'] as int?,
-      type: json['type'] as int?,
+      status: (json['status'] as num?)?.toInt(),
+      keyType: (json['keyType'] as num?)?.toInt(),
+      type: (json['type'] as num?)?.toInt(),
       srh: json['srh'] == null
           ? null
           : User.fromJson(json['srh'] as Map<String, dynamic>),
-      noOfKeys: json['noOfKeys'] as int?,
+      noOfKeys: (json['noOfKeys'] as num?)?.toInt(),
       additionalInformation: json['additionalInformation'] as String?,
       lostKeyDetails: json['lostKeyDetails'] as String?,
       securityManager: json['securityManager'] == null

@@ -98,13 +98,13 @@ class LawEnforcementServices {
   }
 
   //Get locations
-  Future<Locations> getLocations(String name, BuildContext? context) async {
-    String url = '${Apis._getLocations}$name';
-    final response = await BaseApiService().getRequest(
-      url: url,
-    );
-    return Locations.fromJson(response);
-  }
+  // Future<Locations> getLocations(String name, BuildContext? context) async {
+  //   String url = '${Apis._getLocations}$name';
+  //   final response = await BaseApiService().getRequest(
+  //     url: url,
+  //   );
+  //   return Locations.fromJson(response);
+  // }
 
   // get serailnumber Details api call
   Future<SerialNumberModel> getSerialnumberDetails(

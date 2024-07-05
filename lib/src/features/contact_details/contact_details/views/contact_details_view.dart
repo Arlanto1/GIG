@@ -692,6 +692,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
   }
 
   Widget cancelButtonDisplay(ContactDetailsState state) {
+
+    log('--widget.model?.status---${widget.model?.status}----');
     bool condition = widget.model?.id == null ||
         widget.model?.status == ConstantsIntValue.cancelledStatus ||
         widget.model?.status == 3 ||
@@ -703,7 +705,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
       buttonText: condition ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        if (state.model.id == null) {
+        if (condition) {
           Navigator.pop(context);
           return;
         }

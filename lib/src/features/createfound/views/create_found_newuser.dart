@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
@@ -54,6 +56,7 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
   void _getFoundNewuser(String firstname, String lastname, String email) async {
     showLoadingDialog(context);
     if (widget.createoundstate != null) {
+      log('---_getFoundNewuser------');
       await createFoundArticleCubit.createUser(
           firstname, lastname, email, 'ATOM_STATIC_USER', context);
     } else if (widget.createpassmgmtstate != null) {

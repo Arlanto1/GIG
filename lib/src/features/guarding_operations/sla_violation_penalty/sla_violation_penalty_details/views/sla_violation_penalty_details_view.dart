@@ -289,7 +289,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                         context)
                                     .updateDropdownValues(
                                         vendors: selectedVendors);
-                                Navigator.of(context).pop(); // Close the dialog
+                                Navigator.of(context).pop(); 
                               },
                               addTitle: 'ADD Vendor',
                               createEntity: false,
@@ -325,7 +325,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                         context)
                                     .updateDropdownValues(
                                         entities: selectedEntities);
-                                Navigator.of(context).pop(); // Close the dialog
+                                Navigator.of(context).pop(); 
                               },
                               orgName: 'ATOM_ENTITIES',
                               functionToCall: () {
@@ -360,7 +360,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                         context)
                                     .updateDropdownValues(
                                         typeOfServices: selectedTypeOfVendors);
-                                Navigator.of(context).pop(); // Close the dialog
+                                Navigator.of(context).pop(); 
                               },
                               addTitle: 'ADD Type of Service',
                               createEntity: false,
@@ -547,10 +547,11 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          cancelButtonDisplay(state),
                           if ((state.model.status != 2 &&
                               state.model.status != -1 &&
-                              !isReadOnly))...[submitButtonDisplay()],
+                              !isReadOnly))...[
+                            cancelButtonDisplay(state),
+                            submitButtonDisplay()],
                         ],
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
@@ -559,7 +560,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                 ),
               ),
             ),
-            if (state.model.status == 2) ...[
+            if (state.model.status == 2 || state.model.status == ConstantsIntValue.cancelledStatus) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(
@@ -577,6 +578,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                 ),
               ),
             ],
+            CommonWidgets.verticalSpacerWidget(height * 0.04),
           ],
         ),
       ),

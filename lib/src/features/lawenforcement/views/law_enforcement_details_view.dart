@@ -368,6 +368,21 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                             height * 0.001),
                                         locationWidgetDisplay(state),
 
+                                        // BaseLocationDropdown().locationWidgetDisplay(
+                                        //     isEnabled: (widget.model?.status == null ||
+                                        //         widget.model?.status == 0 ||
+                                        //         widget.model?.status == 1),
+                                        //     context: context,
+                                        //     locations: state.getLocationsResponse ?? Locations(),
+                                        //     selectedLocationName:
+                                        //     state.model?.location?.name ?? '',
+                                        //     onTap: (Organisation? location) {
+                                        //       BlocProvider.of<
+                                        //           MaterialMovementDetailsCubit>(
+                                        //           context)
+                                        //           .updateDropdownValues(location: location);
+                                        //     }),
+
                                         CommonWidgets.verticalSpacerWidget(
                                             height * 0.01),
 

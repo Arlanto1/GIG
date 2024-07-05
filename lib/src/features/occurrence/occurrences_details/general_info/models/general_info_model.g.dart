@@ -8,7 +8,7 @@ part of 'general_info_model.dart';
 
 OccurrenceModel _$OccurrenceModelFromJson(Map<String, dynamic> json) =>
     OccurrenceModel(
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       slNo: json['slNo'] as String?,
       inputDate: json['inputDate'] as String?,
       entrySecurity: json['entrySecurity'] == null
@@ -60,7 +60,7 @@ OccurrenceModel _$OccurrenceModelFromJson(Map<String, dynamic> json) =>
           .toList(),
       secSysFailureIncident: json['secSysFailureIncident'] as List<dynamic>?,
       followedUp: json['followedUp'] as bool? ?? false,
-      status: json['status'] as int?,
+      status: (json['status'] as num?)?.toInt(),
       powerFailures: (json['powerFailures'] as List<dynamic>?)
           ?.map((e) => PowerFailureModel.fromJson(e as Map<String, dynamic>))
           .toList(),

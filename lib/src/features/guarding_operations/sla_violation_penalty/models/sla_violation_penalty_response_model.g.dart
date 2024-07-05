@@ -9,7 +9,7 @@ part of 'sla_violation_penalty_response_model.dart';
 SLAViolationPenaltyModel _$SLAViolationPenaltyModelFromJson(
         Map<String, dynamic> json) =>
     SLAViolationPenaltyModel(
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       slNo: json['slNo'] as String?,
       location: json['location'] == null
           ? null
@@ -22,7 +22,7 @@ SLAViolationPenaltyModel _$SLAViolationPenaltyModelFromJson(
       entrySecurity: json['entrySecurity'] == null
           ? null
           : User.fromJson(json['entrySecurity'] as Map<String, dynamic>),
-      status: json['status'] as int?,
+      status: (json['status'] as num?)?.toInt(),
       entity: (json['entity'] as List<dynamic>?)
           ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
           .toList(),

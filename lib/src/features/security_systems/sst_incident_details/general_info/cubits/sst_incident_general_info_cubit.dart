@@ -4,7 +4,6 @@ import 'dart:math' as math;
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/security_systems/models/ssla_ui_labels.dart';
 import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
-import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
 import '../../../models/requestModel/general_info_request.dart';
@@ -19,6 +18,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
   final bool isInternal;
   final CommonServices commonServices;
   final int occType;
+  final Organisation? location;
 
   SstIncidentGeneralInfoCubit({
     required this.occType,
@@ -27,6 +27,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     required this.commonServices,
     required this.id,
     required this.isInternal,
+    this.location,
   }) : super(
           SstIncidentGeneralInfoState.initial(
             model: SstIncident(),
@@ -130,7 +131,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       List<Organisation> vendors =
           await commonServices.getOrganisations(name: 'ATOM_VENDORS');
 
-      if (state.model.location == null) {
+      if (location == null && state.model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
         if (defaultLocation != null) {
           SerialNumberModel slNo = await commonServices.getSlNo(
@@ -140,8 +141,15 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           model.location = defaultLocation;
           model.slNo = slNo.serialNo;
         }
+      } else if(location != null) {
+        /// it is getting redirected from Shift Occurrence
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: location!.id.toString(),
+          moduleCode: Constants.securitySystemModule,
+        );
+        model.location = location;
+        model.slNo = slNo.serialNo;
       }
-
       List<BaseUser> securityLeads = await commonServices.getBaseUsersByRoles(
           roleNames: 'ATOM_ROLE_Security_Lead;ATOM_Assistant_Security_Lead');
 
@@ -461,8 +469,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.createdDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.createdDate ?? '0'),
+              Constants.fulldateFormat);
       return UtilsCommon().exceptionHandling(e, emit, state);
     }
 
