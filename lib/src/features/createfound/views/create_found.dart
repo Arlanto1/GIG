@@ -601,7 +601,7 @@ class _CreateFoundState extends State<CreateFound> {
             claimantTextController.text.isEmpty) {
           log('--isClaimantDBEmployeeSelected--$isClaimantDBEmployeeSelected-------');
           if (claimant.isEmptyOrNull) {
-            Validator().showToast(context, "Please enter claim");
+            Validator().showToast(context, "Please enter claimant");
           }
         } else {
           submitForm(true, widget.model?.id ?? 0);
