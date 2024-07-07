@@ -115,7 +115,7 @@ class OccurrenceModel {
     this.transportIncdntComments,
     this.anyEvent = false,
     this.notifyScri,
-    this.powerFailure = true,
+    this.powerFailure = false,
     this.atmVendorVisit = false,
     this.cwmVisit = false,
     this.comments,
