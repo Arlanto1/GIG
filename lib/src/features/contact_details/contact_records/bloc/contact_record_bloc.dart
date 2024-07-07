@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 import '../../services/contact_details_services.dart';
 
@@ -92,6 +92,7 @@ class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
   }
 
   Future<void> refreshList(RefreshContactRecordsList event, Emitter<ContactRecordState> emit) async {
+    log('-refreshList---');
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation> departments = await commonServices.getOrganisations(
         name: rankType == Constants.contactGeneralRank
@@ -105,6 +106,7 @@ class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
                         : rankType == Constants.contactZone
                             ? 'CONTACT_ZONE'
                             : '');
+    log('-departments-${departments.length}--');
     emit(
       state.copyWith(
         status: FormStatus.initial,
