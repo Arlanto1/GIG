@@ -4,7 +4,7 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
     id "com.google.gms.google-services"
 }
-def keystorePropertiesFile = rootProject.file('key.properties')
+def keystorePropertiesFile = rootProject.file('keystore.properties')
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
@@ -37,10 +37,15 @@ android {
         }
 
         release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
+//            keyAlias keystoreProperties['keyAlias']
+//            keyPassword keystoreProperties['keyPassword']
+//            storeFile file(keystoreProperties['storeFile'])
+//            storePassword keystoreProperties['storePassword']
+
+            storeFile file('/Users/anurag/StudioProjects/Arlanto-App-Codebase/android/Atomedgekeystore/atomedge')
+            storePassword 'Bnaren@513'
+            keyAlias 'AtomEdge'
+            keyPassword 'Bvineela@513'
         }
     }
 
@@ -53,21 +58,25 @@ android {
             dimension "flavor-type"
             applicationId "com.arlanto.atomedge.dev"
             resValue "string", "app_name", "AtomEdge-Dev"
+            signingConfig signingConfigs.release
         }
         QA {
             dimension "flavor-type"
             applicationId "com.arlanto.atomedge.qa"
             resValue "string", "app_name", "AtomEdge-QA"
+            signingConfig signingConfigs.release
         }
         UAT {
             dimension "flavor-type"
             applicationId "com.arlanto.atomedge.uat"
             resValue "string", "app_name", "AtomEdge-UAT"
+            signingConfig signingConfigs.release
         }
         PROD {
             dimension "flavor-type"
             applicationId "com.arlanto.atomedge"
             resValue "string", "app_name", "AtomEdge"
+            signingConfig signingConfigs.release
         }
     }
 

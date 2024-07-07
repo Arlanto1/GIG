@@ -132,7 +132,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                   ? true
                                   : false) {
                                 BaseOrganisationDialog().departmentDialog(
-                                    context: context,
+                                    context: widget.mainContext,
                                     organisations: widget.users,
                                     onTap: (Organisation user) {
                                       log('-user.name----${user.name}-');
@@ -181,8 +181,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                                     : Constants
                                                         .guardingAgencyRank,
                                     functionToCall: () {
+                                      log('---functionToCall----');
                                       BlocProvider.of<ContactRecordBloc>(
-                                              context).add(
+                                              widget.mainContext).add(
                                         const RefreshContactRecordsList(),
                                       );
                                     });
