@@ -5,16 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="remaining file">
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_app_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_app_bar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list/bloc/annual_power_shutdown_list_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list/bloc/annual_power_shutdown_list_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list/views/annual_power_shutdown_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list/views/annual_power_shutdown_list_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/controllers/create_found_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/controllers/create_found_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/utils/utils_common.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/utils/utils_common.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_cubit.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +80,7 @@
   "keyToString": {
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "Flutter.main.dart.executor": "Run",
-    "Flutter.qa.executor": "Debug",
+    "Flutter.qa.executor": "Run",
     "Flutter.uat.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -95,7 +92,7 @@
     "com.android.tools.idea.streaming.emulator.zoom.toolbar.visible": "false",
     "com.android.tools.idea.streaming.zoom.toolbar.visible": "false",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "bug-fixes-new",
+    "git-widget-placeholder": "web-sso",
     "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/models/responseModels",

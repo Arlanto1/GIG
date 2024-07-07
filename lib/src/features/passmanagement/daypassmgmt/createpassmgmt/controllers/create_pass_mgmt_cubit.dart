@@ -4,7 +4,6 @@ import 'dart:math' as math;
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/services/create_pass_mgmt_services.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   CreatePassMgmtService createpassmgmtServices;
@@ -215,7 +214,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       String locationsStr, int? filter, BuildContext context) async {
     try {
       Locations getLocationsData = await commonServices.getRegionsWithLocations(
-          name: locationsStr, filter: filter);
+          name: locationsStr, filter: filter, isSezLocations: true);
       emit(
         state.copyWith(
           getLocationsResponse: getLocationsData,
