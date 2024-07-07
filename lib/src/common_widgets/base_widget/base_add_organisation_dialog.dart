@@ -231,15 +231,15 @@ class BaseAddOrganisationDialogState extends State<BaseAddOrganisationDialog> {
             "Please enter the name",
           );
         } else {
+          var sca = ScaffoldMessenger.of(context);
           try {
             var nav = Navigator.of(context);
-            var sca = ScaffoldMessenger.of(context);
             var createOrganisation = await CommonServices().createOrganisation(
                 name: nameTextController.text,
                 keyname: keyTextController.text,
                 orgName: widget.orgName);
 
-            log('-createOrganisation---$createOrganisation--');
+            log('-createOrganisation---${createOrganisation.toString()}--');
             nav.pop();
             widget.functionToCall();
 
@@ -249,8 +249,21 @@ class BaseAddOrganisationDialogState extends State<BaseAddOrganisationDialog> {
                 duration: Duration(seconds: 3), // Adjust the duration
               ),
             );
-          } catch (e) {
-            // present userwith error message
+          } on GenericResponse catch (e) {
+            sca.showSnackBar(
+              SnackBar(backgroundColor: Colors.red,
+                content: Text('${e.message}'),
+                duration: const Duration(seconds: 3), // Adjust the duration
+              ),
+            );
+            return;
+          } on Exception catch (e) {
+            sca.showSnackBar(
+              SnackBar(
+                content: Text('$e'),
+                duration: const Duration(seconds: 3), // Adjust the duration
+              ),
+            );
           }
         }
       },

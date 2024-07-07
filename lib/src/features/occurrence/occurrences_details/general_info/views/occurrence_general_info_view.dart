@@ -167,7 +167,6 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
               height: height * 0.01,
               color: AppColors.navigationSkyBlueColor,
             ),
-            Text('-isReadOnly--$isReadOnly--'),
             Container(
               decoration: const ShapeDecoration(
                   color: AppColors.backgroundWhiteColor,

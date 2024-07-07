@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="SEZ Location API implemented">
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="power failure default value is false now">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_add_organisation_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_add_organisation_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/contact_details/contact_records/bloc/contact_record_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/contact_details/contact_records/bloc/contact_record_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/contact_details/contact_records/views/add_contact_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/contact_details/contact_records/views/add_contact_pop_up.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/views/occurrence_general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/views/occurrence_general_info_view.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -106,11 +111,11 @@
       <recent name="$PROJECT_DIR$/lib/src/features/article_found_register_module" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/android/app/src" />
       <recent name="$PROJECT_DIR$/lib/src/features/article_found_register_module/article_found_list/views" />
       <recent name="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_filter" />
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard/notifications" />
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/charts" />
-      <recent name="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views" />
     </key>
   </component>
   <component name="RunManager" selected="Flutter.qa">
@@ -501,7 +506,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="319" />
+    <option name="localTasksCounter" value="321" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -538,8 +543,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="close button" />
-    <MESSAGE value="prod env" />
     <MESSAGE value="minor improvement" />
     <MESSAGE value="model" />
     <MESSAGE value="location handling" />
@@ -563,7 +566,9 @@
     <MESSAGE value="No Record Found in listing page issue fixed" />
     <MESSAGE value="remaining file" />
     <MESSAGE value="SEZ Location API implemented" />
-    <option name="LAST_COMMIT_MESSAGE" value="SEZ Location API implemented" />
+    <MESSAGE value="shift occurrence ShowList buttons enabled" />
+    <MESSAGE value="power failure default value is false now" />
+    <option name="LAST_COMMIT_MESSAGE" value="power failure default value is false now" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
