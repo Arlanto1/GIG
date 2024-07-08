@@ -113,8 +113,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           if ((widget.model?.status == null ||
               widget.model?.status == 0 ||
               widget.model?.status == 1 ||
-              widget.model?.status == 3) &&
-              !(widget.extraProperties != null &&
+              widget.model?.status == 3) ||
+              (widget.extraProperties != null &&
                   !widget.extraProperties!.hasWritePermission!)) ...[
             GestureDetector(
               onTap: () {
@@ -237,10 +237,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   '--passtypeTextController.text--------222-${passtypeTextController
                       .text}----');
 
-              if (widget.model?.status != null &&
-                  widget.model?.status != 0 &&
-                  widget.model?.status != 1) {
-                isDisabled = true;
+              if (widget.model?.status == null ||
+                  widget.model?.status == 0 ||
+                  widget.model?.status == 1) {
+                isDisabled = false;
               }
 
               if (widget.extraProperties != null &&
@@ -506,7 +506,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       onTap: () {
                                         if ((widget.model?.status == 0 ||
                                             widget.model?.status == null ||
-                                            widget.model?.status != 1) &&
+                                            widget.model?.status != 1) ||
                                             !(widget.extraProperties != null &&
                                                 !widget.extraProperties!
                                                     .hasWritePermission!)) {
@@ -535,7 +535,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 widget.model?.status ==
                                                     null ||
                                                 widget.model?.status !=
-                                                    1) &&
+                                                    1) ||
                                                 !(widget.extraProperties !=
                                                     null &&
                                                     !widget.extraProperties!
@@ -824,7 +824,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 .contactNo ??
                                             "Contact No",
                                         Styles.textStyleBlack14,
-                                        isMandatory: true),
+                                        isMandatory: passCategoryTextController.text == 'Temporary' ? false : true),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
                                     // articleaddButtonwidgetLoading(state),
@@ -878,7 +878,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             state.labels?.defaultLocale
                                                 .employeeId ??
                                             Constants.employeeid,
-                                        isMandatory: true,
+                                        isMandatory:  passCategoryTextController.text == 'Temporary' ? false : true,
                                         Styles.textStyleBlack14)
                                         : Container(),
 
@@ -913,7 +913,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 .email ??
                                             Constants.email,
                                         Styles.textStyleBlack14,
-                                        isMandatory: true)
+                                        isMandatory: true,)
                                         : Container(),
 
                                     widget.passId ==
@@ -1782,9 +1782,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       showPastDate: false,
                                       textController:
                                       passValidUntilTextController,
-                                      onlyDate: (widget.passId ==
-                                          ConstantsIntValue.passIdSez &&
-                                          widget.model?.category == 1)
+                                      onlyDate:
+                                      (widget.passId ==
+                                          ConstantsIntValue.passIdSez)
                                           ? true
                                           : false,
                                       onChange: (String value) {
@@ -2119,7 +2119,25 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           height * 0.01),
                                     ],
 
-
+                                    /// SubmitButton
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        cancelButtonDisplay(),
+                                        if ((widget.model?.status == null ||
+                                            widget.model?.status == 0 ||
+                                            widget.model?.status == 1 ||
+                                            widget.model?.status == 3) ||
+                                            (widget.extraProperties != null &&
+                                                !widget.extraProperties!
+                                                    .hasWritePermission!)) ...[
+                                          submitButtonDisplay()
+                                        ],
+                                      ],
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.03),
                                   ],
                                   // if(widget.model?.status != 0 ||
                                   //     widget.model?.status != 1 ||
@@ -2142,25 +2160,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                         ),
                       ),
                     ),
-                    /// SubmitButton
-                    Row(
-                      mainAxisAlignment:
-                      MainAxisAlignment.spaceEvenly,
-                      children: [
-                        cancelButtonDisplay(),
-                        if ((widget.model?.status == null ||
-                            widget.model?.status == 0 ||
-                            widget.model?.status == 1 ||
-                            widget.model?.status == 3) &&
-                            !(widget.extraProperties != null &&
-                                !widget.extraProperties!
-                                    .hasWritePermission!)) ...[
-                          submitButtonDisplay()
-                        ],
-                      ],
-                    ),
-                    CommonWidgets.verticalSpacerWidget(
-                        height * 0.03),
                   ],
                 ),
               );
@@ -3323,11 +3322,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       height: 60,
       isDisableColor: widget.model?.status == 0 &&
           widget.model == null &&
-          !(widget.extraProperties != null &&
+          (widget.extraProperties != null &&
               !widget.extraProperties!.hasWritePermission!)
           ? false
           : true,
       onTap: () {
+        if ((widget.model == null || widget.model?.status == 0) &&
+            !(widget.extraProperties != null &&
+                !widget.extraProperties!.hasWritePermission!)) {
         BaseOrganisationDialog().userDialog(
           context: context,
           users: state.getDepositorResponse,
@@ -3343,7 +3345,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             createPassMgmtCubit.getdbsponsorUsersResponseData(
                 User(userId: user.id, name: user.name));
           },
-        );
+        );}
       },
       // onTap: () {
       //   if (widget.model == null || widget.model?.status == 0) {
@@ -4182,15 +4184,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         "Please enter Day Pass Number",
       );
     } else if (widget.passId == ConstantsIntValue.passIdVisitor &&
-        (state.selectedPassInfo == null ||
-            (state.selectedPassInfo?.name ?? '').isEmpty)) {
+        daypassnoTextController.text.isEmptyOrNull) {
       Validator().showToast(
         context,
         "Please enter Visitor pass no",
       );
     } else if (widget.passId == ConstantsIntValue.passIdVendor &&
-        (state.selectedPassInfo == null ||
-            (state.selectedPassInfo?.name ?? '').isEmpty)) {
+        daypassnoTextController.text.isEmptyOrNull) {
       Validator().showToast(
         context,
         "Please enter Vendor pass no",
@@ -4360,7 +4360,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                       ? Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      imageData1 != null || imageData != null
+                      (imageData1 != null || imageData != null)
                           ? IconButton(
                         icon: const Icon(Icons.delete),
                         onPressed: () {

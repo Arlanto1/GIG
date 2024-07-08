@@ -73,7 +73,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
-            title: 'Contact Details',
+            title: 'Escalation Matrix',
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
             onPositivePressed: () {

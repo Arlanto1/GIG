@@ -93,7 +93,7 @@ class _MaterialMovementDetailsViewState
         Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
-            title: 'Material Movement',
+            title:  widget.isInward ? 'Inward Material Movement' : 'Outward Material Movement',
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
             onPositivePressed: () {

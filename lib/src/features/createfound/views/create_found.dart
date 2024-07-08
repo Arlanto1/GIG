@@ -601,7 +601,7 @@ class _CreateFoundState extends State<CreateFound> {
             claimantTextController.text.isEmpty) {
           log('--isClaimantDBEmployeeSelected--$isClaimantDBEmployeeSelected-------');
           if (claimant.isEmptyOrNull) {
-            Validator().showToast(context, "Please enter claim");
+            Validator().showToast(context, "Please enter claimant");
           }
         } else {
           submitForm(true, widget.model?.id ?? 0);
@@ -1142,10 +1142,10 @@ class _CreateFoundState extends State<CreateFound> {
                                   BaseDate().datePickerWidgetLoading(
                                     showFutureDate: false,
                                     textController: foundDateTextController,
-                                    isDisabled: (widget.model?.status != 0 ||
-                                            widget.model != null)
-                                        ? false
-                                        : true,
+                                    isDisabled: (widget.model?.status == 2 ||
+                                        widget.model?.status == -1)
+                                        ? true
+                                        : false,
                                     //initialDate: DateTime.now().subtract(Duration(days: 1)),
                                     onChange: (String value) {
                                       widget.model?.foundDate =
@@ -1203,6 +1203,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   FlutterInputField(
                                     showBorder: true,
                                     lineHeight: 6,
+                                    characterLimit: Constants.characterLimitDescTextFormField,
                                     controller:
                                         additionalinformationTextController,
                                     textFormKey: Keys
@@ -1394,7 +1395,8 @@ class _CreateFoundState extends State<CreateFound> {
 
                                   isDepositorDBEmployeeSelected == 1
                                       ? FlutterInputField(
-                                          controller:
+                                    textInputType: TextInputType.number,
+                                    controller:
                                               depositorEmpIdTextController,
                                           textFormKey:
                                               Keys.depositorEmpIdTextController,
@@ -1582,7 +1584,7 @@ class _CreateFoundState extends State<CreateFound> {
                                     widget.model != null &&
                                             isClaimantDBEmployeeSelected == 1
                                         ? FlutterInputField(
-                                            textInputType: TextInputType.text,
+                                            textInputType: TextInputType.number,
                                             controller:
                                                 claimantEmpIdTextController,
                                             textFormKey: Keys

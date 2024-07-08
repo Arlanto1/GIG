@@ -246,6 +246,7 @@ class _AnnualPowerShutdownListViewState
                                             status: state
                                                 .items[selectedIndex].status,
                                             isEventProtectionStatus: true,
+                                            isMasterGuard: false,
                                             // epManager1Name:
                                             // state.items[selectedIndex].epManager1Name,
                                             // eventType:

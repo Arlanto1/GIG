@@ -825,7 +825,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().textHandling(
-                'Shift Taken By : ', widget.handOverSecurity?.name ?? ''),
+                'Shift Taken By : ', '${widget.handOverSecurity?.firstName ?? ''}  ${widget.handOverSecurity?.lastName ?? ''}'),
           ],
         ),
       ],
