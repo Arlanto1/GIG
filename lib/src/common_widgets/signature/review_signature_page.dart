@@ -3,8 +3,9 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+// import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:saver_gallery/saver_gallery.dart';
 
 class ReviewSignaturePage extends StatelessWidget {
   final Uint8List signature;
@@ -50,16 +51,30 @@ class ReviewSignaturePage extends StatelessWidget {
     final name = 'signature_$time';
     log(name);
 
-    final result = await ImageGallerySaver.saveImage(signature, name: name);
-    final isSuccessful = result['isSuccess'];
+    // final result = await ImageGallerySaver.saveImage(signature, name: name);
 
-    if (isSuccessful) {
-      nav.pop();
-      Get.snackbar('Success', 'Signature saved to device',
-          backgroundColor: Colors.white, colorText: Colors.green);
-    } else {
-      Get.snackbar('Success', 'Signature saved to device',
-          backgroundColor: Colors.red, colorText: Colors.white);
-    }
+    final result = await SaverGallery.saveImage(
+      signature,
+      // quality: 60,
+      name: name,
+      // androidRelativePath: "Pictures/appName/xx",
+      androidExistNotSave: false,
+    );
+    _toastInfo("$result");
+
+    // final isSuccessful = result['isSuccess'];
+
+    // if (isSuccessful) {
+    //   nav.pop();
+    //   Get.snackbar('Success', 'Signature saved to device',
+    //       backgroundColor: Colors.white, colorText: Colors.green);
+    // } else {
+    //   Get.snackbar('Success', 'Signature saved to device',
+    //       backgroundColor: Colors.red, colorText: Colors.white);
+    // }
+  }
+  _toastInfo(String info) {
+    Get.snackbar('Success', 'Signature saved to device',
+        backgroundColor: Colors.red, colorText: Colors.white);
   }
 }
