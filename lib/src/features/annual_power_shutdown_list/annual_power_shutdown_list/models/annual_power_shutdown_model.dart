@@ -15,19 +15,19 @@ class AnnualPowerShutDownResponse {
 
   AnnualPowerShutDownResponse.fromJson(Map<String, dynamic> json)
       : items = (json['data'] as List?)
-            ?.map((dynamic e) =>
-                AnnualPowerShutDownModel.fromJson(e as Map<String, dynamic>))
-            .toList(),
+      ?.map((dynamic e) =>
+      AnnualPowerShutDownModel.fromJson(e as Map<String, dynamic>))
+      .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
   Map<String, dynamic> toJson() => {
-        'data': items?.map((e) => e.toJson()).toList(),
-        'totalCount': totalCount,
-        'currentPageNo': currentPageNo,
-        'totalPageCount': totalPageCount
-      };
+    'data': items?.map((e) => e.toJson()).toList(),
+    'totalCount': totalCount,
+    'currentPageNo': currentPageNo,
+    'totalPageCount': totalPageCount
+  };
 }
 
 class AnnualPowerShutDownModel {
@@ -43,6 +43,8 @@ class AnnualPowerShutDownModel {
   final String? epOfficers;
   final bool? annualPowerShutdown;
   final bool? eventType;
+  String? eventStartDate;
+  String? eventEndDate;
   final bool? specialPersonAttending;
   final bool? liquorServed;
   final bool? hardDrinks;
@@ -114,6 +116,7 @@ class AnnualPowerShutDownModel {
   final String? preOpPoints1DoneByName;
   final String? opExecPoints1DoneByName;
   final String? postOpPoints1DoneByName;
+  double? budget;
 
   AnnualPowerShutDownModel({
     this.id,
@@ -128,6 +131,8 @@ class AnnualPowerShutDownModel {
     this.epOfficers,
     this.annualPowerShutdown,
     this.eventType,
+    this.eventStartDate,
+    this.eventEndDate,
     this.specialPersonAttending,
     this.liquorServed,
     this.hardDrinks,
@@ -199,6 +204,7 @@ class AnnualPowerShutDownModel {
     this.preOpPoints1DoneByName,
     this.opExecPoints1DoneByName,
     this.postOpPoints1DoneByName,
+    this.budget,
   });
 
   AnnualPowerShutDownModel.fromJson(Map<String, dynamic> json)
@@ -212,16 +218,18 @@ class AnnualPowerShutDownModel {
             ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
             : null,
         locationRegion =
-            (json['locationRegion'] as Map<String, dynamic>?) != null
-                ? Organisation.fromJson(
-                    json['locationRegion'] as Map<String, dynamic>)
-                : null,
+        (json['locationRegion'] as Map<String, dynamic>?) != null
+            ? Organisation.fromJson(
+            json['locationRegion'] as Map<String, dynamic>)
+            : null,
         entities = json['entities'] as List?,
         lsm1ContactNo = json['lsm1ContactNo'] as String?,
         lsm2ContactNo = json['lsm2ContactNo'] as String?,
         epOfficers = json['epOfficers'] as String?,
         annualPowerShutdown = json['annualPowerShutdown'] as bool?,
         eventType = json['eventType'] as bool?,
+        eventStartDate = json['eventStartDate'] as String?,
+        eventEndDate = json['eventEndDate'] as String?,
         specialPersonAttending = json['specialPersonAttending'] as bool?,
         liquorServed = json['liquorServed'] as bool?,
         hardDrinks = json['hardDrinks'] as bool?,
@@ -265,7 +273,7 @@ class AnnualPowerShutDownModel {
         securityGuardCountHrs = json['securityGuardCountHrs'] as int?,
         securityFacilitatorCount = json['securityFacilitatorCount'] as int?,
         securityFacilitatorCountHrs =
-            json['securityFacilitatorCountHrs'] as int?,
+        json['securityFacilitatorCountHrs'] as int?,
         proposedVendors = json['proposedVendors'] as List?,
         guardingVendorPoc = json['guardingVendorPoc'] as String?,
         poNumber = json['poNumber'] as String?,
@@ -293,91 +301,95 @@ class AnnualPowerShutDownModel {
         qmrAuthorizedByName = json['qmrAuthorizedByName'] as String?,
         preOpPoints1DoneByName = json['preOpPoints1DoneByName'] as String?,
         opExecPoints1DoneByName = json['opExecPoints1DoneByName'] as String?,
-        postOpPoints1DoneByName = json['postOpPoints1DoneByName'] as String?;
+        postOpPoints1DoneByName = json['postOpPoints1DoneByName'] as String?,
+        budget = json['budget'] as double?;
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'slNo': slNo,
-        'createdBy': createdBy?.toJson(),
-        'inputDate': inputDate,
-        'location': location?.toJson(),
-        'locationRegion': locationRegion?.toJson(),
-        'entities': entities,
-        'lsm1ContactNo': lsm1ContactNo,
-        'lsm2ContactNo': lsm2ContactNo,
-        'epOfficers': epOfficers,
-        'annualPowerShutdown': annualPowerShutdown,
-        'eventType': eventType,
-        'specialPersonAttending': specialPersonAttending,
-        'liquorServed': liquorServed,
-        'hardDrinks': hardDrinks,
-        'wine': wine,
-        'beer': beer,
-        'vendorEngaged': vendorEngaged,
-        'controlChecks': controlChecks,
-        'accessControl': accessControl,
-        'idCardCheck': idCardCheck,
-        'physicalSecurityDeploy': physicalSecurityDeploy,
-        'baggageScan': baggageScan,
-        'vehicleCheck': vehicleCheck,
-        'bouncersDeploy': bouncersDeploy,
-        'wristBandRegistered': wristBandRegistered,
-        'validDocumentsCheck': validDocumentsCheck,
-        'detailedAttendants': detailedAttendants,
-        'smokingZone': smokingZone,
-        'emergencyExits': emergencyExits,
-        'bu1ContactNo': bu1ContactNo,
-        'bu2ContactNo': bu2ContactNo,
-        'systemVendor1': systemVendor1,
-        'systemVendor2': systemVendor2,
-        'systemVendor3': systemVendor3,
-        'systemVendor1ContactNo': systemVendor1ContactNo,
-        'systemVendor2ContactNo': systemVendor2ContactNo,
-        'systemVendor3ContactNo': systemVendor3ContactNo,
-        'tiAssessment': tiAssessment,
-        'tiAssessmentOngoing': tiAssessmentOngoing,
-        'eventStaffDiscussion': eventStaffDiscussion,
-        'venueReview': venueReview,
-        'eepAwareness': eepAwareness,
-        'eepOversight': eepOversight,
-        'epOnsite': epOnsite,
-        'extraSecurityDeployed': extraSecurityDeployed,
-        'vendorId': vendorId,
-        'securityOfficerCount': securityOfficerCount,
-        'securityOfficerCountHrs': securityOfficerCountHrs,
-        'securitySupervisorCount': securitySupervisorCount,
-        'securitySupervisorCountHrs': securitySupervisorCountHrs,
-        'securityGuardCount': securityGuardCount,
-        'securityGuardCountHrs': securityGuardCountHrs,
-        'securityFacilitatorCount': securityFacilitatorCount,
-        'securityFacilitatorCountHrs': securityFacilitatorCountHrs,
-        'proposedVendors': proposedVendors,
-        'guardingVendorPoc': guardingVendorPoc,
-        'poNumber': poNumber,
-        'opsOrderAccepted': opsOrderAccepted,
-        'securityVendorResponded': securityVendorResponded,
-        'eventManagement': eventManagement,
-        'images1': images1,
-        'images2': images2,
-        'foundItems': foundItems,
-        'images3': images3,
-        'status': status,
-        'paymentProcessed': paymentProcessed,
-        'modifiedBy': modifiedBy,
-        'lsm1Name': lsm1Name,
-        'lsm2Name': lsm2Name,
-        'bu1Name': bu1Name,
-        'bu2Name': bu2Name,
-        'epManager1Name': epManager1Name,
-        'epManager2Name': epManager2Name,
-        'srh1Name': srh1Name,
-        'srh2Name': srh2Name,
-        'submittedByName': submittedByName,
-        'authorizedByName': authorizedByName,
-        'qmrSubmittedByName': qmrSubmittedByName,
-        'qmrAuthorizedByName': qmrAuthorizedByName,
-        'preOpPoints1DoneByName': preOpPoints1DoneByName,
-        'opExecPoints1DoneByName': opExecPoints1DoneByName,
-        'postOpPoints1DoneByName': postOpPoints1DoneByName
-      };
+    'id': id,
+    'slNo': slNo,
+    'createdBy': createdBy?.toJson(),
+    'inputDate': inputDate,
+    'location': location?.toJson(),
+    'locationRegion': locationRegion?.toJson(),
+    'entities': entities,
+    'lsm1ContactNo': lsm1ContactNo,
+    'lsm2ContactNo': lsm2ContactNo,
+    'epOfficers': epOfficers,
+    'annualPowerShutdown': annualPowerShutdown,
+    'eventType': eventType,
+    'eventStartDate': eventStartDate,
+    'eventEndDate':eventEndDate,
+    'specialPersonAttending': specialPersonAttending,
+    'liquorServed': liquorServed,
+    'hardDrinks': hardDrinks,
+    'wine': wine,
+    'beer': beer,
+    'vendorEngaged': vendorEngaged,
+    'controlChecks': controlChecks,
+    'accessControl': accessControl,
+    'idCardCheck': idCardCheck,
+    'physicalSecurityDeploy': physicalSecurityDeploy,
+    'baggageScan': baggageScan,
+    'vehicleCheck': vehicleCheck,
+    'bouncersDeploy': bouncersDeploy,
+    'wristBandRegistered': wristBandRegistered,
+    'validDocumentsCheck': validDocumentsCheck,
+    'detailedAttendants': detailedAttendants,
+    'smokingZone': smokingZone,
+    'emergencyExits': emergencyExits,
+    'bu1ContactNo': bu1ContactNo,
+    'bu2ContactNo': bu2ContactNo,
+    'systemVendor1': systemVendor1,
+    'systemVendor2': systemVendor2,
+    'systemVendor3': systemVendor3,
+    'systemVendor1ContactNo': systemVendor1ContactNo,
+    'systemVendor2ContactNo': systemVendor2ContactNo,
+    'systemVendor3ContactNo': systemVendor3ContactNo,
+    'tiAssessment': tiAssessment,
+    'tiAssessmentOngoing': tiAssessmentOngoing,
+    'eventStaffDiscussion': eventStaffDiscussion,
+    'venueReview': venueReview,
+    'eepAwareness': eepAwareness,
+    'eepOversight': eepOversight,
+    'epOnsite': epOnsite,
+    'extraSecurityDeployed': extraSecurityDeployed,
+    'vendorId': vendorId,
+    'securityOfficerCount': securityOfficerCount,
+    'securityOfficerCountHrs': securityOfficerCountHrs,
+    'securitySupervisorCount': securitySupervisorCount,
+    'securitySupervisorCountHrs': securitySupervisorCountHrs,
+    'securityGuardCount': securityGuardCount,
+    'securityGuardCountHrs': securityGuardCountHrs,
+    'securityFacilitatorCount': securityFacilitatorCount,
+    'securityFacilitatorCountHrs': securityFacilitatorCountHrs,
+    'proposedVendors': proposedVendors,
+    'guardingVendorPoc': guardingVendorPoc,
+    'poNumber': poNumber,
+    'opsOrderAccepted': opsOrderAccepted,
+    'securityVendorResponded': securityVendorResponded,
+    'eventManagement': eventManagement,
+    'images1': images1,
+    'images2': images2,
+    'foundItems': foundItems,
+    'images3': images3,
+    'status': status,
+    'paymentProcessed': paymentProcessed,
+    'modifiedBy': modifiedBy,
+    'lsm1Name': lsm1Name,
+    'lsm2Name': lsm2Name,
+    'bu1Name': bu1Name,
+    'bu2Name': bu2Name,
+    'epManager1Name': epManager1Name,
+    'epManager2Name': epManager2Name,
+    'srh1Name': srh1Name,
+    'srh2Name': srh2Name,
+    'submittedByName': submittedByName,
+    'authorizedByName': authorizedByName,
+    'qmrSubmittedByName': qmrSubmittedByName,
+    'qmrAuthorizedByName': qmrAuthorizedByName,
+    'preOpPoints1DoneByName': preOpPoints1DoneByName,
+    'opExecPoints1DoneByName': opExecPoints1DoneByName,
+    'postOpPoints1DoneByName': postOpPoints1DoneByName,
+    'budget':budget,
+  };
 }
