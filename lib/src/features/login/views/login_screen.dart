@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
+import 'package:db_atom/src/utils/web_sso_msal_handler.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
+import 'package:msal_auth/msal_auth.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -241,43 +243,43 @@ class _LoginState extends State<Login> {
                                 ],
                               ),
 
-                              // const Center(
-                              //   child: Text(
-                              //     'OR',
-                              //     style: TextStyle(fontWeight: FontWeight.bold),
-                              //   ),
-                              // ),
-                              // CommonWidgets.verticalSpacerWidget(
-                              //   height * 0.03,
-                              // ),
-                              // ElevatedButton(
-                              //   onPressed: _authenticate,
-                              //   style: ElevatedButton.styleFrom(
-                              //     backgroundColor: Colors
-                              //         .white, // Set the background color to white
-                              //   ),
-                              //   child: Row(
-                              //     mainAxisAlignment: MainAxisAlignment.center,
-                              //     children: [
-                              //       Image.asset(
-                              //         AppIcon.deutscheBankLogo,
-                              //         fit: BoxFit.cover,
-                              //         height: 20,
-                              //         // color:
-                              //         //     AppColors.navigationSkyBlueColor,
-                              //       ),
-                              //       CommonWidgets.horizontalSpacerWidget(
-                              //         height * 0.01,
-                              //       ),
-                              //       const Text(
-                              //         Constants.dbSSO,
-                              //         style: TextStyle(
-                              //           color: Color(0xFF000080),
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
+                              const Center(
+                                child: Text(
+                                  'OR',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                height * 0.03,
+                              ),
+                              ElevatedButton(
+                                onPressed: WebSsoMsalHandler().getToken,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors
+                                      .white, // Set the background color to white
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      AppIcon.deutscheBankLogo,
+                                      fit: BoxFit.cover,
+                                      height: 20,
+                                      // color:
+                                      //     AppColors.navigationSkyBlueColor,
+                                    ),
+                                    CommonWidgets.horizontalSpacerWidget(
+                                      height * 0.01,
+                                    ),
+                                    const Text(
+                                      Constants.dbSSO,
+                                      style: TextStyle(
+                                        color: Color(0xFF000080),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                               CommonWidgets.verticalSpacerWidget(
                                 height * 0.03,
                               ),
