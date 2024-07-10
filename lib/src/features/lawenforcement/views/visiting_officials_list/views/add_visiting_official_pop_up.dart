@@ -319,13 +319,6 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
   }
 
   ErrorResponse get isFormValid {
-    bool isNumeric(String str) {
-      if (str.isEmptyOrNull) {
-        return false;
-      }
-      return double.tryParse(str) != null;
-    }
-
     if (widget.model.name.isEmptyOrNull) {
       return const ErrorResponse(status: false, message: 'Please enter Name.');
     }
@@ -341,15 +334,10 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
       return const ErrorResponse(
           status: false, message: 'Please enter Office Address');
     }
-
-    if ( !widget.model.email.isEmptyOrNull && !Validator.isValidEmail(widget.model.email)) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter valid email');
-    }
-    if (widget.model.contactNo != null &&
-        widget.model.contactNo!.isNotEmpty &&
-        isNumeric(widget.model.contactNo!) &&
-        (widget.model.contactNo!.length < 10 || widget.model.contactNo!.length > 17)) {
+    if ((!Utils().isNumeric(widget.model.contactNo!) ||
+            widget.model.contactNo!.length < 10 ||
+            widget.model.contactNo!.length > 17) &&
+        !widget.model.contactNo.isEmptyOrNull) {
       return const ErrorResponse(
         status: false,
         message: 'Please enter a valid contact number.',
