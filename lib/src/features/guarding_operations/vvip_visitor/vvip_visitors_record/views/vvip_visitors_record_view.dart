@@ -25,7 +25,7 @@ class VVIPVisitorsRecordView extends StatefulWidget {
   final VIVPVisitorRecordModel? model;
   final VIVPVisitorModel? vvipModel;
   final ExtraProperties? extraProperties;
-final String? lock;
+  final String? lock;
   final int parentStatus;
 
   @override
@@ -80,10 +80,10 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
       }
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: (widget.vvipModel?.status == 0 ||
-                    widget.vvipModel?.status == null) &&
-            !(widget.extraProperties != null &&
-                !widget.extraProperties!.hasWritePermission!) && widget.lock.isEmptyOrNull
+        floatingActionButton: (widget.parentStatus == 0) &&
+                !(widget.extraProperties != null &&
+                    !widget.extraProperties!.hasWritePermission!) &&
+                widget.lock.isEmptyOrNull
             ? Flutterfloatingbutton(
                 backgroundColor: AppColors.navigationSkyBlueColor,
                 foregroundColor: AppColors.backgroundWhiteColor,
@@ -115,7 +115,10 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
       return const BaseLoader();
     }
 
-    if (state.items!.isEmptyOrNull && !isPopUpShown && widget.lock.isEmptyOrNull) {
+    if (widget.parentStatus == 0 &&
+        state.items!.isEmptyOrNull &&
+        !isPopUpShown &&
+        widget.lock.isEmptyOrNull) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         isPopUpShown = true;
         showAddVVIPVisitorsPopUp(
@@ -185,8 +188,10 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
                         },
                       );
                     },
-              showEditButton: widget.parentStatus != 0 && !widget.lock.isEmptyOrNull,
-              showDutyPostEditButton: widget.parentStatus == 0 && widget.lock.isEmptyOrNull,
+                    showEditButton:
+                        widget.parentStatus != 0 && !widget.lock.isEmptyOrNull,
+                    showDutyPostEditButton:
+                        widget.parentStatus == 0 && widget.lock.isEmptyOrNull,
                     onEditTap: (selectedIndex) async {
                       VIVPVisitorRecordModel visitorsModel =
                           await VVIPVisitorServices()
@@ -208,7 +213,8 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
                         },
                       );
                     },
-              showDeleteButton: widget.parentStatus == 0 && widget.lock.isEmptyOrNull,
+                    showDeleteButton:
+                        widget.parentStatus == 0 && widget.lock.isEmptyOrNull,
                     onDeleteTap: widget.parentStatus == 0
                         ? (selectedIndex) async {
                             // Call Delete API

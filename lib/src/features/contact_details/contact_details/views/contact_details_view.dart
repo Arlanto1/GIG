@@ -123,7 +123,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
             showSubmitButton: !isReadOnly ? true : false,
             showDisLikeButton: false,
             showLikeButton: false,
-            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.contactDetailsModuleCode}',
+            pdfAPIName:
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.contactDetailsModuleCode}',
             popAndReplace: () {
               log('--popAndReplace-----');
               // Navigator.pop(context);
@@ -258,8 +259,16 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             isMandatory: true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          locationWidgetDisplay(state),
-
+                          BaseLocationDropdown().locationWidgetDisplay(
+                              isEnabled: !isReadOnly,
+                              context: context,
+                              locations: state.locations ?? Locations(),
+                              selectedLocationName:
+                                  state.model.location?.name ?? '',
+                              onTap: (Organisation? location) {
+                                BlocProvider.of<ContactDetailsCubit>(context)
+                                    .updateDropdownValues(location: location);
+                              }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Sl No.
@@ -493,7 +502,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   AppIcon.pluscircle,
                                   colorFilter: const ColorFilter.mode(
                                     AppColors.navigationSkyBlueColor,
-                                      BlendMode.srcIn,
+                                    BlendMode.srcIn,
                                   ),
                                   // color: AppColors.navigationSkyBlueColor,
                                 ),
@@ -692,7 +701,6 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
   }
 
   Widget cancelButtonDisplay(ContactDetailsState state) {
-
     log('--widget.model?.status---${widget.model?.status}----');
     bool condition = widget.model?.id == null ||
         widget.model?.status == ConstantsIntValue.cancelledStatus ||
@@ -745,33 +753,6 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
 
         BlocProvider.of<ContactDetailsCubit>(context).submitForm();
       },
-    );
-  }
-
-  Widget locationWidgetDisplay(ContactDetailsState state) {
-    return GestureDetector(
-      onTap: () {
-        if (state.model.lock.isEmptyOrNull || state.model.status == -1) {
-          showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) {
-              return CustomExpansionListTexts(
-                locationList: state.locations,
-                onTap: (Organisation? list) async {
-                  Organisation location = Organisation();
-                  location.id = list?.id;
-                  location.name = list?.name;
-                  state.model.location = location;
-
-                  BlocProvider.of<ContactDetailsCubit>(context)
-                      .updateDropdownValues(location: location);
-                },
-              );
-            },
-          );
-        }
-      },
-      child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
   }
 
