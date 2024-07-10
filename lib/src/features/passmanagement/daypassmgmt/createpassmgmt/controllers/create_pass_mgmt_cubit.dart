@@ -211,10 +211,10 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 
   // Get locations api call
   Future<void> getLocations(
-      String locationsStr, int? filter, BuildContext context) async {
+      String locationsStr, int? filter, BuildContext context, {bool? isSezLocations=false}) async {
     try {
       Locations getLocationsData = await commonServices.getRegionsWithLocations(
-          name: locationsStr, filter: filter, isSezLocations: true);
+          name: locationsStr, filter: filter, isSezLocations: isSezLocations);
       emit(
         state.copyWith(
           getLocationsResponse: getLocationsData,

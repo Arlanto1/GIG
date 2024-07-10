@@ -227,7 +227,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                     state.labels?.defaultLocale.entrySecurity ??
                                     Constants.createdby,
                                 isMandatory: true,
-                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                                state.model.entrySecurityName ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Date of creation
@@ -388,33 +388,33 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// List of Duty Posts
-                            DutyPostListWidget(
-                              dutyPosts: state.dutyPosts ?? [],
-                              onTap: (int? thisVariableIsOfNoUseDoNotDeleteThis,
-                                  int? dutyPostNameId) {
-                                BlocProvider.of<AttendanceDetailsCubit>(context)
-                                    .navigateToNextScreen(
-                                  dutyPostNameId: dutyPostNameId!,
-                                );
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// SubmitButton
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                cancelButtonDisplay(state),
-                                if (!isReadOnly) ...[submitButtonDisplay()],
-                              ],
-                            ),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.04),
                           ],
                         ),
                       ),
                     ),
+                    /// List of Duty Posts
+                    DutyPostListWidget(
+                      dutyPosts: state.dutyPosts ?? [],
+                      onTap: (int? thisVariableIsOfNoUseDoNotDeleteThis,
+                          int? dutyPostNameId) {
+                        BlocProvider.of<AttendanceDetailsCubit>(context)
+                            .navigateToNextScreen(
+                          dutyPostNameId: dutyPostNameId!,
+                        );
+                      },
+                    ),
+                    CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                    /// SubmitButton
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        cancelButtonDisplay(state),
+                        if (!isReadOnly) ...[submitButtonDisplay()],
+                      ],
+                    ),
+
+                    CommonWidgets.verticalSpacerWidget(height * 0.04),
                   ],
                 ),
               ),
