@@ -1774,10 +1774,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       showPastDate: false,
                                       textController:
                                           passValidUntilTextController,
-                                      onlyDate: (widget.passId ==
-                                              ConstantsIntValue.passIdSez)
-                                          ? true
-                                          : false,
+                                      onlyDate: widget.passId !=
+                                              ConstantsIntValue.passIdSez
+                                          ? false
+                                          : true,
                                       onChange: (String value) {
                                         /// Make Pass Valid Date Editable if the Company Type is 'Exceptions'
                                         if (widget.model != null &&
@@ -2288,11 +2288,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   int.parse(widget.model?.startTime ?? '0'),
                   Constants.fulldateFormat)
               : passValidFromTextController.text;
-      passValidUntilTextController.text = widget.model?.endTime != null &&
-              widget.model?.endTime != '0'
-          ? Utils.timestampToDateConversion(
-              int.parse(widget.model?.endTime ?? '0'), Constants.fulldateFormat)
-          : passValidUntilTextController.text;
+      passValidUntilTextController.text =
+          widget.model?.endTime != null && widget.model?.endTime != '0'
+              ? Utils.timestampToDateConversion(
+                  int.parse(widget.model?.endTime ?? '0'),
+                  widget.passId != ConstantsIntValue.passIdSez
+                      ? Constants.fulldateFormat
+                      : Constants.dateFormat)
+              : passValidUntilTextController.text;
 
       passReturnedTextController.text = widget.model?.status == 2 ||
               widget.model?.status == 8 ||
