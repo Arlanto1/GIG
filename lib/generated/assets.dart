@@ -26,7 +26,6 @@ class Assets {
   static const String fontsPoppinsSemiBoldItalic = 'assets/fonts/Poppins-SemiBoldItalic.ttf';
   static const String fontsPoppinsThin = 'assets/fonts/Poppins-Thin.ttf';
   static const String fontsPoppinsThinItalic = 'assets/fonts/Poppins-ThinItalic.ttf';
-  static const String fontsReleaseNotesDeutscheBankTextV1 = 'assets/fonts/Release_notes_DeutscheBankText_V1.100.txt';
   static const String imagesAdd = 'assets/images/add.svg';
   static const String imagesAnnualPowerShutdown = 'assets/images/annualPowerShutdown.png';
   static const String imagesArticleFoundRegisterIcon = 'assets/images/articleFoundRegisterIcon.png';

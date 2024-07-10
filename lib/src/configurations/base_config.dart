@@ -16,4 +16,9 @@ abstract class BaseConfig {
   bool get reportErrors;
 
   Duration get inactivityDuration;
+
+  /// Microsoft Azure Active Directory
+  String get aadClientId;
+
+  String get aadTenantId;
 }
