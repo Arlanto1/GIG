@@ -2465,7 +2465,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   getPassManagementList() async {
     if (widget.passId == ConstantsIntValue.passIdSez) {
-      await createPassMgmtCubit.getLocations('ATOM_LOCATIONS', 1, context);
+      await createPassMgmtCubit.getLocations('ATOM_LOCATIONS', 1, context, isSezLocations: true);
     } else {
       await createPassMgmtCubit.getLocations('ATOM_LOCATIONS', null, context);
     }
