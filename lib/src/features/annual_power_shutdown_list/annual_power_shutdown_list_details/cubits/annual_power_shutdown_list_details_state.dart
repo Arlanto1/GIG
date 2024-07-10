@@ -116,12 +116,8 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
           status: false, message: 'Please enter LSM 1 Contact No');
     }
 
-    bool isNumeric(String str) {
-      return double.tryParse(str) != null;
-    }
-
     if (!model.lsm1ContactNo.isEmptyOrNull &&
-        (!isNumeric(model.lsm1ContactNo!) ||
+        (!Utils().isNumeric(model.lsm1ContactNo!) ||
             model.lsm1ContactNo!.length > 17 ||
             model.lsm1ContactNo!.length < 10)) {
       return const ErrorResponse(
@@ -141,7 +137,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
     }
 
     if (!model.lsm2ContactNo.isEmptyOrNull &&
-        (!isNumeric(model.lsm2ContactNo!) ||
+        (!Utils().isNumeric(model.lsm2ContactNo!) ||
             model.lsm2ContactNo!.length > 17 ||
             model.lsm2ContactNo!.length < 10)) {
       return const ErrorResponse(
@@ -158,7 +154,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
           status: false, message: 'Please enter Business POC Contact No');
     }
     if (!model.bu1ContactNo.isEmptyOrNull &&
-        (!isNumeric(model.bu1ContactNo!) ||
+        (!Utils().isNumeric(model.bu1ContactNo!) ||
             model.bu1ContactNo!.length > 17 ||
             model.bu1ContactNo!.length < 10)) {
       return const ErrorResponse(
@@ -177,7 +173,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
     }
 
     if (!model.bu2ContactNo.isEmptyOrNull &&
-        (!isNumeric(model.bu2ContactNo!) ||
+        (!Utils().isNumeric(model.bu2ContactNo!) ||
             model.bu2ContactNo!.length > 17 ||
             model.bu2ContactNo!.length < 10)) {
       return const ErrorResponse(
@@ -214,7 +210,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
     }
 
     if (!model.systemVendor1ContactNo.isEmptyOrNull &&
-        (!isNumeric(model.systemVendor1ContactNo!) ||
+        (!Utils().isNumeric(model.systemVendor1ContactNo!) ||
             model.systemVendor1ContactNo!.length > 17 ||
             model.systemVendor1ContactNo!.length < 10)) {
       return const ErrorResponse(
@@ -238,7 +234,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
     }
 
     if (!model.systemVendor2ContactNo.isEmptyOrNull &&
-        (!isNumeric(model.systemVendor2ContactNo!) ||
+        (!Utils().isNumeric(model.systemVendor2ContactNo!) ||
             model.systemVendor2ContactNo!.length > 17 ||
             model.systemVendor2ContactNo!.length < 10)) {
       return const ErrorResponse(
