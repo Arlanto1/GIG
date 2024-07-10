@@ -3957,15 +3957,17 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     } else if (state.selectedEntities == null) {
       Validator().showToast(
         context,
-        "Please enter entitiy",
+        "Please enter entity",
       );
-    } else if ((widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez) &&
+    } else if ((widget.passId == ConstantsIntValue.passIdDayPass ||
+            widget.passId == ConstantsIntValue.passIdSez) &&
         state.selectedCompanyType?.name == null) {
       Validator().showToast(
         context,
         "Please enter company type",
       );
-    } else if ((widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez) &&
+    } else if ((widget.passId == ConstantsIntValue.passIdDayPass ||
+            widget.passId == ConstantsIntValue.passIdSez) &&
         companyNameTextController.text.isEmpty) {
       Validator().showToast(
         context,
@@ -3985,7 +3987,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter name",
       );
-    } else if ((widget.passId == ConstantsIntValue.passIdVisitor || widget.passId == ConstantsIntValue.passIdVendor) &&
+    } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
+            widget.passId == ConstantsIntValue.passIdVendor) &&
         nameTextController.text.isEmpty) {
       Validator().showToast(
         context,
@@ -3993,13 +3996,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             ? "Please enter vendor name"
             : "Please enter visitor name",
       );
-    } else if ((widget.passId == ConstantsIntValue.passIdVisitor || widget.passId == ConstantsIntValue.passIdVendor) &&
+    } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
+            widget.passId == ConstantsIntValue.passIdVendor) &&
         contactnoTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter contact no",
       );
-    } else if ((widget.passId == ConstantsIntValue.passIdVisitor || widget.passId == ConstantsIntValue.passIdVendor) &&
+    } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
+            widget.passId == ConstantsIntValue.passIdVendor) &&
         contactnoTextController.text.length < 10 &&
         contactnoTextController.text.length <= 18) {
       Validator().showToast(
@@ -4029,13 +4034,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         employeeIdTextController.text.isEmpty) {
       Validator().showToast(
         context,
-        "Please enter Employee id",
+        "Please enter employee id",
       );
     } else if (widget.passId == ConstantsIntValue.passIdSez &&
-        employeeIdTextController.text.isEmpty) {
+        employeeIdTextController.text.isEmpty &&
+        (state.selectedCompanyType?.name ?? '').toLowerCase() == 'fte') {
       Validator().showToast(
         context,
-        "Please enter Employee id",
+        "Please enter employee id",
       );
     } else if ((widget.passId == ConstantsIntValue.passIdDayPass &&
         (state.selectedCompanyType?.name ?? '').toLowerCase() == 'cwr t1' &&
@@ -4044,8 +4050,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter email",
       );
-    } else if ((widget.passId == ConstantsIntValue.passIdSez &&
-        emailTextController.text.isEmpty)) {
+    }
+    if ((widget.passId == ConstantsIntValue.passIdSez &&
+        emailTextController.text.isEmpty &&
+        (state.selectedCompanyType?.name ?? '').toLowerCase() == 'fte')) {
       Validator().showToast(
         context,
         "Please enter email",
@@ -4074,7 +4082,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     } else if ((widget.passId == ConstantsIntValue.passIdDayPass ||
             widget.passId == ConstantsIntValue.passIdVisitor ||
             widget.passId == ConstantsIntValue.passIdVendor) &&
-        ((state.selectedCompanyType?.name ?? '').toLowerCase() == 'exceptions' &&
+        ((state.selectedCompanyType?.name ?? '').toLowerCase() ==
+                'exceptions' &&
             hostEmployeeIdTextController.text.isEmpty)) {
       Validator().showToast(
         context,
@@ -4083,12 +4092,18 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     } else if ((widget.passId == ConstantsIntValue.passIdDayPass ||
             widget.passId == ConstantsIntValue.passIdVisitor ||
             widget.passId == ConstantsIntValue.passIdVendor) &&
-        ((state.selectedCompanyType?.name ?? '').toLowerCase() == 'exceptions' && hostEmployeeIdTextController.text.isEmpty)) {
+        ((state.selectedCompanyType?.name ?? '').toLowerCase() ==
+                'exceptions' &&
+            hostEmployeeIdTextController.text.isEmpty)) {
       Validator().showToast(
         context,
-        "Please enter host employeed id",
+        "Please enter host employee id",
       );
-    } else if ((widget.passId == ConstantsIntValue.passIdVisitor || widget.passId == ConstantsIntValue.passIdVendor || widget.passId == ConstantsIntValue.passIdSez) && (state.hostResponse?.name ?? '').isEmpty && state.companyTypes == 'Exception') {
+    } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
+            widget.passId == ConstantsIntValue.passIdVendor ||
+            widget.passId == ConstantsIntValue.passIdSez) &&
+        (state.hostResponse?.name ?? '').isEmpty &&
+        state.companyTypes == 'Exception') {
       Validator().showToast(
         context,
         "Please enter host",
@@ -4200,7 +4215,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         (escortedEmployeeIdByTextController.text.isEmpty)) {
       Validator().showToast(
         context,
-        "Please enter escort employeed id",
+        "Please enter escort employee id",
       );
     } else {
       submitForm(true, widget.model?.id ?? 0, globalState);
