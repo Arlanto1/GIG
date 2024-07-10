@@ -27,4 +27,10 @@ class UatConfig implements BaseConfig {
 
   @override
   String get keyClockRealm => 'Atom-UAT';
+
+  @override
+  String get aadClientId => '1e94a7ec-9f9b-43b8-943f-5ba4dfe2e021';
+
+  @override
+  String get aadTenantId => 'f18ecf29-68a6-4697-92fa-0ce29009c210';
 }

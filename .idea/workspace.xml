@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="build issue solved">
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="minVersion increased to 34&#10;location issue fixed for Pass Management">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_drop_down.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_drop_down.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/cubits/attendance_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/cubits/attendance_details_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/views/attendance_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/views/attendance_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/models/general_info_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/models/general_info_model.g.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,7 +31,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="web-sso" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -36,10 +41,80 @@
     &quot;state&quot;: &quot;OPEN&quot;
   }
 }</component>
+  <component name="GitHubPullRequestState"><![CDATA[{
+  "prStates": [
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs50yoTY",
+        "number": 480
+      },
+      "lastSeen": 1720523381749
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs500XJC",
+        "number": 482
+      },
+      "lastSeen": 1720584235667
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs500WmH",
+        "number": 481
+      },
+      "lastSeen": 1720596605363
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs5063bS",
+        "number": 483
+      },
+      "lastSeen": 1720596675360
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs5067t6",
+        "number": 484
+      },
+      "lastSeen": 1720597523320
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs507GAD",
+        "number": 486
+      },
+      "lastSeen": 1720597756300
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs507MXC",
+        "number": 487
+      },
+      "lastSeen": 1720598023948
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs506-6C",
+        "number": 485
+      },
+      "lastSeen": 1720598379530
+    }
+  ]
+}]]></component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;git@github.com:Arlanto1/Arlanto-App-Codebase.git&quot;,
     &quot;accountId&quot;: &quot;831b44e6-23bf-4143-9ddb-2968557d3a5b&quot;
+  },
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
+    },
+    &quot;owner&quot;: &quot;Arlanto1&quot;,
+    &quot;repository&quot;: &quot;Arlanto-App-Codebase&quot;
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
@@ -68,6 +143,7 @@
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "Flutter.main.dart.executor": "Run",
     "Flutter.qa.executor": "Run",
+    "Flutter.test_msal.dart.executor": "Debug",
     "Flutter.uat.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -79,12 +155,12 @@
     "com.android.tools.idea.streaming.emulator.zoom.toolbar.visible": "false",
     "com.android.tools.idea.streaming.zoom.toolbar.visible": "false",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "web-sso-msal",
     "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/models/responseModels",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "preferences.customizations",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
@@ -119,6 +195,10 @@
       <option name="filePath" value="$PROJECT_DIR$/lib/src/features/guarding_operations/vvip_visitor/vvip_visitors_record/views/test.dart" />
       <method v="2" />
     </configuration>
+    <configuration name="test_msal.dart" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/lib/test_msal.dart" />
+      <method v="2" />
+    </configuration>
     <configuration name="uat" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="buildFlavor" value="UAT" />
       <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
@@ -128,11 +208,12 @@
       <item itemvalue="Flutter.main.dart" />
       <item itemvalue="Flutter.qa" />
       <item itemvalue="Flutter.uat" />
+      <item itemvalue="Flutter.test_msal.dart" />
       <item itemvalue="Flutter.test.dart" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Flutter.test.dart" />
+        <item itemvalue="Flutter.test_msal.dart" />
         <item itemvalue="Flutter.test.dart" />
         <item itemvalue="Flutter.test.dart" />
         <item itemvalue="Flutter.test.dart" />
@@ -496,7 +577,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="319" />
+    <option name="localTasksCounter" value="323" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -533,10 +614,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="close button" />
-    <MESSAGE value="prod env" />
-    <MESSAGE value="minor improvement" />
-    <MESSAGE value="model" />
     <MESSAGE value="location handling" />
     <MESSAGE value="app name" />
     <MESSAGE value="env" />
@@ -558,7 +635,11 @@
     <MESSAGE value="No Record Found in listing page issue fixed" />
     <MESSAGE value="remaining file" />
     <MESSAGE value="build issue solved" />
-    <option name="LAST_COMMIT_MESSAGE" value="build issue solved" />
+    <MESSAGE value="LEO Add visiting official fixed" />
+    <MESSAGE value="manifest" />
+    <MESSAGE value="Web SSO base setup is done" />
+    <MESSAGE value="minVersion increased to 34&#10;location issue fixed for Pass Management" />
+    <option name="LAST_COMMIT_MESSAGE" value="minVersion increased to 34&#10;location issue fixed for Pass Management" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>
