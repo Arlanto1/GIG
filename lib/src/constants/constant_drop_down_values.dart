@@ -109,7 +109,7 @@ const List<Label> incidentManagementStatus = [
 
 const List<Label> eventProtectionGiStatus = [
   Label(key: 'Draft', value: '0'),
-  Label(key: 'Business Review', value: '1'),
+  Label(key: 'Business User Review', value: '1'),
   Label(key: 'LSM Review', value: '2'),
   Label(key: 'LSM Approved', value: '3'),
   Label(key: 'LSM Rejected', value: '4'),

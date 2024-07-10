@@ -120,7 +120,8 @@ class _AnnualPowerShutdownListDetailsViewState
             showSubmitButton: disableForm ? false : true,
             showDisLikeButton: false,
             showLikeButton: false,
-            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.annualPowerShutDownModule}',
+            pdfAPIName:
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.annualPowerShutDownModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)
@@ -842,6 +843,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                               ///System Vendor 2 Email
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.systemVendor2 ??
@@ -1558,14 +1560,14 @@ class _AnnualPowerShutdownListDetailsViewState
                           children: [
                             cancelButtonDisplay(state),
                             if (!disableForm) ...[
-                            submitButtonDisplay(onTap: () {
-                              FocusScope.of(context).unfocus();
-                              BlocProvider.of<
-                                          AnnualPowerShutdownListDetailsCubit>(
-                                      context)
-                                  .submitForm(isSaveOnly: false);
-                            })
-                             ],
+                              submitButtonDisplay(onTap: () {
+                                FocusScope.of(context).unfocus();
+                                BlocProvider.of<
+                                            AnnualPowerShutdownListDetailsCubit>(
+                                        context)
+                                    .submitForm(isSaveOnly: false);
+                              })
+                            ],
                           ],
                         ),
                       ],
@@ -1590,7 +1592,8 @@ class _AnnualPowerShutdownListDetailsViewState
   Widget cancelButtonDisplay(AnnualPowerShutdownListDetailsState state) {
     bool condition = state.model.id == null ||
         state.model.status == ConstantsIntValue.cancelledStatus ||
-        state.model.status == 30 || !state.model.lock.isEmptyOrNull;
+        state.model.status == 30 ||
+        !state.model.lock.isEmptyOrNull;
     return AppButton(
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
