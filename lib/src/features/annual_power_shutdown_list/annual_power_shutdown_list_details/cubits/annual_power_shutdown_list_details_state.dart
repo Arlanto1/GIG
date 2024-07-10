@@ -246,7 +246,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
         message: 'Please enter a valid Vendor 2 Contact No',
       );
     }
-    if (model.systemVendor3 != null &&
+    if (!model.systemVendor3.isEmptyOrNull &&
         !Validator.isValidEmail(model.systemVendor3)) {
       return const ErrorResponse(
           status: false, message: 'Please enter Valid System Vendor 3 Email');
