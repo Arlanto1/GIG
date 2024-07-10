@@ -596,7 +596,7 @@ class _CreateFoundState extends State<CreateFound> {
               "Please enter claimant department",
             );
           }
-        } else if (widget.model?.status != 0 &&
+        } else if (widget.model?.status != ConstantsIntValue.articleFoundStatusFound &&
             isClaimantDBEmployeeSelected == 0 &&
             claimantTextController.text.isEmpty) {
           log('--isClaimantDBEmployeeSelected--$isClaimantDBEmployeeSelected-------');
@@ -815,8 +815,8 @@ class _CreateFoundState extends State<CreateFound> {
 
               action: [
                 Visibility(
-                  visible: widget.model?.status != 2 &&
-                      widget.model?.status != -1 &&
+                  visible: widget.model?.status != ConstantsIntValue.articleFoundStatusHandedOverOrClaimed &&
+                      widget.model?.status != ConstantsIntValue.cancelledStatus &&
                       state.model.lock.isEmptyOrNull,
                   child: GestureDetector(
                     onTap: () {
@@ -834,8 +834,8 @@ class _CreateFoundState extends State<CreateFound> {
                   ),
                 ),
                 Visibility(
-                  visible: widget.model?.status != -1 &&
-                      widget.model?.status != 2 &&
+                  visible: widget.model?.status != ConstantsIntValue.cancelledStatus &&
+                      widget.model?.status != ConstantsIntValue.articleFoundStatusHandedOverOrClaimed &&
                       state.model.lock.isEmptyOrNull,
                   child: GestureDetector(
                     onTap: () async {
@@ -1073,7 +1073,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   //Text('-${assetTypeTextController.text}---'),
                                   GestureDetector(
                                     onTap: () {
-                                      if (widget.model?.status == 0 ||
+                                      if (widget.model?.status == ConstantsIntValue.articleFoundStatusFound ||
                                           widget.model == null) {
                                         assetTypeDialog();
                                       }
@@ -1081,7 +1081,7 @@ class _CreateFoundState extends State<CreateFound> {
                                     child: FlutterInputField(
                                         isEnable: false,
                                         isDisableColor:
-                                            widget.model?.status == 0
+                                            widget.model?.status == ConstantsIntValue.articleFoundStatusFound
                                                 ? false
                                                 : true,
                                         // initialValue: assettypeTextController,
@@ -1094,7 +1094,7 @@ class _CreateFoundState extends State<CreateFound> {
                                           setState(() {});
                                         },
                                         onTap: () {
-                                          if (widget.model?.status == 0 ||
+                                          if (widget.model?.status == ConstantsIntValue.articleFoundStatusFound ||
                                               widget.model == null) {
                                             assetTypeDialog();
                                           }
@@ -1140,7 +1140,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   BaseDate().datePickerWidgetLoading(
                                     showFutureDate: false,
                                     textController: foundDateTextController,
-                                    isDisabled: (widget.model?.status != 0 &&
+                                    isDisabled: (widget.model?.status != ConstantsIntValue.articleFoundStatusFound &&
                                             widget.model?.status != null)
                                         ? true
                                         : false,
@@ -1915,7 +1915,12 @@ class _CreateFoundState extends State<CreateFound> {
                                         : getFiles,
                                     showDownloadIcon:
                                         widget.model != null ? true : false,
-                                    showDeleteIcon: widget.model?.status !=0 && widget.model?.status != null ? false :true,
+                                    showDeleteIcon: widget.model?.status !=
+                                                ConstantsIntValue
+                                                    .articleFoundStatusFound &&
+                                            widget.model?.status != null
+                                        ? false
+                                        : true,
                                     moduleCode:
                                         Constants.articleFoundModuleCode,
                                   ),
