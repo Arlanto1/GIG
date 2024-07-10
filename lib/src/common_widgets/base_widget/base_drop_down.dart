@@ -26,22 +26,25 @@ class BaseDropDown {
       onTap: onTap,
       child: AbsorbPointer(
         absorbing: true,
-        child: FlutterInputField(
-          controller: textController,
-          textFormKey: Keys.returnableKey,
-          hintText: '',
-          isEnable: true,
-          suffixIcon: Icons.arrow_drop_down,
-          isDisableColor: !isDisabled,
-          onChange: (String value) {},
-          validateTextField: (String? user) {},
-          suffixWidget: IconButton(
-            icon: SvgPicture.asset(
-                width: 10,
-                height: 10,
-                AppIcon.dropdownicon,
-                key: const Key('closed_eye')),
-            onPressed: () {},
+        child: Opacity(
+          opacity: isDisabled ? .5 : 1,
+          child: FlutterInputField(
+            controller: textController,
+            textFormKey: Keys.returnableKey,
+            hintText: '',
+            isEnable: true,
+            suffixIcon: Icons.arrow_drop_down,
+            isDisableColor: !isDisabled,
+            onChange: (String value) {},
+            validateTextField: (String? user) {},
+            suffixWidget: IconButton(
+              icon: SvgPicture.asset(
+                  width: 10,
+                  height: 10,
+                  AppIcon.dropdownicon,
+                  key: const Key('closed_eye')),
+              onPressed: () {},
+            ),
           ),
         ),
       ),
