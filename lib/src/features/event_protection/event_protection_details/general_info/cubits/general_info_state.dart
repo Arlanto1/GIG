@@ -117,7 +117,18 @@ class GeneralInfoState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter LSM 1 Contact No');
     }
-
+    bool isNumeric(String str) {
+      return double.tryParse(str) != null;
+    }
+    if (!model.lsm1ContactNo.isEmptyOrNull &&
+        (!isNumeric(model.lsm1ContactNo!) ||
+            model.lsm1ContactNo!.length > 17 ||
+            model.lsm1ContactNo!.length < 10)) {
+      return const ErrorResponse(
+        status: false,
+        message: 'Please enter a valid LSM 1 Contact No',
+      );
+    }
     if (model.lsm2 == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Location Security Manager 2');
@@ -128,6 +139,15 @@ class GeneralInfoState extends Equatable {
           status: false, message: 'Please enter LSM 2 Contact No');
     }
 
+    if (!model.lsm2ContactNo.isEmptyOrNull &&
+        (!isNumeric(model.lsm2ContactNo!) ||
+            model.lsm2ContactNo!.length > 17 ||
+            model.lsm2ContactNo!.length < 10)) {
+      return const ErrorResponse(
+        status: false,
+        message: 'Please enter a valid LSM 2 Contact No',
+      );
+    }
     if (model.bu1 == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Business POC');
@@ -136,6 +156,16 @@ class GeneralInfoState extends Equatable {
     if (model.bu1ContactNo == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Business POC Contact No');
+    }
+
+    if (!model.bu1ContactNo.isEmptyOrNull &&
+        (!isNumeric(model.bu1ContactNo!) ||
+            model.bu1ContactNo!.length > 17 ||
+            model.bu1ContactNo!.length < 10)) {
+      return const ErrorResponse(
+        status: false,
+        message: 'Please enter a valid Business POC Contact No',
+      );
     }
     if (model.bu2 == null) {
       return const ErrorResponse(
@@ -146,6 +176,16 @@ class GeneralInfoState extends Equatable {
       return const ErrorResponse(
           status: false,
           message: 'Please enter Business POC Escalation Contact No');
+    }
+
+    if (!model.bu2ContactNo.isEmptyOrNull &&
+        (!isNumeric(model.bu2ContactNo!) ||
+            model.bu2ContactNo!.length > 17 ||
+            model.bu2ContactNo!.length < 10)) {
+      return const ErrorResponse(
+        status: false,
+        message: 'Please enter a valid Business POC Escalation Contact No',
+      );
     }
     if (model.requesterDepartment == null) {
       return const ErrorResponse(
