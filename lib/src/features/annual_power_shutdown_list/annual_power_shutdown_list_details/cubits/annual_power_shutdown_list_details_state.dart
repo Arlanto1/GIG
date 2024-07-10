@@ -116,6 +116,20 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
           status: false, message: 'Please enter LSM 1 Contact No');
     }
 
+    bool isNumeric(String str) {
+      return double.tryParse(str) != null;
+    }
+
+    if (!model.lsm1ContactNo.isEmptyOrNull &&
+        (!isNumeric(model.lsm1ContactNo!) ||
+            model.lsm1ContactNo!.length > 17 ||
+            model.lsm1ContactNo!.length < 10)) {
+      return const ErrorResponse(
+        status: false,
+        message: 'Please enter a valid LSM 1 Contact No.',
+      );
+    }
+
     if (model.lsm2 == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Location Security Manager 2');
@@ -125,6 +139,16 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter LSM 2 Contact No');
     }
+
+    if (!model.lsm2ContactNo.isEmptyOrNull &&
+        (!isNumeric(model.lsm2ContactNo!) ||
+            model.lsm2ContactNo!.length > 17 ||
+            model.lsm2ContactNo!.length < 10)) {
+      return const ErrorResponse(
+        status: false,
+        message: 'Please enter a valid LSM 2 Contact No.',
+      );
+    }
     if (model.bu1 == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Business POC');
@@ -133,7 +157,15 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Business POC Contact No');
     }
-
+    if (!model.bu1ContactNo.isEmptyOrNull &&
+        (!isNumeric(model.bu1ContactNo!) ||
+            model.bu1ContactNo!.length > 17 ||
+            model.bu1ContactNo!.length < 10)) {
+      return const ErrorResponse(
+        status: false,
+        message: 'Please enter a valid Business POC Contact No',
+      );
+    }
     if (model.bu2 == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter  Business POC Escalation');
@@ -144,6 +176,15 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
           message: 'Please enter Business POC Escalation Contact No');
     }
 
+    if (!model.bu2ContactNo.isEmptyOrNull &&
+        (!isNumeric(model.bu2ContactNo!) ||
+            model.bu2ContactNo!.length > 17 ||
+            model.bu2ContactNo!.length < 10)) {
+      return const ErrorResponse(
+        status: false,
+        message: 'Please enter a valid Business POC Escalation Contact No',
+      );
+    }
     if (model.bu1Dept == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Business POC Department');
@@ -168,7 +209,18 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
 
     if (model.systemVendor1ContactNo == null) {
       return const ErrorResponse(
-          status: false, message: 'Please enter Vendor 1 Contact');
+          status: false,
+          message: 'Please enter systemVendor1ContactNo1 Contact');
+    }
+
+    if (!model.systemVendor1ContactNo.isEmptyOrNull &&
+        (!isNumeric(model.systemVendor1ContactNo!) ||
+            model.systemVendor1ContactNo!.length > 17 ||
+            model.systemVendor1ContactNo!.length < 10)) {
+      return const ErrorResponse(
+        status: false,
+        message: 'Please enter a valid Vendor 1 Contact No',
+      );
     }
     if (model.systemVendor2 == null) {
       return const ErrorResponse(
@@ -184,7 +236,17 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Vendor 2 Contact');
     }
-    if (model.systemVendor3 != null &&
+
+    if (!model.systemVendor2ContactNo.isEmptyOrNull &&
+        (!isNumeric(model.systemVendor2ContactNo!) ||
+            model.systemVendor2ContactNo!.length > 17 ||
+            model.systemVendor2ContactNo!.length < 10)) {
+      return const ErrorResponse(
+        status: false,
+        message: 'Please enter a valid Vendor 2 Contact No',
+      );
+    }
+    if (!model.systemVendor3.isEmptyOrNull &&
         !Validator.isValidEmail(model.systemVendor3)) {
       return const ErrorResponse(
           status: false, message: 'Please enter Valid System Vendor 3 Email');
