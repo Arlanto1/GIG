@@ -334,6 +334,11 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
       return const ErrorResponse(
           status: false, message: 'Please enter Office Address');
     }
+    if (!widget.model.email.isEmptyOrNull &&
+        !Validator.isValidEmail(widget.model.email)) {
+      return const ErrorResponse(
+          status: false, message: 'Invalid Email Address');
+    }
     if ((!Utils().isNumeric(widget.model.contactNo!) ||
             widget.model.contactNo!.length < 10 ||
             widget.model.contactNo!.length > 17) &&
