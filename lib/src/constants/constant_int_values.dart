@@ -64,4 +64,9 @@ class ConstantsIntValue {
   static const int draft = 0;
   static const int active = 1;
   static const int inActive = 2;
+
+/// Incident status
+  static const int incidentStatusCancelled = 40;
+  static const int incidentStatusClosed = 39;
+
 }
