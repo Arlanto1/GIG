@@ -267,7 +267,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             AbsorbPointer(
                                 absorbing: state.model.status == null ||
                                         state.model.status ==
-                                            ConstantsIntValue.draft
+                                              ConstantsIntValue.shiftScheduleDraft
                                     ? false
                                     : true,
                                 child: BaseLocationDropdown()
@@ -309,13 +309,13 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               height: 60,
                               isDisableColor: (state.model.status == null ||
                                       state.model.status ==
-                                          ConstantsIntValue.draft) && state.model.lock.isEmptyOrNull
+                                          ConstantsIntValue.shiftScheduleDraft) && state.model.lock.isEmptyOrNull
                                   ? false
                                   : true,
                               onTap: () {
                                 if (state.model.status == null ||
                                     state.model.status ==
-                                        ConstantsIntValue.draft) {
+                                        ConstantsIntValue.shiftScheduleDraft) {
                                   BaseOrganisationDialog().departmentDialog(
                                       context: context,
                                       organisations: state.vendors,
@@ -394,13 +394,13 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             if (state.model.status == null ||
                                 state.model.status ==
-                                    ConstantsIntValue.draft) ...[
+                                    ConstantsIntValue.shiftScheduleDraft) ...[
                               GestureDetector(
                                 onTap: () {
                                   log('--onTap------');
                                   if (state.model.status == null ||
                                       state.model.status ==
-                                          ConstantsIntValue.draft) {
+                                          ConstantsIntValue.shiftScheduleDraft) {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext dialogContext) {
@@ -457,7 +457,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               showPastDate: false,
                               startDate: state.availableDate?.fromDate,
                               isDisabled: state.model.status != null &&
-                                  state.model.status != ConstantsIntValue.draft,
+                                  state.model.status != ConstantsIntValue.shiftScheduleDraft,
                               onChange: (String value) {
                                 state.model.fromDate =
                                     Utils().formatTime(value);
@@ -485,7 +485,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               showPastDate: false,
                               startDate: state.availableDate?.toDate,
                               isDisabled: state.model.status != null &&
-                                  state.model.status != ConstantsIntValue.draft,
+                                  state.model.status != ConstantsIntValue.shiftScheduleDraft,
                               onChange: (String value) {
                                 state.model.toDate = Utils().formatTime(value);
                                 BlocProvider.of<ShiftScheduleDetailsCubit>(
@@ -594,12 +594,12 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
               ),
             ),
             if (state.model.status == null ||
-                state.model.status == ConstantsIntValue.draft) ...[
+                state.model.status == ConstantsIntValue.shiftScheduleDraft) ...[
               IconButton(
                 icon: const Icon(Icons.close), // Cancel icon
                 onPressed: () {
                   if (state.model.status == null ||
-                      state.model.status == ConstantsIntValue.draft) {
+                      state.model.status == ConstantsIntValue.shiftScheduleDraft) {
                     // Remove the POC from the state
                     state.pocs?.remove(poc);
                     // Trigger UI update

@@ -53,31 +53,34 @@ class BaseDate {
               toDate: toDate);
         }
       },
-      child: AbsorbPointer(
-        absorbing: true,
-        child: FlutterInputField(
-          controller: textController,
-          textFormKey: textController == textController
-              ? Keys.founddateTextController
-              : Keys.handedoverdateTextController,
-          hintText: '',
-          suffixIcon: Icons.calendar_month,
-          isEnable: true,
-          isDisableColor: isDisabled,
-          onChange: onChange,
-          // Pass the onChange callback to FlutterInputField
-          validateTextField: (String? user) {},
-          suffixWidget: GestureDetector(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: SvgPicture.asset(
-                AppIcon.calendaricon,
-                colorFilter: const ColorFilter.mode(
-                  AppColors.textGreyThemeColor,
-                  BlendMode.srcIn,
+      child: Opacity(
+        opacity: isDisabled ? .5 : 1,
+        child: AbsorbPointer(
+          absorbing: true,
+          child: FlutterInputField(
+            controller: textController,
+            textFormKey: textController == textController
+                ? Keys.founddateTextController
+                : Keys.handedoverdateTextController,
+            hintText: '',
+            suffixIcon: Icons.calendar_month,
+            isEnable: true,
+            isDisableColor: isDisabled,
+            onChange: onChange,
+            // Pass the onChange callback to FlutterInputField
+            validateTextField: (String? user) {},
+            suffixWidget: GestureDetector(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: SvgPicture.asset(
+                  AppIcon.calendaricon,
+                  colorFilter: const ColorFilter.mode(
+                    AppColors.textGreyThemeColor,
+                    BlendMode.srcIn,
+                  ),
+                  width: 20,
+                  key: const Key(Keys.userIcon),
                 ),
-                width: 20,
-                key: const Key(Keys.userIcon),
               ),
             ),
           ),

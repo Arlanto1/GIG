@@ -103,9 +103,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       } else {
         InactivityFunctions().logoutUser(navigatorKey);
         // Handle other unexpected errors
-        log('An unexpected error occurred---1: $e');
+        log('Server Might Be Restarting: $e');
         emit(LoginFailureState(
-          message: 'An unexpected error occurred.',
+          message: 'Please try after 5 minutes!',
           status: FormStatus.error,
         ));
       }
