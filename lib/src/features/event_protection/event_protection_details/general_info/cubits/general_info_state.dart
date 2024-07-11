@@ -118,10 +118,13 @@ class GeneralInfoState extends Equatable {
           status: false, message: 'Please enter LSM 1 Contact No');
     }
     bool isNumeric(String str) {
+      if (str.isEmptyOrNull) {
+        return false;
+      }
       return double.tryParse(str) != null;
     }
     if (!model.lsm1ContactNo.isEmptyOrNull &&
-        (!isNumeric(model.lsm1ContactNo!) ||
+        (isNumeric(model.lsm1ContactNo!) ||
             model.lsm1ContactNo!.length > 17 ||
             model.lsm1ContactNo!.length < 10)) {
       return const ErrorResponse(
