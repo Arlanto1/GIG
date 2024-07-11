@@ -42,12 +42,12 @@ class ConstantsIntValue {
   /// Shift Occurence
   static const int submitted = 1;
 
-  /// Key Management Master
+  ///Key Management Master
   static const int genderMale = 1;
   static const int genderFemale = 2;
   static const int genderTransgender = 3;
 
-  /// Key Management Master history status
+  ///Key Management Master history status
   static const int created = 0;
   static const int lockChangeInitiated = 1;
   static const int lostInitiated = 2;
@@ -60,12 +60,13 @@ class ConstantsIntValue {
   static const int destroyApproved = 9;
   static const int closed = 10;
 
-  /// Shift Schedule status
-  static const int shiftScheduleDraft = 0;
-  static const int shiftScheduleActive = 1;
-  static const int shiftScheduleInActive = 2;
+  ///Shift Schedule status
+  static const int draft = 0;
+  static const int active = 1;
+  static const int inActive = 2;
 
-  /// Shift Schedule status
-  static const int incidentStatusClosed = 39;
+/// Incident status
   static const int incidentStatusCancelled = 40;
+  static const int incidentStatusClosed = 39;
+
 }
