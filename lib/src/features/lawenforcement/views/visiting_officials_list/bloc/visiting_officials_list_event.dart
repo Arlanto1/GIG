@@ -32,10 +32,12 @@ class SaveRecord extends VisitingOfficialListEvent {
   const SaveRecord({required this.model, required this.parentId});
 }
 
+class RefreshList extends VisitingOfficialListEvent {
+  const RefreshList();
+}
 class DeleteRecord extends VisitingOfficialListEvent {
   final int id;
   final int parentId;
-  final int type;
 
-  const DeleteRecord(this.id, this.type, this.parentId);
+  const DeleteRecord(this.id, this.parentId);
 }

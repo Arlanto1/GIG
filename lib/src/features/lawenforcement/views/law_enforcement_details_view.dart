@@ -678,11 +678,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                                 ConstantsArgument.type: 0,
                                                 ConstantsArgument.id:
                                                     state.model?.id,
-                                                ConstantsArgument.rankType:
-                                                    Constants
-                                                        .contactGeneralRank,
-                                                ConstantsArgument.models:
-                                                    visitingOfficials,
+                                                // ConstantsArgument.models:
+                                                //     visitingOfficials,
                                                 ConstantsArgument
                                                     .departments: state
                                                         .departmentResponse

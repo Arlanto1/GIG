@@ -50,6 +50,9 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
 
   @override
   Widget build(BuildContext context) {
+
+    final visitingOfficialBloc = BlocProvider.of<VisitingOfficialListBloc>(widget.mainContext);
+
     return AlertDialog(
       title: Align(
         alignment: Alignment.center,
@@ -145,7 +148,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                           if (widget.showSaveButton) {
                             BaseOrganisationDialog().departmentDialog(
                                 context: context,
-                                organisations: widget.departments,
+                                organisations: visitingOfficialBloc.departments,
                                 onTap: (Organisation user) {
                                   log('-user.name----${user.name}-');
 
@@ -163,9 +166,9 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                                 createEntity: false,
                                 title: Constants.department,
                                 functionToCall: () {
-                                  BlocProvider.of<VisitingOfficialListBloc>(
-                                          context)
-                                      .refreshList();
+                                  BlocProvider.of<VisitingOfficialListBloc>(widget.mainContext).add(
+                                      const RefreshList());
+
                                 });
                           }
                         },

@@ -199,8 +199,14 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
                         },
                       );
                     },
-                    showEditButton: widget.showSaveButton || !widget.lock.isEmptyOrNull ? false:true,
-                    showDutyPostEditButton: widget.showSaveButton &&  widget.lock.isEmptyOrNull ? true:false,
+                    showEditButton:
+                        widget.showSaveButton || !widget.lock.isEmptyOrNull
+                            ? false
+                            : true,
+                    showDutyPostEditButton:
+                        widget.showSaveButton && widget.lock.isEmptyOrNull
+                            ? true
+                            : false,
                     onEditTap: (selectedIndex) async {
                       LawVisitingOfficial model = await LawEnforcementServices()
                           .getLeoVisitingOfficialById(
@@ -226,12 +232,13 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
                         },
                       );
                     },
-                    showDeleteButton: widget.showSaveButton && widget.lock.isEmptyOrNull,
+                    showDeleteButton:
+                        widget.showSaveButton && widget.lock.isEmptyOrNull,
                     onDeleteTap: (selectedIndex) async {
                       // Call Delete API
                       BlocProvider.of<VisitingOfficialListBloc>(context).add(
                           DeleteRecord(state.items![selectedIndex].id!.toInt(),
-                              widget.type, widget.id));
+                              widget.id));
                     },
                     index: index,
                   );
