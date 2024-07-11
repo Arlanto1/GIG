@@ -145,7 +145,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                           if (widget.showSaveButton) {
                             BaseOrganisationDialog().departmentDialog(
                                 context: context,
-                                organisations: visitingOfficialBloc.departments,
+                                organisations: widget.departments,
                                 onTap: (Organisation user) {
                                   log('-user.name----${user.name}-');
 
@@ -163,9 +163,9 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                                 createEntity: false,
                                 title: Constants.department,
                                 functionToCall: () {
-                                  BlocProvider.of<VisitingOfficialListBloc>(widget.mainContext).add(
-                                      const RefreshList());
-
+                                  BlocProvider.of<VisitingOfficialListBloc>(
+                                          context)
+                                      .add(const RefreshList());
                                 });
                           }
                         },
@@ -334,13 +334,6 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
       return const ErrorResponse(
           status: false, message: 'Please enter Office Address');
     }
-
-    if (!widget.model.email.isEmptyOrNull &&
-        !Validator.isValidEmail(widget.model.email)) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter valid email');
-    }
-
     if ((!Utils().isNumeric(widget.model.contactNo!) ||
             widget.model.contactNo!.length < 10 ||
             widget.model.contactNo!.length > 17) &&
