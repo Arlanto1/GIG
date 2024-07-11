@@ -1759,7 +1759,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     //     passvaliduntilTextController),
 
                                     BaseDate().datePickerWidgetLoading(
-                                      isDisabled: ((state.selectedCompanyType
+                                      isDisabled: (state.selectedCompanyType
                                                           ?.name ??
                                                       '')
                                                   .toLowerCase() !=
@@ -1770,7 +1770,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                               !(widget.extraProperties !=
                                                       null &&
                                                   !widget.extraProperties!
-                                                      .hasWritePermission!)),
+                                                      .hasWritePermission!),
                                       showPastDate: false,
                                       textController:
                                           passValidUntilTextController,
