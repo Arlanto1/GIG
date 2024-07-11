@@ -785,7 +785,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       (widget.model == null ||
                                                   widget.model?.status == 0 ||
                                                   widget.model?.status == 1 ||
-                                                  widget.model?.status == 2) &&
+                                                  widget.model?.status == 2) ||
                                               (widget.model != null &&
                                                   widget.model!.lock
                                                       .isEmptyOrNull)
@@ -793,23 +793,23 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                               Constants.upload,
                                               Styles.textStyleBlack14)
                                           : Container(),
-                                      (widget.model == null ||
+                                      (widget.model?.status == null ||
                                                   widget.model?.status == 0 ||
                                                   widget.model?.status == 1 ||
-                                                  widget.model?.status == 2) &&
+                                                  widget.model?.status == 2) ||
                                               (widget.model != null &&
                                                   widget.model!.lock
                                                       .isEmptyOrNull)
                                           ? CommonWidgets.verticalSpacerWidget(
                                               height * 0.001)
                                           : Container(),
-                                      (widget.model == null ||
+                                      (widget.model?.status == null ||
                                                   widget.model?.status == 0 ||
                                                   widget.model?.status == 1 ||
-                                                  widget.model?.status == 2) &&
-                                              (widget.model != null &&
+                                                  widget.model?.status == 2) ||
+                                          ((widget.model != null &&
                                                   widget.model!.lock
-                                                      .isEmptyOrNull)
+                                                      .isEmptyOrNull))
                                           ? uploadWidget(state)
                                           : Container(),
 
@@ -830,10 +830,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                                     .model!.lock.isEmptyOrNull),
                                         moduleCode: Constants.leoModuleCode,
                                         showDeleteIcon: (widget.model == null ||
-                                                widget.model?.status == 0) &&
-                                            (widget.model != null &&
-                                                widget
-                                                    .model!.lock.isEmptyOrNull),
+                                                widget.model?.status == 0)
                                       ),
                                       // Attachments
                                       // getSpaceattchment(height),
