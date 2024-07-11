@@ -491,10 +491,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         height * 0.001),
                                     GestureDetector(
                                       onTap: () {
-                                        if ((widget.model?.status == 0 ||
-                                                widget.model?.status == null ||
-                                                widget.model?.status != 1) ||
-                                            !(widget.extraProperties != null &&
+                                        if ((widget.model == null ||
+                                            widget.model?.status == 0) &&
+                                            !(widget.extraProperties !=
+                                                null &&
                                                 !widget.extraProperties!
                                                     .hasWritePermission!)) {
                                           passTypeDialog(state);
