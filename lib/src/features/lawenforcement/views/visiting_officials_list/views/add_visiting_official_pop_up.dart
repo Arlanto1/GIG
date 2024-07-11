@@ -50,9 +50,6 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
 
   @override
   Widget build(BuildContext context) {
-
-    final visitingOfficialBloc = BlocProvider.of<VisitingOfficialListBloc>(widget.mainContext);
-
     return AlertDialog(
       title: Align(
         alignment: Alignment.center,
@@ -337,11 +334,13 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
       return const ErrorResponse(
           status: false, message: 'Please enter Office Address');
     }
+
     if (!widget.model.email.isEmptyOrNull &&
         !Validator.isValidEmail(widget.model.email)) {
       return const ErrorResponse(
-          status: false, message: 'Invalid Email Address');
+          status: false, message: 'Please enter valid email');
     }
+
     if ((!Utils().isNumeric(widget.model.contactNo!) ||
             widget.model.contactNo!.length < 10 ||
             widget.model.contactNo!.length > 17) &&
