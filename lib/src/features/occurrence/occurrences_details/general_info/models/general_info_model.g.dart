@@ -49,7 +49,7 @@ OccurrenceModel _$OccurrenceModelFromJson(Map<String, dynamic> json) =>
       transportIncdntComments: json['transportIncdntComments'] as String?,
       anyEvent: json['anyEvent'] as bool? ?? false,
       notifyScri: json['notifyScri'] as String?,
-      powerFailure: json['powerFailure'] as bool? ?? true,
+      powerFailure: json['powerFailure'] as bool? ?? false,
       atmVendorVisit: json['atmVendorVisit'] as bool? ?? false,
       cwmVisit: json['cwmVisit'] as bool? ?? false,
       comments: json['comments'] as String?,

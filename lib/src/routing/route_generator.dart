@@ -78,7 +78,6 @@ import 'package:db_atom/src/features/passmanagement/pass_management_list/views/p
 import 'package:db_atom/src/features/security_systems/services/sst_incident_services.dart';
 import 'package:db_atom/src/features/security_systems/sst_incident_list/bloc/sst_incident_bloc.dart'
     as sv;
-import 'package:db_atom/src/services/common_services.dart';
 
 import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_details/cubits/key_loss_destruction_details_cubit.dart';
 import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_details/views/key_loss_destruction_details_view.dart';
@@ -274,17 +273,18 @@ class RouteGenerator {
               settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id];
           title = arguments[ConstantsArgument.title];
-          type = arguments[ConstantsArgument.type] ?? 0;
+          // type = arguments[ConstantsArgument.type] ?? 0;
           // visitingOfficials = arguments[ConstantsArgument.models] ?? [];
           departments = arguments[ConstantsArgument.departments] ?? [];
           showSaveButton = arguments[ConstantsArgument.showSaveButton];
-          lock=arguments[ConstantsArgument.lock];
+          lock = arguments[ConstantsArgument.lock];
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<vo.VisitingOfficialListBloc>(
             create: (_) => vo.VisitingOfficialListBloc(
-                parentId: id, departments: departments)
-              ..add(vo.FetchData(
+              parentId: id,
+              departments: departments,
+            )..add(vo.FetchData(
                 id: id,
                 type: type,
                 startPos: 0,
@@ -295,7 +295,7 @@ class RouteGenerator {
               type: type,
               title: title,
               showSaveButton: showSaveButton,
-              lock:lock,
+              lock: lock,
             ),
           ),
         );
@@ -1612,7 +1612,7 @@ class RouteGenerator {
         int id = 0;
         ExtraProperties? extraProperties;
         String? lock;
-        int parentStatus=0;
+        int parentStatus = 0;
         // String violationDescription = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
@@ -1648,13 +1648,13 @@ class RouteGenerator {
       default:
         log('--default---${settings.name}-');
         return MaterialPageRoute(builder: (context) => const SplashScreen());
-        // CommonServices commonServices = CommonServices();
-        // return MaterialPageRoute(
-        //   builder: (context) => BlocProvider<ChartsCubit>(
-        //     create: (_) => ChartsCubit(commonServices: commonServices),
-        //     child: const DashboardView(),
-        //   ),
-        // );
+      // CommonServices commonServices = CommonServices();
+      // return MaterialPageRoute(
+      //   builder: (context) => BlocProvider<ChartsCubit>(
+      //     create: (_) => ChartsCubit(commonServices: commonServices),
+      //     child: const DashboardView(),
+      //   ),
+      // );
     }
   }
 }

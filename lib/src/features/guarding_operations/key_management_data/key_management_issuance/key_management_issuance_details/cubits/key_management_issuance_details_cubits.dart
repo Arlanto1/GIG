@@ -34,6 +34,8 @@ class KeyManagementIssuanceDetailsCubit
 
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
+    List<Organisation>? entities =
+    await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     List<BaseUser> emailUsers =
         await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
@@ -43,6 +45,7 @@ class KeyManagementIssuanceDetailsCubit
     emit(
       state.copyWith(
         status: FormStatus.initial,
+        listOfEntities: entities,
         users: users.t1Analyst,
         emailUsers: emailUsers,
         departments: departments.employeeDepartments,

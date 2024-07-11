@@ -23,6 +23,7 @@ class VisitingOfficialListBloc
     on<InitializeValues>(_initializeValues);
     on<SaveRecord>(_saveRecord);
     on<DeleteRecord>(_deleteRecord);
+    on<RefreshList>(_refreshList);
   }
 
   final LawEnforcementServices services = LawEnforcementServices();
@@ -95,26 +96,39 @@ class VisitingOfficialListBloc
     }
   }
 
-  FutureOr<void> refreshList() async {
-    emit(state.copyWith(status: FormStatus.loading));
+  // FutureOr<void> refreshList() async {
+  //   emit(state.copyWith(status: FormStatus.loading));
+  //   List<Organisation> departments = await commonServices.getOrganisations(
+  //       name: parentId == Constants.contactGeneralRank
+  //           ? 'CONTACT_GENERAL_RANK'
+  //           : parentId == Constants.contactGuardingAgencyEscalationRank
+  //               ? 'CONTACT_GUARDING_AGENCY_ESCALATION_RANK'
+  //               : parentId == Constants.contactSystemEscalationRank
+  //                   ? 'CONTACT_SYSTEM_ESCALATION_RANK'
+  //                   : parentId == Constants.contactSupervisorRank
+  //                       ? 'CONTACT_SUPERVISOR_RANK'
+  //                       : parentId == Constants.contactZone
+  //                           ? 'CONTACT_ZONE'
+  //                           : '');
+  //   emit(
+  //     state.copyWith(
+  //       status: FormStatus.initial,
+  //       departments: departments,
+  //     ),
+  //   );
+  // }
+
+  FutureOr<void> _refreshList(
+      RefreshList event, Emitter<VisitingOfficialListState> emit) async {
+
     List<Organisation> departments = await commonServices.getOrganisations(
-        name: parentId == Constants.contactGeneralRank
-            ? 'CONTACT_GENERAL_RANK'
-            : parentId == Constants.contactGuardingAgencyEscalationRank
-                ? 'CONTACT_GUARDING_AGENCY_ESCALATION_RANK'
-                : parentId == Constants.contactSystemEscalationRank
-                    ? 'CONTACT_SYSTEM_ESCALATION_RANK'
-                    : parentId == Constants.contactSupervisorRank
-                        ? 'CONTACT_SUPERVISOR_RANK'
-                        : parentId == Constants.contactZone
-                            ? 'CONTACT_ZONE'
-                            : '');
-    emit(
-      state.copyWith(
-        status: FormStatus.initial,
-        departments: departments,
-      ),
+      name: 'ATOM_LEO_DEPARTMENTS',
     );
+
+    emit(state.copyWith(
+      status: FormStatus.success,
+      departments: departments,
+    ));
   }
 
   FutureOr<void> _deleteRecord(
@@ -169,11 +183,6 @@ class VisitingOfficialListBloc
         id: event.parentId,
       );
 
-      /// Refresh list
-      // ContactsListModel response = await services.getContactListByType(
-      //   id: '${event.parentId}',
-      //   type: '${event.type}',
-      // );
       return emit(
         state.copyWith(items: response, status: FormStatus.success),
       );

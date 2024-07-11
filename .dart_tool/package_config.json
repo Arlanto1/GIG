@@ -75,9 +75,9 @@
     },
     {
       "name": "build_daemon",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/build_daemon-4.0.1",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/build_daemon-4.0.2",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.4"
     },
     {
       "name": "build_resolvers",
@@ -87,15 +87,15 @@
     },
     {
       "name": "build_runner",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/build_runner-2.4.9",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/build_runner-2.4.11",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.4"
     },
     {
       "name": "build_runner_core",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/build_runner_core-7.3.0",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/build_runner_core-7.3.1",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.4"
     },
     {
       "name": "built_collection",
@@ -411,9 +411,9 @@
     },
     {
       "name": "flutter_plugin_android_lifecycle",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.19",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.20",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.4"
     },
     {
       "name": "flutter_slidable",
@@ -591,9 +591,9 @@
     },
     {
       "name": "image_picker_android",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+1",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/image_picker_android-0.8.12+3",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.4"
     },
     {
       "name": "image_picker_for_web",
@@ -746,6 +746,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "msal_auth",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/msal_auth-2.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
       "name": "multi_select_flutter",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/multi_select_flutter-4.1.3",
       "packageUri": "lib/",
@@ -813,9 +819,9 @@
     },
     {
       "name": "path_provider_android",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/path_provider_android-2.2.4",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/path_provider_android-2.2.7",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.4"
     },
     {
       "name": "path_provider_foundation",
@@ -981,9 +987,9 @@
     },
     {
       "name": "shared_preferences_android",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/shared_preferences_android-2.2.2",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/shared_preferences_android-2.2.3",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.4"
     },
     {
       "name": "shared_preferences_foundation",
@@ -1023,9 +1029,9 @@
     },
     {
       "name": "shelf_web_socket",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/shelf_web_socket-1.0.4",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/shelf_web_socket-2.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.0"
     },
     {
       "name": "signature",
@@ -1149,9 +1155,9 @@
     },
     {
       "name": "url_launcher_android",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.2",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.3",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.4"
     },
     {
       "name": "url_launcher_ios",
@@ -1227,9 +1233,9 @@
     },
     {
       "name": "video_player_android",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/video_player_android-2.4.14",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/video_player_android-2.5.2",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.4"
     },
     {
       "name": "video_player_avfoundation",
@@ -1280,8 +1286,14 @@
       "languageVersion": "3.3"
     },
     {
+      "name": "web_socket",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/web_socket-0.1.5",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
       "name": "web_socket_channel",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/web_socket_channel-2.4.5",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/web_socket_channel-3.0.0",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -1293,9 +1305,9 @@
     },
     {
       "name": "webview_flutter_android",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/webview_flutter_android-3.16.3",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/webview_flutter_android-3.16.4",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.4"
     },
     {
       "name": "webview_flutter_platform_interface",
@@ -1311,9 +1323,9 @@
     },
     {
       "name": "win32",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/win32-5.5.0",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/win32-5.5.1",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.4"
     },
     {
       "name": "win32_registry",
@@ -1346,7 +1358,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2024-07-08T07:32:44.247390Z",
+  "generated": "2024-07-10T11:40:56.759709Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///Users/anurag/Downloads/flutter",

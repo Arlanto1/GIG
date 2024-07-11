@@ -48,6 +48,21 @@ class Validator {
     return userName != null && userName.trim().isNotEmpty;
   }
 
+  static bool isValidPhoneNumber(int? number) {
+    if (number == null) {
+      return false;
+    }
+
+    if (number < 10) {
+      return false;
+    }
+
+    if (number > 17) {
+      return false;
+    }
+    return true;
+  }
+
 //   String formatTimestamp(Timestamp timestamp) {
 //   DateTime dateTime = timestamp.toDate();
 //   String formattedTime = DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
