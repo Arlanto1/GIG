@@ -117,14 +117,9 @@ class GeneralInfoState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter LSM 1 Contact No');
     }
-    bool isNumeric(String str) {
-      if (str.isEmptyOrNull) {
-        return false;
-      }
-      return double.tryParse(str) != null;
-    }
+
     if (!model.lsm1ContactNo.isEmptyOrNull &&
-        (isNumeric(model.lsm1ContactNo!) ||
+        (!Utils().isNumeric(model.lsm1ContactNo!) ||
             model.lsm1ContactNo!.length > 17 ||
             model.lsm1ContactNo!.length < 10)) {
       return const ErrorResponse(
@@ -143,7 +138,7 @@ class GeneralInfoState extends Equatable {
     }
 
     if (!model.lsm2ContactNo.isEmptyOrNull &&
-        (!isNumeric(model.lsm2ContactNo!) ||
+        (!Utils().isNumeric(model.lsm2ContactNo!) ||
             model.lsm2ContactNo!.length > 17 ||
             model.lsm2ContactNo!.length < 10)) {
       return const ErrorResponse(
@@ -162,7 +157,7 @@ class GeneralInfoState extends Equatable {
     }
 
     if (!model.bu1ContactNo.isEmptyOrNull &&
-        (!isNumeric(model.bu1ContactNo!) ||
+        (!Utils().isNumeric(model.bu1ContactNo!) ||
             model.bu1ContactNo!.length > 17 ||
             model.bu1ContactNo!.length < 10)) {
       return const ErrorResponse(
@@ -182,7 +177,7 @@ class GeneralInfoState extends Equatable {
     }
 
     if (!model.bu2ContactNo.isEmptyOrNull &&
-        (!isNumeric(model.bu2ContactNo!) ||
+        (!Utils().isNumeric(model.bu2ContactNo!) ||
             model.bu2ContactNo!.length > 17 ||
             model.bu2ContactNo!.length < 10)) {
       return const ErrorResponse(
