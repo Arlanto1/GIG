@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
+import 'package:db_atom/src/utils/web_sso_msal_handler.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
+import 'package:msal_auth/msal_auth.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -241,43 +243,43 @@ class _LoginState extends State<Login> {
                                 ],
                               ),
 
-                              // const Center(
-                              //   child: Text(
-                              //     'OR',
-                              //     style: TextStyle(fontWeight: FontWeight.bold),
-                              //   ),
-                              // ),
-                              // CommonWidgets.verticalSpacerWidget(
-                              //   height * 0.03,
-                              // ),
-                              // ElevatedButton(
-                              //   onPressed: _authenticate,
-                              //   style: ElevatedButton.styleFrom(
-                              //     backgroundColor: Colors
-                              //         .white, // Set the background color to white
-                              //   ),
-                              //   child: Row(
-                              //     mainAxisAlignment: MainAxisAlignment.center,
-                              //     children: [
-                              //       Image.asset(
-                              //         AppIcon.deutscheBankLogo,
-                              //         fit: BoxFit.cover,
-                              //         height: 20,
-                              //         // color:
-                              //         //     AppColors.navigationSkyBlueColor,
-                              //       ),
-                              //       CommonWidgets.horizontalSpacerWidget(
-                              //         height * 0.01,
-                              //       ),
-                              //       const Text(
-                              //         Constants.dbSSO,
-                              //         style: TextStyle(
-                              //           color: Color(0xFF000080),
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
+                              const Center(
+                                child: Text(
+                                  'OR',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                height * 0.03,
+                              ),
+                              ElevatedButton(
+                                onPressed: WebSsoMsalHandler().getToken,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors
+                                      .white, // Set the background color to white
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      AppIcon.deutscheBankLogo,
+                                      fit: BoxFit.cover,
+                                      height: 20,
+                                      // color:
+                                      //     AppColors.navigationSkyBlueColor,
+                                    ),
+                                    CommonWidgets.horizontalSpacerWidget(
+                                      height * 0.01,
+                                    ),
+                                    const Text(
+                                      Constants.dbSSO,
+                                      style: TextStyle(
+                                        color: Color(0xFF000080),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                               CommonWidgets.verticalSpacerWidget(
                                 height * 0.03,
                               ),
@@ -371,40 +373,40 @@ class _LoginState extends State<Login> {
 //   String secret = 'secret';
 //   String discoveryUrl = 'https://demo.duendesoftware.com/connect/authorize';
 
-  final String tenantId = 'f18ecf29-68a6-4697-92fa-0ce29009c210';
-  final String clientId = '4f133b63-2fc9-4770-ad4a-20b6e69ec1ce';
+  // final String tenantId = 'f18ecf29-68a6-4697-92fa-0ce29009c210';
+  // final String clientId = '4f133b63-2fc9-4770-ad4a-20b6e69ec1ce';
+  // // final String redirectUrl =
+  // //     'https://login.microsoftonline.com/common/oauth2/nativeclient';
   // final String redirectUrl =
-  //     'https://login.microsoftonline.com/common/oauth2/nativeclient';
-  final String redirectUrl =
-      'msauth.com.arlanto.atomedge://auth';
+  //     'msauth.com.arlanto.atomedge://auth';
 
-  final String clientSecret = 'Ly68Q~9VVXRHWeuO7EUWZSDJeH_x-ledldKl4bZ2';
-  final String authority = 'https://login.microsoftonline.com/';
-  final String resource = 'DB-ATOM';
-  final String issuer =
-      'https://login.microsoftonline.com/f18ecf29-68a6-4697-92fa-0ce29009c210';
-
-  final String re = 'com.yourapp:/oauthredirect';
-
-  Future<void> _authenticate() async {
-    final AuthorizationTokenResponse? result =
-        await appAuth.authorizeAndExchangeCode(
-      AuthorizationTokenRequest(
-        clientId,
-        redirectUrl,
-        issuer: issuer,
-        // clientSecret: secret,
-        // discoveryUrl: issuer,
-        scopes: ['openid', 'profile', 'email', 'offline_access', 'api'],
-      ),
-    );
-
-    setState(() {
-      log('---${result?.accessToken}---');
-      // _accessToken = result?.accessToken;
-      // _idToken = result?.idToken;
-    });
-  }
+  // final String clientSecret = 'Ly68Q~9VVXRHWeuO7EUWZSDJeH_x-ledldKl4bZ2';
+  // final String authority = 'https://login.microsoftonline.com/';
+  // final String resource = 'DB-ATOM';
+  // final String issuer =
+  //     'https://login.microsoftonline.com/f18ecf29-68a6-4697-92fa-0ce29009c210';
+  //
+  // final String re = 'com.yourapp:/oauthredirect';
+  //
+  // Future<void> _authenticate() async {
+  //   final AuthorizationTokenResponse? result =
+  //       await appAuth.authorizeAndExchangeCode(
+  //     AuthorizationTokenRequest(
+  //       clientId,
+  //       redirectUrl,
+  //       issuer: issuer,
+  //       // clientSecret: secret,
+  //       // discoveryUrl: issuer,
+  //       scopes: ['openid', 'profile', 'email', 'offline_access', 'api'],
+  //     ),
+  //   );
+  //
+  //   setState(() {
+  //     log('---${result?.accessToken}---');
+  //     // _accessToken = result?.accessToken;
+  //     // _idToken = result?.idToken;
+  //   });
+  // }
 
   LoginRequestModel prepareLoginRequestBody(
       String userName, String pwd, String otp) {

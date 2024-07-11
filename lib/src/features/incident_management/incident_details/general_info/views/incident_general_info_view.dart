@@ -105,7 +105,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
             showSubmitButton: !disableForm,
             showDisLikeButton: false,
             showLikeButton: false,
-            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.incidentManagementModule}',
+            pdfAPIName:
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.incidentManagementModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<IncidentGeneralInfoCubit>(context)
@@ -426,9 +427,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     orgName: 'ARTICLE_LIST',
                                     functionToCall: () {
                                       // refresh the list
-                                      BlocProvider.of<
-                                          IncidentGeneralInfoCubit>(
-                                          context)
+                                      BlocProvider.of<IncidentGeneralInfoCubit>(
+                                              context)
                                           .refreshList();
                                     },
                                   );
@@ -576,6 +576,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               FlutterInputField(
                                 initialValue: state.model.employeeId,
                                 textFormKey: Keys.claimantEmpIdTextController,
+                                textInputType: TextInputType.number,
                                 isEnable: state.model.status != 39,
                                 isDisableColor: state.model.status == 39,
                                 hintText: '',
@@ -743,7 +744,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               title: state.model.incidentManager?.userInfo ??
                                   state.model.incidentManager?.name,
                               height: 70,
-                              isDisableColor:disableForm,
+                              isDisableColor: disableForm,
                               onTap: () {
                                 if (state.model.status == 0) {
                                   BaseOrganisationDialog().userDialog(
@@ -782,7 +783,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               title: state.model.incidentOwner?.userInfo ??
                                   state.model.incidentOwner?.name,
                               height: 70,
-                              isDisableColor:disableForm,
+                              isDisableColor: disableForm,
                               onTap: () {
                                 if (state.model.status == 0) {
                                   BaseOrganisationDialog().userDialog(
@@ -853,7 +854,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: closureTargetDateController,
-                              isDisabled: state.model.status != 0 || state.model.lock.isEmptyOrNull,
+                              isDisabled: state.model.status != 0 ||
+                                  state.model.lock.isEmptyOrNull,
                               onlyDate: false,
                               showPastDate: false,
                               onChange: (String value) {
@@ -900,8 +902,10 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
   Widget cancelButtonDisplay(IncidentGeneralInfoState state) {
     bool condition = state.model.id == null ||
-        state.model.status == ConstantsIntValue.cancelledStatus || state.model.status == 40 ||state.model.status == -1||
-    !state.model.lock.isEmptyOrNull;
+        state.model.status == ConstantsIntValue.cancelledStatus ||
+        state.model.status == 40 ||
+        state.model.status == -1 ||
+        !state.model.lock.isEmptyOrNull;
     return AppButton(
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,

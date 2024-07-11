@@ -43,6 +43,7 @@ class AttendanceModel extends BaseObject {
   int? dutyType;
   int? status;
   int? attendanceType;
+  String? entrySecurityName;
 
   AttendanceModel({
     this.id,
@@ -54,6 +55,7 @@ class AttendanceModel extends BaseObject {
     this.dutyType,
     this.status,
     this.attendanceType,
+    this.entrySecurityName,
   });
 
   factory AttendanceModel.fromJson(Map<String, dynamic> json) =>

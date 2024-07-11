@@ -43,6 +43,8 @@ class AnnualPowerShutDownModel {
   final String? epOfficers;
   final bool? annualPowerShutdown;
   final bool? eventType;
+  final String? eventStartDate;
+  final String? eventEndDate;
   final bool? specialPersonAttending;
   final bool? liquorServed;
   final bool? hardDrinks;
@@ -114,6 +116,7 @@ class AnnualPowerShutDownModel {
   final String? preOpPoints1DoneByName;
   final String? opExecPoints1DoneByName;
   final String? postOpPoints1DoneByName;
+  final double? budget;
 
   AnnualPowerShutDownModel({
     this.id,
@@ -128,6 +131,8 @@ class AnnualPowerShutDownModel {
     this.epOfficers,
     this.annualPowerShutdown,
     this.eventType,
+    this.eventStartDate,
+    this.eventEndDate,
     this.specialPersonAttending,
     this.liquorServed,
     this.hardDrinks,
@@ -199,6 +204,7 @@ class AnnualPowerShutDownModel {
     this.preOpPoints1DoneByName,
     this.opExecPoints1DoneByName,
     this.postOpPoints1DoneByName,
+    this.budget,
   });
 
   AnnualPowerShutDownModel.fromJson(Map<String, dynamic> json)
@@ -222,6 +228,8 @@ class AnnualPowerShutDownModel {
         epOfficers = json['epOfficers'] as String?,
         annualPowerShutdown = json['annualPowerShutdown'] as bool?,
         eventType = json['eventType'] as bool?,
+        eventStartDate = json['eventStartDate'] as String?,
+        eventEndDate = json['eventEndDate'] as String?,
         specialPersonAttending = json['specialPersonAttending'] as bool?,
         liquorServed = json['liquorServed'] as bool?,
         hardDrinks = json['hardDrinks'] as bool?,
@@ -293,7 +301,8 @@ class AnnualPowerShutDownModel {
         qmrAuthorizedByName = json['qmrAuthorizedByName'] as String?,
         preOpPoints1DoneByName = json['preOpPoints1DoneByName'] as String?,
         opExecPoints1DoneByName = json['opExecPoints1DoneByName'] as String?,
-        postOpPoints1DoneByName = json['postOpPoints1DoneByName'] as String?;
+        postOpPoints1DoneByName = json['postOpPoints1DoneByName'] as String?,
+        budget = json['budget'] as double?;
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -308,6 +317,8 @@ class AnnualPowerShutDownModel {
         'epOfficers': epOfficers,
         'annualPowerShutdown': annualPowerShutdown,
         'eventType': eventType,
+        'eventStartDate': eventStartDate,
+        'eventEndDate': eventEndDate,
         'specialPersonAttending': specialPersonAttending,
         'liquorServed': liquorServed,
         'hardDrinks': hardDrinks,
@@ -378,6 +389,7 @@ class AnnualPowerShutDownModel {
         'qmrAuthorizedByName': qmrAuthorizedByName,
         'preOpPoints1DoneByName': preOpPoints1DoneByName,
         'opExecPoints1DoneByName': opExecPoints1DoneByName,
-        'postOpPoints1DoneByName': postOpPoints1DoneByName
+        'postOpPoints1DoneByName': postOpPoints1DoneByName,
+        'budget': budget,
       };
 }

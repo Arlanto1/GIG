@@ -122,13 +122,15 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             height: 70,
                             isDisableColor: widget.parentStatus == null ||
                                     widget.parentStatus == 0 ||
-                                    widget.parentStatus == 1 || widget.lock.isEmptyOrNull
+                                    widget.parentStatus == 1 ||
+                                    widget.lock.isEmptyOrNull
                                 ? false
                                 : true,
                             onTap: () {
                               if (widget.parentStatus == null ||
                                       widget.parentStatus == 0 ||
-                                      widget.parentStatus == 1|| widget.lock.isEmptyOrNull
+                                      widget.parentStatus == 1 ||
+                                      widget.lock.isEmptyOrNull
                                   ? true
                                   : false) {
                                 BaseOrganisationDialog().departmentDialog(
@@ -183,7 +185,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                     functionToCall: () {
                                       log('---functionToCall----');
                                       BlocProvider.of<ContactRecordBloc>(
-                                              widget.mainContext).add(
+                                              widget.mainContext)
+                                          .add(
                                         const RefreshContactRecordsList(),
                                       );
                                     });
@@ -425,12 +428,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
             status: false, message: 'Please enter Escalation Level.');
       }
     }
-    bool isNumeric(String str) {
-      return double.tryParse(str) != null;
-    }
-
     if (!widget.model.contactNo.isEmptyOrNull &&
-        (!isNumeric(widget.model.contactNo!) ||
+        (!Utils().isNumeric(widget.model.contactNo!) ||
             widget.model.contactNo!.length > 17 ||
             widget.model.contactNo!.length < 10)) {
       return const ErrorResponse(

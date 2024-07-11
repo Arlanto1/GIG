@@ -75,11 +75,16 @@
         <dict>
             <key>CFBundleURLSchemes</key>
             <array>
-                <string>msauth.com.arlanto.atomedge</string>
+                <string>msauth.$(PRODUCT_BUNDLE_IDENTIFIER)</string>
             </array>
             <key>CFBundleURLName</key>
             <string></string>
         </dict>
+    </array>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+    <string>msauthv2</string>
+    <string>msauthv3</string>
     </array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
