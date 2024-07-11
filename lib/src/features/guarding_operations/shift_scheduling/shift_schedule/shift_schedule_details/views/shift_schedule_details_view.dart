@@ -267,7 +267,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             AbsorbPointer(
                                 absorbing: state.model.status == null ||
                                         state.model.status ==
-                                            ConstantsIntValue.shiftScheduleDraft
+                                              ConstantsIntValue.shiftScheduleDraft
                                     ? false
                                     : true,
                                 child: BaseLocationDropdown()
