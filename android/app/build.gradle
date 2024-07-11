@@ -125,7 +125,7 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.arlanto.atomedge"
 //        manifestPlaceholders = [applicationName: "com.arlanto.atomedge.AtomEdge"]
-        minSdkVersion 34
+        minSdkVersion 28
         targetSdkVersion 34
 //    compileSdkVersion 34
 //        defaultConfig {
