@@ -5,7 +5,6 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/occ_ui_labels.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/requestModel/general_info_request.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
-import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
 part 'occurrence_general_info_state.dart';
