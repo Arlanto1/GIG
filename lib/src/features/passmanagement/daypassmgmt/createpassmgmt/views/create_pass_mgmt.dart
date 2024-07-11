@@ -2842,16 +2842,20 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   void _getCurrentDate() {
     final currentDate = DateTime.now();
-    String formattedDate =
+    String currentFormattedDate =
         DateFormat(Constants.fulldateFormat).format(currentDate);
-    log(formattedDate);
-    String nextFormattedDate = DateFormat(Constants.fulldateFormat)
-        .format(currentDate.add(const Duration(hours: 12)));
-    dateofcreationTextController.text = formattedDate;
+    dateofcreationTextController.text = currentFormattedDate;
+    log('--------currentFormattedDate--$currentFormattedDate-');
+
+
     passReturnedTextController.text =
-        widget.model?.status == 1 ? formattedDate : '';
+        widget.model?.status == 1 ? currentFormattedDate : '';
     if (widget.passId != ConstantsIntValue.passIdSez) {
-      passValidFromTextController.text = formattedDate;
+      passValidFromTextController.text = currentFormattedDate;
+
+      String nextFormattedDate = DateFormat(Constants.fulldateFormat)
+          .format(currentDate.add(const Duration(hours: 12)));
+      log('---nextFormattedDate----$nextFormattedDate------');
       passValidUntilTextController.text = nextFormattedDate;
     }
     if (widget.model == null) {
