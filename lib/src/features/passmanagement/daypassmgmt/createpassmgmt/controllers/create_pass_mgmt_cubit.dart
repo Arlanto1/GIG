@@ -19,6 +19,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
             //lawenforcementServices: SubmitCreateFoundModel(),
             model: PassManagementModel(),
             stateType: CreatePassMgmtStateType.initial,
+            status: FormStatus.initial
           ),
         );
 
@@ -818,7 +819,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     try {
       emit(
         state.copyWith(
-          selectedEmployeeDepartment: employeeDepartment,
+          selectedDepartment: employeeDepartment,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -929,6 +930,13 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       );
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
+      // Below emit is required because error handling is done in a different
+      emit(
+        state.copyWith(
+          message: e.message,
+          stateType: CreatePassMgmtStateType.failure,
+        ),
+      );
       return;
     } on Exception catch (e) {
       emit(
