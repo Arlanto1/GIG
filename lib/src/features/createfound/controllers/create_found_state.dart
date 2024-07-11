@@ -42,52 +42,6 @@ class CreateFoundState extends Equatable {
     this.labels,
   });
 
-  CreateFoundState copyWith({
-    GetDepositor? getDepositorResponse,
-    Locations? getLocationsResponse,
-    Organisation? location,
-    EmployeeDepartments? getEmployeeDepartmentsResponse,
-    GetArticleType? getArticleTypeResponse,
-    Organisation? createOrganisationResponse,
-    Organisation? createEmployeeDepartments,
-    CreateUserModel? createUserResponse,
-    User? loggedInUser,
-    User? handedOverUser,
-    SubmitCreateFoundModel? createFoundResponse,
-    SerialNumberModel? getSerialnumberResponse,
-    String? message,
-    FormStatus? status,
-    List<ImageContent>? loadAttachments,
-    required FoundListArticleDetails? model,
-    final int? eventId,
-  }) {
-    return CreateFoundState(
-      getDepositorResponse: getDepositorResponse ?? this.getDepositorResponse,
-      getLocationsResponse: getLocationsResponse ?? this.getLocationsResponse,
-      location: location ?? this.location,
-      getEmployeeDepartmentsResponse:
-          getEmployeeDepartmentsResponse ?? this.getEmployeeDepartmentsResponse,
-      getArticleTypeResponse:
-          getArticleTypeResponse ?? this.getArticleTypeResponse,
-      createOrganisationResponse:
-          createOrganisationResponse ?? this.createOrganisationResponse,
-      createEmployeeDepartments:
-          createEmployeeDepartments ?? this.createEmployeeDepartments,
-      createUserResponse: createUserResponse ?? this.createUserResponse,
-      handedOverUser: handedOverUser ?? this.handedOverUser,
-      loggedInUser: loggedInUser ?? this.loggedInUser,
-      createFoundResponse: createFoundResponse ?? this.createFoundResponse,
-      getSerialnumberResponse:
-          getSerialnumberResponse ?? this.getSerialnumberResponse,
-      message: message ?? this.message,
-      status: status ?? this.status,
-      loadAttachments: loadAttachments ?? this.loadAttachments,
-      eventId: eventId ?? this.eventId,
-      labels: labels ?? labels,
-      model: model ?? this.model,
-    );
-  }
-
   @override
   List<Object?> get props => [
         getDepositorResponse,
@@ -108,4 +62,51 @@ class CreateFoundState extends Equatable {
         eventId,
         labels
       ];
+
+  CreateFoundState copyWith({
+    FoundListArticleDetails? model,
+    GetDepositor? getDepositorResponse,
+    Locations? getLocationsResponse,
+    Organisation? location,
+    EmployeeDepartments? getEmployeeDepartmentsResponse,
+    GetArticleType? getArticleTypeResponse,
+    Organisation? createOrganisationResponse,
+    Organisation? createEmployeeDepartments,
+    CreateUserModel? createUserResponse,
+    User? loggedInUser,
+    User? handedOverUser,
+    SubmitCreateFoundModel? createFoundResponse,
+    SerialNumberModel? getSerialnumberResponse,
+    String? message,
+    FormStatus? status,
+    List<ImageContent>? loadAttachments,
+    int? eventId,
+    AFUiLabels? labels,
+  }) {
+    return CreateFoundState(
+      model: model ?? this.model,
+      getDepositorResponse: getDepositorResponse ?? this.getDepositorResponse,
+      getLocationsResponse: getLocationsResponse ?? this.getLocationsResponse,
+      location: location ?? this.location,
+      getEmployeeDepartmentsResponse:
+          getEmployeeDepartmentsResponse ?? this.getEmployeeDepartmentsResponse,
+      getArticleTypeResponse:
+          getArticleTypeResponse ?? this.getArticleTypeResponse,
+      createOrganisationResponse:
+          createOrganisationResponse ?? this.createOrganisationResponse,
+      createEmployeeDepartments:
+          createEmployeeDepartments ?? this.createEmployeeDepartments,
+      createUserResponse: createUserResponse ?? this.createUserResponse,
+      loggedInUser: loggedInUser ?? this.loggedInUser,
+      handedOverUser: handedOverUser ?? this.handedOverUser,
+      createFoundResponse: createFoundResponse ?? this.createFoundResponse,
+      getSerialnumberResponse:
+          getSerialnumberResponse ?? this.getSerialnumberResponse,
+      message: message ?? this.message,
+      status: status ?? this.status,
+      loadAttachments: loadAttachments ?? this.loadAttachments,
+      eventId: eventId ?? this.eventId,
+      labels: labels ?? this.labels,
+    );
+  }
 }

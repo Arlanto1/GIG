@@ -4,14 +4,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="minVersion increased to 34&#10;location issue fixed for Pass Management">
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="attendance: created by&#10;close button clickable if the status is closed">
+      <change afterPath="$PROJECT_DIR$/android/app/proguard-rules.pro" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_drop_down.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_drop_down.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/cubits/attendance_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/cubits/attendance_details_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/views/attendance_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/views/attendance_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/models/general_info_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/models/general_info_model.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/QA/release/output-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/QA/release/output-metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,17 +87,52 @@
     },
     {
       "id": {
+        "id": "PR_kwDOJ23nvs507_Iy",
+        "number": 488
+      },
+      "lastSeen": 1720604473366
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs508RC1",
+        "number": 490
+      },
+      "lastSeen": 1720608022601
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs508VTe",
+        "number": 491
+      },
+      "lastSeen": 1720608914061
+    },
+    {
+      "id": {
         "id": "PR_kwDOJ23nvs507MXC",
         "number": 487
       },
-      "lastSeen": 1720598023948
+      "lastSeen": 1720610643508
     },
     {
       "id": {
         "id": "PR_kwDOJ23nvs506-6C",
         "number": 485
       },
-      "lastSeen": 1720598379530
+      "lastSeen": 1720611318144
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs509A0K",
+        "number": 493
+      },
+      "lastSeen": 1720611337609
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs509J0_",
+        "number": 494
+      },
+      "lastSeen": 1720611543610
     }
   ]
 }]]></component>
@@ -577,7 +612,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="323" />
+    <option name="localTasksCounter" value="324" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -591,8 +626,38 @@
     </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="9cecee85-f412-4799-a60d-a43d13768ff4" value="TOOL_WINDOW" />
+        <entry key="ee65f526-309e-46f1-92db-927c40e5595a" value="TOOL_WINDOW" />
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
+        <entry key="9cecee85-f412-4799-a60d-a43d13768ff4">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="range">
+                    <value>
+                      <list>
+                        <option value="origin/dev..origin/passmanagement-bugs" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
         <entry key="MAIN">
           <value>
             <State>
@@ -610,11 +675,34 @@
             </State>
           </value>
         </entry>
+        <entry key="ee65f526-309e-46f1-92db-927c40e5595a">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="range">
+                    <value>
+                      <list>
+                        <option value="origin/dev..origin/article-bugs" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
       </map>
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="location handling" />
     <MESSAGE value="app name" />
     <MESSAGE value="env" />
     <MESSAGE value="error handling for location improved&#10;background loation service removed" />
@@ -639,7 +727,8 @@
     <MESSAGE value="manifest" />
     <MESSAGE value="Web SSO base setup is done" />
     <MESSAGE value="minVersion increased to 34&#10;location issue fixed for Pass Management" />
-    <option name="LAST_COMMIT_MESSAGE" value="minVersion increased to 34&#10;location issue fixed for Pass Management" />
+    <MESSAGE value="attendance: created by&#10;close button clickable if the status is closed" />
+    <option name="LAST_COMMIT_MESSAGE" value="attendance: created by&#10;close button clickable if the status is closed" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

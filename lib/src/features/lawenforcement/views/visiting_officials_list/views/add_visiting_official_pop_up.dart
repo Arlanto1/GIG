@@ -165,7 +165,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                                 functionToCall: () {
                                   BlocProvider.of<VisitingOfficialListBloc>(
                                           context)
-                                      .refreshList();
+                                      .add(const RefreshList());
                                 });
                           }
                         },
@@ -334,13 +334,6 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
       return const ErrorResponse(
           status: false, message: 'Please enter Office Address');
     }
-
-    if (!widget.model.email.isEmptyOrNull &&
-        !Validator.isValidEmail(widget.model.email)) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter valid email');
-    }
-
     if ((!Utils().isNumeric(widget.model.contactNo!) ||
             widget.model.contactNo!.length < 10 ||
             widget.model.contactNo!.length > 17) &&
