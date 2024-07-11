@@ -491,10 +491,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         height * 0.001),
                                     GestureDetector(
                                       onTap: () {
-                                        if ((widget.model?.status == 0 ||
-                                                widget.model?.status == null ||
-                                                widget.model?.status != 1) ||
-                                            !(widget.extraProperties != null &&
+                                        if ((widget.model == null ||
+                                            widget.model?.status == 0) &&
+                                            !(widget.extraProperties !=
+                                                null &&
                                                 !widget.extraProperties!
                                                     .hasWritePermission!)) {
                                           passTypeDialog(state);
@@ -4008,12 +4008,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       );
     } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
             widget.passId == ConstantsIntValue.passIdVendor) &&
-        contactnoTextController.text.length < 10 &&
-        contactnoTextController.text.length <= 18) {
+        contactnoTextController.text.length < 10 ||
+        contactnoTextController.text.length > 17) {
       Validator().showToast(
         context,
         "Please enter valid contact no",
       );
+      return;
     } else if (widget.passId == ConstantsIntValue.passIdVisitor &&
         visitorcomingfromTextController.text.isEmpty) {
       Validator().showToast(
