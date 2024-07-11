@@ -456,11 +456,11 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
-  geDBOfficialyData(BaseUser listOfdept) async {
+  getDBOfficialyData(BaseUser user) async {
     try {
       emit(
         state.copyWith(
-          getuserResponse: listOfdept,
+          getuserResponse: user,
           status: FormStatus.success,
         ),
       );
