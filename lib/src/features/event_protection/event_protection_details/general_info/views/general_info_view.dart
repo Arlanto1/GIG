@@ -621,6 +621,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               textInputType: TextInputType.number,
                               initialValue: state.model.lsm2ContactNo,
                               textFormKey: Keys.lsm2ContactNOKey,
+                              isEnable: !disableForm,
                               hintText: '',
                               focusNode: lSM2ContactNoFocusNode,
                               characterLimit: Constants.characterLimitContactNo,

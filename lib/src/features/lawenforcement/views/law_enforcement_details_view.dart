@@ -782,7 +782,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       (widget.model == null ||
                                                   widget.model?.status == 0 ||
                                                   widget.model?.status == 1 ||
-                                                  widget.model?.status == 2) &&
+                                                  widget.model?.status == 2) ||
                                               (widget.model != null &&
                                                   widget.model!.lock
                                                       .isEmptyOrNull)
@@ -790,23 +790,23 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                               Constants.upload,
                                               Styles.textStyleBlack14)
                                           : Container(),
-                                      (widget.model == null ||
+                                      (widget.model?.status == null ||
                                                   widget.model?.status == 0 ||
                                                   widget.model?.status == 1 ||
-                                                  widget.model?.status == 2) &&
+                                                  widget.model?.status == 2) ||
                                               (widget.model != null &&
                                                   widget.model!.lock
                                                       .isEmptyOrNull)
                                           ? CommonWidgets.verticalSpacerWidget(
                                               height * 0.001)
                                           : Container(),
-                                      (widget.model == null ||
+                                      (widget.model?.status == null ||
                                                   widget.model?.status == 0 ||
                                                   widget.model?.status == 1 ||
-                                                  widget.model?.status == 2) &&
-                                              (widget.model != null &&
+                                                  widget.model?.status == 2) ||
+                                          ((widget.model != null &&
                                                   widget.model!.lock
-                                                      .isEmptyOrNull)
+                                                      .isEmptyOrNull))
                                           ? uploadWidget(state)
                                           : Container(),
 
@@ -827,10 +827,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                                     .model!.lock.isEmptyOrNull),
                                         moduleCode: Constants.leoModuleCode,
                                         showDeleteIcon: (widget.model == null ||
-                                                widget.model?.status == 0) &&
-                                            (widget.model != null &&
-                                                widget
-                                                    .model!.lock.isEmptyOrNull),
+                                                widget.model?.status == 0)
                                       ),
                                       // Attachments
                                       // getSpaceattchment(height),
@@ -1403,11 +1400,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio(
-          activeColor: widget.model?.status != 0 &&
-                  widget.model != null &&
-                  !(widget.model != null && widget.model!.lock.isEmptyOrNull)
-              ? AppColors.disableTextFieldBackground
-              : AppColors.navigationSkyBlueColor,
+          activeColor: (widget.model == null ||
+              (widget.model != null && widget.model!.status == 0 && (widget.model!.lock == null || widget.model!.lock!.isEmpty)))
+              ? AppColors.navigationSkyBlueColor
+              : AppColors.disableTextFieldBackground,
           focusColor: AppColors.navigationSkyBlueColor,
           value: 1,
           groupValue: selectedValue,
@@ -1430,11 +1426,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         ),
         const Text(Constants.yes),
         Radio(
-          activeColor: widget.model?.status != 0 &&
-                  widget.model != null &&
-                  !(widget.model != null && widget.model!.lock.isEmptyOrNull)
-              ? AppColors.disableTextFieldBackground
-              : AppColors.navigationSkyBlueColor,
+          activeColor:(widget.model == null ||
+              (widget.model != null && widget.model!.status == 0 && (widget.model!.lock == null || widget.model!.lock!.isEmpty)))
+              ? AppColors.navigationSkyBlueColor
+              : AppColors.disableTextFieldBackground,
           value: 0,
           groupValue: selectedValue,
           onChanged: (val) {
@@ -2105,7 +2100,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context,
         "Please enter serial number",
       );
-    } else if (state.listOfEntities == null) {
+    } else if (state.listOfEntities.isEmptyOrNull) {
       Validator().showToast(
         context,
         "Please enter entity",
@@ -2113,7 +2108,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     } else if (actualDateTextController.text.isEmpty) {
       Validator().showToast(
         context,
-        "Please enter actual date",
+        "Please enter actual time of visit",
       );
     } else if (state.leoPurposeVisitResponse != null &&
         (state.leoPurposeVisitResponse?.name ?? '').isEmpty) {
@@ -2124,19 +2119,19 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     } else if (dbOfficailWanttimeetTextController.text.isEmpty) {
       Validator().showToast(
         context,
-        "Please enter db official want to meet",
+        "Please enter DB official want to meet",
       );
     } else if (state.selectedemployeeDepartmentResponse != null &&
         (state.selectedemployeeDepartmentResponse?.name ?? '').isEmpty) {
       Validator().showToast(
         context,
-        "Please enter db official department",
+        "Please enter DB official department",
       );
     } else if (state.getuserResponse != null &&
         (state.getuserResponse?.name ?? '').isEmpty) {
       Validator().showToast(
         context,
-        "Please enter db official email id accompanied leo official",
+        "Please enter DB official email id accompanied LEO official",
       );
     }
     // else if (state.visitingOfficials != null &&
