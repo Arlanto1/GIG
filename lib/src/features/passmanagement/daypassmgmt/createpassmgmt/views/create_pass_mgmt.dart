@@ -492,9 +492,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     GestureDetector(
                                       onTap: () {
                                         if ((widget.model == null ||
-                                            widget.model?.status == 0) &&
-                                            !(widget.extraProperties !=
-                                                null &&
+                                                widget.model?.status == 0) &&
+                                            !(widget.extraProperties != null &&
                                                 !widget.extraProperties!
                                                     .hasWritePermission!)) {
                                           passTypeDialog(state);
@@ -1759,18 +1758,18 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     //     passvaliduntilTextController),
 
                                     BaseDate().datePickerWidgetLoading(
-                                      isDisabled: (state.selectedCompanyType
-                                                          ?.name ??
-                                                      '')
-                                                  .toLowerCase() !=
-                                              'exceptions' ||
-                                          (widget.model?.status != 0 &&
-                                                  widget.model?.status !=
-                                                      null) &&
-                                              !(widget.extraProperties !=
-                                                      null &&
-                                                  !widget.extraProperties!
-                                                      .hasWritePermission!),
+                                      isDisabled:
+                                          (state.selectedCompanyType?.name ??
+                                                          '')
+                                                      .toLowerCase() !=
+                                                  'exceptions' ||
+                                              (widget.model?.status != 0 &&
+                                                      widget.model?.status !=
+                                                          null) &&
+                                                  !(widget.extraProperties !=
+                                                          null &&
+                                                      !widget.extraProperties!
+                                                          .hasWritePermission!),
                                       showPastDate: false,
                                       textController:
                                           passValidUntilTextController,
@@ -2452,7 +2451,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   getPassManagementList() async {
     if (widget.passId == ConstantsIntValue.passIdSez) {
-      await createPassMgmtCubit.getLocations('ATOM_LOCATIONS', 1, context, isSezLocations: true);
+      await createPassMgmtCubit.getLocations('ATOM_LOCATIONS', 1, context,
+          isSezLocations: true);
     } else {
       await createPassMgmtCubit.getLocations('ATOM_LOCATIONS', null, context);
     }
@@ -2477,7 +2477,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         'VENDOR_PASS_REASON', context);
     //await createpassmgmtCubit.getAnalysts('T1_Analyst');
     await createPassMgmtCubit.getUserByRoleDepositor(
-        'ATOM_STATIC_USER', context);
+        ConstantUserRoles.atomStaticUser, context);
   }
 
   Widget submitButtonDisplay() {
@@ -2847,7 +2847,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     dateofcreationTextController.text = currentFormattedDate;
     log('--------currentFormattedDate--$currentFormattedDate-');
 
-
     passReturnedTextController.text =
         widget.model?.status == 1 ? currentFormattedDate : '';
     if (widget.passId != ConstantsIntValue.passIdSez) {
@@ -3037,17 +3036,17 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             duplicateatomCompanyTypes: state.companyTypes ?? [],
-            leftImageName: AppIcon.addicon,
-            onLeftButtonTap: () {
-              Navigator.pop(context);
-              showDialog(
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return AddNewFields(
-                        title: Constants.addcompanytype,
-                        createPassmgmtState: state);
-                  });
-            },
+            leftImageName: null,
+            // onLeftButtonTap: () {
+            // Navigator.pop(context);
+            // showDialog(
+            //     context: context,
+            //     builder: (BuildContext dialogContext) {
+            //       return AddNewFields(
+            //           title: Constants.addcompanytype,
+            //           createPassmgmtState: state);
+            //     });
+            // },
             onTap: (Organisation organisation) {
               //log(list.name);
               // isEditable = true;
@@ -3173,7 +3172,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           BaseOrganisationDialog().userDialog(
             context: context,
             users: state.getDepositorResponse,
-            roleName: 'ATOM_STATIC_USER',
+            roleName: ConstantUserRoles.atomStaticUser,
             functionToCall: () {
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },
@@ -3245,7 +3244,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           BaseOrganisationDialog().userDialog(
             context: context,
             users: state.getDepositorResponse!,
-            roleName: 'ATOM_STATIC_USER',
+            roleName: ConstantUserRoles.atomStaticUser,
             functionToCall: () {
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },
@@ -3322,7 +3321,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           BaseOrganisationDialog().userDialog(
             context: context,
             users: state.getDepositorResponse,
-            roleName: 'ATOM_STATIC_USER',
+            roleName: ConstantUserRoles.atomStaticUser,
             functionToCall: () {
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },
@@ -4011,8 +4010,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         "Please enter contact no",
       );
     } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
-            widget.passId == ConstantsIntValue.passIdVendor) &&
-        contactnoTextController.text.length < 10 ||
+                widget.passId == ConstantsIntValue.passIdVendor) &&
+            contactnoTextController.text.length < 10 ||
         contactnoTextController.text.length > 17) {
       Validator().showToast(
         context,

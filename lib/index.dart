@@ -266,6 +266,7 @@ export 'package:db_atom/src/utils/utils_common.dart';
 export 'package:db_atom/src/utils/validators/validator.dart';
 export 'package:equatable/equatable.dart';
 export 'package:firebase_core/firebase_core.dart';
+
 // export 'package:firebase_messaging/firebase_messaging.dart';
 export 'package:flutter/foundation.dart';
 export 'package:flutter/material.dart';
@@ -277,3 +278,5 @@ export 'package:flutter_pdfview/flutter_pdfview.dart';
 export 'package:json_annotation/json_annotation.dart';
 export 'package:path_provider/path_provider.dart';
 export 'package:syncfusion_flutter_charts/charts.dart';
+export 'package:db_atom/src/constants/constant_user_roles.dart';
+

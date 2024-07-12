@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/common_widgets/base_widget/basic_widget_functions.dart';
 
 class GeneralInfoView extends StatefulWidget {
   final EventProtectionGi? model;
@@ -399,7 +398,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                         subRegionalHead1: user,
                                       );
                                     },
-                                    roleName: 'ATOM_Sub_Regional_Head',
+                                    roleName: ConstantUserRoles
+                                        .atomSubRegionalHeadUser,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<GeneralInfoCubit>(context)
@@ -431,7 +431,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                         subRegionalHead2: user,
                                       );
                                     },
-                                    roleName: 'ATOM_Sub_Regional_Head',
+                                    roleName: ConstantUserRoles
+                                        .atomSubRegionalHeadUser,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<GeneralInfoCubit>(context)
@@ -466,7 +467,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                         epManager1: user,
                                       );
                                     },
-                                    roleName: 'ATOM_Sub_Regional_Head',
+                                    roleName: ConstantUserRoles
+                                        .atomSubRegionalHeadUser,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<GeneralInfoCubit>(context)
@@ -499,7 +501,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                         epManager2: user,
                                       );
                                     },
-                                    roleName: 'ATOM_Sub_Regional_Head',
+                                    roleName: ConstantUserRoles
+                                        .atomSubRegionalHeadUser,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<GeneralInfoCubit>(context)
@@ -535,7 +538,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     FocusScope.of(context)
                                         .requestFocus(lSM1ContactNoFocusNode);
                                   },
-                                  roleName: 'ATOM_Senior_Security_Manager',
+                                  roleName: ConstantUserRoles
+                                      .atomSeniorSecurityManagerUser,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<GeneralInfoCubit>(context)
@@ -597,7 +601,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     FocusScope.of(context)
                                         .requestFocus(lSM2ContactNoFocusNode);
                                   },
-                                  roleName: 'ATOM_Senior_Security_Manager',
+                                  roleName: ConstantUserRoles
+                                      .atomSeniorSecurityManagerUser,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<GeneralInfoCubit>(context)
@@ -659,7 +664,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     FocusScope.of(context)
                                         .requestFocus(pocContactNoFocusNode);
                                   },
-                                  roleName: 'ATOM_STATIC_USER',
+                                  roleName: ConstantUserRoles.atomStaticUser,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<GeneralInfoCubit>(context)
@@ -722,7 +727,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     FocusScope.of(context).requestFocus(
                                         pocEscalationContactNoFocusNode);
                                   },
-                                  roleName: 'ATOM_STATIC_USER',
+                                  roleName: ConstantUserRoles.atomStaticUser,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<GeneralInfoCubit>(context)
@@ -1137,7 +1142,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                                   AppIcon.close,
                                                   // Add your close
                                                   // icon asset here
-                                                  colorFilter: const ColorFilter.mode(
+                                                  colorFilter:
+                                                      const ColorFilter.mode(
                                                     AppColors.black,
                                                     BlendMode.srcIn,
                                                   ),
@@ -1671,7 +1677,6 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
         widget.model?.status == ConstantsIntValue.cancelledStatus ||
         widget.model?.status == 30;
     return AppButton(
-      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
