@@ -122,7 +122,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
               BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
                   .submitForm(isSaveOnly: false);
             },
-            title: Constants.createOccurrence,
+            title: widget.title,
           ),
           backgroundColor: AppColors.backgroundWhiteColor,
           body: getBodybuilder(state, height),
