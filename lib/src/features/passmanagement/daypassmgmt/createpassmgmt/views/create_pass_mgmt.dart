@@ -4417,7 +4417,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       controller: controller,
       textFormKey: Keys.colorTextController,
       textCapitalization: controller == emailTextController ? false : true,
-      textInputType: controller == contactnoTextController
+      textInputType: controller == contactnoTextController ||
+              controller == employeeIdTextController ||
+              controller == escortedEmployeeIdByTextController ||
+              controller == hostEmployeeIdTextController
           ? TextInputType.number
           : TextInputType.text,
       characterLimit: controller == contactnoTextController
@@ -4426,6 +4429,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       isEnable:
           (controller == companyNameTextController && widget.model?.status == 0
                   ? isFTECompanyNameEditable
+
                   : isEditable) ||
               isEditable,
       isDisableColor: isEditable,
