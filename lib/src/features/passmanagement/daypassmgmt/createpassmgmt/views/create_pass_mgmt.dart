@@ -3037,7 +3037,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             duplicateatomCompanyTypes: state.companyTypes ?? [],
-            leftImageName: AppIcon.addicon,
+            leftImageName: null,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
