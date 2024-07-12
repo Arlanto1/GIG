@@ -68,4 +68,10 @@ class ConstantsIntValue {
   /// Incident status
   static const int incidentStatusCancelled = 40;
   static const int incidentStatusClosed = 39;
+
+  /// LawEnforcement status
+  static const int leoStatusDraft = 0;
+  static const int leoStatusSubmitted = 1;
+  static const int leoStatusVerificationUnderProgress = 2;
+  static const int leoStatusDistributed = 3;
 }
