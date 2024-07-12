@@ -522,7 +522,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       FocusScope.of(context).requestFocus(
                                           complainantEmpIdFocusNode);
                                     },
-                                    roleName: 'ATOM_STATIC_USER',
+                                    roleName: ConstantUserRoles.atomStaticUser,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
@@ -655,7 +655,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       complainantHR: user,
                                     );
                                   },
-                                  roleName: 'ATOM_STATIC_USER',
+                                  roleName: ConstantUserRoles.atomStaticUser,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<IncidentGeneralInfoCubit>(
@@ -758,7 +758,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                         incidentManager: user,
                                       );
                                     },
-                                    roleName: 'ATOM_Senior_Security_Manager',
+                                    roleName: ConstantUserRoles
+                                        .atomSeniorSecurityManagerUser,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
@@ -799,7 +800,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       FocusScope.of(context).requestFocus(
                                           incidentDescriptionFocusNode);
                                     },
-                                    roleName: 'ATOM_Sub_Regional_Head',
+                                    roleName: ConstantUserRoles
+                                        .atomSubRegionalHeadUser,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<IncidentGeneralInfoCubit>(

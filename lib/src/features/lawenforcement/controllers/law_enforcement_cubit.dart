@@ -191,8 +191,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     String moduleCode,
   ) async {
     try {
-      SerialNumberModel response =
-          await services.getSerialnumberDetails(
+      SerialNumberModel response = await services.getSerialnumberDetails(
         locationId,
         moduleCode,
       );
@@ -420,7 +419,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       );
       dismissLoadingDialog(context);
       await lawEnforcementCubit.getDBofficialByRoleDepositor(
-          'ATOM_STATIC_USER', context);
+          ConstantUserRoles.atomStaticUser, context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
             context, 'Added successfully', Constants.newuser, '');

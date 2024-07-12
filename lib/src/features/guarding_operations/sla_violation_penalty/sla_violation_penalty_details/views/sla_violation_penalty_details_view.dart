@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 import 'add_poc_pop_up.dart';
 
@@ -100,7 +99,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.slaViolationPenaltyDetailsModuleCode}',
+            pdfAPIName:
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.slaViolationPenaltyDetailsModuleCode}',
             showSaveButton: state.model.status != 2 &&
                     state.model.status != -1 &&
                     !isReadOnly
@@ -289,7 +289,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                         context)
                                     .updateDropdownValues(
                                         vendors: selectedVendors);
-                                Navigator.of(context).pop(); 
+                                Navigator.of(context).pop();
                               },
                               addTitle: 'ADD Vendor',
                               createEntity: false,
@@ -325,7 +325,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                         context)
                                     .updateDropdownValues(
                                         entities: selectedEntities);
-                                Navigator.of(context).pop(); 
+                                Navigator.of(context).pop();
                               },
                               orgName: 'ATOM_ENTITIES',
                               functionToCall: () {
@@ -360,7 +360,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                         context)
                                     .updateDropdownValues(
                                         typeOfServices: selectedTypeOfVendors);
-                                Navigator.of(context).pop(); 
+                                Navigator.of(context).pop();
                               },
                               addTitle: 'ADD Type of Service',
                               createEntity: false,
@@ -400,7 +400,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                       user: user,
                                     );
                                   },
-                                  roleName: 'ATOM_STATIC_USER',
+                                  roleName: ConstantUserRoles.atomStaticUser,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<
@@ -549,9 +549,10 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                         children: [
                           if ((state.model.status != 2 &&
                               state.model.status != -1 &&
-                              !isReadOnly))...[
+                              !isReadOnly)) ...[
                             cancelButtonDisplay(state),
-                            submitButtonDisplay()],
+                            submitButtonDisplay()
+                          ],
                         ],
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
@@ -560,7 +561,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                 ),
               ),
             ),
-            if (state.model.status == 2 || state.model.status == ConstantsIntValue.cancelledStatus) ...[
+            if (state.model.status == 2 ||
+                state.model.status == ConstantsIntValue.cancelledStatus) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(
@@ -603,7 +605,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
   Widget cancelButtonDisplay(SLAViolationPenaltyDetailsState state) {
     bool condition = state.model.id == null ||
         state.model.status == ConstantsIntValue.cancelledStatus ||
-        state.model.status == 2 || !state.model.lock.isEmptyOrNull;
+        state.model.status == 2 ||
+        !state.model.lock.isEmptyOrNull;
     return AppButton(
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,

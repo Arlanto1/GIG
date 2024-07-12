@@ -288,7 +288,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                               .updateDropdownValues(
                                                   shiftTakenOverBy: user);
                                         },
-                                        roleName: 'ATOM_Guarding_Staff',
+                                        roleName: ConstantUserRoles
+                                            .atomGuardingStaffUser,
                                         functionToCall: () {
                                           // refresh the list
                                           BlocProvider.of<
