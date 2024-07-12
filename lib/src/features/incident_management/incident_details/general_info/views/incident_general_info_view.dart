@@ -50,7 +50,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
         Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
-            title: Constants.generalInformation,
+            title: Constants.incidentManagementTitle,
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
             onPositivePressed: () {

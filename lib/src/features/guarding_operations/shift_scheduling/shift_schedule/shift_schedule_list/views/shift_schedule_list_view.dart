@@ -40,7 +40,7 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
-      pageNumber = pageNumber + 20;
+      pageNumber = pageNumber + 10;
       context.read<ShiftScheduleListBloc>().add(FetchShiftScheduleList(
             startPos: pageNumber,
             maxPos: Constants.maxResults,
