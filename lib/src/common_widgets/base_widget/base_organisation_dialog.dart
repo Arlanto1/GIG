@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_add_organisation_dialog.dart';
 
+import '../../constants/constant_user_roles.dart';
+
 class BaseOrganisationDialog {
   departmentDialog({
     required BuildContext context,
@@ -58,7 +60,9 @@ class BaseOrganisationDialog {
         return CustomListTexts(
           duplicateDepostorList: users,
           duplicateEntityList: entities,
-          leftImageName: functionToCall != null ? AppIcon.addicon : null,
+          leftImageName: roleName == ConstantUserRoles.atomStaticUser
+              ? AppIcon.addicon
+              : null,
           onLeftButtonTap: () {
             Navigator.pop(context);
             showDialog(

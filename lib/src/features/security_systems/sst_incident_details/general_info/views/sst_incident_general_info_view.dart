@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/constants/constant_user_roles.dart';
 import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
 
 class SstIncidentGeneralInfoView extends StatefulWidget {
@@ -131,13 +132,12 @@ class _SstIncidentGeneralInfoViewState
                 ? Constants.ticketLifeCycle
                 : Constants.externalVendor,
             showPopUp: false,
-            showSaveButton:
-                disableForm ? false : true,
-            showSubmitButton:
-                disableForm ? false : true,
+            showSaveButton: disableForm ? false : true,
+            showSubmitButton: disableForm ? false : true,
             showDisLikeButton: false,
             showLikeButton: false,
-            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.securitySystemModule}',
+            pdfAPIName:
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.securitySystemModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<SstIncidentGeneralInfoCubit>(context)
@@ -531,7 +531,8 @@ class _SstIncidentGeneralInfoViewState
                                         systemManager: user,
                                       );
                                     },
-                                    roleName: 'ATOM_Security_System_Manager',
+                                    roleName: ConstantUserRoles
+                                        .atomSeniorSecurityManagerUser,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -569,8 +570,8 @@ class _SstIncidentGeneralInfoViewState
                                         lsm: user,
                                       );
                                     },
-                                    roleName:
-                                        'ATOM_Security_Manager;ATOM_Senior_Security_Manager',
+                                    roleName: ConstantUserRoles
+                                        .atomSecurityAndSeniorSecurityManagerUser,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -608,8 +609,8 @@ class _SstIncidentGeneralInfoViewState
                                         asl: user,
                                       );
                                     },
-                                    roleName:
-                                        'ATOM_ROLE_Security_Lead;ATOM_Assistant_Security_Lead',
+                                    roleName: ConstantUserRoles
+                                        .atomSecurityLeadAndAssistantSecurityLeadUser,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -649,7 +650,8 @@ class _SstIncidentGeneralInfoViewState
                                       FocusScope.of(context)
                                           .requestFocus(descriptionFocusNode);
                                     },
-                                    roleName: 'ATOM_Security_Team',
+                                    roleName:
+                                        ConstantUserRoles.atomSecurityTeamUser,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -678,7 +680,8 @@ class _SstIncidentGeneralInfoViewState
                               hintText: Constants.informationhere,
                               focusNode: descriptionFocusNode,
                               isEnable: state.model.status != 2,
-                              isDisableColor: state.model.status == 2 || disableForm,
+                              isDisableColor:
+                                  state.model.status == 2 || disableForm,
                               onChange: (String value) {
                                 state.model.shortDescription = value;
                                 context
@@ -704,7 +707,8 @@ class _SstIncidentGeneralInfoViewState
                               textFormKey: Keys.incidentDescription,
                               hintText: Constants.informationhere,
                               isEnable: state.model.status != 2,
-                              isDisableColor: state.model.status == 2 || disableForm,
+                              isDisableColor:
+                                  state.model.status == 2 || disableForm,
                               onChange: (String value) {
                                 state.model.detailDescription = value;
                                 context
@@ -763,8 +767,7 @@ class _SstIncidentGeneralInfoViewState
                                 state.model.status == null) ...[
                               BaseImageUpload().uploadWidget(
                                 context: context,
-                                loggedInUserDetails:
-                                    state.loggedInUserDetails,
+                                loggedInUserDetails: state.loggedInUserDetails,
                                 getFiles: uploadFiles,
                                 onImageSelected: (ImageContent data) {
                                   List<ImageContent>? files = [];

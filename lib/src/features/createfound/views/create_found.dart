@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/constants/constant_user_roles.dart';
 import 'package:db_atom/src/utils/network_handler.dart' as network_handler;
 import 'package:intl/intl.dart';
 
@@ -454,7 +455,7 @@ class _CreateFoundState extends State<CreateFound> {
     final bool isActive = await network_handler.networkChecking(context);
     if (isActive) {
       await createFoundArticleCubit.getUserByRoleDepositor(
-          'ATOM_STATIC_USER', context);
+          ConstantUserRoles.atomStaticUser, context);
       await createFoundArticleCubit.getLocations('ATOM_LOCATIONS', context);
       await createFoundArticleCubit.getEmployeeDepartments(
           'EMPLOYEE_DEPARTMENTS', context);

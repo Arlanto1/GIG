@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/constants/constant_user_roles.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/views/add_power_failure_dates_pop_up.dart';
 
 class OccurrenceDetails extends StatefulWidget {
@@ -288,7 +289,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                               .updateDropdownValues(
                                                   shiftTakenOverBy: user);
                                         },
-                                        roleName: 'ATOM_Guarding_Staff',
+                                        roleName: ConstantUserRoles
+                                            .atomGuardingStaffUser,
                                         functionToCall: () {
                                           // refresh the list
                                           BlocProvider.of<

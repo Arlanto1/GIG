@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/constants/constant_user_roles.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_cubits.dart';
 
 class KeyManagementIssuanceDetailsView extends StatefulWidget {
@@ -598,7 +599,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           handedOverTo: user,
                                         );
                                       },
-                                      roleName: 'ATOM_STATIC_USER',
+                                      roleName: ConstantUserRoles.atomStaticUser,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
@@ -668,7 +669,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           dbSponsorCwrT2: user,
                                         );
                                       },
-                                      roleName: 'ATOM_STATIC_USER',
+                                      roleName: ConstantUserRoles.atomStaticUser,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
