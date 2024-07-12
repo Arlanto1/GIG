@@ -546,8 +546,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                             isMandatory: true),
                                         CommonWidgets.verticalSpacerWidget(
                                             height * 0.001),
-                                        dbofficialemailidaddButtonwidgetLoading(
-                                            state),
+                                        dBOfficialEmailIDAccompaniedLeoOfficialWidget(
+                                          state,
+                                        ),
                                         CommonWidgets.verticalSpacerWidget(
                                             height * 0.01),
 
@@ -650,48 +651,46 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                         onTap: () async {
                                           // if (widget
                                           //     .model!.lock.isEmptyOrNull) {
-                                            NavigatorState nav =
-                                                Navigator.of(context);
+                                          NavigatorState nav =
+                                              Navigator.of(context);
 
-                                            bool isSaveSuccess =
-                                                await submitForm(
-                                              isSubmit: false,
-                                              state: state,
-                                              navigateToNextScreen: true,
-                                            );
-                                            if (!isSaveSuccess) {
-                                              return;
-                                            }
-                                            log('--widget.model.status---${widget.model?.status}--');
-                                            List<LawVisitingOfficial>
-                                                visitingOfficials =
-                                                await LawEnforcementServices()
-                                                    .getLeoVisitingOfficials(
-                                                        id: state.model!.id!);
+                                          bool isSaveSuccess = await submitForm(
+                                            isSubmit: false,
+                                            state: state,
+                                            navigateToNextScreen: true,
+                                          );
+                                          if (!isSaveSuccess) {
+                                            return;
+                                          }
+                                          log('--widget.model.status---${widget.model?.status}--');
+                                          List<LawVisitingOfficial>
+                                              visitingOfficials =
+                                              await LawEnforcementServices()
+                                                  .getLeoVisitingOfficials(
+                                                      id: state.model!.id!);
 
-                                            log('--atomLeoDepartments--${state.departmentResponse?.atomLeoDepartments?.length}-');
-                                            nav.pushNamed(
-                                              visitingOfficialListRoute,
-                                              arguments: {
-                                                ConstantsArgument.title:
-                                                    Constants.visitingOfficials,
-                                                ConstantsArgument.type: 0,
-                                                ConstantsArgument.id:
-                                                    state.model?.id,
-                                                // ConstantsArgument.models:
-                                                //     visitingOfficials,
-                                                ConstantsArgument
-                                                    .departments: state
-                                                        .departmentResponse
-                                                        ?.atomLeoDepartments ??
-                                                    [],
-                                                ConstantsArgument
-                                                        .showSaveButton:
-                                                    (widget.model?.status != 3)
-                                                        ? true
-                                                        : false,
-                                              },
-                                            );
+                                          log('--atomLeoDepartments--${state.departmentResponse?.atomLeoDepartments?.length}-');
+                                          nav.pushNamed(
+                                            visitingOfficialListRoute,
+                                            arguments: {
+                                              ConstantsArgument.title:
+                                                  Constants.visitingOfficials,
+                                              ConstantsArgument.type: 0,
+                                              ConstantsArgument.id:
+                                                  state.model?.id,
+                                              // ConstantsArgument.models:
+                                              //     visitingOfficials,
+                                              ConstantsArgument
+                                                  .departments: state
+                                                      .departmentResponse
+                                                      ?.atomLeoDepartments ??
+                                                  [],
+                                              ConstantsArgument.showSaveButton:
+                                                  (widget.model?.status != 3)
+                                                      ? true
+                                                      : false,
+                                            },
+                                          );
                                           // }
                                         },
                                         child: Row(
@@ -804,31 +803,31 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                                   widget.model?.status == 0 ||
                                                   widget.model?.status == 1 ||
                                                   widget.model?.status == 2) ||
-                                          ((widget.model != null &&
+                                              ((widget.model != null &&
                                                   widget.model!.lock
                                                       .isEmptyOrNull))
                                           ? uploadWidget(state)
                                           : Container(),
 
                                       BaseImageUpload().getAttachment(
-                                        height: height,
-                                        attachments:
-                                            state.loadAttachments.isEmptyOrNull
-                                                ? getFiles
-                                                : state.loadAttachments,
-                                        files: getFiles.isEmptyOrNull
-                                            ? getAttachments
-                                            : getFiles,
-                                        showDownloadIcon: (widget.model ==
-                                                    null ||
-                                                widget.model?.status == 0) &&
-                                            (widget.model != null &&
-                                                widget
-                                                    .model!.lock.isEmptyOrNull),
-                                        moduleCode: Constants.leoModuleCode,
-                                        showDeleteIcon: (widget.model == null ||
-                                                widget.model?.status == 0)
-                                      ),
+                                          height: height,
+                                          attachments: state
+                                                  .loadAttachments.isEmptyOrNull
+                                              ? getFiles
+                                              : state.loadAttachments,
+                                          files: getFiles.isEmptyOrNull
+                                              ? getAttachments
+                                              : getFiles,
+                                          showDownloadIcon: (widget.model ==
+                                                      null ||
+                                                  widget.model?.status == 0) &&
+                                              (widget.model != null &&
+                                                  widget.model!.lock
+                                                      .isEmptyOrNull),
+                                          moduleCode: Constants.leoModuleCode,
+                                          showDeleteIcon:
+                                              (widget.model == null ||
+                                                  widget.model?.status == 0)),
                                       // Attachments
                                       // getSpaceattchment(height),
                                       // getAttachement(height),
@@ -876,7 +875,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           height * 0.01),
                                       // SubmitButton
                                       if (widget.model?.status != 3 &&
-                                          widget.model?.status != -1 ||
+                                              widget.model?.status != -1 ||
                                           (widget.model != null &&
                                               widget.model!.lock
                                                   .isEmptyOrNull)) ...[
@@ -1142,7 +1141,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     super.initState();
     if (widget.model != null) {
       populateData();
-      lawEnforcementCubit.getDistributionGroupsDetails(context);
+      lawEnforcementCubit.getDistributionGroupsDetails();
     } else {
       lawEnforcementCubit.initializeValues();
     }
@@ -1222,7 +1221,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
       widget.model?.slNo ??
           await lawEnforcementCubit.getSerialnumberDetails(
-              (widget.model?.location?.id ?? 0).toString(), 'LEO', context);
+            (widget.model?.location?.id ?? 0).toString(),
+            'LEO',
+          );
 
       lawEnforcementCubit.getlocationsResponseData(mumbai);
       int isDocumentifanySelected1 =
@@ -1269,15 +1270,17 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       lawEnforcementCubit.getleopurposeResponseData(visit);
 
       log('-----dbOfficialAccompaniedEmail---${widget.model?.dbOfficialAccompaniedEmail}');
-      BaseUser staticUser = !widget.model!.dbOfficialAccompaniedEmail.isEmptyOrNull
-          ? BaseUser(
-              // id: widget.model?.dbOfficialAccompaniedEmail,
-              email: widget.model?.dbOfficialAccompaniedEmail ?? "",
-            )
-          : BaseUser();
+      BaseUser staticUser =
+          !widget.model!.dbOfficialAccompaniedEmail.isEmptyOrNull
+              ? BaseUser(
+                  // id: widget.model?.dbOfficialAccompaniedEmail,
+                  email: widget.model?.dbOfficialAccompaniedEmail ?? "",
+                )
+              : BaseUser();
 
       log('---staticUser--${staticUser.email}---');
-      lawEnforcementCubit.getDBOfficialyData(staticUser);
+      lawEnforcementCubit
+          .getDBOfficialEmailIdAccompaniedLeoOfficial(staticUser);
 
       List<LawVisitingOfficial>? visiting =
           widget.model?.visitingOfficials ?? [];
@@ -1366,14 +1369,22 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     var userid = await SharedPrefs.getUserId();
     await lawEnforcementCubit.getLocations('ATOM_LOCATIONS', context);
     await lawEnforcementCubit.getEntities('ATOM_ENTITIES');
-    await lawEnforcementCubit.getLeopurposeofvisit(
-        'ATOM_LEO_PURPOSE_VISIT', context);
-    await lawEnforcementCubit.getLeodepartments('ATOM_LEO_DEPARTMENTS');
+    await lawEnforcementCubit.getLeoPurposeOfVisits(
+      'ATOM_LEO_PURPOSE_VISIT',
+    );
+    await lawEnforcementCubit.getLeoDepartments(
+      'ATOM_LEO_DEPARTMENTS',
+    );
     await lawEnforcementCubit.getEmployeeDepartments(
-        'EMPLOYEE_DEPARTMENTS', context);
+      'EMPLOYEE_DEPARTMENTS',
+    );
     await lawEnforcementCubit.getDBofficialByRoleDepositor(
-        'ATOM_STATIC_USER', context);
-    await lawEnforcementCubit.getUserDetails(userid, context);
+      'ATOM_STATIC_USER',
+      context,
+    );
+    await lawEnforcementCubit.getUserDetails(
+      userid,
+    );
   }
 
   Widget submitButtonDisplay() {
@@ -1403,7 +1414,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       children: <Widget>[
         Radio(
           activeColor: (widget.model == null ||
-              (widget.model != null && widget.model!.status == 0 && (widget.model!.lock == null || widget.model!.lock!.isEmpty)))
+                  (widget.model != null &&
+                      widget.model!.status == 0 &&
+                      (widget.model!.lock == null ||
+                          widget.model!.lock!.isEmpty)))
               ? AppColors.navigationSkyBlueColor
               : AppColors.disableTextFieldBackground,
           focusColor: AppColors.navigationSkyBlueColor,
@@ -1428,8 +1442,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         ),
         const Text(Constants.yes),
         Radio(
-          activeColor:(widget.model == null ||
-              (widget.model != null && widget.model!.status == 0 && (widget.model!.lock == null || widget.model!.lock!.isEmpty)))
+          activeColor: (widget.model == null ||
+                  (widget.model != null &&
+                      widget.model!.status == 0 &&
+                      (widget.model!.lock == null ||
+                          widget.model!.lock!.isEmpty)))
               ? AppColors.navigationSkyBlueColor
               : AppColors.disableTextFieldBackground,
           value: 0,
@@ -1488,7 +1505,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               // setState(() {});
               log('---staticUserlist--${list.email}---');
 
-              lawEnforcementCubit.getDBOfficialyData(list);
+              lawEnforcementCubit
+                  .getDBOfficialEmailIdAccompaniedLeoOfficial(list);
               FocusScope.of(context)
                   .requestFocus(additionalInformationFocusNode);
             },
@@ -1676,7 +1694,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             duplicateLeoPurposeVisits:
-                state.getLeopurposeResponse?.atomLeoPurposeVisit ?? [],
+                state.purposeList?.atomLeoPurposeVisit ?? [],
             leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
@@ -1843,11 +1861,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     );
   }
 
-  Widget dbofficialemailidaddButtonwidgetLoading(LawEnforcementState state) {
-
+  Widget dBOfficialEmailIDAccompaniedLeoOfficialWidget(
+      LawEnforcementState state) {
     return TextFieldAddButton(
-      title: state.getuserResponse != null
-          ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
+      title: state.dBOfficialEmailIdAccompaniedLeoOfficial != null
+          ? ('${state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? ''}${state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? ''}')
           : '',
       height: 70,
       isDisableColor: (widget.model?.status == 0 ||
@@ -1883,7 +1901,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                 //GetLocations(),
                 onTap: (Organisation? org) async {
                   await lawEnforcementCubit.getSerialnumberDetails(
-                      org?.id.toString() ?? '', 'LEO', context);
+                    org?.id.toString() ?? '',
+                    'LEO',
+                  );
                   // locationselectedText = list?.name ?? '';
                   // locationSelectedlist = list;
                   lawEnforcementCubit.getlocationsResponseData(org);
@@ -2021,9 +2041,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           additionalInformation: additionalInformationTextController.text,
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
-          dbOfficialAccompaniedEmail: state.getuserResponse != null
-              ? (state.getuserResponse?.email ?? '')
-              : '',
+          dbOfficialAccompaniedEmail:
+              state.dBOfficialEmailIdAccompaniedLeoOfficial != null
+                  ? (state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')
+                  : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
           mailList: loadGroups);
@@ -2043,9 +2064,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           additionalInformation: additionalInformationTextController.text,
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
-          dbOfficialAccompaniedEmail: state.getuserResponse != null
-              ? (state.getuserResponse?.email ?? '')
-              : '',
+          dbOfficialAccompaniedEmail:
+              state.dBOfficialEmailIdAccompaniedLeoOfficial != null
+                  ? (state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')
+                  : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
           mailList: loadGroups);
@@ -2131,8 +2153,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context,
         "Please enter DB official department",
       );
-    } else if (state.getuserResponse != null &&
-        (state.getuserResponse?.name ?? '').isEmpty) {
+    } else if (state.dBOfficialEmailIdAccompaniedLeoOfficial != null &&
+        (state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '').isEmpty) {
       Validator().showToast(
         context,
         "Please enter DB official email id accompanied LEO official",

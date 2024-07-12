@@ -78,7 +78,7 @@ class AddNewFieldsState extends State<AddNewFields> {
   void _createEmployeeDepartment(String name, String key) async {
     showLoadingDialog(context);
     if (widget.lawEnforcementState != null) {
-      await lawEnforcementCubit.createEmplyeeDepartments(
+      await lawEnforcementCubit.createEmployeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     } else if (widget.createFoundState != null) {
       await createFoundArticleCubit.createEmployeeDepartments(

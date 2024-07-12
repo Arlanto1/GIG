@@ -62,7 +62,7 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
   void _createEmployeeDepartment(String name, String key) async {
     showLoadingDialog(context);
     if (widget.lawState != null) {
-      await lawEnforcementCubit.createEmplyeeDepartments(
+      await lawEnforcementCubit.createEmployeeDepartments(
           name, 'EMPLOYEE_DEPARTMENTS', context);
     } else if (widget.createFoundState != null) {
       await createFoundArticleCubit.createEmployeeDepartments(

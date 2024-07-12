@@ -8,7 +8,7 @@ class LawEnforcementState extends Equatable {
   GetDepositor? getDepositorResponse;
   AddEntities? getEntitiesResponse;
   LeoDepartments? departmentResponse;
-  LeoPurposeVisit? getLeopurposeResponse;
+  LeoPurposeVisit? purposeList;
   late final int? eventId;
   final FormStatus status;
   String? message;
@@ -21,12 +21,9 @@ class LawEnforcementState extends Equatable {
   SerialNumberModel? serialnumberResponse;
   String? radioButtonItem = '';
   int? isOfficialIdcardSelected;
-
   int? isDocumentifanySelected;
-
   int? isIncaseofpoliceSelected;
-
-  BaseUser? getuserResponse;
+  BaseUser? dBOfficialEmailIdAccompaniedLeoOfficial;
   EmployeeDepartments? employeeDepartment;
   Organisation? selectedemployeeDepartmentResponse;
   List<ImageContent>? loadAttachments = [];
@@ -46,7 +43,7 @@ class LawEnforcementState extends Equatable {
     this.model,
     this.getEntitiesResponse,
     this.departmentResponse,
-    this.getLeopurposeResponse,
+    this.purposeList,
     this.eventId,
     required this.status,
     this.message,
@@ -62,7 +59,7 @@ class LawEnforcementState extends Equatable {
     this.isIncaseofpoliceSelected,
     this.isOfficialIdcardSelected,
     this.getDepositorResponse,
-    this.getuserResponse,
+    this.dBOfficialEmailIdAccompaniedLeoOfficial,
     this.employeeDepartment,
     this.selectedemployeeDepartmentResponse,
     this.loadAttachments,
@@ -82,7 +79,7 @@ class LawEnforcementState extends Equatable {
   LawEnforcementState copyWith({
     AddEntities? getEntitiesResponse,
     LeoDepartments? getLeodepartmentsResponse,
-    LeoPurposeVisit? getLeopurposeResponse,
+    LeoPurposeVisit? purposeList,
     final int? eventId,
     FormStatus? status,
     String? message,
@@ -98,7 +95,7 @@ class LawEnforcementState extends Equatable {
     int? isDocumentifanySelected,
     int? isIncaseofpoliceSelected,
     GetDepositor? getDepositorResponse,
-    BaseUser? getuserResponse,
+    BaseUser? dBOfficialEmailIdAccompaniedLeoOfficial,
     EmployeeDepartments? employeeDepartment,
     Organisation? selectedemployeeDepartmentResponse,
     List<ImageContent>? loadAttachments,
@@ -119,30 +116,32 @@ class LawEnforcementState extends Equatable {
       model: model ?? this.model,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       departmentResponse: getLeodepartmentsResponse ?? departmentResponse,
-      getLeopurposeResponse:
-      getLeopurposeResponse ?? this.getLeopurposeResponse,
+      purposeList:
+          purposeList ?? this.purposeList,
       eventId: eventId ?? this.eventId,
       status: status ?? this.status,
       message: message ?? this.message,
       getLocationsResponse: getLocationsResponse ?? this.getLocationsResponse,
       getSerialnumberResponse:
-      getSerialnumberResponse ?? this.getSerialnumberResponse,
+          getSerialnumberResponse ?? this.getSerialnumberResponse,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       locationSelectedlist: locationSelectedlist ?? this.locationSelectedlist,
       leoPurposeVisitResponse:
-      leoPurposeVisitResponse ?? this.leoPurposeVisitResponse,
+          leoPurposeVisitResponse ?? this.leoPurposeVisitResponse,
       leoDepartmentsResponse:
-      leoDepartmentsResponse ?? this.leoDepartmentsResponse,
+          leoDepartmentsResponse ?? this.leoDepartmentsResponse,
       serialnumberResponse: serialnumberResponse ?? this.serialnumberResponse,
       radioButtonItem: radioButtonItem ?? this.radioButtonItem,
       isOfficialIdcardSelected:
-      isOfficialIdcardSelected ?? this.isOfficialIdcardSelected,
+          isOfficialIdcardSelected ?? this.isOfficialIdcardSelected,
       isDocumentifanySelected:
-      isDocumentifanySelected ?? this.isDocumentifanySelected,
+          isDocumentifanySelected ?? this.isDocumentifanySelected,
       isIncaseofpoliceSelected:
-      isIncaseofpoliceSelected ?? this.isIncaseofpoliceSelected,
+          isIncaseofpoliceSelected ?? this.isIncaseofpoliceSelected,
       getDepositorResponse: getDepositorResponse ?? this.getDepositorResponse,
-      getuserResponse: getuserResponse ?? this.getuserResponse,
+      dBOfficialEmailIdAccompaniedLeoOfficial:
+          dBOfficialEmailIdAccompaniedLeoOfficial ??
+              this.dBOfficialEmailIdAccompaniedLeoOfficial,
       employeeDepartment: employeeDepartment ?? this.employeeDepartment,
       selectedemployeeDepartmentResponse: selectedemployeeDepartmentResponse ??
           this.selectedemployeeDepartmentResponse,
@@ -150,15 +149,15 @@ class LawEnforcementState extends Equatable {
       visitingOfficials: visitingOfficials ?? this.visitingOfficials,
       getVisitsCount: getVisitsCount ?? this.getVisitsCount,
       getUserDetailsResponse:
-      getUserDetailsResponse ?? this.getUserDetailsResponse,
+          getUserDetailsResponse ?? this.getUserDetailsResponse,
       submitResponse: submitResponse ?? this.submitResponse,
       loadGroups: loadGroups ?? this.loadGroups,
       groups: groups ?? this.groups,
       listIndividualdept: listIndividualdept ?? this.listIndividualdept,
       createEmployeeDepartments:
-      createEmployeeDepartments ?? this.createEmployeeDepartments,
+          createEmployeeDepartments ?? this.createEmployeeDepartments,
       createOrganisationResponse:
-      createOrganisationResponse ?? this.createOrganisationResponse,
+          createOrganisationResponse ?? this.createOrganisationResponse,
       createUserResponse: createUserResponse ?? this.createUserResponse,
       isDistributed: isDistributed ?? this.isDistributed,
     );
@@ -166,38 +165,38 @@ class LawEnforcementState extends Equatable {
 
   @override
   List<Object?> get props => [
-    getEntitiesResponse,
-    departmentResponse,
-    getLeopurposeResponse,
-    eventId,
-    status,
-    message,
-    getLocationsResponse,
-    getSerialnumberResponse,
-    listOfEntities,
-    locationSelectedlist,
-    leoDepartmentsResponse,
-    leoPurposeVisitResponse,
-    serialnumberResponse,
-    radioButtonItem,
-    isOfficialIdcardSelected,
-    isIncaseofpoliceSelected,
-    isDocumentifanySelected,
-    getDepositorResponse,
-    getuserResponse,
-    employeeDepartment,
-    selectedemployeeDepartmentResponse,
-    loadAttachments,
-    visitingOfficials,
-    getVisitsCount,
-    getUserDetailsResponse,
-    submitResponse,
-    loadGroups,
-    groups,
-    listIndividualdept,
-    createEmployeeDepartments,
-    createOrganisationResponse,
-    createUserResponse,
-    isDistributed,
-  ];
+        getEntitiesResponse,
+        departmentResponse,
+        purposeList,
+        eventId,
+        status,
+        message,
+        getLocationsResponse,
+        getSerialnumberResponse,
+        listOfEntities,
+        locationSelectedlist,
+        leoDepartmentsResponse,
+        leoPurposeVisitResponse,
+        serialnumberResponse,
+        radioButtonItem,
+        isOfficialIdcardSelected,
+        isIncaseofpoliceSelected,
+        isDocumentifanySelected,
+        getDepositorResponse,
+        dBOfficialEmailIdAccompaniedLeoOfficial,
+        employeeDepartment,
+        selectedemployeeDepartmentResponse,
+        loadAttachments,
+        visitingOfficials,
+        getVisitsCount,
+        getUserDetailsResponse,
+        submitResponse,
+        loadGroups,
+        groups,
+        listIndividualdept,
+        createEmployeeDepartments,
+        createOrganisationResponse,
+        createUserResponse,
+        isDistributed,
+      ];
 }
