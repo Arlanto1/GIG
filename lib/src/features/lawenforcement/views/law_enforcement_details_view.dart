@@ -873,12 +873,14 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       ],
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.01),
-                                      // SubmitButton
-                                      if (widget.model?.status != 3 &&
-                                              widget.model?.status != -1 ||
-                                          (widget.model != null &&
-                                              widget.model!.lock
-                                                  .isEmptyOrNull)) ...[
+
+                                      /// SubmitButton
+                                      if (widget.model?.status == 0 ||
+                                          widget.model?.status == 1 ||
+                                          widget.model?.status == 2 &&
+                                              (widget.model != null &&
+                                                  widget.model!.lock
+                                                      .isEmptyOrNull)) ...[
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
@@ -2154,7 +2156,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         "Please enter DB official department",
       );
     } else if (state.dBOfficialEmailIdAccompaniedLeoOfficial != null &&
-        (state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '').isEmpty) {
+        (state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '').isEmpty) {
       Validator().showToast(
         context,
         "Please enter DB official email id accompanied LEO official",
@@ -2242,7 +2244,21 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       buttonText: condition ? Constants.close : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        updateRecordStatus();
+        if (condition) {
+          Navigator.pop(context);
+          return;
+        }
+        var dialog = CustomAlertDialog(
+            title: Constants.cancelRecord,
+            message: Constants.cancelRecordWarningMessage,
+            onPositivePressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              updateRecordStatus();
+            },
+            positiveBtnText: Constants.yes,
+            negativeBtnText: Constants.no);
+        showDialog(context: context, builder: (BuildContext context) => dialog);
       },
     );
   }
