@@ -3037,16 +3037,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           return CustomListTexts(
             duplicateatomCompanyTypes: state.companyTypes ?? [],
             leftImageName: null,
-            onLeftButtonTap: () {
-              Navigator.pop(context);
-              showDialog(
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return AddNewFields(
-                        title: Constants.addcompanytype,
-                        createPassmgmtState: state);
-                  });
-            },
+            // onLeftButtonTap: () {
+            // Navigator.pop(context);
+            // showDialog(
+            //     context: context,
+            //     builder: (BuildContext dialogContext) {
+            //       return AddNewFields(
+            //           title: Constants.addcompanytype,
+            //           createPassmgmtState: state);
+            //     });
+            // },
             onTap: (Organisation organisation) {
               //log(list.name);
               // isEditable = true;
