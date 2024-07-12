@@ -122,7 +122,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
               BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
                   .submitForm(isSaveOnly: false);
             },
-            title: Constants.createOccurrence,
+            title: widget.title,
           ),
           backgroundColor: AppColors.backgroundWhiteColor,
           body: getBodybuilder(state, height),
@@ -288,7 +288,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                               .updateDropdownValues(
                                                   shiftTakenOverBy: user);
                                         },
-                                        roleName: 'ATOM_Guarding_Staff',
+                                        roleName: ConstantUserRoles
+                                            .atomGuardingStaffUser,
                                         functionToCall: () {
                                           // refresh the list
                                           BlocProvider.of<

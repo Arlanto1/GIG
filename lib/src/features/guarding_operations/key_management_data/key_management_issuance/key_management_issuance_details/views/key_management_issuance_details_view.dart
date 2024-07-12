@@ -126,11 +126,11 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                 state.model.status == 1 ||
                 state.model.status == 2 ||
                 state.model.status == null) &&
-            !isReadOnly && state.model.lock.isEmptyOrNull;
+            !isReadOnly &&
+            state.model.lock.isEmptyOrNull;
 
-        isEnabled = (state.model.status == 0 ||
-            state.model.status == null) &&
-         state.model.lock.isEmptyOrNull;
+        isEnabled = (state.model.status == 0 || state.model.status == null) &&
+            state.model.lock.isEmptyOrNull;
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
@@ -139,7 +139,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             showSaveButton: showSaveSubmitButton ? true : false,
             showDisLikeButton: false,
             showLikeButton: false,
-            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.keyManagementIssuanceModule}',
+            pdfAPIName:
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.keyManagementIssuanceModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
@@ -148,9 +149,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                 navigateToNextScreen: false,
               );
             },
-            showSubmitButton: showSaveSubmitButton
-                ? true
-                : false,
+            showSubmitButton: showSaveSubmitButton ? true : false,
             onTapSubmit: () {
               BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
                   .submitForm(
@@ -221,7 +220,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                 ),
               ),
               child: AbsorbPointer(
-                absorbing: isReadOnly ? true: false,
+                absorbing: isReadOnly ? true : false,
                 child: Form(
                   key: _formKey,
                   autovalidateMode: isReadOnly
@@ -584,7 +583,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 title: state.model.handedOverTo?.userInfo ??
                                     state.model.handedOverTo?.name,
                                 height: 60,
-                                isDisableColor:!isEnabled,
+                                isDisableColor: !isEnabled,
                                 onTap: () {
                                   if (isEnabled) {
                                     BaseOrganisationDialog().userDialog(
@@ -598,7 +597,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           handedOverTo: user,
                                         );
                                       },
-                                      roleName: 'ATOM_STATIC_USER',
+                                      roleName:
+                                          ConstantUserRoles.atomStaticUser,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
@@ -658,7 +658,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   if (isEnabled) {
                                     BaseOrganisationDialog().userDialog(
                                       context: context,
-                                      enabled:isEnabled,
+                                      enabled: isEnabled,
                                       users: state.emailUsers!,
                                       onTap: (BaseUser user) {
                                         BlocProvider.of<
@@ -668,7 +668,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           dbSponsorCwrT2: user,
                                         );
                                       },
-                                      roleName: 'ATOM_STATIC_USER',
+                                      roleName:
+                                          ConstantUserRoles.atomStaticUser,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
@@ -774,11 +775,13 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 hintText: '',
                                 // focusNode: employeeIdFocusNode,
                                 isEnable: (state.model.status == 1 ||
-                                        state.model.status == 2) && state.model.lock.isEmptyOrNull
+                                            state.model.status == 2) &&
+                                        state.model.lock.isEmptyOrNull
                                     ? true
                                     : false,
                                 isDisableColor: state.model.status != 1 &&
-                                        state.model.status != 2 && !state.model.lock.isEmptyOrNull
+                                        state.model.status != 2 &&
+                                        !state.model.lock.isEmptyOrNull
                                     ? false
                                     : true,
                                 onChange: (String value) {
@@ -830,8 +833,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                         state.model.location?.id,
                                     ConstantsArgument.isMasterKey:
                                         widget.isMasterKey,
-                                    ConstantsArgument.lock:
-                                    state.model.lock,
+                                    ConstantsArgument.lock: state.model.lock,
                                   },
                                 );
                               },
@@ -889,7 +891,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 state.model.status == 1 ||
                                 state.model.status == 2 ||
                                 state.model.status == null) &&
-                            !isReadOnly && state.model.lock.isEmptyOrNull
+                            !isReadOnly &&
+                            state.model.lock.isEmptyOrNull
                         ? true
                         : false) ...[submitButtonDisplay()],
                   ],
@@ -942,8 +945,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText:
-          state.model.id == null || !state.model.lock.isEmptyOrNull ? Constants.close : Constants.cancelRecord,
+      buttonText: state.model.id == null || !state.model.lock.isEmptyOrNull
+          ? Constants.close
+          : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         if (state.model.id == null) {
@@ -997,7 +1001,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
   Widget locationWidgetdislay(KeyManagementIssuanceDetailsState state) {
     return GestureDetector(
       onTap: () {
-        if ((state.model.status == 0 || state.model.status == null)&& state.model.lock.isEmptyOrNull) {
+        if ((state.model.status == 0 || state.model.status == null) &&
+            state.model.lock.isEmptyOrNull) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {

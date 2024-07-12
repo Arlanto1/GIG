@@ -2477,7 +2477,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         'VENDOR_PASS_REASON', context);
     //await createpassmgmtCubit.getAnalysts('T1_Analyst');
     await createPassMgmtCubit.getUserByRoleDepositor(
-        'ATOM_STATIC_USER', context);
+        ConstantUserRoles.atomStaticUser, context);
   }
 
   Widget submitButtonDisplay() {
@@ -3172,7 +3172,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           BaseOrganisationDialog().userDialog(
             context: context,
             users: state.getDepositorResponse,
-            roleName: 'ATOM_STATIC_USER',
+            roleName: ConstantUserRoles.atomStaticUser,
             functionToCall: () {
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },
@@ -3244,7 +3244,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           BaseOrganisationDialog().userDialog(
             context: context,
             users: state.getDepositorResponse!,
-            roleName: 'ATOM_STATIC_USER',
+            roleName: ConstantUserRoles.atomStaticUser,
             functionToCall: () {
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },
@@ -3321,7 +3321,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           BaseOrganisationDialog().userDialog(
             context: context,
             users: state.getDepositorResponse,
-            roleName: 'ATOM_STATIC_USER',
+            roleName: ConstantUserRoles.atomStaticUser,
             functionToCall: () {
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },

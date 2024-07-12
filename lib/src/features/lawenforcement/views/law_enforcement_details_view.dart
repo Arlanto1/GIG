@@ -1379,7 +1379,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       'EMPLOYEE_DEPARTMENTS',
     );
     await lawEnforcementCubit.getDBofficialByRoleDepositor(
-      'ATOM_STATIC_USER',
+      ConstantUserRoles.atomStaticUser,
       context,
     );
     await lawEnforcementCubit.getUserDetails(
