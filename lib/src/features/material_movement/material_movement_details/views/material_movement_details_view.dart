@@ -69,6 +69,7 @@ class _MaterialMovementDetailsViewState
     BlocProvider.of<MaterialMovementDetailsCubit>(context).initializeValues();
     //initializeDates(state);
   }
+
   static const String moduleCode = Constants.materialMovementModuleCode;
 
   @override
@@ -93,7 +94,9 @@ class _MaterialMovementDetailsViewState
         Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
-            title:  widget.isInward ? 'Inward Material Movement' : 'Outward Material Movement',
+            title: widget.isInward
+                ? 'Inward Material Movement'
+                : 'Outward Material Movement',
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
             onPositivePressed: () {
@@ -159,7 +162,8 @@ class _MaterialMovementDetailsViewState
             title: widget.title,
             showPopUp: false,
             showSaveButton: showSaveSubmitButtons,
-            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=$moduleCode',
+            pdfAPIName:
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=$moduleCode',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -431,11 +435,10 @@ class _MaterialMovementDetailsViewState
                               context: context,
                               locations: state.locations ?? Locations(),
                               selectedLocationName:
-                              state.model.location?.name ?? '',
+                                  state.model.location?.name ?? '',
                               onTap: (Organisation? location) {
-                                BlocProvider.of<
-                                    MaterialMovementDetailsCubit>(
-                                    context)
+                                BlocProvider.of<MaterialMovementDetailsCubit>(
+                                        context)
                                     .updateDropdownValues(location: location);
                               }),
 
@@ -878,7 +881,7 @@ class _MaterialMovementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             FlutterInputField(
-                              textInputType: TextInputType.text,
+                              textInputType: TextInputType.number,
                               initialValue: state.model.requestorEmployeeId,
                               textFormKey: Keys.requestorEmployeeKey,
                               hintText: '',
@@ -2089,6 +2092,7 @@ class _MaterialMovementDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                               FlutterInputField(
                                 initialValue: state.model.receiverEmployeeId,
+                                textInputType: TextInputType.number,
                                 textFormKey: Keys.claimantEmpIdTextController,
                                 isEnable: !isReadOnly,
                                 isDisableColor: isReadOnly,
@@ -2232,6 +2236,7 @@ class _MaterialMovementDetailsViewState
                                 initialValue:
                                     state.model.otherReceiverEmployeeId,
                                 textFormKey: Keys.claimantEmpIdTextController,
+                                textInputType: TextInputType.number,
                                 isEnable: !isReadOnly,
                                 isDisableColor: isReadOnly,
                                 hintText: '',
