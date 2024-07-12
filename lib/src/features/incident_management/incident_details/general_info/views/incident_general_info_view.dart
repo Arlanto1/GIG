@@ -916,7 +916,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
       buttonText: condition ? Constants.cancelRecord : Constants.close,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        if (condition) {
+        if (!condition) {
           Navigator.pop(context);
           return;
         }
