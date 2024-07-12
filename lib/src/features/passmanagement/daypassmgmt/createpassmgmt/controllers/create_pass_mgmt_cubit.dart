@@ -16,11 +16,10 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     this.photoAttachments,
   }) : super(
           CreatePassMgmtState(
-            //lawenforcementServices: SubmitCreateFoundModel(),
-            model: PassManagementModel(),
-            stateType: CreatePassMgmtStateType.initial,
-            status: FormStatus.initial
-          ),
+              //lawenforcementServices: SubmitCreateFoundModel(),
+              model: PassManagementModel(),
+              stateType: CreatePassMgmtStateType.initial,
+              status: FormStatus.initial),
         );
 
   Future<void> createOrganisation(
@@ -189,11 +188,14 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         ),
       );
       dismissLoadingDialog(context);
-      await lawEnforcementCubit.getEmployeeDepartments(
-          'EMPLOYEE_DEPARTMENTS', context);
+      await lawEnforcementCubit.getEmployeeDepartments('EMPLOYEE_DEPARTMENTS');
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
-            context, 'Added sucessfully', Constants.addemployeedepartment, '');
+          context,
+          'Added successfully',
+          Constants.addemployeedepartment,
+          '',
+        );
       });
     } catch (e) {
       emit(
@@ -212,7 +214,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 
   // Get locations api call
   Future<void> getLocations(
-      String locationsStr, int? filter, BuildContext context, {bool? isSezLocations=false}) async {
+      String locationsStr, int? filter, BuildContext context,
+      {bool? isSezLocations = false}) async {
     try {
       Locations getLocationsData = await commonServices.getRegionsWithLocations(
           name: locationsStr, filter: filter, isSezLocations: isSezLocations);

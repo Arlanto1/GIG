@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/constants/constant_user_roles.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
 import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart';
@@ -31,8 +30,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> createOrganisation(
       String name, String orgName, BuildContext context, String title) async {
     try {
-      Organisation createOrganisationData =
-          await services.createOrganisation(name, orgName, context);
+      Organisation createOrganisationData = await services.createOrganisation(
+        name,
+        orgName,
+      );
       emit(
         state.copyWith(
           model: model,
@@ -43,10 +44,11 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       if (Constants.addentitytype == title) {
         await lawEnforcementCubit.getEntities('ATOM_ENTITIES');
       } else if (Constants.addpurposeofvisittype == title) {
-        await lawEnforcementCubit.getLeopurposeofvisit(
-            'ATOM_LEO_PURPOSE_VISIT', context);
+        await lawEnforcementCubit.getLeoPurposeOfVisits(
+          'ATOM_LEO_PURPOSE_VISIT',
+        );
       } else if (Constants.addleoofficialtype == title) {
-        await lawEnforcementCubit.getLeodepartments('ATOM_LEO_DEPARTMENTS');
+        await lawEnforcementCubit.getLeoDepartments('ATOM_LEO_DEPARTMENTS');
       }
 
       dismissLoadingDialog(context);
@@ -71,11 +73,13 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   // law organisation call
-  Future<void> createEmplyeeDepartments(
+  Future<void> createEmployeeDepartments(
       String name, String orgName, BuildContext context) async {
     try {
-      Organisation createEmployeeDeptData =
-          await services.createOrganisation(name, orgName, context);
+      Organisation createEmployeeDeptData = await services.createOrganisation(
+        name,
+        orgName,
+      );
       emit(
         state.copyWith(
           createEmployeeDepartments: createEmployeeDeptData,
@@ -84,10 +88,11 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       );
       dismissLoadingDialog(context);
       await lawEnforcementCubit.getEmployeeDepartments(
-          'EMPLOYEE_DEPARTMENTS', context);
+        'EMPLOYEE_DEPARTMENTS',
+      );
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
-            context, 'Added sucessfully', Constants.addemployeedepartment, '');
+            context, 'Added successfully', Constants.addemployeedepartment, '');
       });
     } catch (e) {
       emit(
@@ -119,16 +124,12 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         isSubmit: isSubmit,
       ); //replace empty model with bodyRequest
 
-      log('---response.lawEnforcementId-----${response.lawEnforcementId}');
-
       state.model?.id = int.tryParse(response.lawEnforcementId!);
       emit(
         state.copyWith(
           model: state.model,
         ),
       );
-
-      log('---state.model?.id-----${state.model?.id}');
 
       emit(
         state.copyWith(
@@ -186,13 +187,18 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
 
   // Serialnumber api  call
   Future<void> getSerialnumberDetails(
-      String locationId, String moduleCode, BuildContext context) async {
+    String locationId,
+    String moduleCode,
+  ) async {
     try {
-      SerialNumberModel getserialnumberResponse = await services
-          .getSerialnumberDetails(locationId, moduleCode, context);
+      SerialNumberModel response =
+          await services.getSerialnumberDetails(
+        locationId,
+        moduleCode,
+      );
       emit(
         state.copyWith(
-          getSerialnumberResponse: getserialnumberResponse,
+          getSerialnumberResponse: response,
           status: FormStatus.success,
         ),
       );
@@ -207,10 +213,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   // Distribution groups api  call
-  Future<void> getDistributionGroupsDetails(BuildContext context) async {
+  Future<void> getDistributionGroupsDetails() async {
     try {
       DistributionGroupModel getResponse =
-          await services.getDistributiongroupDetails(context);
+          await services.getDistributionGroupDetails();
       emit(
         state.copyWith(
           groups: getResponse,
@@ -229,10 +235,13 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
 
   // Get employee departments
   Future<void> getEmployeeDepartments(
-      String departmentStr, BuildContext context) async {
+    String departmentStr,
+  ) async {
     try {
       EmployeeDepartments getEmployeeDepartments =
-          await services.getEmployeeDepartments(departmentStr, context);
+          await services.getEmployeeDepartments(
+        departmentStr,
+      );
       emit(
         state.copyWith(
           employeeDepartment: getEmployeeDepartments,
@@ -251,10 +260,13 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
 
   // Get compant types departments
   Future<void> getCompanytypes(
-      String departmentStr, BuildContext context) async {
+    String departmentStr,
+  ) async {
     try {
       EmployeeDepartments getEmployeeDepartments =
-          await services.getEmployeeDepartments(departmentStr, context);
+          await services.getEmployeeDepartments(
+        departmentStr,
+      );
       emit(
         state.copyWith(
           employeeDepartment: getEmployeeDepartments,
@@ -315,9 +327,13 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   // Get user details call
-  Future<void> getUserDetails(String userId, BuildContext context) async {
+  Future<void> getUserDetails(
+    String userId,
+  ) async {
     try {
-      User getUserData = await services.getUserDetails(userId, context);
+      User getUserData = await services.getUserDetails(
+        userId,
+      );
       emit(
         state.copyWith(
           getUserDetailsResponse: getUserData,
@@ -348,7 +364,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     state.isDocumentifanySelected = 1;
     state.isIncaseofpoliceSelected = 1;
     state.isOfficialIdcardSelected = 1;
-    state.getuserResponse = BaseUser();
+    state.dBOfficialEmailIdAccompaniedLeoOfficial = BaseUser();
     state.serialnumberResponse?.serialNo = '';
     state.getSerialnumberResponse = SerialNumberModel();
 
@@ -367,12 +383,12 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   // Get leodepartments api call
-  Future<void> getLeodepartments(String name) async {
+  Future<void> getLeoDepartments(String name) async {
     try {
-      LeoDepartments leodepartments = await services.getLeodepartments(name);
+      LeoDepartments departments = await services.getLeodepartments(name);
       emit(
         state.copyWith(
-          getLeodepartmentsResponse: leodepartments,
+          getLeodepartmentsResponse: departments,
           status: FormStatus.success,
         ),
       );
@@ -390,8 +406,12 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> createUser(String firstName, String lastName, String email,
       String role, BuildContext context) async {
     try {
-      CreateUserModel createUserData =
-          await services.createUser(firstName, lastName, email, role, context);
+      CreateUserModel createUserData = await services.createUser(
+        firstName,
+        lastName,
+        email,
+        role,
+      );
       emit(
         state.copyWith(
           createUserResponse: createUserData,
@@ -400,7 +420,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       );
       dismissLoadingDialog(context);
       await lawEnforcementCubit.getDBofficialByRoleDepositor(
-          ConstantUserRoles.atomStaticUser, context);
+          'ATOM_STATIC_USER', context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
             context, 'Added successfully', Constants.newuser, '');
@@ -417,13 +437,16 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   // Get leopurposeofvisit api call
-  Future<void> getLeopurposeofvisit(String name, BuildContext context) async {
+  Future<void> getLeoPurposeOfVisits(
+    String name,
+  ) async {
     try {
-      LeoPurposeVisit leorespnose =
-          await services.getLeopurposeofvisit(name, context);
+      LeoPurposeVisit response = await services.getLeoPurposeOfVisits(
+        name,
+      );
       emit(
         state.copyWith(
-          getLeopurposeResponse: leorespnose,
+          purposeList: response,
           status: FormStatus.success,
         ),
       );
@@ -441,8 +464,9 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   Future<void> getDBofficialByRoleDepositor(
       String roleName, BuildContext context) async {
     try {
-      GetDepositor getDepositorData =
-          await services.getDBOfficialdepartments(roleName, context);
+      GetDepositor getDepositorData = await services.getDBOfficialdepartments(
+        roleName,
+      );
       emit(
         state.copyWith(
           getDepositorResponse: getDepositorData,
@@ -459,11 +483,11 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
-  getDBOfficialyData(BaseUser user) async {
+  getDBOfficialEmailIdAccompaniedLeoOfficial(BaseUser user) async {
     try {
       emit(
         state.copyWith(
-          getuserResponse: user,
+          dBOfficialEmailIdAccompaniedLeoOfficial: user,
           status: FormStatus.success,
         ),
       );

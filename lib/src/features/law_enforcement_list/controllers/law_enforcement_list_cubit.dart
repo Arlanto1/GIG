@@ -75,7 +75,7 @@ class LawEnforcementListCubit extends Cubit<LawEnforcementListState> {
   Future<LawEnforcementDetailsModel?> getById(
       int id, BuildContext context) async {
     try {
-      LawEnforcementDetailsModel model = await services.getById(id, context);
+      LawEnforcementDetailsModel model = await services.getById(id);
       emit(
         state.copyWith(
           lawEnforcementDetails: model,

@@ -34,7 +34,6 @@ class LawEnforcementServices {
     required String startPosition,
     required String maximumRecords,
     required String userId,
-    BuildContext? context,
   }) async {
     String url =
         '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords&userId=$userId';
@@ -62,7 +61,6 @@ class LawEnforcementServices {
 
   Future<LawEnforcementDetailsModel> getById(
     int id,
-    BuildContext context,
   ) async {
     final String url = '${Apis._getById}/$id';
     final response = await BaseApiService().getRequest(
@@ -97,20 +95,10 @@ class LawEnforcementServices {
     return AddEntities.fromJson(response);
   }
 
-  //Get locations
-  // Future<Locations> getLocations(String name, BuildContext? context) async {
-  //   String url = '${Apis._getLocations}$name';
-  //   final response = await BaseApiService().getRequest(
-  //     url: url,
-  //   );
-  //   return Locations.fromJson(response);
-  // }
-
   // get serailnumber Details api call
   Future<SerialNumberModel> getSerialnumberDetails(
     String locationId,
     String moduleCode,
-    BuildContext? context,
   ) async {
     String url =
         '${Apis._getSlNo}locationId=$locationId&moduleCode=$moduleCode';
@@ -120,8 +108,8 @@ class LawEnforcementServices {
     return SerialNumberModel.fromJson(response);
   }
 
-  Future<LeoPurposeVisit> getLeopurposeofvisit(
-      String name, BuildContext? context) async {
+  Future<LeoPurposeVisit> getLeoPurposeOfVisits(
+      String name) async {
     String url = '${Apis._getLocations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
@@ -139,7 +127,6 @@ class LawEnforcementServices {
 
   Future<GetDepositor> getDBOfficialdepartments(
     String roleName,
-    BuildContext? context,
   ) async {
     String url = '${Apis._getUsersByRole}$roleName';
     final response = await BaseApiService().getRequest(
@@ -150,7 +137,7 @@ class LawEnforcementServices {
 
   //Get Employee Departments
   Future<EmployeeDepartments> getEmployeeDepartments(
-      String name, BuildContext? context) async {
+      String name, ) async {
     String url = '${Apis._getLocations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
@@ -160,7 +147,6 @@ class LawEnforcementServices {
 
   Future<User> getUserDetails(
     String userId,
-    BuildContext? context,
   ) async {
     String url = '${Apis._getUserDetails}$userId';
     final response = await BaseApiService().getRequest(
@@ -169,8 +155,7 @@ class LawEnforcementServices {
     return User.fromJson(response);
   }
 
-  Future<DistributionGroupModel> getDistributiongroupDetails(
-    BuildContext? context,
+  Future<DistributionGroupModel> getDistributionGroupDetails(
   ) async {
     String url = Apis._getGroup;
     final response = await BaseApiService().getRequest(
@@ -182,7 +167,6 @@ class LawEnforcementServices {
   Future<Organisation> createOrganisation(
     String name,
     String orgName,
-    BuildContext? context,
   ) async {
     final String url = "${Apis._createOrganisation}name=$name&orgName=$orgName";
     final response =
@@ -196,7 +180,6 @@ class LawEnforcementServices {
     String lastName,
     String email,
     String role,
-    BuildContext? context,
   ) async {
     final String url =
         "${Apis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role";

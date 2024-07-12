@@ -546,8 +546,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                             isMandatory: true),
                                         CommonWidgets.verticalSpacerWidget(
                                             height * 0.001),
-                                        dbofficialemailidaddButtonwidgetLoading(
-                                            state),
+                                        dBOfficialEmailIDAccompaniedLeoOfficialWidget(
+                                          state,
+                                        ),
                                         CommonWidgets.verticalSpacerWidget(
                                             height * 0.01),
 
@@ -1140,7 +1141,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     super.initState();
     if (widget.model != null) {
       populateData();
-      lawEnforcementCubit.getDistributionGroupsDetails(context);
+      lawEnforcementCubit.getDistributionGroupsDetails();
     } else {
       lawEnforcementCubit.initializeValues();
     }
@@ -1220,7 +1221,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
       widget.model?.slNo ??
           await lawEnforcementCubit.getSerialnumberDetails(
-              (widget.model?.location?.id ?? 0).toString(), 'LEO', context);
+            (widget.model?.location?.id ?? 0).toString(),
+            'LEO',
+          );
 
       lawEnforcementCubit.getlocationsResponseData(mumbai);
       int isDocumentifanySelected1 =
@@ -1276,7 +1279,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               : BaseUser();
 
       log('---staticUser--${staticUser.email}---');
-      lawEnforcementCubit.getDBOfficialyData(staticUser);
+      lawEnforcementCubit
+          .getDBOfficialEmailIdAccompaniedLeoOfficial(staticUser);
 
       List<LawVisitingOfficial>? visiting =
           widget.model?.visitingOfficials ?? [];
@@ -1365,14 +1369,22 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     var userid = await SharedPrefs.getUserId();
     await lawEnforcementCubit.getLocations('ATOM_LOCATIONS', context);
     await lawEnforcementCubit.getEntities('ATOM_ENTITIES');
-    await lawEnforcementCubit.getLeopurposeofvisit(
-        'ATOM_LEO_PURPOSE_VISIT', context);
-    await lawEnforcementCubit.getLeodepartments('ATOM_LEO_DEPARTMENTS');
+    await lawEnforcementCubit.getLeoPurposeOfVisits(
+      'ATOM_LEO_PURPOSE_VISIT',
+    );
+    await lawEnforcementCubit.getLeoDepartments(
+      'ATOM_LEO_DEPARTMENTS',
+    );
     await lawEnforcementCubit.getEmployeeDepartments(
-        'EMPLOYEE_DEPARTMENTS', context);
+      'EMPLOYEE_DEPARTMENTS',
+    );
     await lawEnforcementCubit.getDBofficialByRoleDepositor(
-        ConstantUserRoles.atomStaticUser, context);
-    await lawEnforcementCubit.getUserDetails(userid, context);
+      'ATOM_STATIC_USER',
+      context,
+    );
+    await lawEnforcementCubit.getUserDetails(
+      userid,
+    );
   }
 
   Widget submitButtonDisplay() {
@@ -1493,7 +1505,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               // setState(() {});
               log('---staticUserlist--${list.email}---');
 
-              lawEnforcementCubit.getDBOfficialyData(list);
+              lawEnforcementCubit
+                  .getDBOfficialEmailIdAccompaniedLeoOfficial(list);
               FocusScope.of(context)
                   .requestFocus(additionalInformationFocusNode);
             },
@@ -1681,7 +1694,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             duplicateLeoPurposeVisits:
-                state.getLeopurposeResponse?.atomLeoPurposeVisit ?? [],
+                state.purposeList?.atomLeoPurposeVisit ?? [],
             leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
@@ -1848,10 +1861,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     );
   }
 
-  Widget dbofficialemailidaddButtonwidgetLoading(LawEnforcementState state) {
+  Widget dBOfficialEmailIDAccompaniedLeoOfficialWidget(
+      LawEnforcementState state) {
     return TextFieldAddButton(
-      title: state.getuserResponse != null
-          ? ('${state.getuserResponse?.name ?? ''}(${state.getuserResponse?.email ?? ''})')
+      title: state.dBOfficialEmailIdAccompaniedLeoOfficial != null
+          ? ('${state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? ''}${state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? ''}')
           : '',
       height: 70,
       isDisableColor: (widget.model?.status == 0 ||
@@ -1887,7 +1901,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                 //GetLocations(),
                 onTap: (Organisation? org) async {
                   await lawEnforcementCubit.getSerialnumberDetails(
-                      org?.id.toString() ?? '', 'LEO', context);
+                    org?.id.toString() ?? '',
+                    'LEO',
+                  );
                   // locationselectedText = list?.name ?? '';
                   // locationSelectedlist = list;
                   lawEnforcementCubit.getlocationsResponseData(org);
@@ -2025,9 +2041,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           additionalInformation: additionalInformationTextController.text,
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
-          dbOfficialAccompaniedEmail: state.getuserResponse != null
-              ? (state.getuserResponse?.email ?? '')
-              : '',
+          dbOfficialAccompaniedEmail:
+              state.dBOfficialEmailIdAccompaniedLeoOfficial != null
+                  ? (state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')
+                  : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
           mailList: loadGroups);
@@ -2047,9 +2064,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           additionalInformation: additionalInformationTextController.text,
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
-          dbOfficialAccompaniedEmail: state.getuserResponse != null
-              ? (state.getuserResponse?.email ?? '')
-              : '',
+          dbOfficialAccompaniedEmail:
+              state.dBOfficialEmailIdAccompaniedLeoOfficial != null
+                  ? (state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')
+                  : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
           mailList: loadGroups);
@@ -2135,8 +2153,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context,
         "Please enter DB official department",
       );
-    } else if (state.getuserResponse != null &&
-        (state.getuserResponse?.name ?? '').isEmpty) {
+    } else if (state.dBOfficialEmailIdAccompaniedLeoOfficial != null &&
+        (state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '').isEmpty) {
       Validator().showToast(
         context,
         "Please enter DB official email id accompanied LEO official",
