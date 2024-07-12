@@ -61,18 +61,22 @@ class BaseImageUpload {
     required bool showDownloadIcon,
     required String moduleCode,
     bool? showDeleteIcon = true,
+    bool isDisabled = false,
   }) {
     if (attachments != null) {
-      return Column(
-        children: [
-          CommonWidgets.verticalSpacerWidget(height * 0.01),
-          AttachmentListView(
-            attachmentListviews: files ?? attachments,
-            showDownloadIcon: showDownloadIcon,
-            moduleCode: moduleCode,
-            showDeleteIcon: showDeleteIcon,
-          ),
-        ],
+      return Opacity(
+        opacity: isDisabled ? .5 : 1,
+        child: Column(
+          children: [
+            CommonWidgets.verticalSpacerWidget(height * 0.01),
+            AttachmentListView(
+              attachmentListviews: files ?? attachments,
+              showDownloadIcon: showDownloadIcon,
+              moduleCode: moduleCode,
+              showDeleteIcon: showDeleteIcon,
+            ),
+          ],
+        ),
       );
     }
 

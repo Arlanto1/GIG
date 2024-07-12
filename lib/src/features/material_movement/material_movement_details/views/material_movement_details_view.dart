@@ -2608,6 +2608,7 @@ class _MaterialMovementDetailsViewState
                             showDownloadIcon:
                                 widget.model?.images != null ? true : false,
                             moduleCode: moduleCode,
+                            isDisabled: isReadOnly,
                           ),
                         ]),
                       ),
