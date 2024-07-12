@@ -875,9 +875,15 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           height * 0.01),
 
                                       /// SubmitButton
-                                      if (widget.model?.status == 0 ||
-                                          widget.model?.status == 1 ||
-                                          widget.model?.status == 2 &&
+                                      if (widget.model?.status ==
+                                              ConstantsIntValue
+                                                  .leoStatusDraft ||
+                                          widget.model?.status ==
+                                              ConstantsIntValue
+                                                  .leoStatusSubmitted ||
+                                          widget.model?.status ==
+                                                  ConstantsIntValue
+                                                      .leoStatusVerificationUnderProgress &&
                                               (widget.model != null &&
                                                   widget.model!.lock
                                                       .isEmptyOrNull)) ...[
@@ -898,8 +904,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                               ],
                             ),
                           ),
-                          if (widget.model?.status == 3 ||
-                              widget.model?.status == -1) ...[
+                          if (widget.model?.status ==
+                                  ConstantsIntValue.leoStatusDistributed ||
+                              widget.model?.status ==
+                                  ConstantsIntValue.cancelledStatus) ...[
                             Container(
                               padding: const EdgeInsets.all(5.0),
                               decoration: const ShapeDecoration(
