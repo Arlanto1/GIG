@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart';
 
-import '../../../../constants/constant_user_roles.dart';
-
 class AnnualPowerShutdownListDetailsView extends StatefulWidget {
   final AnnualPowerShutdownListModel? model;
   final ExtraProperties? extraProperties;

@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/constants/constant_user_roles.dart';
 import 'package:intl/intl.dart';
 
 class IncidentGeneralInfoView extends StatefulWidget {

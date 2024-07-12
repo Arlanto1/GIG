@@ -1,8 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/common_widgets/base_widget/basic_widget_functions.dart';
-import 'package:db_atom/src/constants/constant_user_roles.dart';
 
 class GeneralInfoView extends StatefulWidget {
   final EventProtectionGi? model;

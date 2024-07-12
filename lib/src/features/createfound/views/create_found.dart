@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/constants/constant_user_roles.dart';
 import 'package:db_atom/src/utils/network_handler.dart' as network_handler;
 import 'package:intl/intl.dart';
 
@@ -597,7 +596,8 @@ class _CreateFoundState extends State<CreateFound> {
               "Please enter claimant department",
             );
           }
-        } else if (widget.model?.status != ConstantsIntValue.articleFoundStatusFound &&
+        } else if (widget.model?.status !=
+                ConstantsIntValue.articleFoundStatusFound &&
             isClaimantDBEmployeeSelected == 0 &&
             claimantTextController.text.isEmpty) {
           log('--isClaimantDBEmployeeSelected--$isClaimantDBEmployeeSelected-------');
@@ -816,8 +816,11 @@ class _CreateFoundState extends State<CreateFound> {
 
               action: [
                 Visibility(
-                  visible: widget.model?.status != ConstantsIntValue.articleFoundStatusHandedOverOrClaimed &&
-                      widget.model?.status != ConstantsIntValue.cancelledStatus &&
+                  visible: widget.model?.status !=
+                          ConstantsIntValue
+                              .articleFoundStatusHandedOverOrClaimed &&
+                      widget.model?.status !=
+                          ConstantsIntValue.cancelledStatus &&
                       state.model.lock.isEmptyOrNull,
                   child: GestureDetector(
                     onTap: () {
@@ -835,8 +838,11 @@ class _CreateFoundState extends State<CreateFound> {
                   ),
                 ),
                 Visibility(
-                  visible: widget.model?.status != ConstantsIntValue.cancelledStatus &&
-                      widget.model?.status != ConstantsIntValue.articleFoundStatusHandedOverOrClaimed &&
+                  visible: widget.model?.status !=
+                          ConstantsIntValue.cancelledStatus &&
+                      widget.model?.status !=
+                          ConstantsIntValue
+                              .articleFoundStatusHandedOverOrClaimed &&
                       state.model.lock.isEmptyOrNull,
                   child: GestureDetector(
                     onTap: () async {
@@ -1074,17 +1080,20 @@ class _CreateFoundState extends State<CreateFound> {
                                   //Text('-${assetTypeTextController.text}---'),
                                   GestureDetector(
                                     onTap: () {
-                                      if (widget.model?.status == ConstantsIntValue.articleFoundStatusFound ||
+                                      if (widget.model?.status ==
+                                              ConstantsIntValue
+                                                  .articleFoundStatusFound ||
                                           widget.model == null) {
                                         assetTypeDialog();
                                       }
                                     },
                                     child: FlutterInputField(
                                         isEnable: false,
-                                        isDisableColor:
-                                            widget.model?.status == ConstantsIntValue.articleFoundStatusFound
-                                                ? false
-                                                : true,
+                                        isDisableColor: widget.model?.status ==
+                                                ConstantsIntValue
+                                                    .articleFoundStatusFound
+                                            ? false
+                                            : true,
                                         // initialValue: assettypeTextController,
                                         controller: assetTypeTextController,
                                         textFormKey:
@@ -1095,7 +1104,9 @@ class _CreateFoundState extends State<CreateFound> {
                                           setState(() {});
                                         },
                                         onTap: () {
-                                          if (widget.model?.status == ConstantsIntValue.articleFoundStatusFound ||
+                                          if (widget.model?.status ==
+                                                  ConstantsIntValue
+                                                      .articleFoundStatusFound ||
                                               widget.model == null) {
                                             assetTypeDialog();
                                           }
@@ -1141,7 +1152,9 @@ class _CreateFoundState extends State<CreateFound> {
                                   BaseDate().datePickerWidgetLoading(
                                     showFutureDate: false,
                                     textController: foundDateTextController,
-                                    isDisabled: (widget.model?.status != ConstantsIntValue.articleFoundStatusFound &&
+                                    isDisabled: (widget.model?.status !=
+                                                ConstantsIntValue
+                                                    .articleFoundStatusFound &&
                                             widget.model?.status != null)
                                         ? true
                                         : false,

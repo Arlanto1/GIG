@@ -60,7 +60,8 @@ class BaseOrganisationDialog {
         return CustomListTexts(
           duplicateDepostorList: users,
           duplicateEntityList: entities,
-          leftImageName: roleName == ConstantUserRoles.atomStaticUser
+          leftImageName: functionToCall != null &&
+                  roleName == ConstantUserRoles.atomStaticUser
               ? AppIcon.addicon
               : null,
           onLeftButtonTap: () {

@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/constants/constant_user_roles.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_cubit.dart';
 import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
 import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart';
