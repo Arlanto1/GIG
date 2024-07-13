@@ -251,6 +251,8 @@ class DutyPostNameMasterDetailsCubit
   }
 
   void updateStatus({required String id}) {
+    log('-updateStatus-$id--');
+
     commonServices.updateRecordStatus(
         id: id, module: Constants.dutyPostNameMasterModule);
   }

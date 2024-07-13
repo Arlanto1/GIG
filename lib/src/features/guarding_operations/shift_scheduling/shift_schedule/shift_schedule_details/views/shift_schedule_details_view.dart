@@ -90,7 +90,10 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
         }
       },
       builder: (context, state) {
-        if (state.model.status == -1 || !state.model.lock.isEmptyOrNull) {
+        if (state.model.status == ConstantsIntValue.cancelledStatus) {
+          isReadOnly = true;
+        }
+        if (!state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
         if (state.model.status == null) {
@@ -108,13 +111,18 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
               title: Constants.shiftSchedule,
               // title: widget.title,
               showPopUp: false,
-              showSaveButton:
-              (state.model.status != -1 || !isReadOnly ) &&  state.model.lock.isEmptyOrNull ? true : false,
-              showSubmitButton:
-              (state.model.status != -1 || !isReadOnly ) &&  state.model.lock.isEmptyOrNull ? true : false,
+              showSaveButton: (state.model.status != -1 || !isReadOnly) &&
+                      state.model.lock.isEmptyOrNull
+                  ? true
+                  : false,
+              showSubmitButton: (state.model.status != -1 || !isReadOnly) &&
+                      state.model.lock.isEmptyOrNull
+                  ? true
+                  : false,
               showDisLikeButton: false,
               showLikeButton: false,
-              pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.shiftScheduleModuleCode}',
+              pdfAPIName:
+                  '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.shiftScheduleModuleCode}',
               onTapSave: () {
                 FocusScope.of(context).unfocus();
                 BlocProvider.of<ShiftScheduleDetailsCubit>(context)
@@ -148,6 +156,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
+
+    log('-isReadOnly-----${!isReadOnly}- ${state.model.lock.isEmptyOrNull}---');
     return Container(
       color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
@@ -175,7 +185,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     AbsorbPointer(
-                      absorbing: !isReadOnly || !state.model.lock.isEmptyOrNull,
+                      absorbing: isReadOnly,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0, right: 20),
                         child: Column(
@@ -267,7 +277,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             AbsorbPointer(
                                 absorbing: state.model.status == null ||
                                         state.model.status ==
-                                              ConstantsIntValue.shiftScheduleDraft
+                                            ConstantsIntValue.shiftScheduleDraft
                                     ? false
                                     : true,
                                 child: BaseLocationDropdown()
@@ -308,8 +318,10 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               title: state.model.vendor?.name,
                               height: 60,
                               isDisableColor: (state.model.status == null ||
-                                      state.model.status ==
-                                          ConstantsIntValue.shiftScheduleDraft) && state.model.lock.isEmptyOrNull
+                                          state.model.status ==
+                                              ConstantsIntValue
+                                                  .shiftScheduleDraft) &&
+                                      state.model.lock.isEmptyOrNull
                                   ? false
                                   : true,
                               onTap: () {
@@ -400,7 +412,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                   log('--onTap------');
                                   if (state.model.status == null ||
                                       state.model.status ==
-                                          ConstantsIntValue.shiftScheduleDraft) {
+                                          ConstantsIntValue
+                                              .shiftScheduleDraft) {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext dialogContext) {
@@ -457,7 +470,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               showPastDate: false,
                               startDate: state.availableDate?.fromDate,
                               isDisabled: state.model.status != null &&
-                                  state.model.status != ConstantsIntValue.shiftScheduleDraft,
+                                  state.model.status !=
+                                      ConstantsIntValue.shiftScheduleDraft,
                               onChange: (String value) {
                                 state.model.fromDate =
                                     Utils().formatTime(value);
@@ -485,7 +499,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               showPastDate: false,
                               startDate: state.availableDate?.toDate,
                               isDisabled: state.model.status != null &&
-                                  state.model.status != ConstantsIntValue.shiftScheduleDraft,
+                                  state.model.status !=
+                                      ConstantsIntValue.shiftScheduleDraft,
                               onChange: (String value) {
                                 state.model.toDate = Utils().formatTime(value);
                                 BlocProvider.of<ShiftScheduleDetailsCubit>(
@@ -554,8 +569,10 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 cancelButtonDisplay(state),
-                                if ((state.model.status != -1 ||
-                                    !isReadOnly) && state.model.lock.isEmptyOrNull) ...[submitButtonDisplay()],
+                                if ((state.model.status != -1 || !isReadOnly) &&
+                                    state.model.lock.isEmptyOrNull) ...[
+                                  submitButtonDisplay()
+                                ],
                               ],
                             ),
 
@@ -599,7 +616,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                 icon: const Icon(Icons.close), // Cancel icon
                 onPressed: () {
                   if (state.model.status == null ||
-                      state.model.status == ConstantsIntValue.shiftScheduleDraft) {
+                      state.model.status ==
+                          ConstantsIntValue.shiftScheduleDraft) {
                     // Remove the POC from the state
                     state.pocs?.remove(poc);
                     // Trigger UI update
@@ -640,17 +658,18 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
 
   Widget cancelButtonDisplay(ShiftScheduleDetailsState state) {
     return AppButton(
-      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText:
-          state.model.id == null || !state.model.lock.isEmptyOrNull ? Constants.close : Constants.cancelRecord,
+      buttonText: state.model.id == null || !state.model.lock.isEmptyOrNull
+          ? Constants.close
+          : Constants.cancelRecord,
       buttonTextKey: Keys.cancelButton,
-      onTap: () {if (state.model.id == null) {
-        Navigator.pop(context);
-        return;
-      }
+      onTap: () {
+        if (state.model.id == null) {
+          Navigator.pop(context);
+          return;
+        }
         var dialog = CustomAlertDialog(
             title: Constants.cancelRecord,
             message: Constants.cancelRecordWarningMessage,

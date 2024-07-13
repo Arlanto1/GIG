@@ -2075,6 +2075,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                               : true,
                                       moduleCode:
                                           Constants.passManagementModuleCode,
+                                      isDisabled: isDisabled,
                                     ),
                                     // getSpaceattchment(height),
                                     // getAttachement(height),
@@ -2956,6 +2957,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       files: photogetFiles,
       showDownloadIcon: true,
       moduleCode: Constants.guardingMasterModuleCode,
+      isDisabled: isDisabled,
     );
     // return (photogetAttachments.isNotEmpty || photogetFiles.isNotEmpty)
     //     ? attachmentListviews(photogetFiles, photogetAttachments)
@@ -4429,7 +4431,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       isEnable:
           (controller == companyNameTextController && widget.model?.status == 0
                   ? isFTECompanyNameEditable
-
                   : isEditable) ||
               isEditable,
       isDisableColor: isEditable,
@@ -4452,7 +4453,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       controller: textController,
       textFormKey: Keys.colorTextController,
       textInputType: textController == contactnoTextController ||
-              textController == sezpassinfoTextController
+              textController == sezpassinfoTextController ||
+      textController == hostEmployeeIdTextController
           ? TextInputType.number
           : TextInputType.text,
       isEnable: widget.model?.status == null || widget.model?.status == 0

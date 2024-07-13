@@ -4,18 +4,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="db offficial email id accompanied leo official">
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="redmine bug fixes">
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/QA/release/output-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/QA/release/output-metadata.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/index.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/index.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_pop_up_items.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_pop_up_items.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/create_fields.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/create_fields.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/views/add_employee_deparment.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/views/add_employee_deparment.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/services/law_enforcement_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/services/law_enforcement_services.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,157 +39,199 @@
     &quot;state&quot;: &quot;OPEN&quot;
   }
 }</component>
-  <component name="GitHubPullRequestState"><![CDATA[{
-  "prStates": [
+  <component name="GitHubPullRequestState">{
+  &quot;prStates&quot;: [
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs50yoTY",
-        "number": 480
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs50yoTY&quot;,
+        &quot;number&quot;: 480
       },
-      "lastSeen": 1720523381749
+      &quot;lastSeen&quot;: 1720523381749
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs500XJC",
-        "number": 482
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs500XJC&quot;,
+        &quot;number&quot;: 482
       },
-      "lastSeen": 1720584235667
+      &quot;lastSeen&quot;: 1720584235667
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs500WmH",
-        "number": 481
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs500WmH&quot;,
+        &quot;number&quot;: 481
       },
-      "lastSeen": 1720596605363
+      &quot;lastSeen&quot;: 1720596605363
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs5063bS",
-        "number": 483
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs5063bS&quot;,
+        &quot;number&quot;: 483
       },
-      "lastSeen": 1720596675360
+      &quot;lastSeen&quot;: 1720596675360
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs5067t6",
-        "number": 484
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs5067t6&quot;,
+        &quot;number&quot;: 484
       },
-      "lastSeen": 1720597523320
+      &quot;lastSeen&quot;: 1720597523320
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs507GAD",
-        "number": 486
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs507GAD&quot;,
+        &quot;number&quot;: 486
       },
-      "lastSeen": 1720597756300
+      &quot;lastSeen&quot;: 1720597756300
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs507_Iy",
-        "number": 488
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs507_Iy&quot;,
+        &quot;number&quot;: 488
       },
-      "lastSeen": 1720604473366
+      &quot;lastSeen&quot;: 1720604473366
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs508RC1",
-        "number": 490
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs508RC1&quot;,
+        &quot;number&quot;: 490
       },
-      "lastSeen": 1720608022601
+      &quot;lastSeen&quot;: 1720608022601
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs508VTe",
-        "number": 491
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs508VTe&quot;,
+        &quot;number&quot;: 491
       },
-      "lastSeen": 1720608914061
+      &quot;lastSeen&quot;: 1720608914061
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs507MXC",
-        "number": 487
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs507MXC&quot;,
+        &quot;number&quot;: 487
       },
-      "lastSeen": 1720610643508
+      &quot;lastSeen&quot;: 1720610643508
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs506-6C",
-        "number": 485
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs506-6C&quot;,
+        &quot;number&quot;: 485
       },
-      "lastSeen": 1720611318144
+      &quot;lastSeen&quot;: 1720611318144
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs509A0K",
-        "number": 493
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs509A0K&quot;,
+        &quot;number&quot;: 493
       },
-      "lastSeen": 1720611337609
+      &quot;lastSeen&quot;: 1720611337609
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs509J0_",
-        "number": 494
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs509J0_&quot;,
+        &quot;number&quot;: 494
       },
-      "lastSeen": 1720611543610
+      &quot;lastSeen&quot;: 1720611543610
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51DbVt",
-        "number": 496
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51DbVt&quot;,
+        &quot;number&quot;: 496
       },
-      "lastSeen": 1720680083246
+      &quot;lastSeen&quot;: 1720680083246
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51Db-8",
-        "number": 497
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Db-8&quot;,
+        &quot;number&quot;: 497
       },
-      "lastSeen": 1720680288678
+      &quot;lastSeen&quot;: 1720680288678
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51DDrX",
-        "number": 495
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51DDrX&quot;,
+        &quot;number&quot;: 495
       },
-      "lastSeen": 1720680400876
+      &quot;lastSeen&quot;: 1720680400876
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51DdHn",
-        "number": 498
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51DdHn&quot;,
+        &quot;number&quot;: 498
       },
-      "lastSeen": 1720680414675
+      &quot;lastSeen&quot;: 1720680414675
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51Dyix",
-        "number": 500
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Dyix&quot;,
+        &quot;number&quot;: 500
       },
-      "lastSeen": 1720690090478
+      &quot;lastSeen&quot;: 1720690090478
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51ER1a",
-        "number": 501
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51ER1a&quot;,
+        &quot;number&quot;: 501
       },
-      "lastSeen": 1720690207017
+      &quot;lastSeen&quot;: 1720690207017
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51FUD7",
-        "number": 502
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51FUD7&quot;,
+        &quot;number&quot;: 502
       },
-      "lastSeen": 1720697288494
+      &quot;lastSeen&quot;: 1720697288494
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51Le56",
-        "number": 504
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51LtWW&quot;,
+        &quot;number&quot;: 506
       },
-      "lastSeen": 1720764374233
+      &quot;lastSeen&quot;: 1720768248643
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51LxHC&quot;,
+        &quot;number&quot;: 507
+      },
+      &quot;lastSeen&quot;: 1720768987360
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51L60A&quot;,
+        &quot;number&quot;: 508
+      },
+      &quot;lastSeen&quot;: 1720769037111
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Le56&quot;,
+        &quot;number&quot;: 504
+      },
+      &quot;lastSeen&quot;: 1720769084165
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51L8os&quot;,
+        &quot;number&quot;: 509
+      },
+      &quot;lastSeen&quot;: 1720771990787
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51MNQH&quot;,
+        &quot;number&quot;: 510
+      },
+      &quot;lastSeen&quot;: 1720772607267
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51MwsW&quot;,
+        &quot;number&quot;: 511
+      },
+      &quot;lastSeen&quot;: 1720777982079
     }
   ]
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;git@github.com:Arlanto1/Arlanto-App-Codebase.git&quot;,
@@ -220,7 +256,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 2
+  &quot;associatedIndex&quot;: 7
 }</component>
   <component name="ProjectId" id="2TPqGFbLKqVcsfg0sCQZ4U2TK6s" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -275,7 +311,7 @@
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views" />
     </key>
   </component>
-  <component name="RunManager" selected="Flutter.main.dart">
+  <component name="RunManager" selected="Flutter.qa">
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="buildFlavor" value="PROD" />
       <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
@@ -672,7 +708,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="339" />
+    <option name="localTasksCounter" value="343" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -763,10 +799,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="no record found issue fixed and other redirecting issues" />
-    <MESSAGE value="bug fixes and improvements" />
-    <MESSAGE value="pass management export pdf issue fixed" />
-    <MESSAGE value="base location widget used in MM&#10;add user in dialog box enabled again" />
     <MESSAGE value="No Record Found in listing page issue fixed" />
     <MESSAGE value="remaining file" />
     <MESSAGE value="build issue solved" />
@@ -788,7 +820,11 @@
     <MESSAGE value="imports" />
     <MESSAGE value="merge" />
     <MESSAGE value="db offficial email id accompanied leo official" />
-    <option name="LAST_COMMIT_MESSAGE" value="db offficial email id accompanied leo official" />
+    <MESSAGE value="leo code improvements" />
+    <MESSAGE value="shift schedule editable" />
+    <MESSAGE value="bug fixes" />
+    <MESSAGE value="redmine bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="redmine bug fixes" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

@@ -243,46 +243,46 @@ class _LoginState extends State<Login> {
                                 ],
                               ),
 
-                              const Center(
-                                child: Text(
-                                  'OR',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              CommonWidgets.verticalSpacerWidget(
-                                height * 0.03,
-                              ),
-                              ElevatedButton(
-                                onPressed: WebSsoMsalHandler().getToken,
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors
-                                      .white, // Set the background color to white
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      AppIcon.deutscheBankLogo,
-                                      fit: BoxFit.cover,
-                                      height: 20,
-                                      // color:
-                                      //     AppColors.navigationSkyBlueColor,
-                                    ),
-                                    CommonWidgets.horizontalSpacerWidget(
-                                      height * 0.01,
-                                    ),
-                                    const Text(
-                                      Constants.dbSSO,
-                                      style: TextStyle(
-                                        color: Color(0xFF000080),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              CommonWidgets.verticalSpacerWidget(
-                                height * 0.03,
-                              ),
+                              // const Center(
+                              //   child: Text(
+                              //     'OR',
+                              //     style: TextStyle(fontWeight: FontWeight.bold),
+                              //   ),
+                              // ),
+                              // CommonWidgets.verticalSpacerWidget(
+                              //   height * 0.03,
+                              // ),
+                              // ElevatedButton(
+                              //   onPressed: WebSsoMsalHandler().getToken,
+                              //   style: ElevatedButton.styleFrom(
+                              //     backgroundColor: Colors
+                              //         .white, // Set the background color to white
+                              //   ),
+                              //   child: Row(
+                              //     mainAxisAlignment: MainAxisAlignment.center,
+                              //     children: [
+                              //       Image.asset(
+                              //         AppIcon.deutscheBankLogo,
+                              //         fit: BoxFit.cover,
+                              //         height: 20,
+                              //         // color:
+                              //         //     AppColors.navigationSkyBlueColor,
+                              //       ),
+                              //       CommonWidgets.horizontalSpacerWidget(
+                              //         height * 0.01,
+                              //       ),
+                              //       const Text(
+                              //         Constants.dbSSO,
+                              //         style: TextStyle(
+                              //           color: Color(0xFF000080),
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              // CommonWidgets.verticalSpacerWidget(
+                              //   height * 0.03,
+                              // ),
                               // AppButton(
                               //   // key: const Key(Keys.loginButton),
                               //   buttonText: Constants.dbSSO,

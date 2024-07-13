@@ -207,7 +207,7 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
                                     state.labels?.defaultLocale.location ??
                                     'Building Location',
                                 value:
-                                    state.items[index].locationRegion?.name ??
+                                    state.items[index].location?.name ??
                                         ''));
                             labels.add(Label(
                                 key: state.labels?.locale.slNo ??

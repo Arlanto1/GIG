@@ -792,6 +792,7 @@ class _SstIncidentGeneralInfoViewState
                               showDownloadIcon:
                                   widget.model != null ? true : false,
                               moduleCode: Constants.securitySystemModule,
+                              isDisabled: isDisabled,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ]),

@@ -470,7 +470,7 @@ class _DutyPostNameMasterDetailsViewState
             title: Constants.cancelRecord,
             message: Constants.cancelRecordWarningMessage,
             onPositivePressed: () {
-              Navigator.pop(context);
+              // Navigator.pop(context);
               Navigator.pop(context);
               updateRecordStatus(state);
             },
@@ -482,6 +482,7 @@ class _DutyPostNameMasterDetailsViewState
   }
 
   void updateRecordStatus(DutyPostNameMasterDetailsState state) {
+    log('-updateRecordStatus-${widget.model?.status}--');
     if (state.model.id != null && widget.model?.status != 1) {
       BlocProvider.of<DutyPostNameMasterDetailsCubit>(context)
           .updateStatus(id: state.model.id.toString());
