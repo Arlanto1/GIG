@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/index.dart';
 
 class BaseImageUpload {
@@ -63,6 +65,12 @@ class BaseImageUpload {
     bool? showDeleteIcon = true,
     bool isDisabled = false,
   }) {
+    log('-isDisabled-$isDisabled--');
+    if(isDisabled) {
+      showDeleteIcon = false;
+      showDownloadIcon = false;
+    }
+    log('-showDeleteIcon-$showDeleteIcon--');
     if (attachments != null) {
       return Opacity(
         opacity: isDisabled ? .5 : 1,

@@ -51,6 +51,9 @@ class _CreateFoundState extends State<CreateFound> {
   String isDepositorDBEmployee = "";
 
   final FocusNode foundLocationFocusNode = FocusNode();
+  final FocusNode depositorEmployeeFocusNode = FocusNode();
+  final FocusNode quantityFocusNode = FocusNode();
+  final FocusNode colourFocusNode = FocusNode();
 
   // String slnoValue = "dfwe";
   String createdByValue = "";
@@ -651,7 +654,7 @@ class _CreateFoundState extends State<CreateFound> {
             onTap: (Organisation list) {
               selectedArtclelist = list;
               setState(() {});
-              FocusScope.of(context).requestFocus(foundLocationFocusNode);
+              // FocusScope.of(context).requestFocus(foundLocationFocusNode);
             },
           );
         });
@@ -751,7 +754,6 @@ class _CreateFoundState extends State<CreateFound> {
     }
   }
 
-  FocusNode depositorEmployeeFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -1251,6 +1253,8 @@ class _CreateFoundState extends State<CreateFound> {
                                                   1,
                                         ),
                                       );
+                                      FocusScope.of(context).requestFocus(
+                                          quantityFocusNode);
                                     },
                                   ),
 
@@ -1267,6 +1271,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   FlutterInputField(
                                     textInputType: TextInputType.number,
                                     controller: quantityTextController,
+                                    focusNode: quantityFocusNode,
                                     textFormKey: Keys.quantityTextController,
                                     hintText: '',
                                     isEnable: (widget.model?.status == 0 ||
@@ -1280,6 +1285,10 @@ class _CreateFoundState extends State<CreateFound> {
                                     onChange: (String username) {
                                       //this.username = username;
                                       setState(() {});
+                                    },
+                                    onFieldSubmitted: (){
+                                      FocusScope.of(context).requestFocus(
+                                          colourFocusNode);
                                     },
                                     validateTextField: (String? user) {},
                                   ),
@@ -1297,6 +1306,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   FlutterInputField(
+                                    focusNode: colourFocusNode,
                                     controller: colorTextController,
                                     textFormKey: Keys.colorTextController,
                                     hintText: '',
@@ -1479,6 +1489,7 @@ class _CreateFoundState extends State<CreateFound> {
                                               ? true
                                               : false,
                                           onTap: () {
+                                            FocusManager.instance.primaryFocus?.unfocus();
                                             if (widget.model == null ||
                                                 widget.model?.status == 0) {
                                               employeeDepartmentDialog(
@@ -1691,6 +1702,7 @@ class _CreateFoundState extends State<CreateFound> {
                                                 ? false
                                                 : true,
                                             onTap: () {
+                                              FocusManager.instance.primaryFocus?.unfocus();
                                               if (widget.model?.status != 2 &&
                                                   isClaimantAcceptedByemail ==
                                                       0) {
