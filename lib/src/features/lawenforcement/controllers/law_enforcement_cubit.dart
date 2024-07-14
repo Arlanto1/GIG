@@ -94,7 +94,11 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         Utils.dynamicAlert(
             context, 'Added successfully', Constants.addemployeedepartment, '');
       });
-    } catch (e) {
+    } on GenericResponse catch (e) {
+      Utils().emitErrorState(e, emit, state);
+      return;
+    }
+    catch (e) {
       emit(
         state.copyWith(
           message: Constants.errorText,

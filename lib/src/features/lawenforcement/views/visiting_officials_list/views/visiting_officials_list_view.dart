@@ -183,6 +183,12 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
                 value: state.items![index].department?.name ?? '',
               ),
             );
+            labels.add(
+              Label(
+                key: 'Phone Number',
+                value: state.items![index].contactNo?? '',
+              ),
+            );
             return index >= state.items!.length
                 ? const BaseLoader()
                 : BaseListTileItem(
