@@ -1,5 +1,6 @@
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
+import 'package:db_atom/src/constants/constant_int_values.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 import 'package:db_atom/src/features/passmanagement/pass_management_list/bloc/pass_management_list_bloc.dart';
@@ -302,7 +303,12 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
           widget.userItem?.endTime != null
               ? CommonWidgets.verticalSpacerWidget(8)
               : Container(),
-          widget.userItem?.handoverSecurity?.userName != null
+          (widget.userItem?.status == ConstantsIntValue.passStatusReturned ||
+                      widget.userItem?.status ==
+                          ConstantsIntValue.passStatusReturnedDamaged ||
+                      widget.userItem?.status ==
+                          ConstantsIntValue.passStatusReturnedDefaced) &&
+                  widget.userItem?.handoverSecurity?.userName != null
               ? Row(
                   children: [
                     textHandling(
@@ -315,7 +321,12 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                   ],
                 )
               : Container(),
-          widget.userItem?.handoverSecurity?.userName != null
+          (widget.userItem?.status == ConstantsIntValue.passStatusReturned ||
+                      widget.userItem?.status ==
+                          ConstantsIntValue.passStatusReturnedDamaged ||
+                      widget.userItem?.status ==
+                          ConstantsIntValue.passStatusReturnedDefaced) &&
+                  widget.userItem?.handoverSecurity?.userName != null
               ? CommonWidgets.verticalSpacerWidget(8)
               : Container(),
           widget.userItem?.returnedTime != null

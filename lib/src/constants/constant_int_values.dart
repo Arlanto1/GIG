@@ -17,9 +17,17 @@ class ConstantsIntValue {
   static const int passCategoryPermanent = 0;
   static const int passCategoryTemporary = 1;
 
-  // Status
+  /// Pass Management status
   static const int passStatusCreated = 0;
   static const int passStatusHandedOver = 1;
+  static const int passStatusReturned = 2;
+  static const int passStatusNonReturned = 3;
+  static const int passStatusLostDeActivated = 4;
+  static const int passStatusDamagedDeActivated = 5;
+  static const int passStatusDefacedDeActivated = 6;
+  static const int passStatusCancelled = 7;
+  static const int passStatusReturnedDamaged = 8;
+  static const int passStatusReturnedDefaced = 9;
 
   static const int passIdDayPass = 0;
   static const int passIdVisitor = 1;
@@ -30,14 +38,14 @@ class ConstantsIntValue {
 
   static const int businessUserReview = 1;
 
-  // Status
-  static const String passStatusReturned = 'Returned';
-  static const String passStatusLostDeActivated = 'Lost/De-Activated';
-  static const String passStatusDamagedDeActivated = 'Damaged/De-Activated';
-  static const String passStatusDefaced = 'Defaced';
-  static const String passStatusCancelled = 'Cancelled';
-  static const String passStatusReturnedDamaged = 'Returned/Damaged';
-  static const String passStatusReturnedDefaced = 'Returned/Defaced';
+  // // Status
+  // static const String passStatusReturned = 'Returned';
+  // static const String passStatusLostDeActivated = 'Lost/De-Activated';
+  // static const String passStatusDamagedDeActivated = 'Damaged/De-Activated';
+  // static const String passStatusDefaced = 'Defaced';
+  // static const String passStatusCancelled = 'Cancelled';
+  // static const String passStatusReturnedDamaged = 'Returned/Damaged';
+  // static const String passStatusReturnedDefaced = 'Returned/Defaced';
 
   /// Shift Occurence
   static const int submitted = 1;
@@ -74,4 +82,5 @@ class ConstantsIntValue {
   static const int leoStatusSubmitted = 1;
   static const int leoStatusVerificationUnderProgress = 2;
   static const int leoStatusDistributed = 3;
+
 }
