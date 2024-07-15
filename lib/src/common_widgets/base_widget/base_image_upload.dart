@@ -64,7 +64,6 @@ class BaseImageUpload {
     required double height,
     List<ImageContent>? files,
     List<ImageContent>? attachments,
-    bool? showDownloadIcon, // TODO: need to remove this parameter
     required String moduleCode,
     bool? showDeleteIcon = true,
     bool isDisabled = false,

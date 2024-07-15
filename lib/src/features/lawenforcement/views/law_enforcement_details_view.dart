@@ -822,12 +822,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           files: getFiles.isEmptyOrNull
                                               ? getAttachments
                                               : getFiles,
-                                          showDownloadIcon: (widget.model ==
-                                                      null ||
-                                                  widget.model?.status == 0) &&
-                                              (widget.model != null &&
-                                                  widget.model!.lock
-                                                      .isEmptyOrNull),
+                                          // showDownloadIcon: (widget.model ==
+                                          //             null ||
+                                          //         widget.model?.status == 0) &&
+                                          //     (widget.model != null &&
+                                          //         widget.model!.lock
+                                          //             .isEmptyOrNull),
                                           moduleCode: Constants.leoModuleCode,
                                           showDeleteIcon: widget.model == null),
                                       // Attachments

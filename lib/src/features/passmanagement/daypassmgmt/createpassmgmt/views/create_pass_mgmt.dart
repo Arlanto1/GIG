@@ -2066,10 +2066,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       height: height,
                                       attachments: state.loadAttachments,
                                       files: getFiles,
-                                      showDownloadIcon:
-                                          getAttachments.isNotEmpty
-                                              ? true
-                                              : false,
                                       showDeleteIcon:
                                           widget.model?.status != 0 &&
                                                   widget.model != null
@@ -2957,7 +2953,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       height: height,
       attachments: photogetAttachments,
       files: photogetFiles,
-      showDownloadIcon: true,
       moduleCode: Constants.guardingMasterModuleCode,
       isDisabled: isDisabled,
     );

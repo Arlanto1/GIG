@@ -415,8 +415,8 @@ class _EventInfoViewState extends State<EventInfoView> {
                               height: height,
                               attachments: state.guardAttachments,
                               files: guardFiles,
-                              showDownloadIcon:
-                                  state.model.image != null ? true : false,
+                              // showDownloadIcon:
+                              //     state.model.image != null ? true : false,
                               moduleCode: Constants.eventProtectionModuleCode,
                             ),
                           ],

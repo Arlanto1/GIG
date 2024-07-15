@@ -1942,8 +1942,6 @@ class _CreateFoundState extends State<CreateFound> {
                                     files: getFiles.isEmptyOrNull
                                         ? getAttachments
                                         : getFiles,
-                                    showDownloadIcon:
-                                        widget.model != null ? true : false,
                                     showDeleteIcon: widget.model?.status !=
                                                 ConstantsIntValue
                                                     .articleFoundStatusFound &&

@@ -813,7 +813,6 @@ class _SstIncidentGeneralInfoViewState
                           height: height,
                           attachments: state.uploadAttachments,
                           files: uploadFiles,
-                          showDownloadIcon: widget.model != null ? true : false,
                           moduleCode: Constants.securitySystemModule,
                           isDisabled: disableForm,
                         ),

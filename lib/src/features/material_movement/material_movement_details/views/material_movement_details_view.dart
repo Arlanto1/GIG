@@ -2692,8 +2692,6 @@ class _MaterialMovementDetailsViewState
                         height: height,
                         attachments: state.loadAttachments,
                         files: getFiles,
-                        showDownloadIcon:
-                        widget.model?.images != null ? true : false,
                         moduleCode: moduleCode,
                         isDisabled: isReadOnly,
                       ),
