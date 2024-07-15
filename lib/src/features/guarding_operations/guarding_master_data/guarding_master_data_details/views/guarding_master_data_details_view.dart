@@ -488,6 +488,7 @@ class _GuardingMasterDataDetailsViewState
                                         height * 0.001)
                                     : Container(),
                                 BaseImageUpload().uploadWidget(
+                                  isDisabled: isReadOnly,
                                   context: context,
                                   loggedInUserDetails:
                                       state.loggedInUserDetails ?? User(),

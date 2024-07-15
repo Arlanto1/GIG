@@ -8,51 +8,55 @@ class BaseImageUpload {
     required User loggedInUserDetails,
     required List<ImageContent>? getFiles,
     required Function onImageSelected,
+    bool? isDisabled = false,
   }) {
-    return Container(
-      height: 60,
-      decoration: BoxDecoration(
-          border: Border.all(
-            color: const Color(0xFFCACACA),
-            width: 1.0,
-          ),
-          borderRadius: const BorderRadius.all(Radius.circular(8))),
-      child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 5.0),
-          child: ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              fixedSize: const Size(140, 50),
-              backgroundColor: AppColors.navigationSkyBlueColor,
+    return Opacity(
+      opacity: isDisabled == false ? .5 : 1,
+      child: Container(
+        height: 60,
+        decoration: BoxDecoration(
+            border: Border.all(
+              color: const Color(0xFFCACACA),
+              width: 1.0,
             ),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return UploadAttachment(
-                      userdetails: loggedInUserDetails,
-                      getFiles: getFiles ?? [],
-                      onImageSelected: onImageSelected,
-                    );
-                  });
-            },
-            icon: SvgPicture.asset(
-              AppIcon.uploadicon,
-              colorFilter: const ColorFilter.mode(
-                AppColors.backgroundWhiteColor,
-                BlendMode.srcIn,
+            borderRadius: const BorderRadius.all(Radius.circular(8))),
+        child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 5.0),
+            child: ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                fixedSize: const Size(140, 50),
+                backgroundColor: AppColors.navigationSkyBlueColor,
               ),
-              width: 13,
-              height: 13,
-              key: const Key(Keys.userIcon),
-            ),
-            label: const Text(
-              Constants.clicktoupload,
-              style: Styles.textStyleRegularNormalWhite12,
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext dialogContext) {
+                      return UploadAttachment(
+                        userdetails: loggedInUserDetails,
+                        getFiles: getFiles ?? [],
+                        onImageSelected: onImageSelected,
+                      );
+                    });
+              },
+              icon: SvgPicture.asset(
+                AppIcon.uploadicon,
+                colorFilter: const ColorFilter.mode(
+                  AppColors.backgroundWhiteColor,
+                  BlendMode.srcIn,
+                ),
+                width: 13,
+                height: 13,
+                key: const Key(Keys.userIcon),
+              ),
+              label: const Text(
+                Constants.clicktoupload,
+                style: Styles.textStyleRegularNormalWhite12,
+              ),
             ),
           ),
-        ),
-      ]),
+        ]),
+      ),
     );
   }
 
@@ -60,7 +64,7 @@ class BaseImageUpload {
     required double height,
     List<ImageContent>? files,
     List<ImageContent>? attachments,
-    required bool showDownloadIcon,
+    bool? showDownloadIcon, // TODO: need to remove this parameter
     required String moduleCode,
     bool? showDeleteIcon = true,
     bool isDisabled = false,
@@ -68,23 +72,18 @@ class BaseImageUpload {
     log('-isDisabled-$isDisabled--');
     if (isDisabled) {
       showDeleteIcon = false;
-      showDownloadIcon = false;
     }
     log('-showDeleteIcon-$showDeleteIcon--');
     if (attachments != null) {
-      return Opacity(
-        opacity: isDisabled ? 1 : 1,
-        child: Column(
-          children: [
-            CommonWidgets.verticalSpacerWidget(height * 0.01),
-            AttachmentListView(
-              attachmentListviews: files ?? attachments,
-              showDownloadIcon: showDownloadIcon,
-              moduleCode: moduleCode,
-              showDeleteIcon: showDeleteIcon,
-            ),
-          ],
-        ),
+      return Column(
+        children: [
+          CommonWidgets.verticalSpacerWidget(height * 0.01),
+          AttachmentListView(
+            attachmentListviews: files ?? attachments,
+            moduleCode: moduleCode,
+            showDeleteIcon: showDeleteIcon,
+          ),
+        ],
       );
     }
 
@@ -97,14 +96,12 @@ class BaseImageUpload {
 
 class AttachmentListView extends StatefulWidget {
   final List<ImageContent>? attachmentListviews;
-  final bool showDownloadIcon;
   final String moduleCode;
   final bool? showDeleteIcon;
 
   const AttachmentListView({
     super.key,
     this.attachmentListviews,
-    required this.showDownloadIcon,
     required this.moduleCode,
     this.showDeleteIcon,
   });
@@ -134,6 +131,7 @@ class AttachmentListViewState extends State<AttachmentListView> {
           ImageContent? imageData = widget.attachmentListviews?[index];
           TextEditingController imageNameController = TextEditingController();
           imageNameController.text = imageData?.title ?? '';
+
           return Column(
             children: <Widget>[
               ListTile(
@@ -141,20 +139,19 @@ class AttachmentListViewState extends State<AttachmentListView> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     /// View Icon
-                    if(imageData?.id != null) ...[
-                    GestureDetector(
-                      onTap: () {
-                        // Add your download functionality here
-                        DownloadImage().saveImage(
-                          context: context,
-                          id: imageData?.id ?? 0,
-                          name: imageData?.title ?? '',
-                          moduleCode: widget.moduleCode,
-                          viewOnly: true
-                        );
-                      },
-                      child: BaseIcons().viewIcon(),
-                    ),
+                    if (imageData?.id != null) ...[
+                      GestureDetector(
+                        onTap: () {
+                          // Add your download functionality here
+                          DownloadImage().saveImage(
+                              context: context,
+                              id: imageData?.id ?? 0,
+                              name: imageData?.title ?? '',
+                              moduleCode: widget.moduleCode,
+                              viewOnly: true);
+                        },
+                        child: BaseIcons().viewIcon(),
+                      ),
                       const SizedBox(width: 10),
                     ],
 
