@@ -55,7 +55,7 @@ class _DutyPostNameMasterDetailsViewState
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
-            title: 'Duty Post Master',
+            title: 'Duty Post Name Master',
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
             onPositivePressed: () {
