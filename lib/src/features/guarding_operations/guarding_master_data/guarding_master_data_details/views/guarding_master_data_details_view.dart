@@ -2711,69 +2711,6 @@ class _GuardingMasterDataDetailsViewState
     );
   }
 
-  Widget attachmentListviews(
-    List<ImageContent>? attachmentListviews,
-    List<ImageContent>? attachmentListviews1,
-  ) {
-    log('----attachmentListviews---cc--${attachmentListviews?.length}-----------');
-    log('----attachmentListviews1----found-${attachmentListviews1?.length}-----------');
-
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: const Color(0xFFCACACA),
-          style: BorderStyle.solid,
-          width: 1.0,
-        ),
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount:
-              attachmentListviews1?.length ?? attachmentListviews?.length ?? 0,
-          itemBuilder: (BuildContext context, int index) {
-            ImageContent? imagedata;
-            ImageContent? imagedata1;
-            if (widget.guardingMasterData != null) {
-              imagedata1 = attachmentListviews1?[index];
-            } else {
-              imagedata = attachmentListviews?[index];
-            }
-
-            return Column(
-              children: <Widget>[
-                ListTile(
-                  trailing: widget.guardingMasterData != null
-                      ? BaseIcons().downloadIcon()
-                      : const SizedBox(
-                          height: 0,
-                          width: 0,
-                        ),
-                  onTap: () {
-                    DownloadImage().saveImage(
-                      context,
-                      imagedata1?.id ?? 0,
-                      imagedata1?.title ?? '',
-                      Constants.guardingMasterModuleCode,
-                    );
-                  },
-                  title: widget.guardingMasterData != null
-                      ? Text(imagedata1?.title ?? '')
-                      : Text(imagedata?.title ?? ''),
-                ),
-
-                const Divider(
-                  color: Color(0xFFCACACA),
-                  thickness: 1,
-                ), //
-              ],
-            );
-          }),
-    );
-  }
-
   Widget qualificationAddButtonWidgetLoading({
     required BuildContext context,
     required GuardingMasterDataDetailsState state,

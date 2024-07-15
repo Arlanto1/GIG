@@ -3,15 +3,17 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/common_widgets/show_image.dart';
 import 'package:http/http.dart' as http;
 
 class DownloadImage {
-  Future<void> saveImage(
-    BuildContext context,
-    int id,
-    String name,
-    String moduleCode,
-  ) async {
+  Future<void> saveImage({
+    required BuildContext context,
+    required int id,
+    required String name,
+    required String moduleCode,
+    bool? viewOnly,   // Show attached/uploaded Image and PDF
+  }) async {
     if (id == 1) {
       return;
     }
@@ -27,7 +29,7 @@ class DownloadImage {
     // );
     log('--sss-response-$url-');
     final uri = Uri.parse(url);
-    downloadData(context, name, uri);
+    downloadData(context, name, uri, viewOnly: viewOnly ?? false);
   }
 
   Future<void> exportPdf(
@@ -44,7 +46,7 @@ class DownloadImage {
     log('url: $url');
 
     final uri = Uri.parse(url);
-    downloadData(context, name, uri, isPDF: true);
+    downloadData(context, name, uri, viewOnly: true);
   }
 
   Future<void> exportExcel(
@@ -77,7 +79,7 @@ class DownloadImage {
     // );
     final uri = Uri.parse(url);
 
-    return downloadData(context, name, uri, isPDF: true);
+    return downloadData(context, name, uri, viewOnly: true);
   }
 
   Future<void> passexportExcel(BuildContext context, int id, String name,
@@ -96,8 +98,12 @@ class DownloadImage {
     return downloadData(context, name, uri);
   }
 
-  downloadData(BuildContext context, String name, Uri url,
-      {bool? isPDF,}) async {
+  downloadData(
+    BuildContext context,
+    String name,
+    Uri url, {
+    bool? viewOnly,
+  }) async {
     String? message;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     try {
@@ -131,13 +137,28 @@ class DownloadImage {
       final file = File(filename);
       await file.writeAsBytes(response.bodyBytes);
 
-      if (isPDF ?? false) {
+      /// This is for viewing and downloading PDF REPORT Files
+      // if (isPDF ?? false) {
+      //   Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //           builder: (context) => ShowPdf(
+      //                 filePath: file.path,
+      //               )));
+      //   return;
+      // }
+
+      if (viewOnly ?? false) {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ShowPdf(
-                      filePath: file.path,
-                    )));
+                builder: (context) => filename.toLowerCase().contains('.pdf')
+                    ? ShowPdf(
+                        filePath: file.path,
+                      )
+                    : ShowImage(
+                        filePath: file.path,
+                      )));
         return;
       }
       log('pdf---$file');

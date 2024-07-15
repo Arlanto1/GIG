@@ -754,7 +754,6 @@ class _CreateFoundState extends State<CreateFound> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -1253,8 +1252,8 @@ class _CreateFoundState extends State<CreateFound> {
                                                   1,
                                         ),
                                       );
-                                      FocusScope.of(context).requestFocus(
-                                          quantityFocusNode);
+                                      FocusScope.of(context)
+                                          .requestFocus(quantityFocusNode);
                                     },
                                   ),
 
@@ -1286,9 +1285,9 @@ class _CreateFoundState extends State<CreateFound> {
                                       //this.username = username;
                                       setState(() {});
                                     },
-                                    onFieldSubmitted: (){
-                                      FocusScope.of(context).requestFocus(
-                                          colourFocusNode);
+                                    onFieldSubmitted: () {
+                                      FocusScope.of(context)
+                                          .requestFocus(colourFocusNode);
                                     },
                                     validateTextField: (String? user) {},
                                   ),
@@ -1489,7 +1488,8 @@ class _CreateFoundState extends State<CreateFound> {
                                               ? true
                                               : false,
                                           onTap: () {
-                                            FocusManager.instance.primaryFocus?.unfocus();
+                                            FocusManager.instance.primaryFocus
+                                                ?.unfocus();
                                             if (widget.model == null ||
                                                 widget.model?.status == 0) {
                                               employeeDepartmentDialog(
@@ -1702,7 +1702,8 @@ class _CreateFoundState extends State<CreateFound> {
                                                 ? false
                                                 : true,
                                             onTap: () {
-                                              FocusManager.instance.primaryFocus?.unfocus();
+                                              FocusManager.instance.primaryFocus
+                                                  ?.unfocus();
                                               if (widget.model?.status != 2 &&
                                                   isClaimantAcceptedByemail ==
                                                       0) {
@@ -2445,10 +2446,10 @@ class _CreateFoundState extends State<CreateFound> {
                               onTap: () {
                                 // Add your download functionality here
                                 DownloadImage().saveImage(
-                                  context,
-                                  imageData?.id ?? 0,
-                                  imageData?.title ?? '',
-                                  Constants.articleFoundModuleCode,
+                                  context: context,
+                                  id: imageData?.id ?? 0,
+                                  name: imageData?.title ?? '',
+                                  moduleCode: Constants.articleFoundModuleCode,
                                 );
                               },
                               child: BaseIcons().downloadIcon(),
@@ -2459,10 +2460,10 @@ class _CreateFoundState extends State<CreateFound> {
                           onTap: () {
                             // Add your download functionality here
                             DownloadImage().saveImage(
-                              context,
-                              imageData?.id ?? 0,
-                              imageData?.title ?? '',
-                              Constants.articleFoundModuleCode,
+                              context: context,
+                              id: imageData?.id ?? 0,
+                              name: imageData?.title ?? '',
+                              moduleCode: Constants.articleFoundModuleCode,
                             );
                           },
                           child: BaseIcons().downloadIcon(),

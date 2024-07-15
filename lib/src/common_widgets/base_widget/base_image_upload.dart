@@ -66,7 +66,7 @@ class BaseImageUpload {
     bool isDisabled = false,
   }) {
     log('-isDisabled-$isDisabled--');
-    if(isDisabled) {
+    if (isDisabled) {
       showDeleteIcon = false;
       showDownloadIcon = false;
     }
@@ -140,32 +140,63 @@ class AttachmentListViewState extends State<AttachmentListView> {
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    /// View Icon
                     GestureDetector(
                       onTap: () {
                         // Add your download functionality here
                         DownloadImage().saveImage(
-                          context,
-                          imageData?.id ?? 0,
-                          imageData?.title ?? '',
-                          widget.moduleCode,
+                          context: context,
+                          id: imageData?.id ?? 0,
+                          name: imageData?.title ?? '',
+                          moduleCode: widget.moduleCode,
+                          viewOnly: true
+                        );
+                      },
+                      child: BaseIcons().viewIcon(),
+                    ),
+                    const SizedBox(width: 10),
+
+                    /// Download Icon
+                    GestureDetector(
+                      onTap: () {
+                        // Add your download functionality here
+                        DownloadImage().saveImage(
+                          context: context,
+                          id: imageData?.id ?? 0,
+                          name: imageData?.title ?? '',
+                          moduleCode: widget.moduleCode,
                         );
                       },
                       child: BaseIcons().downloadIcon(),
                     ),
-                    const SizedBox(width: 10),
-                    widget.showDeleteIcon == true
-                        ? IconButton(
-                      icon: BaseIcons().deleteIcon(),
-                      onPressed: () {
-                        // Delete logic here
-                        if (imageData != null) {
-                          setState(() {
-                            widget.attachmentListviews!.removeAt(index);
-                          });
-                        }
-                      },
-                    )
-                        : const SizedBox(),
+
+                    /// Delete Icon
+                    if (widget.showDeleteIcon == true) ...[
+                      IconButton(
+                        icon: BaseIcons().deleteIcon(),
+                        onPressed: () {
+                          // Delete logic here
+                          if (imageData != null) {
+                            setState(() {
+                              widget.attachmentListviews!.removeAt(index);
+                            });
+                          }
+                        },
+                      )
+                    ],
+                    // widget.showDeleteIcon == true
+                    //     ? IconButton(
+                    //   icon: BaseIcons().deleteIcon(),
+                    //   onPressed: () {
+                    //     // Delete logic here
+                    //     if (imageData != null) {
+                    //       setState(() {
+                    //         widget.attachmentListviews!.removeAt(index);
+                    //       });
+                    //     }
+                    //   },
+                    // )
+                    //     : const SizedBox(),
                   ],
                 ),
                 title: FlutterInputField(
