@@ -55,7 +55,7 @@ class _DutyPostNameMasterDetailsViewState
 
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
-            title: 'Duty Post Master',
+            title: 'Duty Post Name Master',
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
             onPositivePressed: () {
@@ -347,13 +347,15 @@ class _DutyPostNameMasterDetailsViewState
                                   '${state.model.modifiedBy}'),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             if(state.model.lock.isEmptyOrNull)...[
                             /// SubmitButton
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                cancelButtonDisplay(state),
+                                cancelButtonDisplay(),
                                 if (showSaveSubmitButtons) ...[
                                   submitButtonDisplay()
                                 ],
@@ -452,35 +454,48 @@ class _DutyPostNameMasterDetailsViewState
     });
   }
 
-  Widget cancelButtonDisplay(DutyPostNameMasterDetailsState state) {
+  // Widget cancelButtonDisplay(DutyPostNameMasterDetailsState state) {
+  //   return AppButton(
+  //     width: Constants.cancelButtonWidth,
+  //     backgroundColor: Colors.white,
+  //     key: const Key(Keys.cancelButton),
+  //     buttonText: state.model.id == null || !state.model.lock.isEmptyOrNull
+  //         ? Constants.close
+  //         : Constants.cancelRecord,
+  //     buttonTextKey: Keys.cancelButton,
+  //     onTap: () {
+  //       if (state.model.id == null) {
+  //         Navigator.pop(context);
+  //         return;
+  //       }
+  //       var dialog = CustomAlertDialog(
+  //           title: Constants.cancelRecord,
+  //           message: Constants.cancelRecordWarningMessage,
+  //           onPositivePressed: () {
+  //             // Navigator.pop(context);
+  //             Navigator.pop(context);
+  //             updateRecordStatus(state);
+  //           },
+  //           positiveBtnText: Constants.yes,
+  //           negativeBtnText: Constants.no);
+  //       showDialog(context: context, builder: (BuildContext context) => dialog);
+  //     },
+  //   );
+  // }
+
+  Widget cancelButtonDisplay() {
     return AppButton(
+
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: state.model.id == null || !state.model.lock.isEmptyOrNull
-          ? Constants.close
-          : Constants.cancelRecord,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        if (state.model.id == null) {
-          Navigator.pop(context);
-          return;
-        }
-        var dialog = CustomAlertDialog(
-            title: Constants.cancelRecord,
-            message: Constants.cancelRecordWarningMessage,
-            onPositivePressed: () {
-              // Navigator.pop(context);
-              Navigator.pop(context);
-              updateRecordStatus(state);
-            },
-            positiveBtnText: Constants.yes,
-            negativeBtnText: Constants.no);
-        showDialog(context: context, builder: (BuildContext context) => dialog);
+        Navigator.pop(context);
       },
     );
   }
-
   void updateRecordStatus(DutyPostNameMasterDetailsState state) {
     log('-updateRecordStatus-${widget.model?.status}--');
     if (state.model.id != null && widget.model?.status != 1) {
