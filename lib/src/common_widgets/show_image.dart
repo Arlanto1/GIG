@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:db_atom/index.dart';
 import 'package:photo_view/photo_view.dart';
@@ -33,8 +34,8 @@ class ShowImage extends StatelessWidget {
           }),
       body: filePath.isNotEmpty
           ? PhotoView(
-          imageProvider:  AssetImage(filePath),
-                      )
+              imageProvider: FileImage(File(filePath)),
+            )
           : const Center(child: CircularProgressIndicator()),
     );
   }

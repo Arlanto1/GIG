@@ -12,12 +12,13 @@ class DownloadImage {
     required int id,
     required String name,
     required String moduleCode,
-    bool? viewOnly,   // Show attached/uploaded Image and PDF
+    bool? viewOnly, // Show attached/uploaded Image and PDF
   }) async {
     if (id == 1) {
       return;
     }
-
+    FocusManager.instance.primaryFocus
+        ?.unfocus();
     log('--saveImage--');
     final endpoint = Environment().config.apiHost;
     // final url = Uri.parse('$endpoint/downloadImage/$id');
@@ -98,7 +99,7 @@ class DownloadImage {
     return downloadData(context, name, uri);
   }
 
-  downloadData(
+  Future<void> downloadData(
     BuildContext context,
     String name,
     Uri url, {
@@ -116,51 +117,38 @@ class DownloadImage {
         headers: headers,
       );
 
-      // final http.Response response = await http.get(
-      //   url,
-      //   headers: headers,
-      // );
-      // log('response---${response.body.toString()}');
-
       log("Status Code: ${response.statusCode}");
-      if (response.statusCode.toString() == "400") {
+      if (response.statusCode == 400) {
         final responseBody = json.decode(response.body);
         throw GenericResponse.fromJson(responseBody);
       }
 
       // Get temporary directory
       final dir = await getTemporaryDirectory();
-      // Create an image name
+      // Create a file name
       var filename = '${dir.path}/$name';
 
       // Save to filesystem
       final file = File(filename);
       await file.writeAsBytes(response.bodyBytes);
 
-      /// This is for viewing and downloading PDF REPORT Files
-      // if (isPDF ?? false) {
-      //   Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //           builder: (context) => ShowPdf(
-      //                 filePath: file.path,
-      //               )));
-      //   return;
-      // }
-
+      log('--file.path-----${file.path}----');
       if (viewOnly ?? false) {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => filename.toLowerCase().contains('.pdf')
-                    ? ShowPdf(
-                        filePath: file.path,
-                      )
-                    : ShowImage(
-                        filePath: file.path,
-                      )));
+          context,
+          MaterialPageRoute(
+            builder: (context) => filename.toLowerCase().contains('.pdf')
+                ? ShowPdf(
+                    filePath: file.path,
+                  )
+                : ShowImage(
+                    filePath: file.path,
+                  ),
+          ),
+        );
         return;
       }
+
       log('pdf---$file');
       // Ask the user to save it
       final params = SaveFileDialogParams(sourceFilePath: file.path);
