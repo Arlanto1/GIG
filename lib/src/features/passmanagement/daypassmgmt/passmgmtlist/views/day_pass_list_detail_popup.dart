@@ -321,21 +321,19 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                   ],
                 )
               : Container(),
+
           (widget.userItem?.status == ConstantsIntValue.passStatusReturned ||
                       widget.userItem?.status ==
                           ConstantsIntValue.passStatusReturnedDamaged ||
                       widget.userItem?.status ==
                           ConstantsIntValue.passStatusReturnedDefaced) &&
-                  widget.userItem?.handoverSecurity?.userName != null
-              ? CommonWidgets.verticalSpacerWidget(8)
-              : Container(),
-          widget.userItem?.returnedTime != null
+                  widget.userItem?.returnedTime != null
               ? Row(
                   children: [
                     textHandling(
                         state.labels?.locale.returnedTime ??
                             state.labels?.defaultLocale.returnedTime ??
-                            'Pass Returened on: ',
+                            'Pass Returned on: ',
                         widget.userItem?.returnedTime != null
                             ? Utils.timestampToDateConversion(
                                 int.parse(widget.userItem?.returnedTime ?? '0'),
@@ -344,9 +342,7 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                   ],
                 )
               : Container(),
-          widget.userItem?.returnedTime != null
-              ? CommonWidgets.verticalSpacerWidget(8)
-              : Container(),
+
           widget.userItem?.status != null
               ? Row(
                   children: [
