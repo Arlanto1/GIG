@@ -865,16 +865,18 @@ class _CreateFoundState extends State<CreateFound> {
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    DownloadImage().exportPdf(context, 'export.pdf',
-                        '/${CommonApis.exportDetailPagePDF}${widget.model?.id}&moduleCode=${Constants.articleFoundModuleCode}');
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.only(right: 20.0),
-                    child: Icon(Icons.picture_as_pdf, color: Colors.white),
+                if (widget.model?.id != null) ...[
+                  GestureDetector(
+                    onTap: () {
+                      DownloadImage().exportPdf(context, 'export.pdf',
+                          '/${CommonApis.exportDetailPagePDF}${widget.model?.id}&moduleCode=${Constants.articleFoundModuleCode}');
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.only(right: 20.0),
+                      child: Icon(Icons.picture_as_pdf, color: Colors.white),
+                    ),
                   ),
-                ),
+                ],
               ],
 
               //backgroundColor: AppColors.navigationSkybluecolor,

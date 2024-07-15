@@ -171,16 +171,18 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  DownloadImage().exportPdf(context, 'export.pdf',
-                      '/${CommonApis.exportDetailPagePDF}${widget.model?.id}&moduleCode=${Constants.leoModuleCode}');
-                },
-                child: const Padding(
-                  padding: EdgeInsets.only(right: 20.0),
-                  child: Icon(Icons.picture_as_pdf, color: Colors.white),
+              if (widget.model?.id != null) ...[
+                GestureDetector(
+                  onTap: () {
+                    DownloadImage().exportPdf(context, 'export.pdf',
+                        '/${CommonApis.exportDetailPagePDF}${widget.model?.id}&moduleCode=${Constants.leoModuleCode}');
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(right: 20.0),
+                    child: Icon(Icons.picture_as_pdf, color: Colors.white),
+                  ),
                 ),
-              ),
+              ],
             ],
             //backgroundColor: AppColors.navigationSkybluecolor,
           ),
@@ -594,7 +596,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                             //this.username = username;
                                             setState(() {});
                                           },
-                                          characterLimit: Constants.characterLimitDescTextFormField,
+                                          characterLimit: Constants
+                                              .characterLimitDescTextFormField,
                                           validateTextField: (String? user) {},
                                           onFieldSubmitted: (String value) {
                                             additionalInformationTextController

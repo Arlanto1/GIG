@@ -73,7 +73,7 @@ class BaseImageUpload {
     log('-showDeleteIcon-$showDeleteIcon--');
     if (attachments != null) {
       return Opacity(
-        opacity: isDisabled ? .5 : 1,
+        opacity: isDisabled ? 1 : 1,
         child: Column(
           children: [
             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -141,6 +141,7 @@ class AttachmentListViewState extends State<AttachmentListView> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     /// View Icon
+                    if(imageData?.id != null) ...[
                     GestureDetector(
                       onTap: () {
                         // Add your download functionality here
@@ -154,21 +155,22 @@ class AttachmentListViewState extends State<AttachmentListView> {
                       },
                       child: BaseIcons().viewIcon(),
                     ),
-                    const SizedBox(width: 10),
+                      const SizedBox(width: 10),
+                    ],
 
-                    /// Download Icon
-                    GestureDetector(
-                      onTap: () {
-                        // Add your download functionality here
-                        DownloadImage().saveImage(
-                          context: context,
-                          id: imageData?.id ?? 0,
-                          name: imageData?.title ?? '',
-                          moduleCode: widget.moduleCode,
-                        );
-                      },
-                      child: BaseIcons().downloadIcon(),
-                    ),
+                    // /// Download Icon
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     // Add your download functionality here
+                    //     DownloadImage().saveImage(
+                    //       context: context,
+                    //       id: imageData?.id ?? 0,
+                    //       name: imageData?.title ?? '',
+                    //       moduleCode: widget.moduleCode,
+                    //     );
+                    //   },
+                    //   child: BaseIcons().downloadIcon(),
+                    // ),
 
                     /// Delete Icon
                     if (widget.showDeleteIcon == true) ...[

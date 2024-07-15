@@ -2951,35 +2951,6 @@ class _MaterialMovementDetailsViewState
         : Container();
   }
 
-  // Widget locationWidgetdislay(MaterialMovementDetailsState state) {
-  //   return GestureDetector(
-  //     onTap: () {
-  //       if (((widget.model?.status == null || widget.model?.status == 0) &&
-  //               state.model.lock.isEmptyOrNull)
-  //           ? true
-  //           : false) {
-  //         showDialog(
-  //           context: context,
-  //           builder: (BuildContext dialogContext) {
-  //             return CustomExpansionListTexts(
-  //               locationList: state.locations,
-  //               onTap: (Organisation? list) async {
-  //                 Organisation location = Organisation();
-  //                 location.id = list?.id;
-  //                 location.name = list?.name;
-  //                 state.model.location = location;
-  //
-  //                 BlocProvider.of<MaterialMovementDetailsCubit>(context)
-  //                     .updateDropdownValues(location: location);
-  //               },
-  //             );
-  //           },
-  //         );
-  //       }
-  //     },
-  //     child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
-  //   );
-  // }
 
   Widget datecreateWidgetdisplay(String date) {
     return FlutterInputField(
