@@ -7,38 +7,43 @@ class NotificationBell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        IconButton(
-          icon: const Icon(
-            Icons.notifications,
-            color: Colors.white,
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, notificationsViewRoute);
+      },
+      child: Stack(
+        children: [
+          IconButton(
+            icon: const Icon(
+              Icons.notifications,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, notificationsViewRoute);
+            },
           ),
-          onPressed: () {
-            Navigator.pushNamed(context, notificationsViewRoute);
-          },
-        ),
-        Positioned(
-          right: 0,
-          top: 0,
-          child: notificationCount > 0
-              ? Container(
-                  padding: const EdgeInsets.all(3),
-                  decoration: const BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Text(
-                    '$notificationCount',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+          Positioned(
+            right: 0,
+            top: 0,
+            child: notificationCount > 0
+                ? Container(
+                    padding: const EdgeInsets.all(3),
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
                     ),
-                  ),
-                )
-              : Container(),
-        ),
-      ],
+                    child: Text(
+                      '$notificationCount',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                : Container(),
+          ),
+        ],
+      ),
     );
   }
 }

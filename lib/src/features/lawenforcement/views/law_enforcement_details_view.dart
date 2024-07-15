@@ -594,6 +594,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                             //this.username = username;
                                             setState(() {});
                                           },
+                                          characterLimit: Constants.characterLimitDescTextFormField,
                                           validateTextField: (String? user) {},
                                           onFieldSubmitted: (String value) {
                                             additionalInformationTextController

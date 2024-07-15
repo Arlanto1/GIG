@@ -4422,7 +4422,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       textInputType: controller == contactnoTextController ||
               controller == employeeIdTextController ||
               controller == escortedEmployeeIdByTextController ||
-              controller == hostEmployeeIdTextController
+              controller == hostEmployeeIdTextController ||
+              controller == dbsponsorTextController
           ? TextInputType.number
           : TextInputType.text,
       characterLimit: controller == contactnoTextController
@@ -4454,7 +4455,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       textFormKey: Keys.colorTextController,
       textInputType: textController == contactnoTextController ||
               textController == sezpassinfoTextController ||
-      textController == hostEmployeeIdTextController
+              textController == hostEmployeeIdTextController
           ? TextInputType.number
           : TextInputType.text,
       isEnable: widget.model?.status == null || widget.model?.status == 0
