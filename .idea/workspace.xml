@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="redmine bug fixes">
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="View Image issue fixed for Android">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_image_upload.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_image_upload.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/views/guarding_master_data_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/views/guarding_master_data_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,199 +38,227 @@
     &quot;state&quot;: &quot;OPEN&quot;
   }
 }</component>
-  <component name="GitHubPullRequestState">{
-  &quot;prStates&quot;: [
+  <component name="GitHubPullRequestState"><![CDATA[{
+  "prStates": [
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs50yoTY&quot;,
-        &quot;number&quot;: 480
+      "id": {
+        "id": "PR_kwDOJ23nvs50yoTY",
+        "number": 480
       },
-      &quot;lastSeen&quot;: 1720523381749
+      "lastSeen": 1720523381749
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs500XJC&quot;,
-        &quot;number&quot;: 482
+      "id": {
+        "id": "PR_kwDOJ23nvs500XJC",
+        "number": 482
       },
-      &quot;lastSeen&quot;: 1720584235667
+      "lastSeen": 1720584235667
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs500WmH&quot;,
-        &quot;number&quot;: 481
+      "id": {
+        "id": "PR_kwDOJ23nvs500WmH",
+        "number": 481
       },
-      &quot;lastSeen&quot;: 1720596605363
+      "lastSeen": 1720596605363
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs5063bS&quot;,
-        &quot;number&quot;: 483
+      "id": {
+        "id": "PR_kwDOJ23nvs5063bS",
+        "number": 483
       },
-      &quot;lastSeen&quot;: 1720596675360
+      "lastSeen": 1720596675360
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs5067t6&quot;,
-        &quot;number&quot;: 484
+      "id": {
+        "id": "PR_kwDOJ23nvs5067t6",
+        "number": 484
       },
-      &quot;lastSeen&quot;: 1720597523320
+      "lastSeen": 1720597523320
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs507GAD&quot;,
-        &quot;number&quot;: 486
+      "id": {
+        "id": "PR_kwDOJ23nvs507GAD",
+        "number": 486
       },
-      &quot;lastSeen&quot;: 1720597756300
+      "lastSeen": 1720597756300
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs507_Iy&quot;,
-        &quot;number&quot;: 488
+      "id": {
+        "id": "PR_kwDOJ23nvs507_Iy",
+        "number": 488
       },
-      &quot;lastSeen&quot;: 1720604473366
+      "lastSeen": 1720604473366
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs508RC1&quot;,
-        &quot;number&quot;: 490
+      "id": {
+        "id": "PR_kwDOJ23nvs508RC1",
+        "number": 490
       },
-      &quot;lastSeen&quot;: 1720608022601
+      "lastSeen": 1720608022601
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs508VTe&quot;,
-        &quot;number&quot;: 491
+      "id": {
+        "id": "PR_kwDOJ23nvs508VTe",
+        "number": 491
       },
-      &quot;lastSeen&quot;: 1720608914061
+      "lastSeen": 1720608914061
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs507MXC&quot;,
-        &quot;number&quot;: 487
+      "id": {
+        "id": "PR_kwDOJ23nvs507MXC",
+        "number": 487
       },
-      &quot;lastSeen&quot;: 1720610643508
+      "lastSeen": 1720610643508
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs506-6C&quot;,
-        &quot;number&quot;: 485
+      "id": {
+        "id": "PR_kwDOJ23nvs506-6C",
+        "number": 485
       },
-      &quot;lastSeen&quot;: 1720611318144
+      "lastSeen": 1720611318144
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs509A0K&quot;,
-        &quot;number&quot;: 493
+      "id": {
+        "id": "PR_kwDOJ23nvs509A0K",
+        "number": 493
       },
-      &quot;lastSeen&quot;: 1720611337609
+      "lastSeen": 1720611337609
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs509J0_&quot;,
-        &quot;number&quot;: 494
+      "id": {
+        "id": "PR_kwDOJ23nvs509J0_",
+        "number": 494
       },
-      &quot;lastSeen&quot;: 1720611543610
+      "lastSeen": 1720611543610
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51DbVt&quot;,
-        &quot;number&quot;: 496
+      "id": {
+        "id": "PR_kwDOJ23nvs51DbVt",
+        "number": 496
       },
-      &quot;lastSeen&quot;: 1720680083246
+      "lastSeen": 1720680083246
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Db-8&quot;,
-        &quot;number&quot;: 497
+      "id": {
+        "id": "PR_kwDOJ23nvs51Db-8",
+        "number": 497
       },
-      &quot;lastSeen&quot;: 1720680288678
+      "lastSeen": 1720680288678
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51DDrX&quot;,
-        &quot;number&quot;: 495
+      "id": {
+        "id": "PR_kwDOJ23nvs51DDrX",
+        "number": 495
       },
-      &quot;lastSeen&quot;: 1720680400876
+      "lastSeen": 1720680400876
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51DdHn&quot;,
-        &quot;number&quot;: 498
+      "id": {
+        "id": "PR_kwDOJ23nvs51DdHn",
+        "number": 498
       },
-      &quot;lastSeen&quot;: 1720680414675
+      "lastSeen": 1720680414675
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Dyix&quot;,
-        &quot;number&quot;: 500
+      "id": {
+        "id": "PR_kwDOJ23nvs51Dyix",
+        "number": 500
       },
-      &quot;lastSeen&quot;: 1720690090478
+      "lastSeen": 1720690090478
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51ER1a&quot;,
-        &quot;number&quot;: 501
+      "id": {
+        "id": "PR_kwDOJ23nvs51ER1a",
+        "number": 501
       },
-      &quot;lastSeen&quot;: 1720690207017
+      "lastSeen": 1720690207017
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51FUD7&quot;,
-        &quot;number&quot;: 502
+      "id": {
+        "id": "PR_kwDOJ23nvs51FUD7",
+        "number": 502
       },
-      &quot;lastSeen&quot;: 1720697288494
+      "lastSeen": 1720697288494
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51LtWW&quot;,
-        &quot;number&quot;: 506
+      "id": {
+        "id": "PR_kwDOJ23nvs51LtWW",
+        "number": 506
       },
-      &quot;lastSeen&quot;: 1720768248643
+      "lastSeen": 1720768248643
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51LxHC&quot;,
-        &quot;number&quot;: 507
+      "id": {
+        "id": "PR_kwDOJ23nvs51LxHC",
+        "number": 507
       },
-      &quot;lastSeen&quot;: 1720768987360
+      "lastSeen": 1720768987360
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51L60A&quot;,
-        &quot;number&quot;: 508
+      "id": {
+        "id": "PR_kwDOJ23nvs51L60A",
+        "number": 508
       },
-      &quot;lastSeen&quot;: 1720769037111
+      "lastSeen": 1720769037111
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Le56&quot;,
-        &quot;number&quot;: 504
+      "id": {
+        "id": "PR_kwDOJ23nvs51Le56",
+        "number": 504
       },
-      &quot;lastSeen&quot;: 1720769084165
+      "lastSeen": 1720769084165
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51L8os&quot;,
-        &quot;number&quot;: 509
+      "id": {
+        "id": "PR_kwDOJ23nvs51L8os",
+        "number": 509
       },
-      &quot;lastSeen&quot;: 1720771990787
+      "lastSeen": 1720771990787
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51MNQH&quot;,
-        &quot;number&quot;: 510
+      "id": {
+        "id": "PR_kwDOJ23nvs51MNQH",
+        "number": 510
       },
-      &quot;lastSeen&quot;: 1720772607267
+      "lastSeen": 1720772607267
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51MwsW&quot;,
-        &quot;number&quot;: 511
+      "id": {
+        "id": "PR_kwDOJ23nvs51MwsW",
+        "number": 511
       },
-      &quot;lastSeen&quot;: 1720777982079
+      "lastSeen": 1720777982079
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs51Vh_s",
+        "number": 513
+      },
+      "lastSeen": 1721016502512
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs51WBl6",
+        "number": 516
+      },
+      "lastSeen": 1721024514492
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs51VpxB",
+        "number": 514
+      },
+      "lastSeen": 1721024634721
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs51Vsss",
+        "number": 515
+      },
+      "lastSeen": 1721024638394
     }
   ]
-}</component>
+}]]></component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;git@github.com:Arlanto1/Arlanto-App-Codebase.git&quot;,
@@ -269,39 +296,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
-    &quot;Flutter.qa.executor&quot;: &quot;Run&quot;,
-    &quot;Flutter.test_msal.dart.executor&quot;: &quot;Debug&quot;,
-    &quot;Flutter.uat.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.android.tools.idea.streaming.emulator.frame.visible&quot;: &quot;false&quot;,
-    &quot;com.android.tools.idea.streaming.emulator.zoom.toolbar.visible&quot;: &quot;false&quot;,
-    &quot;com.android.tools.idea.streaming.zoom.toolbar.visible&quot;: &quot;false&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;web-sso-msal&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/models/responseModels&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.customizations&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "Flutter.main.dart.executor": "Run",
+    "Flutter.qa.executor": "Run",
+    "Flutter.test_msal.dart.executor": "Debug",
+    "Flutter.uat.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "com.android.tools.idea.streaming.emulator.frame.visible": "false",
+    "com.android.tools.idea.streaming.emulator.zoom.toolbar.visible": "false",
+    "com.android.tools.idea.streaming.zoom.toolbar.visible": "false",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "web-sso-msal",
+    "io.flutter.reload.alreadyRun": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/common_widgets",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/src/common_widgets" />
       <recent name="$PROJECT_DIR$/lib/src/models/responseModels" />
       <recent name="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models/requestModel" />
       <recent name="$PROJECT_DIR$/lib/src/features/lawenforcement/views" />
       <recent name="$PROJECT_DIR$/lib/src/features/passmanagement" />
-      <recent name="$PROJECT_DIR$/lib/src/features/article_found_register_module" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/lib/src/features/article_found_register_module/article_found_list/views" />
@@ -708,7 +735,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="343" />
+    <option name="localTasksCounter" value="351" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -799,14 +826,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="No Record Found in listing page issue fixed" />
-    <MESSAGE value="remaining file" />
-    <MESSAGE value="build issue solved" />
-    <MESSAGE value="LEO Add visiting official fixed" />
-    <MESSAGE value="manifest" />
-    <MESSAGE value="Web SSO base setup is done" />
-    <MESSAGE value="minVersion increased to 34&#10;location issue fixed for Pass Management" />
-    <MESSAGE value="attendance: created by&#10;close button clickable if the status is closed" />
     <MESSAGE value="build issue fixed" />
     <MESSAGE value="minSdkVersion set to 28" />
     <MESSAGE value="validation issue" />
@@ -824,7 +843,15 @@
     <MESSAGE value="shift schedule editable" />
     <MESSAGE value="bug fixes" />
     <MESSAGE value="redmine bug fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="redmine bug fixes" />
+    <MESSAGE value="app release version changes" />
+    <MESSAGE value="article found issues done" />
+    <MESSAGE value="DB issues done" />
+    <MESSAGE value="bug fixes and improvements" />
+    <MESSAGE value="View uploaded Image is done." />
+    <MESSAGE value="View Image in details page" />
+    <MESSAGE value="View Image in MM Done" />
+    <MESSAGE value="View Image issue fixed for Android" />
+    <option name="LAST_COMMIT_MESSAGE" value="View Image issue fixed for Android" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

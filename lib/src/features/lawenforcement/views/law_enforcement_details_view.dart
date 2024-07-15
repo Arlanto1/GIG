@@ -171,16 +171,18 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  DownloadImage().exportPdf(context, 'export.pdf',
-                      '/${CommonApis.exportDetailPagePDF}${widget.model?.id}&moduleCode=${Constants.leoModuleCode}');
-                },
-                child: const Padding(
-                  padding: EdgeInsets.only(right: 20.0),
-                  child: Icon(Icons.picture_as_pdf, color: Colors.white),
+              if (widget.model?.id != null) ...[
+                GestureDetector(
+                  onTap: () {
+                    DownloadImage().exportPdf(context, 'export.pdf',
+                        '/${CommonApis.exportDetailPagePDF}${widget.model?.id}&moduleCode=${Constants.leoModuleCode}');
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.only(right: 20.0),
+                    child: Icon(Icons.picture_as_pdf, color: Colors.white),
+                  ),
                 ),
-              ),
+              ],
             ],
             //backgroundColor: AppColors.navigationSkybluecolor,
           ),
@@ -594,6 +596,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                             //this.username = username;
                                             setState(() {});
                                           },
+                                          characterLimit: Constants
+                                              .characterLimitDescTextFormField,
                                           validateTextField: (String? user) {},
                                           onFieldSubmitted: (String value) {
                                             additionalInformationTextController
@@ -818,16 +822,14 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           files: getFiles.isEmptyOrNull
                                               ? getAttachments
                                               : getFiles,
-                                          showDownloadIcon: (widget.model ==
-                                                      null ||
-                                                  widget.model?.status == 0) &&
-                                              (widget.model != null &&
-                                                  widget.model!.lock
-                                                      .isEmptyOrNull),
+                                          // showDownloadIcon: (widget.model ==
+                                          //             null ||
+                                          //         widget.model?.status == 0) &&
+                                          //     (widget.model != null &&
+                                          //         widget.model!.lock
+                                          //             .isEmptyOrNull),
                                           moduleCode: Constants.leoModuleCode,
-                                          showDeleteIcon:
-                                              (widget.model == null ||
-                                                  widget.model?.status == 0)),
+                                          showDeleteIcon: widget.model == null),
                                       // Attachments
                                       // getSpaceattchment(height),
                                       // getAttachement(height),
@@ -1667,14 +1669,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         : Container();
   }
 
-  Widget getAttachement(double height) {
-    return (getAttachments.isEmpty || widget.model == null)
-        ? getFiles.isEmpty
-            ? Container()
-            : attachmentListviews(getFiles, getAttachments)
-        : attachmentListviews(getFiles, getAttachments);
-  }
-
   Widget entityaddButtonwidgetLoading(LawEnforcementState state) {
     return BaseEntitiesSelection().entityDropDownSelection(
       context: context,
@@ -2282,102 +2276,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     } else {
       Navigator.pop(context);
     }
-  }
-
-  Widget attachmentListviews(
-    List<ImageContent>? attachmentListviews,
-    List<ImageContent>? attachmentListviews1,
-  ) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: const Color(0xFFCACACA),
-          style: BorderStyle.solid,
-          width: 1.0,
-        ),
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: (attachmentListviews1?.length ?? 0) >
-                  (attachmentListviews?.length ?? 0)
-              ? attachmentListviews1?.length ?? 0
-              : attachmentListviews?.length ?? 0,
-          itemBuilder: (BuildContext context, int index) {
-            ImageContent? imageData;
-            ImageContent? imageData1;
-            if (widget.model != null) {
-              imageData1 = attachmentListviews1?[index];
-            } else {
-              imageData = attachmentListviews?[index];
-            }
-
-            return Column(
-              children: <Widget>[
-                ListTile(
-                  trailing: widget.model == null || widget.model?.status == 0
-                      ? Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () {
-                                // Delete logic here
-                                if (imageData1 != null) {
-                                  // Implement delete functionality for attachmentListviews1
-                                  setState(() {
-                                    attachmentListviews1!.removeAt(index);
-                                  });
-                                }
-                                if (imageData != null) {
-                                  // Implement delete functionality for attachmentListviews1
-                                  setState(() {
-                                    attachmentListviews!.removeAt(index);
-                                  });
-                                }
-                              },
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                // Add your download functionality here
-                                DownloadImage().saveImage(
-                                  context,
-                                  imageData?.id ?? 0,
-                                  imageData?.title ?? '',
-                                  Constants.leoModuleCode,
-                                );
-                              },
-                              child: BaseIcons().deleteIcon(),
-                            ),
-                          ],
-                        )
-                      : GestureDetector(
-                          onTap: () {
-                            // Add your download functionality here
-                            DownloadImage().saveImage(
-                              context,
-                              imageData?.id ?? 0,
-                              imageData?.title ?? '',
-                              Constants.leoModuleCode,
-                            );
-                          },
-                          child: BaseIcons().deleteIcon(),
-                        ),
-                  title: widget.model != null
-                      ? Text(imageData1?.title ?? '')
-                      : Text(imageData?.title ?? ''),
-                ),
-
-                const Divider(
-                  color: Color(0xFFCACACA),
-                  thickness: 1,
-                ), //                           <-- Divider
-              ],
-            );
-          }),
-    );
   }
 
   distributiongroupsDailog(LawEnforcementState state) {

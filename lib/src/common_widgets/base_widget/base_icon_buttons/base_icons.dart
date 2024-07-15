@@ -12,4 +12,8 @@ class BaseIcons {
   Widget downloadIcon() {
     return const Icon(Icons.download);
   }
+
+  Widget viewIcon() {
+    return const Icon(Icons.remove_red_eye);
+  }
 }

@@ -51,6 +51,9 @@ class _CreateFoundState extends State<CreateFound> {
   String isDepositorDBEmployee = "";
 
   final FocusNode foundLocationFocusNode = FocusNode();
+  final FocusNode depositorEmployeeFocusNode = FocusNode();
+  final FocusNode quantityFocusNode = FocusNode();
+  final FocusNode colourFocusNode = FocusNode();
 
   // String slnoValue = "dfwe";
   String createdByValue = "";
@@ -651,7 +654,7 @@ class _CreateFoundState extends State<CreateFound> {
             onTap: (Organisation list) {
               selectedArtclelist = list;
               setState(() {});
-              FocusScope.of(context).requestFocus(foundLocationFocusNode);
+              // FocusScope.of(context).requestFocus(foundLocationFocusNode);
             },
           );
         });
@@ -750,8 +753,6 @@ class _CreateFoundState extends State<CreateFound> {
       locationselectedText = locationSelectedlist!.name.toString();
     }
   }
-
-  FocusNode depositorEmployeeFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -864,16 +865,18 @@ class _CreateFoundState extends State<CreateFound> {
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    DownloadImage().exportPdf(context, 'export.pdf',
-                        '/${CommonApis.exportDetailPagePDF}${widget.model?.id}&moduleCode=${Constants.articleFoundModuleCode}');
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.only(right: 20.0),
-                    child: Icon(Icons.picture_as_pdf, color: Colors.white),
+                if (widget.model?.id != null) ...[
+                  GestureDetector(
+                    onTap: () {
+                      DownloadImage().exportPdf(context, 'export.pdf',
+                          '/${CommonApis.exportDetailPagePDF}${widget.model?.id}&moduleCode=${Constants.articleFoundModuleCode}');
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.only(right: 20.0),
+                      child: Icon(Icons.picture_as_pdf, color: Colors.white),
+                    ),
                   ),
-                ),
+                ],
               ],
 
               //backgroundColor: AppColors.navigationSkybluecolor,
@@ -1251,6 +1254,8 @@ class _CreateFoundState extends State<CreateFound> {
                                                   1,
                                         ),
                                       );
+                                      FocusScope.of(context)
+                                          .requestFocus(quantityFocusNode);
                                     },
                                   ),
 
@@ -1267,6 +1272,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   FlutterInputField(
                                     textInputType: TextInputType.number,
                                     controller: quantityTextController,
+                                    focusNode: quantityFocusNode,
                                     textFormKey: Keys.quantityTextController,
                                     hintText: '',
                                     isEnable: (widget.model?.status == 0 ||
@@ -1280,6 +1286,10 @@ class _CreateFoundState extends State<CreateFound> {
                                     onChange: (String username) {
                                       //this.username = username;
                                       setState(() {});
+                                    },
+                                    onFieldSubmitted: () {
+                                      FocusScope.of(context)
+                                          .requestFocus(colourFocusNode);
                                     },
                                     validateTextField: (String? user) {},
                                   ),
@@ -1297,6 +1307,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   FlutterInputField(
+                                    focusNode: colourFocusNode,
                                     controller: colorTextController,
                                     textFormKey: Keys.colorTextController,
                                     hintText: '',
@@ -1479,6 +1490,8 @@ class _CreateFoundState extends State<CreateFound> {
                                               ? true
                                               : false,
                                           onTap: () {
+                                            FocusManager.instance.primaryFocus
+                                                ?.unfocus();
                                             if (widget.model == null ||
                                                 widget.model?.status == 0) {
                                               employeeDepartmentDialog(
@@ -1691,6 +1704,8 @@ class _CreateFoundState extends State<CreateFound> {
                                                 ? false
                                                 : true,
                                             onTap: () {
+                                              FocusManager.instance.primaryFocus
+                                                  ?.unfocus();
                                               if (widget.model?.status != 2 &&
                                                   isClaimantAcceptedByemail ==
                                                       0) {
@@ -1927,8 +1942,6 @@ class _CreateFoundState extends State<CreateFound> {
                                     files: getFiles.isEmptyOrNull
                                         ? getAttachments
                                         : getFiles,
-                                    showDownloadIcon:
-                                        widget.model != null ? true : false,
                                     showDeleteIcon: widget.model?.status !=
                                                 ConstantsIntValue
                                                     .articleFoundStatusFound &&
@@ -2433,10 +2446,10 @@ class _CreateFoundState extends State<CreateFound> {
                               onTap: () {
                                 // Add your download functionality here
                                 DownloadImage().saveImage(
-                                  context,
-                                  imageData?.id ?? 0,
-                                  imageData?.title ?? '',
-                                  Constants.articleFoundModuleCode,
+                                  context: context,
+                                  id: imageData?.id ?? 0,
+                                  name: imageData?.title ?? '',
+                                  moduleCode: Constants.articleFoundModuleCode,
                                 );
                               },
                               child: BaseIcons().downloadIcon(),
@@ -2447,10 +2460,10 @@ class _CreateFoundState extends State<CreateFound> {
                           onTap: () {
                             // Add your download functionality here
                             DownloadImage().saveImage(
-                              context,
-                              imageData?.id ?? 0,
-                              imageData?.title ?? '',
-                              Constants.articleFoundModuleCode,
+                              context: context,
+                              id: imageData?.id ?? 0,
+                              name: imageData?.title ?? '',
+                              moduleCode: Constants.articleFoundModuleCode,
                             );
                           },
                           child: BaseIcons().downloadIcon(),
