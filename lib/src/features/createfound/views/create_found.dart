@@ -717,7 +717,7 @@ class _CreateFoundState extends State<CreateFound> {
           return CustomListTexts(
             duplicateEmployeeDepartments:
                 state.getEmployeeDepartmentsResponse?.employeeDepartments ?? [],
-            leftImageName: AppIcon.addicon,
+            // leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(

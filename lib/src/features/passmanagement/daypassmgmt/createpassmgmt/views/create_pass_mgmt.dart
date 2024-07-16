@@ -2984,7 +2984,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           return CustomListTexts(
             duplicateEmployeeDepartments:
                 state.employeeDepartment?.employeeDepartments ?? [],
-            leftImageName: AppIcon.addicon,
+            // leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
