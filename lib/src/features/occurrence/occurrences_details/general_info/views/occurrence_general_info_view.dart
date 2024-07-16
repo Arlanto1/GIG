@@ -1355,8 +1355,11 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             ),
                           ],
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          Column(
-                            children: getPowerFailures(state, height),
+                          AbsorbPointer(
+                            absorbing: isReadOnly,
+                            child: Column(
+                              children: getPowerFailures(state, height),
+                            ),
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 

@@ -2003,15 +2003,18 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         : Container(),
 
                                     /// Attachments
-                                    widget.passId ==
-                                            ConstantsIntValue.passIdVisitor
-                                        ? photogetSpaceattchment(height)
-                                        : Container(),
-                                    widget.passId ==
-                                            ConstantsIntValue.passIdVisitor
-                                        ? photogetAttachement(height)
-                                        : Container(),
-
+                                    if (widget.passId ==
+                                        ConstantsIntValue.passIdVisitor) ...[
+                                      photogetSpaceattchment(height),
+                                      BaseImageUpload().getAttachment(
+                                        height: height,
+                                        attachments: photogetAttachments,
+                                        files: photogetFiles,
+                                        moduleCode:
+                                            Constants.guardingMasterModuleCode,
+                                        isDisabled: !isDisabled,
+                                      )
+                                    ],
                                     // if (widget.passId ==
                                     //     ConstantsIntValue.passIdDayPass) ...[
                                     //   BaseImageUpload().getAttachment(
@@ -2939,26 +2942,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return photogetFiles.isNotEmpty || photogetAttachments.isNotEmpty
         ? CommonWidgets.verticalSpacerWidget(height * 0.01)
         : Container();
-  }
-
-  // Widget photogetAttachement(double height) {
-  //   return (photogetAttachments.isEmpty || widget.model == null)
-  //       ? photogetFiles.isEmpty
-  //           ? Container()
-  //           : attachmentListviews(photogetFiles, photogetAttachments)
-  //       : attachmentListviews(photogetFiles, photogetAttachments);
-  // }
-  Widget photogetAttachement(double height) {
-    return BaseImageUpload().getAttachment(
-      height: height,
-      attachments: photogetAttachments,
-      files: photogetFiles,
-      moduleCode: Constants.guardingMasterModuleCode,
-      isDisabled: isDisabled,
-    );
-    // return (photogetAttachments.isNotEmpty || photogetFiles.isNotEmpty)
-    //     ? attachmentListviews(photogetFiles, photogetAttachments)
-    //     : Container();
   }
 
   Widget entityaddButtonwidgetLoading(CreatePassMgmtState state) {

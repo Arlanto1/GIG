@@ -667,8 +667,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                             return;
                                           }
                                           log('--widget.model.status---${widget.model?.status}--');
-                                          List<LawVisitingOfficial>
-                                              visitingOfficials =
+                                          // List<LawVisitingOfficial>
+                                          //     visitingOfficials =
                                               await LawEnforcementServices()
                                                   .getLeoVisitingOfficials(
                                                       id: state.model!.id!);
@@ -877,18 +877,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           height * 0.01),
 
                                       /// SubmitButton
-                                      if (widget.model?.status ==
-                                              ConstantsIntValue
-                                                  .leoStatusDraft ||
-                                          widget.model?.status ==
-                                              ConstantsIntValue
-                                                  .leoStatusSubmitted ||
-                                          widget.model?.status ==
-                                                  ConstantsIntValue
-                                                      .leoStatusVerificationUnderProgress &&
-                                              (widget.model != null &&
-                                                  widget.model!.lock
-                                                      .isEmptyOrNull)) ...[
+                                      if (widget.model?.status != ConstantsIntValue.leoStatusDistributed &&
+                                          widget.model?.status != ConstantsIntValue.cancelledStatus ||
+                                          (widget.model != null &&
+                                              widget.model!.lock
+                                                  .isEmptyOrNull)) ...[
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
