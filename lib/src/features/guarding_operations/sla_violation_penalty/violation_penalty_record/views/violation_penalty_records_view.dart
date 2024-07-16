@@ -13,12 +13,14 @@ class ViolationPenaltyRecordsView extends StatefulWidget {
     required this.title,
     this.model,
     this.extraProperties,
+    required this.parentStatus,
   });
 
   final int id;
   final String title;
   final ViolationPenaltyRecord? model;
   final ExtraProperties? extraProperties;
+  final int parentStatus;
 
   @override
   State<ViolationPenaltyRecordsView> createState() => _ContactRecordViewState();
@@ -58,6 +60,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
   }
 
   bool isPopUpShown = false;
+  bool isReadOnly = false;
 
   @override
   Widget build(BuildContext context) {
@@ -65,28 +68,38 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
         ViolationPenaltyRecordState>(listener: (context, state) {
       // TODO: implement listener
     }, builder: (context, state) {
+      if (widget.parentStatus == ConstantsIntValue.slaStatusFinalized) {
+        isReadOnly = true;
+      }
+      if (widget.parentStatus == ConstantsIntValue.cancelledStatus) {
+        isReadOnly = true;
+      }
+
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: !(widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission! )
-            ? Flutterfloatingbutton(
-                backgroundColor: AppColors.navigationSkyBlueColor,
-                foregroundColor: AppColors.backgroundWhiteColor,
-                onPressed: () {
-                  log('--state.users--llen-fff-${state.violationDescriptions?.length}---');
+        floatingActionButton:
+            widget.parentStatus != ConstantsIntValue.slaStatusFinalized &&
+                    widget.parentStatus != ConstantsIntValue.cancelledStatus &&
+                    !(widget.extraProperties != null &&
+                        !widget.extraProperties!.hasWritePermission!)
+                ? Flutterfloatingbutton(
+                    backgroundColor: AppColors.navigationSkyBlueColor,
+                    foregroundColor: AppColors.backgroundWhiteColor,
+                    onPressed: () {
+                      log('--state.users--llen-fff-${state.violationDescriptions?.length}---');
 
-                  showAddContactPopUp(
-                    context: context,
-                    contact: ViolationPenaltyRecord(
-                      svpId: widget.id,
-                    ),
-                    users: state.violationDescriptions ?? [],
-                    staffCategoriesValues:
-                        state.staffCategoriesValues ?? <String, int>{},
-                  );
-                },
-              )
-            : const SizedBox(),
+                      showAddContactPopUp(
+                        context: context,
+                        contact: ViolationPenaltyRecord(
+                          svpId: widget.id,
+                        ),
+                        users: state.violationDescriptions ?? [],
+                        staffCategoriesValues:
+                            state.staffCategoriesValues ?? <String, int>{},
+                      );
+                    },
+                  )
+                : const SizedBox(),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.violationPenalty,
@@ -107,7 +120,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
       return const BaseLoader();
     }
 
-    if (state.items.isEmptyOrNull && !isPopUpShown) {
+    if (state.items.isEmptyOrNull && !isPopUpShown && !isReadOnly) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         isPopUpShown = true;
         showAddContactPopUp(
@@ -195,6 +208,10 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
                         },
                       );
                     },
+                    showDeleteButton: widget.parentStatus !=
+                            ConstantsIntValue.slaStatusFinalized &&
+                        widget.parentStatus !=
+                            ConstantsIntValue.cancelledStatus,
                     onDeleteTap: (selectedIndex) async {
                       // Call Delete API
                       BlocProvider.of<ViolationPenaltyRecordBloc>(context).add(
@@ -226,6 +243,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
           mainContext: context,
           users: users,
           staffCategoriesValues: staffCategoriesValues,
+          parentStatus: widget.parentStatus,
           onSubmit: (ViolationPenaltyRecord model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();
