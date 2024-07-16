@@ -2080,31 +2080,34 @@ class _GuardingMasterDataDetailsViewState
                                     status: state.model.status ?? 0,
                                     selectedValue:
                                         state.model.msgbExempted ? 1 : 0,
-                                    onChangedYes:
-                                        widget.guardingMasterData?.status == 6
-                                            ? null
-                                            : (val) {
-                                                state.model.msgbExempted = true;
-                                                BlocProvider.of<
-                                                            GuardingMasterDataDetailsCubit>(
-                                                        context)
-                                                    .showFields(
-                                                        msgbExempted: true);
-                                                //.onModelValueChange(state.guardingMasterData
-                                                //);
-                                              },
-                                    onChangedNo:
-                                        widget.guardingMasterData?.status == 4
-                                            ? null
-                                            : (val) {
-                                                state.model.msgbExempted =
-                                                    false;
-                                                BlocProvider.of<
-                                                            GuardingMasterDataDetailsCubit>(
-                                                        context)
-                                                    .showFields(
-                                                        msgbExempted: false);
-                                              }),
+                                    onChangedYes: null,
+                                    // onChangedYes:
+                                    //     widget.guardingMasterData?.status == 6
+                                    //         ? null
+                                    //         : (val) {
+                                    //             state.model.msgbExempted = true;
+                                    //             BlocProvider.of<
+                                    //                         GuardingMasterDataDetailsCubit>(
+                                    //                     context)
+                                    //                 .showFields(
+                                    //                     msgbExempted: true);
+                                    //             //.onModelValueChange(state.guardingMasterData
+                                    //             //);
+                                    //           },
+                                    onChangedNo: null,
+                                    // onChangedNo:
+                                    //     widget.guardingMasterData?.status == 4
+                                    //         ? null
+                                    //         : (val) {
+                                    //             state.model.msgbExempted =
+                                    //                 false;
+                                    //             BlocProvider.of<
+                                    //                         GuardingMasterDataDetailsCubit>(
+                                    //                     context)
+                                    //                 .showFields(
+                                    //                     msgbExempted: false);
+                                    //           }
+                                             ),
 
                                 if (state.model.msgbExempted) ...[
                                   /// MSGB Exemption Date
