@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dart_extensions/dart_extensions.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_list_tile_item.dart';
@@ -135,7 +136,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
       return const BaseLoader();
     }
 
-    if (state.items.isEmptyOrNull && !isPopUpShown && widget.lock.isEmptyOrNull) {
+    if (state.items.isEmptyOrNull && !isPopUpShown && widget.lock.isEmptyOrNull && widget.parentStatus != ConstantsIntValue.cancelledStatus) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         isPopUpShown = true;
         showAddContactPopUp(
