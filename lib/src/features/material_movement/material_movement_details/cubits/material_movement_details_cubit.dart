@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
 part 'material_movement_details_state.dart';
@@ -620,8 +619,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
   }
 
-  void updateStatus({required String id}) {
-    commonServices.updateRecordStatus(
+  Future<void> updateStatus({required String id}) async {
+    await commonServices.updateRecordStatus(
         id: id, module: Constants.materialMovementModuleCode);
   }
 
