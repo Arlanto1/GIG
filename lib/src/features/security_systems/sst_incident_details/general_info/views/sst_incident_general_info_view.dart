@@ -120,10 +120,13 @@ class _SstIncidentGeneralInfoViewState
             !widget.extraProperties!.hasWritePermission!) {
           disableForm = true;
         }
+        log('@@@--${state.loggedInUserDetails.userName}----${state.model.createdBy?.userName}---');
         if (!(state.loggedInUserDetails.userName
             .equalsIgnoreCase(state.model.createdBy?.userName))) {
           disableForm = true;
         }
+        
+        log('---disableForm---$disableForm');
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
