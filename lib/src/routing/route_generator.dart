@@ -17,8 +17,6 @@ import 'package:db_atom/src/features/contact_details/contact_records/bloc/contac
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_details/cubits/notification_details_cubit.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_details/views/notification_details_view.dart';
-import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart'
-    as nb;
 import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_list/views/notifications_view.dart';
 import 'package:db_atom/src/features/dashboard/notifications/services/notifications_services.dart';
@@ -131,16 +129,17 @@ class RouteGenerator {
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
               BlocProvider<NotificationsBloc>(
-                create: (_) => NotificationsBloc()
-                  ..add(const FetchData(startPos: 0, maxPos: 20)),
-                child: const NotificationsView(),
-              ),
+            create: (_) => NotificationsBloc()
+              ..add(const FetchData(startPos: 0, maxPos: 20)),
+            child: const NotificationsView(),
+          ),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const begin = Offset(1.0, 0.0);
             const end = Offset.zero;
             const curve = Curves.ease;
 
-            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            var tween =
+                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
             var offsetAnimation = animation.drive(tween);
 
             return SlideTransition(
@@ -148,7 +147,8 @@ class RouteGenerator {
               child: child,
             );
           },
-        );      case notificationDetailsViewRoute:
+        );
+      case notificationDetailsViewRoute:
         String id = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
@@ -474,7 +474,10 @@ class RouteGenerator {
                 maxPos: Constants.maxResults,
                 newSearch: true,
                 filters: BaseFilterModel())),
-            child: SstIncidentView(isInternal: isInternal),
+            child: SstIncidentView(
+              isInternal: isInternal,
+              occId: occId,
+            ),
           ),
         );
 
