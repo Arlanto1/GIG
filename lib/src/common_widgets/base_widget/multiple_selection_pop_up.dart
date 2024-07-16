@@ -54,21 +54,21 @@ class CustomMultipleSelectionListTextsState
   Widget build(BuildContext context) {
     return AlertDialog(
       icon: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          GestureDetector(
-            onTap: () {
-              widget.onLeftButtonTap != null ? widget.onLeftButtonTap!() : null;
-            },
-            child: SvgPicture.asset(
-              widget.leftImageName ?? '',
-              colorFilter: const ColorFilter.mode(
-                AppColors.navigationSkyBlueColor,
-                BlendMode.srcIn,
-              ),
-              // color: AppColors.navigationSkyBlueColor,
-            ),
-          ),
+          // GestureDetector(
+          //   onTap: () {
+          //     widget.onLeftButtonTap != null ? widget.onLeftButtonTap!() : null;
+          //   },
+          //   child: SvgPicture.asset(
+          //     widget.leftImageName ?? '',
+          //     colorFilter: const ColorFilter.mode(
+          //       AppColors.navigationSkyBlueColor,
+          //       BlendMode.srcIn,
+          //     ),
+          //     // color: AppColors.navigationSkyBlueColor,
+          //   ),
+          // ),
           GestureDetector(
             onTap: () {
               Navigator.of(context).pop();

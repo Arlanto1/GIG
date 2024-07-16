@@ -1727,7 +1727,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           return CustomListTexts(
             duplicateEmployeeDepartments:
                 state.employeeDepartment?.employeeDepartments ?? [],
-            leftImageName: AppIcon.addicon,
+            // leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(

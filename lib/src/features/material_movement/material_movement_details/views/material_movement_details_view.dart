@@ -2917,18 +2917,7 @@ class _MaterialMovementDetailsViewState
             onPositivePressed: () {
               Navigator.pop(context);
               Navigator.pop(context);
-              var dialog = CustomAlertDialog(
-                  title: Constants.cancelRecord,
-                  message: Constants.cancelRecordWarningMessage,
-                  onPositivePressed: () {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                    updateRecordStatus(state);
-                  },
-                  positiveBtnText: Constants.yes,
-                  negativeBtnText: Constants.no);
-              showDialog(
-                  context: context, builder: (BuildContext context) => dialog);
+              updateRecordStatus(state);
             },
             positiveBtnText: Constants.yes,
             negativeBtnText: Constants.no);

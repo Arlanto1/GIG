@@ -22,7 +22,8 @@ class BaseOrganisationDialog {
         log('-organisations-----');
         return CustomListTexts(
           duplicateEmployeeDepartments: organisations,
-          leftImageName: functionToCall != null ? AppIcon.addicon : null,
+          /// Uncomment leftImageName to enable + icon functionality
+          // leftImageName: functionToCall != null ? AppIcon.addicon : null,
           onLeftButtonTap: () {
             Navigator.pop(context);
             showDialog(

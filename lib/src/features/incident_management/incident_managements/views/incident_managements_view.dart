@@ -102,23 +102,25 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
       builder: (context, state) {
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,
-            floatingActionButton:
-                state.extraProperties?.hasWritePermission ?? false
-                    ? Flutterfloatingbutton(
-                        backgroundColor: AppColors.navigationSkyBlueColor,
-                        foregroundColor: AppColors.backgroundWhiteColor,
-                        onPressed: () => {
-                          Navigator.pushNamed(
-                            context,
-                            incidentManagementDetailsRoute,
-                            arguments: {
-                              'occId': widget.occId?.toString(),
-                              'occType': widget.occType,
-                            },
-                          )
+            floatingActionButton: (state.extraProperties?.hasWritePermission ??
+                        false) &&
+                    widget.occId
+                        .isEmptyOrNull /// disable + icon when navigating via Shift Occurrence
+                ? Flutterfloatingbutton(
+                    backgroundColor: AppColors.navigationSkyBlueColor,
+                    foregroundColor: AppColors.backgroundWhiteColor,
+                    onPressed: () => {
+                      Navigator.pushNamed(
+                        context,
+                        incidentManagementDetailsRoute,
+                        arguments: {
+                          'occId': widget.occId?.toString(),
+                          'occType': widget.occType,
                         },
                       )
-                    : const SizedBox(),
+                    },
+                  )
+                : const SizedBox(),
             appBar: BaseAppBar().buildAppHeader(
               context: context,
               title: Constants.incidentManagementTitle,
