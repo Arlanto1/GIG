@@ -11,7 +11,7 @@ class BaseImageUpload {
     bool? isDisabled = false,
   }) {
     return Opacity(
-      opacity: isDisabled == false ? .5 : 1,
+      opacity: isDisabled == true ? .5 : 1,
       child: Container(
         height: 60,
         decoration: BoxDecoration(
