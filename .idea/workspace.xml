@@ -4,16 +4,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="MM cancel Record Button">
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="improvements and bug fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_image_upload.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_image_upload.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_organisation_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_organisation_dialog.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/date_picker_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/date_picker_dialog.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/radio_buttons_yes_no.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/radio_buttons_yes_no.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/cubits/duty_post_master_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/cubits/duty_post_master_details_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/vvip_visitor/vvip_visitors_record/views/add_vvip_visitors_record_popup.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/vvip_visitor/vvip_visitors_record/views/add_vvip_visitors_record_popup.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/views/sst_incident_general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/views/sst_incident_general_info_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/views/duty_post_name_master_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/views/duty_post_name_master_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/views/occurrence_general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/views/occurrence_general_info_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_list_detail_popup.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_list_detail_popup.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -782,7 +779,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="358" />
+    <option name="localTasksCounter" value="359" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -873,7 +870,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="highlight date picker if disabled" />
     <MESSAGE value="server restart message handled" />
     <MESSAGE value="error handling Pass" />
     <MESSAGE value="imports" />
@@ -898,7 +894,8 @@
     <MESSAGE value="+ icon removed for Departments and Entity Dialog Boxes" />
     <MESSAGE value="+ icon removed from Incident Management and Ticket Life Cycle via navigating through Shift Occurrence." />
     <MESSAGE value="MM cancel Record Button" />
-    <option name="LAST_COMMIT_MESSAGE" value="MM cancel Record Button" />
+    <MESSAGE value="improvements and bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="improvements and bug fixes" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

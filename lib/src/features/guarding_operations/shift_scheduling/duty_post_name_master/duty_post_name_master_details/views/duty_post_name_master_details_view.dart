@@ -104,7 +104,7 @@ class _DutyPostNameMasterDetailsViewState
             title: widget.title,
             showPopUp: false,
             showSubmitButton: showSaveSubmitButtons,
-            showSaveButton: showSaveSubmitButtons,
+            showSaveButton: false,
             showDisLikeButton: false,
             showLikeButton: false,
             pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.dutyPostNameMasterModuleCode}',
