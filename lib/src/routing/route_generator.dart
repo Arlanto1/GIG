@@ -128,14 +128,27 @@ class RouteGenerator {
         );
 
       case notificationsViewRoute:
-        return MaterialPageRoute(
-          builder: (context) => BlocProvider<nb.NotificationsBloc>(
-            create: (_) => NotificationsBloc()
-              ..add(const nb.FetchData(startPos: 0, maxPos: 20)),
-            child: const NotificationsView(),
-          ),
-        );
-      case notificationDetailsViewRoute:
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              BlocProvider<NotificationsBloc>(
+                create: (_) => NotificationsBloc()
+                  ..add(const FetchData(startPos: 0, maxPos: 20)),
+                child: const NotificationsView(),
+              ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const begin = Offset(1.0, 0.0);
+            const end = Offset.zero;
+            const curve = Curves.ease;
+
+            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            var offsetAnimation = animation.drive(tween);
+
+            return SlideTransition(
+              position: offsetAnimation,
+              child: child,
+            );
+          },
+        );      case notificationDetailsViewRoute:
         String id = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
