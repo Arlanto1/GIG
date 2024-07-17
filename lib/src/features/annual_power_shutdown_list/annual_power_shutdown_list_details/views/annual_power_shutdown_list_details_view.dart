@@ -1219,6 +1219,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   isMandatory: true,
                                 ),
                                 FlutterInputField(
+                                  textInputType: TextInputType.number,
                                   initialValue:
                                       '${state.model.securityOfficerCount ?? ''}',
                                   textFormKey: Keys.noOfSecurityOfficersKey,
@@ -1257,6 +1258,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       '${state.model.securityOfficerCountHrs ?? ''}',
                                   textFormKey: Keys.noOfSecurityOfficersHrsKey,
                                   isEnable: !disableForm,
+                                  textInputType: TextInputType.number,
                                   isDisableColor: disableForm,
                                   hintText: '',
                                   onChange: (String? value) {
@@ -1290,6 +1292,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   initialValue:
                                       '${state.model.securitySupervisorCount ?? ''}',
                                   textFormKey: Keys.noOfSecuritySupervisorsKey,
+                                  textInputType: TextInputType.number,
                                   isEnable: !disableForm,
                                   isDisableColor: disableForm,
                                   hintText: '',
@@ -1326,6 +1329,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       '${state.model.securitySupervisorCountHrs ?? ''}',
                                   textFormKey:
                                       Keys.noOfSecuritySupervisorsHrsKey,
+                                  textInputType: TextInputType.number,
                                   isEnable: !disableForm,
                                   isDisableColor: disableForm,
                                   hintText: '',
@@ -1361,6 +1365,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                         '${state.model.securityGuardCount ?? ''}',
                                     textFormKey: Keys.noOfSecurityGuardsKey,
                                     isEnable: !disableForm,
+                                    textInputType: TextInputType.number,
                                     isDisableColor: disableForm,
                                     hintText: '',
                                     onChange: (String? value) {
@@ -1394,6 +1399,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   initialValue:
                                       '${state.model.securityGuardCountHrs ?? ''}',
                                   textFormKey: Keys.noOfSecurityGuardsHrsKey,
+                                  textInputType: TextInputType.number,
                                   isEnable: !disableForm,
                                   isDisableColor: disableForm,
                                   hintText: '',
@@ -1429,6 +1435,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   initialValue:
                                       '${state.model.securityFacilitatorCount ?? ''}',
                                   textFormKey: Keys.noOfSecurityGuardsKey,
+                                  textInputType: TextInputType.number,
                                   isEnable: !disableForm,
                                   isDisableColor: disableForm,
                                   hintText: '',
@@ -1465,6 +1472,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       '${state.model.securityFacilitatorCountHrs ?? ''}',
                                   textFormKey:
                                       Keys.noOfSecurityFacilitatorHrsKey,
+                                  textInputType: TextInputType.number,
                                   isEnable: !disableForm,
                                   isDisableColor: disableForm,
                                   hintText: '',
