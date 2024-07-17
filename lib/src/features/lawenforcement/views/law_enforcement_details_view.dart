@@ -648,9 +648,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           log('--widget.model.status---${widget.model?.status}--');
                                           // List<LawVisitingOfficial>
                                           //     visitingOfficials =
-                                              await LawEnforcementServices()
-                                                  .getLeoVisitingOfficials(
-                                                      id: state.model!.id!);
+                                          await LawEnforcementServices()
+                                              .getLeoVisitingOfficials(
+                                                  id: state.model!.id!);
 
                                           log('--atomLeoDepartments--${state.departmentResponse?.atomLeoDepartments?.length}-');
                                           nav.pushNamed(
@@ -808,7 +808,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           //         widget.model!.lock
                                           //             .isEmptyOrNull),
                                           moduleCode: Constants.leoModuleCode,
-                                          showDeleteIcon: widget.model == null),
+                                          showDeleteIcon:
+                                              widget.model == null ||
+                                                  widget.model?.status ==
+                                                      ConstantsIntValue
+                                                          .leoStatusDraft),
                                       // Attachments
                                       // getSpaceattchment(height),
                                       // getAttachement(height),
@@ -856,8 +860,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           height * 0.01),
 
                                       /// SubmitButton
-                                      if (widget.model?.status != ConstantsIntValue.leoStatusDistributed &&
-                                          widget.model?.status != ConstantsIntValue.cancelledStatus ||
+                                      if (widget.model?.status !=
+                                                  ConstantsIntValue
+                                                      .leoStatusDistributed &&
+                                              widget.model?.status !=
+                                                  ConstantsIntValue
+                                                      .cancelledStatus ||
                                           (widget.model != null &&
                                               widget.model!.lock
                                                   .isEmptyOrNull)) ...[
@@ -1752,9 +1760,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     return TextFieldAddButton(
       title: state.leoPurposeVisitResponse?.name ?? '',
       height: 60,
-      isDisableColor: !isDistrbuted
-          ? false
-          : true,
+      isDisableColor: !isDistrbuted ? false : true,
       onTap: () {
         if (widget.model?.status == 0 ||
             widget.model?.status == 1 ||
