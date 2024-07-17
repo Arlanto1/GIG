@@ -32,6 +32,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
 
   @override
   void dispose() {
+    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();

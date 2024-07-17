@@ -34,6 +34,7 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
 
   @override
   void dispose() {
+    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();

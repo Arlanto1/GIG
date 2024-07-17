@@ -33,6 +33,7 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
 
   @override
   void dispose() {
+    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();

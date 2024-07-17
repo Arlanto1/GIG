@@ -33,6 +33,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
 
   @override
   void dispose() {
+    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();

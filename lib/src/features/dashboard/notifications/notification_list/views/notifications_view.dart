@@ -34,6 +34,7 @@ class _NotificationsViewState extends State<NotificationsView> {
 
   @override
   void dispose() {
+    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();

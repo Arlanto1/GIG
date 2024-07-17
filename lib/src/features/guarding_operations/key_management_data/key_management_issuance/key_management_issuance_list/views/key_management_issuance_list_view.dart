@@ -34,6 +34,7 @@ class _KeyManagementIssuanceListViewState
 
   @override
   void dispose() {
+    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();

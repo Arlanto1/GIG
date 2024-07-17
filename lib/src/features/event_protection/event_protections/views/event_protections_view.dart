@@ -33,6 +33,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
 
   @override
   void dispose() {
+    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
