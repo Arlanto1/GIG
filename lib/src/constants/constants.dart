@@ -750,7 +750,18 @@ class Constants {
   static const String keyNo = 'Key No';
   static const String totalKeys = 'Total Keys';
   static const String noOfKeys = 'No.of Keys';
+  static const String noOfKeysAvailable = 'No.of Keys Available';
+  static const String noOfKeysReturned = 'No.of Keys Returned';
+  static const String noOfKeysNotReturned = 'No.of Keys Not Returned';
   static const String noOfMasterKeys = 'Number of Master Keys';
+  static const String noOfKeysLost = 'No.of Keys Lost';
+  static const String noOfKeysDamaged = 'No.of Keys Damaged';
+  static const String noOfMasterKeysIssued = 'No.of Master Keys Issued';
+  static const String noOfMasterKeysAvailable = 'No.of  Master Keys Available';
+  static const String noOfMasterKeysReturned = 'No.of  Master Keys Returned';
+  static const String noOfMasterKeysNotReturned = 'No.of  Master Keys Not Returned';
+  static const String noOfMasterKeysLost= 'No.of  Master Keys Lost';
+  static const String noOfMasterKeysDamaged= 'No.of  Master Keys Damaged';
   static const String keyDescription = 'Key Description';
   static const String keyTaggingDone =
       'Key Tagging Done? (Numbered Matching with lock)';

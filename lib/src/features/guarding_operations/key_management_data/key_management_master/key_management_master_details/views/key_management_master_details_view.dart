@@ -685,6 +685,116 @@ class _KeyManagementMasterDetailsViewState
                                 isMandatory: true,
                                 '${state.model.modifiedBy}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// No. keys issued
+                            CommonWidgets.horizentaltextHandling(
+                              // state.labels?.locale.entrySecurity ??
+                              //     state.labels?.defaultLocale.entrySecurity ??
+                                Constants.noKeysIssued,
+                                isMandatory: true,
+                                '${state.model.noKeysIssued}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Number of Keys Available
+                            CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.available ??
+                                    state.labels?.defaultLocale
+                                        .available ??
+                                    Constants.noOfKeysAvailable,
+                                '${state.model.available}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Number of Keys Returned
+                            CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.returned ??
+                                    state.labels?.defaultLocale
+                                        .returned ??
+                                    Constants.noOfKeysReturned,
+                                '${state.model.returned}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Number of Keys not Returned
+                            CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.notReturned ??
+                                    state.labels?.defaultLocale
+                                        .notReturned ??
+                                    Constants.noOfKeysNotReturned,
+                                '${state.model.notReturned}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Number of Keys Lost
+                            CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.lost ??
+                                    state.labels?.defaultLocale
+                                        .lost ??
+                                    Constants.noOfKeysLost,
+                                '${state.model.lost}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Number of Keys Damaged
+                            CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.damaged ??
+                                    state.labels?.defaultLocale
+                                        .damaged ??
+                                    Constants.noOfKeysDamaged,
+                                '${state.model.damaged}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Number of Master Keys Issued
+                            CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.noKeysIssuedMaster ??
+                                    state.labels?.defaultLocale
+                                        .noKeysIssuedMaster ??
+                                    Constants.noOfMasterKeysIssued,
+                                '${state.model.noKeysIssuedMaster}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+
+                            /// Number of Master Keys Available
+                            CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.availableMaster ??
+                                    state.labels?.defaultLocale
+                                        .availableMaster ??
+                                    Constants.noOfMasterKeysAvailable,
+                                '${state.model.availableMaster}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+
+                            /// Number of Master Keys Returned
+                            CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.returnedMaster ??
+                                    state.labels?.defaultLocale
+                                        .returnedMaster ??
+                                    Constants.noOfMasterKeysReturned,
+                                '${state.model.returnedMaster}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Number of Master Keys Not Returned
+                            CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.notReturnedMaster ??
+                                    state.labels?.defaultLocale
+                                        .notReturnedMaster ??
+                                    Constants.noOfMasterKeysNotReturned,
+                                '${state.model.notReturnedMaster}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Number of Master Keys Lost
+                            CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.lostMaster ??
+                                    state.labels?.defaultLocale
+                                        .lostMaster ??
+                                    Constants.noOfMasterKeysLost,
+                                '${state.model.lostMaster}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Number of Master Keys Damaged
+                            CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.damagedMaster ??
+                                    state.labels?.defaultLocale
+                                        .damagedMaster ??
+                                    Constants.noOfMasterKeysDamaged,
+                                '${state.model.damagedMaster}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ],
 
                           ///Lock Change History
