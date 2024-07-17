@@ -1964,7 +1964,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     .passIdVisitor &&
                                             ((widget.model == null ||
                                                     widget.model?.status ==
-                                                        0) &&
+                                                        0) ||
                                                 !(widget.extraProperties !=
                                                         null &&
                                                     !widget.extraProperties!
