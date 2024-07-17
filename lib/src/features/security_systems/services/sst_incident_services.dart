@@ -75,14 +75,12 @@ class SstIncidentServices {
     return GenericResponse.fromJson(response);
   }
 
-  Future<GenericResponse> sendRemainder({
-    required SecuritySystemTicketIncidentRequest body,
-  }) async {
-    final String url = Apis._sendReminder;
+  Future<GenericResponse> sendRemainder({required int id}) async {
+    final String url = '${Apis._sendReminder}/$id';
 
     final response = await BaseApiService().postRequest(
       url: url,
-      requestedData: body.toJson(),
+      requestedData: {},
     );
     return GenericResponse.fromJson(response);
   }

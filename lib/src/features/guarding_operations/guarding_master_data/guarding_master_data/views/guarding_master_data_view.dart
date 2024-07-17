@@ -31,6 +31,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
 
   @override
   void dispose() {
+    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();

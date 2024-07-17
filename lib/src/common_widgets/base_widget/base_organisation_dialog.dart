@@ -57,7 +57,6 @@ class BaseOrganisationDialog {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
-        log('-enabled--$enabled-');
         return CustomListTexts(
           duplicateDepostorList: users,
           duplicateEntityList: entities,

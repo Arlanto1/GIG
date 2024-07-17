@@ -1,16 +1,6 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/search_widget.dart';
-import 'package:db_atom/src/constants/app_icon.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:flutter/material.dart';
-
-import '../models/base_user.dart';
+import 'package:db_atom/index.dart';
 
 class CustomListTexts extends StatefulWidget {
   CustomListTexts({
@@ -222,6 +212,8 @@ class CustomListTextsState extends State<CustomListTexts> {
 
       for (var userDetail in widget.duplicateDepostorList!) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
+          log('--userDetail--ddd-${userDetail.name}--');
+
           depostorList.add(userDetail);
         }
       }
@@ -493,6 +485,8 @@ class CustomListTextsState extends State<CustomListTexts> {
                 drawerItem = widget.duplicateEmployeeDepartments?[index];
               }
 
+              log('drawerItem?.name----${drawerItem?.name}--');
+
               return ListTile(
                   onTap: () {
                     widget.onTap!(drawerItem);
@@ -567,6 +561,8 @@ class CustomListTextsState extends State<CustomListTexts> {
               BaseUser? articleItem;
               if ((_searchCtrl.text.isNotEmpty && depostorList.isNotEmpty)) {
                 articleItem = depostorList[index];
+
+                log('--articleItem--ddd-${articleItem.name}--');
               } else {
                 articleItem = widget.duplicateDepostorList?[index];
               }
@@ -597,8 +593,11 @@ class CustomListTextsState extends State<CustomListTexts> {
                   title: Align(
                     alignment: Alignment.topLeft,
                     child: Text(
+                      articleItem!.email.isEmptyOrNull
+                          ? '${articleItem.name}'
+                          : ' ${articleItem.name} (${articleItem.email})',
                       //articleItem?.name ?? '',
-                      ('${articleItem?.name ?? ''}(${articleItem?.email ?? ''})'),
+                      // ('${articleItem?.name ?? ''} (${articleItem?.email ?? ''})'),
                       style: Styles.textStyleRegularGrey16,
                       textAlign: TextAlign.left,
                     ),

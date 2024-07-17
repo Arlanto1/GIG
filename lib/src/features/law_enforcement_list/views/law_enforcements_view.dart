@@ -50,6 +50,7 @@ class _LnPageState extends State<LnPage> {
 
   @override
   void dispose() {
+    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();

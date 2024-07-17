@@ -2771,6 +2771,7 @@ class _MaterialMovementDetailsViewState
       isEditable = state.isEntrySecuritySignatureSignEditable;
     }
 
+    log('---------');
     return AbsorbPointer(
       absorbing: !state.model.lock.isEmptyOrNull ||
           state.model.status == -1 ||
@@ -2818,7 +2819,7 @@ class _MaterialMovementDetailsViewState
               ),
               height: 100,
               width: double.infinity,
-              child: (!isEditable && isSigned && !isReadOnly)
+              child: (!isEditable && isSigned)
                   ? Image.memory(
                       Uint8List.fromList(
                         base64Decode(

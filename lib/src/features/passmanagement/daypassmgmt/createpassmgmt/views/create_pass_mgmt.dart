@@ -1964,7 +1964,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     .passIdVisitor &&
                                             ((widget.model == null ||
                                                     widget.model?.status ==
-                                                        0) &&
+                                                        0) ||
                                                 !(widget.extraProperties !=
                                                         null &&
                                                     !widget.extraProperties!
@@ -2010,9 +2010,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         height: height,
                                         attachments: photogetAttachments,
                                         files: photogetFiles,
+                                        showDeleteIcon:
+                                        widget.model?.status != 0 &&
+                                            widget.model != null
+                                            ? false
+                                            : true,
                                         moduleCode:
-                                            Constants.guardingMasterModuleCode,
-                                        isDisabled: !isDisabled,
+                                            Constants.passManagementModuleCode,
+                                        isDisabled: isDisabled,
                                       )
                                     ],
                                     // if (widget.passId ==
@@ -2036,7 +2041,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     ///upload
                                     ((widget.model == null ||
-                                                widget.model?.status == 0) &&
+                                                widget.model?.status == 0)||
                                             !(widget.extraProperties != null &&
                                                 !widget.extraProperties!
                                                     .hasWritePermission!))
@@ -2049,7 +2054,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             Styles.textStyleBlack14)
                                         : Container(),
                                     ((widget.model == null ||
-                                                widget.model?.status == 0) &&
+                                                widget.model?.status == 0) ||
                                             !(widget.extraProperties != null &&
                                                 !widget.extraProperties!
                                                     .hasWritePermission!))
@@ -2057,7 +2062,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             height * 0.001)
                                         : Container(),
                                     ((widget.model == null ||
-                                                widget.model?.status == 0) &&
+                                                widget.model?.status == 0) ||
                                             !(widget.extraProperties != null &&
                                                 !widget.extraProperties!
                                                     .hasWritePermission!))

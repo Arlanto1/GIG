@@ -648,9 +648,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           log('--widget.model.status---${widget.model?.status}--');
                                           // List<LawVisitingOfficial>
                                           //     visitingOfficials =
-                                              await LawEnforcementServices()
-                                                  .getLeoVisitingOfficials(
-                                                      id: state.model!.id!);
+                                          await LawEnforcementServices()
+                                              .getLeoVisitingOfficials(
+                                                  id: state.model!.id!);
 
                                           log('--atomLeoDepartments--${state.departmentResponse?.atomLeoDepartments?.length}-');
                                           nav.pushNamed(
@@ -808,7 +808,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           //         widget.model!.lock
                                           //             .isEmptyOrNull),
                                           moduleCode: Constants.leoModuleCode,
-                                          showDeleteIcon: widget.model == null),
+                                          showDeleteIcon:
+                                              widget.model == null ||
+                                                  widget.model?.status ==
+                                                      ConstantsIntValue
+                                                          .leoStatusDraft),
                                       // Attachments
                                       // getSpaceattchment(height),
                                       // getAttachement(height),
@@ -856,20 +860,16 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           height * 0.01),
 
                                       /// SubmitButton
-                                      if (widget.model?.status != ConstantsIntValue.leoStatusDistributed &&
-                                          widget.model?.status != ConstantsIntValue.cancelledStatus ||
-                                          (widget.model != null &&
-                                              widget.model!.lock
-                                                  .isEmptyOrNull)) ...[
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            cancelButtonDisplay(),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          cancelButtonDisplay(),
+                                          if (!isDistrbuted) ...[
                                             submitButtonDisplay()
-                                          ],
-                                        ),
-                                      ],
+                                          ]
+                                        ],
+                                      ),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.05),
                                     ],
@@ -878,27 +878,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                               ],
                             ),
                           ),
-                          if (widget.model?.status ==
-                                  ConstantsIntValue.leoStatusDistributed ||
-                              widget.model?.status ==
-                                  ConstantsIntValue.cancelledStatus) ...[
-                            Container(
-                              padding: const EdgeInsets.all(5.0),
-                              decoration: const ShapeDecoration(
-                                color: AppColors.backgroundWhiteColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(00.0)),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  cancelButtonDisplay(),
-                                ],
-                              ),
-                            ),
-                          ],
                         ],
                       ),
                     ),
@@ -1752,9 +1731,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     return TextFieldAddButton(
       title: state.leoPurposeVisitResponse?.name ?? '',
       height: 60,
-      isDisableColor: !isDistrbuted
-          ? false
-          : true,
+      isDisableColor: !isDistrbuted ? false : true,
       onTap: () {
         if (widget.model?.status == 0 ||
             widget.model?.status == 1 ||
@@ -2181,46 +2158,16 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   }
 
   Widget cancelButtonDisplay() {
-    bool condition = widget.model?.id == null ||
-        widget.model?.status == ConstantsIntValue.cancelledStatus ||
-        widget.model?.status == 3;
     return AppButton(
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: condition ? Constants.close : Constants.cancelRecord,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        if (condition) {
-          Navigator.pop(context);
-          return;
-        }
-        var dialog = CustomAlertDialog(
-            title: Constants.cancelRecord,
-            message: Constants.cancelRecordWarningMessage,
-            onPositivePressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              updateRecordStatus();
-            },
-            positiveBtnText: Constants.yes,
-            negativeBtnText: Constants.no);
-        showDialog(context: context, builder: (BuildContext context) => dialog);
+        Navigator.pop(context);
       },
     );
-  }
-
-  void updateRecordStatus() {
-    if (widget.model?.id != null) {
-      BlocProvider.of<LawEnforcementCubit>(context)
-          .updateStatus(id: widget.model!.id.toString());
-      Navigator.popAndPushNamed(
-        context,
-        lawEnforcementListRoute,
-      );
-    } else {
-      Navigator.pop(context);
-    }
   }
 
   distributiongroupsDailog(LawEnforcementState state) {

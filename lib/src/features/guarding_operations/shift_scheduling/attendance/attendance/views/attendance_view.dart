@@ -29,6 +29,7 @@ class _AttendanceViewState extends State<AttendanceView> {
 
   @override
   void dispose() {
+    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();

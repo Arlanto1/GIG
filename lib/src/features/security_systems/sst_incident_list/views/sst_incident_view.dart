@@ -38,6 +38,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
 
   @override
   void dispose() {
+    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
