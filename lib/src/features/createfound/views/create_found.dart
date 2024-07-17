@@ -1593,7 +1593,7 @@ class _CreateFoundState extends State<CreateFound> {
                                                             0 ||
                                                         widget.model == null ||
                                                         widget.model?.status ==
-                                                            2) &&
+                                                            2) ||
                                                     !state.model.lock
                                                         .isEmptyOrNull
                                                 ? false
