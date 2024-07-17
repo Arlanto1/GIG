@@ -2041,7 +2041,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     ///upload
                                     ((widget.model == null ||
-                                                widget.model?.status == 0) &&
+                                                widget.model?.status == 0)||
                                             !(widget.extraProperties != null &&
                                                 !widget.extraProperties!
                                                     .hasWritePermission!))
@@ -2054,7 +2054,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             Styles.textStyleBlack14)
                                         : Container(),
                                     ((widget.model == null ||
-                                                widget.model?.status == 0) &&
+                                                widget.model?.status == 0) ||
                                             !(widget.extraProperties != null &&
                                                 !widget.extraProperties!
                                                     .hasWritePermission!))
@@ -2062,7 +2062,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             height * 0.001)
                                         : Container(),
                                     ((widget.model == null ||
-                                                widget.model?.status == 0) &&
+                                                widget.model?.status == 0) ||
                                             !(widget.extraProperties != null &&
                                                 !widget.extraProperties!
                                                     .hasWritePermission!))
