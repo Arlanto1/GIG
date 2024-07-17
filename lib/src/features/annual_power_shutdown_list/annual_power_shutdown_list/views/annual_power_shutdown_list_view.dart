@@ -198,24 +198,22 @@ class _AnnualPowerShutdownListViewState
                                     state
                                         .labels?.defaultLocale.eventStartDate ??
                                     'Event Start Date',
-                                value: state.items[index].eventStartDate != null
-                                    ? Utils.timestampToDateConversion(
+                                value: Utils.timestampToDateConversion(
                                         int.tryParse(
                                             state.items[index].eventStartDate ??
                                                 '0'),
                                         Constants.dateFormat)
-                                    : ''));
+                                    ));
                             labels.add(Label(
                                 key: state.labels?.locale.eventEndDate ??
                                     state.labels?.defaultLocale.eventEndDate ??
                                     'Event End Date',
-                                value: state.items[index].eventEndDate != null
-                                    ? Utils.timestampToDateConversion(
+                                value: Utils.timestampToDateConversion(
                                         int.tryParse(
                                             state.items[index].eventEndDate ??
                                                 '0'),
                                         Constants.dateFormat)
-                                    : ''));
+                                   ));
 
                             labels.add(Label(
                               key: state.labels?.locale.budget ??
