@@ -152,7 +152,7 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                         widget.userItem?.inputDate != null
                             ? Utils.timestampToDateConversion(
                                 int.parse(widget.userItem?.inputDate ?? '0'),
-                                Constants.dateFormat)
+                                Constants.fulldateFormat)
                             : ''),
                   ],
                 )
@@ -276,7 +276,7 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                         widget.userItem?.startTime != null
                             ? Utils.timestampToDateConversion(
                                 int.parse(widget.userItem?.startTime ?? '0'),
-                                Constants.dateFormat)
+                                Constants.fulldateFormat)
                             : ''),
                   ],
                 )
@@ -295,7 +295,7 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                         widget.userItem?.endTime != null
                             ? Utils.timestampToDateConversion(
                                 int.parse(widget.userItem?.endTime ?? '0'),
-                                (Constants.dateFormat))
+                                (Constants.fulldateFormat))
                             : ''),
                   ],
                 )
