@@ -1768,12 +1768,12 @@ class _CreateFoundState extends State<CreateFound> {
                                           1) ...[
                                         /// Claimant Signature
                                         buildSignature(
-                                          controller:
-                                              claimantSignatureController,
-                                          label: Constants.claimantSignature,
-                                          spaceHeight: height,
-                                          state: state,
-                                        ),
+                                            controller:
+                                                claimantSignatureController,
+                                            label: Constants.claimantSignature,
+                                            spaceHeight: height,
+                                            state: state,
+                                            isReadOnly: !isDisabled),
                                       ],
 
                                       /// is claimant confirmed by email
@@ -2003,74 +2003,78 @@ class _CreateFoundState extends State<CreateFound> {
     );
   }
 
-  Column buildSignature({
+  Widget buildSignature({
     required SignatureController controller,
     required String label,
     required double spaceHeight,
     required CreateFoundState state,
+    required bool isReadOnly,
   }) {
-    bool isEditable = false;
+    // bool isEditable = false;
     bool isSigned = false;
 
     isSigned = widget.model?.claimantSign != null &&
         !widget.model!.claimantSign!.imageContent.isEmptyOrNull;
-    isEditable = true;
+    // isEditable = true;
 
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CommonWidgets.textDisplay(
-              label,
-              Styles.textStyleBlack14,
-            ),
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    controller.clear();
-
-                    // BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                    //     .makeSignEditable(receiverSign: true);
-                  },
-                  iconSize: 20,
-                  color: Colors.grey,
-                  icon: const Icon(Icons.refresh),
-                ),
-              ],
-            ),
-          ],
-        ),
-        CommonWidgets.verticalSpacerWidget(spaceHeight * 0.001),
-        ClipRect(
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(2.0),
-              border: Border.all(
-                color: AppColors.geryLightBackground,
-                width: 1, // Border width
+    return AbsorbPointer(
+      absorbing: isReadOnly,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CommonWidgets.textDisplay(
+                label,
+                Styles.textStyleBlack14,
               ),
-            ),
-            height: 100,
-            width: double.infinity,
-            child: (isEditable && isSigned)
-                ? Image.memory(
-                    Uint8List.fromList(
-                      base64Decode(
-                        widget.model?.claimantSign!.imageContent ?? '',
-                      ),
-                    ),
-                    fit: BoxFit.none,
-                  )
-                : Signature(
-                    controller: controller,
-                    backgroundColor: Colors.white,
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      controller.clear();
+
+                      // BlocProvider.of<MaterialMovementDetailsCubit>(context)
+                      //     .makeSignEditable(receiverSign: true);
+                    },
+                    iconSize: 20,
+                    color: Colors.grey,
+                    icon: const Icon(Icons.refresh),
                   ),
+                ],
+              ),
+            ],
           ),
-        ),
-        CommonWidgets.verticalSpacerWidget(spaceHeight * 0.01),
-      ],
+          CommonWidgets.verticalSpacerWidget(spaceHeight * 0.001),
+          ClipRect(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(2.0),
+                border: Border.all(
+                  color: AppColors.geryLightBackground,
+                  width: 1, // Border width
+                ),
+              ),
+              height: 100,
+              width: double.infinity,
+              child: (isReadOnly && isSigned)
+                  ? Image.memory(
+                      Uint8List.fromList(
+                        base64Decode(
+                          widget.model?.claimantSign!.imageContent ?? '',
+                        ),
+                      ),
+                      fit: BoxFit.none,
+                    )
+                  : Signature(
+                      controller: controller,
+                      backgroundColor: Colors.white,
+                    ),
+            ),
+          ),
+          CommonWidgets.verticalSpacerWidget(spaceHeight * 0.01),
+        ],
+      ),
     );
   }
 
