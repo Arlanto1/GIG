@@ -263,7 +263,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             locationWidgetdislay(
                                 selectedLocation:
                                     state.model.location?.name ?? '',
-                                enabled: state.model.id == null ||
+                                enabled: state.model.id == null || state.model.status == 0||
                                     (state.model.location?.name ?? '').isEmpty,
                                 locations: state.locations,
                                 onTap: (Organisation? location) async {
