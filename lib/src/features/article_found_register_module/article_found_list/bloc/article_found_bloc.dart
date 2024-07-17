@@ -101,7 +101,7 @@ class ArticleFoundBloc extends Bloc<ArticleFoundStateEvent, ArticleFoundState> {
 
   FutureOr<void> _fetchArticleFound(
       FetchData event, Emitter<ArticleFoundState> emit) async {
-    log('-_fetchMaterialMovements--');
+    log('-_fetchArticleFound-${state.status}-');
 
     emit(
       state.copyWith(
@@ -111,6 +111,7 @@ class ArticleFoundBloc extends Bloc<ArticleFoundStateEvent, ArticleFoundState> {
 
     try {
       // if (state.hasReachedMax) return;
+      log('-_fetchArticleFound-222---${state.status}-');
 
       if (state.status == FormStatus.initial || event.newSearch) {
         FoundListModel response;
@@ -130,7 +131,7 @@ class ArticleFoundBloc extends Bloc<ArticleFoundStateEvent, ArticleFoundState> {
         );
       }
 
-      log('-_fetchMaterialMovements------##--');
+      log('-_fetchArticleFound------##--');
       FoundListModel response;
       response = await services.getFoundArticleList(
         startPosition: '${event.startPos}',

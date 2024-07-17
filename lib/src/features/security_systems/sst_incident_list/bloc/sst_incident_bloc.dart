@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/security_systems/models/ssla_ui_labels.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 import '../../models/requestModel/general_info_request.dart';
 import '../../models/sst_incident_response.dart';
 import '../../services/sst_incident_services.dart';
 
 part 'sst_incident_event.dart';
+
 part 'sst_incident_state.dart';
 
 class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
@@ -37,7 +37,6 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
       sendRemainder,
       transformer: droppable(),
     );
-
   }
 
   final SstIncidentServices _services = SstIncidentServices();
@@ -151,6 +150,7 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
           ),
         );
       }
+
       SstIncidentResponse response;
       response = await _services.get(
         startPosition: '${event.startPos}',
@@ -189,12 +189,11 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
     // SstIncident sstIncident;
     SstIncidentServices services = SstIncidentServices();
     SecuritySystemTicketIncidentRequest request =
-    SecuritySystemTicketIncidentRequest(sstIncident: model);
+        SecuritySystemTicketIncidentRequest(sstIncident: model);
 
     GenericResponse response;
     try {
-      response = await services.sendRemainder( id: event.selectedIncident.id!
-      );
+      response = await services.sendRemainder(id: event.selectedIncident.id!);
       return emit(
         state.copyWith(
           message: response.message,
