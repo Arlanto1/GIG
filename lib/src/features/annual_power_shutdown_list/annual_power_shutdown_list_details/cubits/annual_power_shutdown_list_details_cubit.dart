@@ -228,7 +228,7 @@ class AnnualPowerShutdownListDetailsCubit
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.eventProtectionModule,
+        moduleCode: Constants.annualPowerShutDownModule,
       );
 
       state.model.location = location;
