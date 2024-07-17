@@ -201,7 +201,7 @@ class AttachmentListViewState extends State<AttachmentListView> {
                   controller: imageNameController,
                   textFormKey: Keys.claimantEmpIdTextController,
                   hintText: '',
-                  isEnable: true,
+                  isEnable: widget.showDeleteIcon == true? true:false,
                   isDisableColor: false,
                   onChange: (String value) {
                     imageData?.title = imageNameController.text;
