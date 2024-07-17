@@ -78,6 +78,8 @@ class SLAViolationPenaltyListBloc
   FutureOr<void> _refreshList(
       RefreshList event, Emitter<SLAViolationPenaltyListState> emit) async {
     try {
+      log('-----_refreshList--');
+
       SLAViolationPenaltyResponseModel response;
 
       response = await services.getGSvp(
@@ -100,6 +102,7 @@ class SLAViolationPenaltyListBloc
 
   FutureOr<void> _fetchSLAViolationPenalty(
       FetchData event, Emitter<SLAViolationPenaltyListState> emit) async {
+    log('-_state.status-11--${state.status}--');
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -108,6 +111,7 @@ class SLAViolationPenaltyListBloc
 
     try {
       // if (state.hasReachedMax) return;
+      log('-_state.status--222-${state.status}--');
 
       if (state.status == FormStatus.initial || event.newSearch) {
         SLAViolationPenaltyResponseModel response;
@@ -116,12 +120,13 @@ class SLAViolationPenaltyListBloc
           maximumRecords: '${event.maxPos}',
           filters: event.filters,
         );
+        log('-_state.status--333-${state.status}--');
 
         return emit(
           state.copyWith(
             items: response.items,
             hasReachedMax: false,
-            status: FormStatus.success,
+            status: FormStatus.initial,
           ),
         );
       }
@@ -137,6 +142,9 @@ class SLAViolationPenaltyListBloc
       if (response.items?.isEmpty == true) {
         return emit(state.copyWith(hasReachedMax: true));
       }
+
+      log('---state.items-----${state.items.length}--------');
+      log('---response.length-----${response.items?.length}--------');
       return emit(
         state.copyWith(
           items: List.of(state.items)..addAll(response.items ?? []),

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/index.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
@@ -48,7 +50,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
       context.read<SLAViolationPenaltyListBloc>().add(FetchData(
           startPos: pageNumber,
           maxPos: Constants.maxResults,
-          newSearch: true,
+          newSearch: false,
           filters: BaseFilterModel()));
     }
   }
@@ -155,11 +157,21 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                     //   CommonWidgets.verticalSpacerWidget(height * 0.1),
                     //   const NoRecordFoundWidget(),
                     // ],
-                    if (state.items.isEmptyOrNull) ...[
-                      CommonWidgets.verticalSpacerWidget(height * 0.1),
-                      if (state.status != FormStatus.loading) const NoRecordFoundWidget(),
+                    // if (state.items.isEmptyOrNull) ...[
+                    //   CommonWidgets.verticalSpacerWidget(height * 0.1),
+                    //   if (state.status != FormStatus.loading) const NoRecordFoundWidget(),
+                    // ],
+
+                    if (state.status == FormStatus.loading) ...[
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      const BaseLoader(),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
                     ],
-                    // Text('${state.status}, ${state.items}'),
+                    // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+                    // Text('state.status=====${state.status}'),
+                    UtilsCommon().showNoRecordWidget(
+                        state: state, height: height, items: state.items),
+
                     Expanded(
                       child: SmartRefresher(
                         controller: refreshController,
@@ -326,7 +338,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
     BlocProvider.of<SLAViolationPenaltyListBloc>(context).add(
       FetchData(
           startPos: 0,
-          maxPos: Constants.maxResults,
+          maxPos: 5,
           newSearch: true,
           filters: filters),
     );

@@ -934,13 +934,15 @@ class _CreateFoundState extends State<CreateFound> {
                     handOverByValue =
                         '${handOverSecurity?.firstName ?? ''} ${handOverSecurity?.lastName ?? ''}';
                   }
-                  serialnumberResponse = state.getSerialnumberResponse;
-                  if (serialnumberResponse != null) {
-                    serialNumber = serialnumberResponse?.serialNo ?? "";
-                  }
                 } else {
                   claimantDepartmentName = selectedClaimdepartment?.name ?? '';
                   claimant = selectedClaimList?.name ?? '';
+                }
+
+                serialnumberResponse = state.getSerialnumberResponse;
+                log('---serialnumberResponse---${serialnumberResponse?.serialNo}----');
+                if (serialnumberResponse != null) {
+                  serialNumber = serialnumberResponse?.serialNo ?? "";
                 }
                 return Container(
                   color: AppColors.navigationSkyBlueColor,
