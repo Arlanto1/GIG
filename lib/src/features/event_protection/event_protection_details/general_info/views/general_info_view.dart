@@ -107,6 +107,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
               BlocProvider.of<GeneralInfoCubit>(context)
                   .submitForm(isSaveOnly: false);
             },
+            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.eventProtectionModuleCode}',
           ),
           backgroundColor: AppColors.backgroundWhiteColor,
           body: getBodybuilder(state, height),
