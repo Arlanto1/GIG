@@ -29,6 +29,7 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
 
   @override
   void dispose() {
+    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
