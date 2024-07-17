@@ -759,6 +759,8 @@ class _CreateFoundState extends State<CreateFound> {
     final size = MediaQuery.of(context).size;
     final height = size.height;
     bool isDisabled = false;
+    bool isSignatureReadOnly = false;
+
     return BlocConsumer<CreateFoundArticleCubit, CreateFoundState>(
       listener: (context, state) {
         log('-state.status----${state.status}--');
@@ -888,9 +890,15 @@ class _CreateFoundState extends State<CreateFound> {
                   return const BaseLoader();
                 }
                 // if (widget.model?.status == 2) {
-                //   isDisabled = true;
+                //   isSignatureReadOnly = false;
                 // }
 
+                if (widget.model?.status == ConstantsIntValue.cancelledStatus) {
+                  isSignatureReadOnly = true;
+                }
+                if (widget.model?.status == ConstantsIntValue.articleFoundStatusHandedOverOrClaimed) {
+                  isSignatureReadOnly = true;
+                }
                 if (widget.extraProperties != null &&
                     !widget.extraProperties!.hasWritePermission!) {
                   isDisabled = true;
@@ -1773,7 +1781,7 @@ class _CreateFoundState extends State<CreateFound> {
                                             label: Constants.claimantSignature,
                                             spaceHeight: height,
                                             state: state,
-                                            isReadOnly: !isDisabled),
+                                            isReadOnly: isSignatureReadOnly),
                                       ],
 
                                       /// is claimant confirmed by email
