@@ -40,6 +40,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
 
   @override
   void dispose() {
+    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();

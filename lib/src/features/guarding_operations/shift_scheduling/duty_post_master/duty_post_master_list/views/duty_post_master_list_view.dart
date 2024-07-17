@@ -30,6 +30,7 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
 
   @override
   void dispose() {
+    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();

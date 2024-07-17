@@ -32,6 +32,7 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
 
   @override
   void dispose() {
+    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();

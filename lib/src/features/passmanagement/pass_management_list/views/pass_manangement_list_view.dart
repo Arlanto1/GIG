@@ -38,6 +38,7 @@ class _PassManagementListViewState extends State<PassManagementListView> {
 
   @override
   void dispose() {
+    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();

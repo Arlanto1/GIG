@@ -30,6 +30,7 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
 
   @override
   void dispose() {
+    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();

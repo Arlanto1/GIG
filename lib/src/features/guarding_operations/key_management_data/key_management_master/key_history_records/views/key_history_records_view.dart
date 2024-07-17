@@ -40,6 +40,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
 
   @override
   void dispose() {
+    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();

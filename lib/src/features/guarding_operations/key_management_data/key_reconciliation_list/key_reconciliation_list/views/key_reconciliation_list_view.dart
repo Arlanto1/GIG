@@ -31,6 +31,7 @@ class _KeyLossDestructionListViewState
 
   @override
   void dispose() {
+    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();

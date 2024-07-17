@@ -34,6 +34,7 @@ class _AnnualPowerShutdownListViewState
 
   @override
   void dispose() {
+    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
