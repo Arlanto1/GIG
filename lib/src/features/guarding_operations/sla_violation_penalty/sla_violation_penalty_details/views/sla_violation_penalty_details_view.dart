@@ -100,15 +100,15 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
             title: widget.title,
             showPopUp: false,
             pdfAPIName:
-                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.slaViolationPenaltyDetailsModuleCode}',
+            '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.slaViolationPenaltyDetailsModuleCode}',
             showSaveButton: state.model.status != 2 &&
-                    state.model.status != -1 &&
-                    !isReadOnly
+                state.model.status != -1 &&
+                !isReadOnly
                 ? true
                 : false,
             showSubmitButton: state.model.status != 2 &&
-                    state.model.status != -1 &&
-                    !isReadOnly
+                state.model.status != -1 &&
+                !isReadOnly
                 ? true
                 : false,
             showDisLikeButton: false,
@@ -159,23 +159,22 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
               decoration: const ShapeDecoration(
                 color: AppColors.backgroundWhiteColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20.0)),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
                 ),
               ),
-              child: AbsorbPointer(
-                absorbing: isReadOnly,
-                child: Form(
-                  key: _formKey,
-                  autovalidateMode: isReadOnly
-                      ? AutovalidateMode.disabled
-                      : AutovalidateMode.onUserInteraction,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  AbsorbPointer(
+                    absorbing: isReadOnly,
+                    child: Form(
+                      key: _formKey,
+                      autovalidateMode: isReadOnly
+                          ? AutovalidateMode.disabled
+                          : AutovalidateMode.onUserInteraction,
+                      child: Padding(
                         padding: const EdgeInsets.only(left: 20.0, right: 20),
                         child: Column(
                           children: [
@@ -191,7 +190,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Created By
+                            // General Information Fields
                             CommonWidgets.verticalTextHandling(
                               state.labels?.locale.entrySecurity ??
                                   state.labels?.defaultLocale.entrySecurity ??
@@ -201,7 +200,6 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Status
                             CommonWidgets.textDisplay(
                               state.labels?.locale.status ??
                                   state.labels?.defaultLocale.status ??
@@ -215,14 +213,12 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               isDisableColor: true,
                               textFormKey: Keys.statusTextController,
                               hintText: '',
-                              initialValue:
-                                  getStatusString(state.model.status ?? 0),
+                              initialValue: getStatusString(state.model.status ?? 0),
                               onChange: (String value) {},
                               validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Date of creation
                             CommonWidgets.textDisplay(
                               state.labels?.locale.inputDate ??
                                   state.labels?.defaultLocale.inputDate ??
@@ -231,11 +227,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            datecreateWidgetdisplay(
-                                state.model.inputDate ?? ''),
+                            datecreateWidgetdisplay(state.model.inputDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Location
                             CommonWidgets.textDisplay(
                               state.labels?.locale.location ??
                                   state.labels?.defaultLocale.location ??
@@ -248,17 +242,13 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                 context: context,
                                 isEnabled: !widget.viaAttendance,
                                 locations: state.locations ?? Locations(),
-                                selectedLocationName:
-                                    state.model.location?.name ?? '',
+                                selectedLocationName: state.model.location?.name ?? '',
                                 onTap: (Organisation? location) {
-                                  BlocProvider.of<
-                                              SLAViolationPenaltyDetailsCubit>(
-                                          context)
+                                  BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
                                       .updateDropdownValues(location: location);
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Sl No.
                             CommonWidgets.horizentaltextHandling(
                               state.labels?.locale.slNo ??
                                   state.labels?.defaultLocale.slNo ??
@@ -268,7 +258,6 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Vendor
                             CommonWidgets.textDisplay(
                               state.labels?.locale.vendor ??
                                   state.labels?.defaultLocale.vendor ??
@@ -284,27 +273,20 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               all: state.vendors,
                               enabled: !widget.viaAttendance && !isReadOnly,
                               onTap: (List<Organisation> selectedVendors) {
-                                BlocProvider.of<
-                                            SLAViolationPenaltyDetailsCubit>(
-                                        context)
-                                    .updateDropdownValues(
-                                        vendors: selectedVendors);
+                                BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                                    .updateDropdownValues(vendors: selectedVendors);
                                 Navigator.of(context).pop();
                               },
                               addTitle: 'ADD Vendor',
                               createEntity: false,
                               orgName: 'ATOM_VENDORS',
                               functionToCall: () {
-                                // refresh the list
-                                BlocProvider.of<
-                                            SLAViolationPenaltyDetailsCubit>(
-                                        context)
+                                BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
                                     .refreshList();
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Entity
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.entity ??
                                     state.labels?.defaultLocale.entity ??
@@ -320,25 +302,18 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               enabled: !isReadOnly,
                               onTap: (List<Organisation> selectedEntities) {
                                 log('--selectedEntities----${selectedEntities.length}');
-                                BlocProvider.of<
-                                            SLAViolationPenaltyDetailsCubit>(
-                                        context)
-                                    .updateDropdownValues(
-                                        entities: selectedEntities);
+                                BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                                    .updateDropdownValues(entities: selectedEntities);
                                 Navigator.of(context).pop();
                               },
                               orgName: 'ATOM_ENTITIES',
                               functionToCall: () {
-                                // refresh the list
-                                BlocProvider.of<
-                                            SLAViolationPenaltyDetailsCubit>(
-                                        context)
+                                BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
                                     .refreshList();
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Type Of Service
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.typeOfService ??
                                     state.labels?.defaultLocale.typeOfService ??
@@ -352,30 +327,22 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               selectedValues: state.model.typeOfService ?? [],
                               all: state.typeOfServices,
                               enabled: !isReadOnly,
-                              onTap:
-                                  (List<Organisation> selectedTypeOfVendors) {
+                              onTap: (List<Organisation> selectedTypeOfVendors) {
                                 log('--selectedEntities----${selectedTypeOfVendors.length}');
-                                BlocProvider.of<
-                                            SLAViolationPenaltyDetailsCubit>(
-                                        context)
-                                    .updateDropdownValues(
-                                        typeOfServices: selectedTypeOfVendors);
+                                BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                                    .updateDropdownValues(typeOfServices: selectedTypeOfVendors);
                                 Navigator.of(context).pop();
                               },
                               addTitle: 'ADD Type of Service',
                               createEntity: false,
                               orgName: 'SLA_VIOLATION_TYPE_OF_SERVICE',
                               functionToCall: () {
-                                // refresh the list
-                                BlocProvider.of<
-                                            SLAViolationPenaltyDetailsCubit>(
-                                        context)
+                                BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
                                     .refreshList();
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// ASL
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.approver ??
                                     state.labels?.defaultLocale.approver ??
@@ -393,19 +360,12 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                   enabled: !isReadOnly,
                                   users: state.emailUsers,
                                   onTap: (BaseUser user) {
-                                    BlocProvider.of<
-                                                SLAViolationPenaltyDetailsCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                      user: user,
-                                    );
+                                    BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                                        .updateDropdownValues(user: user);
                                   },
                                   roleName: ConstantUserRoles.atomStaticUser,
                                   functionToCall: () {
-                                    // refresh the list
-                                    BlocProvider.of<
-                                                SLAViolationPenaltyDetailsCubit>(
-                                            context)
+                                    BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
                                         .refreshList();
                                   },
                                 );
@@ -413,7 +373,6 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Guarding Agency POC
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.poc ??
                                     state.labels?.defaultLocale.poc ??
@@ -424,7 +383,6 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             GestureDetector(
                               onTap: () {
                                 log('--onTap------');
-
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext dialogContext) {
@@ -444,9 +402,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                       AppColors.navigationSkyBlueColor,
                                       BlendMode.srcIn,
                                     ),
-                                    // color: AppColors.navigationSkyBlueColor,
                                   ),
-                                  // ),
                                   const SizedBox(width: 10),
                                   const Text(
                                     Constants.addGuardingAgencyPOC,
@@ -462,114 +418,103 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               children: getPOC(state, height),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Violation Penalty
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                Constants.violationPenalty,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            GestureDetector(
-                              // onTap: () async {
-                              //   NavigatorState nav = Navigator.of(context);
-                              //   nav.pushNamed(
-                              //     slaViolationPenaltyListingRoute,
-                              //     arguments: {
-                              //       ConstantsArgument.title:
-                              //       Constants.generalContact,
-                              //       ConstantsArgument.id: state.model.id,
-                              //     },
-                              //   );
-                              // },
-                              onTap: () async {
-                                NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess = await BlocProvider.of<
-                                            SLAViolationPenaltyDetailsCubit>(
-                                        context)
-                                    .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
-
-                                if (!isSaveSuccess) {
-                                  return;
-                                }
-                                log('--state.model.id---${state.model.id}--');
-                                List<Organisation> violationDescriptions =
-                                    await CommonServices().getOrganisations(
-                                        name: Constants.slaViolation);
-                                nav.pushNamed(
-                                  slaViolationPenaltyRecordsRoute,
-                                  arguments: {
-                                    ConstantsArgument.title:
-                                        Constants.violationPenalty,
-                                    ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.violationDescription:
-                                        Constants.slaViolation,
-                                    ConstantsArgument.violationDescriptions:
-                                        violationDescriptions,
-                                  },
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                    colorFilter: const ColorFilter.mode(
-                                      AppColors.navigationSkyBlueColor,
-                                      BlendMode.srcIn,
-                                    ),
-                                    // color: AppColors.navigationSkyBlueColor,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add/View Violation Penalty(S)',
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkyBlueColor,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
                           ],
                         ),
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.02),
+                    ),
+                  ),
 
-                      /// SubmitButton
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          if ((state.model.status != 2 &&
-                              state.model.status != -1 &&
-                              !isReadOnly)) ...[
-                            cancelButtonDisplay(state),
-                            submitButtonDisplay()
-                          ],
-                        ],
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.04),
+                  // Violation Penalty section
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        /// Violation Penalty
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            Constants.violationPenalty,
+                            style: Styles.styleHeaderGreyText16,
+                          ),
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        GestureDetector(
+                          onTap: () async {
+                            NavigatorState nav = Navigator.of(context);
+                            bool isSaveSuccess = await BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                                .submitForm(
+                              isSaveOnly: true,
+                              navigateToNextScreen: true,
+                            );
+
+                            if (!isSaveSuccess) {
+                              return;
+                            }
+                            log('--state.model.id---${state.model.id}--');
+                            List<Organisation> violationDescriptions = await CommonServices().getOrganisations(
+                                name: Constants.slaViolation);
+                            nav.pushNamed(
+                              slaViolationPenaltyRecordsRoute,
+                              arguments: {
+                                ConstantsArgument.title: Constants.violationPenalty,
+                                ConstantsArgument.id: state.model.id,
+                                ConstantsArgument.violationDescription: Constants.slaViolation,
+                                ConstantsArgument.violationDescriptions: violationDescriptions,
+                                ConstantsArgument.parentStatus: state.model.status,
+                              },
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              SvgPicture.asset(
+                                AppIcon.pluscircle,
+                                colorFilter: const ColorFilter.mode(
+                                  AppColors.navigationSkyBlueColor,
+                                  BlendMode.srcIn,
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              const Text(
+                                'Add/View Violation Penalty(S)',
+                                style: TextStyle(
+                                  color: AppColors.navigationSkyBlueColor,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.02),
+                      ],
+                    ),
+                  ),
+
+                  /// SubmitButton
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      if ((state.model.status != 2 &&
+                          state.model.status != -1 &&
+                          !isReadOnly)) ...[
+                        cancelButtonDisplay(state),
+                        submitButtonDisplay()
+                      ],
                     ],
                   ),
-                ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.04),
+                ],
               ),
             ),
-            if (state.model.status == 2 ||
-                state.model.status == ConstantsIntValue.cancelledStatus) ...[
+
+            if (state.model.status == 2 || state.model.status == ConstantsIntValue.cancelledStatus) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(
                   color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(00.0)),
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(0.0)),
                   ),
                 ),
                 child: Row(
@@ -586,6 +531,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
       ),
     );
   }
+
 
   String getStatusString(int status) {
     switch (status) {

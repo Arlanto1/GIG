@@ -717,30 +717,33 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  const SizedBox(width: 14),
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                    colorFilter: const ColorFilter.mode(
-                                      AppColors.navigationSkyBlueColor,
-                                      BlendMode.srcIn,
+                                  if (state.model.status !=
+                                      ConstantsIntValue.submitted) ...[
+                                    const SizedBox(width: 14),
+                                    SvgPicture.asset(
+                                      AppIcon.pluscircle,
+                                      colorFilter: const ColorFilter.mode(
+                                        AppColors.navigationSkyBlueColor,
+                                        BlendMode.srcIn,
+                                      ),
+                                      // color: AppColors.navigationSkyBlueColor,
                                     ),
-                                    // color: AppColors.navigationSkyBlueColor,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add Incident Item List',
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkyBlueColor,
-                                      decoration: TextDecoration.underline,
+                                    const SizedBox(width: 10),
+                                    const Text(
+                                      'Add Incident Item List',
+                                      style: TextStyle(
+                                        color: AppColors.navigationSkyBlueColor,
+                                        decoration: TextDecoration.underline,
+                                      ),
                                     ),
-                                  ),
-                                  // if (state.model.incidentItems != null &&
-                                  //     !state.model.incidentItems!.where(
-                                  //         (element) =>
-                                  //             element.incidentType ==
-                                  //             1).isEmptyOrNull) ...[
-                                  CommonWidgets.horizontalSpacerWidget(
-                                      height * 0.01),
+                                    // if (state.model.incidentItems != null &&
+                                    //     !state.model.incidentItems!.where(
+                                    //         (element) =>
+                                    //             element.incidentType ==
+                                    //             1).isEmptyOrNull) ...[
+                                    CommonWidgets.horizontalSpacerWidget(
+                                        height * 0.01),
+                                  ],
                                   showButtonDisplay(
                                     occId: state.model.id.toString(),
                                     occType: 1,
@@ -855,27 +858,30 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               ),
                               child: Row(
                                 children: <Widget>[
-                                  const SizedBox(width: 14),
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                    colorFilter: const ColorFilter.mode(
-                                      AppColors.navigationSkyBlueColor,
-                                      BlendMode.srcIn,
+                                  if (state.model.status !=
+                                      ConstantsIntValue.submitted) ...[
+                                    const SizedBox(width: 14),
+                                    SvgPicture.asset(
+                                      AppIcon.pluscircle,
+                                      colorFilter: const ColorFilter.mode(
+                                        AppColors.navigationSkyBlueColor,
+                                        BlendMode.srcIn,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add Incident Item List',
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkyBlueColor,
-                                      decoration: TextDecoration.underline,
+                                    const SizedBox(width: 10),
+                                    const Text(
+                                      'Add Incident Item List',
+                                      style: TextStyle(
+                                        color: AppColors.navigationSkyBlueColor,
+                                        decoration: TextDecoration.underline,
+                                      ),
                                     ),
-                                  ),
-                                  // if (state.model.incidentItems != null &&
-                                  //     state.model.incidentItems!
-                                  //         .isNotEmpty) ...[
-                                  CommonWidgets.horizontalSpacerWidget(
-                                      height * 0.01),
+                                    // if (state.model.incidentItems != null &&
+                                    //     state.model.incidentItems!
+                                    //         .isNotEmpty) ...[
+                                    CommonWidgets.horizontalSpacerWidget(
+                                        height * 0.01),
+                                  ],
                                   showButtonDisplay(
                                     occId: state.model.id.toString(),
                                     occType: 2,
@@ -1049,23 +1055,26 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               },
                               child: Row(
                                 children: <Widget>[
-                                  const SizedBox(width: 14),
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                    colorFilter: const ColorFilter.mode(
-                                      AppColors.navigationSkyBlueColor,
-                                      BlendMode.srcIn,
+                                  if (state.model.status !=
+                                      ConstantsIntValue.submitted) ...[
+                                    const SizedBox(width: 14),
+                                    SvgPicture.asset(
+                                      AppIcon.pluscircle,
+                                      colorFilter: const ColorFilter.mode(
+                                        AppColors.navigationSkyBlueColor,
+                                        BlendMode.srcIn,
+                                      ),
+                                      // color: AppColors.navigationSkyBlueColor,
                                     ),
-                                    // color: AppColors.navigationSkyBlueColor,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add Security System SLA List',
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkyBlueColor,
-                                      decoration: TextDecoration.underline,
+                                    const SizedBox(width: 10),
+                                    const Text(
+                                      'Add Security System SLA List',
+                                      style: TextStyle(
+                                        color: AppColors.navigationSkyBlueColor,
+                                        decoration: TextDecoration.underline,
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                   if (state.model.secSysFailureIncident !=
                                       null) ...[
                                     CommonWidgets.horizontalSpacerWidget(
@@ -1346,8 +1355,11 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             ),
                           ],
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          Column(
-                            children: getPowerFailures(state, height),
+                          AbsorbPointer(
+                            absorbing: isReadOnly,
+                            child: Column(
+                              children: getPowerFailures(state, height),
+                            ),
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 

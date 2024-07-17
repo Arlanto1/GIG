@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_add_organisation_dialog.dart';
 
-import '../../constants/constant_user_roles.dart';
-
 class BaseOrganisationDialog {
   departmentDialog({
     required BuildContext context,
@@ -16,13 +14,15 @@ class BaseOrganisationDialog {
     Function? functionToCall,
     bool enabled = true,
   }) {
+    FocusManager.instance.primaryFocus?.unfocus();
     return showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
         log('-organisations-----');
         return CustomListTexts(
           duplicateEmployeeDepartments: organisations,
-          leftImageName: functionToCall != null ? AppIcon.addicon : null,
+          /// Uncomment leftImageName to enable + icon functionality
+          // leftImageName: functionToCall != null ? AppIcon.addicon : null,
           onLeftButtonTap: () {
             Navigator.pop(context);
             showDialog(
@@ -53,6 +53,7 @@ class BaseOrganisationDialog {
     bool enabled = true,
     String? roleName,
   }) {
+    FocusManager.instance.primaryFocus?.unfocus();
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {

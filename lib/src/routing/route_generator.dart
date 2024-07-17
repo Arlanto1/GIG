@@ -17,8 +17,6 @@ import 'package:db_atom/src/features/contact_details/contact_records/bloc/contac
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_details/cubits/notification_details_cubit.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_details/views/notification_details_view.dart';
-import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart'
-    as nb;
 import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_list/views/notifications_view.dart';
 import 'package:db_atom/src/features/dashboard/notifications/services/notifications_services.dart';
@@ -128,12 +126,27 @@ class RouteGenerator {
         );
 
       case notificationsViewRoute:
-        return MaterialPageRoute(
-          builder: (context) => BlocProvider<nb.NotificationsBloc>(
+        return PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              BlocProvider<NotificationsBloc>(
             create: (_) => NotificationsBloc()
-              ..add(const nb.FetchData(startPos: 0, maxPos: 20)),
+              ..add(const FetchData(startPos: 0, maxPos: 20)),
             child: const NotificationsView(),
           ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const begin = Offset(1.0, 0.0);
+            const end = Offset.zero;
+            const curve = Curves.ease;
+
+            var tween =
+                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            var offsetAnimation = animation.drive(tween);
+
+            return SlideTransition(
+              position: offsetAnimation,
+              child: child,
+            );
+          },
         );
       case notificationDetailsViewRoute:
         String id = '';
@@ -461,7 +474,10 @@ class RouteGenerator {
                 maxPos: Constants.maxResults,
                 newSearch: true,
                 filters: BaseFilterModel())),
-            child: SstIncidentView(isInternal: isInternal),
+            child: SstIncidentView(
+              isInternal: isInternal,
+              occId: occId,
+            ),
           ),
         );
 
@@ -637,6 +653,7 @@ class RouteGenerator {
       case slaViolationPenaltyRecordsRoute:
         String title = '';
         int id = 0;
+        int parentStatus = 0;
         ExtraProperties? extraProperties;
         List<Organisation> violationDescriptions = [];
         String violationDescription = '';
@@ -650,6 +667,8 @@ class RouteGenerator {
           violationDescriptions =
               arguments[ConstantsArgument.violationDescriptions] ?? '';
           extraProperties = arguments[ConstantsArgument.extraProperties];
+          parentStatus = arguments[ConstantsArgument.parentStatus];
+
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<vp.ViolationPenaltyRecordBloc>(
@@ -665,6 +684,7 @@ class RouteGenerator {
               id: id,
               title: title,
               extraProperties: extraProperties,
+              parentStatus: parentStatus,
             ),
           ),
         );

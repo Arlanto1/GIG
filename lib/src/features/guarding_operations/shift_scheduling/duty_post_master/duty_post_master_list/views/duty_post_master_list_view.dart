@@ -220,6 +220,12 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                         'Shift G',
                                     value:
                                         state.list[index].shiftG.toString()));
+                                labels.add(Label(
+                                    key: state.labels?.locale.total ??
+                                        state.labels?.defaultLocale.total ??
+                                        'Total',
+                                    value:
+                                    state.list[index].total.toString()));
                                 return index >= state.list.length
                                     ? const BaseLoader()
                                     : BaseListTileItem(

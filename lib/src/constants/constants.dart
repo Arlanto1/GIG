@@ -854,7 +854,7 @@ class Constants {
   static const String poc = 'POC';
   static const String addPOC = 'Add POC';
 
-  ///VVIP Visitors
+  /// VVIP Visitors
   static const String vVipVisitorsTitle = 'VVIP Visitor';
   static const String listVvipVisitors = 'List of VVIP Visitor';
   static const String visitorsName = 'Visitor Name';
@@ -865,10 +865,10 @@ class Constants {
   static const String startDateVisit = 'Start Date of Visit';
   static const String endDateVisit = 'End Date of Visit';
 
-  ///Ticket Life Cycle
+  /// Ticket Life Cycle
   static const String sentReminder = 'Reminder Sent';
 
-  ///Module Code for roles
+  /// Module Code for roles
   static const String passManagementRolesModuleCode = 'PM';
 }
 

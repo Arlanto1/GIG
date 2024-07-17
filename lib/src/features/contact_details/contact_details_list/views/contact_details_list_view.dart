@@ -98,19 +98,19 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
       builder: (context, state) {
         return Scaffold(
           backgroundColor: AppColors.cardBgColor,
-          floatingActionButton:
-              state.extraProperties?.hasWritePermission ?? false
-                  ? Flutterfloatingbutton(
-                      backgroundColor: AppColors.navigationSkyBlueColor,
-                      foregroundColor: AppColors.backgroundWhiteColor,
-                      onPressed: () => {
-                        Navigator.pushNamed(context, contactDetailsRoute,
-                            arguments: {
-                              "title": Constants.escalationMatrix,
-                            })
-                      },
-                    )
-                  : const SizedBox(),
+          // floatingActionButton:
+          //     state.extraProperties?.hasWritePermission ?? false
+          //         ? Flutterfloatingbutton(
+          //             backgroundColor: AppColors.navigationSkyBlueColor,
+          //             foregroundColor: AppColors.backgroundWhiteColor,
+          //             onPressed: () => {
+          //               Navigator.pushNamed(context, contactDetailsRoute,
+          //                   arguments: {
+          //                     "title": Constants.escalationMatrix,
+          //                   })
+          //             },
+          //           )
+          //         : const SizedBox(),
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: Constants.escalationMatrix,

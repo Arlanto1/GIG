@@ -18,6 +18,11 @@ class RadioButtonsYesNo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final Function(int?)? onChangedYesNew;
+    onChangedYesNew = (int){
+
+    };
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[

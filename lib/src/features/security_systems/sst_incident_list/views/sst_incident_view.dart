@@ -7,10 +7,12 @@ import '../../models/sst_incident_response.dart';
 class SstIncidentView extends StatefulWidget {
   final bool isInternal;
   final SstIncident? model;
+  final String? occId;
 
   const SstIncidentView({
     super.key,
     required this.isInternal,
+    this.occId,
     this.model,
   });
 
@@ -97,8 +99,11 @@ class _SstIncidentViewState extends State<SstIncidentView> {
       builder: (context, state) {
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,
+
+            /// disable + icon when navigating via Shift Occurrence
             floatingActionButton: widget.isInternal &&
-                    (state.extraProperties?.hasWritePermission ?? false)
+                    (state.extraProperties?.hasWritePermission ?? false) &&
+                    widget.occId.isEmptyOrNull
                 ? Flutterfloatingbutton(
                     backgroundColor: AppColors.navigationSkyBlueColor,
                     foregroundColor: AppColors.backgroundWhiteColor,

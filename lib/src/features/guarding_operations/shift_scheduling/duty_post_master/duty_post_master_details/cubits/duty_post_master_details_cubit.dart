@@ -36,13 +36,13 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     Organisation? location;
-    List<Organisation> dutyPostName = await services.getDutyPostsByLocation(
+    List<Organisation> dutyPostNames = await services.getDutyPostsByLocation(
         locationId: location!.id.toString());
 
     emit(
       state.copyWith(
         status: FormStatus.initial,
-        dutyPosts: dutyPostName,
+        dutyPosts: dutyPostNames,
       ),
     );
   }
@@ -79,7 +79,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       List<Organisation> dutyPosts = [];
       // Organisation? location = state.model.location;
 
-      if (state.model.location == null && defaultLocation != null) {
+      if (state.model.location == null || defaultLocation != null) {
         // SerialNumberModel slNo = await commonServices.getSlNo(
         //   locationId: defaultLocation.id.toString(),
         //   moduleCode: Constants.contactDetailsModule,
@@ -87,7 +87,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
         state.model.location = defaultLocation;
         // state.model.slNo = slNo.serialNo;
         dutyPosts = await services.getDutyPostsByLocation(
-            locationId: defaultLocation.id.toString());
+            locationId: state.model.location!.id.toString());
       }
       state.model.createdBy ??= loggedInUserDetails;
       // Get Date of Creation

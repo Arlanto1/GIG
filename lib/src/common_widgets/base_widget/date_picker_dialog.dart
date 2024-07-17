@@ -31,6 +31,7 @@ class BaseDate {
     required BuildContext context,
   }) {
     log('--datePickerWidgetLoading---');
+
     // Convert Date Time if String
     if (Utils().isTimestamp(textController.text)) {
       textController.text = Utils.timestampToDateConversion(
@@ -133,8 +134,12 @@ class BaseDate {
         minTime: DateTime.parse(fromDate!),
         maxTime: DateTime.parse(toDate!),
         onChanged: (date) {
+          FocusManager.instance.primaryFocus?.unfocus();
           pickedDate = date;
           log('change $date');
+        },
+        onCancel: (){
+          FocusManager.instance.primaryFocus?.unfocus();
         },
         onConfirm: (date) {
           pickedDate = date;
