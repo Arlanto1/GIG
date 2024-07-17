@@ -1139,7 +1139,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                               children: <Widget>[
                                                 const SizedBox(width: 10),
                                                 SvgPicture.asset(
-                                                  AppIcon.close,
+                                                  AppIcon.closeicon,
                                                   // Add your close
                                                   // icon asset here
                                                   colorFilter:
