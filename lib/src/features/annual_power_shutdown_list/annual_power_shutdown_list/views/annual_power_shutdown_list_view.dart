@@ -21,14 +21,14 @@ class _AnnualPowerShutdownListViewState
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
   RefreshController refreshController =
-  RefreshController(initialRefresh: false);
+      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
     super.initState();
     context.read<AnnualPowerShutdownListBloc>().add(
-      const InitializeValuesAPS(),
-    );
+          const InitializeValuesAPS(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -47,18 +47,18 @@ class _AnnualPowerShutdownListViewState
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context.read<AnnualPowerShutdownListBloc>().add(FetchData(
-        startPos: pageNumber,
-        maxPos: Constants.maxResults,
-        newSearch: false,
-        filters: filters,
-      ));
+            startPos: pageNumber,
+            maxPos: Constants.maxResults,
+            newSearch: false,
+            filters: filters,
+          ));
     }
   }
 
   void _onRefresh() async {
     context.read<AnnualPowerShutdownListBloc>().add(
-      const RefreshList(),
-    );
+          const RefreshList(),
+        );
     await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
@@ -85,15 +85,15 @@ class _AnnualPowerShutdownListViewState
         backgroundColor: AppColors.cardBgColor,
         floatingActionButton: state.extraProperties?.hasWritePermission ?? false
             ? Flutterfloatingbutton(
-          backgroundColor: AppColors.navigationSkyBlueColor,
-          foregroundColor: AppColors.backgroundWhiteColor,
-          onPressed: () => {
-            Navigator.pushNamed(
-              context,
-              annualPowerShutdownListDetailsRoute,
-            )
-          },
-        )
+                backgroundColor: AppColors.navigationSkyBlueColor,
+                foregroundColor: AppColors.backgroundWhiteColor,
+                onPressed: () => {
+                  Navigator.pushNamed(
+                    context,
+                    annualPowerShutdownListDetailsRoute,
+                  )
+                },
+              )
             : const SizedBox(),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
@@ -121,7 +121,7 @@ class _AnnualPowerShutdownListViewState
                   color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(20.0)),
+                        BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
               child: Column(
                 // crossAxisAlignment: CrossAxisAlignment.end,
@@ -173,10 +173,10 @@ class _AnnualPowerShutdownListViewState
                                     'Date of Creation',
                                 value: state.items[index].inputDate != null
                                     ? Utils.timestampToDateConversion(
-                                    int.tryParse(
-                                        state.items[index].inputDate ??
-                                            '0'),
-                                    Constants.dateFormat)
+                                        int.tryParse(
+                                            state.items[index].inputDate ??
+                                                '0'),
+                                        Constants.dateFormat)
                                     : ''));
                             labels.add(Label(
                                 key: state.labels?.locale.locationRegion ??
@@ -184,24 +184,25 @@ class _AnnualPowerShutdownListViewState
                                         .labels?.defaultLocale.locationRegion ??
                                     'Region',
                                 value:
-                                state.items[index].locationRegion?.name ??
-                                    ''));
+                                    state.items[index].locationRegion?.name ??
+                                        ''));
                             labels.add(Label(
                                 key: state.labels?.locale.location ??
                                     state.labels?.defaultLocale.location ??
                                     'Location',
                                 value:
-                                state.items[index].location?.name ?? ''));
+                                    state.items[index].location?.name ?? ''));
                             labels.add(Label(
                                 key: state.labels?.locale.eventStartDate ??
-                                    state.labels?.defaultLocale.eventStartDate ??
+                                    state
+                                        .labels?.defaultLocale.eventStartDate ??
                                     'Event Start Date',
                                 value: state.items[index].eventStartDate != null
                                     ? Utils.timestampToDateConversion(
-                                    int.tryParse(
-                                        state.items[index].eventStartDate ??
-                                            '0'),
-                                    Constants.dateFormat)
+                                        int.tryParse(
+                                            state.items[index].eventStartDate ??
+                                                '0'),
+                                        Constants.dateFormat)
                                     : ''));
                             labels.add(Label(
                                 key: state.labels?.locale.eventEndDate ??
@@ -209,84 +210,89 @@ class _AnnualPowerShutdownListViewState
                                     'Event End Date',
                                 value: state.items[index].eventEndDate != null
                                     ? Utils.timestampToDateConversion(
-                                    int.tryParse(
-                                        state.items[index].eventEndDate ??
-                                            '0'),
-                                    Constants.dateFormat)
+                                        int.tryParse(
+                                            state.items[index].eventEndDate ??
+                                                '0'),
+                                        Constants.dateFormat)
                                     : ''));
 
                             labels.add(Label(
                               key: state.labels?.locale.budget ??
                                   state.labels?.defaultLocale.budget ??
                                   'Budget',
-                              value: (double.tryParse(state.items[index].budget?.toString() ?? '0.0')?.toString() ?? '0.0'),
+                              value: (double.tryParse(state.items[index].budget
+                                              ?.toString() ??
+                                          '0.0')
+                                      ?.toString() ??
+                                  '0.0'),
                             ));
 
                             return index >= state.items.length
                                 ? const BaseLoader()
                                 : BaseListTileItem(
-                              id: state.items[index].id,
-                              labels: labels,
-                              status: state.items[index].status,
-                              isMasterGuard: false,
-                              isEventProtectionStatus: true,
-                              onTap: (selectedIndex) {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext dialogContext) {
-                                    return BasePopUpItems(
-                                      id: state.items[selectedIndex].id
-                                          .toString(),
-                                      labels: labels,
-                                      slNo:
-                                      state.items[selectedIndex].slNo,
-                                      status: state
-                                          .items[selectedIndex].status,
-                                      isMasterGuard: false,
-                                      isEventProtectionStatus: true,
-                                      epManager1Name: state
-                                          .items[selectedIndex]
-                                          .epManager1Name,
-                                      eventType: state
-                                          .items[selectedIndex].eventType,
-                                    );
-                                  },
-                                );
-                              },
-                              onEditTap: (selectedIndex) {
-                                getId(
-                                    state.extraProperties
-                                        ?.hasWritePermission ??
-                                        false,
-                                    id: state.items[index].id ?? 0,
-                                    eventStatus:
-                                    state.items[index].status ?? 0);
-                              },
-                              onViewTap: (selectedIndex) {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext dialogContext) {
-                                    return BasePopUpItems(
-                                      id: state.items[selectedIndex].id
-                                          .toString(),
-                                      labels: labels,
-                                      slNo:
-                                      state.items[selectedIndex].slNo,
-                                      eventType: state.items[selectedIndex].eventType,
-                                      status: state
-                                          .items[selectedIndex].status,
-                                      isEventProtectionStatus: true,
-                                      isMasterGuard: false,
-                                      // epManager1Name:
-                                      // state.items[selectedIndex].epManager1Name,
-                                      // eventType:
-                                      // state.items[selectedIndex].eventType,
-                                    );
-                                  },
-                                );
-                              },
-                              index: index,
-                            );
+                                    id: state.items[index].id,
+                                    labels: labels,
+                                    status: state.items[index].status,
+                                    isMasterGuard: false,
+                                    isEventProtectionStatus: true,
+                                    onTap: (selectedIndex) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext dialogContext) {
+                                          return BasePopUpItems(
+                                            id: state.items[selectedIndex].id
+                                                .toString(),
+                                            labels: labels,
+                                            slNo:
+                                                state.items[selectedIndex].slNo,
+                                            status: state
+                                                .items[selectedIndex].status,
+                                            isMasterGuard: false,
+                                            isEventProtectionStatus: true,
+                                            epManager1Name: state
+                                                .items[selectedIndex]
+                                                .epManager1Name,
+                                            eventType: state
+                                                .items[selectedIndex].eventType,
+                                          );
+                                        },
+                                      );
+                                    },
+                                    onEditTap: (selectedIndex) {
+                                      getId(
+                                          state.extraProperties
+                                                  ?.hasWritePermission ??
+                                              false,
+                                          id: state.items[index].id ?? 0,
+                                          eventStatus:
+                                              state.items[index].status ?? 0);
+                                    },
+                                    onViewTap: (selectedIndex) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext dialogContext) {
+                                          return BasePopUpItems(
+                                            id: state.items[selectedIndex].id
+                                                .toString(),
+                                            labels: labels,
+                                            slNo:
+                                                state.items[selectedIndex].slNo,
+                                            eventType: state
+                                                .items[selectedIndex].eventType,
+                                            status: state
+                                                .items[selectedIndex].status,
+                                            isEventProtectionStatus: true,
+                                            isMasterGuard: false,
+                                            // epManager1Name:
+                                            // state.items[selectedIndex].epManager1Name,
+                                            // eventType:
+                                            // state.items[selectedIndex].eventType,
+                                          );
+                                        },
+                                      );
+                                    },
+                                    index: index,
+                                  );
                           }
                           return const Center(
                             child: SizedBox(),
@@ -305,24 +311,24 @@ class _AnnualPowerShutdownListViewState
   }
 
   getId(
-      bool hasWritePermission, {
-        required int id,
-        required int eventStatus,
-      }) async {
+    bool hasWritePermission, {
+    required int id,
+    required int eventStatus,
+  }) async {
     Navigator.pushNamed(
       context,
       annualPowerShutdownListDetailsRoute,
       arguments: {
         'id': id.toString(),
         ConstantsArgument.extraProperties:
-        ExtraProperties(hasWritePermission: hasWritePermission),
+            ExtraProperties(hasWritePermission: hasWritePermission),
       },
     );
   }
 
   void applySearchFilters(
-      FilterCriteria model,
-      ) {
+    FilterCriteria model,
+  ) {
     log('Applying Search Filters');
     filters = BaseFilterModel(filterCriteria: model);
 
@@ -336,8 +342,8 @@ class _AnnualPowerShutdownListViewState
   }
 
   void applyFilters(
-      Filters model,
-      ) {
+    Filters model,
+  ) {
     log('Applying Filters');
 
     filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
