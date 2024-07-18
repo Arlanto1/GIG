@@ -238,11 +238,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   if (state.getVisitsCount < 1) {
                     manageAddVisitOfficialDetailWidget(state);
                   }
-                  if (state.getSerialnumberResponse != null &&
-                      widget.model == null) {
-                    serialnumber =
-                        state.getSerialnumberResponse?.serialNo ?? "";
-                  }
+                  // if (state.getSerialnumberResponse != null &&
+                  //     widget.model == null) {
+                  serialnumber = state.getSerialnumberResponse?.serialNo ?? "";
+                  // }
                   globalState = state;
                   if (state.status == FormStatus.addAttachment) {
                     getFiles = state.loadAttachments ?? [];
@@ -1880,7 +1879,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     log('---submitForm----');
     int actualDate = Utils.dateToTimestampConversion(
         actualDateTextController.text, Constants.fulldateFormat);
-    int inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    String? inputDate;
+    if (widget.model?.id == null) {
+      inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    } else {
+      inputDate = widget.model?.inputDate;
+    }
     int statusValue = 0;
     if (statusTextController.text.toLowerCase() == "draft") {
       statusValue = 0;
@@ -1915,8 +1919,15 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         entities.add(addentiity);
       }
     }
-    LawEntrySecurity? entrySecurtity =
-        LawEntrySecurity(userId: state.getUserDetailsResponse?.userId ?? 1);
+    LawEntrySecurity? entrySecurity;
+    if (widget.model?.entrySecurity == null) {
+      entrySecurity =
+          LawEntrySecurity(userId: state.getUserDetailsResponse?.userId);
+    } else {
+      entrySecurity =
+          LawEntrySecurity(userId: widget.model?.entrySecurity?.userId);
+    }
+
     LawLocation? location = LawLocation(
         id: state.locationSelectedlist?.id ?? 1,
         name: state.locationSelectedlist?.name ?? '');
@@ -1953,7 +1964,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     if (widget.model != null) {
       lawEnforcement = LawEnforcement(
           id: widget.model?.id ?? 0,
-          entrySecurity: entrySecurtity,
+          entrySecurity: entrySecurity,
           inputDate: inputDate.toString(),
           slNo: serialnumber ?? '',
           location: location,
@@ -1976,7 +1987,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           mailList: loadGroups);
     } else {
       lawEnforcement = LawEnforcement(
-          entrySecurity: entrySecurtity,
+          entrySecurity: entrySecurity,
           inputDate: inputDate.toString(),
           slNo: serialnumber ?? '',
           location: location,
