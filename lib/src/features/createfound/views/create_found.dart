@@ -337,16 +337,17 @@ class _CreateFoundState extends State<CreateFound> {
       foundDate = null;
     } // int inputDate = Utils.dateToTimestampConversion(
     //     dateofcreationTextController.text, Constants.fulldateFormat);
-    String? inputDate ;
+    String? inputDate;
     if (widget.model?.id == null) {
       inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     } else {
       inputDate = widget.model?.inputDate;
     }
-    int? handoverDate;
-    if (widget.model?.status ==
-        ConstantsIntValue.articleFoundStatusUnderSecurityCustody) {
-      handoverDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    String? handoverDate;
+    if (widget.model?.handoverDate != null) {
+      handoverDate = widget.model?.handoverDate;
+    } else {
+      handoverDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     }
     // Utils.dateToTimestampConversion(
     //     handedoverdatedateTextController.text, Constants.fulldateFormat);

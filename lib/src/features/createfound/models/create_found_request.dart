@@ -39,7 +39,7 @@ class Found extends BaseObject{
   bool? depositorDbEmp;
   String? inputDate;
   int? foundDate;
-  int? handoverDate;
+  String? handoverDate;
   User? entrySecurity;
   Organisation? location;
   User? depositor;
