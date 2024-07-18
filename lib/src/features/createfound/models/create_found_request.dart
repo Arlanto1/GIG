@@ -37,7 +37,7 @@ class Found extends BaseObject{
   int? quantity;
   String? color;
   bool? depositorDbEmp;
-  int? inputDate;
+  String? inputDate;
   int? foundDate;
   int? handoverDate;
   User? entrySecurity;

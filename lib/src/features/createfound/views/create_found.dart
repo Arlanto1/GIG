@@ -337,7 +337,12 @@ class _CreateFoundState extends State<CreateFound> {
       foundDate = null;
     } // int inputDate = Utils.dateToTimestampConversion(
     //     dateofcreationTextController.text, Constants.fulldateFormat);
-    int inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    String? inputDate ;
+    if (widget.model?.id == null) {
+      inputDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    } else {
+      inputDate = widget.model?.inputDate;
+    }
     int? handoverDate;
     if (widget.model?.status ==
         ConstantsIntValue.articleFoundStatusUnderSecurityCustody) {
@@ -360,7 +365,8 @@ class _CreateFoundState extends State<CreateFound> {
         userId: userDetails?.userId ?? widget.model?.entrySecurity?.userId);
     User? handoverSecurity = User(
         userId:
-            handOverSecurity?.userId ?? widget.model?.handoverSecurity?.userId);
+            widget.model?.handoverSecurity?.userId ?? handOverSecurity?.userId);
+
     User? depositor = User(
         userId: selecteddepositorList?.id ?? widget.model?.depositor?.userId);
     Organisation? location = Organisation(
@@ -896,7 +902,8 @@ class _CreateFoundState extends State<CreateFound> {
                 if (widget.model?.status == ConstantsIntValue.cancelledStatus) {
                   isSignatureReadOnly = true;
                 }
-                if (widget.model?.status == ConstantsIntValue.articleFoundStatusHandedOverOrClaimed) {
+                if (widget.model?.status ==
+                    ConstantsIntValue.articleFoundStatusHandedOverOrClaimed) {
                   isSignatureReadOnly = true;
                 }
                 if (widget.extraProperties != null &&
