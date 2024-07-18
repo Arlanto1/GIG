@@ -145,6 +145,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
 
           log('-powerFailureModel.powerFailureStartDate--${powerFailureModel.powerFailureStartDate}-');
           if (powerFailureModel.powerFailureStartDate != null) {
+
+            model.powerFailure = true;
             PowerFailureModel powerFailure = PowerFailureModel();
             powerFailure.powerFailureStartDate =
                 Utils.timestampToDateConversion(

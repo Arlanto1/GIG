@@ -1835,6 +1835,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                 const Spacer(),
                 IconButton(
                   onPressed: () {
+                    if(state.isOnGoingPowerFailure??false) {
+                      return;
+                    }
                     BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
                         .deletePowerFailure(powerFailure);
                   },
