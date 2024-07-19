@@ -136,7 +136,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: showSaveSubmitButton ? true : false,
+            showSaveButton: false,
             showDisLikeButton: false,
             showLikeButton: false,
             pdfAPIName:
@@ -886,7 +886,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    cancelButtonDisplay(state),
+                    cancelButtonDisplay(),
                     if ((state.model.status == 0 ||
                                 state.model.status == 1 ||
                                 state.model.status == 2 ||
@@ -940,34 +940,50 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
     }
   }
 
-  Widget cancelButtonDisplay(KeyManagementIssuanceDetailsState state) {
+  Widget cancelButtonDisplay() {
     return AppButton(
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: state.model.id == null || !state.model.lock.isEmptyOrNull
-          ? Constants.close
-          : Constants.cancelRecord,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        if (state.model.id == null) {
-          Navigator.pop(context);
-          return;
-        }
-        var dialog = CustomAlertDialog(
-            title: Constants.cancelRecord,
-            message: Constants.cancelRecordWarningMessage,
-            onPositivePressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              updateRecordStatus(state);
-            },
-            positiveBtnText: Constants.yes,
-            negativeBtnText: Constants.no);
-        showDialog(context: context, builder: (BuildContext context) => dialog);
+        Navigator.pop(context);
+        Navigator.popAndPushNamed(
+          context,
+          keyManagementIssuanceListRoute,
+        );
       },
     );
   }
+  // Widget cancelButtonDisplay(KeyManagementIssuanceDetailsState state) {
+  //   return AppButton(
+  //     width: Constants.cancelButtonWidth,
+  //     backgroundColor: Colors.white,
+  //     key: const Key(Keys.cancelButton),
+  //     buttonText: state.model.id == null || !state.model.lock.isEmptyOrNull
+  //         ? Constants.close
+  //         : Constants.cancelRecord,
+  //     buttonTextKey: Keys.cancelButton,
+  //     onTap: () {
+  //       if (state.model.id == null) {
+  //         Navigator.pop(context);
+  //         return;
+  //       }
+  //       var dialog = CustomAlertDialog(
+  //           title: Constants.cancelRecord,
+  //           message: Constants.cancelRecordWarningMessage,
+  //           onPositivePressed: () {
+  //             Navigator.pop(context);
+  //             Navigator.pop(context);
+  //             updateRecordStatus(state);
+  //           },
+  //           positiveBtnText: Constants.yes,
+  //           negativeBtnText: Constants.no);
+  //       showDialog(context: context, builder: (BuildContext context) => dialog);
+  //     },
+  //   );
+  // }
 
   void updateRecordStatus(KeyManagementIssuanceDetailsState state) {
     if (state.model.id != null) {
