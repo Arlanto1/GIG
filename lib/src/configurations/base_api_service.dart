@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/utils/location_handler.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
@@ -101,6 +102,8 @@ class BaseApiService {
           // TODO: Need to handle the logout case
           throw GenericResponse.fromJson(responseBody);
         }
+
+        setMessage(requestType: RequestType.get, apiUrl: url, statusCode: response.statusCode.toString(), response: json.decode(response.body));
         throw json.decode(response.body);
       }
     } on SocketException {
@@ -213,6 +216,7 @@ class BaseApiService {
       }
 
       if (response.statusCode != HttpStatus.ok) {
+        setMessage(requestType: RequestType.post, apiUrl: url, statusCode: response.statusCode.toString(), response: json.decode(response.body));
         // Handle other error cases
         log("$url POST response is NOT OK:${response.statusCode}");
         log("_response - ${responseBody['msg']}");
@@ -232,6 +236,7 @@ class BaseApiService {
     } catch (e) {
       // Handle other exceptions
       log("Exception thrown: $e");
+      setMessage(requestType: RequestType.post, apiUrl: url, statusCode: 'UNHANDLED', response: e.toString());
       rethrow;
     }
   }
@@ -332,5 +337,12 @@ class BaseApiService {
       log('$e');
       rethrow;
     }
+  }
+
+  void setMessage({required RequestType requestType, required String apiUrl, required String statusCode, required String response}){
+    logCustomEvent(msg: 'RequestType $requestType, API URL: $apiUrl, \'Response Code: $statusCode, \'Response: $response');
+  }
+  void logCustomEvent({required String msg}) {
+    FirebaseCrashlytics.instance.log(msg);
   }
 }

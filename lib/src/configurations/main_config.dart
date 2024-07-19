@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/utils/device_infomation.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 export 'package:flutter/material.dart';
 
@@ -36,6 +37,20 @@ class MainConfig with WidgetsBindingObserver {
 
     // Listen for app lifecycle changes
     WidgetsBinding.instance.addObserver(MainConfig());
+
+
+    await Firebase.initializeApp();
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+    FlutterError.onError = (errorDetails) {
+      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+    };
+    // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
+    FirebaseCrashlytics.instance.log('Test: Flutter App started');
+
     // try {
     //   await FCMHandler.initializeFCM();
     //   FCMHandler.setupForegroundMessageHandler();
