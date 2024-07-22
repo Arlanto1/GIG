@@ -2710,7 +2710,7 @@ class _MaterialMovementDetailsViewState
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            cancelButtonDisplay(state),
+                            cancelButtonDisplay(),
                             if (showSaveSubmitButtons) ...[
                               submitButtonDisplay(state)
                             ],
@@ -2741,7 +2741,7 @@ class _MaterialMovementDetailsViewState
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    cancelButtonDisplay(state),
+                    cancelButtonDisplay(),
                   ],
                 ),
               ),
@@ -2896,48 +2896,60 @@ class _MaterialMovementDetailsViewState
         });
   }
 
-  Widget cancelButtonDisplay(MaterialMovementDetailsState state) {
-    bool condition = state.model.id == null ||
-        state.model.status == ConstantsIntValue.cancelledStatus ||
-        state.model.status == 10 ||
-        !state.model.lock.isEmptyOrNull;
+  Widget cancelButtonDisplay() {
     return AppButton(
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: condition ? Constants.close : Constants.cancelRecord,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        if (condition) {
-          Navigator.pop(context);
-          return;
-        }
-        var dialog = CustomAlertDialog(
-            title: Constants.cancelRecord,
-            message: Constants.cancelRecordWarningMessage,
-            onPositivePressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              updateRecordStatus(state);
-            },
-            positiveBtnText: Constants.yes,
-            negativeBtnText: Constants.no);
-        showDialog(context: context, builder: (BuildContext context) => dialog);
+        Navigator.pop(context);
       },
     );
   }
+  // Widget cancelButtonDisplay(MaterialMovementDetailsState state) {
+  //   bool condition = state.model.id == null ||
+  //       state.model.status == ConstantsIntValue.cancelledStatus ||
+  //       state.model.status == 10 ||
+  //       !state.model.lock.isEmptyOrNull;
+  //   return AppButton(
+  //     width: Constants.cancelButtonWidth,
+  //     backgroundColor: Colors.white,
+  //     key: const Key(Keys.cancelButton),
+  //     buttonText: condition ? Constants.close : Constants.cancelRecord,
+  //     buttonTextKey: Keys.cancelButton,
+  //     onTap: () {
+  //       if (condition) {
+  //         Navigator.pop(context);
+  //         return;
+  //       }
+  //       var dialog = CustomAlertDialog(
+  //           title: Constants.cancelRecord,
+  //           message: Constants.cancelRecordWarningMessage,
+  //           onPositivePressed: () {
+  //             Navigator.pop(context);
+  //             Navigator.pop(context);
+  //             updateRecordStatus(state);
+  //           },
+  //           positiveBtnText: Constants.yes,
+  //           negativeBtnText: Constants.no);
+  //       showDialog(context: context, builder: (BuildContext context) => dialog);
+  //     },
+  //   );
+  // }
 
-  void updateRecordStatus(MaterialMovementDetailsState state) {
-    log('---updateRecordStatus---');
-    if (state.model.id != null) {
-      BlocProvider.of<MaterialMovementDetailsCubit>(context)
-          .updateStatus(id: state.model.id.toString());
-      Navigator.popAndPushNamed(context, materialMovementInwardsOutwardsRoute,
-          arguments: {"isInward": widget.isInward});
-    } else {
-      Navigator.pop(context);
-    }
-  }
+  // void updateRecordStatus(MaterialMovementDetailsState state) {
+  //   log('---updateRecordStatus---');
+  //   if (state.model.id != null) {
+  //     BlocProvider.of<MaterialMovementDetailsCubit>(context)
+  //         .updateStatus(id: state.model.id.toString());
+  //     Navigator.popAndPushNamed(context, materialMovementInwardsOutwardsRoute,
+  //         arguments: {"isInward": widget.isInward});
+  //   } else {
+  //     Navigator.pop(context);
+  //   }
+  // }
 
   Widget submitButtonDisplay(MaterialMovementDetailsState state) {
     return AppButton(

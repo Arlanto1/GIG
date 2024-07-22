@@ -416,7 +416,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        cancelButtonDisplay(state),
+                        cancelButtonDisplay(),
                         if (!isReadOnly) ...[submitButtonDisplay()],
                       ],
                     ),
@@ -508,50 +508,63 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
     });
   }
 
-  Widget cancelButtonDisplay(AttendanceDetailsState state) {
-    bool condition =state.model.id == null ||
-        !state.model.lock.isEmptyOrNull ||
-        state.model.status == ConstantsIntValue.cancelledStatus;
+  Widget cancelButtonDisplay() {
     return AppButton(
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: condition
-          ? Constants.close
-          : Constants.cancelRecord,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        if (condition) {
-          Navigator.pop(context);
-          return;
-        }
-        var dialog = CustomAlertDialog(
-            title: Constants.cancelRecord,
-            message: Constants.cancelRecordWarningMessage,
-            onPositivePressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              updateRecordStatus(state);
-            },
-            positiveBtnText: Constants.yes,
-            negativeBtnText: Constants.no);
-        showDialog(context: context, builder: (BuildContext context) => dialog);
+        Navigator.pop(context);
       },
     );
   }
 
-  void updateRecordStatus(AttendanceDetailsState state) {
-    if (state.model.id != null) {
-      BlocProvider.of<AttendanceDetailsCubit>(context)
-          .updateStatus(id: state.model.id.toString());
-      Navigator.popAndPushNamed(
-        context,
-        attendanceListRoute,
-      );
-    } else {
-      Navigator.pop(context);
-    }
-  }
+  // Widget cancelButtonDisplay(AttendanceDetailsState state) {
+  //   bool condition =state.model.id == null ||
+  //       !state.model.lock.isEmptyOrNull ||
+  //       state.model.status == ConstantsIntValue.cancelledStatus;
+  //   return AppButton(
+  //     width: Constants.cancelButtonWidth,
+  //     backgroundColor: Colors.white,
+  //     key: const Key(Keys.cancelButton),
+  //     buttonText: condition
+  //         ? Constants.close
+  //         : Constants.cancelRecord,
+  //     buttonTextKey: Keys.cancelButton,
+  //     onTap: () {
+  //       if (condition) {
+  //         Navigator.pop(context);
+  //         return;
+  //       }
+  //       var dialog = CustomAlertDialog(
+  //           title: Constants.cancelRecord,
+  //           message: Constants.cancelRecordWarningMessage,
+  //           onPositivePressed: () {
+  //             Navigator.pop(context);
+  //             Navigator.pop(context);
+  //             updateRecordStatus(state);
+  //           },
+  //           positiveBtnText: Constants.yes,
+  //           negativeBtnText: Constants.no);
+  //       showDialog(context: context, builder: (BuildContext context) => dialog);
+  //     },
+  //   );
+  // }
+
+  // void updateRecordStatus(AttendanceDetailsState state) {
+  //   if (state.model.id != null) {
+  //     BlocProvider.of<AttendanceDetailsCubit>(context)
+  //         .updateStatus(id: state.model.id.toString());
+  //     Navigator.popAndPushNamed(
+  //       context,
+  //       attendanceListRoute,
+  //     );
+  //   } else {
+  //     Navigator.pop(context);
+  //   }
+  // }
 
   Widget submitButtonDisplay() {
     return AppButton(

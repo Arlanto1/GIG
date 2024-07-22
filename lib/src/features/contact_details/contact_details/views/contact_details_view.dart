@@ -668,7 +668,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        cancelButtonDisplay(state),
+                        cancelButtonDisplay(),
                         if ((!isReadOnly)) ...[
                           submitButtonDisplay(),
                         ],
@@ -700,47 +700,60 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
     }
   }
 
-  Widget cancelButtonDisplay(ContactDetailsState state) {
-    log('--widget.model?.status---${widget.model?.status}----');
-    bool condition = widget.model?.id == null ||
-        widget.model?.status == ConstantsIntValue.cancelledStatus ||
-        widget.model?.status == 3 ||
-        !state.model.lock.isEmptyOrNull;
+  Widget cancelButtonDisplay() {
     return AppButton(
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: condition ? Constants.close : Constants.cancelRecord,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        if (condition) {
-          Navigator.pop(context);
-          return;
-        }
-        var dialog = CustomAlertDialog(
-            title: Constants.cancelRecord,
-            message: Constants.cancelRecordWarningMessage,
-            onPositivePressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              updateRecordStatus(state);
-            },
-            positiveBtnText: Constants.yes,
-            negativeBtnText: Constants.no);
-        showDialog(context: context, builder: (BuildContext context) => dialog);
+        Navigator.pop(context);
       },
     );
   }
 
-  void updateRecordStatus(ContactDetailsState state) {
-    if (state.model.id != null) {
-      BlocProvider.of<ContactDetailsCubit>(context)
-          .updateStatus(id: state.model.id.toString());
-      Navigator.popAndPushNamed(context, contactDetailsListRoute);
-    } else {
-      Navigator.pop(context);
-    }
-  }
+  // Widget cancelButtonDisplay(ContactDetailsState state) {
+  //   log('--widget.model?.status---${widget.model?.status}----');
+  //   bool condition = widget.model?.id == null ||
+  //       widget.model?.status == ConstantsIntValue.cancelledStatus ||
+  //       widget.model?.status == 3 ||
+  //       !state.model.lock.isEmptyOrNull;
+  //   return AppButton(
+  //     width: Constants.cancelButtonWidth,
+  //     backgroundColor: Colors.white,
+  //     key: const Key(Keys.cancelButton),
+  //     buttonText: condition ? Constants.close : Constants.cancelRecord,
+  //     buttonTextKey: Keys.cancelButton,
+  //     onTap: () {
+  //       if (condition) {
+  //         Navigator.pop(context);
+  //         return;
+  //       }
+  //       var dialog = CustomAlertDialog(
+  //           title: Constants.cancelRecord,
+  //           message: Constants.cancelRecordWarningMessage,
+  //           onPositivePressed: () {
+  //             Navigator.pop(context);
+  //             Navigator.pop(context);
+  //             updateRecordStatus(state);
+  //           },
+  //           positiveBtnText: Constants.yes,
+  //           negativeBtnText: Constants.no);
+  //       showDialog(context: context, builder: (BuildContext context) => dialog);
+  //     },
+  //   );
+  // }
+
+  // void updateRecordStatus(ContactDetailsState state) {
+  //   if (state.model.id != null) {
+  //     BlocProvider.of<ContactDetailsCubit>(context)
+  //         .updateStatus(id: state.model.id.toString());
+  //     Navigator.popAndPushNamed(context, contactDetailsListRoute);
+  //   } else {
+  //     Navigator.pop(context);
+  //   }
+  // }
 
   Widget submitButtonDisplay() {
     return AppButton(
