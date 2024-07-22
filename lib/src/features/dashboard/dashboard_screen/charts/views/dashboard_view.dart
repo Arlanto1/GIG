@@ -89,10 +89,11 @@ class DashboardViewState extends State<DashboardView>
               //     ),
               //   ),
               // ),
-              TextButton(
-                onPressed: () => throw Exception(),
-                child: const Text("Throw Test Exception"),
-              ),
+              /// to test crash
+              // TextButton(
+              //   onPressed: () => throw Exception(),
+              //   child: const Text("Throw Test Exception"),
+              // ),
               NotificationBell(notificationCount: state.notificationCount ?? 0),
               GestureDetector(
                 onTap: () {
