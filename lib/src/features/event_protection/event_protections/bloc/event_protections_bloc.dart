@@ -53,6 +53,13 @@ class EventProtectionsBloc
       InitializeValuesEP event, Emitter<EventProtectionsState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.eventProtectionModuleCode,
+        commonServices: commonServices,
+      );
+
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.eventProtectionModule);
 
@@ -68,12 +75,6 @@ class EventProtectionsBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.eventProtectionModuleCode);
-
-      ExtraProperties extraProperties =
-          await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.eventProtectionModuleCode,
-        commonServices: commonServices,
-      );
 
       EPUiLabels labels = EPUiLabels.fromJson(responseLabels);
       return emit(

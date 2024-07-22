@@ -59,7 +59,6 @@ class _AnnualPowerShutdownListDetailsViewState
         AnnualPowerShutdownListDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
-        log('-epManager1---${state.model.epManager1?.name}----');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
@@ -121,7 +120,7 @@ class _AnnualPowerShutdownListDetailsViewState
             showDisLikeButton: false,
             showLikeButton: false,
             pdfAPIName:
-                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.annualPowerShutDownModule}',
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.annualPowerShutDownModuleCode}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)

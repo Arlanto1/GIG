@@ -6,7 +6,6 @@ import '../../models/aps_ui_labels.dart';
 import '../../services/annual_power_shutdown_services.dart';
 
 part 'annual_power_shutdown_list_event.dart';
-
 part 'annual_power_shutdown_list_state.dart';
 
 class AnnualPowerShutdownListBloc
@@ -54,6 +53,13 @@ class AnnualPowerShutdownListBloc
       Emitter<AnnualPowerShutdownListState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
+
+      ExtraProperties extraProperties =
+          await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.annualPowerShutDownModuleCode,
+        commonServices: commonServices,
+      );
+
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.eventProtectionModule);
 
@@ -68,13 +74,8 @@ class AnnualPowerShutdownListBloc
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.eventProtectionModuleCode);
+          moduleCode: Constants.annualPowerShutDownModuleCode);
 
-      ExtraProperties extraProperties =
-          await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.eventProtectionModuleCode,
-        commonServices: commonServices,
-      );
       APSUILabels labels = APSUILabels.fromJson(responseLabels);
       return emit(
         state.copyWith(

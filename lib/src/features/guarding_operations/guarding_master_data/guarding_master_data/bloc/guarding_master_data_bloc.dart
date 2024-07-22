@@ -28,6 +28,13 @@ class GuardingMasterDataBloc
       InitializeValuesGMD event, Emitter<GuardingMasterDataState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.guardingMasterModuleCode,
+        commonServices: commonServices,
+      );
+
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.guardingMasterDataModule);
 
@@ -44,11 +51,6 @@ class GuardingMasterDataBloc
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.guardingMasterModuleCode);
 
-      ExtraProperties extraProperties =
-          await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.guardingMasterModuleCode,
-        commonServices: commonServices,
-      );
       GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(

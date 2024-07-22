@@ -42,6 +42,13 @@ class OccurrencesBloc extends Bloc<OccurrencesEvent, OccurrencesState> {
       InitializeValues event, Emitter<OccurrencesState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.occurrenceModule,
+        commonServices: commonServices,
+      );
+
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.occurrenceModule);
 
@@ -57,11 +64,7 @@ class OccurrencesBloc extends Bloc<OccurrencesEvent, OccurrencesState> {
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.occurrenceModule);
-      ExtraProperties extraProperties =
-          await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.occurrenceModule,
-        commonServices: commonServices,
-      );
+
       OCCUiLabels labels = OCCUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(

@@ -30,6 +30,13 @@ class KeyLossDestructionListBloc
       InitializeValues event, Emitter<KeyLossDestructionListState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.keyManagementMasterModule,
+        commonServices: commonServices,
+      );
+
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.keyManagementMasterModule);
 
@@ -45,11 +52,7 @@ class KeyLossDestructionListBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.keyManagementMasterModule);
-      ExtraProperties extraProperties =
-          await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.keyManagementMasterModule,
-        commonServices: commonServices,
-      );
+
       KLDUiLabels labels = KLDUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(

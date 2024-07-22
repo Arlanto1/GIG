@@ -33,6 +33,13 @@ class MaterialMovementBloc
       InitializeValuesMM event, Emitter<MaterialMovementState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.materialMovementModuleCode,
+        commonServices: commonServices,
+      );
+
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.materialMovementModuleCode);
 
@@ -49,11 +56,6 @@ class MaterialMovementBloc
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.materialMovementModuleCode);
 
-      ExtraProperties extraProperties =
-          await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.materialMovementModuleCode,
-        commonServices: commonServices,
-      );
       MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(

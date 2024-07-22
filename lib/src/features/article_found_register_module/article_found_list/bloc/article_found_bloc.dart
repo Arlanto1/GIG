@@ -29,6 +29,13 @@ class ArticleFoundBloc extends Bloc<ArticleFoundStateEvent, ArticleFoundState> {
       InitializeValuesAF event, Emitter<ArticleFoundState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.articleFoundModuleCode,
+        commonServices: commonServices,
+      );
+
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.articleFoundModuleCode);
 
@@ -45,11 +52,6 @@ class ArticleFoundBloc extends Bloc<ArticleFoundStateEvent, ArticleFoundState> {
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.articleFoundModuleCode);
 
-      ExtraProperties extraProperties =
-          await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.articleFoundModuleCode,
-        commonServices: commonServices,
-      );
       AFUiLabels labels = AFUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(

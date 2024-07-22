@@ -29,6 +29,13 @@ class DutyPostNameMasterListBloc
       InitializeValue event, Emitter<DutyPostNameMasterListState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.dutyPostNameMasterModuleCode,
+        commonServices: commonServices,
+      );
+
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.dutyPostNameMasterModuleCode);
 
@@ -44,11 +51,6 @@ class DutyPostNameMasterListBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.dutyPostNameMasterModuleCode);
-      ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.dutyPostNameMasterModuleCode,
-        commonServices: commonServices,
-      );
 
       DPNUiLabels labels = DPNUiLabels.fromJson(responseLabels);
       return emit(

@@ -29,6 +29,13 @@ class SLAViolationPenaltyListBloc
       Emitter<SLAViolationPenaltyListState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
+        commonServices: commonServices,
+      );
+
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.contactDetailsModuleCode);
 
@@ -44,11 +51,7 @@ class SLAViolationPenaltyListBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
-      ExtraProperties extraProperties =
-          await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
-        commonServices: commonServices,
-      );
+
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
