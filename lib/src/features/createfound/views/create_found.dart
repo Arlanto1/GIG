@@ -2145,48 +2145,61 @@ class _CreateFoundState extends State<CreateFound> {
   }
 
   Widget cancelButtonDisplay() {
-    bool condition = widget.model?.id == null ||
-        widget.model?.status == ConstantsIntValue.cancelledStatus ||
-        widget.model?.status ==
-            ConstantsIntValue.articleFoundStatusHandedOverOrClaimed;
     return AppButton(
-      width: 150,
+      width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: condition ? Constants.close : Constants.cancelRecord,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        if (condition) {
-          Navigator.pop(context);
-          return;
-        }
-        var dialog = CustomAlertDialog(
-            title: Constants.cancelRecord,
-            message: Constants.cancelRecordWarningMessage,
-            onPositivePressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              updateRecordStatus();
-            },
-            positiveBtnText: Constants.yes,
-            negativeBtnText: Constants.no);
-        showDialog(context: context, builder: (BuildContext context) => dialog);
+        Navigator.pop(context);
       },
     );
   }
 
-  void updateRecordStatus() {
-    if (widget.model?.id != null) {
-      BlocProvider.of<CreateFoundArticleCubit>(context)
-          .updateStatus(id: widget.model!.id.toString());
-      Navigator.popAndPushNamed(
-        context,
-        articleFoundListRoute,
-      );
-    } else {
-      Navigator.pop(context);
-    }
-  }
+  // Widget cancelButtonDisplay() {
+  //   bool condition = widget.model?.id == null ||
+  //       widget.model?.status == ConstantsIntValue.cancelledStatus ||
+  //       widget.model?.status ==
+  //           ConstantsIntValue.articleFoundStatusHandedOverOrClaimed;
+  //   return AppButton(
+  //     width: 150,
+  //     backgroundColor: Colors.white,
+  //     key: const Key(Keys.cancelButton),
+  //     buttonText: condition ? Constants.close : Constants.cancelRecord,
+  //     buttonTextKey: Keys.cancelButton,
+  //     onTap: () {
+  //       if (condition) {
+  //         Navigator.pop(context);
+  //         return;
+  //       }
+  //       var dialog = CustomAlertDialog(
+  //           title: Constants.cancelRecord,
+  //           message: Constants.cancelRecordWarningMessage,
+  //           onPositivePressed: () {
+  //             Navigator.pop(context);
+  //             Navigator.pop(context);
+  //             updateRecordStatus();
+  //           },
+  //           positiveBtnText: Constants.yes,
+  //           negativeBtnText: Constants.no);
+  //       showDialog(context: context, builder: (BuildContext context) => dialog);
+  //     },
+  //   );
+  // }
+
+  // void updateRecordStatus() {
+  //   if (widget.model?.id != null) {
+  //     BlocProvider.of<CreateFoundArticleCubit>(context)
+  //         .updateStatus(id: widget.model!.id.toString());
+  //     Navigator.popAndPushNamed(
+  //       context,
+  //       articleFoundListRoute,
+  //     );
+  //   } else {
+  //     Navigator.pop(context);
+  //   }
+  // }
 
   Widget locationWidgetdislay(CreateFoundState state) {
     return GestureDetector(
