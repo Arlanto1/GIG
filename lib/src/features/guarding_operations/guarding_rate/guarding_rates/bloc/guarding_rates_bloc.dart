@@ -55,6 +55,13 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
     log('--_initializeValues---');
     try {
       emit(state.copyWith(status: FormStatus.loading));
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.guardingRatesModule,
+        commonServices: commonServices,
+      );
+
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.guardingRatesModule);
 
@@ -70,11 +77,6 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.guardingRatesModule);
-      ExtraProperties extraProperties =
-          await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.guardingRatesModule,
-        commonServices: commonServices,
-      );
 
       GRUiLabels labels = GRUiLabels.fromJson(responseLabels);
       return emit(

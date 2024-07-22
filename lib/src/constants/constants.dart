@@ -24,7 +24,6 @@ class Constants {
   static const String visitorManagementModule = 'PMVSP';
   static const String vendorPassManagementModule = 'PMVNP';
   static const String eventProtectionModule = 'EP';
-  static const String annualPowerShutDownModule = 'APS';
   static const String securitySystemModule = 'SSSLA';
   static const String guardingRatesModule = 'GR';
   static const String occurrenceModule = 'OCC';
@@ -52,6 +51,7 @@ class Constants {
   static const String dutyPostMasterModuleCode = 'SSDPM';
   static const String dutyPostNameMasterModuleCode = 'SSDP';
   static const String attendanceModuleCode = 'ATD';
+  static const String annualPowerShutDownModuleCode = 'APS';
 
   /// Rank Types for Contact Details
   static const String contactGeneralRank = 'CONTACT_GENERAL_RANK';

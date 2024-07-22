@@ -39,6 +39,13 @@ class IncidentManagementsBloc
       InitializeValues event, Emitter<IncidentManagementsState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.incidentManagementModule,
+        commonServices: commonServices,
+      );
+
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.incidentManagementModule);
 
@@ -55,11 +62,6 @@ class IncidentManagementsBloc
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.incidentManagementModule);
 
-      ExtraProperties extraProperties =
-          await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.incidentManagementModule,
-        commonServices: commonServices,
-      );
       IMUiLabels labels = IMUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(

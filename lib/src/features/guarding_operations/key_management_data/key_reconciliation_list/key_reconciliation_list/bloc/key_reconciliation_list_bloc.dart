@@ -48,6 +48,13 @@ class KeyReconciliationListBloc
       InitializeValues event, Emitter<KeyReconciliationListState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.keyReconciliationModule,
+        commonServices: commonServices,
+      );
+
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.keyReconciliationModule);
 
@@ -63,11 +70,7 @@ class KeyReconciliationListBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.keyReconciliationModule);
-      ExtraProperties extraProperties =
-          await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.keyReconciliationModule,
-        commonServices: commonServices,
-      );
+
       KMUiLabels labels = KMUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(

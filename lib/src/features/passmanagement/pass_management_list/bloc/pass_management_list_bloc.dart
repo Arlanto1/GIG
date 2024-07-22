@@ -49,6 +49,13 @@ class PassManagementListBloc
       InitializeValuesPM event, Emitter<PassManagementListState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.passManagementRolesModuleCode,
+        commonServices: commonServices,
+      );
+
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.passManagementModuleCode);
 
@@ -64,11 +71,7 @@ class PassManagementListBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.passManagementRolesModuleCode);
-      ExtraProperties extraProperties =
-          await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.passManagementRolesModuleCode,
-        commonServices: commonServices,
-      );
+
       PMUiLabels labels = PMUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(

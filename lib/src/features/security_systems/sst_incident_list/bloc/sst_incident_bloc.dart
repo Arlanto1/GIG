@@ -46,6 +46,13 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
       InitializeValues event, Emitter<SstIncidentState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.securitySystemModule,
+        commonServices: commonServices,
+      );
+
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.securitySystemModule);
 
@@ -62,11 +69,6 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.securitySystemModule);
 
-      ExtraProperties extraProperties =
-          await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.securitySystemModule,
-        commonServices: commonServices,
-      );
       SSLAUiLabels labels = SSLAUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(

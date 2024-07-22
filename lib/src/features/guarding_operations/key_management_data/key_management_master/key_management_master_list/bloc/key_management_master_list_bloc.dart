@@ -29,6 +29,13 @@ class KeyManagementMasterListBloc
       Emitter<KeyManagementMasterListState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.keyManagementMasterModule,
+        commonServices: commonServices,
+      );
+
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.keyManagementMasterModule);
 
@@ -44,11 +51,7 @@ class KeyManagementMasterListBloc
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.keyManagementMasterModule);
-      ExtraProperties extraProperties =
-          await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.keyManagementMasterModule,
-        commonServices: commonServices,
-      );
+
       KMUiLabels labels = KMUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
