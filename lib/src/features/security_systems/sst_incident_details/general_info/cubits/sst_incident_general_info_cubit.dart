@@ -321,7 +321,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.incidentManagementModule,
+        moduleCode: Constants.securitySystemModule,
       );
 
       state.model.location = location;
