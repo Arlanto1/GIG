@@ -105,11 +105,10 @@ class _KeyManagementMasterDetailsViewState
           isReadOnly = true;
         }
 
-        showSaveSubmitButton =
-            state.model.status != 2 &&
-                state.model.status != -1 &&
-                !isReadOnly  &&
-                state.model.lock.isEmptyOrNull;
+        showSaveSubmitButton = state.model.status != 2 &&
+            state.model.status != -1 &&
+            !isReadOnly &&
+            state.model.lock.isEmptyOrNull;
 
         initializeDates();
         return Scaffold(
@@ -121,7 +120,8 @@ class _KeyManagementMasterDetailsViewState
             showSubmitButton: showSaveSubmitButton ? true : false,
             showDisLikeButton: false,
             showLikeButton: false,
-            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.keyManagementMasterModule}',
+            pdfAPIName:
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.keyManagementMasterModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
@@ -688,8 +688,8 @@ class _KeyManagementMasterDetailsViewState
 
                             /// No. keys issued
                             CommonWidgets.horizentaltextHandling(
-                              // state.labels?.locale.entrySecurity ??
-                              //     state.labels?.defaultLocale.entrySecurity ??
+                                // state.labels?.locale.entrySecurity ??
+                                //     state.labels?.defaultLocale.entrySecurity ??
                                 Constants.noKeysIssued,
                                 isMandatory: true,
                                 '${state.model.noKeysIssued}'),
@@ -698,8 +698,7 @@ class _KeyManagementMasterDetailsViewState
                             /// Number of Keys Available
                             CommonWidgets.horizentaltextHandling(
                                 state.labels?.locale.available ??
-                                    state.labels?.defaultLocale
-                                        .available ??
+                                    state.labels?.defaultLocale.available ??
                                     Constants.noOfKeysAvailable,
                                 '${state.model.available}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -707,8 +706,7 @@ class _KeyManagementMasterDetailsViewState
                             /// Number of Keys Returned
                             CommonWidgets.horizentaltextHandling(
                                 state.labels?.locale.returned ??
-                                    state.labels?.defaultLocale
-                                        .returned ??
+                                    state.labels?.defaultLocale.returned ??
                                     Constants.noOfKeysReturned,
                                 '${state.model.returned}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -716,8 +714,7 @@ class _KeyManagementMasterDetailsViewState
                             /// Number of Keys not Returned
                             CommonWidgets.horizentaltextHandling(
                                 state.labels?.locale.notReturned ??
-                                    state.labels?.defaultLocale
-                                        .notReturned ??
+                                    state.labels?.defaultLocale.notReturned ??
                                     Constants.noOfKeysNotReturned,
                                 '${state.model.notReturned}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -725,8 +722,7 @@ class _KeyManagementMasterDetailsViewState
                             /// Number of Keys Lost
                             CommonWidgets.horizentaltextHandling(
                                 state.labels?.locale.lost ??
-                                    state.labels?.defaultLocale
-                                        .lost ??
+                                    state.labels?.defaultLocale.lost ??
                                     Constants.noOfKeysLost,
                                 '${state.model.lost}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -734,8 +730,7 @@ class _KeyManagementMasterDetailsViewState
                             /// Number of Keys Damaged
                             CommonWidgets.horizentaltextHandling(
                                 state.labels?.locale.damaged ??
-                                    state.labels?.defaultLocale
-                                        .damaged ??
+                                    state.labels?.defaultLocale.damaged ??
                                     Constants.noOfKeysDamaged,
                                 '${state.model.damaged}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -749,7 +744,6 @@ class _KeyManagementMasterDetailsViewState
                                 '${state.model.noKeysIssuedMaster}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-
                             /// Number of Master Keys Available
                             CommonWidgets.horizentaltextHandling(
                                 state.labels?.locale.availableMaster ??
@@ -759,12 +753,11 @@ class _KeyManagementMasterDetailsViewState
                                 '${state.model.availableMaster}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-
                             /// Number of Master Keys Returned
                             CommonWidgets.horizentaltextHandling(
                                 state.labels?.locale.returnedMaster ??
-                                    state.labels?.defaultLocale
-                                        .returnedMaster ??
+                                    state
+                                        .labels?.defaultLocale.returnedMaster ??
                                     Constants.noOfMasterKeysReturned,
                                 '${state.model.returnedMaster}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -781,8 +774,7 @@ class _KeyManagementMasterDetailsViewState
                             /// Number of Master Keys Lost
                             CommonWidgets.horizentaltextHandling(
                                 state.labels?.locale.lostMaster ??
-                                    state.labels?.defaultLocale
-                                        .lostMaster ??
+                                    state.labels?.defaultLocale.lostMaster ??
                                     Constants.noOfMasterKeysLost,
                                 '${state.model.lostMaster}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -790,8 +782,7 @@ class _KeyManagementMasterDetailsViewState
                             /// Number of Master Keys Damaged
                             CommonWidgets.horizentaltextHandling(
                                 state.labels?.locale.damagedMaster ??
-                                    state.labels?.defaultLocale
-                                        .damagedMaster ??
+                                    state.labels?.defaultLocale.damagedMaster ??
                                     Constants.noOfMasterKeysDamaged,
                                 '${state.model.damagedMaster}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1055,8 +1046,10 @@ class _KeyManagementMasterDetailsViewState
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              cancelButtonDisplay(state),
-                              if (showSaveSubmitButton) ...[submitButtonDisplay()],
+                              cancelButtonDisplay(),
+                              if (showSaveSubmitButton) ...[
+                                submitButtonDisplay()
+                              ],
                             ],
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.04),
@@ -1073,45 +1066,58 @@ class _KeyManagementMasterDetailsViewState
     );
   }
 
-  Widget cancelButtonDisplay(KeyManagementMasterDetailsState state) {
-    bool condition = state.model.id == null ||
-        !state.model.lock.isEmptyOrNull ||
-        state.model.status == -1;
+  Widget cancelButtonDisplay() {
     return AppButton(
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: condition ? Constants.close : Constants.cancelRecord,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        if (state.model.id == null) {
-          Navigator.pop(context);
-          return;
-        }
-        var dialog = CustomAlertDialog(
-            title: Constants.cancelRecord,
-            message: Constants.cancelRecordWarningMessage,
-            onPositivePressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              updateRecordStatus(state);
-            },
-            positiveBtnText: Constants.yes,
-            negativeBtnText: Constants.no);
-        showDialog(context: context, builder: (BuildContext context) => dialog);
+        Navigator.pop(context);
       },
     );
   }
 
-  void updateRecordStatus(KeyManagementMasterDetailsState state) {
-    if (state.model.id != null) {
-      BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
-          .updateStatus(id: state.model.id.toString());
-      Navigator.popAndPushNamed(context, keyManagementMasterListRoute);
-    } else {
-      Navigator.pop(context);
-    }
-  }
+  // Widget cancelButtonDisplay(KeyManagementMasterDetailsState state) {
+  //   bool condition = state.model.id == null ||
+  //       !state.model.lock.isEmptyOrNull ||
+  //       state.model.status == -1;
+  //   return AppButton(
+  //     width: Constants.cancelButtonWidth,
+  //     backgroundColor: Colors.white,
+  //     key: const Key(Keys.cancelButton),
+  //     buttonText: condition ? Constants.close : Constants.cancelRecord,
+  //     buttonTextKey: Keys.cancelButton,
+  //     onTap: () {
+  //       if (state.model.id == null) {
+  //         Navigator.pop(context);
+  //         return;
+  //       }
+  //       var dialog = CustomAlertDialog(
+  //           title: Constants.cancelRecord,
+  //           message: Constants.cancelRecordWarningMessage,
+  //           onPositivePressed: () {
+  //             Navigator.pop(context);
+  //             Navigator.pop(context);
+  //             updateRecordStatus(state);
+  //           },
+  //           positiveBtnText: Constants.yes,
+  //           negativeBtnText: Constants.no);
+  //       showDialog(context: context, builder: (BuildContext context) => dialog);
+  //     },
+  //   );
+  // }
+
+  // void updateRecordStatus(KeyManagementMasterDetailsState state) {
+  //   if (state.model.id != null) {
+  //     BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
+  //         .updateStatus(id: state.model.id.toString());
+  //     Navigator.popAndPushNamed(context, keyManagementMasterListRoute);
+  //   } else {
+  //     Navigator.pop(context);
+  //   }
+  // }
 
   Widget submitButtonDisplay() {
     return AppButton(

@@ -1533,7 +1533,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    cancelButtonDisplay(state),
+                    cancelButtonDisplay(),
                     if (showSaveSubmitButtons) ...[submitButtonDisplay()]
                   ],
                 ),
@@ -1598,49 +1598,62 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
     }
   }
 
-  Widget cancelButtonDisplay(OccurrenceGeneralInfoState state) {
-    bool condition = state.model.id == null ||
-        state.model.status == ConstantsIntValue.cancelledStatus ||
-        state.model.status == 1 ||
-        !state.model.lock.isEmptyOrNull;
+  Widget cancelButtonDisplay() {
     return AppButton(
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: condition ? Constants.close : Constants.cancelRecord,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        if (condition) {
-          Navigator.pop(context);
-          return;
-        }
-        var dialog = CustomAlertDialog(
-            title: Constants.cancelRecord,
-            message: Constants.cancelRecordWarningMessage,
-            onPositivePressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              updateRecordStatus(state);
-            },
-            positiveBtnText: Constants.yes,
-            negativeBtnText: Constants.no);
-        showDialog(context: context, builder: (BuildContext context) => dialog);
+        Navigator.pop(context);
       },
     );
   }
 
-  void updateRecordStatus(OccurrenceGeneralInfoState state) {
-    if (state.model.id != null) {
-      BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
-          .updateStatus(id: state.model.id.toString());
-      Navigator.popAndPushNamed(
-        context,
-        occurrenceRoute,
-      );
-    } else {
-      Navigator.pop(context);
-    }
-  }
+  // Widget cancelButtonDisplay(OccurrenceGeneralInfoState state) {
+  //   bool condition = state.model.id == null ||
+  //       state.model.status == ConstantsIntValue.cancelledStatus ||
+  //       state.model.status == 1 ||
+  //       !state.model.lock.isEmptyOrNull;
+  //   return AppButton(
+  //     width: Constants.cancelButtonWidth,
+  //     backgroundColor: Colors.white,
+  //     key: const Key(Keys.cancelButton),
+  //     buttonText: condition ? Constants.close : Constants.cancelRecord,
+  //     buttonTextKey: Keys.cancelButton,
+  //     onTap: () {
+  //       if (condition) {
+  //         Navigator.pop(context);
+  //         return;
+  //       }
+  //       var dialog = CustomAlertDialog(
+  //           title: Constants.cancelRecord,
+  //           message: Constants.cancelRecordWarningMessage,
+  //           onPositivePressed: () {
+  //             Navigator.pop(context);
+  //             Navigator.pop(context);
+  //             updateRecordStatus(state);
+  //           },
+  //           positiveBtnText: Constants.yes,
+  //           negativeBtnText: Constants.no);
+  //       showDialog(context: context, builder: (BuildContext context) => dialog);
+  //     },
+  //   );
+  // }
+
+  // void updateRecordStatus(OccurrenceGeneralInfoState state) {
+  //   if (state.model.id != null) {
+  //     BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
+  //         .updateStatus(id: state.model.id.toString());
+  //     Navigator.popAndPushNamed(
+  //       context,
+  //       occurrenceRoute,
+  //     );
+  //   } else {
+  //     Navigator.pop(context);
+  //   }
+  // }
 
   Future<void> navigateToCreateIncident({
     required OccurrenceGeneralInfoState state,
@@ -1835,7 +1848,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                 const Spacer(),
                 IconButton(
                   onPressed: () {
-                    if(state.isOnGoingPowerFailure??false) {
+                    if (state.isOnGoingPowerFailure ?? false) {
                       return;
                     }
                     BlocProvider.of<OccurrenceGeneralInfoCubit>(context)

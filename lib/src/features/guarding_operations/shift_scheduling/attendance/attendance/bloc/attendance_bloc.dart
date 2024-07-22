@@ -52,6 +52,13 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       InitializeValues event, Emitter<AttendanceState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.attendanceModuleCode,
+        commonServices: commonServices,
+      );
+
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.attendanceModuleCode);
 
@@ -67,11 +74,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.attendanceModuleCode);
-      ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.attendanceModuleCode,
-        commonServices: commonServices,
-      );
+
       SSUiLabels labels = SSUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(

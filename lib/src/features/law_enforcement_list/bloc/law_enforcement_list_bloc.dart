@@ -38,6 +38,13 @@ class LawEnforcementListBloc
       InitializeValuesLEO event, Emitter<LawEnforcementListState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.leoModuleCode,
+        commonServices: commonServices,
+      );
+
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.leoModuleCode);
 
@@ -54,11 +61,7 @@ class LawEnforcementListBloc
       //     language: await SharedPrefs.getLanguageCode(),
       //     moduleCode: Constants.leoModuleCode);
 
-      ExtraProperties extraProperties =
-          await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.leoModuleCode,
-        commonServices: commonServices,
-      );
+
       // CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(

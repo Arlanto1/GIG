@@ -100,15 +100,15 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
             title: widget.title,
             showPopUp: false,
             pdfAPIName:
-            '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.slaViolationPenaltyDetailsModuleCode}',
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.slaViolationPenaltyDetailsModuleCode}',
             showSaveButton: state.model.status != 2 &&
-                state.model.status != -1 &&
-                !isReadOnly
+                    state.model.status != -1 &&
+                    !isReadOnly
                 ? true
                 : false,
             showSubmitButton: state.model.status != 2 &&
-                state.model.status != -1 &&
-                !isReadOnly
+                    state.model.status != -1 &&
+                    !isReadOnly
                 ? true
                 : false,
             showDisLikeButton: false,
@@ -159,7 +159,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
               decoration: const ShapeDecoration(
                 color: AppColors.backgroundWhiteColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(20.0)),
                 ),
               ),
               child: Column(
@@ -213,7 +214,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               isDisableColor: true,
                               textFormKey: Keys.statusTextController,
                               hintText: '',
-                              initialValue: getStatusString(state.model.status ?? 0),
+                              initialValue:
+                                  getStatusString(state.model.status ?? 0),
                               onChange: (String value) {},
                               validateTextField: (String? user) {},
                             ),
@@ -227,7 +229,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            datecreateWidgetdisplay(state.model.inputDate ?? ''),
+                            datecreateWidgetdisplay(
+                                state.model.inputDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             CommonWidgets.textDisplay(
@@ -242,9 +245,12 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                 context: context,
                                 isEnabled: !widget.viaAttendance,
                                 locations: state.locations ?? Locations(),
-                                selectedLocationName: state.model.location?.name ?? '',
+                                selectedLocationName:
+                                    state.model.location?.name ?? '',
                                 onTap: (Organisation? location) {
-                                  BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                                  BlocProvider.of<
+                                              SLAViolationPenaltyDetailsCubit>(
+                                          context)
                                       .updateDropdownValues(location: location);
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -273,15 +279,20 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               all: state.vendors,
                               enabled: !widget.viaAttendance && !isReadOnly,
                               onTap: (List<Organisation> selectedVendors) {
-                                BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
-                                    .updateDropdownValues(vendors: selectedVendors);
+                                BlocProvider.of<
+                                            SLAViolationPenaltyDetailsCubit>(
+                                        context)
+                                    .updateDropdownValues(
+                                        vendors: selectedVendors);
                                 Navigator.of(context).pop();
                               },
                               addTitle: 'ADD Vendor',
                               createEntity: false,
                               orgName: 'ATOM_VENDORS',
                               functionToCall: () {
-                                BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                                BlocProvider.of<
+                                            SLAViolationPenaltyDetailsCubit>(
+                                        context)
                                     .refreshList();
                               },
                             ),
@@ -302,13 +313,18 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               enabled: !isReadOnly,
                               onTap: (List<Organisation> selectedEntities) {
                                 log('--selectedEntities----${selectedEntities.length}');
-                                BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
-                                    .updateDropdownValues(entities: selectedEntities);
+                                BlocProvider.of<
+                                            SLAViolationPenaltyDetailsCubit>(
+                                        context)
+                                    .updateDropdownValues(
+                                        entities: selectedEntities);
                                 Navigator.of(context).pop();
                               },
                               orgName: 'ATOM_ENTITIES',
                               functionToCall: () {
-                                BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                                BlocProvider.of<
+                                            SLAViolationPenaltyDetailsCubit>(
+                                        context)
                                     .refreshList();
                               },
                             ),
@@ -327,17 +343,23 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               selectedValues: state.model.typeOfService ?? [],
                               all: state.typeOfServices,
                               enabled: !isReadOnly,
-                              onTap: (List<Organisation> selectedTypeOfVendors) {
+                              onTap:
+                                  (List<Organisation> selectedTypeOfVendors) {
                                 log('--selectedEntities----${selectedTypeOfVendors.length}');
-                                BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
-                                    .updateDropdownValues(typeOfServices: selectedTypeOfVendors);
+                                BlocProvider.of<
+                                            SLAViolationPenaltyDetailsCubit>(
+                                        context)
+                                    .updateDropdownValues(
+                                        typeOfServices: selectedTypeOfVendors);
                                 Navigator.of(context).pop();
                               },
                               addTitle: 'ADD Type of Service',
                               createEntity: false,
                               orgName: 'SLA_VIOLATION_TYPE_OF_SERVICE',
                               functionToCall: () {
-                                BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                                BlocProvider.of<
+                                            SLAViolationPenaltyDetailsCubit>(
+                                        context)
                                     .refreshList();
                               },
                             ),
@@ -360,12 +382,16 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                   enabled: !isReadOnly,
                                   users: state.emailUsers,
                                   onTap: (BaseUser user) {
-                                    BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                                    BlocProvider.of<
+                                                SLAViolationPenaltyDetailsCubit>(
+                                            context)
                                         .updateDropdownValues(user: user);
                                   },
                                   roleName: ConstantUserRoles.atomStaticUser,
                                   functionToCall: () {
-                                    BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                                    BlocProvider.of<
+                                                SLAViolationPenaltyDetailsCubit>(
+                                            context)
                                         .refreshList();
                                   },
                                 );
@@ -442,7 +468,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                         GestureDetector(
                           onTap: () async {
                             NavigatorState nav = Navigator.of(context);
-                            bool isSaveSuccess = await BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+                            bool isSaveSuccess = await BlocProvider.of<
+                                    SLAViolationPenaltyDetailsCubit>(context)
                                 .submitForm(
                               isSaveOnly: true,
                               navigateToNextScreen: true,
@@ -452,16 +479,21 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               return;
                             }
                             log('--state.model.id---${state.model.id}--');
-                            List<Organisation> violationDescriptions = await CommonServices().getOrganisations(
-                                name: Constants.slaViolation);
+                            List<Organisation> violationDescriptions =
+                                await CommonServices().getOrganisations(
+                                    name: Constants.slaViolation);
                             nav.pushNamed(
                               slaViolationPenaltyRecordsRoute,
                               arguments: {
-                                ConstantsArgument.title: Constants.violationPenalty,
+                                ConstantsArgument.title:
+                                    Constants.violationPenalty,
                                 ConstantsArgument.id: state.model.id,
-                                ConstantsArgument.violationDescription: Constants.slaViolation,
-                                ConstantsArgument.violationDescriptions: violationDescriptions,
-                                ConstantsArgument.parentStatus: state.model.status,
+                                ConstantsArgument.violationDescription:
+                                    Constants.slaViolation,
+                                ConstantsArgument.violationDescriptions:
+                                    violationDescriptions,
+                                ConstantsArgument.parentStatus:
+                                    state.model.status,
                               },
                             );
                           },
@@ -498,7 +530,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                       if ((state.model.status != 2 &&
                           state.model.status != -1 &&
                           !isReadOnly)) ...[
-                        cancelButtonDisplay(state),
+                        cancelButtonDisplay(),
                         submitButtonDisplay()
                       ],
                     ],
@@ -507,20 +539,21 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                 ],
               ),
             ),
-
-            if (state.model.status == 2 || state.model.status == ConstantsIntValue.cancelledStatus) ...[
+            if (state.model.status == 2 ||
+                state.model.status == ConstantsIntValue.cancelledStatus) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(
                   color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(0.0)),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(0.0)),
                   ),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    cancelButtonDisplay(state),
+                    cancelButtonDisplay(),
                   ],
                 ),
               ),
@@ -531,7 +564,6 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
       ),
     );
   }
-
 
   String getStatusString(int status) {
     switch (status) {
@@ -548,49 +580,62 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
     }
   }
 
-  Widget cancelButtonDisplay(SLAViolationPenaltyDetailsState state) {
-    bool condition = state.model.id == null ||
-        state.model.status == ConstantsIntValue.cancelledStatus ||
-        state.model.status == 2 ||
-        !state.model.lock.isEmptyOrNull;
+  Widget cancelButtonDisplay() {
     return AppButton(
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: condition ? Constants.close : Constants.cancelRecord,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        if (condition) {
-          Navigator.pop(context);
-          return;
-        }
-        var dialog = CustomAlertDialog(
-            title: Constants.cancelRecord,
-            message: Constants.cancelRecordWarningMessage,
-            onPositivePressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              updateRecordStatus(state);
-            },
-            positiveBtnText: Constants.yes,
-            negativeBtnText: Constants.no);
-        showDialog(context: context, builder: (BuildContext context) => dialog);
+        Navigator.pop(context);
       },
     );
   }
 
-  void updateRecordStatus(SLAViolationPenaltyDetailsState state) {
-    if (state.model.id != null && widget.model?.status != null) {
-      BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
-          .updateStatus(id: state.model.id.toString());
-      Navigator.popAndPushNamed(
-        context,
-        slaViolationPenaltyListRoute,
-      );
-    } else {
-      Navigator.pop(context);
-    }
-  }
+  // Widget cancelButtonDisplay(SLAViolationPenaltyDetailsState state) {
+  //   bool condition = state.model.id == null ||
+  //       state.model.status == ConstantsIntValue.cancelledStatus ||
+  //       state.model.status == 2 ||
+  //       !state.model.lock.isEmptyOrNull;
+  //   return AppButton(
+  //     width: Constants.cancelButtonWidth,
+  //     backgroundColor: Colors.white,
+  //     key: const Key(Keys.cancelButton),
+  //     buttonText: condition ? Constants.close : Constants.cancelRecord,
+  //     buttonTextKey: Keys.cancelButton,
+  //     onTap: () {
+  //       if (condition) {
+  //         Navigator.pop(context);
+  //         return;
+  //       }
+  //       var dialog = CustomAlertDialog(
+  //           title: Constants.cancelRecord,
+  //           message: Constants.cancelRecordWarningMessage,
+  //           onPositivePressed: () {
+  //             Navigator.pop(context);
+  //             Navigator.pop(context);
+  //             updateRecordStatus(state);
+  //           },
+  //           positiveBtnText: Constants.yes,
+  //           negativeBtnText: Constants.no);
+  //       showDialog(context: context, builder: (BuildContext context) => dialog);
+  //     },
+  //   );
+  // }
+
+  // void updateRecordStatus(SLAViolationPenaltyDetailsState state) {
+  //   if (state.model.id != null && widget.model?.status != null) {
+  //     BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
+  //         .updateStatus(id: state.model.id.toString());
+  //     Navigator.popAndPushNamed(
+  //       context,
+  //       slaViolationPenaltyListRoute,
+  //     );
+  //   } else {
+  //     Navigator.pop(context);
+  //   }
+  // }
 
   Widget submitButtonDisplay() {
     return AppButton(

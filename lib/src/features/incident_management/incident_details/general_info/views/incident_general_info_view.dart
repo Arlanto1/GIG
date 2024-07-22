@@ -263,7 +263,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             locationWidgetdislay(
                                 selectedLocation:
                                     state.model.location?.name ?? '',
-                                enabled: state.model.id == null || state.model.status == 0||
+                                enabled: state.model.id == null ||
+                                    state.model.status == 0 ||
                                     (state.model.location?.name ?? '').isEmpty,
                                 locations: state.locations,
                                 onTap: (Organisation? location) async {
@@ -881,7 +882,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          cancelButtonDisplay(state),
+                          cancelButtonDisplay(),
                           if (state.model.status == 0 && !disableForm) ...[
                             submitButtonDisplay(onTap: () {
                               FocusScope.of(context).unfocus();
@@ -902,50 +903,63 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
     );
   }
 
-  Widget cancelButtonDisplay(IncidentGeneralInfoState state) {
-    bool condition = (state.model.status != ConstantsIntValue.cancelledStatus &&
-            state.model.status != ConstantsIntValue.incidentStatusClosed &&
-            state.model.status != ConstantsIntValue.incidentStatusCancelled &&
-            !state.model.lock.isEmptyOrNull) &&
-        !(state.model.incidentManager!.userName
-                .equalsIgnoreCase(state.loggedInUserDetails?.userName) ||
-            (state.model.incidentOwner!.userName
-                .equalsIgnoreCase(state.loggedInUserDetails?.userName)));
+  Widget cancelButtonDisplay() {
     return AppButton(
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: condition ? Constants.cancelRecord : Constants.close,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        if (!condition) {
-          Navigator.pop(context);
-          return;
-        }
-        var dialog = CustomAlertDialog(
-            title: Constants.cancelRecord,
-            message: Constants.cancelRecordWarningMessage,
-            onPositivePressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              updateRecordStatus(state);
-            },
-            positiveBtnText: Constants.yes,
-            negativeBtnText: Constants.no);
-        showDialog(context: context, builder: (BuildContext context) => dialog);
+        Navigator.pop(context);
       },
     );
   }
 
-  void updateRecordStatus(IncidentGeneralInfoState state) {
-    if (state.model.id != null && state.model.id != 0) {
-      BlocProvider.of<IncidentGeneralInfoCubit>(context)
-          .updateStatus(id: state.model.id.toString());
-      Navigator.popAndPushNamed(context, incidentManagementsRoute);
-    } else {
-      Navigator.pop(context);
-    }
-  }
+  // Widget cancelButtonDisplay(IncidentGeneralInfoState state) {
+  //   bool condition = (state.model.status != ConstantsIntValue.cancelledStatus &&
+  //           state.model.status != ConstantsIntValue.incidentStatusClosed &&
+  //           state.model.status != ConstantsIntValue.incidentStatusCancelled &&
+  //           !state.model.lock.isEmptyOrNull) &&
+  //       !(state.model.incidentManager!.userName
+  //               .equalsIgnoreCase(state.loggedInUserDetails?.userName) ||
+  //           (state.model.incidentOwner!.userName
+  //               .equalsIgnoreCase(state.loggedInUserDetails?.userName)));
+  //   return AppButton(
+  //     width: Constants.cancelButtonWidth,
+  //     backgroundColor: Colors.white,
+  //     key: const Key(Keys.cancelButton),
+  //     buttonText: condition ? Constants.cancelRecord : Constants.close,
+  //     buttonTextKey: Keys.cancelButton,
+  //     onTap: () {
+  //       if (!condition) {
+  //         Navigator.pop(context);
+  //         return;
+  //       }
+  //       var dialog = CustomAlertDialog(
+  //           title: Constants.cancelRecord,
+  //           message: Constants.cancelRecordWarningMessage,
+  //           onPositivePressed: () {
+  //             Navigator.pop(context);
+  //             Navigator.pop(context);
+  //             updateRecordStatus(state);
+  //           },
+  //           positiveBtnText: Constants.yes,
+  //           negativeBtnText: Constants.no);
+  //       showDialog(context: context, builder: (BuildContext context) => dialog);
+  //     },
+  //   );
+  // }
+
+  // void updateRecordStatus(IncidentGeneralInfoState state) {
+  //   if (state.model.id != null && state.model.id != 0) {
+  //     BlocProvider.of<IncidentGeneralInfoCubit>(context)
+  //         .updateStatus(id: state.model.id.toString());
+  //     Navigator.popAndPushNamed(context, incidentManagementsRoute);
+  //   } else {
+  //     Navigator.pop(context);
+  //   }
+  // }
 
   Widget submitButtonDisplay(
       {required Function onTap, String? label = Constants.submit}) {

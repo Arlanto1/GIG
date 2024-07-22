@@ -123,6 +123,13 @@ class _KeyHistoryRecordsDetailsViewState
                         (state.loggedInUserDetails!.userName
                             .equalsIgnoreCase(
                             state.model.createdBy?.userName))) ||
+                    ((state.model.status == ConstantsIntValue.created ||
+                        state.model.status == null) &&
+                        (widget.type ==
+                            ConstantsIntValue.keyLostHistoryInt) &&
+                        state.loggedInUserDetails!.userName
+                            .equalsIgnoreCase(
+                            state.model.createdBy?.userName)) ||
                     ((state.model.status == ConstantsIntValue.damagedApproved ||
                         state.model.status ==
                             ConstantsIntValue.damagedInitiated ||
@@ -161,6 +168,11 @@ class _KeyHistoryRecordsDetailsViewState
             showSaveButton: showSaveAndSubmitButtons || (state.model.status ==
                 ConstantsIntValue.lockChangeInitiated) &&
                 (widget.type == ConstantsIntValue.lockChangeHistoryInt) &&
+                (state.loggedInUserDetails!.userName
+                    .equalsIgnoreCase(state.model.createdBy?.userName)) ||(state.model.status ==
+                ConstantsIntValue.created || state.model.status ==
+                null) &&
+                (widget.type == ConstantsIntValue.keyLostHistoryInt) &&
                 (state.loggedInUserDetails!.userName
                     .equalsIgnoreCase(state.model.createdBy?.userName))
                 ? true

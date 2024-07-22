@@ -84,18 +84,18 @@ class _AnnualPowerShutdownListViewState
     }, builder: (context, state) {
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: state.extraProperties?.hasWritePermission ?? false
-            ? Flutterfloatingbutton(
-                backgroundColor: AppColors.navigationSkyBlueColor,
-                foregroundColor: AppColors.backgroundWhiteColor,
-                onPressed: () => {
-                  Navigator.pushNamed(
-                    context,
-                    annualPowerShutdownListDetailsRoute,
-                  )
-                },
-              )
-            : const SizedBox(),
+        // floatingActionButton: state.extraProperties?.hasWritePermission ?? false
+        //     ? Flutterfloatingbutton(
+        //         backgroundColor: AppColors.navigationSkyBlueColor,
+        //         foregroundColor: AppColors.backgroundWhiteColor,
+        //         onPressed: () => {
+        //           Navigator.pushNamed(
+        //             context,
+        //             annualPowerShutdownListDetailsRoute,
+        //           )
+        //         },
+        //       )
+        //     : const SizedBox(),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.annualPowerShutdownListTitle,

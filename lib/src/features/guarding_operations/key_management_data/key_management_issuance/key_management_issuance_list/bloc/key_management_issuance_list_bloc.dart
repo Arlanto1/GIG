@@ -31,6 +31,13 @@ class KeyManagementIssuanceListBloc extends Bloc<KeyManagementIssuanceListEvent,
       Emitter<KeyManagementIssuanceListState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.keyManagementIssuanceModule,
+        commonServices: commonServices,
+      );
+
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.keyManagementIssuanceModule);
 
@@ -47,11 +54,7 @@ class KeyManagementIssuanceListBloc extends Bloc<KeyManagementIssuanceListEvent,
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.keyManagementIssuanceModule);
 
-      ExtraProperties extraProperties =
-          await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.keyManagementIssuanceModule,
-        commonServices: commonServices,
-      );
+
       KMUiLabels labels = KMUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(

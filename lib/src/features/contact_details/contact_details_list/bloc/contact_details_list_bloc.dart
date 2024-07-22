@@ -47,6 +47,13 @@ class ContactDetailsListBloc
       InitializeValuesCD event, Emitter<ContactDetailsListState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.contactDetailsModuleCode,
+        commonServices: commonServices,
+      );
+
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.contactDetailsModuleCode);
 
@@ -63,11 +70,6 @@ class ContactDetailsListBloc
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.contactDetailsModuleCode);
 
-      ExtraProperties extraProperties =
-          await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.contactDetailsModuleCode,
-        commonServices: commonServices,
-      );
       CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(

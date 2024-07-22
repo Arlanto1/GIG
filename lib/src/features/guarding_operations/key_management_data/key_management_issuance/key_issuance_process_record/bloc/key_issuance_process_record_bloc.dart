@@ -41,17 +41,19 @@ class KeyIssuanceProcessRecordBloc
       // List<Organisation> items =
       //     await commonServices.getOrganisations(name: violationDescription);
 
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.keyManagementIssuanceModule,
+        commonServices: commonServices,
+      );
+
       List<Organisation> keyDescriptions = await KeyManagementIssuanceServices()
           .getKeyDescriptions(locationId: locationId, isMasterKey: isMasterKey);
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.keyManagementIssuanceModule);
-      ExtraProperties extraProperties =
-          await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.keyManagementIssuanceModule,
-        commonServices: commonServices,
-      );
+
       KMUiLabels labels = KMUiLabels.fromJson(responseLabels);
 
       return emit(

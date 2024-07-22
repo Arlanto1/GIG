@@ -59,7 +59,6 @@ class _AnnualPowerShutdownListDetailsViewState
         AnnualPowerShutdownListDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
-        log('-epManager1---${state.model.epManager1?.name}----');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
@@ -121,7 +120,7 @@ class _AnnualPowerShutdownListDetailsViewState
             showDisLikeButton: false,
             showLikeButton: false,
             pdfAPIName:
-                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.annualPowerShutDownModule}',
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.annualPowerShutDownModuleCode}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)
@@ -1570,7 +1569,7 @@ class _AnnualPowerShutdownListDetailsViewState
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            cancelButtonDisplay(state),
+                            cancelButtonDisplay(),
                             if (!disableForm) ...[
                               submitButtonDisplay(onTap: () {
                                 FocusScope.of(context).unfocus();
@@ -1587,7 +1586,7 @@ class _AnnualPowerShutdownListDetailsViewState
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            cancelButtonDisplay(state),
+                            cancelButtonDisplay(),
                           ],
                         ),
                       ],
@@ -1601,46 +1600,59 @@ class _AnnualPowerShutdownListDetailsViewState
     );
   }
 
-  Widget cancelButtonDisplay(AnnualPowerShutdownListDetailsState state) {
-    bool condition = state.model.id == null ||
-        state.model.status == ConstantsIntValue.cancelledStatus ||
-        state.model.status == 30 ||
-        !state.model.lock.isEmptyOrNull;
+  Widget cancelButtonDisplay() {
     return AppButton(
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: condition ? Constants.close : Constants.cancelRecord,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
-        if (condition) {
-          Navigator.pop(context);
-          return;
-        }
-        var dialog = CustomAlertDialog(
-            title: Constants.cancelRecord,
-            message: Constants.cancelRecordWarningMessage,
-            onPositivePressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              updateRecordStatus(state);
-            },
-            positiveBtnText: Constants.yes,
-            negativeBtnText: Constants.no);
-        showDialog(context: context, builder: (BuildContext context) => dialog);
+        Navigator.pop(context);
       },
     );
   }
 
-  void updateRecordStatus(AnnualPowerShutdownListDetailsState state) {
-    if (state.model.id != null) {
-      BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)
-          .updateStatus(id: state.model.id.toString());
-      Navigator.popAndPushNamed(context, annualPowerShutdownListRoute);
-    } else {
-      Navigator.pop(context);
-    }
-  }
+  // Widget cancelButtonDisplay(AnnualPowerShutdownListDetailsState state) {
+  //   bool condition = state.model.id == null ||
+  //       state.model.status == ConstantsIntValue.cancelledStatus ||
+  //       state.model.status == 30 ||
+  //       !state.model.lock.isEmptyOrNull;
+  //   return AppButton(
+  //     width: Constants.cancelButtonWidth,
+  //     backgroundColor: Colors.white,
+  //     key: const Key(Keys.cancelButton),
+  //     buttonText: condition ? Constants.close : Constants.cancelRecord,
+  //     buttonTextKey: Keys.cancelButton,
+  //     onTap: () {
+  //       if (condition) {
+  //         Navigator.pop(context);
+  //         return;
+  //       }
+  //       var dialog = CustomAlertDialog(
+  //           title: Constants.cancelRecord,
+  //           message: Constants.cancelRecordWarningMessage,
+  //           onPositivePressed: () {
+  //             Navigator.pop(context);
+  //             Navigator.pop(context);
+  //             updateRecordStatus(state);
+  //           },
+  //           positiveBtnText: Constants.yes,
+  //           negativeBtnText: Constants.no);
+  //       showDialog(context: context, builder: (BuildContext context) => dialog);
+  //     },
+  //   );
+  // }
+
+  // void updateRecordStatus(AnnualPowerShutdownListDetailsState state) {
+  //   if (state.model.id != null) {
+  //     BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)
+  //         .updateStatus(id: state.model.id.toString());
+  //     Navigator.popAndPushNamed(context, annualPowerShutdownListRoute);
+  //   } else {
+  //     Navigator.pop(context);
+  //   }
+  // }
 
   Widget submitButtonDisplay(
       {required Function onTap, String? label = Constants.submit}) {

@@ -29,6 +29,13 @@ class DutyPostMasterListBloc
       InitializeValues event, Emitter<DutyPostMasterListState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
+
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.shiftScheduleModuleCode,
+        commonServices: commonServices,
+      );
+
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.shiftScheduleModuleCode);
 
@@ -45,11 +52,6 @@ class DutyPostMasterListBloc
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.shiftScheduleModuleCode);
 
-      ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.shiftScheduleModuleCode,
-        commonServices: commonServices,
-      );
       SSUiLabels labels = SSUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
