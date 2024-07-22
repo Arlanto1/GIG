@@ -331,7 +331,8 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         Utils.dynamicAlert(
             context, 'Added successfully', Constants.addarticletype, '');
       });
-    } catch (e) {
+    }
+    on GenericResponse catch (e) {
       emit(
         state.copyWith(
           model: model,
@@ -341,9 +342,16 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       );
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        Utils.dynamicAlert(context, Constants.errorText,
-            Constants.addarticletype, Constants.errorText);
+        Utils.dynamicAlert(context, e.message ?? '', Constants.addarticletype,
+            Constants.errorText);
       });
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          status: FormStatus.error,
+        ),
+      );
     }
   }
 
@@ -418,7 +426,8 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         Utils.dynamicAlert(
             context, 'Added successfully', Constants.newuser, '');
       });
-    } catch (e) {
+    }
+    on GenericResponse catch (e) {
       emit(
         state.copyWith(
           model: model,
@@ -427,6 +436,17 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         ),
       );
       dismissLoadingDialog(context);
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        Utils.dynamicAlert(context, e.message ?? '', Constants.newuser,
+            Constants.errorText);
+      });
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          status: FormStatus.error,
+        ),
+      );
     }
   }
 
