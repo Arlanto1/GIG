@@ -1603,7 +1603,6 @@ class _AnnualPowerShutdownListDetailsViewState
 
   Widget cancelButtonDisplay() {
     return AppButton(
-
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
@@ -1614,6 +1613,7 @@ class _AnnualPowerShutdownListDetailsViewState
       },
     );
   }
+
   // Widget cancelButtonDisplay(AnnualPowerShutdownListDetailsState state) {
   //   bool condition = state.model.id == null ||
   //       state.model.status == ConstantsIntValue.cancelledStatus ||
