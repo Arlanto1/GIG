@@ -212,7 +212,7 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
                   nameTextController.text, keyTextController.text);
             }
           } catch (e) {
-            log('-e--${e.toString()}');
+            log('-111111111--${e.toString()}');
           }
         }
         Navigator.of(context).pop();
