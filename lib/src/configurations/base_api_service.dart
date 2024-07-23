@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/utils/location_handler.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:db_atom/src/utils/utils_common.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
@@ -29,14 +29,14 @@ class BaseApiService {
     Map<String, String> headers = {'Content-Type': 'application/json'};
 
     // Passing Location Parameter only if the location service is Enabled
-
     Position position;
     bool isIOS = Platform.isIOS;
     // log('---isIOS-$isIOS--');
-    if (isIOS ) {
-      LocationPermission locationPermission = await Geolocator.checkPermission();
+    if (isIOS) {
+      LocationPermission locationPermission =
+          await Geolocator.checkPermission();
       // log('-locationPermission.name--${locationPermission.name}-----');
-      if(locationPermission != LocationPermission.deniedForever) {
+      if (locationPermission != LocationPermission.deniedForever) {
         position = await determinePosition();
         headers.addAll({"Latitude": position.latitude.toString()});
         headers.addAll({"Longitude": position.longitude.toString()});
@@ -103,13 +103,22 @@ class BaseApiService {
           throw GenericResponse.fromJson(responseBody);
         }
 
-        setMessage(requestType: RequestType.get, apiUrl: url, statusCode: response.statusCode.toString(), response: json.decode(response.body));
+        setFirebaseLog(
+            requestType: RequestType.get,
+            apiUrl: url,
+            statusCode: response.statusCode.toString(),
+            response: json.decode(response.body));
         throw json.decode(response.body);
       }
     } on SocketException {
       throw json.decode('{"errorMessage":"Network Lost"}');
     } catch (e) {
       log('$e');
+      setFirebaseLog(
+          requestType: RequestType.post,
+          apiUrl: url,
+          statusCode: 'UNHANDLED',
+          response: e.toString());
       rethrow;
     }
   }
@@ -216,7 +225,11 @@ class BaseApiService {
       }
 
       if (response.statusCode != HttpStatus.ok) {
-        setMessage(requestType: RequestType.post, apiUrl: url, statusCode: response.statusCode.toString(), response: json.decode(response.body));
+        setFirebaseLog(
+            requestType: RequestType.post,
+            apiUrl: url,
+            statusCode: response.statusCode.toString(),
+            response: json.decode(response.body));
         // Handle other error cases
         log("$url POST response is NOT OK:${response.statusCode}");
         log("_response - ${responseBody['msg']}");
@@ -232,11 +245,20 @@ class BaseApiService {
     } on GenericResponse catch (e) {
       // Handle GenericCreateResponse
       log('--on GenericCreateResponse POST---${e.toString()}---');
+      setFirebaseLog(
+          requestType: RequestType.post,
+          apiUrl: url,
+          statusCode: 'UNHANDLED',
+          response: e.toString());
       rethrow;
     } catch (e) {
       // Handle other exceptions
       log("Exception thrown: $e");
-      setMessage(requestType: RequestType.post, apiUrl: url, statusCode: 'UNHANDLED', response: e.toString());
+      setFirebaseLog(
+          requestType: RequestType.post,
+          apiUrl: url,
+          statusCode: 'UNHANDLED',
+          response: e.toString());
       rethrow;
     }
   }
@@ -286,6 +308,11 @@ class BaseApiService {
       throw json.decode('{"errorMessage":"Network Lost"}');
     } catch (e) {
       log('$e');
+      setFirebaseLog(
+          requestType: RequestType.post,
+          apiUrl: url,
+          statusCode: 'UNHANDLED',
+          response: e.toString());
       rethrow;
     }
   }
@@ -335,14 +362,26 @@ class BaseApiService {
       throw json.decode('{"errorMessage":"Network Lost"}');
     } catch (e) {
       log('$e');
+      setFirebaseLog(
+          requestType: RequestType.post,
+          apiUrl: url,
+          statusCode: 'UNHANDLED',
+          response: e.toString());
       rethrow;
     }
   }
 
-  void setMessage({required RequestType requestType, required String apiUrl, required String statusCode, required String response}){
-    logCustomEvent(msg: 'RequestType $requestType, API URL: $apiUrl, \'Response Code: $statusCode, \'Response: $response');
-  }
-  void logCustomEvent({required String msg}) {
-    FirebaseCrashlytics.instance.log(msg);
+  void setFirebaseLog({
+    required RequestType requestType,
+    required String apiUrl,
+    required String statusCode,
+    required String response,
+  }) {
+    UtilsCommon().logCustomEvent(
+      msg: 'RequestType $requestType, '
+          '\'API URL: $apiUrl, '
+          '\'Response Code: $statusCode, '
+          '\'Response: $response',
+    );
   }
 }

@@ -280,4 +280,4 @@ export 'package:path_provider/path_provider.dart';
 export 'package:syncfusion_flutter_charts/charts.dart';
 export 'package:db_atom/src/constants/constant_user_roles.dart';
 
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+export 'package:firebase_crashlytics/firebase_crashlytics.dart';
