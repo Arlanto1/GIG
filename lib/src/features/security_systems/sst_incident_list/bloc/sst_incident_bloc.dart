@@ -195,7 +195,7 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
 
     GenericResponse response;
     try {
-      response = await services.sendRemainder(id: event.selectedIncident.id!);
+      response = await services.sendRemainder(id: event.id);
       return emit(
         state.copyWith(
           message: response.message,
