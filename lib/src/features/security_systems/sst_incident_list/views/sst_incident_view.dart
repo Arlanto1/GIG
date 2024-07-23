@@ -148,6 +148,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                   message: state.message,
                   positiveBtnText: Constants.ok,
                   onPositivePressed: () {
+                    Navigator.pop(context);
                     Navigator.popAndPushNamed(
                       context,
                       sstIncidentListRoute,
@@ -322,15 +323,11 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                       onEmailTap: (selectedIndex) async {
                                         FocusScope.of(context).unfocus();
                                         int? id = state.items[selectedIndex].id;
-                                        SstIncident selectedIncident =
-                                            state.items.firstWhere(
-                                          (incident) => incident.id == id,
-                                        );
                                         context
                                             .read<SstIncidentBloc>()
                                             .add(SendReminderEmail(
-                                              selectedIncident:
-                                                  selectedIncident,
+                                              id:
+                                                  id!,
                                             ));
                                       },
                                       index: index,

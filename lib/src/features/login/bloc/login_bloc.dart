@@ -105,7 +105,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         // Handle other unexpected errors
         log('Server Might Be Restarting: $e');
         emit(LoginFailureState(
-          message: 'Please try after 5 minutes!',
+          message: 'Please check your network connection and try again.',
           status: FormStatus.error,
         ));
       }
