@@ -130,7 +130,7 @@ class _KeyLossDestructionListViewState
                   child: SmartRefresher(
                     controller: refreshController,
                     enablePullDown: true,
-                    physics: const BouncingScrollPhysics(),
+                    physics: RefreshPhysics(),
                     header: WaterDropHeader(
                       waterDropColor: AppColors.navigationSkyBlueColor,
                       refresh: state.status != FormStatus.loading
