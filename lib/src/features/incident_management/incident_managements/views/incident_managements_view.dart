@@ -183,7 +183,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
             child: SmartRefresher(
               controller: refreshController,
               enablePullDown: true,
-              physics: RefreshPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
               header: WaterDropHeader(
                 waterDropColor: AppColors.navigationSkyBlueColor,
                 refresh: state.status != FormStatus.loading
