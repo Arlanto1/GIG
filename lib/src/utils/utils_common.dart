@@ -5,9 +5,10 @@ import 'package:db_atom/src/models/responseModels/permission_error.dart';
 
 class UtilsCommon {
 
-  Future<void> logCustomEvent({required String msg}) async {
+  Future<void> logCustomEvent({required String msg, required String customKey}) async {
     FirebaseCrashlytics.instance.log(msg);
-    FirebaseCrashlytics.instance.setCustomKey('API_ISSUE', msg);
+    FirebaseCrashlytics.instance.setUserIdentifier(await SharedPrefs.getUserId());
+    FirebaseCrashlytics.instance.setCustomKey(customKey, msg);
 
     // await FirebaseCrashlytics.instance.recordError(
     //   error,

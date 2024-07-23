@@ -382,6 +382,7 @@ class BaseApiService {
           '\'API URL: $apiUrl, '
           '\'Response Code: $statusCode, '
           '\'Response: $response',
+      customKey: 'API_ISSUE'
     );
   }
 }
