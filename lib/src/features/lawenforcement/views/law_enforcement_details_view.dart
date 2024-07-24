@@ -760,36 +760,52 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       // ),
 
                                       // Upload
-                                      (widget.model == null ||
-                                                  widget.model?.status == 0 ||
-                                                  widget.model?.status == 1 ||
-                                                  widget.model?.status == 2) ||
-                                              (widget.model != null &&
-                                                  widget.model!.lock
-                                                      .isEmptyOrNull)
-                                          ? CommonWidgets.textDisplay(
-                                              Constants.upload,
-                                              Styles.textStyleBlack14)
-                                          : Container(),
-                                      (widget.model?.status == null ||
-                                                  widget.model?.status == 0 ||
-                                                  widget.model?.status == 1 ||
-                                                  widget.model?.status == 2) ||
-                                              (widget.model != null &&
-                                                  widget.model!.lock
-                                                      .isEmptyOrNull)
-                                          ? CommonWidgets.verticalSpacerWidget(
-                                              height * 0.001)
-                                          : Container(),
-                                      (widget.model?.status == null ||
-                                                  widget.model?.status == 0 ||
-                                                  widget.model?.status == 1 ||
-                                                  widget.model?.status == 2) ||
-                                              ((widget.model != null &&
-                                                  widget.model!.lock
-                                                      .isEmptyOrNull))
-                                          ? uploadWidget(state)
-                                          : Container(),
+
+                                      if(                                      (widget.model == null ||
+                                          widget.model?.status == 0 ||
+                                          widget.model?.status == 1 ||
+                                          widget.model?.status == 2) ||
+                                          (widget.model != null &&
+                                              widget.model!.lock
+                                                  .isEmptyOrNull)
+                                      )...[
+                                        CommonWidgets.textDisplay(
+                                            Constants.upload,
+                                            Styles.textStyleBlack14),
+                                        CommonWidgets.verticalSpacerWidget(
+                                            height * 0.001),
+                                        uploadWidget(state),
+                                      ],
+                                      // (widget.model == null ||
+                                      //             widget.model?.status == 0 ||
+                                      //             widget.model?.status == 1 ||
+                                      //             widget.model?.status == 2) ||
+                                      //         (widget.model != null &&
+                                      //             widget.model!.lock
+                                      //                 .isEmptyOrNull)
+                                      //     ? CommonWidgets.textDisplay(
+                                      //         Constants.upload,
+                                      //         Styles.textStyleBlack14)
+                                      //     : Container(),
+                                      // (widget.model?.status == null ||
+                                      //             widget.model?.status == 0 ||
+                                      //             widget.model?.status == 1 ||
+                                      //             widget.model?.status == 2) ||
+                                      //         (widget.model != null &&
+                                      //             widget.model!.lock
+                                      //                 .isEmptyOrNull)
+                                      //     ? CommonWidgets.verticalSpacerWidget(
+                                      //         height * 0.001)
+                                      //     : Container(),
+                                      // (widget.model?.status == null ||
+                                      //             widget.model?.status == 0 ||
+                                      //             widget.model?.status == 1 ||
+                                      //             widget.model?.status == 2) ||
+                                      //         (widget.model != null &&
+                                      //             widget.model!.lock
+                                      //                 .isEmptyOrNull)
+                                      //     ? uploadWidget(state)
+                                      //     : Container(),
 
                                       BaseImageUpload().getAttachment(
                                           height: height,
