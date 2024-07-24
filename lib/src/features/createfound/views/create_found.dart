@@ -1877,7 +1877,7 @@ class _CreateFoundState extends State<CreateFound> {
                                         List<ImageContent>? files = [];
                                         files.add(data);
                                         for (ImageContent image
-                                            in getFiles ?? []) {
+                                            in getFiles) {
                                           files.add(image);
                                         }
                                         BlocProvider.of<
@@ -1889,20 +1889,6 @@ class _CreateFoundState extends State<CreateFound> {
                                       },
                                     )
                                   ],
-
-                                  // getFiles.isNotEmpty ||
-                                  //         getAttachments.isNotEmpty
-                                  //     ? CommonWidgets.verticalSpacerWidget(
-                                  //         height * 0.01)
-                                  //     : Container(),
-                                  // (getAttachments.isEmpty ||
-                                  //         widget.model == null)
-                                  //     ? getFiles.isEmpty
-                                  //         ? Container()
-                                  //         : attachmentListviews(
-                                  //             getFiles, getAttachments)
-                                  //     : attachmentListviews(
-                                  //         getFiles, getAttachments),
 
                                   // if (!getAttachments.isEmptyOrNull ) ...[
                                   BaseImageUpload().getAttachment(
