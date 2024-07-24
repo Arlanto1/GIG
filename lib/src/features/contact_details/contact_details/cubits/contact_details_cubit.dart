@@ -222,6 +222,11 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
       return true;
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.inputDate ?? '0'),
+          Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {
       state.model.inputDate = state.model.inputDate == null
