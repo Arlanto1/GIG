@@ -626,7 +626,7 @@ class Utils {
         statusText = 'EP PO Required';
         break;
       case 20:
-        statusText = 'EP PO Updated';
+        statusText = 'PO Updated';
         break;
       case 21:
         statusText = 'Event Started';
