@@ -50,6 +50,25 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(context, 'Added sucessfully', title, '');
       });
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.failure,
+        ),
+      );
+      dismissLoadingDialog(context);
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        Utils.dynamicAlert(context, e.message ?? '', Constants.addarticletype,
+            Constants.errorText);
+      });
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          status: FormStatus.error,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(
@@ -164,6 +183,25 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(context, 'Added sucessfully', Constants.newuser, '');
       });
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.failure,
+        ),
+      );
+      dismissLoadingDialog(context);
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        Utils.dynamicAlert(context, e.message ?? '', Constants.addarticletype,
+            Constants.errorText);
+      });
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          status: FormStatus.error,
+        ),
+      );
     } catch (e) {
       dismissLoadingDialog(context);
       emit(
@@ -197,6 +235,25 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           '',
         );
       });
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.failure,
+        ),
+      );
+      dismissLoadingDialog(context);
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        Utils.dynamicAlert(context, e.message ?? '', Constants.addarticletype,
+            Constants.errorText);
+      });
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          status: FormStatus.error,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(

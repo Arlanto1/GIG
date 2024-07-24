@@ -150,7 +150,7 @@ class _AnnualPowerShutdownListViewState
                     child: SmartRefresher(
                       controller: refreshController,
                       enablePullDown: true,
-                      physics: const BouncingScrollPhysics(),
+                      physics: const AlwaysScrollableScrollPhysics(),
                       header: WaterDropHeader(
                         waterDropColor: AppColors.navigationSkyBlueColor,
                         refresh: state.status != FormStatus.loading
@@ -193,28 +193,33 @@ class _AnnualPowerShutdownListViewState
                                     'Location',
                                 value:
                                     state.items[index].location?.name ?? ''));
-                            labels.add(Label(
-                                key: state.labels?.locale.eventStartDate ??
-                                    state
-                                        .labels?.defaultLocale.eventStartDate ??
-                                    'Event Start Date',
-                                value: Utils.timestampToDateConversion(
-                                        int.tryParse(
-                                            state.items[index].eventStartDate ??
-                                                '0'),
-                                        Constants.dateFormat)
-                                    ));
-                            labels.add(Label(
-                                key: state.labels?.locale.eventEndDate ??
-                                    state.labels?.defaultLocale.eventEndDate ??
-                                    'Event End Date',
-                                value: Utils.timestampToDateConversion(
-                                        int.tryParse(
-                                            state.items[index].eventEndDate ??
-                                                '0'),
-                                        Constants.dateFormat)
-                                   ));
 
+                            if (!state
+                                .items[index].eventStartDate.isEmptyOrNull) {
+                              labels.add(Label(
+                                  key: state.labels?.locale.eventStartDate ??
+                                      state.labels?.defaultLocale
+                                          .eventStartDate ??
+                                      'Event Start Date',
+                                  value: Utils.timestampToDateConversion(
+                                      int.tryParse(
+                                          state.items[index].eventStartDate ??
+                                              '0'),
+                                      Constants.dateFormat)));
+                            }
+                            if (!state
+                                .items[index].eventEndDate.isEmptyOrNull) {
+                              labels.add(Label(
+                                  key: state.labels?.locale.eventEndDate ??
+                                      state
+                                          .labels?.defaultLocale.eventEndDate ??
+                                      'Event End Date',
+                                  value: Utils.timestampToDateConversion(
+                                      int.tryParse(
+                                          state.items[index].eventEndDate ??
+                                              '0'),
+                                      Constants.dateFormat)));
+                            }
                             labels.add(Label(
                               key: state.labels?.locale.budget ??
                                   state.labels?.defaultLocale.budget ??

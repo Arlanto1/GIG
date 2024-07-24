@@ -11,6 +11,8 @@ class ShowImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    double height = size.height;
     return Scaffold(
       appBar: BaseAppBar().buildAppHeader(
           context: context,
@@ -32,11 +34,33 @@ class ShowImage extends StatelessWidget {
               // message = 'File saved successfully';
             }
           }),
-      body: filePath.isNotEmpty
-          ? PhotoView(
-              imageProvider: FileImage(File(filePath)),
-            )
-          : const Center(child: CircularProgressIndicator()),
+      body: Stack(
+        children: [
+          filePath.isNotEmpty
+              ? PhotoView(
+                imageProvider: FileImage(File(filePath)),
+              )
+              : const Center(child: CircularProgressIndicator()),
+          CommonWidgets.verticalSpacerWidget(height * 0.04),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 18.0),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: AppButton(
+                width: Constants.cancelButtonWidth,
+                backgroundColor: Colors.white,
+                key: const Key(Keys.cancelButton),
+                buttonText: Constants.close,
+                buttonTextKey: Keys.cancelButton,
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          ),
+          CommonWidgets.verticalSpacerWidget(height * 0.07)
+        ],
+      ),
     );
   }
 }
