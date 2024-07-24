@@ -240,7 +240,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   }
                   // if (state.getSerialnumberResponse != null &&
                   //     widget.model == null) {
-                  serialnumber = state.getSerialnumberResponse?.serialNo ?? "";
+
+                  if (serialnumber.isEmptyOrNull) {
+                    serialnumber = state.getSerialnumberResponse?.serialNo ?? "";
+                  }
                   // }
                   globalState = state;
                   if (state.status == FormStatus.addAttachment) {
@@ -1195,6 +1198,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               name: widget.model?.location?.name ?? "")
           : Organisation();
 
+      log('--widget.model?.slNo----${widget.model?.slNo}---');
       serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
 
       widget.model?.slNo ??
