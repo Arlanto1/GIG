@@ -68,7 +68,6 @@ class _EventInfoViewState extends State<EventInfoView> {
 
     return BlocConsumer<EventInfoCubit, EventInfoState>(
       listener: (context, state) {
-        log('-state.status---${state.status}----');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
@@ -90,10 +89,10 @@ class _EventInfoViewState extends State<EventInfoView> {
       },
       builder: (context, state) {
         dateController.text = Utils.timestampToDateConversion(
-            int.tryParse(state.model.date ?? '0'), Constants.dateFormat);
+            int.tryParse(state.model.date ?? '0'), Constants.fulldateFormat);
 
         if (state.model.status != 4 && widget.editForm) {
-          showSaveButtons == true;
+          showSaveButtons = true;
         }
 
         // if(widget.editForm){
@@ -185,7 +184,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                 context: context,
                                 textController: dateController,
                                 isDisabled: false,
-                                onlyDate: true,
+                                onlyDate: false,
                                 onChange: (String value) {
                                   dateController.text = value;
                                   state.model.date = value;
@@ -523,6 +522,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                     .onAddEmail(addEmailController.text);
                                 if (EmailValidator.validate(
                                     addEmailController.text)) {
+                                  addEmailController.clear();
                                   Navigator.pop(context);
                                 }
                               },
@@ -543,7 +543,6 @@ class _EventInfoViewState extends State<EventInfoView> {
 
   Widget cancelButtonDisplay() {
     return AppButton(
-      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
