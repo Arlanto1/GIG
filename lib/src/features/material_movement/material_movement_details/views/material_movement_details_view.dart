@@ -2331,6 +2331,7 @@ class _MaterialMovementDetailsViewState
                                   textFormKey: Keys.claimantEmpIdTextController,
                                   isEnable: !isReadOnly,
                                   isDisableColor: isReadOnly,
+                                  textInputType: TextInputType.number,
                                   hintText: '',
                                   onChange: (String value) {
                                     state.model.receiverEmployeeId = value;
