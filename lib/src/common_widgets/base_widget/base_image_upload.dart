@@ -174,11 +174,29 @@ class AttachmentListViewState extends State<AttachmentListView> {
                         icon: BaseIcons().deleteIcon(),
                         onPressed: () {
                           // Delete logic here
-                          if (imageData != null) {
-                            setState(() {
-                              widget.attachmentListviews!.removeAt(index);
-                            });
-                          }
+
+                          /// Delete Warning Dialog Box
+                          var dialog = CustomAlertDialog(
+                              title: Constants.deleteAttachment,
+                              message: Constants.deleteAttachmentWarningMessage,
+                              onPositivePressed: () {
+                                Navigator.pop(context);
+                                // Navigator.pop(context);
+                                if (imageData != null) {
+                                  setState(() {
+                                    widget.attachmentListviews!.removeAt(index);
+                                  });
+                                }
+                              },
+                              positiveBtnText: Constants.yes,
+                              negativeBtnText: Constants.no);
+                          showDialog(context: context, builder: (BuildContext context) => dialog);
+
+                          // if (imageData != null) {
+                          //   setState(() {
+                          //     widget.attachmentListviews!.removeAt(index);
+                          //   });
+                          // }
                         },
                       )
                     ],
