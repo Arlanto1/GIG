@@ -7,8 +7,8 @@ import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/event_info/models/event_info_response.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/event_info/models/request_models/event_into_request.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
-import 'package:db_atom/src/features/lawenforcement/models/add_qualifications.dart';
 import 'package:db_atom/src/features/lawenforcement/models/add_entities.dart';
+import 'package:db_atom/src/features/lawenforcement/models/add_qualifications.dart';
 import 'package:db_atom/src/models/base_user.dart';
 import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/models/responseModels/generic_response.dart';
@@ -164,7 +164,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;
@@ -172,12 +172,10 @@ class EventInfoCubit extends Cubit<EventInfoState> {
       emit(
         state.copyWith(
           message: e.toString(),
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
     }
-
-    log('---response--msg--${response.message}---');
 
     if (addArticleFound) {
       state.model.id = int.tryParse(response.id ?? '');
@@ -224,16 +222,19 @@ class EventInfoCubit extends Cubit<EventInfoState> {
   }
 
   void removeEmail(String email) {
-    log('-email to be removed---$email-');
+    emit(state.copyWith(status: FormStatus.loading));
+
     List<String> updatedEmails = List.from(state.additionalEmails ?? []);
     updatedEmails.remove(email);
 
-    state.copyWith(additionalEmails: updatedEmails);
+    // state.copyWith(additionalEmails: updatedEmails);
 
-    log('-state.additionalEmails---after---${state.additionalEmails}----');
     state.model.emails = Utils().joinListWithComma(updatedEmails);
 
-    log('-state.model.emails--final---${state.model.emails}----');
-    emit(state.copyWith(model: state.model, status: FormStatus.initial));
+    emit(state.copyWith(
+      model: state.model,
+      additionalEmails: updatedEmails,
+      status: FormStatus.initial,
+    ));
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
@@ -5,13 +6,17 @@ import 'package:db_atom/index.dart';
 import 'package:photo_view/photo_view.dart';
 
 class ShowImage extends StatelessWidget {
-  const ShowImage({super.key, required this.filePath});
+  const ShowImage({super.key, required this.filePath, this.imageBytes});
 
-  final String filePath;
+  final String? filePath;
+  final String? imageBytes;
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    double height = size.height;
     return Scaffold(
+      backgroundColor: AppColors.black,
       appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: 'View Image',
@@ -32,11 +37,47 @@ class ShowImage extends StatelessWidget {
               // message = 'File saved successfully';
             }
           }),
-      body: filePath.isNotEmpty
-          ? PhotoView(
-              imageProvider: FileImage(File(filePath)),
+      body: Stack(
+        children: [
+          if (!imageBytes.isEmptyOrNull) ...[
+            Center(
+              child: Image.memory(
+
+                Uint8List.fromList(
+                  base64Decode(
+                    imageBytes!,
+                  ),
+                ),
+                fit: BoxFit.contain,
+              ),
             )
-          : const Center(child: CircularProgressIndicator()),
+          ] else ...[
+            !filePath.isEmptyOrNull
+                ? PhotoView(
+                    imageProvider: FileImage(File(filePath!)),
+                  )
+                : const Center(child: CircularProgressIndicator()),
+          ],
+          CommonWidgets.verticalSpacerWidget(height * 0.04),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 18.0),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: AppButton(
+                width: Constants.cancelButtonWidth,
+                backgroundColor: Colors.white,
+                key: const Key(Keys.cancelButton),
+                buttonText: Constants.close,
+                buttonTextKey: Keys.cancelButton,
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          ),
+          CommonWidgets.verticalSpacerWidget(height * 0.07)
+        ],
+      ),
     );
   }
 }

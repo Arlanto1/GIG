@@ -1867,89 +1867,28 @@ class _CreateFoundState extends State<CreateFound> {
                                       height * 0.01),
 
                                   /// upload
-                                  widget.model == null ||
-                                          widget.model?.status == 0
-                                      ? Container(
-                                          height: 60,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: const Color(0xFFCACACA),
-                                                width: 1.0,
-                                              ),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(8))),
-                                          child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          right: 5.0),
-                                                  child: ElevatedButton.icon(
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      fixedSize:
-                                                          const Size(140, 50),
-                                                      backgroundColor: AppColors
-                                                          .navigationSkyBlueColor,
-                                                    ),
-                                                    onPressed: () {
-                                                      showDialog(
-                                                          context: context,
-                                                          builder: (BuildContext
-                                                              dialogContext) {
-                                                            return UploadAttachment(
-                                                              userdetails:
-                                                                  userDetails,
-                                                              getFiles:
-                                                                  getFiles,
-                                                              createoundstate:
-                                                                  state,
-                                                            );
-                                                          });
-                                                    },
-
-                                                    icon: SvgPicture.asset(
-                                                      AppIcon.uploadicon,
-                                                      colorFilter:
-                                                          const ColorFilter
-                                                              .mode(
-                                                        AppColors
-                                                            .backgroundWhiteColor,
-                                                        BlendMode.srcIn,
-                                                      ),
-                                                      width: 13,
-                                                      height: 13,
-                                                      key: const Key(
-                                                          Keys.userIcon),
-                                                    ),
-
-                                                    label: const Text(
-                                                      Constants.clicktoupload,
-                                                      style: Styles
-                                                          .textStyleRegularNormalWhite12,
-                                                    ), // <-- Text
-                                                  ),
-                                                ),
-                                              ]),
-                                        )
-                                      : Container(),
-
-                                  // getFiles.isNotEmpty ||
-                                  //         getAttachments.isNotEmpty
-                                  //     ? CommonWidgets.verticalSpacerWidget(
-                                  //         height * 0.01)
-                                  //     : Container(),
-                                  // (getAttachments.isEmpty ||
-                                  //         widget.model == null)
-                                  //     ? getFiles.isEmpty
-                                  //         ? Container()
-                                  //         : attachmentListviews(
-                                  //             getFiles, getAttachments)
-                                  //     : attachmentListviews(
-                                  //         getFiles, getAttachments),
+                                  if (widget.model == null ||
+                                      widget.model?.status == 0) ...[
+                                    BaseImageUpload().uploadWidget(
+                                      context: context,
+                                      loggedInUserDetails: userDetails!,
+                                      getFiles: getFiles,
+                                      onImageSelected: (ImageContent data) {
+                                        List<ImageContent>? files = [];
+                                        files.add(data);
+                                        for (ImageContent image
+                                            in getFiles) {
+                                          files.add(image);
+                                        }
+                                        BlocProvider.of<
+                                                    CreateFoundArticleCubit>(
+                                                context)
+                                            .addAttachment(
+                                          files,
+                                        );
+                                      },
+                                    )
+                                  ],
 
                                   // if (!getAttachments.isEmptyOrNull ) ...[
                                   BaseImageUpload().getAttachment(

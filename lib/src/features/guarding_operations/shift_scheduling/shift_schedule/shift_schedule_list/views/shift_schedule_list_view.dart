@@ -140,7 +140,7 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                       child: SmartRefresher(
                         controller: refreshController,
                         enablePullDown: true,
-                        physics: const BouncingScrollPhysics(),
+                        physics: const AlwaysScrollableScrollPhysics(),
                         header: WaterDropHeader(
                           waterDropColor: AppColors.navigationSkyBlueColor,
                           refresh: state.status != FormStatus.loading

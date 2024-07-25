@@ -60,11 +60,10 @@ class OccurrenceGeneralInfoState extends Equatable {
     if (model.status == null) {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
-
-    if (model.handoverSecurity == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Shift Taken Over By.');
-    }
+    // if (model.handoverSecurity == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Shift Taken Over By.');
+    // }
     if (model.medicalEmrgncy && model.medicalEmrgncyComments == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Medical Emergency Comments');

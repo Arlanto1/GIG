@@ -267,6 +267,10 @@ class Constants {
   static const String cancelRecord = 'Cancel Record';
   static const String cancelRecordWarningMessage =
       'Are you sure, do you want to cancel the record?';
+
+  static const String deleteAttachment = 'Delete Attachment';
+  static const String deleteAttachmentWarningMessage =
+      'Are you sure, do you want delete the attachment?';
   static const String close = 'Close';
   static const String closeRecordWarningMessage =
       'Are you sure, do you want to close the record?';
@@ -641,7 +645,8 @@ class Constants {
   static const String complaint = 'Complainant';
   static const String complaintEmployeeId = 'Complainant Employee Id';
   static const String complaintDepartment = 'Complainant Department';
-  static const String complaintHR = 'Complainant Manager/Host';
+  static const String complaintHR = 'Complainant HR';
+  static const String complaintManagerHost = 'Complainant Manager/Host';
   static const String incidentLocation = 'Incident Location';
   static const String incidentManager = 'Incident Manager';
   static const String incidentOwner = 'Incident Owner';

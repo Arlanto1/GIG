@@ -5,7 +5,7 @@ class VVIPVisitorsRecordState extends Equatable {
   final bool hasReachedMax;
   final FormStatus status;
   final String? message;
-  final SlaUiLabels? labels;
+  final VVIPUiLabels? labels;
 
   const VVIPVisitorsRecordState({
     this.message,
@@ -20,7 +20,7 @@ class VVIPVisitorsRecordState extends Equatable {
     bool? hasReachedMax,
     FormStatus? status,
     String? message,
-    SlaUiLabels? labels,
+    VVIPUiLabels? labels,
   }) {
     return VVIPVisitorsRecordState(
       items: items ?? this.items,

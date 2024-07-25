@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/common_widgets/show_image.dart';
 
 class BaseImageUpload {
   Widget uploadWidget({
@@ -138,6 +140,25 @@ class AttachmentListViewState extends State<AttachmentListView> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     /// View Icon
+                    if (imageData?.id == null) ...[
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ShowImage(
+                                  imageBytes: imageData?.imageContent,
+                                  filePath: null,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: ImageFromBytes(imageData: imageData),
+                      ),
+                      const SizedBox(width: 10),
+                    ],
                     if (imageData?.id != null) ...[
                       GestureDetector(
                         onTap: () {
@@ -149,7 +170,7 @@ class AttachmentListViewState extends State<AttachmentListView> {
                               moduleCode: widget.moduleCode,
                               viewOnly: true);
                         },
-                        child: BaseIcons().viewIcon(),
+                        child: ImageFromBytes(imageData: imageData),
                       ),
                       const SizedBox(width: 10),
                     ],
@@ -174,11 +195,31 @@ class AttachmentListViewState extends State<AttachmentListView> {
                         icon: BaseIcons().deleteIcon(),
                         onPressed: () {
                           // Delete logic here
-                          if (imageData != null) {
-                            setState(() {
-                              widget.attachmentListviews!.removeAt(index);
-                            });
-                          }
+
+                          /// Delete Warning Dialog Box
+                          var dialog = CustomAlertDialog(
+                              title: Constants.deleteAttachment,
+                              message: Constants.deleteAttachmentWarningMessage,
+                              onPositivePressed: () {
+                                Navigator.pop(context);
+                                // Navigator.pop(context);
+                                if (imageData != null) {
+                                  setState(() {
+                                    widget.attachmentListviews!.removeAt(index);
+                                  });
+                                }
+                              },
+                              positiveBtnText: Constants.yes,
+                              negativeBtnText: Constants.no);
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) => dialog);
+
+                          // if (imageData != null) {
+                          //   setState(() {
+                          //     widget.attachmentListviews!.removeAt(index);
+                          //   });
+                          // }
                         },
                       )
                     ],
@@ -201,7 +242,7 @@ class AttachmentListViewState extends State<AttachmentListView> {
                   controller: imageNameController,
                   textFormKey: Keys.claimantEmpIdTextController,
                   hintText: '',
-                  isEnable: widget.showDeleteIcon == true? true:false,
+                  isEnable: widget.showDeleteIcon == true ? true : false,
                   isDisableColor: false,
                   onChange: (String value) {
                     imageData?.title = imageNameController.text;
@@ -217,6 +258,39 @@ class AttachmentListViewState extends State<AttachmentListView> {
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class ImageFromBytes extends StatelessWidget {
+  const ImageFromBytes({
+    super.key,
+    required this.imageData,
+  });
+
+  final ImageContent? imageData;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration:  BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          40
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Image.memory(
+          Uint8List.fromList(
+            base64Decode(
+              imageData!.imageContent!,
+            ),
+          ),
+width: 70,
+          height: 90,
+          fit: BoxFit.contain,
+        ),
       ),
     );
   }

@@ -133,7 +133,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
           Constants.fulldateFormat);
     }
 
-    if (state.model.closureTargetDate != null) {
+    if (state.model.closureTargetDate.isEmptyOrNull) {
       DateTime currentDate = DateTime.now();
       DateTime futureDate = currentDate.add(const Duration(days: 14));
       String formattedDate =
@@ -631,12 +631,17 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
 
-                            /// Complainant Manager/Host
+                            /// Complainant HR / Complainant Manager/Host
                             CommonWidgets.textDisplay(
-                                state.labels?.locale.complainantHost ??
-                                    state.labels?.defaultLocale
-                                        .complainantHost ??
-                                    Constants.complaintHR,
+                                !state.model.complainantDbEmp
+                                    ? state.labels?.locale.complainantHost ??
+                                        state.labels?.defaultLocale
+                                            .complainantHost ??
+                                        Constants.complaintManagerHost
+                                    : state.labels?.locale.complainantHr ??
+                                        state.labels?.defaultLocale
+                                            .complainantHr ??
+                                        Constants.complaintHR,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
@@ -691,8 +696,10 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               textController: incidentDateTimeController,
                               onlyDate: false,
                               showFutureDate: false,
+                              context: context,
                               onChange: (String value) {
                                 log('---value-$value------');
+                                log('---incidentDateTimeController------###-${incidentDateTimeController.text}------');
                                 state.model.incidentDate =
                                     Utils().formatTime(value);
                                 log('---value11-${state.model.incidentDate}------');
@@ -701,8 +708,9 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     .onModelValueChange(state.model);
                                 FocusScope.of(context)
                                     .requestFocus(incidentLocationFocusNode);
+
+                                log('---incidentDateTimeController----222--###-${incidentDateTimeController.text}------');
                               },
-                              context: context,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -857,8 +865,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: closureTargetDateController,
-                              isDisabled: state.model.status != 0 ||
-                                  state.model.lock.isEmptyOrNull,
+                              isDisabled: state.model.status != null ||
+                                  !state.model.lock.isEmptyOrNull,
                               onlyDate: false,
                               showPastDate: false,
                               onChange: (String value) {

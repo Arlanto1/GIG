@@ -629,7 +629,7 @@ class Utils {
         statusText = 'EP PO Required';
         break;
       case 20:
-        statusText = 'EP PO Updated';
+        statusText = 'PO Updated';
         break;
       case 21:
         statusText = 'Event Started';
@@ -1120,7 +1120,7 @@ class Utils {
     );
   }
 
-  Widget buildSLAViolationStatus(int status) {
+  dynamic buildSLAViolationStatus(int status, {bool? returnTextOnly}) {
     String statusText;
 
     switch (status) {
@@ -1139,6 +1139,11 @@ class Utils {
       default:
         statusText = ''; // Handle the default case if needed
     }
+
+    if (returnTextOnly ?? false) {
+      return statusText;
+    }
+
     return IntrinsicWidth(
       child: Row(
         children: [

@@ -200,7 +200,7 @@ class _LnPageState extends State<LnPage> {
                     child: SmartRefresher(
                       controller: refreshController,
                       enablePullDown: true,
-                      physics: const BouncingScrollPhysics(),
+                      physics: const AlwaysScrollableScrollPhysics(),
                       header: const WaterDropHeader(
                         waterDropColor: AppColors.navigationSkyBlueColor,
                       ),

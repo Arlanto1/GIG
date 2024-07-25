@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
@@ -56,6 +55,26 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(context, 'Added sucessfully', title, '');
       });
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          model: model,
+          message: Constants.errorText,
+          status: FormStatus.failure,
+        ),
+      );
+      dismissLoadingDialog(context);
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        Utils.dynamicAlert(context, e.message ?? '', Constants.addarticletype,
+            Constants.errorText);
+      });
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          status: FormStatus.error,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(
@@ -97,8 +116,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       return;
-    }
-    catch (e) {
+    } catch (e) {
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -428,6 +446,26 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         Utils.dynamicAlert(
             context, 'Added successfully', Constants.newuser, '');
       });
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          model: model,
+          message: Constants.errorText,
+          status: FormStatus.failure,
+        ),
+      );
+      dismissLoadingDialog(context);
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        Utils.dynamicAlert(context, e.message ?? '', Constants.addarticletype,
+            Constants.errorText);
+      });
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          status: FormStatus.error,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(

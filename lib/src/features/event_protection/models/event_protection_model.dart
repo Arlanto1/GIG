@@ -111,6 +111,9 @@ class EventProtectionModel {
   final String? preOpPoints1DoneByName;
   final String? opExecPoints1DoneByName;
   final String? postOpPoints1DoneByName;
+  final String? eventStartDate;
+  final String? eventEndDate;
+  final User? epManager1;
 
   EventProtectionModel({
     this.id,
@@ -196,6 +199,9 @@ class EventProtectionModel {
     this.preOpPoints1DoneByName,
     this.opExecPoints1DoneByName,
     this.postOpPoints1DoneByName,
+    this.eventStartDate,
+    this.eventEndDate,
+    this.epManager1,
   });
 
   EventProtectionModel.fromJson(Map<String, dynamic> json)
@@ -281,7 +287,12 @@ class EventProtectionModel {
         qmrAuthorizedByName = json['qmrAuthorizedByName'] as String?,
         preOpPoints1DoneByName = json['preOpPoints1DoneByName'] as String?,
         opExecPoints1DoneByName = json['opExecPoints1DoneByName'] as String?,
-        postOpPoints1DoneByName = json['postOpPoints1DoneByName'] as String?;
+        postOpPoints1DoneByName = json['postOpPoints1DoneByName'] as String?,
+        eventStartDate = json['eventStartDate'] as String?,
+        eventEndDate=json['eventEndDate'] as String?,
+        epManager1 = (json['epManager1'] as Map<String,dynamic>?) != null ? User.fromJson(json['epManager1'] as Map<String,dynamic>) : null
+  ;
+
 
   Map<String, dynamic> toJson() => {
     'id' : id,
@@ -366,7 +377,10 @@ class EventProtectionModel {
     'qmrAuthorizedByName' : qmrAuthorizedByName,
     'preOpPoints1DoneByName' : preOpPoints1DoneByName,
     'opExecPoints1DoneByName' : opExecPoints1DoneByName,
-    'postOpPoints1DoneByName' : postOpPoints1DoneByName
+    'postOpPoints1DoneByName' : postOpPoints1DoneByName,
+    'eventStartDate':eventStartDate,
+    'eventEndDate':eventEndDate,
+    'epManager1':epManager1,
   };
 }
 

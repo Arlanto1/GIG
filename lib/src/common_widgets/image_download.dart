@@ -105,6 +105,7 @@ class DownloadImage {
     Uri url, {
     bool? viewOnly,
   }) async {
+    showLoadingDialog(context);
     String? message;
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     try {
@@ -133,7 +134,9 @@ class DownloadImage {
       await file.writeAsBytes(response.bodyBytes);
 
       log('--file.path-----${file.path}----');
+
       if (viewOnly ?? false) {
+        dismissLoadingDialog(context);
         Navigator.push(
           context,
           MaterialPageRoute(

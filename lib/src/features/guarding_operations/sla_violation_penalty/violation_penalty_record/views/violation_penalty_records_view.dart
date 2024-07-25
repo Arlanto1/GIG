@@ -213,10 +213,28 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
                         widget.parentStatus !=
                             ConstantsIntValue.cancelledStatus,
                     onDeleteTap: (selectedIndex) async {
-                      // Call Delete API
-                      BlocProvider.of<ViolationPenaltyRecordBloc>(context).add(
-                          DeleteRecord(state.items![selectedIndex].id!.toInt(),
-                              widget.id));
+
+                      /// Delete Warning Dialog Box
+                      var dialog = CustomAlertDialog(
+                          title: Constants.deleteAttachment,
+                          message: Constants.deleteAttachmentWarningMessage,
+                          onPositivePressed: () {
+                            Navigator.pop(context);
+                            // Navigator.pop(context);
+                            // Call Delete API
+                            BlocProvider.of<ViolationPenaltyRecordBloc>(context).add(
+                                DeleteRecord(state.items![selectedIndex].id!.toInt(),
+                                    widget.id));
+                          },
+                          positiveBtnText: Constants.yes,
+                          negativeBtnText: Constants.no);
+                      showDialog(context: context, builder: (BuildContext context) => dialog);
+
+
+                      // // Call Delete API
+                      // BlocProvider.of<ViolationPenaltyRecordBloc>(context).add(
+                      //     DeleteRecord(state.items![selectedIndex].id!.toInt(),
+                      //         widget.id));
                     },
                     index: index,
                   );

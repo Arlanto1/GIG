@@ -172,6 +172,26 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
                 value: state.items![index].baseLocation ?? '',
               ),
             );
+            if (!(state.items![index].startDateVisit.isEmptyOrNull)) {
+              labels.add(Label(
+                  key:
+                  state.labels?.locale.startDateVisit ??
+                      state.labels?.defaultLocale.startDateVisit ??
+                      'Start Date of Visit',
+                  value: Utils.timestampToDateConversion(
+                      int.parse(state.items![index].startDateVisit ?? '0'),
+                      Constants.dateFormat)));
+            }
+            if (!(state.items![index].endDateVisit.isEmptyOrNull)) {
+              labels.add(Label(
+                  key:
+                  state.labels?.locale.endDateVisit ??
+                      state.labels?.defaultLocale.endDateVisit ??
+                      'End Date of Visit',
+                  value: Utils.timestampToDateConversion(
+                      int.parse(state.items![index].endDateVisit ?? '0'),
+                      Constants.dateFormat)));
+            }
             return index >= state.items!.length
                 ? const BaseLoader()
                 : BaseListTileItem(
