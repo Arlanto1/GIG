@@ -39,14 +39,15 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
           await commonServices.getUserDetails(userId: userId);
       Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
 
-      SerialNumberModel serialNumberResponse;
-      serialNumberResponse = await commonServices.getSlNo(
-        locationId: defaultLocation!.id.toString(),
-        moduleCode: Constants.articleFoundModuleCode,
-      );
-
+      SerialNumberModel? serialNumberResponse;
+      if (model.slNo.isEmptyOrNull) {
+        serialNumberResponse = await commonServices.getSlNo(
+          locationId: defaultLocation!.id.toString(),
+          moduleCode: Constants.articleFoundModuleCode,
+        );
+        model.slNo = serialNumberResponse.serialNo;
+      }
       model.location = defaultLocation;
-      model.slNo = serialNumberResponse.serialNo;
       emit(
         state.copyWith(
           model: model,

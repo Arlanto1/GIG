@@ -947,10 +947,13 @@ class _CreateFoundState extends State<CreateFound> {
                   claimant = selectedClaimList?.name ?? '';
                 }
 
-                serialnumberResponse = state.getSerialnumberResponse;
-                log('---serialnumberResponse---${serialnumberResponse?.serialNo}----');
-                if (serialnumberResponse != null) {
-                  serialNumber = serialnumberResponse?.serialNo ?? "";
+                if(widget.model == null || widget.model!.slNo.isEmptyOrNull) {
+                  serialnumberResponse = state.getSerialnumberResponse;
+                  log('---serialnumberResponse---${serialnumberResponse
+                      ?.serialNo}----');
+                  if (serialnumberResponse != null) {
+                    serialNumber = serialnumberResponse?.serialNo ?? "";
+                  }
                 }
                 return Container(
                   color: AppColors.navigationSkyBlueColor,
