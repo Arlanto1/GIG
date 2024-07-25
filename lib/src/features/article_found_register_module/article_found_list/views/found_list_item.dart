@@ -1,5 +1,8 @@
 // Created by Ramesh
 
+import 'dart:developer';
+
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
@@ -34,6 +37,7 @@ class FoundListItem extends StatefulWidget {
 class _FoundListItemState extends State<FoundListItem> {
   @override
   Widget build(BuildContext context) {
+    log('widget.userItem.foundLocation.isEmptyOrNull ${widget.userItem.location?.name != null}');
     final size = MediaQuery.of(context).size;
     final width = size.width;
     return Padding(
@@ -76,30 +80,41 @@ class _FoundListItemState extends State<FoundListItem> {
                   Utils().buildFoundStatusRow(widget.userItem.status ?? 0),
                   Row(
                     children: [
-                      Utils().textHandling('Region : ',
-                          widget.userItem.locationRegion?.name ?? ''),
+                      if (widget.userItem.locationRegion?.name != null) ...[
+                        Utils().textHandling('Region : ',
+                            widget.userItem.locationRegion?.name ?? ''),
+                      ],
                     ],
                   ),
-                  if (widget.userItem.inputDate != null) ...[
-                    CommonWidgets.verticalSpacerWidget(5),
-                    Row(
-                      children: [
-                        if (widget.userItem.foundLocation != null) ...[
-                          Utils().textHandling('Location : ',
-                              widget.userItem.location?.name ?? ''),
-                        ],
-                        CommonWidgets.horizontalSpacerWidget(5),
+                  CommonWidgets.verticalSpacerWidget(5),
+                  Row(
+                    children: [
+                      if (widget.userItem.location?.name != null) ...[
+                        Utils().textHandling('Location : ',
+                            widget.userItem.location?.name ?? ''),
+                      ],
+                      CommonWidgets.horizontalSpacerWidget(5),
+                      if (!(widget.userItem.foundDate.isEmptyOrNull)) ...[
                         Utils().textHandling(
-                            'Date : ',
-                            widget.userItem.inputDate != null
+                            'Found Date : ',
+                            widget.userItem.foundDate != null
                                 ? Utils.timestampToDateConversion(
                                     int.tryParse(
-                                        widget.userItem.inputDate ?? '0'),
+                                        widget.userItem.foundDate ?? '0'),
                                     Constants.dateFormat)
                                 : ''),
                       ],
-                    ),
-                  ],
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      if (widget.userItem.entrySecurity !=null) ...[
+                        Utils().textHandling('Created By : ',
+                            ('${widget.userItem.entrySecurity?.firstName ?? ''} ${widget.userItem.entrySecurity?.lastName ?? ''}')),
+                      ],
+                    ],
+                  ),
+                  //],
                 ],
               ),
             ),
