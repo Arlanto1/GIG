@@ -1117,7 +1117,7 @@ class Utils {
     );
   }
 
-  Widget buildSLAViolationStatus(int status) {
+  dynamic buildSLAViolationStatus(int status, {bool? returnTextOnly}) {
     String statusText;
 
     switch (status) {
@@ -1136,6 +1136,11 @@ class Utils {
       default:
         statusText = ''; // Handle the default case if needed
     }
+
+    if (returnTextOnly ?? false) {
+      return statusText;
+    }
+
     return IntrinsicWidth(
       child: Row(
         children: [

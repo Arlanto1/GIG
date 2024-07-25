@@ -214,8 +214,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               isDisableColor: true,
                               textFormKey: Keys.statusTextController,
                               hintText: '',
-                              initialValue:
-                                  getStatusString(state.model.status ?? 0),
+                              initialValue: Utils().buildSLAViolationStatus(
+                                  state.model.status ?? 0,
+                                  returnTextOnly: true),
                               onChange: (String value) {},
                               validateTextField: (String? user) {},
                             ),
@@ -565,21 +566,6 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
     );
   }
 
-  String getStatusString(int status) {
-    switch (status) {
-      case 0:
-        return 'Draft';
-      case 1:
-        return 'Active';
-      case 2:
-        return 'Finalize';
-      case -1:
-        return 'Cancelled';
-      default:
-        return '';
-    }
-  }
-
   Widget cancelButtonDisplay() {
     return AppButton(
       width: Constants.cancelButtonWidth,
@@ -760,25 +746,4 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
       validateTextField: (String? user) {},
     );
   }
-// getById(int id) async {
-//   showLoadingDialog(context);
-//
-//   SLAViolationPenaltyModel contactsModel =
-//   await SLAViolationPenaltyServices().getGvpById(id);
-//
-//   editDataLoading(contactsModel);
-// }
-// void editDataLoading(SLAViolationPenaltyModel? model) {
-//   dismissLoadingDialog(context);
-//   if (model != null) {
-//     Navigator.pushNamed(
-//       context,
-//       slaViolationPenaltyDetailsRoute,
-//       arguments: {
-//         "model": model,
-//         "title": Constants.slaViolationPenalty,
-//       },
-//     );
-//   }
-// }
 }

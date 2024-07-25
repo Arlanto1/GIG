@@ -60,7 +60,7 @@ class SLAViolationPenaltyListBloc
           statuses: statuses,
           commonFilters: commonFilters,
           hasReachedMax: false,
-          status: FormStatus.initial,
+          status: FormStatus.success,
           labels: labels,
           extraProperties: extraProperties,
         ),
