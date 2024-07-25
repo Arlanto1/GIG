@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/common_widgets/show_image.dart';
 
 class BaseImageUpload {
   Widget uploadWidget({
@@ -138,6 +140,25 @@ class AttachmentListViewState extends State<AttachmentListView> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     /// View Icon
+                    if (imageData?.id == null) ...[
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ShowImage(
+                                  imageBytes: imageData?.imageContent,
+                                  filePath: null,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: ImageFromBytes(imageData: imageData),
+                      ),
+                      const SizedBox(width: 10),
+                    ],
                     if (imageData?.id != null) ...[
                       GestureDetector(
                         onTap: () {
@@ -149,7 +170,7 @@ class AttachmentListViewState extends State<AttachmentListView> {
                               moduleCode: widget.moduleCode,
                               viewOnly: true);
                         },
-                        child: BaseIcons().viewIcon(),
+                        child: ImageFromBytes(imageData: imageData),
                       ),
                       const SizedBox(width: 10),
                     ],
@@ -190,7 +211,9 @@ class AttachmentListViewState extends State<AttachmentListView> {
                               },
                               positiveBtnText: Constants.yes,
                               negativeBtnText: Constants.no);
-                          showDialog(context: context, builder: (BuildContext context) => dialog);
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) => dialog);
 
                           // if (imageData != null) {
                           //   setState(() {
@@ -219,7 +242,7 @@ class AttachmentListViewState extends State<AttachmentListView> {
                   controller: imageNameController,
                   textFormKey: Keys.claimantEmpIdTextController,
                   hintText: '',
-                  isEnable: widget.showDeleteIcon == true? true:false,
+                  isEnable: widget.showDeleteIcon == true ? true : false,
                   isDisableColor: false,
                   onChange: (String value) {
                     imageData?.title = imageNameController.text;
@@ -237,5 +260,76 @@ class AttachmentListViewState extends State<AttachmentListView> {
         },
       ),
     );
+  }
+}
+
+class ImageFromBytes extends StatelessWidget {
+  ImageFromBytes({
+    super.key,
+    required this.imageData,
+  });
+
+  final ImageContent? imageData;
+
+  @override
+  Widget build(BuildContext context) {
+    Uint8List? imageBytes;
+    try {
+      imageBytes = Uint8List.fromList(base64Decode(imageData!.imageContent!));
+    } catch (e) {
+      print('Error decoding image data: $e');
+      // You can provide a fallback image or widget here if needed
+      imageBytes = null;
+    }
+
+    if (!isImageFile(imageData!.title!)) {
+      return const Text('Image not valid');
+    }
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(40),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: imageBytes != null
+            ? Image.memory(
+                imageBytes,
+                width: 70,
+                height: 90,
+                fit: BoxFit.contain,
+              )
+            : Container(
+                width: 70,
+                height: 90,
+                color: Colors.grey, // Placeholder for invalid image data
+                child: const Icon(
+                    Icons.error), // You can use a different placeholder here
+              ),
+      ),
+    );
+  }
+
+  List<String> imageExtensions = [
+    'jpeg',
+    'jpg',
+    'png',
+    'gif',
+    'bmp',
+    'webp',
+    'tiff',
+    'tif',
+    'svg'
+  ];
+
+  bool isImageFile(String fileName) {
+    String? extension = getFileExtension(fileName);
+    return extension != null &&
+        imageExtensions.contains(extension.toLowerCase());
+  }
+
+  String? getFileExtension(String fileName) {
+    int dotIndex = fileName.lastIndexOf('.');
+    if (dotIndex == -1) return null;
+    return fileName.substring(dotIndex + 1);
   }
 }
