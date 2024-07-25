@@ -631,11 +631,11 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
 
-                            /// Complainant Manager/Host
+                            /// Complainant HR
                             CommonWidgets.textDisplay(
-                                state.labels?.locale.complainantHost ??
+                                state.labels?.locale.complainantHr ??
                                     state.labels?.defaultLocale
-                                        .complainantHost ??
+                                        .complainantHr ??
                                     Constants.complaintHR,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
