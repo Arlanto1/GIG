@@ -264,7 +264,7 @@ class AttachmentListViewState extends State<AttachmentListView> {
 }
 
 class ImageFromBytes extends StatelessWidget {
-  const ImageFromBytes({
+  ImageFromBytes({
     super.key,
     required this.imageData,
   });
@@ -273,25 +273,63 @@ class ImageFromBytes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Uint8List? imageBytes;
+    try {
+      imageBytes = Uint8List.fromList(base64Decode(imageData!.imageContent!));
+    } catch (e) {
+      print('Error decoding image data: $e');
+      // You can provide a fallback image or widget here if needed
+      imageBytes = null;
+    }
+
+    if (!isImageFile(imageData!.title!)) {
+      return const Text('Image not valid');
+    }
     return Container(
-      decoration:  BoxDecoration(
-        borderRadius: BorderRadius.circular(
-          40
-        ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(40),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
-        child: Image.memory(
-          Uint8List.fromList(
-            base64Decode(
-              imageData!.imageContent!,
-            ),
-          ),
-width: 70,
-          height: 90,
-          fit: BoxFit.contain,
-        ),
+        child: imageBytes != null
+            ? Image.memory(
+                imageBytes,
+                width: 70,
+                height: 90,
+                fit: BoxFit.contain,
+              )
+            : Container(
+                width: 70,
+                height: 90,
+                color: Colors.grey, // Placeholder for invalid image data
+                child: const Icon(
+                    Icons.error), // You can use a different placeholder here
+              ),
       ),
     );
+  }
+
+  List<String> imageExtensions = [
+    'jpeg',
+    'jpg',
+    'png',
+    'gif',
+    'bmp',
+    'webp',
+    'tiff',
+    'tif',
+    'svg'
+  ];
+
+  bool isImageFile(String fileName) {
+    String? extension = getFileExtension(fileName);
+    return extension != null &&
+        imageExtensions.contains(extension.toLowerCase());
+  }
+
+  String? getFileExtension(String fileName) {
+    int dotIndex = fileName.lastIndexOf('.');
+    if (dotIndex == -1) return null;
+    return fileName.substring(dotIndex + 1);
   }
 }
