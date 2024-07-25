@@ -335,9 +335,9 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
           status: false, message: 'Please enter Office Address');
     }
 
-    if (!widget.model.email.isEmptyOrNull &&!Validator.emailValidation(widget.model.email!) ) {
+    if (widget.model.contactNo.isEmptyOrNull) {
       return const ErrorResponse(
-          status: false, message: 'Please enter valid Email Address.');
+          status: false, message: 'Please enter Phone Number.');
     }
     if ((!Utils().isNumeric(widget.model.contactNo!) ||
             widget.model.contactNo!.length < 10 ||
@@ -348,10 +348,6 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
         message: 'Please enter a valid contact number.',
       );
     }
-    // if (widget.model.contactNo.isEmptyOrNull) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Contact No.');
-    // }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }

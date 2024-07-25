@@ -250,23 +250,23 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     // }
 
     if (user != null) {
-      state.model.receiverEmail = user.name;
+      state.model.receiverEmail = user.email;
     }
 
     if (receiverEmailUser != null) {
-      state.model.receiverEmail = receiverEmailUser.name;
+      state.model.receiverEmail = '${receiverEmailUser.name} (${receiverEmailUser.email})';
     }
 
     if (receiverEmail != null) {
-      state.model.receiverEmail = receiverEmail.name;
+      state.model.receiverEmail = '${receiverEmail.name} (${receiverEmail.email})';
     }
 
     if (requesterEmailUser != null) {
-      state.model.requestorEmail = requesterEmailUser.name;
+      state.model.requestorEmail = '${requesterEmailUser.name} (${requesterEmailUser.email})';
     }
 
     if (returnReceiverMailId != null) {
-      state.model.returnReceiverMailId = returnReceiverMailId.name;
+      state.model.returnReceiverMailId = '${returnReceiverMailId.name} (${returnReceiverMailId.email})';
     }
     if (requesterDepartment != null) {
       state.model.requestorDepartment = requesterDepartment;
@@ -316,7 +316,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     );
 
     if (requesterEmailUser != null) {
-      state.model.requestorEmail = requesterEmailUser.name;
+      state.model.requestorEmail = '${requesterEmailUser.name} (${requesterEmailUser.email})';
 
       emit(
         state.copyWith(
@@ -337,7 +337,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
 
     if (approver1EmailUser != null) {
-      state.model.approver1Email = approver1EmailUser.name;
+      state.model.approver1Email = '${approver1EmailUser.name} (${approver1EmailUser.email})';
 
       emit(
         state.copyWith(
@@ -359,7 +359,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
 
     if (approver2EmailUser != null) {
-      state.model.approver2Email = approver2EmailUser.name;
+      state.model.approver2Email = '${approver2EmailUser.name} (${approver2EmailUser.email})';
 
       emit(
         state.copyWith(
