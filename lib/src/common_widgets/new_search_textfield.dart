@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -63,6 +66,8 @@ class FlutterInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    // log('-controller?.text-----${controller?.text}--');
     return TextFormField(
       key: Key(textFormKey),
       controller: controller,
@@ -128,6 +133,11 @@ class FlutterInputField extends StatelessWidget {
       onChanged: (String str) {
         onChange(str);
       },
+      inputFormatters: [
+        if (textInputType == TextInputType.number)...[
+          FilteringTextInputFormatter.digitsOnly
+        ]
+      ],
       maxLength: characterLimit,
       validator: (String? value) {
         if (validateTextField != null) {

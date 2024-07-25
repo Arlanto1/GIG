@@ -41,18 +41,24 @@ class BaseDate {
 
     return GestureDetector(
       onTap: () async {
+        log('-textController.text---!!!!!-${textController.text}----');
         if (!isDisabled) {
           textController.text = await BaseDate().datePickerDialog(
-              textController: textController,
-              startDate: startDate,
-              showPastDate: showPastDate,
-              showFutureDate: showFutureDate,
-              onChange: onChange,
-              context: context,
-              onlyDate: onlyDate,
-              fromDate: fromDate,
-              toDate: toDate);
+            textController: textController,
+            startDate: startDate,
+            showPastDate: showPastDate,
+            showFutureDate: showFutureDate,
+            onChange: onChange,
+            context: context,
+            onlyDate: onlyDate,
+            fromDate: fromDate,
+            toDate: toDate,
+          );
+
+          log('-textController.text----${textController.text}----');
         }
+        log('-textController.text---222-${textController.text}----');
+
       },
       child: Opacity(
         opacity: isDisabled ? .5 : 1,
@@ -128,6 +134,7 @@ class BaseDate {
     }
 
     if (!fromDate.isEmptyOrNull && !toDate.isEmptyOrNull) {
+      log('--if (!fromDate.isEmptyOrNull && !toDate.isEmptyOrNull)--');
       DatePicker.showDatePicker(
         context,
         showTitleActions: true,
@@ -138,7 +145,7 @@ class BaseDate {
           pickedDate = date;
           log('change $date');
         },
-        onCancel: (){
+        onCancel: () {
           FocusManager.instance.primaryFocus?.unfocus();
         },
         onConfirm: (date) {
@@ -147,15 +154,25 @@ class BaseDate {
           if (pickedDate != null) {
             if (!onlyDate) {
               showTimePicker(
-                  context, pickedDate!, onlyDate, textController, onChange);
+                context: context,
+                pickedDate: pickedDate!,
+                onlyDate: onlyDate,
+                textController: textController,
+                onChange: onChange,
+              );
             }
-            return setDateTime(pickedDate!, onlyDate, textController, onChange);
+            String dateTime =
+                setDateTime(pickedDate!, onlyDate, textController, onChange);
+            log('--!!!!!----dateTime---$dateTime------');
+            return dateTime;
+            // return setDateTime(pickedDate!, onlyDate, textController, onChange);
           }
         },
         currentTime: currentTime,
         locale: LocaleType.en,
       );
     } else if (onlyDate) {
+      log('--else if (onlyDate)--');
       DatePicker.showDatePicker(
         context,
         showTitleActions: true,
@@ -178,7 +195,7 @@ class BaseDate {
     } else {
       log('--else@@@@@@--');
 
-      DatePicker.showDatePicker(
+      DatePicker.showDateTimePicker(
         context,
         showTitleActions: true,
         minTime: minTime,
@@ -191,36 +208,62 @@ class BaseDate {
           pickedDate = date;
           log('pickedDate------ $date');
           if (pickedDate != null) {
-            showTimePicker(
-                context, pickedDate!, onlyDate, textController, onChange);
-            return setDateTime(pickedDate!, onlyDate, textController, onChange);
+            // showTimePicker(
+            //   context: context,
+            //   pickedDate: pickedDate!,
+            //   onlyDate: onlyDate,
+            //   textController: textController,
+            //   onChange: onChange,
+            // );
+            String dateTime =
+                setDateTime(pickedDate!, onlyDate, textController, onChange);
+            log('--@@@----dateTime---$dateTime------');
+            return dateTime;
           }
         },
         currentTime: currentTime,
         locale: LocaleType.en,
       );
     }
+    log('--before--pickedDate != null-----');
 
     if (pickedDate != null) {
-      return setDateTime(pickedDate!, onlyDate, textController, onChange);
+      log('--pickedDate != null-----');
+
+      // return setDateTime(pickedDate!, onlyDate, textController, onChange);
+      String dateTime =
+      setDateTime(pickedDate!, onlyDate, textController, onChange);
+      log('--@@@---pickedDate != null-dateTime---$dateTime------');
+      return dateTime;
     } else {
+      log('--pickedDate != null---else--');
       // Handle the case where the user cancels the picker
       return ''; // You can modify the return value accordingly
     }
   }
 
-  void showTimePicker(BuildContext context, DateTime pickedDate, onlyDate,
-      textController, onChange) {
-    DatePicker.showTimePicker(
+  void showTimePicker({
+    required BuildContext context,
+    required DateTime pickedDate,
+    required bool onlyDate,
+    required TextEditingController textController,
+    onChange,
+  }) {
+    DatePicker.showTime12hPicker(
       context,
       currentTime: pickedDate,
-      showSecondsColumn: false,
+      // showSecondsColumn: false,
       showTitleActions: true,
-      onChanged: (time) {},
+      onChanged: (time) {
+        log('--onChanged-showTimePicker--$time-');
+
+      },
       onConfirm: (time) {
         log('--time--${time.toString()}--');
 
-        setDateTime(time, onlyDate, textController, onChange);
+        String dateTime = setDateTime(time, onlyDate, textController, onChange);
+        log('-11111-dateTime--$dateTime-');
+        return dateTime;
       },
     );
   }
@@ -237,6 +280,8 @@ class BaseDate {
     ).format(pickedDate!);
 
     textController.text = formattedDate;
+    log('--textController.text-sss-${textController.text}--');
+
     onChange(formattedDate);
     log('--formattedDate-sss-$formattedDate--');
     return formattedDate;
