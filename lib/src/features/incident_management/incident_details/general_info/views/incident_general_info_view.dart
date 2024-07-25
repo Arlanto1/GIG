@@ -631,12 +631,17 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
 
-                            /// Complainant Manager/Host
+                            /// Complainant HR / Complainant Manager/Host
                             CommonWidgets.textDisplay(
-                                state.labels?.locale.complainantHost ??
-                                    state.labels?.defaultLocale
-                                        .complainantHost ??
-                                    Constants.complaintHR,
+                                !state.model.complainantDbEmp
+                                    ? state.labels?.locale.complainantHost ??
+                                        state.labels?.defaultLocale
+                                            .complainantHost ??
+                                        Constants.complaintManagerHost
+                                    : state.labels?.locale.complainantHr ??
+                                        state.labels?.defaultLocale
+                                            .complainantHr ??
+                                        Constants.complaintHR,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
@@ -705,7 +710,6 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     .requestFocus(incidentLocationFocusNode);
 
                                 log('---incidentDateTimeController----222--###-${incidentDateTimeController.text}------');
-
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),

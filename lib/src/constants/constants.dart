@@ -645,7 +645,8 @@ class Constants {
   static const String complaint = 'Complainant';
   static const String complaintEmployeeId = 'Complainant Employee Id';
   static const String complaintDepartment = 'Complainant Department';
-  static const String complaintHR = 'Complainant Manager/Host';
+  static const String complaintHR = 'Complainant HR';
+  static const String complaintManagerHost = 'Complainant Manager/Host';
   static const String incidentLocation = 'Incident Location';
   static const String incidentManager = 'Incident Manager';
   static const String incidentOwner = 'Incident Owner';

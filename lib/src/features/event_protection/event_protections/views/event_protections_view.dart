@@ -154,7 +154,6 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                     ],
                     // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
-                    // Text('state.status=====${state.status}'),
                     UtilsCommon().showNoRecordWidget(
                         state: state, height: height, items: state.items),
                     Expanded(
@@ -204,7 +203,32 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                       'Location',
                                   value:
                                       state.items[index].location?.name ?? ''));
-
+                              if (!state
+                                  .items[index].eventStartDate.isEmptyOrNull) {
+                                labels.add(Label(
+                                    key: state.labels?.locale.eventStartDate ??
+                                        state.labels?.defaultLocale
+                                            .eventStartDate ??
+                                        'Event Start Date',
+                                    value: Utils.timestampToDateConversion(
+                                        int.tryParse(
+                                            state.items[index].eventStartDate ??
+                                                '0'),
+                                        Constants.dateFormat)));
+                              }
+                              if (!(state
+                                  .items[index].eventEndDate.isEmptyOrNull)) {
+                                labels.add(Label(
+                                    key: state.labels?.locale.eventEndDate ??
+                                        state
+                                            .labels?.defaultLocale.eventEndDate ??
+                                        'Event End Date',
+                                    value: Utils.timestampToDateConversion(
+                                        int.tryParse(
+                                            state.items[index].eventEndDate ??
+                                                '0'),
+                                        Constants.dateFormat)));
+                              }
                               return index >= state.items.length
                                   ? const BaseLoader()
                                   : BaseListTileItem(
@@ -226,9 +250,6 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                               status: state
                                                   .items[selectedIndex].status,
                                               isMasterGuard: false,
-                                              epManager1Name: state
-                                                  .items[selectedIndex]
-                                                  .epManager1Name,
                                               eventType: state
                                                   .items[selectedIndex]
                                                   .eventType,
@@ -259,9 +280,6 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                                   .items[selectedIndex].slNo,
                                               status: state
                                                   .items[selectedIndex].status,
-                                              epManager1Name: state
-                                                  .items[selectedIndex]
-                                                  .epManager1Name,
                                               eventType: state
                                                   .items[selectedIndex]
                                                   .eventType,
