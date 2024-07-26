@@ -83,10 +83,10 @@ class _KeyLossDestructionDetailsViewState
         //   isReadOnly = true;
         // }
         isReadOnly = state.isReadOnly ?? true;
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          isReadOnly = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   isReadOnly = true;
+        // }
         if (state.model.status == null) {
           isReadOnly = false;
         }

@@ -907,10 +907,10 @@ class _CreateFoundState extends State<CreateFound> {
                     ConstantsIntValue.articleFoundStatusHandedOverOrClaimed) {
                   isSignatureReadOnly = true;
                 }
-                if (widget.extraProperties != null &&
-                    !widget.extraProperties!.hasWritePermission!) {
-                  isDisabled = true;
-                }
+                // if (widget.extraProperties != null &&
+                //     !widget.extraProperties!.hasWritePermission!) {
+                //   isDisabled = true;
+                // }
                 if (!state.model.lock.isEmptyOrNull) {
                   isDisabled = true;
                 }

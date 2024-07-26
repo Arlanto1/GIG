@@ -88,10 +88,10 @@ class _DutyPostNameMasterDetailsViewState
         if (state.model.status == null) {
           isReadOnly = false;
         }
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          isReadOnly = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   isReadOnly = true;
+        // }
         showSaveSubmitButtons = (state.model.status == 0 ||
                 state.model.status == 1 ||
                 state.model.status == null ||

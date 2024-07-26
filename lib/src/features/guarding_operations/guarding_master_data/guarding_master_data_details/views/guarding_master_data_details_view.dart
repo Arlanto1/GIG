@@ -116,10 +116,10 @@ class _GuardingMasterDataDetailsViewState
           isReadOnly = false;
         }
 
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          isReadOnly = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   isReadOnly = true;
+        // }
 
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(

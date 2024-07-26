@@ -116,10 +116,10 @@ class _SstIncidentGeneralInfoViewState
         if (state.model.status == -1) {
           disableForm = true;
         }
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          disableForm = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   disableForm = true;
+        // }
         log('@@@--${state.loggedInUserDetails.userName}----${state.model.createdBy?.userName}---');
         if (!(state.loggedInUserDetails.userName
             .equalsIgnoreCase(state.model.createdBy?.userName))) {
