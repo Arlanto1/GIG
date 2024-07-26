@@ -1,30 +1,10 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
-import 'package:bloc/bloc.dart';
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/incident_management/models/im_ui_labels.dart';
-import 'package:db_atom/src/features/lawenforcement/models/add_entities.dart';
-import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/general_info_model.dart';
-import 'package:db_atom/src/models/base_user.dart';
-import 'package:db_atom/src/models/image_content.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/models/responseModels/generic_response.dart';
-import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../enums/form_status.dart';
-import '../../../../../models/responseModels/error_response_validation.dart';
-import '../../../../../utils/util.dart';
-import '../../../../createfound/models/get_articletype_model.dart';
-import '../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import '../../../models/incidents_response.dart';
 import '../../../services/incident_management_services.dart';
 import '../models/requestModel/general_info_request.dart';
@@ -36,7 +16,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
   final String id;
   final String occId;
   final int occType;
-  final int kldId;
+  final String kldId;
   final CommonServices commonServices;
   final Organisation? location;
 
@@ -375,10 +355,11 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     state.model.occurrence ??= OccurrenceModel();
     state.model.occurrence?.id = occId.toIntOrNull();
     state.model.occType = occType;
-    // KeyHistoryModel kldId ??= KeyHistoryModel();
-    state.model.kldId ??= kldId;
+    state.model.keyLossGi ??= KeyHistoryModel();
+    state.model.keyLossGi?.id = kldId.toIntOrNull();
 
     log('---state.model.occurrence-save---${state.model.occurrence?.id}--');
+    log('---state.model.keyLossGi-save---${state.model.keyLossGi?.id}--');
 
     // Create/Update API Call
     IncidentGeneralInfoRequest request =

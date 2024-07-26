@@ -902,61 +902,109 @@ class _KeyHistoryRecordsDetailsViewState
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
-                        if (state.model.investigationRequired ?? false) ...[
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              Constants.incident,
-                              style: Styles.styleHeaderGreyText16,
-                            ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        if (state.model.investigationRequired == true) ...[
+                          CommonWidgets.textDisplay(
+                              Constants.incidentItemList,
+                              Styles.textStyleBlack14),
                           GestureDetector(
-                            onTap: () async {
-                              NavigatorState nav = Navigator.of(context);
-                              bool isSaveSuccess = await BlocProvider.of<
-                                  KeyHistoryRecordsDetailsCubit>(context)
-                                  .submitForm(
-                                isSaveOnly: true,
-                                navigateToNextScreen: true,
-                              );
-                              if (!isSaveSuccess) {
-                                return;
-                              }
-                              nav.pushNamed(
-                                incidentManagementsRoute,
-                                arguments: {
-                                  ConstantsArgument.title: Constants.incident,
-                                  ConstantsArgument.id: state.model.id,
-                                  // ConstantsArgument.kldId:
-                                  //     state.model.id,
-                                },
-                              );
-                            },
+                            onTap: () => navigateToCreateIncident(
+                              state: state,
+                            ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                SvgPicture.asset(
-                                  AppIcon.pluscircle,
-                                  colorFilter: const ColorFilter.mode(
-                                    AppColors.navigationSkyBlueColor,
-                                    BlendMode.srcIn,
+                                if (state.model.status !=
+                                    ConstantsIntValue.submitted) ...[
+                                  const SizedBox(width: 14),
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
+                                    colorFilter: const ColorFilter.mode(
+                                      AppColors.navigationSkyBlueColor,
+                                      BlendMode.srcIn,
+                                    ),
+                                    // color: AppColors.navigationSkyBlueColor,
                                   ),
-                                  // color: AppColors.navigationSkyBlueColor,
-                                ),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  'Add/View Incident(S)',
-                                  style: TextStyle(
-                                    color: AppColors.navigationSkyBlueColor,
-                                    decoration: TextDecoration.underline,
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add Incident Item List',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkyBlueColor,
+                                      decoration: TextDecoration.underline,
+                                    ),
                                   ),
+                                  // if (state.model.incidentItems != null &&
+                                  //     !state.model.incidentItems!.where(
+                                  //         (element) =>
+                                  //             element.incidentType ==
+                                  //             1).isEmptyOrNull) ...[
+                                  CommonWidgets.horizontalSpacerWidget(
+                                      height * 0.01),
+                                ],
+                                showButtonDisplay(
+                                  kldId: state.model.id.toString(),
+                                  state: state,
                                 ),
+                                // ],
                               ],
                             ),
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
+
+                        // if (state.model.investigationRequired ?? false) ...[
+                        //   Container(
+                        //     alignment: Alignment.topLeft,
+                        //     child: Text(
+                        //       Constants.incident,
+                        //       style: Styles.styleHeaderGreyText16,
+                        //     ),
+                        //   ),
+                        //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        //   GestureDetector(
+                        //     onTap: () async {
+                        //       NavigatorState nav = Navigator.of(context);
+                        //       bool isSaveSuccess = await BlocProvider.of<
+                        //           KeyHistoryRecordsDetailsCubit>(context)
+                        //           .submitForm(
+                        //         isSaveOnly: true,
+                        //         navigateToNextScreen: true,
+                        //       );
+                        //       if (!isSaveSuccess) {
+                        //         return;
+                        //       }
+                        //       nav.pushNamed(
+                        //         incidentManagementDetailsRoute,
+                        //         arguments: {
+                        //           ConstantsArgument.title: Constants.incident,
+                        //           // ConstantsArgument.id: state.model.id,
+                        //           ConstantsArgument.kldId:
+                        //               state.model.id,
+                        //         },
+                        //       );
+                        //     },
+                        //     child: Row(
+                        //       mainAxisAlignment: MainAxisAlignment.start,
+                        //       children: <Widget>[
+                        //         SvgPicture.asset(
+                        //           AppIcon.pluscircle,
+                        //           colorFilter: const ColorFilter.mode(
+                        //             AppColors.navigationSkyBlueColor,
+                        //             BlendMode.srcIn,
+                        //           ),
+                        //           // color: AppColors.navigationSkyBlueColor,
+                        //         ),
+                        //         const SizedBox(width: 10),
+                        //         const Text(
+                        //           'Add/View Incident(S)',
+                        //           style: TextStyle(
+                        //             color: AppColors.navigationSkyBlueColor,
+                        //             decoration: TextDecoration.underline,
+                        //           ),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ),
+                        //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        // ],
                         if(state.model.status ==
                             ConstantsIntValue.destroyRejected)...[
 
@@ -1042,6 +1090,85 @@ class _KeyHistoryRecordsDetailsViewState
         // updateRecordStatus(state);
         Navigator.pop(context);
       },
+    );
+  }
+
+  Widget showButtonDisplay({
+    required String kldId,
+    bool? showPopUp,
+    required KeyHistoryRecordsDetailsState state,
+  }) {
+    return AbsorbPointer(
+      absorbing: false,
+      child: AppButton(
+        height: 40,
+        width: 100,
+        backgroundColor: Colors.white,
+        key: const Key(Keys.showButton),
+        buttonText: Constants.showList,
+        buttonTextKey: Keys.showButton,
+        onTap: () => {
+          showPopUp ?? false
+              ? openSecuritySystemSLATypePopUp(state: state, showListing: true)
+              : Navigator.pushNamed(
+            context,
+            incidentManagementsRoute,
+            arguments: {
+              'kldId': kldId,
+            },
+          ),
+        },
+      ),
+    );
+  }
+  openSecuritySystemSLATypePopUp({
+    required KeyHistoryRecordsDetailsState state,
+    required bool showListing,
+  }) {
+    BaseDropDown().assetTypeDialog(
+      context: context,
+      dropDownValues: sstIncidentType.map((label) => label.key).toList(),
+      pop: false,
+      onTap: (String value) {
+        log('--state.model.id----${state.model.id}---');
+        if (showListing) {
+          // Navigate to Listing Page
+          Navigator.pushNamed(context, incidentManagementsRoute, arguments: {
+            "kldId": state.model.id.toString(), // TODO: Need to check
+          });
+          return;
+        }
+      },
+    );
+  }
+
+
+  Future<void> navigateToCreateIncident({
+    required KeyHistoryRecordsDetailsState state,
+  }) async {
+    log('---navigateToCreateIncident--@@@-');
+    if (isReadOnly) {
+      return;
+    }
+    NavigatorState nav = Navigator.of(context);
+    bool isSaveSuccess =
+    await BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context).submitForm(
+      isSaveOnly: true,
+      navigateToNextScreen: true,
+    );
+
+    // For checking validations
+    if (!isSaveSuccess) {
+      return;
+    }
+    var map = {
+      'kldId': state.model.id.toString(),
+    };
+
+
+    nav.pushNamed(
+      incidentManagementDetailsRoute,
+      arguments: map,
     );
   }
 

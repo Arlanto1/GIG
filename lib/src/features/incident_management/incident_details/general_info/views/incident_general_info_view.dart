@@ -7,10 +7,12 @@ class IncidentGeneralInfoView extends StatefulWidget {
   const IncidentGeneralInfoView({
     super.key,
     required this.viaOccurrence,
+    required this.viaKeyIssuance,
     this.extraProperties,
   });
 
   final bool viaOccurrence;
+  final bool viaKeyIssuance;
   final ExtraProperties? extraProperties;
 
   @override
@@ -68,6 +70,17 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                   arguments: {
                     'id': state.model.occurrence?.id.toString(),
                     "title": Constants.editOccurrence,
+                  },
+                );
+                return;
+              }
+              if (widget.viaKeyIssuance) {
+                Navigator.pushNamed(
+                  context,
+                  keyHistoryRecordsDetailsRoute ,
+                  arguments: {
+                    'id': state.model.keyLossGi?.id.toString(),
+                    "title": Constants.editKeyLostHistory,
                   },
                 );
                 return;
@@ -425,6 +438,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                           .updateDropdownValues(
                                               typeOfArticle: articleType);
                                     },
+                                    leftImage: true,
                                     orgName: 'ARTICLE_LIST',
                                     functionToCall: () {
                                       // refresh the list

@@ -14,7 +14,7 @@ class IncidentManagementsBloc
     extends Bloc<IncidentManagementsEvent, IncidentManagementsState> {
   final String? occId;
   final int? occType;
-  final int? kldId;
+  final String? kldId;
 
   IncidentManagementsBloc(
     this.occType,
