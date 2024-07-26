@@ -93,10 +93,10 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
         if (state.model.status == ConstantsIntValue.submitted) {
           isReadOnly = state.isReadOnly ?? true;
         }
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          isReadOnly = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   isReadOnly = true;
+        // }
         showSaveSubmitButtons = (state.model.status == 0 ||
                 state.model.status == null ||
                 !isReadOnly) &&

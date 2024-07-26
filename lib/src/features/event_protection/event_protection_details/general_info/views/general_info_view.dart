@@ -80,10 +80,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
         if (state.model.status == null) {
           disableForm = false;
         }
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          disableForm = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   disableForm = true;
+        // }
         state.model.status ??= 0;
         if (state.model.status! > 0) {
           disableForm = true;

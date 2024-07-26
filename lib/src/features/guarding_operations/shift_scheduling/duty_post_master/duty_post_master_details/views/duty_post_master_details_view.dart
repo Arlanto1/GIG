@@ -83,10 +83,10 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
         // if (state.model.status == null) {
         //   isReadOnly = false;
         // }
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          isReadOnly = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   isReadOnly = true;
+        // }
         initializeDates();
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(

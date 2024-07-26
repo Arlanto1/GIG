@@ -99,10 +99,10 @@ class _AnnualPowerShutdownListDetailsViewState
           disableForm = true;
         }
 
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          disableForm = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   disableForm = true;
+        // }
         if (state.model.status == null) {
           disableForm = false;
         }

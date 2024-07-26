@@ -100,10 +100,10 @@ class _KeyManagementMasterDetailsViewState
           isReadOnly = false;
         }
 
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          isReadOnly = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   isReadOnly = true;
+        // }
 
         showSaveSubmitButton = state.model.status != 2 &&
             state.model.status != -1 &&

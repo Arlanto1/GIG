@@ -79,10 +79,10 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
         if (state.model.status == null) {
           isReadOnly = false;
         }
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          isReadOnly = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   isReadOnly = true;
+        // }
         showSaveSubmitButton = state.model.status != -1 &&
             state.model.status != 1 &&
             !isReadOnly &&
