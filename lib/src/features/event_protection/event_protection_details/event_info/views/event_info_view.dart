@@ -88,8 +88,10 @@ class _EventInfoViewState extends State<EventInfoView> {
         }
       },
       builder: (context, state) {
-        dateController.text = Utils.timestampToDateConversion(
-            int.tryParse(state.model.date ?? '0'), Constants.fulldateFormat);
+        if (state.model.date != null && state.model.date != '') {
+          dateController.text = Utils.timestampToDateConversion(
+              int.tryParse(state.model.date ?? '0'), Constants.fulldateFormat);
+        }
 
         if (state.model.status != 4 && widget.editForm) {
           showSaveButtons = true;
@@ -173,6 +175,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                           children: [
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            /// Event Started At
                             if (state.eventDuration != 1) ...[
                               CommonWidgets.textDisplay(
                                 state.eventDuration == 0

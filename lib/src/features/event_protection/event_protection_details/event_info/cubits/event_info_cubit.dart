@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:math' as math;
+import 'package:intl/intl.dart';
 
 import 'package:bloc/bloc.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
@@ -137,10 +138,21 @@ class EventInfoCubit extends Cubit<EventInfoState> {
       ),
     );
 
+
+    DateTime dateTime;
+    if (!Utils().isTimestamp(state.model.date!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.date!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.date = inputDate.toString();
+    }
+
     /// Create/Update API Call
     EventInfoRequest request =
         EventInfoRequest(eventProtectionInfo: state.model);
 
+
+    log('--request---${request.eventProtectionInfo?.date}---');
     GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
