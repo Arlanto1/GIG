@@ -438,6 +438,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                           .updateDropdownValues(
                                               typeOfArticle: articleType);
                                     },
+                                    leftImage: true,
                                     orgName: 'ARTICLE_LIST',
                                     functionToCall: () {
                                       // refresh the list
