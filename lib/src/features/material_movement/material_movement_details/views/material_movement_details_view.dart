@@ -141,10 +141,10 @@ class _MaterialMovementDetailsViewState
         if (state.model.status == ConstantsIntValue.businessUserReview) {
           isReadOnly = state.isReadOnly ?? false;
         }
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          isReadOnly = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   isReadOnly = true;
+        // }
 
         showSaveSubmitButtons = (state.model.status == 0 ||
                 state.model.status == 8 ||

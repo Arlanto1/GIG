@@ -99,10 +99,10 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
         if (state.model.status == null) {
           isReadOnly = false;
         }
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          isReadOnly = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   isReadOnly = true;
+        // }
 
         initializeDates(state);
         return Scaffold(

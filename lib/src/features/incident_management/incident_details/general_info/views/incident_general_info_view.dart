@@ -92,10 +92,10 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
         if (state.model.status! < 0 || !state.model.lock.isEmptyOrNull) {
           disableForm = true;
         }
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          disableForm = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   disableForm = true;
+        // }
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
