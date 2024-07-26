@@ -15,7 +15,7 @@ class IncidentManagementsView extends StatefulWidget {
 
   final String? occId;
   final int? occType;
-  final int? kldId;
+  final String? kldId;
 
   @override
   State<IncidentManagementsView> createState() =>

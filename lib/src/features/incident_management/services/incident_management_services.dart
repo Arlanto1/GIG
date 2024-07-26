@@ -28,7 +28,7 @@ class IncidentManagementServices {
     // required String userId,
     String? occId,
     int? occType,
-    int? kldId,
+    String? kldId,
     required BaseFilterModel filters,
   }) async {
     String url =
@@ -36,7 +36,7 @@ class IncidentManagementServices {
     // 'userId=${await SharedPrefs.getUserId()}';
     if (!occId.isEmptyOrNull) {
       url = '$url&occuId=$occId&occType=$occType';
-    } else if (kldId != 0 && kldId != null) {
+    } else if (!kldId.isEmptyOrNull) {
       url = '$url&kldId=$kldId';
     }
     var response = await BaseApiService().postRequest(

@@ -392,14 +392,14 @@ class RouteGenerator {
       case incidentManagementsRoute:
         String occId = '';
         int occType = 0;
-        int kldId = 0;
+        String kldId = '';
 
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           occId = arguments['occId'] ?? '';
           occType = arguments['occType'] ?? 0;
-          kldId = arguments['kldId'] ?? 0;
+          kldId = arguments['kldId'] ?? '';
         }
         log('--occId-router-im list-$occId--');
         return MaterialPageRoute(
@@ -422,7 +422,7 @@ class RouteGenerator {
         String id = '';
         String occId = '';
         int occType = 0;
-        int kldId = 0;
+        String kldId = '';
         Organisation? location;
         ExtraProperties? extraProperties;
         if (settings.arguments != null) {
@@ -431,7 +431,7 @@ class RouteGenerator {
           id = arguments['id'] ?? '';
           occId = arguments['occId'] ?? '';
           occType = arguments['occType'] ?? 0;
-          kldId = arguments['kldId'] ?? 0;
+          kldId = arguments['kldId'] ?? '';
           location = arguments[ConstantsArgument.location];
           extraProperties = arguments[ConstantsArgument.extraProperties];
         }
@@ -449,6 +449,7 @@ class RouteGenerator {
             ),
             child: IncidentGeneralInfoView(
               viaOccurrence: !occId.isEmptyOrNull ? true : false,
+              viaKeyIssuance: !kldId.isEmptyOrNull ? true : false,
               extraProperties: extraProperties,
             ),
           ),
