@@ -222,7 +222,7 @@ class AnnualPowerShutdownListDetailsCubit
       state.model.proposedVendors?.add(vendor);
     }
 
-    List<BaseUser>? users = [];
+    // List<BaseUser>? users = [];
     List<BaseUser>? emailUsers = [];
     List<BaseUser> srh = [];
     List<BaseUser> lsm = [];
@@ -237,8 +237,8 @@ class AnnualPowerShutdownListDetailsCubit
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
-      users = await commonServices.getBaseUsers(
-          roleName: 'T1_Analyst', locationId: location.id);
+      // users = await commonServices.getBaseUsers(
+      //     roleName: 'T1_Analyst', locationId: location.id);
       emailUsers = await commonServices.getBaseUsers(
           roleName: 'ATOM_STATIC_USER', locationId: location.id);
       srh = await commonServices.getBaseUsers(
@@ -314,7 +314,7 @@ class AnnualPowerShutdownListDetailsCubit
     log('-state.model.epManager1.name--${state.model.epManager1?.name}-------');
     emit(state.copyWith(
       model: state.model,
-      users: users,
+      // users: users,
       srh: srh,
       lsm: lsm,
       emailUsers: emailUsers,
