@@ -119,6 +119,11 @@ class EventInfoCubit extends Cubit<EventInfoState> {
 
     log('--guardImages---${guardImages?.length}----');
     if (guardImages != null) {
+      if(state.model.image == null) {
+        state.model.image == [];
+      }
+      state.model.image?.addAll(guardImages);
+
       emit(
         state.copyWith(
           eventId: eventIds,

@@ -219,6 +219,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         status: FormStatus.loading,
       ),
     );
+
+    List<BaseUser> users = [];
     // Get Sl No from API
     if (location != null && isInward == true) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -227,6 +229,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       );
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
+
+      users = await  commonServices.getBaseUsers(roleName: 'T1_Analyst', locationId: location.id);
     }
     if (location != null && isInward == false) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -236,6 +240,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
               : Constants.materialMovementOutwardNonReturnableModule);
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
+      users = await  commonServices.getBaseUsers(roleName: 'T1_Analyst', locationId: location.id);
     }
     state.model.status = status ?? state.model.status;
     // if (location != null &&
@@ -300,6 +305,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
     emit(state.copyWith(
       model: state.model,
+      users: users,
       status: FormStatus.initial,
     ));
   }
