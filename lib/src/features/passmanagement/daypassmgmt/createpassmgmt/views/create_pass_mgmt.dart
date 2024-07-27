@@ -2365,7 +2365,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       if (serialnumber.isEmptyOrNull) {
         widget.model?.slNo ??
             await createPassMgmtCubit.getSerialnumberDetails(
-              (widget.model?.location?.id ?? 0).toString(),
+              (widget.model!.location!),
               widget.passId,
             );
       }
@@ -3448,17 +3448,17 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               return CustomExpansionListTexts(
                 locationList: state.getLocationsResponse,
                 //GetLocations(),
-                onTap: (Organisation org) async {
+                onTap: (Organisation location) async {
                   await createPassMgmtCubit.getSerialnumberDetails(
-                    org.id.toString(),
+                    location,
                     widget.passId,
                   );
                   await BlocProvider.of<CreatePassMgmtCubit>(context)
-                      .getPassTypes(locationId: org.id!, passId: widget.passId);
+                      .getPassTypes(locationId: location.id!, passId: widget.passId);
 
                   await createPassMgmtCubit.getPassNumber(
-                      widget.passId, org.id!);
-                  createPassMgmtCubit.getlocationsResponseData(org);
+                      widget.passId, location.id!);
+                  createPassMgmtCubit.getlocationsResponseData(location);
                   daypassnoTextController.text = '';
                 },
               );

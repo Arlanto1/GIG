@@ -217,6 +217,8 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         locationId,
         moduleCode,
       );
+
+      getDBofficialByRoleDepositor(ConstantUserRoles.atomStaticUser);
       emit(
         state.copyWith(
           getSerialnumberResponse: response,
@@ -440,8 +442,8 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         ),
       );
       dismissLoadingDialog(context);
-      await lawEnforcementCubit.getDBofficialByRoleDepositor(
-          ConstantUserRoles.atomStaticUser, context);
+      await lawEnforcementCubit
+          .getDBofficialByRoleDepositor(ConstantUserRoles.atomStaticUser);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
             context, 'Added successfully', Constants.newuser, '');
@@ -502,11 +504,11 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   // get DB Official email ID Accompanied LEO official API call
-  Future<void> getDBofficialByRoleDepositor(
-      String roleName, BuildContext context) async {
+  Future<void> getDBofficialByRoleDepositor(String roleName) async {
     try {
-      GetDepositor getDepositorData = await services.getDBOfficialdepartments(
-        roleName,
+      List<BaseUser>? getDepositorData = await commonServices.getBaseUsers(
+        roleName: roleName,
+        locationId: state.locationSelectedlist?.id,
       );
       emit(
         state.copyWith(

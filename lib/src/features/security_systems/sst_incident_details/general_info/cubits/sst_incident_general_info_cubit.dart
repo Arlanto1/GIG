@@ -141,7 +141,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           model.location = defaultLocation;
           model.slNo = slNo.serialNo;
         }
-      } else if(location != null) {
+      } else if (location != null) {
         /// it is getting redirected from Shift Occurrence
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: location!.id.toString(),
@@ -317,6 +317,11 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       );
     }
 
+    List<BaseUser> users = [];
+    List<BaseUser> emailUsers = [];
+    List<BaseUser> locationTeamUsers = [];
+    List<BaseUser> securityLeads = [];
+    List<BaseUser> securityManagers = [];
     ////Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -326,6 +331,23 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
+
+      users = await commonServices.getBaseUsers(
+          roleName: 'T1_Analyst', locationId: location.id);
+      emailUsers = await commonServices.getBaseUsers(
+          roleName: 'ATOM_STATIC_USER', locationId: location.id);
+
+      locationTeamUsers = await commonServices.getBaseUsers(
+          roleName: 'ATOM_Security_Team', locationId: location.id);
+
+      // TODO: need to pass location id parameter
+      securityLeads = await commonServices.getBaseUsersByRoles(
+          roleNames: 'ATOM_ROLE_Security_Lead;ATOM_Assistant_Security_Lead',
+          locationId: location.id);
+
+      securityManagers = await commonServices.getBaseUsersByRoles(
+          roleNames: 'ATOM_Security_Manager;ATOM_Senior_Security_Manager',
+          locationId: location.id);
     }
     state.model.status = status ?? state.model.status;
 
@@ -335,6 +357,12 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
     emit(state.copyWith(
       model: state.model,
+      users: users,
+      uploadAttachments: state.model.attachments,
+      emailUsers: emailUsers,
+      securityLeads: securityLeads,
+      securityManagers: securityManagers,
+      locationTeamUsers: locationTeamUsers,
       status: FormStatus.initial,
     ));
   }

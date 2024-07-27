@@ -242,7 +242,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   //     widget.model == null) {
 
                   if (serialnumber.isEmptyOrNull) {
-                    serialnumber = state.getSerialnumberResponse?.serialNo ?? "";
+                    serialnumber =
+                        state.getSerialnumberResponse?.serialNo ?? "";
                   }
                   // }
                   globalState = state;
@@ -764,14 +765,13 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
                                       // Upload
 
-                                      if(                                      (widget.model == null ||
-                                          widget.model?.status == 0 ||
-                                          widget.model?.status == 1 ||
-                                          widget.model?.status == 2) ||
+                                      if ((widget.model == null ||
+                                              widget.model?.status == 0 ||
+                                              widget.model?.status == 1 ||
+                                              widget.model?.status == 2) ||
                                           (widget.model != null &&
                                               widget.model!.lock
-                                                  .isEmptyOrNull)
-                                      )...[
+                                                  .isEmptyOrNull)) ...[
                                         CommonWidgets.textDisplay(
                                             Constants.upload,
                                             Styles.textStyleBlack14),
@@ -1362,7 +1362,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     );
     await lawEnforcementCubit.getDBofficialByRoleDepositor(
       ConstantUserRoles.atomStaticUser,
-      context,
     );
     await lawEnforcementCubit.getUserDetails(
       userid,
@@ -1463,8 +1462,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicateDepostorList:
-                state.getDepositorResponse?.atomStaticUser ?? [],
+            duplicateDepostorList: state.getDepositorResponse ?? [],
             leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);

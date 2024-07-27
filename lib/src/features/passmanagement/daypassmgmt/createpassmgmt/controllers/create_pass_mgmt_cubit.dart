@@ -178,7 +178,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           stateType: CreatePassMgmtStateType.success,
         ),
       );
-      await createPassMgmtCubit.getAnalysts('T1_Analyst', context);
+      await createPassMgmtCubit.getAnalysts();
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(context, 'Added sucessfully', Constants.newuser, '');
@@ -296,7 +296,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 
   // Serialnumber api  call
   Future<void> getSerialnumberDetails(
-    String locationId,
+    Organisation location,
     int passId,
   ) async {
     String moduleCode = Constants.passManagementModule;
@@ -311,12 +311,19 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
     try {
       SerialNumberModel serialNumberResponse = await commonServices.getSlNo(
-        locationId: locationId,
+        locationId: location.id.toString(),
         moduleCode: moduleCode,
       );
+
+      List<BaseUser>? getDepositorData = await commonServices.getBaseUsers(
+          roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
+
+      getAnalysts();
+
       emit(
         state.copyWith(
           getSerialnumberResponse: serialNumberResponse,
+          getDepositorResponse: getDepositorData,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -584,16 +591,13 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   // Get analysts response
-  Future<void> getAnalysts(String companyStr, BuildContext context) async {
+  Future<void> getAnalysts() async {
     try {
-      // Analyst companyTypes =
-      //     await createpassmgmtServices.getAnalyst(companyStr, context);
-
-      Analyst companyTypes = await commonServices.getUsersByRole(
-          roleName: companyStr, context: context);
+      Analyst analysts = await commonServices.getUsersByRole(
+          roleName: 'T1_Analyst', locationId: state.location?.id);
       emit(
         state.copyWith(
-          analyst: companyTypes,
+          analyst: analysts,
           stateType: CreatePassMgmtStateType.success,
         ),
       );

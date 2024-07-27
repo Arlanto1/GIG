@@ -68,7 +68,7 @@ class _CreateFoundState extends State<CreateFound> {
   BaseUser? selectedClaimList;
   User? userDetails;
   User? handOverSecurity;
-  Organisation? locationSelectedlist;
+  Organisation? selectedLocation;
   SubmitCreateFoundModel? createfoundResponse;
   SerialNumberModel? serialnumberResponse;
   List<ImageContent> getFiles = [];
@@ -133,14 +133,13 @@ class _CreateFoundState extends State<CreateFound> {
           ? handOverSecurity?.userInfo ?? ''
           : '';
       serialNumber = widget.model?.slNo != null ? widget.model?.slNo ?? "" : '';
-      locationSelectedlist = widget.model?.location != null
+      selectedLocation = widget.model?.location != null
           ? Organisation(
               id: widget.model?.location?.id ?? 0,
               name: widget.model?.location?.name ?? "")
           : Organisation();
-      locationselectedText = locationSelectedlist?.name != null
-          ? locationSelectedlist?.name ?? ""
-          : '';
+      locationselectedText =
+          selectedLocation?.name != null ? selectedLocation?.name ?? "" : '';
       quantityTextController.text = widget.model?.quantity != null
           ? widget.model?.quantity.toString() ?? ""
           : '';
@@ -259,8 +258,8 @@ class _CreateFoundState extends State<CreateFound> {
       "userId": handOverSecurity?.userId ?? 0,
     };
     Map<String, dynamic> locationBody = {
-      "id": locationSelectedlist?.id ?? 0,
-      "name": locationSelectedlist?.name ?? ''
+      "id": selectedLocation?.id ?? 0,
+      "name": selectedLocation?.name ?? ''
     };
     Map<String, dynamic> depositorBody = {
       "userId": selecteddepositorList?.id ?? 1,
@@ -365,7 +364,8 @@ class _CreateFoundState extends State<CreateFound> {
         id: selectedArtclelist?.id ?? widget.model?.typeOfArticle?.id);
     User? entrySecurity = User(
         userId: userDetails?.userId ?? widget.model?.entrySecurity?.userId);
-    User? handoverSecurity = widget.model?.status == ConstantsIntValue.articleFoundStatusUnderSecurityCustody
+    User? handoverSecurity = widget.model?.status ==
+            ConstantsIntValue.articleFoundStatusUnderSecurityCustody
         ? User(userId: state?.loggedInUser?.userId ?? handOverSecurity?.userId)
         : null;
 
@@ -374,8 +374,8 @@ class _CreateFoundState extends State<CreateFound> {
 
     User? depositor = User(
         userId: selecteddepositorList?.id ?? widget.model?.depositor?.userId);
-    Organisation? location = Organisation(
-        id: locationSelectedlist?.id ?? widget.model?.location?.id);
+    Organisation? location =
+        Organisation(id: selectedLocation?.id ?? widget.model?.location?.id);
     Organisation? depositorDepartment =
         selectedEmployeedepartment ?? widget.model?.depositorDepartment;
     List<ImageContent>? images =
@@ -469,13 +469,13 @@ class _CreateFoundState extends State<CreateFound> {
     log('-----_getFoundArticleList----');
     if (isActive) {
       await createFoundArticleCubit.getUserByRoleDepositor(
-          ConstantUserRoles.atomStaticUser, context);
+          ConstantUserRoles.atomStaticUser, selectedLocation!.id ?? null);
       await createFoundArticleCubit.getLocations('ATOM_LOCATIONS', context);
       await createFoundArticleCubit.getEmployeeDepartments(
           'EMPLOYEE_DEPARTMENTS', context);
       await createFoundArticleCubit.getArticleType('ARTICLE_LIST', context);
       // if (widget.model == null) {
-        await createFoundArticleCubit.getUserDetails(userid, context);
+      await createFoundArticleCubit.getUserDetails(userid, context);
       // }
 
       log('-----iffffff----');
@@ -500,7 +500,7 @@ class _CreateFoundState extends State<CreateFound> {
   createFoundValidations(BuildContext context) {
     if (statusTextController.text.isEmpty &&
         createdByValue.isEmpty &&
-        (locationSelectedlist?.name ?? "").isEmpty &&
+        (selectedLocation?.name ?? "").isEmpty &&
         dateOfCreationTextController.text.isEmpty &&
         serialNumber.isEmpty &&
         assetTypeTextController.text.isEmpty &&
@@ -519,7 +519,7 @@ class _CreateFoundState extends State<CreateFound> {
         context,
         "Please fill all required fields",
       );
-    } else if ((locationSelectedlist?.name ?? "").isEmpty) {
+    } else if ((selectedLocation?.name ?? "").isEmpty) {
       Validator().showToast(
         context,
         "Please enter location",
@@ -760,11 +760,11 @@ class _CreateFoundState extends State<CreateFound> {
   }
 
   initiallyLocationandSerialnumberdataset(CreateFoundState state) async {
-    if (locationSelectedlist == null &&
+    if (selectedLocation == null &&
         state.location != null &&
         widget.model == null) {
-      locationSelectedlist = state.location;
-      locationselectedText = locationSelectedlist!.name.toString();
+      selectedLocation = state.location;
+      locationselectedText = selectedLocation!.name.toString();
     }
   }
 
@@ -2158,13 +2158,13 @@ class _CreateFoundState extends State<CreateFound> {
             builder: (BuildContext dialogContext) {
               return CustomExpansionListTexts(
                 locationList: state.getLocationsResponse ?? Locations(),
-                onTap: (Organisation? list) async {
+                onTap: (Organisation location) async {
                   await createFoundArticleCubit.getSerialnumberDetails(
-                      list?.id.toString() ?? '',
+                      location.id.toString() ?? '',
                       Constants.articleFoundModuleCode,
-                      context);
-                  locationselectedText = list?.name ?? '';
-                  locationSelectedlist = list;
+                      context, location);
+                  locationselectedText = location.name ?? '';
+                  selectedLocation = location;
                   setState(() {});
                 },
               );
