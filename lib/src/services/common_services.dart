@@ -225,7 +225,7 @@ class CommonServices {
     int? locationId,
     BuildContext? context,
   }) async {
-    String url = '${CommonApis._getUsersByRole}$roleName$roleName&locationId=$locationId';
+    String url = '${CommonApis._getUsersByRole}$roleName&locationId=$locationId';
     final response = await BaseApiService().getRequest(
       url: url,
     );

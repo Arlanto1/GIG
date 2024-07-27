@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/requestModels/sla_violation_penalty_request.dart';
@@ -77,9 +76,10 @@ class SLAViolationPenaltyDetailsCubit
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
 
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
-    Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
     List<BaseUser> emailUsers =
         await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
+
+    Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
 
     TypeOfServices typeOfService = await commonServices.getTypeOfService(
         name: 'SLA_VIOLATION_TYPE_OF_SERVICE');
@@ -220,6 +220,8 @@ class SLAViolationPenaltyDetailsCubit
         status: FormStatus.loading,
       ),
     );
+    List<BaseUser> users = [];
+    List<BaseUser> emailUsers = [];
     // Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -228,6 +230,11 @@ class SLAViolationPenaltyDetailsCubit
       );
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
+
+      users = await commonServices.getBaseUsers(roleName: 'T1_Analyst', locationId: location.id);
+      emailUsers =
+      await commonServices.getBaseUsers(roleName: 'ATOM_STATIC_USER', locationId: location.id);
+
     }
     state.model.status = status ?? state.model.status;
     if (location != null) {
@@ -257,6 +264,8 @@ class SLAViolationPenaltyDetailsCubit
     }
     emit(state.copyWith(
       model: state.model,
+      users: users,
+      emailUsers: emailUsers,
       status: FormStatus.initial,
     ));
   }

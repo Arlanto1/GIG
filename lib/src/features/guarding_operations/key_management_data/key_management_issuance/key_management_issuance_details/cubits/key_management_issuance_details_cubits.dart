@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/km_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
-import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
 part 'key_management_issuance_details_state.dart';
@@ -35,7 +34,7 @@ class KeyManagementIssuanceDetailsCubit
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation>? entities =
-    await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
+        await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     List<BaseUser> emailUsers =
         await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
@@ -170,6 +169,8 @@ class KeyManagementIssuanceDetailsCubit
         status: FormStatus.loading,
       ),
     );
+    List<BaseUser> users = [];
+    List<BaseUser> emailUsers = [];
     // Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -179,6 +180,11 @@ class KeyManagementIssuanceDetailsCubit
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
+
+      users = await commonServices.getBaseUsers(
+          roleName: 'T1_Analyst', locationId: location.id);
+      emailUsers = await commonServices.getBaseUsers(
+          roleName: 'ATOM_STATIC_USER', locationId: location.id);
     }
 
     state.model.employeeType = employeeType ?? state.model.employeeType;
@@ -227,6 +233,8 @@ class KeyManagementIssuanceDetailsCubit
     }
     emit(state.copyWith(
       model: state.model,
+      users: users,
+      emailUsers: emailUsers,
       status: FormStatus.initial,
     ));
   }
