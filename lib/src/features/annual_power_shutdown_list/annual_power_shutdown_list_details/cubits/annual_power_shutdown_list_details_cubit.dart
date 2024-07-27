@@ -1,12 +1,10 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/models/aps_ui_labels.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/services/annual_power_shutdown_services.dart';
-import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../../../index.dart';
 
 part 'annual_power_shutdown_list_details_state.dart';
 
@@ -224,8 +222,14 @@ class AnnualPowerShutdownListDetailsCubit
       state.model.proposedVendors?.add(vendor);
     }
 
+    List<BaseUser>? users = [];
+    List<BaseUser>? emailUsers = [];
+    List<BaseUser> srh = [];
+    List<BaseUser> lsm = [];
+
     /// Get Sl No from API
     if (location != null) {
+      log('Update Location');
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
         moduleCode: Constants.annualPowerShutDownModuleCode,
@@ -233,6 +237,14 @@ class AnnualPowerShutdownListDetailsCubit
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
+      users = await commonServices.getBaseUsers(
+          roleName: 'T1_Analyst', locationId: location.id);
+      emailUsers = await commonServices.getBaseUsers(
+          roleName: 'ATOM_STATIC_USER', locationId: location.id);
+      srh = await commonServices.getBaseUsers(
+          roleName: 'ATOM_Sub_Regional_Head', locationId: location.id);
+      lsm = await commonServices.getBaseUsers(
+          roleName: 'ATOM_Senior_Security_Manager', locationId: location.id);
     }
 
     state.model.status = status ?? state.model.status;
@@ -302,6 +314,10 @@ class AnnualPowerShutdownListDetailsCubit
     log('-state.model.epManager1.name--${state.model.epManager1?.name}-------');
     emit(state.copyWith(
       model: state.model,
+      users: users,
+      srh: srh,
+      lsm: lsm,
+      emailUsers: emailUsers,
       status: FormStatus.initial,
     ));
   }

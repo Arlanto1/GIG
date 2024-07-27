@@ -79,6 +79,8 @@ class _CreateFoundState extends State<CreateFound> {
   @override
   void initState() {
     super.initState();
+    log('------initState-----');
+    getFoundArticleList();
     claimantSignatureController = SignatureController(
         penStrokeWidth: 2,
         penColor: Colors.black,
@@ -90,7 +92,6 @@ class _CreateFoundState extends State<CreateFound> {
     } else {
       createFoundArticleCubit.initializeValues(widget.model);
     }
-    _getFoundArticleList();
     _getCurrentDate();
   }
 
@@ -346,7 +347,7 @@ class _CreateFoundState extends State<CreateFound> {
     String? handoverDate;
     if (widget.model?.handoverDate != null) {
       handoverDate = widget.model?.handoverDate;
-    } else {
+    } else if (widget.model?.status == 1) {
       handoverDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     }
     // Utils.dateToTimestampConversion(
@@ -364,9 +365,12 @@ class _CreateFoundState extends State<CreateFound> {
         id: selectedArtclelist?.id ?? widget.model?.typeOfArticle?.id);
     User? entrySecurity = User(
         userId: userDetails?.userId ?? widget.model?.entrySecurity?.userId);
-    User? handoverSecurity = User(
-        userId:
-            widget.model?.handoverSecurity?.userId ?? handOverSecurity?.userId);
+    User? handoverSecurity = widget.model?.status == ConstantsIntValue.articleFoundStatusUnderSecurityCustody
+        ? User(userId: state?.loggedInUser?.userId ?? handOverSecurity?.userId)
+        : null;
+
+    log('-=state?.loggedInUser?.userId====${state?.loggedInUser?.userId}==');
+    // return;
 
     User? depositor = User(
         userId: selecteddepositorList?.id ?? widget.model?.depositor?.userId);
@@ -459,9 +463,10 @@ class _CreateFoundState extends State<CreateFound> {
         pageNumber.toString(), '20', userid, context);
   }
 
-  void _getFoundArticleList() async {
+  void getFoundArticleList() async {
     var userid = await SharedPrefs.getUserId();
     final bool isActive = await network_handler.networkChecking(context);
+    log('-----_getFoundArticleList----');
     if (isActive) {
       await createFoundArticleCubit.getUserByRoleDepositor(
           ConstantUserRoles.atomStaticUser, context);
@@ -469,9 +474,11 @@ class _CreateFoundState extends State<CreateFound> {
       await createFoundArticleCubit.getEmployeeDepartments(
           'EMPLOYEE_DEPARTMENTS', context);
       await createFoundArticleCubit.getArticleType('ARTICLE_LIST', context);
-      if (widget.model == null) {
+      // if (widget.model == null) {
         await createFoundArticleCubit.getUserDetails(userid, context);
-      }
+      // }
+
+      log('-----iffffff----');
     } else {
       Utils.showAlertMessage("No Network connection", context);
     }
@@ -932,6 +939,7 @@ class _CreateFoundState extends State<CreateFound> {
                 // }
                 initiallyLocationandSerialnumberdataset(state);
                 if (widget.model == null) {
+                  log('---Create New Record---');
                   userDetails = state.loggedInUser ?? User();
                   handOverSecurity = state.loggedInUser ?? User();
                   if (userDetails != null) {
@@ -947,10 +955,9 @@ class _CreateFoundState extends State<CreateFound> {
                   claimant = selectedClaimList?.name ?? '';
                 }
 
-                if(widget.model == null || widget.model!.slNo.isEmptyOrNull) {
+                if (widget.model == null || widget.model!.slNo.isEmptyOrNull) {
                   serialnumberResponse = state.getSerialnumberResponse;
-                  log('---serialnumberResponse---${serialnumberResponse
-                      ?.serialNo}----');
+                  log('---serialnumberResponse---${serialnumberResponse?.serialNo}----');
                   if (serialnumberResponse != null) {
                     serialNumber = serialnumberResponse?.serialNo ?? "";
                   }
@@ -1879,8 +1886,7 @@ class _CreateFoundState extends State<CreateFound> {
                                       onImageSelected: (ImageContent data) {
                                         List<ImageContent>? files = [];
                                         files.add(data);
-                                        for (ImageContent image
-                                            in getFiles) {
+                                        for (ImageContent image in getFiles) {
                                           files.add(image);
                                         }
                                         BlocProvider.of<

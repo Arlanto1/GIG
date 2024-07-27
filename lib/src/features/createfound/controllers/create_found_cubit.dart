@@ -476,6 +476,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     try {
       User user =
           await commonServices.getUserDetails(userId: userId, context: context);
+      log('-----iffffff---useruser-----${user.userId}-');
 
       emit(
         state.copyWith(
