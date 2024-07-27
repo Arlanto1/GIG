@@ -76,7 +76,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   List<ImageContent> getFiles = [];
   List<ImageContent> getAttachments = [];
   late LawEnforcementState globalState;
-  String? serialnumber;
+  // String? serialnumber;
   bool isDistrbuted = false;
 
   int isOfficialIdcardSelected = 0;
@@ -241,10 +241,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   // if (state.getSerialnumberResponse != null &&
                   //     widget.model == null) {
 
-                  if (serialnumber.isEmptyOrNull) {
-                    serialnumber =
-                        state.getSerialnumberResponse?.serialNo ?? "";
-                  }
+                  // if (serialnumber.isEmptyOrNull) {
+                  //   serialnumber =
+                  //       state.getSerialnumberResponse?.serialNo ?? "";
+                  // }
                   // }
                   globalState = state;
                   if (state.status == FormStatus.addAttachment) {
@@ -392,7 +392,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                         /// slno
 
                                         CommonWidgets.horizentaltextHandling(
-                                            Constants.slno, serialnumber ?? '',
+                                            Constants.slno, state.getSerialnumberResponse?.serialNo ?? '',
                                             isMandatory: true),
                                         CommonWidgets.verticalSpacerWidget(
                                             height * 0.01),
@@ -1199,7 +1199,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           : Organisation();
 
       log('--widget.model?.slNo----${widget.model?.slNo}---');
-      serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
+      // serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
 
       widget.model?.slNo ??
           await lawEnforcementCubit.getSerialnumberDetails(
@@ -1845,7 +1845,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                 onTap: (Organisation? org) async {
                   await lawEnforcementCubit.getSerialnumberDetails(
                     org?.id.toString() ?? '',
-                    'LEO',
+                    Constants.leoModuleCode,
                   );
                   // locationselectedText = list?.name ?? '';
                   // locationSelectedlist = list;
@@ -1984,7 +1984,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           id: widget.model?.id ?? 0,
           entrySecurity: entrySecurity,
           inputDate: inputDate.toString(),
-          slNo: serialnumber ?? '',
+          slNo: state.getSerialnumberResponse?.serialNo ?? widget.model?.slNo,
           location: location,
           status: statusValue,
           images: images,
@@ -2007,7 +2007,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       lawEnforcement = LawEnforcement(
           entrySecurity: entrySecurity,
           inputDate: inputDate.toString(),
-          slNo: serialnumber ?? '',
+          slNo: state.getSerialnumberResponse?.serialNo ?? widget.model?.slNo,
           location: location,
           status: statusValue,
           images: images,
@@ -2048,7 +2048,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         state.getUserDetailsResponse == null &&
         state.locationSelectedlist == null &&
         dateofcreationTextController.text.isEmpty &&
-        serialnumber == null &&
+        // serialnumber == null &&
         state.listOfEntities == null &&
         actualDateTextController.text.isEmpty &&
         state.leoPurposeVisitResponse == null &&
@@ -2076,12 +2076,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context,
         "Please enter creator date",
       );
-    } else if (serialnumber != null && (serialnumber ?? '').isEmpty) {
+    } /*else if (serialnumber != null && (serialnumber ?? '').isEmpty) {
       Validator().showToast(
         context,
         "Please enter serial number",
       );
-    } else if (state.listOfEntities.isEmptyOrNull) {
+    } */else if (state.listOfEntities.isEmptyOrNull) {
       Validator().showToast(
         context,
         "Please enter entity",
