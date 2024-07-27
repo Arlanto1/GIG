@@ -879,7 +879,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: closureTargetDateController,
-                              isDisabled: state.model.status != null ||
+                              isDisabled: state.model.id != null ||
                                   !state.model.lock.isEmptyOrNull,
                               onlyDate: false,
                               showPastDate: false,
