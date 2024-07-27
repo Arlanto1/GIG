@@ -29,7 +29,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
   TextEditingController expectedDateOfReturnController =
       TextEditingController();
   TextEditingController actualDateOfReturnController = TextEditingController();
-  bool isReadOnly = false;
+  bool isReadOnly = true;
   List<String> returnableDropDownValues = const [
     "Returnable",
     "Non Returnable"
@@ -113,6 +113,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
         if (state.model.status == null) {
           isReadOnly = false;
         }
+
+        /// Making it read only as per DB requirement
+        isReadOnly = true;
 
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(

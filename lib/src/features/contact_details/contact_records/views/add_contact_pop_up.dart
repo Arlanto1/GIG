@@ -352,11 +352,11 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         cancelButton(width),
-        if (widget.parentStatus == null ||
-                widget.parentStatus == 0 ||
-                widget.parentStatus == 1
-            ? true
-            : false) ...[saveButton(width, widget.onSubmit)],
+        // if (widget.parentStatus == null ||
+        //         widget.parentStatus == 0 ||
+        //         widget.parentStatus == 1
+        //     ? true
+        //     : false) ...[saveButton(width, widget.onSubmit)],
       ],
     );
   }
@@ -365,7 +365,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
     return PopButton(
       width: width / 3.5,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButtonText,
       foregroundColor: AppColors.textGreyThemeColor,
       textStyle: Styles.styleHeaderGreyText16,

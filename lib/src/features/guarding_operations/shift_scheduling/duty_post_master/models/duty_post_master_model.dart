@@ -1,5 +1,7 @@
 import 'package:db_atom/index.dart';
 
+part 'duty_post_master_model.g.dart';
+
 class DutyPostMasterResponse {
   List<DutyPostMasterModel>? items;
   int? totalCount;
@@ -47,9 +49,8 @@ class DutyPostMasterModel extends BaseObject {
   User? createdBy;
   String? modifiedDate;
   String? modifiedBy;
-  @override
-  String? lock;
 
+  @override
   DutyPostMasterModel({
     this.id,
     this.status,
@@ -66,54 +67,58 @@ class DutyPostMasterModel extends BaseObject {
     this.createdBy,
     this.modifiedDate,
     this.modifiedBy,
-    this.lock,
   });
 
-  DutyPostMasterModel.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        status = json['status'] as int?,
-        location = (json['location'] as Map<String, dynamic>?) != null
-            ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
-            : null,
-        region = (json['region'] as Map<String, dynamic>?) != null
-            ? Organisation.fromJson(json['region'] as Map<String, dynamic>)
-            : null,
-        dutyPostLocation =
-            (json['dutyPostLocation'] as Map<String, dynamic>?) != null
-                ? Organisation.fromJson(
-                    json['dutyPostLocation'] as Map<String, dynamic>)
-                : null,
-        shiftA = json['shiftA'] as int?,
-        shiftB = json['shiftB'] as int?,
-        shiftC = json['shiftC'] as int?,
-        shiftG = json['shiftG'] as int?,
-        rankId = json['rankId'] as int?,
-        total = json['total'] as int?,
-        createdDate = json['createdDate'] as String?,
-        createdBy = (json['createdBy'] as Map<String, dynamic>?) != null
-            ? User.fromJson(json['createdBy'] as Map<String, dynamic>)
-            : null,
-        modifiedDate = json['modifiedDate'] as String?,
-        modifiedBy = json['modifiedBy'] as String?,
-        lock = json['lock'] as String?;
+  factory DutyPostMasterModel.fromJson(Map<String, dynamic> json) =>
+      _$DutyPostMasterModelFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'status': status,
-        'location': location?.toJson(),
-        'region': region?.toJson(),
-        'dutyPostLocation': dutyPostLocation?.toJson(),
-        'shiftA': shiftA,
-        'shiftB': shiftB,
-        'shiftC': shiftC,
-        'shiftG': shiftG,
-        'rankId': rankId,
-        'total': total,
-        'createdDate': createdDate,
-        'createdBy': createdBy?.toJson(),
-        'modifiedDate': modifiedDate,
-        'modifiedBy': modifiedBy,
-        'lock': lock,
-      };
+  Map<String, dynamic> toJson() => _$DutyPostMasterModelToJson(this);
+  
+  // DutyPostMasterModel.fromJson(Map<String, dynamic> json)
+  //     : id = json['id'] as int?,
+  //       status = json['status'] as int?,
+  //       location = (json['location'] as Map<String, dynamic>?) != null
+  //           ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
+  //           : null,
+  //       region = (json['region'] as Map<String, dynamic>?) != null
+  //           ? Organisation.fromJson(json['region'] as Map<String, dynamic>)
+  //           : null,
+  //       dutyPostLocation =
+  //           (json['dutyPostLocation'] as Map<String, dynamic>?) != null
+  //               ? Organisation.fromJson(
+  //                   json['dutyPostLocation'] as Map<String, dynamic>)
+  //               : null,
+  //       shiftA = json['shiftA'] as int?,
+  //       shiftB = json['shiftB'] as int?,
+  //       shiftC = json['shiftC'] as int?,
+  //       shiftG = json['shiftG'] as int?,
+  //       rankId = json['rankId'] as int?,
+  //       total = json['total'] as num?,
+  //       createdDate = json['createdDate'] as String?,
+  //       createdBy = (json['createdBy'] as Map<String, dynamic>?) != null
+  //           ? User.fromJson(json['createdBy'] as Map<String, dynamic>)
+  //           : null,
+  //       modifiedDate = json['modifiedDate'] as String?,
+  //       modifiedBy = json['modifiedBy'] as String?;
+  //
+  // @override
+  // Map<String, dynamic> toJson() => {
+  //       'id': id,
+  //       'status': status,
+  //       'location': location?.toJson(),
+  //       'region': region?.toJson(),
+  //       'dutyPostLocation': dutyPostLocation?.toJson(),
+  //       'shiftA': shiftA,
+  //       'shiftB': shiftB,
+  //       'shiftC': shiftC,
+  //       'shiftG': shiftG,
+  //       'rankId': rankId,
+  //       'total': total,
+  //       'createdDate': createdDate,
+  //       'createdBy': createdBy?.toJson(),
+  //       'modifiedDate': modifiedDate,
+  //       'modifiedBy': modifiedBy,
+  //       'lock': lock,
+  //     };
 }
