@@ -56,13 +56,13 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         Utils.dynamicAlert(context, 'Added sucessfully', title, '');
       });
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          model: model,
-          message: Constants.errorText,
-          status: FormStatus.failure,
-        ),
-      );
+      // emit(
+      //   state.copyWith(
+      //     model: model,
+      //     message: e.message,
+      //     status: FormStatus.failure,
+      //   ),
+      // );
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(context, e.message ?? '', Constants.addarticletype,
@@ -79,7 +79,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           model: model,
-          message: Constants.errorText,
+          message: e.toString(),
           status: FormStatus.failure,
         ),
       );

@@ -186,7 +186,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                               BaseDate().datePickerWidgetLoading(
                                 context: context,
                                 textController: dateController,
-                                isDisabled: false,
+                                isDisabled: !showSaveButtons,
                                 onlyDate: false,
                                 onChange: (String value) {
                                   dateController.text = value;
@@ -235,6 +235,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                             Container(
                               height: 700,
                               width: double.infinity,
+
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(7),
                                 border: Border.all(
@@ -302,7 +303,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                       // text: widget.text,
                                       hintText: 'Hint text goes here',
                                       controller: controller,
-                                      isEnabled: true,
+                                      isEnabled: showSaveButtons,
                                       ensureVisible: false,
                                       minHeight: 500,
                                       autoFocus: true,
@@ -398,6 +399,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                 : Container(),
                             BaseImageUpload().uploadWidget(
                               context: context,
+                              isDisabled: !showSaveButtons,
                               loggedInUserDetails:
                                   state.loggedInUserDetails ?? User(),
                               getFiles: guardFiles,
@@ -506,7 +508,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                               controller: addEmailController,
                               textFormKey: Keys.equipmentNoKey,
                               hintText: '',
-                              isEnable: true,
+                              isEnable: showSaveButtons,
                               isDisableColor: false,
                               onChange: (String value) {},
                               validateTextField: (String value) {},
@@ -549,7 +551,7 @@ class _EventInfoViewState extends State<EventInfoView> {
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: showSaveButtons? Constants.cancel: Constants.close,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
