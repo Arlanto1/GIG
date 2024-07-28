@@ -641,7 +641,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              ///DB Sponser CWRT2
+                              /// DB Sponser CWRT2
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.dbSponsorCwrT2 ??
                                       state.labels?.defaultLocale
@@ -1031,7 +1031,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                   state.model.location = location;
 
                   BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
-                      .updateDropdownValues(location: location);
+                      .updateLocationDropdownValue(location: location);
                 },
               );
             },
