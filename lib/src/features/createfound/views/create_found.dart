@@ -491,7 +491,7 @@ class _CreateFoundState extends State<CreateFound> {
     //you can implement different kind of Date Format here according to your requirement
     dateOfCreationTextController.text = formattedDate;
     statusTextController.text = 'Found';
-    handedoverdatedateTextController.text = formattedDate;
+    // handedoverdatedateTextController.text = formattedDate;
     setState(() {
       // dateinput.text = formattedDate; //set output date to TextField value.
     });
@@ -1860,21 +1860,24 @@ class _CreateFoundState extends State<CreateFound> {
 
                                     /// Handed over date
 
-                                    CommonWidgets.textDisplay(
-                                      state.labels?.locale.foundHandoverDate ??
-                                          state.labels?.defaultLocale
-                                              .foundHandoverDate ??
-                                          Constants.handedoverdate,
-                                      Styles.textStyleBlack14,
-                                      isMandatory: true,
-                                    ),
+                                    if (!handedoverdatedateTextController
+                                        .text.isEmptyOrNull) ...[
+                                      CommonWidgets.textDisplay(
+                                        state.labels?.locale.foundHandoverDate ??
+                                            state.labels?.defaultLocale
+                                                .foundHandoverDate ??
+                                            Constants.handedoverdate,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true,
+                                      ),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      datepickerWidgetLoading(
+                                          handedoverdatedateTextController),
+                                    ],
                                     CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    datepickerWidgetLoading(
-                                        handedoverdatedateTextController),
+                                        height * 0.01),
                                   ],
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
 
                                   /// upload
                                   if (widget.model == null ||
@@ -2162,7 +2165,8 @@ class _CreateFoundState extends State<CreateFound> {
                   await createFoundArticleCubit.getSerialnumberDetails(
                       location.id.toString() ?? '',
                       Constants.articleFoundModuleCode,
-                      context, location);
+                      context,
+                      location);
                   locationselectedText = location.name ?? '';
                   selectedLocation = location;
                   setState(() {});
