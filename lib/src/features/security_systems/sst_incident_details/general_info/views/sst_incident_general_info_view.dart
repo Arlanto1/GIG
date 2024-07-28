@@ -306,7 +306,7 @@ class _SstIncidentGeneralInfoViewState
                                     BlocProvider.of<
                                                 SstIncidentGeneralInfoCubit>(
                                             context)
-                                        .updateDropdownValues(
+                                        .updateLocationDropdownValue(
                                             location: location);
                                   }),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),

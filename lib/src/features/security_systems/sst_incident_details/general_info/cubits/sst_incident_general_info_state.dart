@@ -5,12 +5,10 @@ class SstIncidentGeneralInfoState extends Equatable {
   final SstIncident model;
   final Locations? locations;
   final User loggedInUserDetails;
-  final List<BaseUser>? users;
   final List<BaseUser>? securityLeads;
   final List<BaseUser>? systemManagers;
   final List<BaseUser>? locationTeamUsers;
   final List<BaseUser>? securityManagers;
-  final List<BaseUser>? emailUsers;
   final List<Organisation>? listOfEntities;
   final List<ImageContent>? uploadAttachments;
 
@@ -28,7 +26,6 @@ class SstIncidentGeneralInfoState extends Equatable {
     required Locations locations,
     required List<BaseUser>? users,
     required User loggedInUserDetails,
-    final List<BaseUser>? emailUsers,
     List<BaseUser>? asl,
     List<BaseUser>? systemManager,
     List<BaseUser>? lt,
@@ -55,8 +52,6 @@ class SstIncidentGeneralInfoState extends Equatable {
       vendors: vendors,
       getEntitiesResponse: getEntitiesResponse,
       uploadAttachments: uploadAttachments,
-      users: users,
-      emailUsers: emailUsers,
       message: errorMessage,
       eventId: eventId,
       participationDates: participationDate,
@@ -150,8 +145,6 @@ class SstIncidentGeneralInfoState extends Equatable {
     required this.status,
     required this.model,
     this.locations,
-    this.users,
-    this.emailUsers,
     this.listOfEntities,
     this.uploadAttachments,
     required this.vendors,
@@ -173,12 +166,10 @@ class SstIncidentGeneralInfoState extends Equatable {
     SstIncident? model,
     Locations? locations,
     User? loggedInUserDetails,
-    List<BaseUser>? users,
     List<BaseUser>? securityLeads,
     List<BaseUser>? systemManagers,
     List<BaseUser>? locationTeamUsers,
     List<BaseUser>? securityManagers,
-    List<BaseUser>? emailUsers,
     List<Organisation>? listOfEntities,
     List<Organisation>? departments,
     List<Organisation>? vendors,
@@ -194,8 +185,6 @@ class SstIncidentGeneralInfoState extends Equatable {
       model: model ?? this.model,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
-      users: users ?? this.users,
-      emailUsers: emailUsers ?? this.emailUsers,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       locationTeamUsers: locationTeamUsers ?? this.locationTeamUsers,
       securityManagers: securityManagers ?? this.securityManagers,
