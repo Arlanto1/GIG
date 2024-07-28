@@ -61,10 +61,12 @@ class AddNewFieldsState extends State<AddNewFields> {
       if (widget.title == Constants.addcompanytype) {
         await createPassMgmtCubit.createOrganisation(
             name, 'ATOM_COMPANY_TYPES', context, widget.title);
-      } else if (widget.title == Constants.addreasonfordaypass ||
-          widget.title == Constants.addreasonforvendorpass) {
+      } else if (widget.title == Constants.addreasonfordaypass) {
         await createPassMgmtCubit.createOrganisation(
             name, 'DAY_PASS_REASON', context, widget.title);
+      } else if (widget.title == Constants.addreasonforvendorpass) {
+        await createPassMgmtCubit.createOrganisation(
+            name, 'VENDOR_PASS_REASON', context, widget.title);
       } else if (widget.title == Constants.addentitytype) {
         await createPassMgmtCubit.createOrganisation(
             name, 'ATOM_ENTITIES', context, widget.title);
