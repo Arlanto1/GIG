@@ -42,10 +42,10 @@ class _KeyManagementMasterDetailsViewState
     BlocProvider.of<KeyManagementMasterDetailsCubit>(context)
         .initializeValues();
     widget.model?.total ==
-        (((widget.model?.noKeys ?? 0) + (widget.model?.noMasterKey ?? 0))
+        (((widget.model?.noOfKeys ?? 0) + (widget.model?.noMasterKey ?? 0))
             .toString());
     totalKeyController.text =
-        (((widget.model?.noKeys ?? 0) + (widget.model?.noMasterKey ?? 0))
+        (((widget.model?.noOfKeys ?? 0) + (widget.model?.noMasterKey ?? 0))
             .toString());
   }
 
@@ -554,7 +554,7 @@ class _KeyManagementMasterDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             textInputType: TextInputType.number,
-                            initialValue: '${state.model.noKeys ?? ''}',
+                            initialValue: '${state.model.noOfKeys ?? ''}',
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
                             focusNode: noOfKeysFocusNode,

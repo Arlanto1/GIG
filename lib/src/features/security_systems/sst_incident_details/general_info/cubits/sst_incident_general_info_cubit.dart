@@ -101,7 +101,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       //     ? Utils().getCurrentDate()
       //     : Utils().formatUnixTimestamp(model.createdDate ?? '');
 
-      if (location == null && state.model.location == null) {
+      if (location == null && model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
         if (defaultLocation != null) {
           SerialNumberModel slNo = await commonServices.getSlNo(
