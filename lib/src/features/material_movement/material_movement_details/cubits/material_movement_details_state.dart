@@ -6,7 +6,7 @@ class MaterialMovementDetailsState extends Equatable {
   final MaterialMovementModel model;
   final Locations? locations;
   final User? loggedInUserDetails;
-  final List<BaseUser>? users;
+  // final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final List<BaseUser>? requestorEmailUsers;
   final List<BaseUser>? approver1Users;
@@ -39,7 +39,6 @@ class MaterialMovementDetailsState extends Equatable {
       status: FormStatus.initial,
       model: model,
       locations: locations,
-      users: users,
       emailUsers: emailUsers,
       message: errorMessage,
       departments: departments,
@@ -224,7 +223,6 @@ class MaterialMovementDetailsState extends Equatable {
     this.isReceiverSignEditable = false,
     this.isEntrySecuritySignatureSignEditable = false,
     this.loggedInUserDetails,
-    this.users,
     this.emailUsers,
     required this.departments,
     this.loadAttachments,
@@ -245,7 +243,7 @@ class MaterialMovementDetailsState extends Equatable {
     MaterialMovementModel? model,
     Locations? locations,
     User? loggedInUserDetails,
-    List<BaseUser>? users,
+    // List<BaseUser>? users,
     List<BaseUser>? emailUsers,
     List<BaseUser>? requestorEmailUsers,
     List<BaseUser>? approver1Users,
@@ -267,7 +265,6 @@ class MaterialMovementDetailsState extends Equatable {
       isReadOnly: isReadOnly ?? this.isReadOnly,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
-      users: users ?? this.users,
       emailUsers: emailUsers ?? this.emailUsers,
       requestorEmailUsers: requestorEmailUsers ?? this.requestorEmailUsers,
       approver1Users: approver1Users ?? this.approver1Users,

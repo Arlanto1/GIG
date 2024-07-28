@@ -440,7 +440,7 @@ class _MaterialMovementDetailsViewState
                                 onTap: (Organisation? location) {
                                   BlocProvider.of<MaterialMovementDetailsCubit>(
                                           context)
-                                      .updateDropdownValues(location: location);
+                                      .updateLocationDropdownValue(location: location);
                                 }),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),

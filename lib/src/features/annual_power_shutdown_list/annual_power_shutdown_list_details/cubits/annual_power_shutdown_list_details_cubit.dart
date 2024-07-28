@@ -216,6 +216,13 @@ class AnnualPowerShutdownListDetailsCubit
           locationId: location.id);
     }
 
+    state.model.srh1 = null;
+    state.model.srh2 = null;
+    state.model.lsm1 = null;
+    state.model.lsm2 = null;
+    state.model.bu1 = null;
+    state.model.bu2 = null;
+
     emit(state.copyWith(
       model: state.model,
       // users: users,
@@ -344,7 +351,6 @@ class AnnualPowerShutdownListDetailsCubit
 
     emit(state.copyWith(
       model: state.model,
-      // users: users,
       status: FormStatus.initial,
     ));
   }
