@@ -109,9 +109,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
-      List<BaseUser>? shiftTakenOverBy = await commonServices
-          .getBaseUsersByRoles(roleNames:ConstantUserRoles.atomGuardingStaffUser, locationId: model.location?.id);
-
       // Get Date of Creation
       // model.inputDate = Utils().getCurrentDate();
       // model.inputDate = model.inputDate == null
@@ -128,7 +125,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
 
       List<User> entrySecurities = await commonServices.getUsers();
       bool isOnGoingPowerFailure = false;
-
       if (model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
         if (defaultLocation != null) {
@@ -164,6 +160,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         }
       }
       model.entrySecurity ??= loggedInUserDetails;
+      List<BaseUser>? shiftTakenOver = await commonServices
+          .getBaseUsersByRoles(roleNames:ConstantUserRoles.atomGuardingStaffUser, locationId: model.location?.id);
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
       model.status ?? 0;
@@ -177,7 +175,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           users: users.t1Analyst,
-          shiftTakenOverBy: shiftTakenOverBy,
+          shiftTakenOverBy: shiftTakenOver,
           departments: departments.employeeDepartments,
           entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
