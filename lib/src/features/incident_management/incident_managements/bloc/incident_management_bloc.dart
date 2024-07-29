@@ -98,6 +98,9 @@ class IncidentManagementsBloc
         maximumRecords: '${20}',
         // userId: '7',
         filters: BaseFilterModel(),
+        occId: occId,
+        occType: occType,
+        kldId: kldId,
       );
 
       return emit(
