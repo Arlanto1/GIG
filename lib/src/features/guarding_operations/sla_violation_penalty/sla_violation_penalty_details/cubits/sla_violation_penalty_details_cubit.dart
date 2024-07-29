@@ -122,7 +122,7 @@ class SLAViolationPenaltyDetailsCubit
           await commonServices.getUserDetails(userId: userId);
 
       List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
-          roleNames: 'ATOM_STATIC_USER');
+          roleNames: ConstantUserRoles.atomStaticUser);
 
       if (location != null) {
         state.model.location = location;
@@ -233,7 +233,7 @@ class SLAViolationPenaltyDetailsCubit
 
       users = await commonServices.getBaseUsers(roleName: 'T1_Analyst', locationId: location.id);
       emailUsers =
-      await commonServices.getBaseUsers(roleName: 'ATOM_STATIC_USER', locationId: location.id);
+      await commonServices.getBaseUsers(roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
 
     }
     state.model.status = status ?? state.model.status;
