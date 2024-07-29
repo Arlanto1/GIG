@@ -297,7 +297,7 @@ class _MaterialMovementDetailsViewState
                     ? AutovalidateMode.disabled
                     : AutovalidateMode.onUserInteraction,
                 child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0, right: 20),
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -440,7 +440,8 @@ class _MaterialMovementDetailsViewState
                                 onTap: (Organisation? location) {
                                   BlocProvider.of<MaterialMovementDetailsCubit>(
                                           context)
-                                      .updateLocationDropdownValue(location: location);
+                                      .updateLocationDropdownValue(
+                                          location: location);
                                 }),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -2662,6 +2663,82 @@ class _MaterialMovementDetailsViewState
                               ],
                             ],
 
+                            if (!widget.isInward && widget.model?.status == 6) ...[
+                              /// Is Material Physically Checked
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.materialPhysicallyChecked ??
+                                    state.labels?.defaultLocale
+                                        .materialPhysicallyChecked ??
+                                    Constants.isPhysicallyChecked,
+                                Styles.textStyleBlack14,
+                                isMandatory: true,
+                              ),
+                              RadioButtonsYesNo(
+                                  status: state.model.status ?? 0,
+                                  selectedValue:
+                                      state.model.materialPhysicallyChecked
+                                          ? 1
+                                          : 0,
+                                  onChangedYes: ((
+                                              widget.model?.status == 10 ||
+                                              widget.model?.status == -1) ||
+                                          !state.model.lock.isEmptyOrNull)
+                                      ? null
+                                      : (val) {
+                                          BlocProvider.of<
+                                                      MaterialMovementDetailsCubit>(
+                                                  context)
+                                              .showFields(
+                                            isMaterialPhysicallyChecked: true,
+                                            // materialMovement: materialMovement,
+                                          );
+                                        },
+                                  onChangedNo:
+                                          widget.model?.status == 10 ||
+                                          widget.model?.status == -1 ||
+                                          !state.model.lock.isEmptyOrNull
+                                      ? null
+                                      : (val) {
+                                          BlocProvider.of<
+                                                      MaterialMovementDetailsCubit>(
+                                                  context)
+                                              .showFields(
+                                            isMaterialPhysicallyChecked: false,
+                                            // materialMovement: materialMovement,
+                                          );
+                                        }),
+                              /// Comment
+                              if (!state.model.materialPhysicallyChecked) ...[
+                                CommonWidgets.textDisplay(
+                                  state.labels?.locale
+                                      .materialNotCheckedComment ??
+                                      state.labels?.defaultLocale
+                                          .materialNotCheckedComment ??
+                                      Constants.comment,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                ),
+                                FlutterInputField(
+                                  initialValue:
+                                  state.model.materialNotCheckedComment,
+                                  textFormKey: Keys.claimantEmpIdTextController,
+                                  hintText: '',
+                                  isEnable: state.model.status == 6,
+                                  isDisableColor: state.model.status != 6 ,
+                                  onChange: (String value) {
+                                    state.model.materialNotCheckedComment =
+                                        value;
+                                    context
+                                        .read<MaterialMovementDetailsCubit>()
+                                        .onModelValueChange(state.model);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                              ],
+                            ],
+
                             /// upload
                             widget.model?.status == null ||
                                     widget.model?.status == 0 ||
@@ -2681,8 +2758,6 @@ class _MaterialMovementDetailsViewState
                                     state.model.lock.isEmptyOrNull
                                 ? uploadWidget(state)
                                 : Container(),
-
-
                           ],
                         ),
                       ),
@@ -2909,6 +2984,7 @@ class _MaterialMovementDetailsViewState
       },
     );
   }
+
   // Widget cancelButtonDisplay(MaterialMovementDetailsState state) {
   //   bool condition = state.model.id == null ||
   //       state.model.status == ConstantsIntValue.cancelledStatus ||
