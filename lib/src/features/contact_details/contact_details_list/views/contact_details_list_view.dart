@@ -20,14 +20,14 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
   RefreshController refreshController =
-      RefreshController(initialRefresh: false);
+  RefreshController(initialRefresh: false);
 
   @override
   void initState() {
     super.initState();
     context.read<ContactDetailsListBloc>().add(
-          const InitializeValuesCD(),
-        );
+      const InitializeValuesCD(),
+    );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -47,11 +47,11 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context.read<ContactDetailsListBloc>().add(FetchData(
-            startPos: pageNumber,
-            maxPos: Constants.maxResults,
-            newSearch: false,
-            filters: filters,
-          ));
+        startPos: pageNumber,
+        maxPos: Constants.maxResults,
+        newSearch: false,
+        filters: filters,
+      ));
     }
   }
 
@@ -77,8 +77,8 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
 
   void _onRefresh() async {
     context.read<ContactDetailsListBloc>().add(
-          const RefreshList(),
-        );
+      const RefreshList(),
+    );
     await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
@@ -148,7 +148,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                   color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
+                    BorderRadius.vertical(top: Radius.circular(20.0)),
                   ),
                 ),
                 child: Column(
@@ -177,7 +177,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                       child: SmartRefresher(
                         controller: refreshController,
                         enablePullDown: true,
-                        physics: const AlwaysScrollableScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         header: WaterDropHeader(
                           waterDropColor: AppColors.navigationSkyBlueColor,
                           refresh: state.status != FormStatus.loading
@@ -201,15 +201,15 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                                           .entrySecurity ??
                                       'Created By',
                                   value:
-                                      '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
+                                  '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
                               labels.add(Label(
                                   key: state.labels?.locale.locationRegion ??
                                       state.labels?.defaultLocale
                                           .locationRegion ??
                                       'Region',
                                   value:
-                                      state.items[index].locationRegion?.name ??
-                                          ''));
+                                  state.items[index].locationRegion?.name ??
+                                      ''));
                               labels.add(Label(
                                   key: state.labels?.locale.slNo ??
                                       state.labels?.defaultLocale.slNo ??
@@ -220,60 +220,60 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                                       state.labels?.defaultLocale.location ??
                                       'Location',
                                   value:
-                                      state.items[index].location?.name ?? ''));
+                                  state.items[index].location?.name ?? ''));
                               return index >= state.items.length
                                   ? const BaseLoader()
                                   : BaseListTileItem(
-                                      id: state.items[index].id,
-                                      labels: labels,
-                                      status: state.items[index].status,
-                                      isEventProtectionStatus: false,
-                                      isContactDetailsStatus: true,
-                                      onTap: (selectedIndex) {
-                                        showDialog(
-                                          context: context,
-                                          builder:
-                                              (BuildContext dialogContext) {
-                                            return BasePopUpItems(
-                                              id: state.items[selectedIndex].id
-                                                  .toString(),
-                                              labels: labels,
-                                              status: state
-                                                  .items[selectedIndex].status,
-                                              isContactDetailsStatus: true,
-                                              isEventProtectionStatus: false,
-                                              isMasterGuard: false,
-                                            );
-                                          },
-                                        );
-                                      },
-                                      onEditTap: (selectedIndex) {
-                                        getById(
-                                            state.extraProperties
-                                                    ?.hasWritePermission ??
-                                                false,
-                                            state.items[index].id ?? 0);
-                                      },
-                                      onViewTap: (selectedIndex) {
-                                        showDialog(
-                                          context: context,
-                                          builder:
-                                              (BuildContext dialogContext) {
-                                            return BasePopUpItems(
-                                              id: state.items[selectedIndex].id
-                                                  .toString(),
-                                              labels: labels,
-                                              status: state
-                                                  .items[selectedIndex].status,
-                                              isContactDetailsStatus: true,
-                                              isEventProtectionStatus: false,
-                                              isMasterGuard: false,
-                                            );
-                                          },
-                                        );
-                                      },
-                                      index: index,
-                                    );
+                                id: state.items[index].id,
+                                labels: labels,
+                                status: state.items[index].status,
+                                isEventProtectionStatus: false,
+                                isContactDetailsStatus: true,
+                                onTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder:
+                                        (BuildContext dialogContext) {
+                                      return BasePopUpItems(
+                                        id: state.items[selectedIndex].id
+                                            .toString(),
+                                        labels: labels,
+                                        status: state
+                                            .items[selectedIndex].status,
+                                        isContactDetailsStatus: true,
+                                        isEventProtectionStatus: false,
+                                        isMasterGuard: false,
+                                      );
+                                    },
+                                  );
+                                },
+                                onEditTap: (selectedIndex) {
+                                  getById(
+                                      state.extraProperties
+                                          ?.hasWritePermission ??
+                                          false,
+                                      state.items[index].id ?? 0);
+                                },
+                                onViewTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder:
+                                        (BuildContext dialogContext) {
+                                      return BasePopUpItems(
+                                        id: state.items[selectedIndex].id
+                                            .toString(),
+                                        labels: labels,
+                                        status: state
+                                            .items[selectedIndex].status,
+                                        isContactDetailsStatus: true,
+                                        isEventProtectionStatus: false,
+                                        isMasterGuard: false,
+                                      );
+                                    },
+                                  );
+                                },
+                                index: index,
+                              );
                             }
                             return null;
                           },
@@ -294,15 +294,15 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
     showLoadingDialog(context);
 
     ContactDetailModel materialMovementModel =
-        await ContactDetailsServices().getGcdById(id);
+    await ContactDetailsServices().getGcdById(id);
 
     editDataLoading(materialMovementModel, hasWritePermission);
   }
 
   void editDataLoading(
-    ContactDetailModel? model,
-    bool hasWritePermission,
-  ) {
+      ContactDetailModel? model,
+      bool hasWritePermission,
+      ) {
     dismissLoadingDialog(context);
     if (model != null) {
       Navigator.pushNamed(
@@ -312,15 +312,15 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
           "model": model,
           "title": Constants.escalationMatrix,
           ConstantsArgument.extraProperties:
-              ExtraProperties(hasWritePermission: hasWritePermission),
+          ExtraProperties(hasWritePermission: hasWritePermission),
         },
       );
     }
   }
 
   void applySearchFilters(
-    FilterCriteria model,
-  ) {
+      FilterCriteria model,
+      ) {
     log('Applying Search Filters');
 
     filters = BaseFilterModel(filterCriteria: model);
@@ -335,8 +335,8 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
   }
 
   void applyFilters(
-    Filters model,
-  ) {
+      Filters model,
+      ) {
     log('Applying Filters');
 
     filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
