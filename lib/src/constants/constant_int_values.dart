@@ -48,6 +48,7 @@ class ConstantsIntValue {
   // static const String passStatusReturnedDefaced = 'Returned/Defaced';
 
   /// Shift Occurence
+  static const int occurrenceStatusCreated = 0;
   static const int submitted = 1;
 
   /// Key Management Master

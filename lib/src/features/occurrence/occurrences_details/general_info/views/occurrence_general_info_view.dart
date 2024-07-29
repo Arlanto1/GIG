@@ -316,7 +316,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       state.model.location?.name ?? '',
                                   enabled: state.model.id == null ||
                                       (state.model.location?.name ?? '')
-                                          .isEmpty,
+                                          .isEmpty || state.model.status == ConstantsIntValue.occurrenceStatusCreated,
                                   locations: state.locations,
                                   onTap: (Organisation? location) async {
                                     log('location?.name-----${location?.name}');
