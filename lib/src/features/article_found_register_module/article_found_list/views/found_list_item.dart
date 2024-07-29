@@ -37,7 +37,6 @@ class FoundListItem extends StatefulWidget {
 class _FoundListItemState extends State<FoundListItem> {
   @override
   Widget build(BuildContext context) {
-    log('widget.userItem.foundLocation.isEmptyOrNull ${widget.userItem.location?.name != null}');
     final size = MediaQuery.of(context).size;
     final width = size.width;
     return Padding(

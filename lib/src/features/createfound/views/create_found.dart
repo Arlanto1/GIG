@@ -1086,7 +1086,6 @@ class _CreateFoundState extends State<CreateFound> {
                                       height * 0.01),
 
                                   /// slno
-
                                   CommonWidgets.horizentaltextHandling(
                                       state.labels?.locale.foundSlNo ??
                                           state.labels?.defaultLocale
@@ -1881,6 +1880,21 @@ class _CreateFoundState extends State<CreateFound> {
                                     ],
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
+
+                                    /// Rejection Comment
+                                    if (!widget.model!.rejectionComment
+                                        .isEmptyOrNull) ...[
+                                      CommonWidgets.horizentaltextHandling(
+                                          state.labels?.locale
+                                                  .foundRejectionComment ??
+                                              state.labels?.defaultLocale
+                                                  .foundRejectionComment ??
+                                              Constants.rejectionComment,
+                                          widget.model?.rejectionComment ?? '',
+                                          isMandatory: true),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+                                    ],
                                   ],
 
                                   /// upload
