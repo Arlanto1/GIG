@@ -364,7 +364,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 ),
                                 const SizedBox(width: 10),
                                 const Text(
-                                  'Add/View Contact(s)',
+                                  'View Contact(s)',
                                   style: TextStyle(
                                     color: AppColors.navigationSkyBlueColor,
                                     decoration: TextDecoration.underline,
@@ -436,7 +436,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 ),
                                 const SizedBox(width: 10),
                                 const Text(
-                                  'Add/View Contact(s)',
+                                  'View Contact(s)',
                                   style: TextStyle(
                                     color: AppColors.navigationSkyBlueColor,
                                     decoration: TextDecoration.underline,
@@ -508,7 +508,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 ),
                                 const SizedBox(width: 10),
                                 const Text(
-                                  'Add/View Contact(s)',
+                                  'View Contact(s)',
                                   style: TextStyle(
                                     color: AppColors.navigationSkyBlueColor,
                                     decoration: TextDecoration.underline,
@@ -578,7 +578,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 ),
                                 const SizedBox(width: 10),
                                 const Text(
-                                  'Add/View Contact(s)',
+                                  'View Contact(s)',
                                   style: TextStyle(
                                     color: AppColors.navigationSkyBlueColor,
                                     decoration: TextDecoration.underline,
@@ -649,7 +649,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 ),
                                 const SizedBox(width: 10),
                                 const Text(
-                                  'Add/View Contact(s)',
+                                  'View Contact(s)',
                                   style: TextStyle(
                                     color: AppColors.navigationSkyBlueColor,
                                     decoration: TextDecoration.underline,
