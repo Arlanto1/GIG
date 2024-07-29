@@ -131,7 +131,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
-      if (location == null && state.model.location == null) {
+      if (location == null && model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
         log('defaultLocation $defaultLocation');
         if (defaultLocation != null) {

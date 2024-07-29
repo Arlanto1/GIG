@@ -236,6 +236,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                       labels: labels,
                                       status: state.items[index].status,
                                       isMasterGuard: false,
+
                                       onTap: (selectedIndex) {
                                         showDialog(
                                           context: context,

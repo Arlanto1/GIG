@@ -1681,7 +1681,7 @@ class _AnnualPowerShutdownListDetailsViewState
                 budgetCostModel.locationId = location?.id;
 
                 BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)
-                    .updateDropdownValues(location: location);
+                    .updateLocationDropdownValue(location: location);
               },
             );
           },

@@ -31,6 +31,7 @@ ShiftScheduleModel _$ShiftScheduleModelFromJson(Map<String, dynamic> json) =>
       modifiedBy: json['modifiedBy'] as String?,
       modifiedDate: json['modifiedDate'] as String?,
       poc: json['poc'] as String?,
+      entrySecurityName: json['entrySecurityName'] as String?,
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$ShiftScheduleModelToJson(ShiftScheduleModel instance) =>
@@ -50,4 +51,5 @@ Map<String, dynamic> _$ShiftScheduleModelToJson(ShiftScheduleModel instance) =>
       'modifiedBy': instance.modifiedBy,
       'modifiedDate': instance.modifiedDate,
       'poc': instance.poc,
+      'entrySecurityName': instance.entrySecurityName,
     };

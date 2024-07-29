@@ -2011,10 +2011,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         attachments: photogetAttachments,
                                         files: photogetFiles,
                                         showDeleteIcon:
-                                        widget.model?.status != 0 &&
-                                            widget.model != null
-                                            ? false
-                                            : true,
+                                            widget.model?.status != 0 &&
+                                                    widget.model != null
+                                                ? false
+                                                : true,
                                         moduleCode:
                                             Constants.passManagementModuleCode,
                                         isDisabled: isDisabled,
@@ -2041,7 +2041,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     ///upload
                                     ((widget.model == null ||
-                                                widget.model?.status == 0)||
+                                                widget.model?.status == 0) ||
                                             !(widget.extraProperties != null &&
                                                 !widget.extraProperties!
                                                     .hasWritePermission!))
@@ -2365,7 +2365,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       if (serialnumber.isEmptyOrNull) {
         widget.model?.slNo ??
             await createPassMgmtCubit.getSerialnumberDetails(
-              (widget.model?.location?.id ?? 0).toString(),
+              (widget.model!.location!),
               widget.passId,
             );
       }
@@ -2463,28 +2463,31 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     } else {
       await createPassMgmtCubit.getLocations('ATOM_LOCATIONS', null, context);
     }
-    await createPassMgmtCubit.getEntities('ATOM_ENTITIES', context);
+    await createPassMgmtCubit.getEntities('ATOM_ENTITIES');
     await createPassMgmtCubit.getEmployeeDepartments(
-        'EMPLOYEE_DEPARTMENTS', context);
+        'EMPLOYEE_DEPARTMENTS', );
     if (widget.model == null ||
         (widget.model?.entrySecurity?.userName ?? '').isEmpty) {
       var userid = await SharedPrefs.getUserId();
-      await createPassMgmtCubit.getUserDetails(userid, context);
+      await createPassMgmtCubit.getUserDetails(userid, );
     } else {
       createdBy =
           '${widget.model?.entrySecurity?.firstName ?? ''} ${widget.model?.entrySecurity?.lastName ?? ''}';
     }
     await createPassMgmtCubit.companyTypes(
-        name: widget.passId == ConstantsIntValue.passIdSez
-            ? 'ATOM_SEZ_COMPANY_TYPES'
-            : 'ATOM_COMPANY_TYPES',
-        context: context);
-    await createPassMgmtCubit.getDayPassreasons('DAY_PASS_REASON', context);
+      name: widget.passId == ConstantsIntValue.passIdSez
+          ? 'ATOM_SEZ_COMPANY_TYPES'
+          : 'ATOM_COMPANY_TYPES',
+    );
+    await createPassMgmtCubit.getDayPassreasons(
+      'DAY_PASS_REASON',
+    );
     await createPassMgmtCubit.getVendorPassreasons(
-        'VENDOR_PASS_REASON', context);
+      'VENDOR_PASS_REASON',
+    );
     //await createpassmgmtCubit.getAnalysts('T1_Analyst');
     await createPassMgmtCubit.getUserByRoleDepositor(
-        ConstantUserRoles.atomStaticUser, context);
+        ConstantUserRoles.atomStaticUser, );
   }
 
   Widget submitButtonDisplay() {
@@ -2752,6 +2755,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             if ((widget.model == null || widget.model?.status == 0) &&
                 !(widget.extraProperties != null &&
                     !widget.extraProperties!.hasWritePermission!)) {
+              log('--widget.passId---${widget.passId}---');
               if (widget.passId == ConstantsIntValue.passIdVendor) {
                 vendorPassReasonDialog(state);
               } else if (widget.passId == ConstantsIntValue.passIdDayPass) {
@@ -3108,6 +3112,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   vendorPassReasonDialog(CreatePassMgmtState state) {
+
+    log('--state.vendorPassReason?.vendorPassReason--${state.vendorPassReason?.vendorPassReason.toString()}--');
     showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
@@ -3448,17 +3454,18 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               return CustomExpansionListTexts(
                 locationList: state.getLocationsResponse,
                 //GetLocations(),
-                onTap: (Organisation org) async {
+                onTap: (Organisation location) async {
                   await createPassMgmtCubit.getSerialnumberDetails(
-                    org.id.toString(),
+                    location,
                     widget.passId,
                   );
                   await BlocProvider.of<CreatePassMgmtCubit>(context)
-                      .getPassTypes(locationId: org.id!, passId: widget.passId);
+                      .getPassTypes(
+                          locationId: location.id!, passId: widget.passId);
 
                   await createPassMgmtCubit.getPassNumber(
-                      widget.passId, org.id!);
-                  createPassMgmtCubit.getlocationsResponseData(org);
+                      widget.passId, location.id!);
+                  createPassMgmtCubit.getlocationsResponseData(location);
                   daypassnoTextController.text = '';
                 },
               );

@@ -152,7 +152,12 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
       String formattedDate =
           DateFormat(Constants.fulldateFormat).format(futureDate);
       closureTargetDateController.text = formattedDate;
-      state.model.closureTargetDate = closureTargetDateController.text;
+
+      DateTime dateTime;
+        dateTime =
+            DateFormat("dd/MM/yyyy HH:mm:ss").parse(closureTargetDateController.text);
+        int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.closureTargetDate = inputDate.toString();
     } else {
       closureTargetDateController.text = Utils.timestampToDateConversion(
           int.tryParse(state.model.closureTargetDate ?? '0'),
@@ -879,7 +884,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: closureTargetDateController,
-                              isDisabled: state.model.id != null ||
+                              isDisabled: (state.model.status != null && state.model.status! >= 1) ||
                                   !state.model.lock.isEmptyOrNull,
                               onlyDate: false,
                               showPastDate: false,

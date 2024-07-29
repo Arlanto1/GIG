@@ -31,7 +31,6 @@ class CreatePassMgmtService {
   /// get Entities api call
   Future<AddEntities> getEntities({
     required String name,
-    required BuildContext context,
   }) async {
     String url = '${Apis.getOrganisation}$name';
     final response = await BaseApiService().getRequest(

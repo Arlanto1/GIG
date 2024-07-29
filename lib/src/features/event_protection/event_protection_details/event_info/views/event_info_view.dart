@@ -72,8 +72,8 @@ class _EventInfoViewState extends State<EventInfoView> {
         Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Saved Successfully')));
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('${state.message}')));
           Navigator.pop(context);
           Navigator.pop(context);
         }
@@ -135,10 +135,6 @@ class _EventInfoViewState extends State<EventInfoView> {
 
     if (state.status == FormStatus.addAttachment ||
         state.status == FormStatus.initial) {
-      // log('---getAttachments----builder----${getAttachments?.length}-----');
-      // getFiles = state.loadAttachments ?? [];
-      // log('---guardAttachments----builder----${state.guardAttachments?.length}-----');
-
       guardFiles = state.guardAttachments ?? [];
     }
     return Container(
@@ -186,7 +182,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                               BaseDate().datePickerWidgetLoading(
                                 context: context,
                                 textController: dateController,
-                                isDisabled: false,
+                                isDisabled: !showSaveButtons,
                                 onlyDate: false,
                                 onChange: (String value) {
                                   dateController.text = value;
@@ -302,7 +298,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                       // text: widget.text,
                                       hintText: 'Hint text goes here',
                                       controller: controller,
-                                      isEnabled: true,
+                                      isEnabled: showSaveButtons,
                                       ensureVisible: false,
                                       minHeight: 500,
                                       autoFocus: true,
@@ -374,12 +370,9 @@ class _EventInfoViewState extends State<EventInfoView> {
                                                     ? false
                                                     : true,
                                             leftButtonTap: () {
-                                              // TODO: Call Save API
-                                              BlocProvider.of<EventInfoCubit>(
-                                                      this.context)
-                                                  .submitForm(
-                                                      isSaveOnly: true,
-                                                      addArticleFound: true);
+                                              FocusScope.of(context).unfocus();
+                                              BlocProvider.of<EventInfoCubit>(context)
+                                                  .submitForm(isSaveOnly: false,addArticleFound: true);
                                             },
                                           );
                                         },
@@ -398,6 +391,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                 : Container(),
                             BaseImageUpload().uploadWidget(
                               context: context,
+                              isDisabled: !showSaveButtons,
                               loggedInUserDetails:
                                   state.loggedInUserDetails ?? User(),
                               getFiles: guardFiles,
@@ -506,7 +500,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                               controller: addEmailController,
                               textFormKey: Keys.equipmentNoKey,
                               hintText: '',
-                              isEnable: true,
+                              isEnable: showSaveButtons,
                               isDisableColor: false,
                               onChange: (String value) {},
                               validateTextField: (String value) {},
@@ -549,7 +543,7 @@ class _EventInfoViewState extends State<EventInfoView> {
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);

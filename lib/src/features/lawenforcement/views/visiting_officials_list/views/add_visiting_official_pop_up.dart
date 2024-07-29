@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_bloc.dart';
+import 'package:email_validator/email_validator.dart';
 
 class AddVisitingOfficialPopUp extends StatefulWidget {
   const AddVisitingOfficialPopUp({
@@ -339,6 +340,13 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
     if (widget.model.contactNo.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Phone Number.');
+    }
+
+    if(!widget.model.email.isEmptyOrNull && !EmailValidator.validate(widget.model.email!)){
+      return const ErrorResponse(
+        status: false,
+        message: 'Please enter a email.',
+      );
     }
     if ((!Utils().isNumeric(widget.model.contactNo!) ||
             widget.model.contactNo!.length < 10 ||

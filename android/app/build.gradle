@@ -131,7 +131,7 @@ android {
 //        defaultConfig {
 //            compileSdk 34
 //        }
-        versionCode 13
+        versionCode 14
         versionName flutterVersionName
         multiDexEnabled true
         resValue "string", "app_name", "AtomEdge"

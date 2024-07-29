@@ -9,7 +9,8 @@ class CommonApis {
   // static const String v2 = '/v2';
   static final String _getUiLabels = '$baseUrl/getLabels?';
   static final String _getOrganisations = '$baseUrl/getOrganisation?name=';
-  static final String _getLocationsNew = '$baseUrl/getAtomLocations?isSezLocations=';
+  static final String _getLocationsNew =
+      '$baseUrl/getAtomLocations?isSezLocations=';
   static final String _getArticleType = '$baseUrl/getOrganisation?name=';
   static final String _getUserDetails = '$baseUrl/getUserDetails?userId=';
   static final String _getSlNo = '$baseUrl/getSlNo?';
@@ -30,18 +31,17 @@ class CommonApis {
   static final String _getModuleAccessByUserRole =
       '$baseUrl/getModuleAccessByUserRole?';
 
-  static const String exportDetailPagePDF =
-      'exportDeatilPagePDF?id=';
-
+  static const String exportDetailPagePDF = 'exportDeatilPagePDF?id=';
 }
 
 class CommonServices {
-  Future<dynamic> getUiLabels({
-    required String language,
-    required String moduleCode,
-    BuildContext? context,f
-  }) async {
-    String url = '${CommonApis._getUiLabels}locale=$language&module=$moduleCode';
+  Future<dynamic> getUiLabels(
+      {required String language,
+      required String moduleCode,
+      BuildContext? context,
+      f}) async {
+    String url =
+        '${CommonApis._getUiLabels}locale=$language&module=$moduleCode';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -211,9 +211,12 @@ class CommonServices {
 
   Future<Analyst> getUsersByRole({
     required String roleName,
-    BuildContext? context,
+    int? locationId,
   }) async {
     String url = '${CommonApis._getUsersByRole}$roleName';
+    if (locationId != null) {
+      url = '$url&locationId=$locationId';
+    }
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -225,7 +228,10 @@ class CommonServices {
     int? locationId,
     BuildContext? context,
   }) async {
-    String url = '${CommonApis._getUsersByRole}$roleName&locationId=$locationId';
+    String url = '${CommonApis._getUsersByRole}$roleName';
+    if (locationId != null) {
+      url = '$url&locationId=$locationId';
+    }
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -239,9 +245,13 @@ class CommonServices {
 
   Future<List<BaseUser>> getBaseUsersByRoles({
     required String roleNames,
+    int? locationId,
     BuildContext? context,
   }) async {
     String url = '${CommonApis._getUsersByRoles}$roleNames';
+    if (locationId != null) {
+      url = '$url&locationId=$locationId';
+    }
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -252,9 +262,12 @@ class CommonServices {
 
   Future<GetDepositor> getAtomStaticUsers({
     required String roleName,
-    BuildContext? context,
+    int? locationId,
   }) async {
     String url = '${CommonApis._getUsersByRole}$roleName';
+    if (locationId != null) {
+      url = '$url&locationId=$locationId';
+    }
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -393,7 +406,8 @@ class CommonServices {
     BuildContext? context,
     int? filter,
   }) async {
-    String url = '${CommonApis._getModuleAccessByUserRole}moduleCode=$moduleCode';
+    String url =
+        '${CommonApis._getModuleAccessByUserRole}moduleCode=$moduleCode';
     final response = await BaseApiService().getRequest(
       url: url,
     );

@@ -56,13 +56,13 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         Utils.dynamicAlert(context, 'Added sucessfully', title, '');
       });
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          model: model,
-          message: Constants.errorText,
-          status: FormStatus.failure,
-        ),
-      );
+      // emit(
+      //   state.copyWith(
+      //     model: model,
+      //     message: e.message,
+      //     status: FormStatus.failure,
+      //   ),
+      // );
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(context, e.message ?? '', Constants.addarticletype,
@@ -79,7 +79,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           model: model,
-          message: Constants.errorText,
+          message: e.toString(),
           status: FormStatus.failure,
         ),
       );
@@ -217,6 +217,8 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         locationId,
         moduleCode,
       );
+
+      getDBofficialByRoleDepositor(ConstantUserRoles.atomStaticUser);
       emit(
         state.copyWith(
           getSerialnumberResponse: response,
@@ -440,8 +442,8 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         ),
       );
       dismissLoadingDialog(context);
-      await lawEnforcementCubit.getDBofficialByRoleDepositor(
-          ConstantUserRoles.atomStaticUser, context);
+      await lawEnforcementCubit
+          .getDBofficialByRoleDepositor(ConstantUserRoles.atomStaticUser);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
             context, 'Added successfully', Constants.newuser, '');
@@ -502,11 +504,11 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   // get DB Official email ID Accompanied LEO official API call
-  Future<void> getDBofficialByRoleDepositor(
-      String roleName, BuildContext context) async {
+  Future<void> getDBofficialByRoleDepositor(String roleName) async {
     try {
-      GetDepositor getDepositorData = await services.getDBOfficialdepartments(
-        roleName,
+      List<BaseUser>? getDepositorData = await commonServices.getBaseUsers(
+        roleName: roleName,
+        locationId: state.locationSelectedlist?.id,
       );
       emit(
         state.copyWith(

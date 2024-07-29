@@ -55,12 +55,15 @@ class AnnualPowerShutdownListDetailsCubit
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
-    GetDepositor emailUsers =
-        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
-    List<BaseUser> srh = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Sub_Regional_Head');
-    List<BaseUser> lsm = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Senior_Security_Manager');
+    List<BaseUser>? emailUsers = await commonServices.getBaseUsers(
+        roleName: ConstantUserRoles.atomStaticUser,
+        locationId: state.model.location?.id);
+    List<BaseUser> srh = await commonServices.getBaseUsers(
+        roleName: ConstantUserRoles.atomSubRegionalHeadUser,
+        locationId: state.model.location?.id);
+    List<BaseUser> lsm = await commonServices.getBaseUsers(
+        roleName: ConstantUserRoles.atomSeniorSecurityManagerUser,
+        locationId: state.model.location?.id);
     emit(
       state.copyWith(
         getEntitiesResponse: entities,
@@ -69,7 +72,7 @@ class AnnualPowerShutdownListDetailsCubit
         users: users.t1Analyst,
         srh: srh,
         lsm: lsm,
-        emailUsers: emailUsers.atomStaticUser,
+        emailUsers: emailUsers,
         departments: departments.employeeDepartments,
       ),
     );
@@ -88,31 +91,50 @@ class AnnualPowerShutdownListDetailsCubit
         : AnnualPowerShutdownListModel();
 
     try {
+      Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+
+      if (model.location == null && defaultLocation != null) {
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: defaultLocation.id.toString(),
+          moduleCode: Constants.annualPowerShutDownModuleCode,
+        );
+        model.location = defaultLocation;
+        model.slNo = slNo.serialNo;
+      }
+
       // Perform multiple asynchronous operations concurrently
       final List<dynamic> results = await Future.wait([
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
+        // TODO: remove the and change the number
         SharedPrefs.getDefaultLocation(),
+
         commonServices.getUserDetails(userId: userId),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.eventProtectionModuleCode),
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
-        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
+        commonServices.getBaseUsers(
+            roleName: ConstantUserRoles.atomStaticUser,
+            locationId: model.location?.id),
         commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUsers(),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
-        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head'),
-        commonServices.getBaseUsersByRoles(
-            roleNames: 'ATOM_Senior_Security_Manager'),
+        commonServices.getBaseUsers(
+            roleName: ConstantUserRoles.atomSubRegionalHeadUser,
+            locationId: model.location?.id),
+        commonServices.getBaseUsers(
+            roleName: ConstantUserRoles.atomSeniorSecurityManagerUser,
+            locationId: model.location?.id),
       ]);
 
       // Assign results to variables with explicit data types
       Locations getLocationsData = results[0];
-      Organisation? defaultLocation = results[1];
+      Organisation? defaultLocationRemove =
+          results[1]; // TODO: remove the and change the number
       User loggedInUserDetails = results[2];
       Analyst users = results[4];
-      GetDepositor emailUsers = results[5];
+      List<BaseUser>? emailUsers = results[5];
       List<Organisation>? entities = results[6];
       Vendors vendors = results[7];
       List<User> entrySecurities = results[8];
@@ -129,14 +151,6 @@ class AnnualPowerShutdownListDetailsCubit
           : Utils.timestampToDateConversion(
               int.tryParse(model.inputDate ?? '0'), Constants.fulldateFormat);
 
-      if (model.location == null && defaultLocation != null) {
-        SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.annualPowerShutDownModuleCode,
-        );
-        model.location = defaultLocation;
-        model.slNo = slNo.serialNo;
-      }
       model.createdBy ??= loggedInUserDetails;
       state.model.proposedVendors ??= [];
       // Update the model and emit the updated state
@@ -148,8 +162,8 @@ class AnnualPowerShutdownListDetailsCubit
         users: users.t1Analyst,
         srh: srh,
         lsm: lsm,
-        emailUsers: emailUsers.atomStaticUser,
-        epOfficers: emailUsers.atomStaticUser,
+        emailUsers: emailUsers,
+        epOfficers: emailUsers,
         departments: departments.employeeDepartments,
         vendors: vendors.items,
         entrySecurities: entrySecurities,
@@ -169,9 +183,58 @@ class AnnualPowerShutdownListDetailsCubit
     }
   }
 
+  Future<void> updateLocationDropdownValue({
+    Organisation? location,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    List<BaseUser>? emailUsers = [];
+    List<BaseUser> srh = [];
+    List<BaseUser> lsm = [];
+
+    /// Get Sl No from API
+    if (location != null) {
+      log('Update Location');
+      SerialNumberModel slNo = await commonServices.getSlNo(
+        locationId: location.id.toString(),
+        moduleCode: Constants.annualPowerShutDownModuleCode,
+      );
+
+      state.model.location = location;
+      state.model.slNo = slNo.serialNo ?? '';
+      emailUsers = await commonServices.getBaseUsers(
+          roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
+      srh = await commonServices.getBaseUsers(
+          roleName: ConstantUserRoles.atomSubRegionalHeadUser,
+          locationId: location.id);
+      lsm = await commonServices.getBaseUsers(
+          roleName: ConstantUserRoles.atomSeniorSecurityManagerUser,
+          locationId: location.id);
+    }
+
+    state.model.srh1 = null;
+    state.model.srh2 = null;
+    state.model.lsm1 = null;
+    state.model.lsm2 = null;
+    state.model.bu1 = null;
+    state.model.bu2 = null;
+
+    emit(state.copyWith(
+      model: state.model,
+      // users: users,
+      srh: srh,
+      lsm: lsm,
+      emailUsers: emailUsers,
+      status: FormStatus.initial,
+    ));
+  }
+
   Future<void> updateDropdownValues({
     List<Organisation>? entities,
-    Organisation? location,
     // BaseUser? user,
     Organisation? entity,
     int? status,
@@ -220,31 +283,6 @@ class AnnualPowerShutdownListDetailsCubit
       }
       state.model.proposedVendors?.clear();
       state.model.proposedVendors?.add(vendor);
-    }
-
-    List<BaseUser>? users = [];
-    List<BaseUser>? emailUsers = [];
-    List<BaseUser> srh = [];
-    List<BaseUser> lsm = [];
-
-    /// Get Sl No from API
-    if (location != null) {
-      log('Update Location');
-      SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: location.id.toString(),
-        moduleCode: Constants.annualPowerShutDownModuleCode,
-      );
-
-      state.model.location = location;
-      state.model.slNo = slNo.serialNo ?? '';
-      users = await commonServices.getBaseUsers(
-          roleName: 'T1_Analyst', locationId: location.id);
-      emailUsers = await commonServices.getBaseUsers(
-          roleName: 'ATOM_STATIC_USER', locationId: location.id);
-      srh = await commonServices.getBaseUsers(
-          roleName: 'ATOM_Sub_Regional_Head', locationId: location.id);
-      lsm = await commonServices.getBaseUsers(
-          roleName: 'ATOM_Senior_Security_Manager', locationId: location.id);
     }
 
     state.model.status = status ?? state.model.status;
@@ -311,13 +349,8 @@ class AnnualPowerShutdownListDetailsCubit
       state.model.lsm2 = userDetails;
     }
 
-    log('-state.model.epManager1.name--${state.model.epManager1?.name}-------');
     emit(state.copyWith(
       model: state.model,
-      users: users,
-      srh: srh,
-      lsm: lsm,
-      emailUsers: emailUsers,
       status: FormStatus.initial,
     ));
   }

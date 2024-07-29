@@ -1,9 +1,8 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/services/duty_post_master_services.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/ss_ui_labels.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 part 'duty_post_master_list_event.dart';
 part 'duty_post_master_list_state.dart';
@@ -173,6 +172,10 @@ class DutyPostMasterListBloc
           maximumRecords: '${event.maxPos}',
           filters: event.filters,
         );
+
+        for(DutyPostMasterModel model in response.items??[]) {
+          log('---model.total- ${model.total}-${model.id}---');
+        }
 
         return emit(
           state.copyWith(

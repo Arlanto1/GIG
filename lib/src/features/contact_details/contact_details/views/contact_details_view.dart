@@ -29,7 +29,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
   TextEditingController expectedDateOfReturnController =
       TextEditingController();
   TextEditingController actualDateOfReturnController = TextEditingController();
-  bool isReadOnly = false;
+  bool isReadOnly = true;
   List<String> returnableDropDownValues = const [
     "Returnable",
     "Non Returnable"
@@ -113,6 +113,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
         if (state.model.status == null) {
           isReadOnly = false;
         }
+
+        /// Making it read only as per DB requirement
+        isReadOnly = true;
 
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
@@ -351,20 +354,20 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 },
                               );
                             },
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                SvgPicture.asset(
-                                  AppIcon.pluscircle,
-                                  colorFilter: const ColorFilter.mode(
-                                    AppColors.navigationSkyBlueColor,
-                                    BlendMode.srcIn,
-                                  ),
-                                  // color: AppColors.navigationSkyBlueColor,
-                                ),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  'Add/View Contact(s)',
+                                 // SvgPicture.asset(
+                                //   AppIcon.pluscircle,
+                                //   colorFilter: const ColorFilter.mode(
+                                //     AppColors.navigationSkyBlueColor,
+                                //     BlendMode.srcIn,
+                                //   ),
+                                //   // color: AppColors.navigationSkyBlueColor,
+                                // ),
+                                // const SizedBox(width: 10),
+                                Text(
+                                  'View Contact(s)',
                                   style: TextStyle(
                                     color: AppColors.navigationSkyBlueColor,
                                     decoration: TextDecoration.underline,
@@ -423,20 +426,20 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 },
                               );
                             },
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                SvgPicture.asset(
-                                  AppIcon.pluscircle,
-                                  colorFilter: const ColorFilter.mode(
-                                    AppColors.navigationSkyBlueColor,
-                                    BlendMode.srcIn,
-                                  ),
-                                  // color: AppColors.navigationSkyBlueColor,
-                                ),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  'Add/View Contact(s)',
+                                 // SvgPicture.asset(
+                                //   AppIcon.pluscircle,
+                                //   colorFilter: const ColorFilter.mode(
+                                //     AppColors.navigationSkyBlueColor,
+                                //     BlendMode.srcIn,
+                                //   ),
+                                //   // color: AppColors.navigationSkyBlueColor,
+                                // ),
+                                // const SizedBox(width: 10),
+                                Text(
+                                  'View Contact(s)',
                                   style: TextStyle(
                                     color: AppColors.navigationSkyBlueColor,
                                     decoration: TextDecoration.underline,
@@ -495,20 +498,20 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 },
                               );
                             },
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                SvgPicture.asset(
-                                  AppIcon.pluscircle,
-                                  colorFilter: const ColorFilter.mode(
-                                    AppColors.navigationSkyBlueColor,
-                                    BlendMode.srcIn,
-                                  ),
-                                  // color: AppColors.navigationSkyBlueColor,
-                                ),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  'Add/View Contact(s)',
+                                 // SvgPicture.asset(
+                                //   AppIcon.pluscircle,
+                                //   colorFilter: const ColorFilter.mode(
+                                //     AppColors.navigationSkyBlueColor,
+                                //     BlendMode.srcIn,
+                                //   ),
+                                //   // color: AppColors.navigationSkyBlueColor,
+                                // ),
+                                // const SizedBox(width: 10),
+                                Text(
+                                  'View Contact(s)',
                                   style: TextStyle(
                                     color: AppColors.navigationSkyBlueColor,
                                     decoration: TextDecoration.underline,
@@ -565,20 +568,20 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 },
                               );
                             },
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                SvgPicture.asset(
-                                  AppIcon.pluscircle,
-                                  colorFilter: const ColorFilter.mode(
-                                    AppColors.navigationSkyBlueColor,
-                                    BlendMode.srcIn,
-                                  ),
-                                  // color: AppColors.navigationSkyBlueColor,
-                                ),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  'Add/View Contact(s)',
+                                 // SvgPicture.asset(
+                                //   AppIcon.pluscircle,
+                                //   colorFilter: const ColorFilter.mode(
+                                //     AppColors.navigationSkyBlueColor,
+                                //     BlendMode.srcIn,
+                                //   ),
+                                //   // color: AppColors.navigationSkyBlueColor,
+                                // ),
+                                // const SizedBox(width: 10),
+                                Text(
+                                  'View Contact(s)',
                                   style: TextStyle(
                                     color: AppColors.navigationSkyBlueColor,
                                     decoration: TextDecoration.underline,
@@ -636,20 +639,20 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 },
                               );
                             },
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                SvgPicture.asset(
-                                  AppIcon.pluscircle,
-                                  colorFilter: const ColorFilter.mode(
-                                    AppColors.navigationSkyBlueColor,
-                                    BlendMode.srcIn,
-                                  ),
-                                  // color: AppColors.navigationSkyBlueColor,
-                                ),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  'Add/View Contact(s)',
+                                 // SvgPicture.asset(
+                                //   AppIcon.pluscircle,
+                                //   colorFilter: const ColorFilter.mode(
+                                //     AppColors.navigationSkyBlueColor,
+                                //     BlendMode.srcIn,
+                                //   ),
+                                //   // color: AppColors.navigationSkyBlueColor,
+                                // ),
+                                // const SizedBox(width: 10),
+                                Text(
+                                  'View Contact(s)',
                                   style: TextStyle(
                                     color: AppColors.navigationSkyBlueColor,
                                     decoration: TextDecoration.underline,

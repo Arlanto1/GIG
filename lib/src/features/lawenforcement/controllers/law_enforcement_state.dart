@@ -5,7 +5,7 @@ import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart'
 
 class LawEnforcementState extends Equatable {
   final LawEnforcementDetailsModel? model;
-  GetDepositor? getDepositorResponse;
+  List<BaseUser>? getDepositorResponse;
   AddEntities? getEntitiesResponse;
   LeoDepartments? departmentResponse;
   LeoPurposeVisit? purposeList;
@@ -94,7 +94,7 @@ class LawEnforcementState extends Equatable {
     int? isOfficialIdcardSelected,
     int? isDocumentifanySelected,
     int? isIncaseofpoliceSelected,
-    GetDepositor? getDepositorResponse,
+    List<BaseUser>? getDepositorResponse,
     BaseUser? dBOfficialEmailIdAccompaniedLeoOfficial,
     EmployeeDepartments? employeeDepartment,
     Organisation? selectedemployeeDepartmentResponse,
