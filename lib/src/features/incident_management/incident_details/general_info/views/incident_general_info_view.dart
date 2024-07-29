@@ -162,7 +162,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
       closureTargetDateController.text = Utils.timestampToDateConversion(
           int.tryParse(state.model.closureTargetDate ?? '0'),
           Constants.fulldateFormat);
-      state.model.closureTargetDate = closureTargetDateController.text;
+      // state.model.closureTargetDate = closureTargetDateController.text;
     }
   }
 
@@ -292,7 +292,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                                   BlocProvider.of<IncidentGeneralInfoCubit>(
                                           context)
-                                      .updateDropdownValues(location: location);
+                                      .updateLocationDropdownValue(location: location);
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -677,7 +677,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     BlocProvider.of<IncidentGeneralInfoCubit>(
                                             context)
                                         .updateDropdownValues(
-                                      complainantHR: user,
+                                      complainantHr: user,
                                     );
                                   },
                                   roleName: ConstantUserRoles.atomStaticUser,
@@ -810,7 +810,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             ),
                             TextFieldAddButton(
                               title: state.model.incidentOwner?.userInfo ??
-                                  state.model.incidentOwner?.name,
+                                    state.model.incidentOwner?.name,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
