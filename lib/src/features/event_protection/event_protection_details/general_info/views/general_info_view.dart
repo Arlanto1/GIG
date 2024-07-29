@@ -228,7 +228,18 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            locationWidgetdislay(state),
+                            // locationWidgetdislay(state),
+                            BaseLocationDropdown().locationWidgetDisplay(
+                                isEnabled: !disableForm,
+                                context: context,
+                                locations: state.locations ?? Locations(),
+                                selectedLocationName:
+                                state.model.location?.name ?? '',
+                                onTap: (Organisation? location) {
+                                  BlocProvider.of<GeneralInfoCubit>(
+                                      context)
+                                      .updateLocationDropdownValue(location: location);
+                                }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Date of creation
