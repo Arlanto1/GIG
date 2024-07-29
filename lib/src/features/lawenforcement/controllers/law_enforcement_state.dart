@@ -13,7 +13,7 @@ class LawEnforcementState extends Equatable {
   final FormStatus status;
   String? message;
   Locations? getLocationsResponse;
-  SerialNumberModel? getSerialnumberResponse;
+  String? slno;
   List<Organisation>? listOfEntities;
   Organisation? locationSelectedlist;
   Organisation? leoPurposeVisitResponse;
@@ -48,7 +48,7 @@ class LawEnforcementState extends Equatable {
     required this.status,
     this.message,
     this.getLocationsResponse,
-    this.getSerialnumberResponse,
+    this.slno,
     this.listOfEntities,
     this.locationSelectedlist,
     this.leoDepartmentsResponse,
@@ -84,7 +84,7 @@ class LawEnforcementState extends Equatable {
     FormStatus? status,
     String? message,
     Locations? getLocationsResponse,
-    SerialNumberModel? getSerialnumberResponse,
+    String? slno,
     List<Organisation>? listOfEntities,
     Organisation? locationSelectedlist,
     Organisation? leoPurposeVisitResponse,
@@ -122,8 +122,8 @@ class LawEnforcementState extends Equatable {
       status: status ?? this.status,
       message: message ?? this.message,
       getLocationsResponse: getLocationsResponse ?? this.getLocationsResponse,
-      getSerialnumberResponse:
-          getSerialnumberResponse ?? this.getSerialnumberResponse,
+      slno:
+          slno ?? this.slno,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       locationSelectedlist: locationSelectedlist ?? this.locationSelectedlist,
       leoPurposeVisitResponse:
@@ -172,7 +172,7 @@ class LawEnforcementState extends Equatable {
         status,
         message,
         getLocationsResponse,
-        getSerialnumberResponse,
+        slno,
         listOfEntities,
         locationSelectedlist,
         leoDepartmentsResponse,
