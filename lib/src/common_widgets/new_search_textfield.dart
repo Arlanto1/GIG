@@ -1,10 +1,4 @@
-import 'dart:developer';
-
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:flutter/material.dart';
-
-import '../utils/app_themes/colors/app_color.dart';
 
 class FlutterInputField extends StatelessWidget {
   final String hintText;

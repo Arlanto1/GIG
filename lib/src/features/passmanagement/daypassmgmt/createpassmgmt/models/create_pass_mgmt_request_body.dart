@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 import '../../../../../../index.dart';
 import '../../passmgmtlist/models/day_passlist_model.dart';
 

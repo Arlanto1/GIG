@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 class ContactDetailsView extends StatefulWidget {
   final ContactDetailModel? model;

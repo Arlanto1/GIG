@@ -2,8 +2,6 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/security_systems/sst_incident_list/bloc/sst_incident_bloc.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
-import '../../models/sst_incident_response.dart';
-
 class SstIncidentView extends StatefulWidget {
   final bool isInternal;
   final SstIncident? model;

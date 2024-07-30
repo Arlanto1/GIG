@@ -1,14 +1,4 @@
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
-import 'package:db_atom/src/common_widgets/pop_button.dart';
-import 'package:db_atom/src/constants/app_icon.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:db_atom/src/utils/validators/validator.dart';
-import 'package:flutter/material.dart';
 
 class BaseAddUserDialog extends StatefulWidget {
   const BaseAddUserDialog({

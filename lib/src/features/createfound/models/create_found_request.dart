@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 import '../../../../index.dart';
 
 CreateFoundRequestBody foundListArticleDetailsFromJson(String str) =>
