@@ -137,8 +137,6 @@ class _PassManagementListViewState extends State<PassManagementListView> {
               }
             },
             builder: (context, state) {
-              log('---state.status-----${state.status}--');
-              log('---state.items.length-----${state.items.length}--');
               // if (state.status == FormStatus.loading) {
               //   return const BaseLoader();
               // }

@@ -70,11 +70,9 @@ class BaseImageUpload {
     bool? showDeleteIcon = true,
     bool isDisabled = false,
   }) {
-    log('-isDisabled-$isDisabled--');
     if (isDisabled) {
       showDeleteIcon = false;
     }
-    log('-showDeleteIcon-$showDeleteIcon--');
     if (attachments != null) {
       return Column(
         children: [

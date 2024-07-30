@@ -48,7 +48,8 @@ class _CreateFoundState extends State<CreateFound> {
   TextEditingController statusTextController = TextEditingController();
   TextEditingController depositorTextController = TextEditingController();
   TextEditingController claimantTextController = TextEditingController();
-  String isDepositorDBEmployee = "";
+
+  // String isDepositorDBEmployee = "";
 
   final FocusNode foundLocationFocusNode = FocusNode();
   final FocusNode depositorEmployeeFocusNode = FocusNode();
@@ -1790,19 +1791,6 @@ class _CreateFoundState extends State<CreateFound> {
                                             )
                                           : Container(),
 
-                                      ///TODO: Need to work on signature
-                                      if (isClaimantAcceptedtoSignSelected ==
-                                          1) ...[
-                                        /// Claimant Signature
-                                        buildSignature(
-                                            controller:
-                                                claimantSignatureController,
-                                            label: Constants.claimantSignature,
-                                            spaceHeight: height,
-                                            state: state,
-                                            isReadOnly: isSignatureReadOnly),
-                                      ],
-
                                       /// is claimant confirmed by email
 
                                       widget.model != null &&
@@ -1839,6 +1827,20 @@ class _CreateFoundState extends State<CreateFound> {
                                                   : isDisabled,
                                             )
                                           : Container(),
+                                    ],
+
+                                    if ((isClaimantDBEmployeeSelected == 1 &&
+                                            isClaimantAcceptedtoSignSelected ==
+                                                1) ||
+                                        isClaimantDBEmployeeSelected == 0) ...[
+                                      /// Claimant Signature
+                                      buildSignature(
+                                          controller:
+                                              claimantSignatureController,
+                                          label: Constants.claimantSignature,
+                                          spaceHeight: height,
+                                          state: state,
+                                          isReadOnly: isSignatureReadOnly),
                                     ],
                                   ],
 

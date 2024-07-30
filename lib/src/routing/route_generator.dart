@@ -669,7 +669,6 @@ class RouteGenerator {
               arguments[ConstantsArgument.violationDescriptions] ?? '';
           extraProperties = arguments[ConstantsArgument.extraProperties];
           parentStatus = arguments[ConstantsArgument.parentStatus];
-
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<vp.ViolationPenaltyRecordBloc>(
@@ -786,6 +785,7 @@ class RouteGenerator {
 
       case eventProtectionDetailsTabRoute:
         String id = '';
+        String title = '';
         int eventStatus = 0;
         ShowEPGridsModel showEPGridsModel = ShowEPGridsModel();
         if (settings.arguments != null) {
@@ -794,30 +794,32 @@ class RouteGenerator {
           id = arguments['id'];
           eventStatus = arguments['eventStatus'];
           showEPGridsModel = arguments[ConstantsArgument.showEPGridsModel];
+          title = arguments[ConstantsArgument.title];
         }
         return MaterialPageRoute(
             builder: (context) => EventProtectionDetails(
                   id: id,
+                  title: title,
                   eventStatus: eventStatus,
                   showEPGridsModel: showEPGridsModel,
                 ));
-      case generalInfoTilesViewRoute:
-        String id = '';
-        bool showGuardInfo = true;
-        if (settings.arguments != null) {
-          Map<String, dynamic> arguments =
-              settings.arguments as Map<String, dynamic>;
-          id = arguments['id'];
-          showGuardInfo = arguments['showGuardInfo'];
-        }
-        return MaterialPageRoute(
-          builder: (context) => GeneralInfoTilesView(
-            id: id,
-            showGuardInfo: showGuardInfo,
-          ),
-        );
+      // case generalInfoTilesViewRoute:
+      //   String id = '';
+      //   bool showGuardInfo = true;
+      //   if (settings.arguments != null) {
+      //     Map<String, dynamic> arguments =
+      //         settings.arguments as Map<String, dynamic>;
+      //     id = arguments['id'];
+      //     showGuardInfo = arguments['showGuardInfo'];
+      //   }
+      //   return MaterialPageRoute(
+      //     builder: (context) => GeneralInfoTilesView(
+      //       id: id,
+      //       showGuardInfo: showGuardInfo,
+      //     ),
+      //   );
 
-      case generalInfoGIRoute:
+      case eventProtectionGeneralInfoGIRoute:
         String id = '';
         ExtraProperties? extraProperties;
         if (settings.arguments != null) {

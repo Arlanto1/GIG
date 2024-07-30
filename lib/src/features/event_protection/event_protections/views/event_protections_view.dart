@@ -320,8 +320,9 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
     nav.pushNamed(
       eventProtectionDetailsTabRoute,
       arguments: {
-        'id': id.toString(),
+        ConstantsArgument.id: id.toString(),
         'eventStatus': eventStatus,
+        ConstantsArgument.title: Constants.eventProtectionTitle,
         ConstantsArgument.showEPGridsModel: showEPGridsModel,
         ConstantsArgument.extraProperties:
             ExtraProperties(hasWritePermission: hasWritePermission),

@@ -30,8 +30,6 @@ class BaseDate {
     required Function(String) onChange,
     required BuildContext context,
   }) {
-    log('--datePickerWidgetLoading---');
-
     // Convert Date Time if String
     if (Utils().isTimestamp(textController.text)) {
       textController.text = Utils.timestampToDateConversion(

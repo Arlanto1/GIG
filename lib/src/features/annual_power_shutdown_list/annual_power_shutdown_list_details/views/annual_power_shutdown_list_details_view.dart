@@ -113,7 +113,7 @@ class _AnnualPowerShutdownListDetailsViewState
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
-            title: Constants.annualPowerShutdownListDetails,
+            title: Constants.generalInformation,
             showPopUp: false,
             showSaveButton: disableForm ? false : true,
             showSubmitButton: disableForm ? false : true,

@@ -40,7 +40,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   TextEditingController dbsponsorTextController = TextEditingController();
   TextEditingController daypassnoTextController = TextEditingController();
   TextEditingController passCategoryTextController = TextEditingController();
-  TextEditingController passtypeTextController = TextEditingController();
+  TextEditingController passTypeTextController = TextEditingController();
   TextEditingController contactnoTextController = TextEditingController();
   TextEditingController dateofcreationTextController = TextEditingController();
   TextEditingController visitorcomingfromTextController =
@@ -207,30 +207,23 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 return const BaseLoader();
               }
 
-              log('--passtypeTextController.text--------111-${passtypeTextController.text}----');
 
-              for (Organisation org in state.passTypes ?? []) {
-                log('--org 111pass type-${org.name}----');
-              }
               if (widget.model == null &&
-                  widget.passId != ConstantsIntValue.passIdSez) {
-                passtypeTextController.text = state.passTypes!.first.name!;
+                  widget.passId != ConstantsIntValue.passIdSez &&
+                  passTypeTextController.text.isEmptyOrNull) {
+                passTypeTextController.text = state.passTypes!.first.name!;
                 state.model.passType = state.passTypes!.first.id;
               } else if (widget.model != null) {
-                for (Organisation org in state.passTypes ?? []) {
-                  log('--org pass type-${org.name}----');
-                }
                 Iterable<Organisation>? passes = state.passTypes?.where(
                         (element) => element.id == widget.model?.passType) ??
                     [];
 
-                if (!passes.isEmptyOrNull) {
-                  passtypeTextController.text = passes.first.name!;
+                if (passTypeTextController.text.isEmptyOrNull &&
+                    !passes.isEmptyOrNull) {
+                  passTypeTextController.text = passes.first.name!;
                 }
                 state.model.passType = widget.model?.passType;
-                // passtypeTextController.text = pass!.name!;
               }
-              log('--passtypeTextController.text--------222-${passtypeTextController.text}----');
 
               if (widget.model?.status == null ||
                   widget.model?.status == 0 ||
@@ -502,28 +495,42 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         }
                                       },
                                       child: FlutterInputField(
-                                          isEnable: false,
-                                          isDisableColor:
-                                              // widget.listuser == null ||
-                                              //         passtypeTextController
-                                              //             .text.isEmpty
-                                              //     ? false
-                                              //     :
-                                              true,
-                                          controller: passtypeTextController,
-                                          textFormKey:
-                                              Keys.statusTextController,
-                                          hintText: '',
-                                          onChange: (String username) {
-                                            //this.username = username;
-                                            setState(() {});
-                                          },
-                                          onTap: () {
+                                        isEnable: false,
+                                        isDisableColor:
+                                            true,
+                                        controller: passTypeTextController,
+                                        textFormKey: Keys.statusTextController,
+                                        hintText: '',
+                                        onChange: (String username) {
+                                          //this.username = username;
+                                          setState(() {});
+                                        },
+                                        onTap: () {
+                                          if ((widget.model?.status == 0 ||
+                                                  widget.model?.status ==
+                                                      null ||
+                                                  widget.model?.status !=
+                                                      1) ||
+                                              !(widget.extraProperties !=
+                                                      null &&
+                                                  !widget.extraProperties!
+                                                      .hasWritePermission!)) {
+                                            passTypeDialog(state);
+                                          }
+                                        },
+                                        validateTextField: (String? user) {},
+                                        suffixWidget: IconButton(
+                                          icon: SvgPicture.asset(
+                                              width: 10,
+                                              height: 10,
+                                              AppIcon.dropdownicon,
+                                              key: const Key('closed_eye')),
+                                          onPressed: () {
                                             if ((widget.model?.status == 0 ||
                                                     widget.model?.status ==
                                                         null ||
                                                     widget.model?.status !=
-                                                        1) ||
+                                                        1) &&
                                                 !(widget.extraProperties !=
                                                         null &&
                                                     !widget.extraProperties!
@@ -531,27 +538,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                               passTypeDialog(state);
                                             }
                                           },
-                                          validateTextField: (String? user) {},
-                                          suffixWidget: IconButton(
-                                              icon: SvgPicture.asset(
-                                                  width: 10,
-                                                  height: 10,
-                                                  AppIcon.dropdownicon,
-                                                  key: const Key('closed_eye')),
-                                              onPressed: () {
-                                                if ((widget.model?.status ==
-                                                            0 ||
-                                                        widget.model?.status ==
-                                                            null ||
-                                                        widget.model?.status !=
-                                                            1) &&
-                                                    !(widget.extraProperties !=
-                                                            null &&
-                                                        !widget.extraProperties!
-                                                            .hasWritePermission!)) {
-                                                  passTypeDialog(state);
-                                                }
-                                              })),
+                                        ),
+                                      ),
                                     ),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
@@ -1184,7 +1172,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 isEnable: false,
                                                 isDisableColor:
                                                     // widget.listuser == null ||
-                                                    //         passtypeTextController
+                                                    //         passTypeTextController
                                                     //             .text.isEmpty
                                                     //     ? false
                                                     //     :
@@ -2321,18 +2309,18 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
       log('---statusTextController.text--${statusTextController.text}-');
       if (widget.model?.passType == 1) {
-        passtypeTextController.text = 'VISITOR_PASS';
+        passTypeTextController.text = 'VISITOR_PASS';
       } else if (widget.model?.passType == 5) {
-        passtypeTextController.text = 'DWS_VISITOR_PASS';
+        passTypeTextController.text = 'DWS_VISITOR_PASS';
       } else if (widget.model?.passType == 2) {
-        passtypeTextController.text = 'VENDOR_PASS';
+        passTypeTextController.text = 'VENDOR_PASS';
       } else if (widget.model?.passType == 6) {
-        passtypeTextController.text = 'DWS_VENDOR_PASS';
+        passTypeTextController.text = 'DWS_VENDOR_PASS';
       } else if (widget.model?.passInfo?.passType == 3) {
-        passtypeTextController.text = 'SEZ_PASS';
+        passTypeTextController.text = 'SEZ_PASS';
       }
 
-      log('--passtypeTextController.text--------popu-${passtypeTextController.text}----');
+      log('--passTypeTextController.text--------popu-${passTypeTextController.text}----');
 
       if (widget.model?.idValidationType == 0) {
         photofidentityextController.text = 'Aadhaar Card';
@@ -2465,11 +2453,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
     await createPassMgmtCubit.getEntities('ATOM_ENTITIES');
     await createPassMgmtCubit.getEmployeeDepartments(
-        'EMPLOYEE_DEPARTMENTS', );
+      'EMPLOYEE_DEPARTMENTS',
+    );
     if (widget.model == null ||
         (widget.model?.entrySecurity?.userName ?? '').isEmpty) {
       var userid = await SharedPrefs.getUserId();
-      await createPassMgmtCubit.getUserDetails(userid, );
+      await createPassMgmtCubit.getUserDetails(
+        userid,
+      );
     } else {
       createdBy =
           '${widget.model?.entrySecurity?.firstName ?? ''} ${widget.model?.entrySecurity?.lastName ?? ''}';
@@ -2487,7 +2478,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     );
     //await createpassmgmtCubit.getAnalysts('T1_Analyst');
     await createPassMgmtCubit.getUserByRoleDepositor(
-        ConstantUserRoles.atomStaticUser, );
+      ConstantUserRoles.atomStaticUser,
+    );
   }
 
   Widget submitButtonDisplay() {
@@ -2557,17 +2549,19 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   passTypeDialog(CreatePassMgmtState state) {
-    log('--state.pastype-${state.passTypes.toString()}------');
+    log('--state.pastype-${state.passTypes?.length}------');
 
     BaseOrganisationDialog().departmentDialog(
       context: context,
       organisations: state.passTypes ?? [],
       onTap: (Organisation org) {
+        log('---org.name-${org.name}-');
+
         log('---widget.model-${widget.model}-');
         log('---widget.model?.passType-${widget.model?.passType}-');
         state.model.passType = org.id;
 
-        passtypeTextController.text = org.name ?? '';
+        passTypeTextController.text = org.name ?? '';
       },
     );
 
@@ -2594,7 +2588,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     //         //     : ["SEZ_PASS", "DWS_SEZ_PASS"],
     //         onTap: (String value) {
     //           log(value);
-    //           passtypeTextController.text = value;
+    //           passTypeTextController.text = value;
     //         },
     //       );
     //     });
@@ -2769,7 +2763,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   Widget datepickerWidgetLoading(TextEditingController controller) {
-    log('--controller-@@-${controller.text}--');
     return GestureDetector(
       onTap: () {
         // if (widget.listuser == null || textfiled.text.isEmpty) {
@@ -3112,7 +3105,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   vendorPassReasonDialog(CreatePassMgmtState state) {
-
     log('--state.vendorPassReason?.vendorPassReason--${state.vendorPassReason?.vendorPassReason.toString()}--');
     showDialog(
         context: context,
@@ -3924,7 +3916,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         escortedEmployeeIdByTextController.text.isEmpty &&
         mtpApplicationNoTextController.text.isEmpty &&
         escortedByTextController.text.isEmpty &&
-        passtypeTextController.text.isEmpty &&
+        passTypeTextController.text.isEmpty &&
         state.selectedDepartment == null &&
         state.selectedCompanyType == null &&
         state.dayPasselementReason == null) {
@@ -4136,7 +4128,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       );
     } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
             widget.passId == ConstantsIntValue.passIdVendor) &&
-        passtypeTextController.text.isEmpty) {
+        passTypeTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter pass type",
