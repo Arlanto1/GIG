@@ -49,6 +49,7 @@ class FoundModel {
   String? foundDate;
   Organisation? location;
   Organisation? locationRegion;
+  Organisation? typeOfArticle;
   String? foundLocation;
   String? additionalInformation;
   int? quantity;
@@ -115,6 +116,7 @@ class FoundModel {
     this.handOverSecurityName,
     this.depositorDepartmentName,
     this.claimantDepartmentName,
+    this.typeOfArticle,
   });
 
   factory FoundModel.fromJson(Map<String, dynamic> json) => FoundModel(
@@ -131,6 +133,9 @@ class FoundModel {
         locationRegion: json["locationRegion"] == null
             ? null
             : Organisation.fromJson(json["locationRegion"]),
+        typeOfArticle: json["typeOfArticle"] == null
+            ? null
+            : Organisation.fromJson(json["typeOfArticle"]),
         additionalInformation: json["additionalInformation"],
         quantity: json["quantity"],
         color: json["color"],
@@ -184,6 +189,7 @@ class FoundModel {
         "foundLocation": foundLocation,
         'location': location?.toJson(),
         'locationRegion': locationRegion?.toJson(),
+        'typeOfArticle': typeOfArticle?.toJson(),
         "additionalInformation": additionalInformation,
         "quantity": quantity,
         "color": color,
