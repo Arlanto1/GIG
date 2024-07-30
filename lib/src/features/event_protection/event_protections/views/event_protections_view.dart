@@ -95,19 +95,19 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
       builder: (context, state) {
         return Scaffold(
           backgroundColor: AppColors.cardBgColor,
-          floatingActionButton:
-              state.extraProperties?.hasWritePermission ?? false
-                  ? Flutterfloatingbutton(
-                      backgroundColor: AppColors.navigationSkyBlueColor,
-                      foregroundColor: AppColors.backgroundWhiteColor,
-                      onPressed: () => {
-                        Navigator.pushNamed(
-                          context,
-                          eventProtectionDetailsTabRoute,
-                        )
-                      },
-                    )
-                  : const SizedBox(),
+          // floatingActionButton:
+          //     state.extraProperties?.hasWritePermission ?? false
+          //         ? Flutterfloatingbutton(
+          //             backgroundColor: AppColors.navigationSkyBlueColor,
+          //             foregroundColor: AppColors.backgroundWhiteColor,
+          //             onPressed: () => {
+          //               Navigator.pushNamed(
+          //                 context,
+          //                 eventProtectionDetailsTabRoute,
+          //               )
+          //             },
+          //           )
+          //         : const SizedBox(),
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: Constants.eventProtectionTitle,
