@@ -615,8 +615,9 @@ class _MaterialMovementDetailsViewState
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 SizedBox(
-                                  width: 220,
+                                  width: 100,
                                   child: FlutterInputField(
+                                    characterLimit: 3,
                                     textInputType:
                                         const TextInputType.numberWithOptions(
                                       decimal: true,
@@ -656,7 +657,7 @@ class _MaterialMovementDetailsViewState
                                 ),
                                 TileWidget(
                                   name: state.model.unit?.name ?? 'Unit',
-                                  width: 70,
+                                  width: 200,
                                 ),
                                 if (!isReadOnly) ...[
                                   InkWell(
@@ -2669,7 +2670,7 @@ class _MaterialMovementDetailsViewState
                               ],
                             ],
 
-                            if (!widget.isInward && widget.model?.status == 6) ...[
+                            if (!widget.isInward && (widget.model?.status == ConstantsIntValue.mmStatusApproved || widget.model?.status == ConstantsIntValue.mmStatusInwardWaiting || widget.model?.status == ConstantsIntValue.mmStatusClosed)) ...[
                               /// Is Material Physically Checked
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.materialPhysicallyChecked ??
@@ -2685,9 +2686,8 @@ class _MaterialMovementDetailsViewState
                                       state.model.materialPhysicallyChecked
                                           ? 1
                                           : 0,
-                                  onChangedYes: ((
-                                              widget.model?.status == 10 ||
-                                              widget.model?.status == -1) ||
+                                  onChangedYes: (
+                                              widget.model?.status != ConstantsIntValue.mmStatusApproved  ||
                                           !state.model.lock.isEmptyOrNull)
                                       ? null
                                       : (val) {
@@ -2700,8 +2700,7 @@ class _MaterialMovementDetailsViewState
                                           );
                                         },
                                   onChangedNo:
-                                          widget.model?.status == 10 ||
-                                          widget.model?.status == -1 ||
+                                  widget.model?.status != ConstantsIntValue.mmStatusApproved  ||
                                           !state.model.lock.isEmptyOrNull
                                       ? null
                                       : (val) {

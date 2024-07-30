@@ -93,5 +93,10 @@ class ConstantsIntValue {
   static const int slaStatusActive = 1;
   static const int slaStatusFinalized = 2;
 
+  ///Material Movement status
+  static const int mmStatusApproved = 6;
+  static const int mmStatusInwardWaiting =9;
+  static const int mmStatusClosed = 10;
+
 
 }
