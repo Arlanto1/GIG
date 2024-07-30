@@ -5,6 +5,8 @@ class IncidentGeneralInfoState extends Equatable {
   final IncidentModel model;
   final Locations? locations;
   final User? loggedInUserDetails;
+  final List<BaseUser>? complainant;
+  final List<BaseUser>? complainantHr;
   final List<BaseUser>? incidentManager;
   final List<BaseUser>? incidentOwner;
   final List<BaseUser>? emailUsers;
@@ -23,6 +25,8 @@ class IncidentGeneralInfoState extends Equatable {
     required Locations locations,
     required User? loggedInUserDetails,
     final List<BaseUser>? emailUsers,
+    final List<BaseUser>? complainant,
+    final List<BaseUser>? complainantHr,
     final List<BaseUser>? incidentManager,
     final List<BaseUser>? incidentOwner,
     required final List<Organisation>? listOfEntities,
@@ -43,6 +47,8 @@ class IncidentGeneralInfoState extends Equatable {
       departments: departments,
       getEntitiesResponse: getEntitiesResponse,
       getArticleTypeResponse: getArticleTypeResponse,
+      complainant: complainant,
+      complainantHr: complainantHr,
       incidentManager: incidentManager,
       incidentOwner: incidentOwner,
       emailUsers: emailUsers,
@@ -167,6 +173,8 @@ class IncidentGeneralInfoState extends Equatable {
     required this.model,
     this.locations,
     this.emailUsers,
+    this.complainant,
+    this.complainantHr,
     this.incidentManager,
     this.incidentOwner,
     this.listOfEntities,
@@ -188,6 +196,8 @@ class IncidentGeneralInfoState extends Equatable {
     List<Organisation>? articleType,
     User? loggedInUserDetails,
     List<BaseUser>? emailUsers,
+    List<BaseUser>? complainant,
+    List<BaseUser>? complainantHr,
     List<BaseUser>? incidentManager,
     List<BaseUser>? incidentOwner,
     List<Organisation>? listOfEntities,
@@ -204,6 +214,8 @@ class IncidentGeneralInfoState extends Equatable {
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       incidentManager: incidentManager ?? this.incidentManager,
+      complainant: complainant ?? this.complainant,
+      complainantHr: complainantHr ?? this.complainantHr,
       incidentOwner: incidentOwner ?? this.incidentOwner,
       emailUsers: emailUsers ?? this.emailUsers,
       listOfEntities: listOfEntities ?? this.listOfEntities,

@@ -536,7 +536,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
-                                          .updateDropdownValues(
+                                          .updateEmailsValue(
                                         complainant: user,
                                       );
                                       FocusScope.of(context).requestFocus(
@@ -677,7 +677,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   onTap: (BaseUser user) {
                                     BlocProvider.of<IncidentGeneralInfoCubit>(
                                             context)
-                                        .updateDropdownValues(
+                                        .updateEmailsValue(
                                       complainantHr: user,
                                     );
                                   },
@@ -784,12 +784,12 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
-                                          .updateDropdownValues(
+                                          .updateEmailsValue(
                                         incidentManager: user,
                                       );
                                     },
                                     roleName: ConstantUserRoles
-                                        .atomSeniorSecurityManagerUser,
+                                        .atomStaticUser,
                                     locationId:  state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
@@ -825,15 +825,15 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
-                                          .updateDropdownValues(
+                                          .updateEmailsValue(
                                         incidentOwner: user,
                                       );
                                       FocusScope.of(context).requestFocus(
                                           incidentDescriptionFocusNode);
                                     },
                                     roleName: ConstantUserRoles
-                                        .atomSubRegionalHeadUser,
-                                    locationId:  state.model.location!.id!,
+                                        .atomStaticUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<IncidentGeneralInfoCubit>(

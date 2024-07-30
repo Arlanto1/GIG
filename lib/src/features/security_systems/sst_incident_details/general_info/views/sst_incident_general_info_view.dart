@@ -542,7 +542,7 @@ class _SstIncidentGeneralInfoViewState
                                         BlocProvider.of<
                                                     SstIncidentGeneralInfoCubit>(
                                                 context)
-                                            .updateDropdownValues(
+                                            .updateEmailsValue(
                                           systemManager: user,
                                         );
                                       },
@@ -582,8 +582,8 @@ class _SstIncidentGeneralInfoViewState
                                         BlocProvider.of<
                                                     SstIncidentGeneralInfoCubit>(
                                                 context)
-                                            .updateDropdownValues(
-                                          lsm: user,
+                                            .updateEmailsValue(
+                                          securityManager: user,
                                         );
                                       },
                                       roleName: ConstantUserRoles
@@ -622,8 +622,8 @@ class _SstIncidentGeneralInfoViewState
                                         BlocProvider.of<
                                                     SstIncidentGeneralInfoCubit>(
                                                 context)
-                                            .updateDropdownValues(
-                                          asl: user,
+                                            .updateEmailsValue(
+                                          securityLead: user,
                                         );
                                       },
                                       roleName: ConstantUserRoles
@@ -662,8 +662,8 @@ class _SstIncidentGeneralInfoViewState
                                         BlocProvider.of<
                                                     SstIncidentGeneralInfoCubit>(
                                                 context)
-                                            .updateDropdownValues(
-                                          lt: user,
+                                            .updateEmailsValue(
+                                          locationTeam: user,
                                         );
                                         FocusScope.of(context)
                                             .requestFocus(descriptionFocusNode);
