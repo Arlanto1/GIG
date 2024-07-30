@@ -16,11 +16,13 @@ class BaseAddUserDialog extends StatefulWidget {
     required this.title,
     required this.functionToCall,
     required this.roleName,
+    required this.locationId,
   });
 
   final String title;
   final Function functionToCall;
   final String roleName;
+  final int locationId;
 
   @override
   State<BaseAddUserDialog> createState() => BaseAddUserDialogState();
@@ -194,6 +196,7 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
               lastName: lastnameTextController.text,
               email: emailTextController.text,
               role: widget.roleName,
+              locationId: widget.locationId,
               context: context,
             );
 

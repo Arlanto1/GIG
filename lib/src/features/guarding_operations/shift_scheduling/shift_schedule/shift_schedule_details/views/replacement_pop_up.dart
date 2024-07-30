@@ -40,7 +40,8 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
   void initState() {
     super.initState();
     if (widget.model.id != null) {
-      log('--widget.model?.replacementBy?.name------${widget.model.replacementBy?.name}--');
+      log('--widget.model?.replacementBy?.name------${widget.model.replacementBy
+          ?.name}--');
       if (widget.model.replacedFor != null) {
         setDateRange(widget.model.replacedFor!);
       }
@@ -82,8 +83,14 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
-        var height = MediaQuery.of(context).size.height;
-        var width = MediaQuery.of(context).size.width;
+        var height = MediaQuery
+            .of(context)
+            .size
+            .height;
+        var width = MediaQuery
+            .of(context)
+            .size
+            .width;
         return SizedBox(
           height: height / 1.9,
           width: width,
@@ -96,10 +103,11 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
+
                       /// Replacement For
                       CommonWidgets.textDisplay(
-                          // state.labels?.locale.guardRank ??
-                          //    state.labels?.defaultLocale.guardRank ??
+                        // state.labels?.locale.guardRank ??
+                        //    state.labels?.defaultLocale.guardRank ??
                           Constants.replacementFor,
                           isMandatory: true,
                           Styles.textStyleBlack14),
@@ -110,39 +118,41 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                         isDisableColor: false,
                         onTap: () {
                           BaseOrganisationDialog().userDialog(
-                            context: context,
-                            users: widget.selectedGuards,
-                            onTap: (BaseUser user) async {
-                              // BlocProvider.of<ShiftScheduleDetailsCubit>(context)
-                              //     .updateDropdownValuesReplacement(
-                              //   replacementFor: user,
-                              // );
-                              replacementForController.text = user.name ?? '';
-                              widget.model.replacedFor = user;
-                              // BlocProvider.of<ShiftScheduleDetailsCubit>(
-                              //         widget.mainContext)
-                              //     .updateReplacement(widget.model);
-
-                              if (widget.rankId != null) {
-                                dates = await ShiftScheduleServices()
-                                    .getNextAvailableReplacementDates(
-                                  rankId: widget.rankId!,
-                                  userId: user.id!,
-                                  dutyPostId: widget.dutyPostId!,
-                                  shiftId: widget.shiftId!,
-                                );
-                              }
-
-                              // BlocProvider.of<DutyPostDetailsCubit>(
-                              //         widget.mainContext)
-                              //     .getNextAvailableReplacementDates(
-                              //         userId: user.id!);
-
-                              setState(() {
-                                log('-setstate-');
+                              context: context,
+                              users: widget.selectedGuards,
+                              onTap: (BaseUser user) async {
+                                // BlocProvider.of<ShiftScheduleDetailsCubit>(context)
+                                //     .updateDropdownValuesReplacement(
+                                //   replacementFor: user,
+                                // );
                                 replacementForController.text = user.name ?? '';
-                              });
-                            },
+                                widget.model.replacedFor = user;
+                                // BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                //         widget.mainContext)
+                                //     .updateReplacement(widget.model);
+
+                                if (widget.rankId != null) {
+                                  dates = await ShiftScheduleServices()
+                                      .getNextAvailableReplacementDates(
+                                    rankId: widget.rankId!,
+                                    userId: user.id!,
+                                    dutyPostId: widget.dutyPostId!,
+                                    shiftId: widget.shiftId!,
+                                  );
+                                }
+
+                                // BlocProvider.of<DutyPostDetailsCubit>(
+                                //         widget.mainContext)
+                                //     .getNextAvailableReplacementDates(
+                                //         userId: user.id!);
+
+                                setState(() {
+                                  log('-setstate-');
+                                  replacementForController.text =
+                                      user.name ?? '';
+                                });
+                              }, locationId: 0,
+                              
                           );
                         },
                       ),
@@ -167,7 +177,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                             onTap: (String value) {
                               Label? selectedLabel;
                               selectedLabel = reasonDropDownValues.firstWhere(
-                                (label) => label.key == value,
+                                    (label) => label.key == value,
                                 orElse: () => const Label(key: '', value: ''),
                               );
                               widget.model.status =
@@ -236,8 +246,8 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
 
                       /// Replacement By
                       CommonWidgets.textDisplay(
-                          // state.labels?.locale.guardRank ??
-                          //    state.labels?.defaultLocale.guardRank ??
+                        // state.labels?.locale.guardRank ??
+                        //    state.labels?.defaultLocale.guardRank ??
                           Constants.replacementBy,
                           isMandatory: true,
                           Styles.textStyleBlack14),
@@ -261,7 +271,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                               setState(() {
                                 replacementByController.text = user.name ?? '';
                               });
-                            },
+                            }, locationId: 0,
                           );
                         },
                       ),

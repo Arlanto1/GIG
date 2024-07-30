@@ -180,9 +180,10 @@ class LawEnforcementServices {
     String lastName,
     String email,
     String role,
+      int locationId,
   ) async {
     final String url =
-        "${Apis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role";
+        "${Apis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role&locationId=$locationId";
     final response =
         await BaseApiService().postRequest(url: url, requestedData: {});
     return CreateUserModel.fromJson(response);

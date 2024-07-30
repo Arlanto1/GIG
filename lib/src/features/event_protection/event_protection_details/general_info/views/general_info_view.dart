@@ -107,7 +107,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
               BlocProvider.of<GeneralInfoCubit>(context)
                   .submitForm(isSaveOnly: false);
             },
-            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.eventProtectionModuleCode}',
+            pdfAPIName:
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.eventProtectionModuleCode}',
           ),
           backgroundColor: AppColors.backgroundWhiteColor,
           body: getBodybuilder(state, height),
@@ -234,11 +235,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 context: context,
                                 locations: state.locations ?? Locations(),
                                 selectedLocationName:
-                                state.model.location?.name ?? '',
+                                    state.model.location?.name ?? '',
                                 onTap: (Organisation? location) {
-                                  BlocProvider.of<GeneralInfoCubit>(
-                                      context)
-                                      .updateLocationDropdownValue(location: location);
+                                  BlocProvider.of<GeneralInfoCubit>(context)
+                                      .updateLocationDropdownValue(
+                                          location: location);
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -412,6 +413,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     },
                                     roleName: ConstantUserRoles
                                         .atomSubRegionalHeadUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<GeneralInfoCubit>(context)
@@ -445,6 +447,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     },
                                     roleName: ConstantUserRoles
                                         .atomSubRegionalHeadUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<GeneralInfoCubit>(context)
@@ -481,6 +484,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     },
                                     roleName: ConstantUserRoles
                                         .atomSubRegionalHeadUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<GeneralInfoCubit>(context)
@@ -515,6 +519,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     },
                                     roleName: ConstantUserRoles
                                         .atomSubRegionalHeadUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<GeneralInfoCubit>(context)
@@ -552,6 +557,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   },
                                   roleName: ConstantUserRoles
                                       .atomSeniorSecurityManagerUser,
+                                  locationId: state.model.location!.id!,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<GeneralInfoCubit>(context)
@@ -615,6 +621,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   },
                                   roleName: ConstantUserRoles
                                       .atomSeniorSecurityManagerUser,
+                                  locationId: state.model.location!.id!,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<GeneralInfoCubit>(context)
@@ -677,6 +684,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                         .requestFocus(pocContactNoFocusNode);
                                   },
                                   roleName: ConstantUserRoles.atomStaticUser,
+                                  locationId: state.model.location!.id!,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<GeneralInfoCubit>(context)
@@ -740,6 +748,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                         pocEscalationContactNoFocusNode);
                                   },
                                   roleName: ConstantUserRoles.atomStaticUser,
+                                  locationId: state.model.location!.id!,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<GeneralInfoCubit>(context)
@@ -1198,6 +1207,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                                 context)
                                             .onCheckBoxChange(state.model);
                                       },
+                                      locationId: state.model.location!.id!,
                                     );
                                   },
                                   child: Row(
@@ -1696,6 +1706,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
       },
     );
   }
+
   // Widget cancelButtonDisplay(GeneralInfoState state) {
   //   bool condition = widget.model?.id == null ||
   //       widget.model?.status == ConstantsIntValue.cancelledStatus ||

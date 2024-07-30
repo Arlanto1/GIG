@@ -162,13 +162,14 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 
   // Create user call
   Future<void> createUser(String firstName, String lastName, String email,
-      String role, BuildContext context) async {
+      String role, int locationId,BuildContext context) async {
     try {
       CreateUserModel createUserData = await CommonServices().createUser(
         firstName: firstName,
         lastName: lastName,
         email: email,
         role: role,
+        locationId: locationId,
         context: context,
       );
       emit(
