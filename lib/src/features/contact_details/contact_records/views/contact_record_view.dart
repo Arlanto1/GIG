@@ -99,7 +99,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
         //  : const SizedBox(),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: Constants.escalationMatrix,
+          title: widget.title,
           showPopUp: false,
           showSaveButton: false,
           showSubmitButton: false,
