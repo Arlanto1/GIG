@@ -500,23 +500,27 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
 
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            /// SubmitButton
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                cancelButtonDisplay(),
-                                if (!isReadOnly &&
-                                    state.model.lock.isEmptyOrNull) ...[
-                                  submitButtonDisplay()
-                                ],
-                              ],
-                            ),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.04),
+
                           ],
                         ),
                       ),
                     ),
+
+                    /// SubmitButton
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        cancelButtonDisplay(),
+                        if (!isReadOnly &&
+                            state.model.lock.isEmptyOrNull) ...[
+                          submitButtonDisplay()
+                        ],
+                      ],
+
+                    ),
+                    CommonWidgets.verticalSpacerWidget(height * 0.04),
+
                   ],
                 ),
               ),

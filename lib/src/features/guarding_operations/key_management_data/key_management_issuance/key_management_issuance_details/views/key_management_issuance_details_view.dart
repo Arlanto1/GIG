@@ -131,6 +131,11 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
         isEnabled = (state.model.status == 0 || state.model.status == null) &&
             state.model.lock.isEmptyOrNull;
+
+        if(!state.model.lock.isEmptyOrNull){
+          isReadOnly = true;
+          isEnabled = false;
+        }
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
@@ -219,653 +224,661 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                       BorderRadius.vertical(top: Radius.circular(20.0)),
                 ),
               ),
-              child: AbsorbPointer(
-                absorbing: isReadOnly ? true : false,
-                child: Form(
-                  key: _formKey,
-                  autovalidateMode: isReadOnly
-                      ? AutovalidateMode.disabled
-                      : AutovalidateMode.onUserInteraction,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20.0, right: 20),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20.0, right: 20),
+                child: Column(
+                  children: [
+                    AbsorbPointer(
+                      absorbing: isReadOnly ? true : false,
+                      child: Form(
+                        key: _formKey,
+                        autovalidateMode: isReadOnly
+                            ? AutovalidateMode.disabled
+                            : AutovalidateMode.onUserInteraction,
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
                           children: [
-                            if (!state.model.lock.isEmptyOrNull) ...[
-                              RecordLockedWidget(text: '${state.model.lock}'),
-                            ],
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                Constants.generalinformation,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Created By
-                            CommonWidgets.verticalTextHandling(
-                                state.labels?.locale.createdBy ??
-                                    state.labels?.defaultLocale.createdBy ??
-                                    Constants.createdby,
-                                isMandatory: true,
-                                '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Status
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.status ??
-                                  state.labels?.defaultLocale.status ??
-                                  Constants.status,
-                              Styles.textStyleBlack14,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              isEnable: false,
-                              isDisableColor: true,
-                              textFormKey: Keys.statusTextController,
-                              hintText: '',
-                              initialValue:
-                                  getStatusString(state.model.status ?? 0),
-                              onChange: (String value) {},
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Date of creation
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.createdDate ??
-                                  state.labels?.defaultLocale.createdDate ??
-                                  Constants.createDate,
-                              Styles.textStyleBlack14,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            datecreateWidgetdisplay(
-                                state.model.createdDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Location
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.location ??
-                                  state.labels?.defaultLocale.location ??
-                                  Constants.location,
-                              Styles.textStyleBlack14,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            locationWidgetdislay(state),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Sl No.
-                            CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.slNo ??
-                                  state.labels?.defaultLocale.slNo ??
-                                  Constants.slno,
-                              state.model.slNo ?? '',
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            if (state.model.status != null &&
-                                state.model.status != 0) ...[
-                              /// Handed Over Date
-                              CommonWidgets.textDisplay(
-                                state.labels?.locale.handedOverDate ??
-                                    state
-                                        .labels?.defaultLocale.handedOverDate ??
-                                    Constants.handedOverDate,
-                                isMandatory: true,
-                                Styles.textStyleBlack14,
-                              ),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              datecreateWidgetdisplay(
-                                  state.model.keyHandOverDate ?? ''),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            ],
-                            // BaseDate().datePickerWidgetLoading(
-                            //   textController: keyHandedOverDateController,
-                            //   isDisabled: true,
-                            //   onChange: (String value) {
-                            //       state.model.keyHandOverDate =
-                            //           Utils().formatTime(value);
-                            //       BlocProvider.of<KeyManagementIssuanceDetailsCubit>(
-                            //           context)
-                            //           .onModelValueChange(state.model);
-                            //   },
-                            //   context: context,
-                            // ),
-                            // CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Entity
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.entities ??
-                                    state.labels?.defaultLocale.entities ??
-                                    Constants.entity,
-                                Styles.textStyleBlack14,
-                                isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseEntitiesSelection().entityDropDownSelection(
-                              context: context,
-                              selectedValues: state.model.entities ?? [],
-                              all: state.listOfEntities ?? [],
-                              enabled: isEnabled,
-                              onTap: (List<Organisation> selectedEntities) {
-                                log('--selectedEntities----${selectedEntities.length}');
-                                BlocProvider.of<
-                                            KeyManagementIssuanceDetailsCubit>(
-                                        context)
-                                    .updateDropdownValues(
-                                        entities: selectedEntities);
-                                Navigator.of(context).pop(); // Close the dialog
-                              },
-                              orgName: 'ATOM_ENTITIES',
-                              functionToCall: () {
-                                // refresh the list
-                                BlocProvider.of<
-                                            KeyManagementIssuanceDetailsCubit>(
-                                        context)
-                                    .refreshList();
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Department
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.department ??
-                                  state.labels?.defaultLocale.department ??
-                                  Constants.department,
-                              Styles.textStyleBlack14,
-                              isMandatory: true,
-                            ),
-                            TextFieldAddButton(
-                              title: state.model.department?.name,
-                              height: 70,
-                              isDisableColor: !isEnabled,
-                              onTap: () {
-                                if (isEnabled) {
-                                  // if (widget.materialMovement != null) {
-                                  BaseOrganisationDialog().departmentDialog(
-                                      context: context,
-                                      organisations: state.departments,
-                                      onTap: (Organisation department) {
-                                        state.model.department?.name =
-                                            department.name;
-
-                                        BlocProvider.of<
-                                                    KeyManagementIssuanceDetailsCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                                department: department);
-                                      },
-                                      orgName: 'EMPLOYEE_DEPARTMENTS',
-                                      createEntity: false,
-                                      title: 'Add Department',
-                                      functionToCall: () {
-                                        // refresh the list
-                                        BlocProvider.of<
-                                                    KeyManagementIssuanceDetailsCubit>(
-                                                context)
-                                            .refreshList();
-                                      });
-                                }
-                                // leodepartmentsDialog(state);
-                                // }
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Key Handing Over Duration
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.keyHandingOverDuration ??
-                                    state.labels?.defaultLocale
-                                        .keyHandingOverDuration ??
-                                    Constants.keyHandingOverDuration,
-                                isMandatory: true,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(
-                                isDisabled: !isEnabled,
-                                textController:
-                                    keyHandlingOverDurationController,
-                                items: keyHandingOverDurationValues,
-                                initialValue:
-                                    '${state.model.keyHandingOverDuration ?? 1}',
-                                onTap: () {
-                                  if (isEnabled) {
-                                    BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues:
-                                            keyHandingOverDurationValues
-                                                .map((label) => label.key)
-                                                .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              keyHandingOverDurationValues
-                                                  .firstWhere(
-                                            (label) => label.key == value,
-                                            orElse: () =>
-                                                const Label(key: '', value: ''),
-                                          );
-                                          BlocProvider.of<
-                                                      KeyManagementIssuanceDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  keyHandingOverDuration:
-                                                      int.tryParse(
-                                                          selectedLabel.value));
-                                        });
-                                  }
-                                }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Key Return Due Date
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.keyHandOverDue ??
-                                  state.labels?.defaultLocale.keyHandOverDue ??
-                                  Constants.keyReturnDueDate,
-                              isMandatory: true,
-                              Styles.textStyleBlack14,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: keyReturnDueDateController,
-                              isDisabled:
-                                  state.model.keyHandingOverDuration == 2
-                                      ? false
-                                      : true,
-                              onlyDate: false,
-                              onChange: (String value) {
-                                state.model.keyHandOverDue =
-                                    Utils().formatTime(value);
-
-                                BlocProvider.of<
-                                            KeyManagementIssuanceDetailsCubit>(
-                                        context)
-                                    .onModelValueChange(state.model);
-                                //},
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Employee Type
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.employeeType ??
-                                    state.labels?.defaultLocale.employeeType ??
-                                    Constants.employeeType,
-                                isMandatory: true,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(
-                                isDisabled: !isEnabled,
-                                textController: employeeTypeController,
-                                items: employeeTypeDropDownValues,
-                                initialValue:
-                                    state.model.employeeType.toString(),
-                                onTap: () {
-                                  if (isEnabled) {
-                                    BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues:
-                                            employeeTypeDropDownValues
-                                                .map((label) => label.key)
-                                                .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              employeeTypeDropDownValues
-                                                  .firstWhere(
-                                            (label) => label.key == value,
-                                            orElse: () =>
-                                                const Label(key: '', value: ''),
-                                          );
-                                          BlocProvider.of<
-                                                      KeyManagementIssuanceDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  employeeType: int.tryParse(
-                                                      selectedLabel.value));
-                                          FocusScope.of(context).requestFocus(
-                                              employeeIdFocusNode);
-                                        });
-                                  }
-                                }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Employee Id
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.employeeID ??
-                                    state.labels?.defaultLocale.employeeID ??
-                                    Constants.employeeid,
-                                isMandatory: true,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              textInputType: TextInputType.number,
-                              initialValue: state.model.employeeID,
-                              textFormKey: Keys.contactNoKey,
-                              hintText: '',
-                              focusNode: employeeIdFocusNode,
-                              isEnable: isEnabled,
-                              isDisableColor: !isEnabled,
-                              onChange: (String value) {
-                                state.model.employeeID = value;
-                                context
-                                    .read<KeyManagementIssuanceDetailsCubit>()
-                                    .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            if (employeeTypeController.text != 'CWR T2') ...[
-                              /// Handed Over To
-                              CommonWidgets.textDisplay(
-                                  state.labels?.locale.handedOverTo ??
-                                      state
-                                          .labels?.defaultLocale.handedOverTo ??
-                                      Constants.handedOverTo,
-                                  Styles.textStyleBlack14,
-                                  isMandatory: true),
-                              TextFieldAddButton(
-                                title: state.model.handedOverTo?.userInfo ??
-                                    state.model.handedOverTo?.name,
-                                height: 60,
-                                isDisableColor: !isEnabled,
-                                onTap: () {
-                                  if (isEnabled) {
-                                    BaseOrganisationDialog().userDialog(
-                                      context: context,
-                                      users: state.emailUsers!,
-                                      onTap: (BaseUser user) {
-                                        BlocProvider.of<
-                                                    KeyManagementIssuanceDetailsCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                          handedOverTo: user,
-                                        );
-                                      },
-                                      roleName:
-                                          ConstantUserRoles.atomStaticUser,
-                                      functionToCall: () {
-                                        // refresh the list
-                                        BlocProvider.of<
-                                                    KeyManagementIssuanceDetailsCubit>(
-                                                context)
-                                            .refreshList();
-                                      },
-                                    );
-                                  }
-                                },
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            ],
-                            if (employeeTypeController.text == 'CWR T2') ...[
-                              /// Handed Over To
-                              CommonWidgets.textDisplay(
-                                  state.labels?.locale.handedOverTo ??
-                                      state
-                                          .labels?.defaultLocale.handedOverTo ??
-                                      Constants.handedOverTo,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              FlutterInputField(
-                                textInputType: TextInputType.text,
-                                initialValue: state.model.handedOverToCwrT2,
-                                textFormKey: Keys.contactNoKey,
-                                hintText: '',
-                                // focusNode: employeeIdFocusNode,
-                                isEnable: isEnabled,
-                                isDisableColor: !isEnabled,
-                                onChange: (String value) {
-                                  state.model.handedOverToCwrT2 = value;
-                                  context
-                                      .read<KeyManagementIssuanceDetailsCubit>()
-                                      .onModelValueChange(state.model);
-                                },
-                                validateTextField: (String? user) {},
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                              /// DB Sponser CWRT2
-                              CommonWidgets.textDisplay(
-                                  state.labels?.locale.dbSponsorCwrT2 ??
-                                      state.labels?.defaultLocale
-                                          .dbSponsorCwrT2 ??
-                                      Constants.dbSponsorOfCWRT2,
-                                  Styles.textStyleBlack14,
-                                  isMandatory: true),
-                              TextFieldAddButton(
-                                title: state.model.dbSponsorCwrT2?.userInfo ??
-                                    state.model.dbSponsorCwrT2?.name,
-                                height: 60,
-                                isDisableColor: !isEnabled,
-                                onTap: () {
-                                  if (isEnabled) {
-                                    BaseOrganisationDialog().userDialog(
-                                      context: context,
-                                      enabled: isEnabled,
-                                      users: state.emailUsers!,
-                                      onTap: (BaseUser user) {
-                                        BlocProvider.of<
-                                                    KeyManagementIssuanceDetailsCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                          dbSponsorCwrT2: user,
-                                        );
-                                      },
-                                      roleName:
-                                          ConstantUserRoles.atomStaticUser,
-                                      functionToCall: () {
-                                        // refresh the list
-                                        BlocProvider.of<
-                                                    KeyManagementIssuanceDetailsCubit>(
-                                                context)
-                                            .refreshList();
-                                      },
-                                    );
-                                  }
-                                },
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            ],
-                            if (state.model.status != 0 &&
-                                state.model.status != null) ...[
-                              /// Total Allocated
-                              CommonWidgets.horizentaltextHandling(
-                                  state.labels?.locale.totalAllocated ??
-                                      state.labels?.defaultLocale
-                                          .totalAllocated ??
-                                      Constants.totalAllocated,
-                                  '${state.model.totalAllocated}'),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                              /// Returned
-                              CommonWidgets.horizentaltextHandling(
-                                  state.labels?.locale.returned ??
-                                      state.labels?.defaultLocale.returned ??
-                                      Constants.returned,
-                                  '${state.model.totalReturned ?? 0}'),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                              /// Not Returned
-                              CommonWidgets.horizentaltextHandling(
-                                  state.labels?.locale.notReturned ??
-                                      state.labels?.defaultLocale.notReturned ??
-                                      Constants.notReturned,
-                                  '${state.model.totalNotReturned ?? 0}'),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                              /// Lost
-                              CommonWidgets.horizentaltextHandling(
-                                  state.labels?.locale.lost ??
-                                      state.labels?.defaultLocale.lost ??
-                                      Constants.lost,
-                                  '${state.model.totalLost ?? 0}'),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                              /// Damaged
-                              CommonWidgets.horizentaltextHandling(
-                                  state.labels?.locale.damaged ??
-                                      state.labels?.defaultLocale.damaged ??
-                                      Constants.damaged,
-                                  '${state.model.totalDamage ?? 0}'),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                              /// Key Return Date And Time
-                              CommonWidgets.textDisplay(
-                                state.labels?.locale.keyReturnDateTime ??
-                                    state.labels?.defaultLocale
-                                        .keyReturnDateTime ??
-                                    Constants.keyReturnDateAndTime,
-                                isMandatory: true,
-                                Styles.textStyleBlack14,
-                              ),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-
-                              BaseDate().datePickerWidgetLoading(
-                                textController: keyReturnDateAndTimeController,
-                                isDisabled: state.model.status != 1 &&
-                                    state.model.status != 2,
-                                onlyDate: false,
-                                showPastDate: false,
-                                onChange: (String value) {
-                                  state.model.keyReturnDateTime =
-                                      Utils().formatTime(value);
-
-                                  BlocProvider.of<
-                                              KeyManagementIssuanceDetailsCubit>(
-                                          context)
-                                      .onModelValueChange(state.model);
-                                  //},
-                                },
-                                context: context,
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                              /// Returned By Name
-                              CommonWidgets.textDisplay(
-                                  state.labels?.locale.returnedByName ??
-                                      state.labels?.defaultLocale
-                                          .returnedByName ??
-                                      Constants.returnedByName,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              FlutterInputField(
-                                textInputType: TextInputType.text,
-                                initialValue: state.model.returnedByName,
-                                textFormKey: Keys.contactNoKey,
-                                hintText: '',
-                                // focusNode: employeeIdFocusNode,
-                                isEnable: (state.model.status == 1 ||
-                                            state.model.status == 2) &&
-                                        state.model.lock.isEmptyOrNull
-                                    ? true
-                                    : false,
-                                isDisableColor: state.model.status != 1 &&
-                                        state.model.status != 2 &&
-                                        !state.model.lock.isEmptyOrNull
-                                    ? false
-                                    : true,
-                                onChange: (String value) {
-                                  state.model.returnedByName = value;
-                                  context
-                                      .read<KeyManagementIssuanceDetailsCubit>()
-                                      .onModelValueChange(state.model);
-                                },
-                                validateTextField: (String? user) {},
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            ],
-
-                            /// Key Issuance Process
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                Constants.keyIssuanceProcess,
-                                style: Styles.styleHeaderGreyText16,
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            GestureDetector(
-                              onTap: () async {
-                                NavigatorState nav = Navigator.of(context);
-
-                                bool isSaveSuccess = await BlocProvider.of<
-                                    KeyManagementIssuanceDetailsCubit>(
-                                  context,
-                                ).submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
-                                if (!isSaveSuccess) {
-                                  return;
-                                }
-
-                                // Now, this code will execute only after the completion of submitForm
-                                nav.pushNamed(
-                                  keyManagementIssuanceProcessRecordsRoute,
-                                  arguments: {
-                                    ConstantsArgument.title:
-                                        Constants.keyIssuanceProcess,
-                                    ConstantsArgument.parentId: state.model.id,
-                                    ConstantsArgument.parentStatus:
-                                        state.model.status,
-                                    ConstantsArgument.locationId:
-                                        state.model.location?.id,
-                                    ConstantsArgument.isMasterKey:
-                                        widget.isMasterKey,
-                                    ConstantsArgument.lock: state.model.lock,
-                                  },
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                    colorFilter: const ColorFilter.mode(
-                                      AppColors.navigationSkyBlueColor,
-                                      BlendMode.srcIn,
-                                    ),
-                                    // color: AppColors.navigationSkyBlueColor,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add/View Key Issuance Process(S)',
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkyBlueColor,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
+                            Column(
+                              children: [
+                                if (!state.model.lock.isEmptyOrNull) ...[
+                                  RecordLockedWidget(text: '${state.model.lock}'),
                                 ],
-                              ),
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    Constants.generalinformation,
+                                    style: Styles.styleHeaderGreyText16,
+                                  ),
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Created By
+                                CommonWidgets.verticalTextHandling(
+                                    state.labels?.locale.createdBy ??
+                                        state.labels?.defaultLocale.createdBy ??
+                                        Constants.createdby,
+                                    isMandatory: true,
+                                    '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Status
+                                CommonWidgets.textDisplay(
+                                  state.labels?.locale.status ??
+                                      state.labels?.defaultLocale.status ??
+                                      Constants.status,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                FlutterInputField(
+                                  isEnable: false,
+                                  isDisableColor: true,
+                                  textFormKey: Keys.statusTextController,
+                                  hintText: '',
+                                  initialValue:
+                                      getStatusString(state.model.status ?? 0),
+                                  onChange: (String value) {},
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Date of creation
+                                CommonWidgets.textDisplay(
+                                  state.labels?.locale.createdDate ??
+                                      state.labels?.defaultLocale.createdDate ??
+                                      Constants.createDate,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                datecreateWidgetdisplay(
+                                    state.model.createdDate ?? ''),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Location
+                                CommonWidgets.textDisplay(
+                                  state.labels?.locale.location ??
+                                      state.labels?.defaultLocale.location ??
+                                      Constants.location,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                locationWidgetdislay(state),
+
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Sl No.
+                                CommonWidgets.horizentaltextHandling(
+                                  state.labels?.locale.slNo ??
+                                      state.labels?.defaultLocale.slNo ??
+                                      Constants.slno,
+                                  state.model.slNo ?? '',
+                                  isMandatory: true,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                if (state.model.status != null &&
+                                    state.model.status != 0) ...[
+                                  /// Handed Over Date
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.handedOverDate ??
+                                        state
+                                            .labels?.defaultLocale.handedOverDate ??
+                                        Constants.handedOverDate,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+                                  datecreateWidgetdisplay(
+                                      state.model.keyHandOverDate ?? ''),
+                                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                ],
+                                // BaseDate().datePickerWidgetLoading(
+                                //   textController: keyHandedOverDateController,
+                                //   isDisabled: true,
+                                //   onChange: (String value) {
+                                //       state.model.keyHandOverDate =
+                                //           Utils().formatTime(value);
+                                //       BlocProvider.of<KeyManagementIssuanceDetailsCubit>(
+                                //           context)
+                                //           .onModelValueChange(state.model);
+                                //   },
+                                //   context: context,
+                                // ),
+                                // CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Entity
+                                CommonWidgets.textDisplay(
+                                    state.labels?.locale.entities ??
+                                        state.labels?.defaultLocale.entities ??
+                                        Constants.entity,
+                                    Styles.textStyleBlack14,
+                                    isMandatory: true),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                                BaseEntitiesSelection().entityDropDownSelection(
+                                  context: context,
+                                  selectedValues: state.model.entities ?? [],
+                                  all: state.listOfEntities ?? [],
+                                  enabled: isEnabled,
+                                  onTap: (List<Organisation> selectedEntities) {
+                                    log('--selectedEntities----${selectedEntities.length}');
+                                    BlocProvider.of<
+                                                KeyManagementIssuanceDetailsCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                            entities: selectedEntities);
+                                    Navigator.of(context).pop(); // Close the dialog
+                                  },
+                                  orgName: 'ATOM_ENTITIES',
+                                  functionToCall: () {
+                                    // refresh the list
+                                    BlocProvider.of<
+                                                KeyManagementIssuanceDetailsCubit>(
+                                            context)
+                                        .refreshList();
+                                  },
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Department
+                                CommonWidgets.textDisplay(
+                                  state.labels?.locale.department ??
+                                      state.labels?.defaultLocale.department ??
+                                      Constants.department,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                ),
+                                TextFieldAddButton(
+                                  title: state.model.department?.name,
+                                  height: 70,
+                                  isDisableColor: !isEnabled,
+                                  onTap: () {
+                                    if (isEnabled) {
+                                      // if (widget.materialMovement != null) {
+                                      BaseOrganisationDialog().departmentDialog(
+                                          context: context,
+                                          organisations: state.departments,
+                                          onTap: (Organisation department) {
+                                            state.model.department?.name =
+                                                department.name;
+
+                                            BlocProvider.of<
+                                                        KeyManagementIssuanceDetailsCubit>(
+                                                    context)
+                                                .updateDropdownValues(
+                                                    department: department);
+                                          },
+                                          orgName: 'EMPLOYEE_DEPARTMENTS',
+                                          createEntity: false,
+                                          title: 'Add Department',
+                                          functionToCall: () {
+                                            // refresh the list
+                                            BlocProvider.of<
+                                                        KeyManagementIssuanceDetailsCubit>(
+                                                    context)
+                                                .refreshList();
+                                          });
+                                    }
+                                    // leodepartmentsDialog(state);
+                                    // }
+                                  },
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Key Handing Over Duration
+                                CommonWidgets.textDisplay(
+                                    state.labels?.locale.keyHandingOverDuration ??
+                                        state.labels?.defaultLocale
+                                            .keyHandingOverDuration ??
+                                        Constants.keyHandingOverDuration,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                BaseDropDown().getDropDown(
+                                    isDisabled: !isEnabled,
+                                    textController:
+                                        keyHandlingOverDurationController,
+                                    items: keyHandingOverDurationValues,
+                                    initialValue:
+                                        '${state.model.keyHandingOverDuration ?? 1}',
+                                    onTap: () {
+                                      if (isEnabled) {
+                                        BaseDropDown().assetTypeDialog(
+                                            context: context,
+                                            dropDownValues:
+                                                keyHandingOverDurationValues
+                                                    .map((label) => label.key)
+                                                    .toList(),
+                                            onTap: (String value) {
+                                              Label? selectedLabel;
+                                              selectedLabel =
+                                                  keyHandingOverDurationValues
+                                                      .firstWhere(
+                                                (label) => label.key == value,
+                                                orElse: () =>
+                                                    const Label(key: '', value: ''),
+                                              );
+                                              BlocProvider.of<
+                                                          KeyManagementIssuanceDetailsCubit>(
+                                                      context)
+                                                  .updateDropdownValues(
+                                                      keyHandingOverDuration:
+                                                          int.tryParse(
+                                                              selectedLabel.value));
+                                            });
+                                      }
+                                    }),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Key Return Due Date
+                                CommonWidgets.textDisplay(
+                                  state.labels?.locale.keyHandOverDue ??
+                                      state.labels?.defaultLocale.keyHandOverDue ??
+                                      Constants.keyReturnDueDate,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                                BaseDate().datePickerWidgetLoading(
+                                  textController: keyReturnDueDateController,
+                                  isDisabled:
+                                      state.model.keyHandingOverDuration == 2
+                                          ? false
+                                          : true,
+                                  onlyDate: false,
+                                  onChange: (String value) {
+                                    state.model.keyHandOverDue =
+                                        Utils().formatTime(value);
+
+                                    BlocProvider.of<
+                                                KeyManagementIssuanceDetailsCubit>(
+                                            context)
+                                        .onModelValueChange(state.model);
+                                    //},
+                                  },
+                                  context: context,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Employee Type
+                                CommonWidgets.textDisplay(
+                                    state.labels?.locale.employeeType ??
+                                        state.labels?.defaultLocale.employeeType ??
+                                        Constants.employeeType,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                BaseDropDown().getDropDown(
+                                    isDisabled: !isEnabled,
+                                    textController: employeeTypeController,
+                                    items: employeeTypeDropDownValues,
+                                    initialValue:
+                                        state.model.employeeType.toString(),
+                                    onTap: () {
+                                      if (isEnabled) {
+                                        BaseDropDown().assetTypeDialog(
+                                            context: context,
+                                            dropDownValues:
+                                                employeeTypeDropDownValues
+                                                    .map((label) => label.key)
+                                                    .toList(),
+                                            onTap: (String value) {
+                                              Label? selectedLabel;
+                                              selectedLabel =
+                                                  employeeTypeDropDownValues
+                                                      .firstWhere(
+                                                (label) => label.key == value,
+                                                orElse: () =>
+                                                    const Label(key: '', value: ''),
+                                              );
+                                              BlocProvider.of<
+                                                          KeyManagementIssuanceDetailsCubit>(
+                                                      context)
+                                                  .updateDropdownValues(
+                                                      employeeType: int.tryParse(
+                                                          selectedLabel.value));
+                                              FocusScope.of(context).requestFocus(
+                                                  employeeIdFocusNode);
+                                            });
+                                      }
+                                    }),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Employee Id
+                                CommonWidgets.textDisplay(
+                                    state.labels?.locale.employeeID ??
+                                        state.labels?.defaultLocale.employeeID ??
+                                        Constants.employeeid,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                FlutterInputField(
+                                  textInputType: TextInputType.number,
+                                  initialValue: state.model.employeeID,
+                                  textFormKey: Keys.contactNoKey,
+                                  hintText: '',
+                                  focusNode: employeeIdFocusNode,
+                                  isEnable: isEnabled,
+                                  isDisableColor: !isEnabled,
+                                  onChange: (String value) {
+                                    state.model.employeeID = value;
+                                    context
+                                        .read<KeyManagementIssuanceDetailsCubit>()
+                                        .onModelValueChange(state.model);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                if (employeeTypeController.text != 'CWR T2') ...[
+                                  /// Handed Over To
+                                  CommonWidgets.textDisplay(
+                                      state.labels?.locale.handedOverTo ??
+                                          state
+                                              .labels?.defaultLocale.handedOverTo ??
+                                          Constants.handedOverTo,
+                                      Styles.textStyleBlack14,
+                                      isMandatory: true),
+                                  TextFieldAddButton(
+                                    title: state.model.handedOverTo?.userInfo ??
+                                        state.model.handedOverTo?.name,
+                                    height: 60,
+                                    isDisableColor: !isEnabled,
+                                    onTap: () {
+                                      if (isEnabled) {
+                                        BaseOrganisationDialog().userDialog(
+                                          context: context,
+                                          users: state.emailUsers!,
+                                          onTap: (BaseUser user) {
+                                            BlocProvider.of<
+                                                        KeyManagementIssuanceDetailsCubit>(
+                                                    context)
+                                                .updateDropdownValues(
+                                              handedOverTo: user,
+                                            );
+                                          },
+                                          roleName:
+                                              ConstantUserRoles.atomStaticUser,
+                                          functionToCall: () {
+                                            // refresh the list
+                                            BlocProvider.of<
+                                                        KeyManagementIssuanceDetailsCubit>(
+                                                    context)
+                                                .refreshList();
+                                          },
+                                        );
+                                      }
+                                    },
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                ],
+                                if (employeeTypeController.text == 'CWR T2') ...[
+                                  /// Handed Over To
+                                  CommonWidgets.textDisplay(
+                                      state.labels?.locale.handedOverTo ??
+                                          state
+                                              .labels?.defaultLocale.handedOverTo ??
+                                          Constants.handedOverTo,
+                                      isMandatory: true,
+                                      Styles.textStyleBlack14),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.text,
+                                    initialValue: state.model.handedOverToCwrT2,
+                                    textFormKey: Keys.contactNoKey,
+                                    hintText: '',
+                                    // focusNode: employeeIdFocusNode,
+                                    isEnable: isEnabled,
+                                    isDisableColor: !isEnabled,
+                                    onChange: (String value) {
+                                      state.model.handedOverToCwrT2 = value;
+                                      context
+                                          .read<KeyManagementIssuanceDetailsCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                  /// DB Sponser CWRT2
+                                  CommonWidgets.textDisplay(
+                                      state.labels?.locale.dbSponsorCwrT2 ??
+                                          state.labels?.defaultLocale
+                                              .dbSponsorCwrT2 ??
+                                          Constants.dbSponsorOfCWRT2,
+                                      Styles.textStyleBlack14,
+                                      isMandatory: true),
+                                  TextFieldAddButton(
+                                    title: state.model.dbSponsorCwrT2?.userInfo ??
+                                        state.model.dbSponsorCwrT2?.name,
+                                    height: 60,
+                                    isDisableColor: !isEnabled,
+                                    onTap: () {
+                                      if (isEnabled) {
+                                        BaseOrganisationDialog().userDialog(
+                                          context: context,
+                                          enabled: isEnabled,
+                                          users: state.emailUsers!,
+                                          onTap: (BaseUser user) {
+                                            BlocProvider.of<
+                                                        KeyManagementIssuanceDetailsCubit>(
+                                                    context)
+                                                .updateDropdownValues(
+                                              dbSponsorCwrT2: user,
+                                            );
+                                          },
+                                          roleName:
+                                              ConstantUserRoles.atomStaticUser,
+                                          functionToCall: () {
+                                            // refresh the list
+                                            BlocProvider.of<
+                                                        KeyManagementIssuanceDetailsCubit>(
+                                                    context)
+                                                .refreshList();
+                                          },
+                                        );
+                                      }
+                                    },
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                ],
+                                if (state.model.status != 0 &&
+                                    state.model.status != null) ...[
+                                  /// Total Allocated
+                                  CommonWidgets.horizentaltextHandling(
+                                      state.labels?.locale.totalAllocated ??
+                                          state.labels?.defaultLocale
+                                              .totalAllocated ??
+                                          Constants.totalAllocated,
+                                      '${state.model.totalAllocated}'),
+                                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                  /// Returned
+                                  CommonWidgets.horizentaltextHandling(
+                                      state.labels?.locale.returned ??
+                                          state.labels?.defaultLocale.returned ??
+                                          Constants.returned,
+                                      '${state.model.totalReturned ?? 0}'),
+                                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                  /// Not Returned
+                                  CommonWidgets.horizentaltextHandling(
+                                      state.labels?.locale.notReturned ??
+                                          state.labels?.defaultLocale.notReturned ??
+                                          Constants.notReturned,
+                                      '${state.model.totalNotReturned ?? 0}'),
+                                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                  /// Lost
+                                  CommonWidgets.horizentaltextHandling(
+                                      state.labels?.locale.lost ??
+                                          state.labels?.defaultLocale.lost ??
+                                          Constants.lost,
+                                      '${state.model.totalLost ?? 0}'),
+                                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                  /// Damaged
+                                  CommonWidgets.horizentaltextHandling(
+                                      state.labels?.locale.damaged ??
+                                          state.labels?.defaultLocale.damaged ??
+                                          Constants.damaged,
+                                      '${state.model.totalDamage ?? 0}'),
+                                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                  /// Key Return Date And Time
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.keyReturnDateTime ??
+                                        state.labels?.defaultLocale
+                                            .keyReturnDateTime ??
+                                        Constants.keyReturnDateAndTime,
+                                    isMandatory: true,
+                                    Styles.textStyleBlack14,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+
+                                  BaseDate().datePickerWidgetLoading(
+                                    textController: keyReturnDateAndTimeController,
+                                    isDisabled: (state.model.status != 1 &&
+                                        state.model.status != 2) || isReadOnly,
+                                    onlyDate: false,
+                                    showPastDate: false,
+                                    onChange: (String value) {
+                                      state.model.keyReturnDateTime =
+                                          Utils().formatTime(value);
+
+                                      BlocProvider.of<
+                                                  KeyManagementIssuanceDetailsCubit>(
+                                              context)
+                                          .onModelValueChange(state.model);
+                                      //},
+                                    },
+                                    context: context,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                  /// Returned By Name
+                                  CommonWidgets.textDisplay(
+                                      state.labels?.locale.returnedByName ??
+                                          state.labels?.defaultLocale
+                                              .returnedByName ??
+                                          Constants.returnedByName,
+                                      isMandatory: true,
+                                      Styles.textStyleBlack14),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.text,
+                                    initialValue: state.model.returnedByName,
+                                    textFormKey: Keys.contactNoKey,
+                                    hintText: '',
+                                    // focusNode: employeeIdFocusNode,
+                                    isEnable: (state.model.status == 1 ||
+                                                state.model.status == 2) &&
+                                            state.model.lock.isEmptyOrNull
+                                        ? true
+                                        : false,
+                                    isDisableColor: state.model.status != 1 &&
+                                            state.model.status != 2 &&
+                                            !state.model.lock.isEmptyOrNull
+                                        ? false
+                                        : true,
+                                    onChange: (String value) {
+                                      state.model.returnedByName = value;
+                                      context
+                                          .read<KeyManagementIssuanceDetailsCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                ],
+
+                                /// Key Issuance Process
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    Constants.keyIssuanceProcess,
+                                    style: Styles.styleHeaderGreyText16,
+                                  ),
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              ],
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
                           ],
                         ),
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.02),
-                    ],
-                  ),
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        NavigatorState nav = Navigator.of(context);
+
+                        log('----1---');
+                        bool isSaveSuccess = await BlocProvider.of<
+                            KeyManagementIssuanceDetailsCubit>(
+                          context,
+                        ).submitForm(
+                          isSaveOnly: true,
+                          navigateToNextScreen: true,
+                        );
+                        log('----2---');
+                        if (!isSaveSuccess) {
+                          return;
+                        }
+                        log('----3---');
+
+                        // Now, this code will execute only after the completion of submitForm
+                        nav.pushNamed(
+                          keyManagementIssuanceProcessRecordsRoute,
+                          arguments: {
+                            ConstantsArgument.title:
+                            Constants.keyIssuanceProcess,
+                            ConstantsArgument.parentId: state.model.id,
+                            ConstantsArgument.parentStatus:
+                            state.model.status,
+                            ConstantsArgument.locationId:
+                            state.model.location?.id,
+                            ConstantsArgument.isMasterKey:
+                            widget.isMasterKey,
+                            ConstantsArgument.isLocked: state.model.lock,
+                          },
+                        );
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          SvgPicture.asset(
+                            AppIcon.pluscircle,
+                            colorFilter: const ColorFilter.mode(
+                              AppColors.navigationSkyBlueColor,
+                              BlendMode.srcIn,
+                            ),
+                            // color: AppColors.navigationSkyBlueColor,
+                          ),
+                          const SizedBox(width: 10),
+                          const Text(
+                            'Add/View Key Issuance Process(S)',
+                            style: TextStyle(
+                              color: AppColors.navigationSkyBlueColor,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+
+                  ],
                 ),
               ),
             ),

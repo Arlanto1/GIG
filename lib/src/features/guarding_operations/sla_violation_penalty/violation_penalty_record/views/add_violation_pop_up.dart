@@ -11,6 +11,7 @@ class AddContactPopUp extends StatefulWidget {
     required this.mainContext,
     required this.users,
     required this.staffCategoriesValues,
+    required this.isLocked,
     this.parentStatus,
   });
 
@@ -21,6 +22,7 @@ class AddContactPopUp extends StatefulWidget {
   final BuildContext mainContext;
   final Map<String, dynamic> staffCategoriesValues;
   final int? parentStatus;
+  final bool isLocked;
 
   @override
   State<AddContactPopUp> createState() => AddContactPopUpState();
@@ -87,6 +89,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
             widget.parentStatus ==
                 ConstantsIntValue.cancelledStatus
         ){
+          isReadonly = true;
+        }
+        if(widget.isLocked) {
           isReadonly = true;
         }
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
@@ -332,7 +337,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
     return PopButton(
       width: width / 3.5,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButtonText,
       foregroundColor: AppColors.textGreyThemeColor,
       textStyle: Styles.styleHeaderGreyText16,

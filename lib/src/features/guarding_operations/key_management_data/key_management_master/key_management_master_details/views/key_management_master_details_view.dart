@@ -826,7 +826,7 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
                                         ConstantsIntValue.lockChangeHistoryInt,
-                                    ConstantsArgument.lock: state.model.lock,
+                                    ConstantsArgument.isLocked: state.model.lock,
                                   },
                                 );
                               },
@@ -889,7 +889,7 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
                                         ConstantsIntValue.keyLostHistoryInt,
-                                    ConstantsArgument.lock: state.model.lock,
+                                    ConstantsArgument.isLocked: state.model.lock,
                                   },
                                 );
                               },
@@ -952,7 +952,7 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
                                         ConstantsIntValue.keyDamageHistoryInt,
-                                    ConstantsArgument.lock: state.model.lock,
+                                    ConstantsArgument.isLocked: state.model.lock,
                                   },
                                 );
                               },
@@ -1012,7 +1012,7 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
                                         ConstantsIntValue.keyDestroyHistoryInt,
-                                    ConstantsArgument.lock: state.model.lock,
+                                    ConstantsArgument.isLocked: state.model.lock,
                                   },
                                 );
                               },

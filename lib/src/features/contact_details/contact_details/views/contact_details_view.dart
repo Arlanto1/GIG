@@ -347,7 +347,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   ConstantsArgument.ranks: ranks,
                                   ConstantsArgument.parentStatus:
                                   state.model.status,
-                                  ConstantsArgument.lock: state.model.lock,
+                                  ConstantsArgument.isLocked: state.model.lock,
                                 },
                               );
                             },
@@ -419,7 +419,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   ConstantsArgument.ranks: ranks,
                                   ConstantsArgument.parentStatus:
                                   state.model.status,
-                                  ConstantsArgument.lock: state.model.lock,
+                                  ConstantsArgument.isLocked: state.model.lock,
                                 },
                               );
                             },
@@ -491,7 +491,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   ConstantsArgument.ranks: ranks,
                                   ConstantsArgument.parentStatus:
                                   state.model.status,
-                                  ConstantsArgument.lock: state.model.lock,
+                                  ConstantsArgument.isLocked: state.model.lock,
                                 },
                               );
                             },
@@ -561,7 +561,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   ConstantsArgument.ranks: ranks,
                                   ConstantsArgument.parentStatus:
                                   state.model.status,
-                                  ConstantsArgument.lock: state.model.lock,
+                                  ConstantsArgument.isLocked: state.model.lock,
                                 },
                               );
                             },
@@ -632,7 +632,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   ConstantsArgument.ranks: ranks,
                                   ConstantsArgument.parentStatus:
                                   state.model.status,
-                                  ConstantsArgument.lock: state.model.lock,
+                                  ConstantsArgument.isLocked: state.model.lock,
                                 },
                               );
                             },

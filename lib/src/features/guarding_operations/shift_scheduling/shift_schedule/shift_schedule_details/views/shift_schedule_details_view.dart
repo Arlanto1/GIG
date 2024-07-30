@@ -564,23 +564,24 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             ],
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            /// SubmitButton
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                cancelButtonDisplay(),
-                                if ((state.model.status != -1 || !isReadOnly) &&
-                                    state.model.lock.isEmptyOrNull) ...[
-                                  submitButtonDisplay()
-                                ],
-                              ],
-                            ),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.04),
                           ],
                         ),
                       ),
                     ),
+                    /// SubmitButton
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        cancelButtonDisplay(),
+                        if ((state.model.status != -1 || !isReadOnly) &&
+                            state.model.lock.isEmptyOrNull) ...[
+                          submitButtonDisplay()
+                        ],
+                      ],
+                    ),
+
+                    CommonWidgets.verticalSpacerWidget(height * 0.04),
                   ],
                 ),
               ),

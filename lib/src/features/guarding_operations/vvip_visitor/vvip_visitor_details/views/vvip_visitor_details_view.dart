@@ -295,7 +295,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                                       ConstantsArgument.title:
                                           Constants.vVipVisitorsTitle,
                                       ConstantsArgument.id: state.model.id,
-                                      ConstantsArgument.lock: state.model.lock,
+                                      ConstantsArgument.isLocked: state.model.lock,
                                       ConstantsArgument.parentStatus: state.model.status,
 
                                       // ConstantsArgument.violationDescription:

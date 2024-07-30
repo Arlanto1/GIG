@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
 
 class SstIncidentGeneralInfoView extends StatefulWidget {
   final bool isInternal;
@@ -194,6 +193,9 @@ class _SstIncidentGeneralInfoViewState
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     children: [
+                      if (!state.model.lock.isEmptyOrNull) ...[
+                        RecordLockedWidget(text: '${state.model.lock}'),
+                      ],
                       AbsorbPointer(
                         absorbing: disableForm,
                         child: Padding(

@@ -277,6 +277,7 @@ class KeyManagementIssuanceDetailsCubit
     KeyManagementIssuanceRequest request =
         KeyManagementIssuanceRequest(keyIssuanceGi: state.model);
 
+    log('--@@@---}----');
     // TODO: Need to change from Backend- Status should be handled from backend
     state.model.status ??= 0;
     GenericResponse response = GenericResponse();

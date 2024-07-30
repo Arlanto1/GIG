@@ -129,7 +129,10 @@ class AttachmentListViewState extends State<AttachmentListView> {
         itemBuilder: (BuildContext context, int index) {
           ImageContent? imageData = widget.attachmentListviews?[index];
           TextEditingController imageNameController = TextEditingController();
-          imageNameController.text = imageData?.title ?? '';
+          imageNameController.text =
+              Utils().getFileNameWithoutExtension(imageData?.title ?? '');
+
+          String imageExt = Utils().getFileExtension(imageData?.title ?? '');
 
           return Column(
             children: <Widget>[
@@ -243,7 +246,7 @@ class AttachmentListViewState extends State<AttachmentListView> {
                   isEnable: widget.showDeleteIcon == true ? true : false,
                   isDisableColor: false,
                   onChange: (String value) {
-                    imageData?.title = imageNameController.text;
+                    imageData?.title = (value + imageExt);
                   },
                   validateTextField: (String? user) {},
                 ),

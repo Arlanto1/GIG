@@ -9,6 +9,20 @@ import 'package:permission_handler/permission_handler.dart';
 class Utils {
   static final math.Random _random = math.Random.secure();
 
+
+  String getFileNameWithoutExtension(String fileName) {
+    int dotIndex = fileName.lastIndexOf('.');
+    if (dotIndex == -1) return fileName; // No extension found
+    return fileName.substring(0, dotIndex);
+  }
+
+  String getFileExtension(String fileName) {
+    int dotIndex = fileName.lastIndexOf('.');
+    if (dotIndex == -1) return ''; // No extension found
+    return fileName.substring(dotIndex);
+  }
+
+
   Color getRandomColor() {
     math.Random random = math.Random();
     return Color.fromRGBO(

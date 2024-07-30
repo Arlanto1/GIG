@@ -277,8 +277,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              if (!state.model.lock.isEmptyOrNull) ...[
-                                RecordLockedWidget(text: '${state.model.lock}'),
+                              if (!widget.model!.lock.isEmptyOrNull) ...[
+                                RecordLockedWidget(text: '${widget.model?.lock}'),
                               ],
                               Padding(
                                 padding: const EdgeInsets.only(

@@ -45,7 +45,7 @@ class DayPassListResponse {
       };
 }
 
-class PassManagementModel extends BaseObject{
+class PassManagementModel {
   int? id;
   String? slNo;
   String? inputDate;
@@ -94,6 +94,7 @@ class PassManagementModel extends BaseObject{
   String? mifareNo;
   String? passIssuedOn;
   User? employee;
+  String? lock;
 
   PassManagementModel({
     this.id,
@@ -144,6 +145,7 @@ class PassManagementModel extends BaseObject{
     this.passIssuedOn,
     this.employee,
     this.visitorImage,
+    this.lock,
   });
 
   factory PassManagementModel.fromJson(Map<String, dynamic> json) =>
@@ -224,6 +226,7 @@ class PassManagementModel extends BaseObject{
         handOverSecurityName: json["handOverSecurityName"],
         mifareNo: json["mifareNo"],
         passIssuedOn: json["passIssuedOn"],
+        lock: json["lock"],
         employee:
             json["employee"] == null ? null : User.fromJson(json["employee"]),
       );
