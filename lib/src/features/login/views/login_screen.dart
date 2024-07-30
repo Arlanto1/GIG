@@ -213,6 +213,7 @@ class _LoginState extends State<Login> {
                                         }),
                                         onFieldSubmitted: (term) {
                                           _passwordFocus.unfocus();
+
                                           //FocusScope.of(context).requestFocus(_passwordFocus);
                                           _loginButtonAction(bloc);
                                         },

@@ -151,7 +151,7 @@ class Constants {
   static const String forgotPassowrd = 'Forgot Password?';
   static const String support = "Support :";
   static const String supportContact = "+91 6150 961 6244";
-  static const String copyrightText = "Copyright Â© 2024 Arlanto.";
+  static const String copyrightText = "Copyright © 2024 Arlanto.";
   static const String submit = "Submit";
 
   //Dashboard

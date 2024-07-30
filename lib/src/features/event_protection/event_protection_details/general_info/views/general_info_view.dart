@@ -339,18 +339,25 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               textController: eventStartDateController,
                               onlyDate: false,
                               showPastDate: false,
+                              flagDate: true,
+                              // startDate: '1727677800',
                               onChange: (String value) {
                                 log('---value-$value------');
                                 state.model.eventStartDate =
                                     Utils().formatTime(value);
                                 log('---value11-${state.model.eventStartDate}------');
+                                eventEndDateController.clear();
                                 BlocProvider.of<GeneralInfoCubit>(context)
                                     .onCheckBoxChange(state.model);
+                                setState(() {
+
+                                });
                               },
                               context: context,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            Text('--state.model.eventStartDate--${state.model.eventStartDate}--'),
                             /// Event End Date
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.eventEndDate ??
@@ -366,6 +373,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               onlyDate: false,
                               // showPastDate: false,
                               startDate: state.model.eventStartDate,
+                              flagDate: true,
                               onChange: (String value) {
                                 state.model.eventEndDate =
                                     Utils().formatTime(value);

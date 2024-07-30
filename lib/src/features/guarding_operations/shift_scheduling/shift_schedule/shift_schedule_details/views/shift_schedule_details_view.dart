@@ -497,7 +497,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               textController: toDateController,
                               onlyDate: true,
                               showPastDate: false,
-                              startDate: state.availableDate?.toDate,
+                              startDate: state.model.fromDate,
                               isDisabled: state.model.status != null &&
                                   state.model.status !=
                                       ConstantsIntValue.shiftScheduleDraft,

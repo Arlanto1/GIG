@@ -24,6 +24,7 @@ class BaseDate {
     bool showPastDate = true,
     bool showFutureDate = true,
     bool onlyDate = false,
+    bool flagDate = true,
     String? startDate,
     String? fromDate, // for giving date range
     String? toDate, // for giving date range
@@ -53,12 +54,12 @@ class BaseDate {
             onlyDate: onlyDate,
             fromDate: fromDate,
             toDate: toDate,
+            flagDate: flagDate,
           );
 
           log('-textController.text----${textController.text}----');
         }
         log('-textController.text---222-${textController.text}----');
-
       },
       child: Opacity(
         opacity: isDisabled ? .5 : 1,
@@ -106,6 +107,7 @@ class BaseDate {
     String? startDate,
     String? fromDate, // for giving date range
     String? toDate, // for giving date range
+     bool? flagDate, // for giving date range
   }) async {
     DateTime? pickedDate;
 
@@ -192,6 +194,47 @@ class BaseDate {
         currentTime: currentTime,
         locale: LocaleType.en,
       );
+    } else if (flagDate == true) {
+      log('--else if (flagDate == true)--');
+      DatePicker.showDatePicker(
+        context,
+        showTitleActions: true,
+        minTime: minTime,
+        maxTime: maxTime,
+        onChanged: (date) {
+          FocusManager.instance.primaryFocus?.unfocus();
+          pickedDate = date;
+          log('change $date');
+        },
+        onConfirm: (date) {
+          // pickedDate = date;
+          // log('confirm $date');
+          // if (pickedDate != null) {
+          //   return setDateTime(pickedDate!, onlyDate, textController, onChange);
+          // }
+
+          pickedDate = date;
+          log('confirm $date');
+          if (pickedDate != null) {
+            if (!onlyDate) {
+              showTimePicker(
+                context: context,
+                pickedDate: pickedDate!,
+                onlyDate: onlyDate,
+                textController: textController,
+                onChange: onChange,
+              );
+            }
+            String dateTime =
+            setDateTime(pickedDate!, onlyDate, textController, onChange);
+            log('--!!!!!----dateTime---$dateTime------');
+            return dateTime;
+            // return setDateTime(pickedDate!, onlyDate, textController, onChange);
+          }
+        },
+        currentTime: currentTime,
+        locale: LocaleType.en,
+      );
     } else {
       log('--else@@@@@@--');
 
@@ -232,7 +275,7 @@ class BaseDate {
 
       // return setDateTime(pickedDate!, onlyDate, textController, onChange);
       String dateTime =
-      setDateTime(pickedDate!, onlyDate, textController, onChange);
+          setDateTime(pickedDate!, onlyDate, textController, onChange);
       log('--@@@---pickedDate != null-dateTime---$dateTime------');
       return dateTime;
     } else {
@@ -256,7 +299,6 @@ class BaseDate {
       showTitleActions: true,
       onChanged: (time) {
         log('--onChanged-showTimePicker--$time-');
-
       },
       onConfirm: (time) {
         log('--time--${time.toString()}--');
