@@ -28,7 +28,7 @@ class CreatePassMgmtBody {
       };
 }
 
-class PassManagement extends BaseObject{
+class PassManagement extends BaseObject {
   int? id;
   String? slNo;
   String? inputDate;

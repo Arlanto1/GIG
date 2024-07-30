@@ -396,8 +396,8 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           state.model.inputDate = state.model.inputDate == null
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'),
-              Constants.fulldateFormat);
+                  int.tryParse(state.model.inputDate ?? '0'),
+                  Constants.fulldateFormat);
           return;
         }
         response = (await services.createShiftSchedule(
@@ -422,8 +422,8 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       log('--Exception-e-----}--');
       emit(
         state.copyWith(

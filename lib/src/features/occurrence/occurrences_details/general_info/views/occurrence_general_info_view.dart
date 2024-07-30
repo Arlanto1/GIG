@@ -293,7 +293,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                         },
                                         roleName: ConstantUserRoles
                                             .atomGuardingStaffUser,
-                                        locationId:  state.model.location!.id!,
+                                        locationId: state.model.location!.id!,
                                         functionToCall: () {
                                           // refresh the list
                                           BlocProvider.of<
@@ -316,7 +316,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               BaseLocationDropdown().locationWidgetDisplay(
-                                selectedLocationName:
+                                  selectedLocationName:
                                       state.model.location?.name ?? '',
                                   isEnabled: !isReadOnly,
                                   context: context,
@@ -721,7 +721,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   if (state.model.status !=
-                                      ConstantsIntValue.submitted && !isReadOnly) ...[
+                                          ConstantsIntValue.submitted &&
+                                      !isReadOnly) ...[
                                     const SizedBox(width: 14),
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
@@ -862,7 +863,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               child: Row(
                                 children: <Widget>[
                                   if (state.model.status !=
-                                      ConstantsIntValue.submitted && !isReadOnly) ...[
+                                          ConstantsIntValue.submitted &&
+                                      !isReadOnly) ...[
                                     const SizedBox(width: 14),
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
@@ -1059,7 +1061,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               child: Row(
                                 children: <Widget>[
                                   if (state.model.status !=
-                                      ConstantsIntValue.submitted && !isReadOnly) ...[
+                                          ConstantsIntValue.submitted &&
+                                      !isReadOnly) ...[
                                     const SizedBox(width: 14),
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,

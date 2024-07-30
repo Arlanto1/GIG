@@ -96,7 +96,8 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
             showSubmitButton: showSaveSubmitButton ? true : false,
             showDisLikeButton: false,
             showLikeButton: false,
-            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.vipVisitorsDetailsModule}',
+            pdfAPIName:
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.vipVisitorsDetailsModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<VVIPVisitorDetailsCubit>(context).submitForm(
@@ -273,59 +274,60 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-
                             GestureDetector(
-                                onTap: () async {
-                                  NavigatorState nav = Navigator.of(context);
-                                  bool isSaveSuccess = await BlocProvider.of<
-                                          VVIPVisitorDetailsCubit>(context)
-                                      .submitForm(
-                                    isSaveOnly: true,
-                                    navigateToNextScreen: true,
-                                  );
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
+                                bool isSaveSuccess = await BlocProvider.of<
+                                        VVIPVisitorDetailsCubit>(context)
+                                    .submitForm(
+                                  isSaveOnly: true,
+                                  navigateToNextScreen: true,
+                                );
 
-                                  if (!isSaveSuccess) {
-                                    return;
-                                  }
-                                  log('--state.model.id---${state.model.id}--');
+                                if (!isSaveSuccess) {
+                                  return;
+                                }
+                                log('--state.model.id---${state.model.id}--');
 
-                                  nav.pushNamed(
-                                    vipVisitorsRecordsRoute,
-                                    arguments: {
-                                      ConstantsArgument.title:
-                                          Constants.vVipVisitorsTitle,
-                                      ConstantsArgument.id: state.model.id,
-                                      ConstantsArgument.isLocked: state.model.lock,
-                                      ConstantsArgument.parentStatus: state.model.status,
+                                nav.pushNamed(
+                                  vipVisitorsRecordsRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.vVipVisitorsTitle,
+                                    ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.isLocked:
+                                        state.model.lock,
+                                    ConstantsArgument.parentStatus:
+                                        state.model.status,
 
-                                      // ConstantsArgument.violationDescription:
-                                      //     Constants.slaViolation,
-                                    },
-                                  );
-                                  //}
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    SvgPicture.asset(
-                                      AppIcon.pluscircle,
-                                      colorFilter: const ColorFilter.mode(
-                                        AppColors.navigationSkyBlueColor,
-                                        BlendMode.srcIn,
-                                      ),
-                                      // color: AppColors.navigationSkyBlueColor,
+                                    // ConstantsArgument.violationDescription:
+                                    //     Constants.slaViolation,
+                                  },
+                                );
+                                //}
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
+                                    colorFilter: const ColorFilter.mode(
+                                      AppColors.navigationSkyBlueColor,
+                                      BlendMode.srcIn,
                                     ),
-                                    const SizedBox(width: 10),
-                                    const Text(
-                                      'Add/View VVIP Visitors',
-                                      style: TextStyle(
-                                        color: AppColors.navigationSkyBlueColor,
-                                        decoration: TextDecoration.underline,
-                                      ),
+                                    // color: AppColors.navigationSkyBlueColor,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add/View VVIP Visitors',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkyBlueColor,
+                                      decoration: TextDecoration.underline,
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
                           ],
                         ),
@@ -369,7 +371,6 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
     }
   }
 
-
   Widget cancelButtonDisplay() {
     return AppButton(
       width: Constants.cancelButtonWidth,
@@ -382,6 +383,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
       },
     );
   }
+
   // Widget cancelButtonDisplay(VVIPVisitorDetailsState state) {
   //   bool condition = widget.model?.id == null ||
   //       widget.model?.status == ConstantsIntValue.cancelledStatus ||
@@ -443,7 +445,8 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
   Widget locationWidgetdislay(VVIPVisitorDetailsState state) {
     return GestureDetector(
       onTap: () {
-        if ((state.model.status == 0 || state.model.status == null) && state.model.lock.isEmptyOrNull) {
+        if ((state.model.status == 0 || state.model.status == null) &&
+            state.model.lock.isEmptyOrNull) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {

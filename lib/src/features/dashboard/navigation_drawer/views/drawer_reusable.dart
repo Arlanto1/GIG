@@ -80,8 +80,8 @@ class NavigationDrawer1 extends StatelessWidget {
     }
 
     // if (displayMenu.gM ?? false) {
-    expansionTileDrawerItems.add(const MenuItem(
-        shiftSchedulingTitle, AppIcon.eventProtectionIcon, 1));
+    expansionTileDrawerItems.add(
+        const MenuItem(shiftSchedulingTitle, AppIcon.eventProtectionIcon, 1));
     // }
 
     if (displayMenu?.vIP ?? false) {
@@ -496,7 +496,7 @@ class NavigationDrawer1 extends StatelessWidget {
       case Constants.guardingMasterReport:
         log('--Constants.guardingMasterReportTitle--${item.title}--');
         return Navigator.pushNamed(context, guardingMasterReportRoute);
-        // break;
+      // break;
       case Constants.shiftOccurrence:
         Navigator.pushNamed(context, occurrenceRoute);
         break;

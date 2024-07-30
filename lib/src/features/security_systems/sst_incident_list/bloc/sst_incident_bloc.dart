@@ -45,7 +45,7 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.securitySystemModule,
         commonServices: commonServices,
       );

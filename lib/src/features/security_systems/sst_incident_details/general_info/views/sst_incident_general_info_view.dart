@@ -124,7 +124,7 @@ class _SstIncidentGeneralInfoViewState
             .equalsIgnoreCase(state.model.createdBy?.userName))) {
           disableForm = true;
         }
-        
+
         log('---disableForm---$disableForm');
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
@@ -550,7 +550,7 @@ class _SstIncidentGeneralInfoViewState
                                       },
                                       roleName: ConstantUserRoles
                                           .atomSeniorSecurityManagerUser,
-                                      locationId:  state.model.location!.id!,
+                                      locationId: state.model.location!.id!,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
@@ -590,7 +590,7 @@ class _SstIncidentGeneralInfoViewState
                                       },
                                       roleName: ConstantUserRoles
                                           .atomSecurityAndSeniorSecurityManagerUser,
-                                      locationId:  state.model.location!.id!,
+                                      locationId: state.model.location!.id!,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
@@ -630,7 +630,7 @@ class _SstIncidentGeneralInfoViewState
                                       },
                                       roleName: ConstantUserRoles
                                           .atomSecurityLeadAndAssistantSecurityLeadUser,
-                                      locationId:  state.model.location!.id!,
+                                      locationId: state.model.location!.id!,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
@@ -672,7 +672,7 @@ class _SstIncidentGeneralInfoViewState
                                       },
                                       roleName: ConstantUserRoles
                                           .atomSecurityTeamUser,
-                                      locationId:  state.model.location!.id!,
+                                      locationId: state.model.location!.id!,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
@@ -902,6 +902,7 @@ class _SstIncidentGeneralInfoViewState
       },
     );
   }
+
   // Widget cancelButtonDisplay(SstIncidentGeneralInfoState state) {
   //   bool condition = widget.model?.id == null ||
   //       widget.model?.status == ConstantsIntValue.cancelledStatus ||

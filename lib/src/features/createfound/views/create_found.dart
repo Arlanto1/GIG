@@ -1964,7 +1964,8 @@ class _CreateFoundState extends State<CreateFound> {
                           ),
                         ),
                         if (widget.model?.status == 2 ||
-                            widget.model?.status == -1 || !state.model.lock.isEmptyOrNull) ...[
+                            widget.model?.status == -1 ||
+                            !state.model.lock.isEmptyOrNull) ...[
                           Container(
                             padding: const EdgeInsets.all(5.0),
                             decoration: const ShapeDecoration(
@@ -1981,8 +1982,7 @@ class _CreateFoundState extends State<CreateFound> {
                               ],
                             ),
                           ),
-                          CommonWidgets.verticalSpacerWidget(
-                              height * 0.03),
+                          CommonWidgets.verticalSpacerWidget(height * 0.03),
                         ],
                       ],
                     ),

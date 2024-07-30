@@ -342,7 +342,8 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
           status: false, message: 'Please enter Phone Number.');
     }
 
-    if(!widget.model.email.isEmptyOrNull && !EmailValidator.validate(widget.model.email!)){
+    if (!widget.model.email.isEmptyOrNull &&
+        !EmailValidator.validate(widget.model.email!)) {
       return const ErrorResponse(
         status: false,
         message: 'Please enter a email.',

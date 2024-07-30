@@ -25,7 +25,7 @@ class CreateFoundRequestBody {
       };
 }
 
-class Found extends BaseObject{
+class Found extends BaseObject {
   String? slNo;
   int? eventProtection;
   int? typeOfAsset;

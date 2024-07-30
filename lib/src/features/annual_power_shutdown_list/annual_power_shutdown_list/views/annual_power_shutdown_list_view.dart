@@ -313,14 +313,14 @@ class _AnnualPowerShutdownListViewState
   }
 
   getById(
-      bool hasWritePermission, {
-        required int id,
-        required int eventStatus,
-      }) async {
+    bool hasWritePermission, {
+    required int id,
+    required int eventStatus,
+  }) async {
     log('-----');
     var nav = Navigator.of(context);
     ShowEPGridsModel showEPGridsModel =
-    await EventProtectionServices().showEpGrids(id);
+        await EventProtectionServices().showEpGrids(id);
     nav.pushNamed(
       eventProtectionDetailsTabRoute,
       arguments: {
@@ -329,7 +329,7 @@ class _AnnualPowerShutdownListViewState
         'eventStatus': eventStatus,
         ConstantsArgument.showEPGridsModel: showEPGridsModel,
         ConstantsArgument.extraProperties:
-        ExtraProperties(hasWritePermission: hasWritePermission),
+            ExtraProperties(hasWritePermission: hasWritePermission),
       },
     );
   }

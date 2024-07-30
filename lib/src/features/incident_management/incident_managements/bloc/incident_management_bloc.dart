@@ -7,6 +7,7 @@ import '../../models/incidents_response.dart';
 import '../../services/incident_management_services.dart';
 
 part 'incident_management_event.dart';
+
 part 'incident_management_state.dart';
 
 class IncidentManagementsBloc
@@ -40,7 +41,7 @@ class IncidentManagementsBloc
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.incidentManagementModule,
         commonServices: commonServices,
       );

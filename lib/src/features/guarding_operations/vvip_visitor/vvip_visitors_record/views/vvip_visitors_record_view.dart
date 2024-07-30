@@ -174,8 +174,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
             );
             if (!(state.items![index].startDateVisit.isEmptyOrNull)) {
               labels.add(Label(
-                  key:
-                  state.labels?.locale.startDateVisit ??
+                  key: state.labels?.locale.startDateVisit ??
                       state.labels?.defaultLocale.startDateVisit ??
                       'Start Date of Visit',
                   value: Utils.timestampToDateConversion(
@@ -184,8 +183,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
             }
             if (!(state.items![index].endDateVisit.isEmptyOrNull)) {
               labels.add(Label(
-                  key:
-                  state.labels?.locale.endDateVisit ??
+                  key: state.labels?.locale.endDateVisit ??
                       state.labels?.defaultLocale.endDateVisit ??
                       'End Date of Visit',
                   value: Utils.timestampToDateConversion(

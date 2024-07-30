@@ -238,8 +238,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                                       epManager1: user,
                                     );
                                   },
-                                  locationId:  0,
-
+                                  locationId: 0,
                                 );
                               },
                             ),
@@ -264,8 +263,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                                       epManager2: user,
                                     );
                                   },
-                                  locationId:0,
-
+                                  locationId: 0,
                                 );
                               },
                             ),
@@ -291,8 +289,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                                     locationSecurityManager1: user,
                                   );
                                 },
-                                locationId:  0,
-
+                                locationId: 0,
                               );
                             },
                           ),
@@ -348,7 +345,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                                     locationSecurityManager2: user,
                                   );
                                 },
-                                locationId:  0,
+                                locationId: 0,
                               );
                             },
                           ),
@@ -404,8 +401,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                                     bu1: user,
                                   );
                                 },
-                                locationId:  0,
-
+                                locationId: 0,
                               );
                             },
                           ),
@@ -463,8 +459,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                                     bu2: user,
                                   );
                                 },
-                                locationId:  0,
-
+                                locationId: 0,
                               );
                             },
                           ),
@@ -882,7 +877,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                                     epOfficers: user,
                                   );
                                 },
-                                locationId:  0,
+                                locationId: 0,
                               );
                             },
                           ),

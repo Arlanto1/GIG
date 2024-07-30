@@ -625,7 +625,6 @@ class _GuardInfoViewState extends State<GuardInfoView> {
 
   Widget cancelButtonDisplay() {
     return AppButton(
-      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),

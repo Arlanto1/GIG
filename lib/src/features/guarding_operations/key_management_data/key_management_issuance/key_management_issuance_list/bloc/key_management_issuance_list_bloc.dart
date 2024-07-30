@@ -5,6 +5,7 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 
 part 'key_management_issuance_list_event.dart';
+
 part 'key_management_issuance_list_state.dart';
 
 class KeyManagementIssuanceListBloc extends Bloc<KeyManagementIssuanceListEvent,
@@ -32,7 +33,7 @@ class KeyManagementIssuanceListBloc extends Bloc<KeyManagementIssuanceListEvent,
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.keyManagementIssuanceModule,
         commonServices: commonServices,
       );
@@ -52,7 +53,6 @@ class KeyManagementIssuanceListBloc extends Bloc<KeyManagementIssuanceListEvent,
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.keyManagementIssuanceModule);
-
 
       KMUiLabels labels = KMUiLabels.fromJson(responseLabels);
       return emit(

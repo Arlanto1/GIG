@@ -17,8 +17,7 @@ class DownloadImage {
     if (id == 1) {
       return;
     }
-    FocusManager.instance.primaryFocus
-        ?.unfocus();
+    FocusManager.instance.primaryFocus?.unfocus();
     log('--saveImage--');
     final endpoint = Environment().config.apiHost;
     // final url = Uri.parse('$endpoint/downloadImage/$id');

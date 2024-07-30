@@ -324,8 +324,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                         context
                                             .read<SstIncidentBloc>()
                                             .add(SendReminderEmail(
-                                              id:
-                                                  id!,
+                                              id: id!,
                                             ));
                                       },
                                       index: index,

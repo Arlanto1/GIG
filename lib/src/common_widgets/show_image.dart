@@ -42,7 +42,6 @@ class ShowImage extends StatelessWidget {
           if (!imageBytes.isEmptyOrNull) ...[
             Center(
               child: Image.memory(
-
                 Uint8List.fromList(
                   base64Decode(
                     imageBytes!,

@@ -56,7 +56,6 @@ class BaseDate {
           log('-textController.text----${textController.text}----');
         }
         log('-textController.text---222-${textController.text}----');
-
       },
       child: Opacity(
         opacity: isDisabled ? .5 : 1,
@@ -230,7 +229,7 @@ class BaseDate {
 
       // return setDateTime(pickedDate!, onlyDate, textController, onChange);
       String dateTime =
-      setDateTime(pickedDate!, onlyDate, textController, onChange);
+          setDateTime(pickedDate!, onlyDate, textController, onChange);
       log('--@@@---pickedDate != null-dateTime---$dateTime------');
       return dateTime;
     } else {
@@ -254,7 +253,6 @@ class BaseDate {
       showTitleActions: true,
       onChanged: (time) {
         log('--onChanged-showTimePicker--$time-');
-
       },
       onConfirm: (time) {
         log('--time--${time.toString()}--');

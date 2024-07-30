@@ -40,8 +40,8 @@ class _ContactRecordViewState extends State<ContactRecordView> {
   void initState() {
     super.initState();
     context.read<ContactRecordBloc>().add(
-      const InitializeValues(),
-    );
+          const InitializeValues(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -70,8 +70,8 @@ class _ContactRecordViewState extends State<ContactRecordView> {
   Widget build(BuildContext context) {
     return BlocConsumer<ContactRecordBloc, ContactRecordState>(
         listener: (context, state) {
-          // TODO: implement listener
-        }, builder: (context, state) {
+      // TODO: implement listener
+    }, builder: (context, state) {
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
         // floatingActionButton: (
@@ -117,7 +117,10 @@ class _ContactRecordViewState extends State<ContactRecordView> {
       return const BaseLoader();
     }
 
-    if (state.items.isEmptyOrNull && !isPopUpShown && widget.lock.isEmptyOrNull && widget.parentStatus != ConstantsIntValue.cancelledStatus) {
+    if (state.items.isEmptyOrNull &&
+        !isPopUpShown &&
+        widget.lock.isEmptyOrNull &&
+        widget.parentStatus != ConstantsIntValue.cancelledStatus) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         isPopUpShown = true;
         showAddContactPopUp(
@@ -145,7 +148,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
       child: ListView.builder(
         controller: _scrollController,
         itemCount:
-        state.hasReachedMax ? state.items?.length : state.items!.length + 1,
+            state.hasReachedMax ? state.items?.length : state.items!.length + 1,
         itemBuilder: (context, index) {
           List<Label> labels = [];
           if (index < state.items!.length) {
@@ -154,13 +157,13 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                 key: widget.rankType == Constants.contactZone
                     ? Constants.zone
                     : widget.rankType == Constants.contactGeneralRank
-                    ? Constants.rank
-                    : widget.rankType ==
-                    Constants.contactSystemEscalationRank
-                    ? Constants.systemSiEscalationMatrixRank
-                    : widget.rankType == Constants.contactSupervisorRank
-                    ? Constants.supervisorRank
-                    : Constants.guardingAgencyRank,
+                        ? Constants.rank
+                        : widget.rankType ==
+                                Constants.contactSystemEscalationRank
+                            ? Constants.systemSiEscalationMatrixRank
+                            : widget.rankType == Constants.contactSupervisorRank
+                                ? Constants.supervisorRank
+                                : Constants.guardingAgencyRank,
                 value: state.items![index].rank?.name ?? '',
               ),
             );
@@ -181,54 +184,53 @@ class _ContactRecordViewState extends State<ContactRecordView> {
             return index >= state.items!.length
                 ? const BaseLoader()
                 : BaseListTileItem(
-              id: state.items?[index].id,
-              labels: labels,
-              onTap: (selectedIndex) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return BasePopUpItems(
-                      id: state.items?[selectedIndex].id.toString(),
-                      labels: labels,
-                    );
-                  },
-                );
-              },
-              showEditButton: true,
-              onEditTap: (selectedIndex) async {
-                ContactRecord contactsModel =
-                await ContactDetailsServices()
-                    .getCdById(state.items?[index].id ?? 0);
+                    id: state.items?[index].id,
+                    labels: labels,
+                    onTap: (selectedIndex) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          return BasePopUpItems(
+                            id: state.items?[selectedIndex].id.toString(),
+                            labels: labels,
+                          );
+                        },
+                      );
+                    },
+                    showEditButton: true,
+                    onEditTap: (selectedIndex) async {
+                      ContactRecord contactsModel =
+                          await ContactDetailsServices()
+                              .getCdById(state.items?[index].id ?? 0);
 
-                showAddContactPopUp(
-                  context: context,
-                  contact: contactsModel,
-                  users: state.ranks,
-                  rankType: widget.rankType,
-                );
-                // getDetails(state.items?[index].id ?? 0);
-              },
-              onViewTap: (selectedIndex) {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return BasePopUpItems(
-                      id: state.items?[selectedIndex].id.toString(),
-                      labels: labels,
-                    );
-                  },
-                );
-              },
-              showDeleteButton:
-              false,
-              onDeleteTap: (selectedIndex) async {
-                // Call Delete API
-                BlocProvider.of<ContactRecordBloc>(context).add(
-                    DeleteRecord(state.items![selectedIndex].id!.toInt(),
-                        widget.type, widget.id));
-              },
-              index: index,
-            );
+                      showAddContactPopUp(
+                        context: context,
+                        contact: contactsModel,
+                        users: state.ranks,
+                        rankType: widget.rankType,
+                      );
+                      // getDetails(state.items?[index].id ?? 0);
+                    },
+                    onViewTap: (selectedIndex) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          return BasePopUpItems(
+                            id: state.items?[selectedIndex].id.toString(),
+                            labels: labels,
+                          );
+                        },
+                      );
+                    },
+                    showDeleteButton: false,
+                    onDeleteTap: (selectedIndex) async {
+                      // Call Delete API
+                      BlocProvider.of<ContactRecordBloc>(context).add(
+                          DeleteRecord(state.items![selectedIndex].id!.toInt(),
+                              widget.type, widget.id));
+                    },
+                    index: index,
+                  );
           }
           return null;
         },

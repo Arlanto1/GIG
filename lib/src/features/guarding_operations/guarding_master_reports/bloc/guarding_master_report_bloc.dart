@@ -6,6 +6,7 @@ import '../models/guarding_master_report_model.dart';
 import '../services/guarding_master_report_services.dart';
 
 part 'guarding_master_report_event.dart';
+
 part 'guarding_master_report_state.dart';
 
 class GuardingMasterReportBloc
@@ -31,7 +32,7 @@ class GuardingMasterReportBloc
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.guardingMasterModuleCode,
         commonServices: commonServices,
       );
@@ -51,7 +52,6 @@ class GuardingMasterReportBloc
       // dynamic responseLabels = await commonServices.getUiLabels(
       //     language: await SharedPrefs.getLanguageCode(),
       //     moduleCode: Constants.guardingMasterModuleCode);
-
 
       // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
       return emit(

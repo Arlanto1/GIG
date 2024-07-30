@@ -98,6 +98,7 @@ class _RatesInfoState extends State<RatesInfo> {
                         if (!state.model.lock.isEmptyOrNull) ...[
                           RecordLockedWidget(text: '${state.model.lock}'),
                         ],
+
                         /// Created By
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

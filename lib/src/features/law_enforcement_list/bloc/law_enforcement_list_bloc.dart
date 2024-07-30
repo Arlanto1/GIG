@@ -7,6 +7,7 @@ import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_ser
 import '../models/law_enforcement_list_response.dart';
 
 part 'law_enforcement_list_event.dart';
+
 part 'law_enforcement_list_state.dart';
 
 class LawEnforcementListBloc
@@ -39,7 +40,7 @@ class LawEnforcementListBloc
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.leoModuleCode,
         commonServices: commonServices,
       );
@@ -59,7 +60,6 @@ class LawEnforcementListBloc
       // dynamic responseLabels = await commonServices.getUiLabels(
       //     language: await SharedPrefs.getLanguageCode(),
       //     moduleCode: Constants.leoModuleCode);
-
 
       // CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
       return emit(

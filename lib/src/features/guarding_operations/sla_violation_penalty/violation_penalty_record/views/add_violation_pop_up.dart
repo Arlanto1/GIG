@@ -83,15 +83,11 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       backgroundColor: AppColors.backgroundWhiteColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
-
-        if( widget.parentStatus ==
-            ConstantsIntValue.slaStatusFinalized ||
-            widget.parentStatus ==
-                ConstantsIntValue.cancelledStatus
-        ){
+        if (widget.parentStatus == ConstantsIntValue.slaStatusFinalized ||
+            widget.parentStatus == ConstantsIntValue.cancelledStatus) {
           isReadonly = true;
         }
-        if(widget.isLocked) {
+        if (widget.isLocked) {
           isReadonly = true;
         }
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
@@ -119,49 +115,48 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             //isMandatory: true,
                           ),
                           TextFieldAddButton(
-                            title: widget.model.violation?.name ?? '',
-                            height: 70,
-                            isDisableColor: isReadonly,
-                            onTap: () {
-                              if (!isReadonly) {
-                                BaseOrganisationDialog().departmentDialog(
-                                  context: context,
-                                  organisations: widget.users,
-                                  onTap: (Organisation org) {
-                                    violationController.text = org.name ?? '';
+                              title: widget.model.violation?.name ?? '',
+                              height: 70,
+                              isDisableColor: isReadonly,
+                              onTap: () {
+                                if (!isReadonly) {
+                                  BaseOrganisationDialog().departmentDialog(
+                                    context: context,
+                                    organisations: widget.users,
+                                    onTap: (Organisation org) {
+                                      violationController.text = org.name ?? '';
 
-                                    log('-org.keyName----${org.keyName}-');
+                                      log('-org.keyName----${org.keyName}-');
 
-                                    penaltyAmountController.text =
-                                        org.keyName ?? ''; // Penalty Amount
-                                    widget.model.violation ??= Organisation();
-                                    widget.model.violation = org;
-                                    widget.model.penaltyAmount =
-                                        double.tryParse(org.keyName ?? '0');
-                                    log(
-                                        '-widget.violation.violation?.name----${widget
-                                            .model.violation?.name}-');
-
-                                    if (!numberOfViolationsAmountController
-                                        .text.isEmptyOrNull) {
-                                      penaltyAmountController
-                                          .text = ((penaltyAmountController.text
-                                          .toDoubleOrNull() ??
-                                          0) *
-                                          (widget.model.totalViolations ?? 0))
-                                          .toString();
-                                    }
-
-                                    setState(() {
-                                      log('-setstate-');
                                       penaltyAmountController.text =
-                                          org.keyName ?? '';
-                                    });
-                                  },
-                                );
-                              }
-                            }
-                          )
+                                          org.keyName ?? ''; // Penalty Amount
+                                      widget.model.violation ??= Organisation();
+                                      widget.model.violation = org;
+                                      widget.model.penaltyAmount =
+                                          double.tryParse(org.keyName ?? '0');
+                                      log('-widget.violation.violation?.name----${widget.model.violation?.name}-');
+
+                                      if (!numberOfViolationsAmountController
+                                          .text.isEmptyOrNull) {
+                                        penaltyAmountController.text =
+                                            ((penaltyAmountController.text
+                                                            .toDoubleOrNull() ??
+                                                        0) *
+                                                    (widget.model
+                                                            .totalViolations ??
+                                                        0))
+                                                .toString();
+                                      }
+
+                                      setState(() {
+                                        log('-setstate-');
+                                        penaltyAmountController.text =
+                                            org.keyName ?? '';
+                                      });
+                                    },
+                                  );
+                                }
+                              })
                         ],
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -199,59 +194,58 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                       BaseDropDown().getDropDown(
-                        isDisabled: isReadonly,
-                        textController: staffCategoryController,
-                        items: staffCategoryDropDownValues,
-                        onTap: () {
-                          if (!isReadonly) {
-                            BaseDropDown().assetTypeDialog(
-                              context: context,
-                              dropDownValues: staffCategoryDropDownValues
-                                  .map((label) => label.key)
-                                  .toList(),
-                              onTap: (String value) {
-                                Label? selectedLabel;
-                                selectedLabel =
-                                    staffCategoryDropDownValues.firstWhere(
-                                          (label) => label.key == value,
-                                      orElse: () =>
-                                      const Label(key: '', value: ''),
-                                    );
-                                staffCategoryController.text =
-                                    selectedLabel.key;
-                                widget.model.staffCategory =
-                                    int.tryParse(selectedLabel.value);
+                          isDisabled: isReadonly,
+                          textController: staffCategoryController,
+                          items: staffCategoryDropDownValues,
+                          onTap: () {
+                            if (!isReadonly) {
+                              BaseDropDown().assetTypeDialog(
+                                context: context,
+                                dropDownValues: staffCategoryDropDownValues
+                                    .map((label) => label.key)
+                                    .toList(),
+                                onTap: (String value) {
+                                  Label? selectedLabel;
+                                  selectedLabel =
+                                      staffCategoryDropDownValues.firstWhere(
+                                    (label) => label.key == value,
+                                    orElse: () =>
+                                        const Label(key: '', value: ''),
+                                  );
+                                  staffCategoryController.text =
+                                      selectedLabel.key;
+                                  widget.model.staffCategory =
+                                      int.tryParse(selectedLabel.value);
 
-                                int? staffCategoriesValue = widget
-                                    .staffCategoriesValues[selectedLabel.key];
-                                log(
-                                    '--staffCategoriesValue----$staffCategoriesValue---');
-                                if (staffCategoriesValue != null) {
-                                  numberOfViolationsAmountController.text =
-                                      staffCategoriesValue.toString();
-                                }
-                                if (selectedLabel.value == '1') {
-                                  numberOfViolationsAmountController.text = '1';
-                                  widget.model.totalViolations = 1;
-                                  totalPenaltyAmountController.text =
-                                  '${(widget.model.penaltyAmount ?? 0) *
-                                      (widget.model.totalViolations ?? 0)}';
-                                  widget.model.totalPenaltyAmount =
-                                      (widget.model.penaltyAmount ?? 0) *
-                                          (widget.model.totalViolations ?? 0);
-                                }
-                                setState(() {});
+                                  int? staffCategoriesValue = widget
+                                      .staffCategoriesValues[selectedLabel.key];
+                                  log('--staffCategoriesValue----$staffCategoriesValue---');
+                                  if (staffCategoriesValue != null) {
+                                    numberOfViolationsAmountController.text =
+                                        staffCategoriesValue.toString();
+                                  }
+                                  if (selectedLabel.value == '1') {
+                                    numberOfViolationsAmountController.text =
+                                        '1';
+                                    widget.model.totalViolations = 1;
+                                    totalPenaltyAmountController.text =
+                                        '${(widget.model.penaltyAmount ?? 0) * (widget.model.totalViolations ?? 0)}';
+                                    widget.model.totalPenaltyAmount =
+                                        (widget.model.penaltyAmount ?? 0) *
+                                            (widget.model.totalViolations ?? 0);
+                                  }
+                                  setState(() {});
 
-                                // BlocProvider.of<
-                                // ViolationPenaltyRecordBloc>(
-                                // context)
-                                // .updateDropdownValues(
-                                // staffCategoryDropDownValues: int.tryParse(
-                                //  selectedLabel.value));
-                              },
-                            );
-                          }}
-                      ),
+                                  // BlocProvider.of<
+                                  // ViolationPenaltyRecordBloc>(
+                                  // context)
+                                  // .updateDropdownValues(
+                                  // staffCategoryDropDownValues: int.tryParse(
+                                  //  selectedLabel.value));
+                                },
+                              );
+                            }
+                          }),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                       /// Total No of Violations
@@ -327,8 +321,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         cancelButton(width),
-        if(!isReadonly)...[
-        saveButton(width, widget.onSubmit)]
+        if (!isReadonly) ...[saveButton(width, widget.onSubmit)]
       ],
     );
   }

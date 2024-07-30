@@ -250,7 +250,8 @@ class BaseAddOrganisationDialogState extends State<BaseAddOrganisationDialog> {
             );
           } on GenericResponse catch (e) {
             sca.showSnackBar(
-              SnackBar(backgroundColor: Colors.red,
+              SnackBar(
+                backgroundColor: Colors.red,
                 content: Text('${e.message}'),
                 duration: const Duration(seconds: 3), // Adjust the duration
               ),

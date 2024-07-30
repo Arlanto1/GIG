@@ -42,6 +42,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
   String name = Constants.name;
   String rank = Constants.rank;
   bool isReadonly = true;
+
   @override
   void initState() {
     super.initState();
@@ -54,7 +55,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
     if (widget.model.escalationLevel != null) {
       Label matchingLabel = escalationLevelDropDownValues.firstWhere(
-              (label) => label.value == widget.model.escalationLevel.toString());
+          (label) => label.value == widget.model.escalationLevel.toString());
 
       escalationLevelController.text = matchingLabel.key;
     }
@@ -319,6 +320,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       }),
     );
   }
+
   Widget buttonViews(BuildContext context, double width) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

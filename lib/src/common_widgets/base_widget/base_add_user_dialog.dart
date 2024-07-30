@@ -199,9 +199,10 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
                 duration: Duration(seconds: 3), // Adjust the duration
               ),
             );
-          }  on GenericResponse catch (e) {
+          } on GenericResponse catch (e) {
             sca.showSnackBar(
-               SnackBar(backgroundColor: Colors.red,
+              SnackBar(
+                backgroundColor: Colors.red,
                 content: Text('${e.message}'),
                 duration: const Duration(seconds: 3), // Adjust the duration
               ),
@@ -209,7 +210,7 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
             return;
           } on Exception catch (e) {
             sca.showSnackBar(
-               SnackBar(
+              SnackBar(
                 content: Text('$e'),
                 duration: const Duration(seconds: 3), // Adjust the duration
               ),

@@ -5,6 +5,7 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/services/duty_post_master_services.dart';
 
 part 'duty_post_master_list_event.dart';
+
 part 'duty_post_master_list_state.dart';
 
 class DutyPostMasterListBloc
@@ -30,7 +31,7 @@ class DutyPostMasterListBloc
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.shiftScheduleModuleCode,
         commonServices: commonServices,
       );
@@ -173,7 +174,7 @@ class DutyPostMasterListBloc
           filters: event.filters,
         );
 
-        for(DutyPostMasterModel model in response.items??[]) {
+        for (DutyPostMasterModel model in response.items ?? []) {
           log('---model.total- ${model.total}-${model.id}---');
         }
 

@@ -119,7 +119,6 @@ class VisitingOfficialListBloc
 
   FutureOr<void> _refreshList(
       RefreshList event, Emitter<VisitingOfficialListState> emit) async {
-
     List<Organisation> departments = await commonServices.getOrganisations(
       name: 'ATOM_LEO_DEPARTMENTS',
     );

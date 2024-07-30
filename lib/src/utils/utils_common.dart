@@ -58,7 +58,8 @@ class UtilsCommon {
     //     ],
     //   );
     // } else
-    if (items.isEmptyOrNull && state.status != FormStatus.loading&&
+    if (items.isEmptyOrNull &&
+        state.status != FormStatus.loading &&
         (state.status == FormStatus.initial ||
             state.status == FormStatus.success)) {
       return Column(

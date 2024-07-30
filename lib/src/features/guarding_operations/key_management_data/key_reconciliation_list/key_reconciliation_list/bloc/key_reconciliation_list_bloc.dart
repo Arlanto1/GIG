@@ -6,6 +6,7 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_reconciliation_list/services/key_reconciliation_list_services.dart';
 
 part 'key_reconciliation_list_event.dart';
+
 part 'key_reconciliation_list_state.dart';
 
 class KeyReconciliationListBloc
@@ -49,7 +50,7 @@ class KeyReconciliationListBloc
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.keyReconciliationModule,
         commonServices: commonServices,
       );

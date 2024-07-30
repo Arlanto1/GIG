@@ -563,12 +563,11 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                   }),
                             ],
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-
                           ],
                         ),
                       ),
                     ),
+
                     /// SubmitButton
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

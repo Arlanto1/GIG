@@ -98,7 +98,7 @@ class _FoundListItemState extends State<FoundListItem> {
                   ),
                   Row(
                     children: [
-                      if (widget.userItem.entrySecurity !=null) ...[
+                      if (widget.userItem.entrySecurity != null) ...[
                         Utils().textHandling('Created By : ',
                             ('${widget.userItem.entrySecurity?.firstName ?? ''} ${widget.userItem.entrySecurity?.lastName ?? ''}')),
                       ],

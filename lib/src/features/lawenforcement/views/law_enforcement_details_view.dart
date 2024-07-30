@@ -384,9 +384,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
                                         /// slno
                                         CommonWidgets.horizentaltextHandling(
-                                            Constants.slno,
-                                                state.slno ??
-                                                '',
+                                            Constants.slno, state.slno ?? '',
                                             isMandatory: true),
                                         CommonWidgets.verticalSpacerWidget(
                                             height * 0.01),
@@ -1116,7 +1114,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     super.initState();
     if (widget.model != null) {
       populateData();
-      lawEnforcementCubit.initializeValuesForExistingRecord(model: widget.model!);
+      lawEnforcementCubit.initializeValuesForExistingRecord(
+          model: widget.model!);
       lawEnforcementCubit.getDistributionGroupsDetails();
     } else {
       lawEnforcementCubit.initializeValuesForNewRecord();

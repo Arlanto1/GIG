@@ -41,7 +41,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser> emailUsers = await commonServices.getBaseUsers(
-        roleName: ConstantUserRoles.atomStaticUser, locationId: state.model.location?.id);
+        roleName: ConstantUserRoles.atomStaticUser,
+        locationId: state.model.location?.id);
 
     emit(
       state.copyWith(
@@ -124,7 +125,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
             moduleCode: Constants.materialMovementModuleCode),
         SharedPrefs.getDefaultLocation(),
         commonServices.getBaseUsers(
-            roleName: ConstantUserRoles.atomStaticUser, locationId: state.model.location?.id),
+            roleName: ConstantUserRoles.atomStaticUser,
+            locationId: state.model.location?.id),
         commonServices.getOrganisations(name: 'ATOM_MATERIAL_MOVEMENT_UNIT'),
       ]);
 
@@ -220,7 +222,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.slNo = slNo.serialNo;
 
       emailUsers = await commonServices.getBaseUsers(
-          roleName: ConstantUserRoles.atomStaticUser, locationId: state.model.location?.id);
+          roleName: ConstantUserRoles.atomStaticUser,
+          locationId: state.model.location?.id);
     }
     if (location != null && isInward == false) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -231,7 +234,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
       emailUsers = await commonServices.getBaseUsers(
-          roleName: ConstantUserRoles.atomStaticUser, locationId: state.model.location?.id);
+          roleName: ConstantUserRoles.atomStaticUser,
+          locationId: state.model.location?.id);
     }
     state.model.receiverEmail = null;
     emit(state.copyWith(

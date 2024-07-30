@@ -6,6 +6,7 @@ import 'package:db_atom/src/features/event_protection/models/ep_ui_labels.dart';
 import '../../services/event_protection_services.dart';
 
 part 'event_protections_event.dart';
+
 part 'event_protections_state.dart';
 
 class EventProtectionsBloc
@@ -54,7 +55,7 @@ class EventProtectionsBloc
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.eventProtectionModuleCode,
         commonServices: commonServices,
       );

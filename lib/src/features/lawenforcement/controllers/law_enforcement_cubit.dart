@@ -375,8 +375,8 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
-  initializeValuesForExistingRecord({required LawEnforcementDetailsModel model}) async {
-
+  initializeValuesForExistingRecord(
+      {required LawEnforcementDetailsModel model}) async {
     emit(state.copyWith(
       slno: model.slNo,
     ));
@@ -439,15 +439,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
 
   // Create user call
   Future<void> createUser(String firstName, String lastName, String email,
-      String role,int locationId, BuildContext context) async {
+      String role, int locationId, BuildContext context) async {
     try {
       CreateUserModel createUserData = await services.createUser(
-        firstName,
-        lastName,
-        email,
-        role,
-          locationId
-      );
+          firstName, lastName, email, role, locationId);
       emit(
         state.copyWith(
           createUserResponse: createUserData,

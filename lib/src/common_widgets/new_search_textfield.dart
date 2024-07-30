@@ -60,7 +60,6 @@ class FlutterInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     // log('-controller?.text-----${controller?.text}--');
     return TextFormField(
       key: Key(textFormKey),
@@ -128,7 +127,7 @@ class FlutterInputField extends StatelessWidget {
         onChange(str);
       },
       inputFormatters: [
-        if (textInputType == TextInputType.number)...[
+        if (textInputType == TextInputType.number) ...[
           FilteringTextInputFormatter.digitsOnly
         ]
       ],
