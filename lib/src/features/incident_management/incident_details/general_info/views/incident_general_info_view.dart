@@ -543,6 +543,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                           complainantEmpIdFocusNode);
                                     },
                                     roleName: ConstantUserRoles.atomStaticUser,
+                                    locationId:  state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
@@ -681,6 +682,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     );
                                   },
                                   roleName: ConstantUserRoles.atomStaticUser,
+                                  locationId:  state.model.location!.id!,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<IncidentGeneralInfoCubit>(
@@ -788,6 +790,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     },
                                     roleName: ConstantUserRoles
                                         .atomSeniorSecurityManagerUser,
+                                    locationId:  state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
@@ -830,6 +833,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     },
                                     roleName: ConstantUserRoles
                                         .atomSubRegionalHeadUser,
+                                    locationId:  state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<IncidentGeneralInfoCubit>(

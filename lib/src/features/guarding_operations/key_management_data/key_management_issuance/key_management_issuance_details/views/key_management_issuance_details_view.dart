@@ -599,6 +599,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                       },
                                       roleName:
                                           ConstantUserRoles.atomStaticUser,
+                                      locationId:  state.model.location!.id!,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
@@ -670,6 +671,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                       },
                                       roleName:
                                           ConstantUserRoles.atomStaticUser,
+                                      locationId:  state.model.location!.id!,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<

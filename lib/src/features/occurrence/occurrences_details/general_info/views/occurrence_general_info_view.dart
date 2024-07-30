@@ -290,6 +290,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                         },
                                         roleName: ConstantUserRoles
                                             .atomGuardingStaffUser,
+                                        locationId:  state.model.location!.id!,
                                         functionToCall: () {
                                           // refresh the list
                                           BlocProvider.of<
@@ -325,7 +326,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
 
                                     BlocProvider.of<OccurrenceGeneralInfoCubit>(
                                             context)
-                                        .updateDropdownValues(
+                                        .updateLocationDropdownValue(
                                             location: location);
                                   }),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),

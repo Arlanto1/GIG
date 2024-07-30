@@ -439,13 +439,14 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
 
   // Create user call
   Future<void> createUser(String firstName, String lastName, String email,
-      String role, BuildContext context) async {
+      String role,int locationId, BuildContext context) async {
     try {
       CreateUserModel createUserData = await services.createUser(
         firstName,
         lastName,
         email,
         role,
+          locationId
       );
       emit(
         state.copyWith(

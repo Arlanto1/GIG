@@ -53,6 +53,7 @@ class BaseOrganisationDialog {
     Function? functionToCall,
     bool enabled = true,
     String? roleName,
+    required int locationId,
   }) {
     FocusManager.instance.primaryFocus?.unfocus();
     showDialog(
@@ -74,6 +75,7 @@ class BaseOrganisationDialog {
                   return BaseAddUserDialog(
                     title: Constants.createnewuser,
                     roleName: roleName ?? '',
+                    locationId:locationId ,
                     functionToCall: functionToCall ?? () {},
                   );
                 });
