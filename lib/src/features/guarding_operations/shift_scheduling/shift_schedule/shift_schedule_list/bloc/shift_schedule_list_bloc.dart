@@ -6,6 +6,7 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_
 import 'package:db_atom/src/services/common_services.dart';
 
 part 'shift_schedule_list_event.dart';
+
 part 'shift_schedule_list_state.dart';
 
 class ShiftScheduleListBloc
@@ -31,7 +32,7 @@ class ShiftScheduleListBloc
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.shiftScheduleModuleCode,
         commonServices: commonServices,
       );
@@ -186,7 +187,8 @@ class ShiftScheduleListBloc
       );
 
       if (response.items?.isEmpty == true) {
-        return emit(state.copyWith(hasReachedMax: true,
+        return emit(state.copyWith(
+          hasReachedMax: true,
           status: FormStatus.success,
         ));
       }

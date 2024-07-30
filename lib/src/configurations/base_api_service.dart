@@ -32,10 +32,11 @@ class BaseApiService {
     Position position;
     bool isIOS = Platform.isIOS;
     // log('---isIOS-$isIOS--');
-    if (isIOS ) {
-      LocationPermission locationPermission = await Geolocator.checkPermission();
+    if (isIOS) {
+      LocationPermission locationPermission =
+          await Geolocator.checkPermission();
       // log('-locationPermission.name--${locationPermission.name}-----');
-      if(locationPermission != LocationPermission.deniedForever) {
+      if (locationPermission != LocationPermission.deniedForever) {
         position = await determinePosition();
         headers.addAll({"Latitude": position.latitude.toString()});
         headers.addAll({"Longitude": position.longitude.toString()});

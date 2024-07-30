@@ -1,5 +1,4 @@
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/article_found_register_module/foundlist/models/af_ui_labels.dart';
 
 class CreateFoundState extends Equatable {
   final FoundListArticleDetails model;

@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/dpn_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 part 'duty_post_name_master_list_event.dart';
+
 part 'duty_post_name_master_list_state.dart';
 
 class DutyPostNameMasterListBloc
@@ -31,7 +31,7 @@ class DutyPostNameMasterListBloc
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.dutyPostNameMasterModuleCode,
         commonServices: commonServices,
       );

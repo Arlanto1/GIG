@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:flutter/widgets.dart';
 
 class GuardingMasterDataDetailsView extends StatefulWidget {
   final GuardingMastersDataModel? guardingMasterData;

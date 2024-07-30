@@ -53,12 +53,14 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
-    GetDepositor emailUsers =
-        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER', locationId: state.model.location?.id);
+    GetDepositor emailUsers = await commonServices.getAtomStaticUsers(
+        roleName: 'ATOM_STATIC_USER', locationId: state.model.location?.id);
     List<BaseUser> epm = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Sub_Regional_Head',  locationId: state.model.location?.id);
+        roleNames: 'ATOM_Sub_Regional_Head',
+        locationId: state.model.location?.id);
     List<BaseUser> lsm = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Senior_Security_Manager',  locationId: state.model.location?.id);
+        roleNames: 'ATOM_Senior_Security_Manager',
+        locationId: state.model.location?.id);
 
     emit(
       state.copyWith(
@@ -95,14 +97,18 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.eventProtectionModuleCode),
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
-        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER',locationId:  model.location?.id),
+        commonServices.getAtomStaticUsers(
+            roleName: 'ATOM_STATIC_USER', locationId: model.location?.id),
         commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUsers(),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
-        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head',locationId: model.location?.id),
         commonServices.getBaseUsersByRoles(
-            roleNames: 'ATOM_Senior_Security_Manager',locationId:  model.location?.id),
+            roleNames: 'ATOM_Sub_Regional_Head',
+            locationId: model.location?.id),
+        commonServices.getBaseUsersByRoles(
+            roleNames: 'ATOM_Senior_Security_Manager',
+            locationId: model.location?.id),
       ]);
 
       // Assign results to variables with explicit data types
@@ -222,6 +228,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       status: FormStatus.initial,
     ));
   }
+
   Future<void> updateDropdownValues({
     List<Organisation>? entities,
     Organisation? location,

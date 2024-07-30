@@ -1227,8 +1227,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       const Text(
                                         'Add Officer',
                                         style: TextStyle(
-                                          color:
-                                              AppColors.boldGreyBackground,
+                                          color: AppColors.boldGreyBackground,
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),

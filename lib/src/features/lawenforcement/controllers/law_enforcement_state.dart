@@ -116,14 +116,12 @@ class LawEnforcementState extends Equatable {
       model: model ?? this.model,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       departmentResponse: getLeodepartmentsResponse ?? departmentResponse,
-      purposeList:
-          purposeList ?? this.purposeList,
+      purposeList: purposeList ?? this.purposeList,
       eventId: eventId ?? this.eventId,
       status: status ?? this.status,
       message: message ?? this.message,
       getLocationsResponse: getLocationsResponse ?? this.getLocationsResponse,
-      slno:
-          slno ?? this.slno,
+      slno: slno ?? this.slno,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       locationSelectedlist: locationSelectedlist ?? this.locationSelectedlist,
       leoPurposeVisitResponse:

@@ -136,7 +136,7 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                     // ],
                     // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                     // Text('state.status=====${state.status}'),
-                     UtilsCommon().showNoRecordWidget(
+                    UtilsCommon().showNoRecordWidget(
                         state: state, height: height, items: state.list),
                     Expanded(
                       child: SmartRefresher(
@@ -194,90 +194,92 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                                       'Shift Handed Over By',
                                   value:
                                       '${state.list[index].entrySecurity?.firstName ?? ''} ${state.list[index].entrySecurity?.lastName ?? ''}'));
-                            return index >= state.list.length
-                                ? const BaseLoader()
-                                : BaseListTileItem(
-                                    id: state.list[index].id,
-                                    labels: labels,
-                                    status: state.list[index].status,
-                                    isOccurrenceStatus: true,
-                                    isEventProtectionStatus: false,
-                                    onTap: (selectedIndex) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext dialogContext) {
-                                          return BasePopUpItems(
-                                            id: state.list[selectedIndex].id
-                                                .toString(),
-                                            slNo:
-                                                state.list[selectedIndex].slNo,
-                                            status: state
-                                                .list[selectedIndex].status,
-                                            labels: labels,
-                                            shiftBrfngAttnded: state
-                                                .list[selectedIndex]
-                                                .shiftBrfngAttnded,
-                                            materialMovement: state
-                                                .list[selectedIndex]
-                                                .materialMovement,
-                                            leoVisit: state
-                                                .list[selectedIndex].leoVisit,
-                                            handOverSecurity: state
-                                                .list[selectedIndex]
-                                                .handoverSecurity,
-                                            isOccurrenceStatus: true,
-                                            isMasterGuard: false,
-                                            isEventProtectionStatus: false,
-                                          );
-                                        },
-                                      );
-                                    },
-                                    onEditTap: (selectedIndex) {
-                                      getId(
-                                          state.extraProperties
-                                                  ?.hasWritePermission ??
-                                              false,
-                                          id: state.list[index].id ?? 0);
-                                    },
-                                    onViewTap: (selectedIndex) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext dialogContext) {
-                                          return BasePopUpItems(
-                                            id: state.list[selectedIndex].id
-                                                .toString(),
-                                            slNo:
-                                                state.list[selectedIndex].slNo,
-                                            status: state
-                                                .list[selectedIndex].status,
-                                            labels: labels,
-                                            shiftBrfngAttnded: state
-                                                .list[selectedIndex]
-                                                .shiftBrfngAttnded,
-                                            materialMovement: state
-                                                .list[selectedIndex]
-                                                .materialMovement,
-                                            leoVisit: state
-                                                .list[selectedIndex].leoVisit,
-                                            handOverSecurity: state
-                                                .list[selectedIndex]
-                                                .handoverSecurity,
-                                            isEventProtectionStatus: false,
-                                            isMasterGuard: false,
-                                            isOccurrenceStatus: true,
-                                          );
-                                        },
-                                      );
-                                    },
-                              index: index,
-                            );
-                          }
+                              return index >= state.list.length
+                                  ? const BaseLoader()
+                                  : BaseListTileItem(
+                                      id: state.list[index].id,
+                                      labels: labels,
+                                      status: state.list[index].status,
+                                      isOccurrenceStatus: true,
+                                      isEventProtectionStatus: false,
+                                      onTap: (selectedIndex) {
+                                        showDialog(
+                                          context: context,
+                                          builder:
+                                              (BuildContext dialogContext) {
+                                            return BasePopUpItems(
+                                              id: state.list[selectedIndex].id
+                                                  .toString(),
+                                              slNo: state
+                                                  .list[selectedIndex].slNo,
+                                              status: state
+                                                  .list[selectedIndex].status,
+                                              labels: labels,
+                                              shiftBrfngAttnded: state
+                                                  .list[selectedIndex]
+                                                  .shiftBrfngAttnded,
+                                              materialMovement: state
+                                                  .list[selectedIndex]
+                                                  .materialMovement,
+                                              leoVisit: state
+                                                  .list[selectedIndex].leoVisit,
+                                              handOverSecurity: state
+                                                  .list[selectedIndex]
+                                                  .handoverSecurity,
+                                              isOccurrenceStatus: true,
+                                              isMasterGuard: false,
+                                              isEventProtectionStatus: false,
+                                            );
+                                          },
+                                        );
+                                      },
+                                      onEditTap: (selectedIndex) {
+                                        getId(
+                                            state.extraProperties
+                                                    ?.hasWritePermission ??
+                                                false,
+                                            id: state.list[index].id ?? 0);
+                                      },
+                                      onViewTap: (selectedIndex) {
+                                        showDialog(
+                                          context: context,
+                                          builder:
+                                              (BuildContext dialogContext) {
+                                            return BasePopUpItems(
+                                              id: state.list[selectedIndex].id
+                                                  .toString(),
+                                              slNo: state
+                                                  .list[selectedIndex].slNo,
+                                              status: state
+                                                  .list[selectedIndex].status,
+                                              labels: labels,
+                                              shiftBrfngAttnded: state
+                                                  .list[selectedIndex]
+                                                  .shiftBrfngAttnded,
+                                              materialMovement: state
+                                                  .list[selectedIndex]
+                                                  .materialMovement,
+                                              leoVisit: state
+                                                  .list[selectedIndex].leoVisit,
+                                              handOverSecurity: state
+                                                  .list[selectedIndex]
+                                                  .handoverSecurity,
+                                              isEventProtectionStatus: false,
+                                              isMasterGuard: false,
+                                              isOccurrenceStatus: true,
+                                            );
+                                          },
+                                        );
+                                      },
+                                      index: index,
+                                    );
+                            }
 
                             // Handle the case where index is out of bounds
                             return const Center(
-                            child: SizedBox(),
-              );
-                },
+                              child: SizedBox(),
+                            );
+                          },
                         ),
                       ),
                     ),

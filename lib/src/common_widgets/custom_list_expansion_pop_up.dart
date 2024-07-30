@@ -146,8 +146,7 @@ class MyExpansionTileListState extends State<MyExpansionTileList> {
     List<Widget> widgets = [];
     for (Region region in widget.locations?.regions ?? []) {
       widgets.add(
-        _buildPlayerModelList(
-            region.locations, region.name ?? '', context),
+        _buildPlayerModelList(region.locations, region.name ?? '', context),
       );
     }
 

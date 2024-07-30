@@ -1,9 +1,5 @@
-import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/general_info_model.dart';
-
 import '../../../../index.dart';
 import '../../../models/history.dart';
-import '../../../models/organisation.dart';
-import '../../createfound/models/user.dart';
 
 class IncidentsResponse {
   List<IncidentModel>? items;

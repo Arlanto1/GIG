@@ -9,6 +9,18 @@ import 'package:permission_handler/permission_handler.dart';
 class Utils {
   static final math.Random _random = math.Random.secure();
 
+  String getFileNameWithoutExtension(String fileName) {
+    int dotIndex = fileName.lastIndexOf('.');
+    if (dotIndex == -1) return fileName; // No extension found
+    return fileName.substring(0, dotIndex);
+  }
+
+  String getFileExtension(String fileName) {
+    int dotIndex = fileName.lastIndexOf('.');
+    if (dotIndex == -1) return ''; // No extension found
+    return fileName.substring(dotIndex);
+  }
+
   Color getRandomColor() {
     math.Random random = math.Random();
     return Color.fromRGBO(
@@ -88,7 +100,8 @@ class Utils {
     var dialog = CustomAlertDialog(
       title: title,
       message: message,
-      negativeBtnText: Constants.ok,//positiveBtnText is
+      negativeBtnText: Constants.ok,
+      //positiveBtnText is
       onPositivePressed: () {
         if (error.isNotEmpty) {
           Navigator.pop(context);
@@ -97,7 +110,7 @@ class Utils {
           Navigator.pop(context, true);
         }
       },
-      onNegativePressed: (){
+      onNegativePressed: () {
         Navigator.pop(context);
       },
     );
@@ -151,9 +164,11 @@ class Utils {
     log('Formatting Date: $dateTimeString');
 
     // Check if the input string is a Unix timestamp
-    if (dateTimeString.length == 10 && dateTimeString.contains(RegExp(r'^\d+$'))) {
+    if (dateTimeString.length == 10 &&
+        dateTimeString.contains(RegExp(r'^\d+$'))) {
       // Convert Unix timestamp to DateTime
-      final dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(dateTimeString) * 1000);
+      final dateTime =
+          DateTime.fromMillisecondsSinceEpoch(int.parse(dateTimeString) * 1000);
       return DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
     }
     final List<String> dateFormats = [
@@ -1517,7 +1532,7 @@ class Utils {
         state.message ?? 'Invalid Information',
       );
     }
-    if(state.status == FormStatus.permissionLocationError) {
+    if (state.status == FormStatus.permissionLocationError) {
       log('');
       var dialog = CustomAlertDialog(
           title: 'Location Permission',
@@ -1531,8 +1546,7 @@ class Utils {
           },
           positiveBtnText: Constants.settings,
           negativeBtnText: Constants.no);
-      showDialog(
-          context: context, builder: (BuildContext context) => dialog);
+      showDialog(context: context, builder: (BuildContext context) => dialog);
     }
   }
 
@@ -1552,5 +1566,4 @@ class Utils {
   bool isNumeric(String str) {
     return double.tryParse(str) != null;
   }
-
 }

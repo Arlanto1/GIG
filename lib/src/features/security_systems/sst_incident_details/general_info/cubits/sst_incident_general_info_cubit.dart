@@ -2,9 +2,8 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
-import 'package:intl/intl.dart';
-
 import 'package:db_atom/src/features/security_systems/services/sst_incident_services.dart';
+import 'package:intl/intl.dart';
 
 part 'sst_incident_general_info_state.dart';
 

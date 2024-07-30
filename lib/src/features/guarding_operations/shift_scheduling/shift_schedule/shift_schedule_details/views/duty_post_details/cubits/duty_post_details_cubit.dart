@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 part 'duty_post_details_state.dart';
 

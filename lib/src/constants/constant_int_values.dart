@@ -87,7 +87,6 @@ class ConstantsIntValue {
   static const int leoStatusVerificationUnderProgress = 2;
   static const int leoStatusDistributed = 3;
 
-
   /// SLA Violation status
   static const int slaStatusDraft = 0;
   static const int slaStatusActive = 1;

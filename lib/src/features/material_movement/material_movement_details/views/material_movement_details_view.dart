@@ -840,7 +840,8 @@ class _MaterialMovementDetailsViewState
                                                       .requestFocus(
                                                           requestorEmployeeIdFocusNode);
                                                 },
-                                                locationId:  state.model.location!.id!,
+                                                locationId:
+                                                    state.model.location!.id!,
                                                 functionToCall: () {
                                                   // refresh the list
                                                   BlocProvider.of<
@@ -1329,7 +1330,8 @@ class _MaterialMovementDetailsViewState
                                                           approver1EmailUser:
                                                               user);
                                                 },
-                                                locationId:  state.model.location!.id!,
+                                                locationId:
+                                                    state.model.location!.id!,
                                                 functionToCall: () {
                                                   // refresh the list
                                                   BlocProvider.of<
@@ -1521,7 +1523,8 @@ class _MaterialMovementDetailsViewState
                                                           approver2EmailUser:
                                                               user);
                                                 },
-                                                locationId:  state.model.location!.id!,
+                                                locationId:
+                                                    state.model.location!.id!,
                                                 functionToCall: () {
                                                   // refresh the list
                                                   BlocProvider.of<
@@ -2124,7 +2127,8 @@ class _MaterialMovementDetailsViewState
                                                 FocusScope.of(context).requestFocus(
                                                     receivedForEmployeeIdFocusNode);
                                               },
-                                              locationId:  state.model.location!.id!,
+                                              locationId:
+                                                  state.model.location!.id!,
                                               functionToCall: () {
                                                 // refresh the list
                                                 BlocProvider.of<
@@ -2246,7 +2250,7 @@ class _MaterialMovementDetailsViewState
                                               .updateDropdownValues(
                                                   receiverEmail: user);
                                         },
-                                        locationId:  state.model.location!.id!,
+                                        locationId: state.model.location!.id!,
                                         functionToCall: () {
                                           // refresh the list
                                           BlocProvider.of<

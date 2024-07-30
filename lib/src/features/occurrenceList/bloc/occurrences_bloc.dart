@@ -44,7 +44,7 @@ class OccurrencesBloc extends Bloc<OccurrencesEvent, OccurrencesState> {
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.occurrenceModule,
         commonServices: commonServices,
       );

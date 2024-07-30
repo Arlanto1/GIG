@@ -403,7 +403,9 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                                         widget.status == 14)) ||
                                 (widget.isKeyLossStatus &&
                                     (widget.status == 10 ||
-                                        widget.status == 11)) || widget.status == ConstantsIntValue.cancelledStatus)
+                                        widget.status == 11)) ||
+                                widget.status ==
+                                    ConstantsIntValue.cancelledStatus)
                         ? const Icon(Icons.edit_off_outlined)
                         : const Icon(Icons.edit),
                   ),

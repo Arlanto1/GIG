@@ -225,8 +225,7 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                     key: state.labels?.locale.total ??
                                         state.labels?.defaultLocale.total ??
                                         'Total',
-                                    value:
-                                    state.list[index].total.toString()));
+                                    value: state.list[index].total.toString()));
                                 return index >= state.list.length
                                     ? const BaseLoader()
                                     : BaseListTileItem(

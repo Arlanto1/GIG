@@ -6,6 +6,7 @@ class MaterialMovementDetailsState extends Equatable {
   final MaterialMovementModel model;
   final Locations? locations;
   final User? loggedInUserDetails;
+
   // final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final List<BaseUser>? requestorEmailUsers;

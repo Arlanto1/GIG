@@ -25,7 +25,6 @@ Future<Position> determinePosition() async {
   permission = await Geolocator.checkPermission();
   // log('-permission----checkPermission-----${permission.name}----');
   if (permission == LocationPermission.denied) {
-
     log('-permission--${permission.name}----');
     permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied) {
@@ -40,7 +39,9 @@ Future<Position> determinePosition() async {
 
   if (permission == LocationPermission.deniedForever) {
     // Permissions are denied forever, handle appropriately.
-    throw PermissionError(message: 'Location is required to use this app.\nPlease enable Location');
+    throw PermissionError(
+        message:
+            'Location is required to use this app.\nPlease enable Location');
 
     // return Future.error(
     //     'Location permissions are permanently denied, we cannot request permissions.');

@@ -50,10 +50,10 @@ class PopButton extends StatelessWidget {
             ? Text(buttonText ?? '', key: Key(buttonTextKey ?? ''))
             : SvgPicture.asset(
                 imageText ?? '',
-          colorFilter: const ColorFilter.mode(
-            AppColors.navigationSkyBlueColor,
-            BlendMode.srcIn,
-          ),
+                colorFilter: const ColorFilter.mode(
+                  AppColors.navigationSkyBlueColor,
+                  BlendMode.srcIn,
+                ),
                 // color: AppColors.navigationSkyBlueColor,
                 width: 20,
                 //key: const Key(Keys.userIcon),

@@ -3,12 +3,14 @@ import 'package:db_atom/src/features/event_protection/services/event_protection_
 
 class EventProtectionDetails extends StatelessWidget {
   final String id;
+  final String title;
   final int eventStatus;
   final ShowEPGridsModel showEPGridsModel;
 
   EventProtectionDetails({
     super.key,
     required this.id,
+    required this.title,
     required this.eventStatus,
     required this.showEPGridsModel,
   });
@@ -24,7 +26,7 @@ class EventProtectionDetails extends StatelessWidget {
       backgroundColor: AppColors.cardBgColor,
       appBar: BaseAppBar().buildAppHeader(
         context: context,
-        title: Constants.eventProtectionTitle,
+        title: title ?? Constants.eventProtectionTitle,
         showPopUp: true,
         showSaveButton: false,
         showSubmitButton: false,
@@ -48,7 +50,9 @@ class EventProtectionDetails extends StatelessWidget {
                       showGuardInfo = showGuardInfoResponse.showGuardInfo;
                     }
                     nav.pushNamed(
-                      generalInfoGIRoute, // change it
+                      title == Constants.annualPowerShutdownListDetails
+                          ? annualPowerShutdownListDetailsRoute
+                          : eventProtectionGeneralInfoGIRoute, // change it
                       arguments: {
                         'id': id,
                         'showGuardInfo': showGuardInfo,

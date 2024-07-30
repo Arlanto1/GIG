@@ -78,7 +78,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
     context.read<SstIncidentBloc>().add(
           const RefreshList(),
         );
-    // await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
   }
 

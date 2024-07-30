@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 // import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:saver_gallery/saver_gallery.dart';
@@ -73,6 +74,7 @@ class ReviewSignaturePage extends StatelessWidget {
     //       backgroundColor: Colors.red, colorText: Colors.white);
     // }
   }
+
   _toastInfo(String info) {
     Get.snackbar('Success', 'Signature saved to device',
         backgroundColor: Colors.red, colorText: Colors.white);

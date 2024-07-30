@@ -77,7 +77,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
               if (widget.viaKeyIssuance) {
                 Navigator.pushNamed(
                   context,
-                  keyHistoryRecordsDetailsRoute ,
+                  keyHistoryRecordsDetailsRoute,
                   arguments: {
                     'id': state.model.keyLossGi?.id.toString(),
                     "title": Constants.editKeyLostHistory,
@@ -154,9 +154,9 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
       closureTargetDateController.text = formattedDate;
 
       DateTime dateTime;
-        dateTime =
-            DateFormat("dd/MM/yyyy HH:mm:ss").parse(closureTargetDateController.text);
-        int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      dateTime = DateFormat("dd/MM/yyyy HH:mm:ss")
+          .parse(closureTargetDateController.text);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.closureTargetDate = inputDate.toString();
     } else {
       closureTargetDateController.text = Utils.timestampToDateConversion(
@@ -292,7 +292,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                                   BlocProvider.of<IncidentGeneralInfoCubit>(
                                           context)
-                                      .updateLocationDropdownValue(location: location);
+                                      .updateLocationDropdownValue(
+                                          location: location);
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -543,7 +544,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                           complainantEmpIdFocusNode);
                                     },
                                     roleName: ConstantUserRoles.atomStaticUser,
-                                    locationId:  state.model.location!.id!,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
@@ -682,7 +683,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     );
                                   },
                                   roleName: ConstantUserRoles.atomStaticUser,
-                                  locationId:  state.model.location!.id!,
+                                  locationId: state.model.location!.id!,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<IncidentGeneralInfoCubit>(
@@ -813,7 +814,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             ),
                             TextFieldAddButton(
                               title: state.model.incidentOwner?.userInfo ??
-                                    state.model.incidentOwner?.name,
+                                  state.model.incidentOwner?.name,
                               height: 70,
                               isDisableColor: disableForm,
                               onTap: () {
@@ -888,7 +889,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: closureTargetDateController,
-                              isDisabled: (state.model.status != null && state.model.status! >= 1) ||
+                              isDisabled: (state.model.status != null &&
+                                      state.model.status! >= 1) ||
                                   !state.model.lock.isEmptyOrNull,
                               onlyDate: false,
                               showPastDate: false,
