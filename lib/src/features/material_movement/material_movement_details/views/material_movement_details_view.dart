@@ -839,7 +839,8 @@ class _MaterialMovementDetailsViewState
                                                       .requestFocus(
                                                           requestorEmployeeIdFocusNode);
                                                 },
-                                                locationId:  state.model.location!.id!,
+                                                locationId:
+                                                    state.model.location!.id!,
                                                 functionToCall: () {
                                                   // refresh the list
                                                   BlocProvider.of<
@@ -1328,7 +1329,8 @@ class _MaterialMovementDetailsViewState
                                                           approver1EmailUser:
                                                               user);
                                                 },
-                                                locationId:  state.model.location!.id!,
+                                                locationId:
+                                                    state.model.location!.id!,
                                                 functionToCall: () {
                                                   // refresh the list
                                                   BlocProvider.of<
@@ -1520,7 +1522,8 @@ class _MaterialMovementDetailsViewState
                                                           approver2EmailUser:
                                                               user);
                                                 },
-                                                locationId:  state.model.location!.id!,
+                                                locationId:
+                                                    state.model.location!.id!,
                                                 functionToCall: () {
                                                   // refresh the list
                                                   BlocProvider.of<
@@ -2123,7 +2126,8 @@ class _MaterialMovementDetailsViewState
                                                 FocusScope.of(context).requestFocus(
                                                     receivedForEmployeeIdFocusNode);
                                               },
-                                              locationId:  state.model.location!.id!,
+                                              locationId:
+                                                  state.model.location!.id!,
                                               functionToCall: () {
                                                 // refresh the list
                                                 BlocProvider.of<
@@ -2245,7 +2249,7 @@ class _MaterialMovementDetailsViewState
                                               .updateDropdownValues(
                                                   receiverEmail: user);
                                         },
-                                        locationId:  state.model.location!.id!,
+                                        locationId: state.model.location!.id!,
                                         functionToCall: () {
                                           // refresh the list
                                           BlocProvider.of<
@@ -2548,7 +2552,8 @@ class _MaterialMovementDetailsViewState
                                                             returnReceiverMailId:
                                                                 user);
                                                   },
-                                                  locationId:  state.model.location!.id!,
+                                                  locationId:
+                                                      state.model.location!.id!,
                                                   functionToCall: () {
                                                     // refresh the list
                                                     BlocProvider.of<
@@ -2669,7 +2674,8 @@ class _MaterialMovementDetailsViewState
                               ],
                             ],
 
-                            if (!widget.isInward && widget.model?.status == 6) ...[
+                            if (!widget.isInward &&
+                                widget.model?.status == 6) ...[
                               /// Is Material Physically Checked
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.materialPhysicallyChecked ??
@@ -2685,8 +2691,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.materialPhysicallyChecked
                                           ? 1
                                           : 0,
-                                  onChangedYes: ((
-                                              widget.model?.status == 10 ||
+                                  onChangedYes: ((widget.model?.status == 10 ||
                                               widget.model?.status == -1) ||
                                           !state.model.lock.isEmptyOrNull)
                                       ? null
@@ -2699,8 +2704,7 @@ class _MaterialMovementDetailsViewState
                                             // materialMovement: materialMovement,
                                           );
                                         },
-                                  onChangedNo:
-                                          widget.model?.status == 10 ||
+                                  onChangedNo: widget.model?.status == 10 ||
                                           widget.model?.status == -1 ||
                                           !state.model.lock.isEmptyOrNull
                                       ? null
@@ -2713,11 +2717,12 @@ class _MaterialMovementDetailsViewState
                                             // materialMovement: materialMovement,
                                           );
                                         }),
+
                               /// Comment
                               if (!state.model.materialPhysicallyChecked) ...[
                                 CommonWidgets.textDisplay(
                                   state.labels?.locale
-                                      .materialNotCheckedComment ??
+                                          .materialNotCheckedComment ??
                                       state.labels?.defaultLocale
                                           .materialNotCheckedComment ??
                                       Constants.comment,
@@ -2726,11 +2731,11 @@ class _MaterialMovementDetailsViewState
                                 ),
                                 FlutterInputField(
                                   initialValue:
-                                  state.model.materialNotCheckedComment,
+                                      state.model.materialNotCheckedComment,
                                   textFormKey: Keys.claimantEmpIdTextController,
                                   hintText: '',
                                   isEnable: state.model.status == 6,
-                                  isDisableColor: state.model.status != 6 ,
+                                  isDisableColor: state.model.status != 6,
                                   onChange: (String value) {
                                     state.model.materialNotCheckedComment =
                                         value;

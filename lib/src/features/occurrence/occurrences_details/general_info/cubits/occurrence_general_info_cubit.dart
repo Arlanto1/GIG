@@ -162,9 +162,9 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       }
       model.entrySecurity ??= loggedInUserDetails;
       List<BaseUser>? shiftTakenOverBy =
-      await commonServices.getBaseUsersByRoles(
-          roleNames: ConstantUserRoles.atomGuardingStaffUser,
-          locationId: model.location?.id);
+          await commonServices.getBaseUsersByRoles(
+              roleNames: ConstantUserRoles.atomGuardingStaffUser,
+              locationId: model.location?.id);
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
       model.status ?? 0;

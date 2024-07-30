@@ -231,10 +231,10 @@ class SLAViolationPenaltyDetailsCubit
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
 
-      users = await commonServices.getBaseUsers(roleName: 'T1_Analyst', locationId: location.id);
-      emailUsers =
-      await commonServices.getBaseUsers(roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
-
+      users = await commonServices.getBaseUsers(
+          roleName: 'T1_Analyst', locationId: location.id);
+      emailUsers = await commonServices.getBaseUsers(
+          roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
     }
     state.model.status = status ?? state.model.status;
     if (location != null) {

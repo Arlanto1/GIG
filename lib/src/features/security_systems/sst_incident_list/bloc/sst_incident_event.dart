@@ -30,5 +30,6 @@ class RefreshList extends SstIncidentEvent {
 
 class SendReminderEmail extends SstIncidentEvent {
   final int id;
+
   const SendReminderEmail({required this.id});
 }

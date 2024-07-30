@@ -1,16 +1,7 @@
 // Created by Ramesh
 
-import 'dart:developer';
-
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/util.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class FoundListItem extends StatefulWidget {
   final Function? onTap;
@@ -107,7 +98,7 @@ class _FoundListItemState extends State<FoundListItem> {
                   ),
                   Row(
                     children: [
-                      if (widget.userItem.entrySecurity !=null) ...[
+                      if (widget.userItem.entrySecurity != null) ...[
                         Utils().textHandling('Created By : ',
                             ('${widget.userItem.entrySecurity?.firstName ?? ''} ${widget.userItem.entrySecurity?.lastName ?? ''}')),
                       ],

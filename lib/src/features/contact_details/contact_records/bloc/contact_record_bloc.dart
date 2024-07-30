@@ -6,6 +6,7 @@ import 'package:db_atom/index.dart';
 import '../../services/contact_details_services.dart';
 
 part 'contact_record_event.dart';
+
 part 'contact_record_state.dart';
 
 class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
@@ -22,7 +23,6 @@ class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
     on<SaveRecord>(_saveRecord);
     on<DeleteRecord>(_deleteRecord);
     on<RefreshContactRecordsList>(refreshList);
-
   }
 
   final ContactDetailsServices services = ContactDetailsServices();
@@ -91,7 +91,8 @@ class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
     }
   }
 
-  Future<void> refreshList(RefreshContactRecordsList event, Emitter<ContactRecordState> emit) async {
+  Future<void> refreshList(
+      RefreshContactRecordsList event, Emitter<ContactRecordState> emit) async {
     log('-refreshList---');
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation> departments = await commonServices.getOrganisations(

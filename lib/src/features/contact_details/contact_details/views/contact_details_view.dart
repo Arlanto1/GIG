@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 class ContactDetailsView extends StatefulWidget {
   final ContactDetailModel? model;
@@ -27,7 +26,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
   List<ImageContent> getAttachments = [];
   TextEditingController takenOutOnDateController = TextEditingController();
   TextEditingController expectedDateOfReturnController =
-  TextEditingController();
+      TextEditingController();
   TextEditingController actualDateOfReturnController = TextEditingController();
   bool isReadOnly = false;
   List<String> returnableDropDownValues = const [
@@ -124,7 +123,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
             showDisLikeButton: false,
             showLikeButton: false,
             pdfAPIName:
-            '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.contactDetailsModuleCode}',
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.contactDetailsModuleCode}',
             popAndReplace: () {
               log('--popAndReplace-----');
               // Navigator.pop(context);
@@ -178,7 +177,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                   color: AppColors.backgroundWhiteColor,
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(20.0)),
+                        BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
               // child: AbsorbPointer(
               //   absorbing: isReadOnly,
@@ -232,7 +231,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             textFormKey: Keys.statusTextController,
                             hintText: '',
                             initialValue:
-                            getStatusString(state.model.status ?? 0),
+                                getStatusString(state.model.status ?? 0),
                             onChange: (String value) {},
                             validateTextField: (String? user) {},
                           ),
@@ -264,7 +263,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               context: context,
                               locations: state.locations ?? Locations(),
                               selectedLocationName:
-                              state.model.location?.name ?? '',
+                                  state.model.location?.name ?? '',
                               onTap: (Organisation? location) {
                                 BlocProvider.of<ContactDetailsCubit>(context)
                                     .updateDropdownValues(location: location);
@@ -297,8 +296,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
 
                             /// Modified By
                             CommonWidgets.horizentaltextHandling(
-                              // state.labels?.locale.entrySecurity ??
-                              //     state.labels?.defaultLocale.entrySecurity ??
+                                // state.labels?.locale.entrySecurity ??
+                                //     state.labels?.defaultLocale.entrySecurity ??
                                 Constants.modifiedBy,
                                 isMandatory: true,
                                 '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
@@ -320,9 +319,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
                               bool isSaveSuccess =
-                              await BlocProvider.of<ContactDetailsCubit>(
-                                  context)
-                                  .submitForm(
+                                  await BlocProvider.of<ContactDetailsCubit>(
+                                          context)
+                                      .submitForm(
                                 isSaveOnly: true,
                                 navigateToNextScreen: true,
                               );
@@ -333,21 +332,21 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               log('--state.model.id---${state.model.id}--');
                               List<Organisation> ranks = await CommonServices()
                                   .getOrganisations(
-                                  name: Constants.contactGeneralRank);
+                                      name: Constants.contactGeneralRank);
 
                               nav.pushNamed(
                                 contactRecordsRoute,
                                 arguments: {
                                   ConstantsArgument.title:
-                                  Constants.generalContact,
+                                      Constants.generalContact,
                                   ConstantsArgument.type: 0,
                                   ConstantsArgument.id: state.model.id,
                                   ConstantsArgument.rankType:
-                                  Constants.contactGeneralRank,
+                                      Constants.contactGeneralRank,
                                   ConstantsArgument.ranks: ranks,
                                   ConstantsArgument.parentStatus:
-                                  state.model.status,
-                                  ConstantsArgument.lock: state.model.lock,
+                                      state.model.status,
+                                  ConstantsArgument.isLocked: state.model.lock,
                                 },
                               );
                             },
@@ -380,7 +379,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             alignment: Alignment.topLeft,
                             child: Text(
                               state.labels?.locale
-                                  .guardingAgencyEscalationContact ??
+                                      .guardingAgencyEscalationContact ??
                                   state.labels?.defaultLocale
                                       .guardingAgencyEscalationContact ??
                                   Constants.guardingAgencyContact,
@@ -392,9 +391,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
                               bool isSaveSuccess =
-                              await BlocProvider.of<ContactDetailsCubit>(
-                                  context)
-                                  .submitForm(
+                                  await BlocProvider.of<ContactDetailsCubit>(
+                                          context)
+                                      .submitForm(
                                 isSaveOnly: true,
                                 navigateToNextScreen: true,
                               );
@@ -405,21 +404,21 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               log('--state.model.id---${state.model.id}--');
                               List<Organisation> ranks = await CommonServices()
                                   .getOrganisations(
-                                  name: Constants
-                                      .contactGuardingAgencyEscalationRank);
+                                      name: Constants
+                                          .contactGuardingAgencyEscalationRank);
                               nav.pushNamed(
                                 contactRecordsRoute,
                                 arguments: {
                                   ConstantsArgument.title:
-                                  Constants.guardingAgencyContact,
+                                      Constants.guardingAgencyContact,
                                   ConstantsArgument.type: 1,
                                   ConstantsArgument.id: state.model.id,
                                   ConstantsArgument.rankType: Constants
                                       .contactGuardingAgencyEscalationRank,
                                   ConstantsArgument.ranks: ranks,
                                   ConstantsArgument.parentStatus:
-                                  state.model.status,
-                                  ConstantsArgument.lock: state.model.lock,
+                                      state.model.status,
+                                  ConstantsArgument.isLocked: state.model.lock,
                                 },
                               );
                             },
@@ -464,9 +463,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
                               bool isSaveSuccess =
-                              await BlocProvider.of<ContactDetailsCubit>(
-                                  context)
-                                  .submitForm(
+                                  await BlocProvider.of<ContactDetailsCubit>(
+                                          context)
+                                      .submitForm(
                                 isSaveOnly: true,
                                 navigateToNextScreen: true,
                               );
@@ -477,21 +476,21 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               log('--state.model.id---${state.model.id}--');
                               List<Organisation> ranks = await CommonServices()
                                   .getOrganisations(
-                                  name: Constants
-                                      .contactSystemEscalationRank);
+                                      name: Constants
+                                          .contactSystemEscalationRank);
                               nav.pushNamed(
                                 contactRecordsRoute,
                                 arguments: {
                                   ConstantsArgument.title:
-                                  Constants.systemEscalationContact,
+                                      Constants.systemEscalationContact,
                                   ConstantsArgument.type: 2,
                                   ConstantsArgument.id: state.model.id,
                                   ConstantsArgument.rankType:
-                                  Constants.contactSystemEscalationRank,
+                                      Constants.contactSystemEscalationRank,
                                   ConstantsArgument.ranks: ranks,
                                   ConstantsArgument.parentStatus:
-                                  state.model.status,
-                                  ConstantsArgument.lock: state.model.lock,
+                                      state.model.status,
+                                  ConstantsArgument.isLocked: state.model.lock,
                                 },
                               );
                             },
@@ -535,9 +534,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
                               bool isSaveSuccess =
-                              await BlocProvider.of<ContactDetailsCubit>(
-                                  context)
-                                  .submitForm(
+                                  await BlocProvider.of<ContactDetailsCubit>(
+                                          context)
+                                      .submitForm(
                                 isSaveOnly: true,
                                 navigateToNextScreen: true,
                               );
@@ -548,20 +547,20 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               log('--state.model.id---${state.model.id}--');
                               List<Organisation> ranks = await CommonServices()
                                   .getOrganisations(
-                                  name: Constants.contactSupervisorRank);
+                                      name: Constants.contactSupervisorRank);
                               nav.pushNamed(
                                 contactRecordsRoute,
                                 arguments: {
                                   ConstantsArgument.title:
-                                  Constants.cmsEscalationContact,
+                                      Constants.cmsEscalationContact,
                                   ConstantsArgument.type: 4,
                                   ConstantsArgument.id: state.model.id,
                                   ConstantsArgument.rankType:
-                                  Constants.contactSupervisorRank,
+                                      Constants.contactSupervisorRank,
                                   ConstantsArgument.ranks: ranks,
                                   ConstantsArgument.parentStatus:
-                                  state.model.status,
-                                  ConstantsArgument.lock: state.model.lock,
+                                      state.model.status,
+                                  ConstantsArgument.isLocked: state.model.lock,
                                 },
                               );
                             },
@@ -606,9 +605,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
                               bool isSaveSuccess =
-                              await BlocProvider.of<ContactDetailsCubit>(
-                                  context)
-                                  .submitForm(
+                                  await BlocProvider.of<ContactDetailsCubit>(
+                                          context)
+                                      .submitForm(
                                 isSaveOnly: true,
                                 navigateToNextScreen: true,
                               );
@@ -619,7 +618,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               log('--state.model.id---${state.model.id}--');
                               List<Organisation> ranks = await CommonServices()
                                   .getOrganisations(
-                                  name: Constants.contactZone);
+                                      name: Constants.contactZone);
                               nav.pushNamed(
                                 contactRecordsRoute,
                                 arguments: {
@@ -628,11 +627,11 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   ConstantsArgument.type: 3,
                                   ConstantsArgument.id: state.model.id,
                                   ConstantsArgument.rankType:
-                                  Constants.contactZone,
+                                      Constants.contactZone,
                                   ConstantsArgument.ranks: ranks,
                                   ConstantsArgument.parentStatus:
-                                  state.model.status,
-                                  ConstantsArgument.lock: state.model.lock,
+                                      state.model.status,
+                                  ConstantsArgument.isLocked: state.model.lock,
                                 },
                               );
                             },

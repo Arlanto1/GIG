@@ -236,7 +236,6 @@ class CreatePassMgmtState extends Equatable {
   //   );
   // }
 
-
   @override
   List<Object?> get props => [
         getEntitiesResponse,

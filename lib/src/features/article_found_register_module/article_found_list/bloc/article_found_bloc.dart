@@ -6,6 +6,7 @@ import 'package:db_atom/src/features/article_found_register_module/foundlist/mod
 import 'package:db_atom/src/features/article_found_register_module/foundlist/services/foundlist_services.dart';
 
 part 'article_found_event.dart';
+
 part 'article_found_state.dart';
 
 class ArticleFoundBloc extends Bloc<ArticleFoundStateEvent, ArticleFoundState> {
@@ -31,7 +32,7 @@ class ArticleFoundBloc extends Bloc<ArticleFoundStateEvent, ArticleFoundState> {
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.articleFoundModuleCode,
         commonServices: commonServices,
       );

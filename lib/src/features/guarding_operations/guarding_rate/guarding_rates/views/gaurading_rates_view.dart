@@ -160,7 +160,8 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
 
                 if (state.items.isEmptyOrNull) ...[
                   CommonWidgets.verticalSpacerWidget(height * 0.1),
-                  if (state.status != FormStatus.loading) const NoRecordFoundWidget(),
+                  if (state.status != FormStatus.loading)
+                    const NoRecordFoundWidget(),
                 ],
                 Expanded(
                   child: SmartRefresher(
@@ -208,8 +209,7 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
                                     state.labels?.defaultLocale.location ??
                                     'Building Location',
                                 value:
-                                    state.items[index].location?.name ??
-                                        ''));
+                                    state.items[index].location?.name ?? ''));
                             labels.add(Label(
                                 key: state.labels?.locale.slNo ??
                                     state.labels?.defaultLocale.slNo ??

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 import '../../../../../../index.dart';
 import '../../passmgmtlist/models/day_passlist_model.dart';
 
@@ -29,7 +28,7 @@ class CreatePassMgmtBody {
       };
 }
 
-class PassManagement extends BaseObject{
+class PassManagement extends BaseObject {
   int? id;
   String? slNo;
   String? inputDate;

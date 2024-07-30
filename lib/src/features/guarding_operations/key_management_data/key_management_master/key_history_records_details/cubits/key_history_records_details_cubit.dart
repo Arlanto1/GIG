@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 part 'key_history_records_details_state.dart';
 
@@ -23,15 +22,15 @@ class KeyHistoryRecordsDetailsCubit
     required this.model,
     this.kipId,
   }) : super(
-          KeyHistoryRecordsDetailsState.initial(
-            model: model ?? KeyHistoryModel(),
-            loggedInUserDetails: User(),
-            users: const [],
-            securityManager: const [],
-            errorMessage: '',
-            departments: const [],
-          ),
-        );
+    KeyHistoryRecordsDetailsState.initial(
+      model: model ?? KeyHistoryModel(),
+      loggedInUserDetails: User(),
+      users: const [],
+      securityManager: const [],
+      errorMessage: '',
+      departments: const [],
+    ),
+  );
 
   void onModelValueChange(KeyHistoryModel model) {
     log('-onModelValueChange---');
@@ -223,7 +222,9 @@ class KeyHistoryRecordsDetailsCubit
     }
 
     state.model.createdDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+        (DateTime
+            .now()
+            .millisecondsSinceEpoch ~/ 1000).toString();
 
     // Setting time in milliseconds
     // DateTime dateTime;
@@ -236,13 +237,16 @@ class KeyHistoryRecordsDetailsCubit
     //   state.model.createdDate = inputDate.toString();
     // }
     state.model.modifiedDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+        (DateTime
+            .now()
+            .millisecondsSinceEpoch ~/ 1000).toString();
     // Create/Update API Call
     KeyHistoryRecordRequest request =
-        KeyHistoryRecordRequest(keyLossGi: state.model);
+    KeyHistoryRecordRequest(keyLossGi: state.model);
     // state.model.keyManagementId = parentId.toString();
 
-    log('---state.keyManagementMasterModel?.noKeys----${state.keyManagementMasterModel?.noKeys}------');
+    log('---state.keyManagementMasterModel?.noKeys----${state
+        .keyManagementMasterModel?.noKeys}------');
 
     GenericResponse response = GenericResponse();
     try {
@@ -324,8 +328,8 @@ class KeyHistoryRecordsDetailsCubit
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model.createdDate ?? '0'),
-              Constants.fulldateFormat);
+          int.tryParse(state.model.createdDate ?? '0'),
+          Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {
       emit(

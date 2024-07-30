@@ -220,7 +220,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       model: state.model,
       emailUsers: emailUsers,
       incidentManager: incidentManager,
-      incidentOwner:incidentOwner,
+      incidentOwner: incidentOwner,
       status: FormStatus.initial,
     ));
 

@@ -184,8 +184,8 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                         state.labels?.defaultLocale
                                             .locationRegion ??
                                         'Regionasdasd',
-                                    value: state.items[index].entrySecurityName.toString()
-                                         ??
+                                    value: state.items[index].entrySecurityName
+                                            .toString() ??
                                         ''));
                                 labels.add(Label(
                                     key: state.labels?.locale.locationRegion ??

@@ -11,7 +11,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -48,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (!userName.isEmptyOrNull && !token.isEmptyOrNull) {
       // Check if a password change is required
       bool requirePasswordChange =
-      await SharedPrefs.getIsRequiredPasswordChange();
+          await SharedPrefs.getIsRequiredPasswordChange();
 
       // Navigate to the reset password screen if a password change is required
       if (requirePasswordChange) {
@@ -59,14 +58,14 @@ class _SplashScreenState extends State<SplashScreen> {
       // Navigate to the dashboard screen and remove all previous screens from the back stack
       navigatorState.pushNamedAndRemoveUntil(
         dashboardViewRoute,
-            (route) => false,
+        (route) => false,
       );
     } else {
       // Navigate to the login screen and remove all previous screens from the back stack
       log('--initRouting--loginScreenRoute-');
       navigatorState.pushNamedAndRemoveUntil(
         loginScreenRoute,
-            (route) => false,
+        (route) => false,
       );
     }
   }

@@ -53,7 +53,8 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
     //_getFoundNewuser();
   }
 
-  void _getFoundNewuser(String firstname, String lastname, String email, int locationId) async {
+  void _getFoundNewuser(
+      String firstname, String lastname, String email, int locationId) async {
     showLoadingDialog(context);
     if (widget.createoundstate != null) {
       log('---_getFoundNewuser------');
@@ -67,7 +68,7 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
           firstname, lastname, email, 'ATOM_STATIC_USER', locationId, context);
     } else if (widget.lawstate != null) {
       await lawEnforcementCubit.createUser(
-          firstname, lastname, email, 'ATOM_STATIC_USER',locationId, context);
+          firstname, lastname, email, 'ATOM_STATIC_USER', locationId, context);
     }
   }
 
@@ -219,7 +220,7 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
         } else {
           try {
             _getFoundNewuser(firstnameTextController.text,
-                lastnameTextController.text, emailTextController.text,0);
+                lastnameTextController.text, emailTextController.text, 0);
           } catch (e) {
             // present userwith error message
           }

@@ -108,8 +108,7 @@ class LawEnforcementServices {
     return SerialNumberModel.fromJson(response);
   }
 
-  Future<LeoPurposeVisit> getLeoPurposeOfVisits(
-      String name) async {
+  Future<LeoPurposeVisit> getLeoPurposeOfVisits(String name) async {
     String url = '${Apis._getLocations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
@@ -137,7 +136,8 @@ class LawEnforcementServices {
 
   //Get Employee Departments
   Future<EmployeeDepartments> getEmployeeDepartments(
-      String name, ) async {
+    String name,
+  ) async {
     String url = '${Apis._getLocations}$name';
     final response = await BaseApiService().getRequest(
       url: url,
@@ -155,8 +155,7 @@ class LawEnforcementServices {
     return User.fromJson(response);
   }
 
-  Future<DistributionGroupModel> getDistributionGroupDetails(
-  ) async {
+  Future<DistributionGroupModel> getDistributionGroupDetails() async {
     String url = Apis._getGroup;
     final response = await BaseApiService().getRequest(
       url: url,
@@ -180,7 +179,7 @@ class LawEnforcementServices {
     String lastName,
     String email,
     String role,
-      int locationId,
+    int locationId,
   ) async {
     final String url =
         "${Apis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role&locationId=$locationId";

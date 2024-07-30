@@ -2,9 +2,8 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
-import 'package:intl/intl.dart';
-
 import 'package:db_atom/src/features/security_systems/services/sst_incident_services.dart';
+import 'package:intl/intl.dart';
 
 part 'sst_incident_general_info_state.dart';
 
@@ -58,14 +57,16 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
     Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
 
-    List<BaseUser> locationTeamUsers =
-        await commonServices.getBaseUsers(roleName: 'ATOM_Security_Team', locationId: state.model.location?.id);
+    List<BaseUser> locationTeamUsers = await commonServices.getBaseUsers(
+        roleName: 'ATOM_Security_Team', locationId: state.model.location?.id);
 
     List<BaseUser> securityLeads = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_ROLE_Security_Lead;ATOM_Assistant_Security_Lead', locationId: state.model.location?.id);
+        roleNames: 'ATOM_ROLE_Security_Lead;ATOM_Assistant_Security_Lead',
+        locationId: state.model.location?.id);
 
     List<BaseUser> securityManagers = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Security_Manager;ATOM_Senior_Security_Manager', locationId: state.model.location?.id);
+        roleNames: 'ATOM_Security_Manager;ATOM_Senior_Security_Manager',
+        locationId: state.model.location?.id);
 
     emit(
       state.copyWith(

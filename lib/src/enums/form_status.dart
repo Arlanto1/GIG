@@ -7,8 +7,8 @@ enum FormStatus {
   success,
   successFormSubmit,
   failure,
-  formError,  // Form Validation Erro
-  error,  // Immediately Logout
+  formError, // Form Validation Erro
+  error, // Immediately Logout
   permissionLocationError, // When location Permission is denied
   invalidEmail,
   addArticleFound,

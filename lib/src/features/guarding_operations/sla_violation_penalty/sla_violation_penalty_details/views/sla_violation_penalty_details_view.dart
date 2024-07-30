@@ -389,7 +389,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                         .updateDropdownValues(user: user);
                                   },
                                   roleName: ConstantUserRoles.atomStaticUser,
-                                  locationId:  state.model.location!.id!,
+                                  locationId: state.model.location!.id!,
                                   functionToCall: () {
                                     BlocProvider.of<
                                                 SLAViolationPenaltyDetailsCubit>(
@@ -496,6 +496,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                     violationDescriptions,
                                 ConstantsArgument.parentStatus:
                                     state.model.status,
+                                ConstantsArgument.isLocked:
+                                    !state.model.lock.isEmptyOrNull,
                               },
                             );
                           },
@@ -542,7 +544,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
               ),
             ),
             if (state.model.status == 2 ||
-                state.model.status == ConstantsIntValue.cancelledStatus) ...[
+                state.model.status == ConstantsIntValue.cancelledStatus ||
+                isReadOnly) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(

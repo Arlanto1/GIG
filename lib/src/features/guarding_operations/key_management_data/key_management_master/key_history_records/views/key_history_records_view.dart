@@ -7,14 +7,13 @@ import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../bloc/key_history_record_bloc.dart';
 
 class KeyHistoryRecordsView extends StatefulWidget {
-  const KeyHistoryRecordsView({
-    super.key,
-    required this.id,
-    required this.type,
-    this.model,
-    this.extraProperties,
-    this.lock
-  });
+  const KeyHistoryRecordsView(
+      {super.key,
+      required this.id,
+      required this.type,
+      this.model,
+      this.extraProperties,
+      this.lock});
 
   final int id;
   final int type;
@@ -71,7 +70,8 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,
             floatingActionButton: !(widget.extraProperties != null &&
-                        !widget.extraProperties!.hasWritePermission!) && (widget.lock.isEmptyOrNull)&&
+                        !widget.extraProperties!.hasWritePermission!) &&
+                    (widget.lock.isEmptyOrNull) &&
                     widget.model?.status != -1 &&
                     widget.type != ConstantsIntValue.keyLostHistoryInt &&
                     widget.type != ConstantsIntValue.keyDamageHistoryInt &&
@@ -202,10 +202,18 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                                           false,
                                       state.list[index].id ?? 0);
                                 },
-                                showEditButton: !(widget.extraProperties != null &&
-                                    !widget.extraProperties!.hasWritePermission!) ?true:false,
-                          showDutyPostEditButton:!(widget.extraProperties != null &&
-                              !widget.extraProperties!.hasWritePermission!) ?false:true ,
+                                showEditButton:
+                                    !(widget.extraProperties != null &&
+                                            !widget.extraProperties!
+                                                .hasWritePermission!)
+                                        ? true
+                                        : false,
+                                showDutyPostEditButton:
+                                    !(widget.extraProperties != null &&
+                                            !widget.extraProperties!
+                                                .hasWritePermission!)
+                                        ? false
+                                        : true,
                                 onViewTap: (selectedIndex) {
                                   showDialog(
                                     context: context,

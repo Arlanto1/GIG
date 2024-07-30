@@ -119,7 +119,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                         Container(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            state.model.content?.subject??'',
+                            state.model.content?.subject ?? '',
                             style: Styles.styleHeaderGreyText30,
                           ),
                         ),
@@ -278,7 +278,6 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
 
   Widget cancelButtonDisplay() {
     return AppButton(
-      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
