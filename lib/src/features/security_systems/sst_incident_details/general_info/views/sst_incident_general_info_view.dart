@@ -69,19 +69,19 @@ class _SstIncidentGeneralInfoViewState
               Navigator.popAndPushNamed(
                 context,
                 sstIncidentListRoute,
-                arguments: {"isInternal": widget.isInternal},
+                // arguments: {"isInternal": widget.isInternal},
               );
-              if (widget.viaOccurrence) {
-                Navigator.pushNamed(
-                  context,
-                  occurrenceDetailsRoute,
-                  arguments: {
-                    'id': state.model.occurrence?.id.toString(),
-                    "title": Constants.editOccurrence,
-                  },
-                );
-                return;
-              }
+              // if (widget.viaOccurrence) {
+              //   Navigator.pushNamed(
+              //     context,
+              //     occurrenceDetailsRoute,
+              //     arguments: {
+              //       'id': state.model.occurrence?.id.toString(),
+              //       "title": Constants.editOccurrence,
+              //     },
+              //   );
+              //   return;
+              // }
             },
           );
           showDialog(
@@ -550,6 +550,7 @@ class _SstIncidentGeneralInfoViewState
                                       },
                                       roleName: ConstantUserRoles
                                           .atomSeniorSecurityManagerUser,
+                                      locationId:  state.model.location!.id!,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
@@ -589,6 +590,7 @@ class _SstIncidentGeneralInfoViewState
                                       },
                                       roleName: ConstantUserRoles
                                           .atomSecurityAndSeniorSecurityManagerUser,
+                                      locationId:  state.model.location!.id!,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
@@ -628,6 +630,7 @@ class _SstIncidentGeneralInfoViewState
                                       },
                                       roleName: ConstantUserRoles
                                           .atomSecurityLeadAndAssistantSecurityLeadUser,
+                                      locationId:  state.model.location!.id!,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
@@ -669,6 +672,7 @@ class _SstIncidentGeneralInfoViewState
                                       },
                                       roleName: ConstantUserRoles
                                           .atomSecurityTeamUser,
+                                      locationId:  state.model.location!.id!,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<

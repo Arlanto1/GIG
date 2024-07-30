@@ -606,7 +606,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           },
                                           roleName:
                                               ConstantUserRoles.atomStaticUser,
-                                          functionToCall: () {
+                                          locationId:  state.model.location!.id!,functionToCall: () {
                                             // refresh the list
                                             BlocProvider.of<
                                                         KeyManagementIssuanceDetailsCubit>(
@@ -677,7 +677,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           },
                                           roleName:
                                               ConstantUserRoles.atomStaticUser,
-                                          functionToCall: () {
+                                          locationId:  state.model.location!.id!,functionToCall: () {
                                             // refresh the list
                                             BlocProvider.of<
                                                         KeyManagementIssuanceDetailsCubit>(

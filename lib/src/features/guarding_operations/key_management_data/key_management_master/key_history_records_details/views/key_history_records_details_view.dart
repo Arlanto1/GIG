@@ -498,6 +498,7 @@ class _KeyHistoryRecordsDetailsViewState
                                   },
                                   roleName: ConstantUserRoles
                                       .atomSubRegionalHeadUser,
+                                  locationId:  0,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<
@@ -580,6 +581,7 @@ class _KeyHistoryRecordsDetailsViewState
                                   },
                                   roleName: ConstantUserRoles
                                       .atomSecurityManagerUser,
+                                  locationId:  0,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<

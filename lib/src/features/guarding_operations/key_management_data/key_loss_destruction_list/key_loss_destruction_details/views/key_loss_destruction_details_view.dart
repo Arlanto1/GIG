@@ -381,6 +381,7 @@ class _KeyLossDestructionDetailsViewState
                                         srh: user,
                                       );
                                     },
+                                    locationId: 0,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -452,6 +453,7 @@ class _KeyLossDestructionDetailsViewState
                                           securityManager: user,
                                         );
                                       },
+                                      locationId: 0,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<

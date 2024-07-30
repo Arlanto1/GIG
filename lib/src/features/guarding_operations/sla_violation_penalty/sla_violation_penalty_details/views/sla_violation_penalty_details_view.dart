@@ -389,6 +389,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                         .updateDropdownValues(user: user);
                                   },
                                   roleName: ConstantUserRoles.atomStaticUser,
+                                  locationId:  state.model.location!.id!,
                                   functionToCall: () {
                                     BlocProvider.of<
                                                 SLAViolationPenaltyDetailsCubit>(
