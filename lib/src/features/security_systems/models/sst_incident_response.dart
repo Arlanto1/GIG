@@ -1,4 +1,4 @@
-import '../../../../index.dart';
+import 'package:db_atom/index.dart';
 
 class SstIncidentResponse {
   final List<SstIncident>? items;
@@ -215,6 +215,7 @@ class SstIncident {
         'emailList': emailList,
         'poNo': poNo,
         'entities': entities,
+        'occurrence': occurrence?.toJson(),
         'attachments': attachments,
         'dataLossDocs': dataLossDocs,
         'quotes': quotes,
