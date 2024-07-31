@@ -3,6 +3,7 @@ import 'package:db_atom/src/configurations/base_config.dart';
 class QaConfig implements BaseConfig {
   @override
   String get apiHost => "https://api.qa.dbatom.arlanto.com/api/atomrestservice";
+  // String get apiHost => "http://172.16.3.35:8081/api/atomrestservice";
 
   @override
   bool get reportErrors => false;

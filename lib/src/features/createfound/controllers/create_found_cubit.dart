@@ -22,7 +22,16 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         );
   CommonServices commonServices = CommonServices();
 
+  void initializeValuesForExistingRecord(
+      {required FoundListArticleDetails model}) {
+    log('--initializeValuesForExistingRecord----');
+    emit(state.copyWith(
+      slno: model.slNo,
+    ));
+  }
+
   Future<void> initializeValues(FoundListArticleDetails? model) async {
+    log('----initializeValues-----');
     //Show Loader and emit loading state
     emit(
       state.copyWith(
@@ -40,19 +49,21 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
 
       SerialNumberModel? serialNumberResponse;
+      log('---defaultLocation--${defaultLocation?.name}----');
       if (model.slNo.isEmptyOrNull) {
+        log('----model.slNo.isEmptyOrNull-----');
         serialNumberResponse = await commonServices.getSlNo(
           locationId: defaultLocation!.id.toString(),
           moduleCode: Constants.articleFoundModuleCode,
         );
         model.slNo = serialNumberResponse.serialNo;
+        model.location = defaultLocation;
       }
-      model.location = defaultLocation;
       emit(
         state.copyWith(
           model: model,
           location: defaultLocation,
-          getSerialnumberResponse: serialNumberResponse,
+          slno: serialNumberResponse?.serialNo,
           loggedInUser: loggedInUserDetails,
         ),
       );
@@ -240,7 +251,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       emit(
         state.copyWith(
           model: model,
-          getLocationsResponse: getLocationsData,
+          locations: getLocationsData,
           status: FormStatus.initial,
         ),
       );
@@ -497,21 +508,25 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   }
 
   // Serialnumber api  call
-  Future<void> getSerialnumberDetails(String locationId, String moduleCode,
-      BuildContext context, Organisation location) async {
+  Future<void> getSerialnumberDetails(
+    String locationId,
+    String moduleCode,
+    Organisation location,
+  ) async {
+    log('Will Generate New Serial Number.');
     try {
       SerialNumberModel response = await commonServices.getSlNo(
-          locationId: locationId, moduleCode: moduleCode, context: context);
+          locationId: locationId, moduleCode: moduleCode);
 
       GetDepositor getDepositorData = await commonServices.getAtomStaticUsers(
           roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
 
       emit(
         state.copyWith(
-          model: model,
+          // model: model,
           getDepositorResponse: getDepositorData,
           location: location,
-          getSerialnumberResponse: response,
+          slno: response.serialNo,
           status: FormStatus.initial,
         ),
       );
