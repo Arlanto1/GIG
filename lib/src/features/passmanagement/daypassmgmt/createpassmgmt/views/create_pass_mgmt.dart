@@ -2119,12 +2119,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        cancelButtonDisplay(),
                                         if (state.model.status == 3 ||
                                             (widget.extraProperties != null &&
                                                 !widget.extraProperties!
                                                     .hasWritePermission!) ||
                                             !isDisabled) ...[
+                                          cancelButtonDisplay(),
                                           submitButtonDisplay()
                                         ],
                                       ],
@@ -2132,20 +2132,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.03),
                                   ],
-                                  // if(widget.model?.status != 0 ||
-                                  //     widget.model?.status != 1 ||
-                                  //     widget.model?.status != 2 ||
-                                  //     widget.model?.status != 3 )
-                                  // Row(
-                                  //   mainAxisAlignment:
-                                  //   MainAxisAlignment.center,
-                                  //   children: [
-                                  //     cancelButtonDisplay(),
-                                  //   ],
-                                  // ),
-                                  // CommonWidgets.verticalSpacerWidget(
-                                  //    height * 0.03),
-                                  // ],
                                 ),
                               ),
                             ],
@@ -2153,6 +2139,26 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                         ),
                       ),
                     ),
+
+                     if (widget.model != null && !widget.model!.lock.isEmptyOrNull) ...[
+                      Container(
+                        padding: const EdgeInsets.all(5.0),
+                        decoration: const ShapeDecoration(
+                          color: AppColors.backgroundWhiteColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(00.0)),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            cancelButtonDisplay(),
+                          ],
+                        ),
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.03),
+                   ],
                   ],
                 ),
               );
