@@ -840,6 +840,7 @@ class _MaterialMovementDetailsViewState
                                                       .requestFocus(
                                                           requestorEmployeeIdFocusNode);
                                                 },
+                                                roleName: ConstantUserRoles.atomStaticUser,
                                                 locationId:
                                                     state.model.location!.id!,
                                                 functionToCall: () {
@@ -1330,6 +1331,7 @@ class _MaterialMovementDetailsViewState
                                                           approver1EmailUser:
                                                               user);
                                                 },
+                                                roleName: ConstantUserRoles.atomStaticUser,
                                                 locationId:
                                                     state.model.location!.id!,
                                                 functionToCall: () {
@@ -1523,6 +1525,7 @@ class _MaterialMovementDetailsViewState
                                                           approver2EmailUser:
                                                               user);
                                                 },
+                                                roleName: ConstantUserRoles.atomStaticUser,
                                                 locationId:
                                                     state.model.location!.id!,
                                                 functionToCall: () {
@@ -2127,6 +2130,7 @@ class _MaterialMovementDetailsViewState
                                                 FocusScope.of(context).requestFocus(
                                                     receivedForEmployeeIdFocusNode);
                                               },
+                                              roleName: ConstantUserRoles.atomStaticUser,
                                               locationId:
                                                   state.model.location!.id!,
                                               functionToCall: () {
@@ -2251,6 +2255,7 @@ class _MaterialMovementDetailsViewState
                                                   receiverEmail: user);
                                         },
                                         locationId: state.model.location!.id!,
+                                        roleName: ConstantUserRoles.atomStaticUser,
                                         functionToCall: () {
                                           // refresh the list
                                           BlocProvider.of<
@@ -2632,6 +2637,7 @@ class _MaterialMovementDetailsViewState
                                                 returnReceiverMailId:
                                                 user);
                                           },
+                                          roleName: ConstantUserRoles.atomStaticUser,
                                           locationId:  state.model.location!.id!,
                                           functionToCall: () {
                                             // refresh the list
