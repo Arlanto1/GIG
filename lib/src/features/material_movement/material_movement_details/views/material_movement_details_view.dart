@@ -2516,7 +2516,7 @@ class _MaterialMovementDetailsViewState
                               ],
                             ],
                             if (
-                            state.model.status == ConstantsIntValue.mmStatusInwardWaiting &&
+                            (state.model.status == ConstantsIntValue.mmStatusInwardWaiting ||state.model.status == ConstantsIntValue.mmStatusClosed)  &&
                                 !widget.isInward) ...[
                               /// Security Signature
                               buildSignature(
