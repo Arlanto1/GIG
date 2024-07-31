@@ -104,10 +104,15 @@ class GuardingMasterReportBloc
 
   FutureOr<void> _fetchList(
       FetchReportList event, Emitter<GuardingMasterReportState> emit) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
     try {
       if (state.hasReachedMax) return;
 
-      if (state.status == FormStatus.initial) {
+      if (state.status == FormStatus.initial || event.newSearch) {
         GuardingMasterReportModel getGuardingMaterialReports =
             await _services.getGuardingMasterReport(
           startPosition: '${event.startPos}',
@@ -138,9 +143,18 @@ class GuardingMasterReportBloc
           items: List.of(state.list)
             ..addAll(getGuardingMasterReport.data ?? []),
           hasReachedMax: false,
+          status: FormStatus.success,
         ),
       );
-    } catch (e) {
+    }  on TokenExpiredException catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.sessionExpired,
+        ),
+      );
+      return;
+    }catch (e) {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

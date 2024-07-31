@@ -56,15 +56,16 @@ class AddDatePopUpState extends State<AddDatePopUp> {
                         isDisabled: false,
                         onlyDate: false,
                         showFutureDate: false,
+                        notFlagDate: true,
                         onChange: (String value) {
                           log('--value----$value------');
                           powerFailureStartDateController.text = value;
                           selectedStartDate =
-                              DateFormat('dd/MM/yyyy hh:mm:ss a')
+                              DateFormat('dd/MM/yyyy HH:mm:ss')
                                   .parse(value)
                                   .toString();
                           DateTime parsedDate =
-                              DateFormat('dd/MM/yyyy hh:mm:ss a').parse(value);
+                              DateFormat('dd/MM/yyyy HH:mm:ss').parse(value);
 
                           // Add two days to the parsed date
                           DateTime newDate =
@@ -85,10 +86,13 @@ class AddDatePopUpState extends State<AddDatePopUp> {
                       BaseDate().datePickerWidgetLoading(
                         textController: powerFailureEndDateController,
                         isDisabled: false,
+                        // notFlagDate: true,
+                        showPastDate: false,
                         onlyDate: false,
                         startDate: selectedStartDate,
                         fromDate: selectedStartDate,
                         toDate: startToDate.isEmptyOrNull ? '' : startToDate,
+
                         showFutureDate: false,
                         onChange: (String value) {
                           log('--fr-value-${powerFailureEndDateController.text}------');

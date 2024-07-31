@@ -77,9 +77,9 @@ class KeyHistoryRecordsDetailsCubit
       Organisation? defaultLocation = futures[4];
       List<BaseUser> srh = futures[5];
 
-      if (defaultLocation != null && state.model.slNo == null) {
+      if (parentModel.location != null && state.model.slNo == null) {
         SerialNumberModel slNo = await commonServices.getKLDSlNo(
-          locationId: defaultLocation.id.toString(),
+          locationId: parentModel.location!.id.toString(),
           moduleCode: Constants.keyLossDestructionModule,
           type: type,
           kmId: parentId,
@@ -89,6 +89,7 @@ class KeyHistoryRecordsDetailsCubit
       state.model.createdBy ??= loggedInUserDetails;
       state.model.modifiedBy ??= loggedInUserDetails.email;
       state.model.type = type;
+      state.model.type== 1||state.model.type== 2 ? state.model.noOfKeys =parentModel.noKeys :'';
       // Get Date of Creation
       // state.model.createdDate = Utils().getCurrentDate();
       // state.model.modifiedDate = Utils().getCurrentDate();
@@ -162,7 +163,7 @@ class KeyHistoryRecordsDetailsCubit
         status: FormStatus.loading,
       ),
     );
-    ////Get Sl No from API
+    //Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getKLDSlNo(
           locationId: location.id.toString(),
