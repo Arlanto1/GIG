@@ -470,7 +470,7 @@ class _CreateFoundState extends State<CreateFound> {
     log('-----_getFoundArticleList----');
     if (isActive) {
       await createFoundArticleCubit.getUserByRoleDepositor(
-          ConstantUserRoles.atomStaticUser, selectedLocation?.id ?? null);
+          ConstantUserRoles.atomStaticUser, selectedLocation?.id);
       await createFoundArticleCubit.getLocations('ATOM_LOCATIONS', context);
       await createFoundArticleCubit.getEmployeeDepartments(
           'EMPLOYEE_DEPARTMENTS', context);

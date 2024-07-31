@@ -94,10 +94,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       listener: (context, state) {},
       builder: (context, state) {
         log('state.model.lock.isEmptyOrNull${state.model!.lock.isEmptyOrNull}');
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          isDistrbuted = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   isDistrbuted = true;
+        // }
         if (!state.model!.lock.isEmptyOrNull) {
           isDistrbuted = true;
         }

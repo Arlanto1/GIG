@@ -1051,13 +1051,18 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 Constants.securitySystemSLAList,
                                 Styles.textStyleBlack14),
                             GestureDetector(
-                              onTap: () {
-                                if (isReadOnly) {
-                                  return;
-                                }
-                                openSecuritySystemSLATypePopUp(
-                                    state: state, showListing: false);
-                              },
+                              // onTap: () {
+                              //   if (isReadOnly) {
+                              //     return;
+                              //   }
+                              //   openSecuritySystemSLATypePopUp(
+                              //       state: state, showListing: false);
+                              // },
+                              onTap: () => navigateToCreateIncident(
+                                state: state,
+                                occType: 1,
+                                isSSTIncident: true,
+                              ),
                               child: Row(
                                 children: <Widget>[
                                   if (state.model.status !=
@@ -1583,7 +1588,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
           state: state,
           occType: 1,
           isSSTIncident: true,
-          isInternal: selectedLabel.value == '0' ? true : false,
+          isInternal:  true,
         );
       },
     );
@@ -1688,8 +1693,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
       'occId': state.model.id.toString(),
       'occType': occType,
     };
-    if (isInternal ?? false) {
-      map.putIfAbsent('isInternal', () => isInternal ?? false);
+    if (isInternal ?? true) {
+      map.putIfAbsent('isInternal', () => isInternal ?? true);
     }
     log('---navigateToCreateIncident--isSSTIncident---$isSSTIncident-');
     map.putIfAbsent(ConstantsArgument.location, () => state.model.location!);
