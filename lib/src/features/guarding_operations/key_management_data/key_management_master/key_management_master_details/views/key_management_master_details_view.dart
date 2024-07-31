@@ -1079,6 +1079,7 @@ class _KeyManagementMasterDetailsViewState
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

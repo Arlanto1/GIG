@@ -707,7 +707,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
-      },
+        CommonServices().unlock();
+        },
     );
   }
 

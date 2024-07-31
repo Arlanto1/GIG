@@ -1704,6 +1704,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

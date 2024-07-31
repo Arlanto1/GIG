@@ -579,6 +579,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

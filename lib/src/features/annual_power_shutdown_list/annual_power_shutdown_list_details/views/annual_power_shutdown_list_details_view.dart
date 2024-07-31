@@ -1617,7 +1617,8 @@ class _AnnualPowerShutdownListDetailsViewState
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
-      },
+        CommonServices().unlock();
+        },
     );
   }
 

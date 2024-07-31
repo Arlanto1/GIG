@@ -1017,6 +1017,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
           context,
           keyManagementIssuanceListRoute,
         );
+        CommonServices().unlock();
       },
     );
   }

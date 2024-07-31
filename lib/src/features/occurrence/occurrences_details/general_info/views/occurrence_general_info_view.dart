@@ -1619,6 +1619,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

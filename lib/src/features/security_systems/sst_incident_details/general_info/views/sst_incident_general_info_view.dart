@@ -899,6 +899,7 @@ class _SstIncidentGeneralInfoViewState
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }
