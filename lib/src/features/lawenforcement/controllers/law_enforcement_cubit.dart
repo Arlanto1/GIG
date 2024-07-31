@@ -375,8 +375,9 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
-  initializeValuesForExistingRecord(
-      {required LawEnforcementDetailsModel model}) async {
+  initializeValuesForExistingRecord({
+    required LawEnforcementDetailsModel model,
+  }) async {
     emit(state.copyWith(
       slno: model.slNo,
     ));
