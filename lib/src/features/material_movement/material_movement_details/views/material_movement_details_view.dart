@@ -2573,10 +2573,13 @@ class _MaterialMovementDetailsViewState
                                 initialValue:
                                 state.model.materialReturnedChallanNo,
                                 hintText: '',
-                                isEnable: state.model.status == 9 ||
-                                    state.model.lock.isEmptyOrNull,
-                                isDisableColor: state.model.status != 9 ||
-                                    !state.model.lock.isEmptyOrNull,
+                                isEnable: state.model.status == ConstantsIntValue.mmStatusInwardWaiting
+                                    ? true
+                                    : false,
+                                isDisableColor: state.model.status != ConstantsIntValue.mmStatusInwardWaiting ||
+                                    !state.model.lock.isEmptyOrNull
+                                    ? true
+                                    : false,
                                 onChange: (String value) {
                                   log('--value---$value');
 
@@ -2609,19 +2612,12 @@ class _MaterialMovementDetailsViewState
                                     title: state
                                         .model.returnReceiverMailId,
                                     height: 70,
-                                    isDisableColor:
-                                    state.model.status != 6 ||
-                                        state.model.status !=
-                                            -1 ||
-                                        state.model.status != 10
-                                        ? false
-                                        : true,
+                                    isDisableColor: state.model.status != ConstantsIntValue.mmStatusInwardWaiting ||
+                                        !state.model.lock.isEmptyOrNull
+                                        ? true
+                                        : false,
                                     onTap: () {
-                                      if ((state.model.status != 6 ||
-                                          state.model.status !=
-                                              -1 ||
-                                          state.model.status !=
-                                              10) &&
+                                      if ((state.model.status == ConstantsIntValue.mmStatusInwardWaiting) &&
                                           state.model.lock
                                               .isEmptyOrNull) {
                                         BaseOrganisationDialog()
@@ -2654,20 +2650,13 @@ class _MaterialMovementDetailsViewState
                                     textFormKey:
                                     Keys.returnReceiverEmailKey,
                                     hintText: '',
-                                    isEnable: (state.model.status !=
-                                        6 ||
-                                        state.model.status != -1 ||
-                                        state.model.status != 10) &&
-                                        state.model.lock.isEmptyOrNull,
-                                    isDisableColor: state
-                                        .model.status !=
-                                        6 ||
-                                        state.model.status != -1 ||
-                                        state.model.status != 10 ||
-                                        state.model.lock
-                                            .isEmptyOrNull
-                                        ? false
-                                        : true,
+                                    isEnable: state.model.status == ConstantsIntValue.mmStatusInwardWaiting
+                                        ? true
+                                        : false,
+                                    isDisableColor: state.model.status != ConstantsIntValue.mmStatusInwardWaiting ||
+                                        !state.model.lock.isEmptyOrNull
+                                        ? true
+                                        : false,
                                     onChange: (String username) {},
                                     validateTextField:
                                         (String? user) {},
@@ -2691,14 +2680,13 @@ class _MaterialMovementDetailsViewState
                                 '${state.model.returnQuantity ?? ''}',
                                 textFormKey:
                                 Keys.returnQuantityTextController,
-                                isEnable: (state.model.status != 6 ||
-                                    state.model.status != -1 ||
-                                    state.model.status != 10) &&
-                                    state.model.lock.isEmptyOrNull,
-                                isDisableColor: state.model.status == 6 ||
-                                    state.model.status == -1 ||
-                                    state.model.status == 10 ||
-                                    !state.model.lock.isEmptyOrNull,
+                                isEnable: state.model.status == ConstantsIntValue.mmStatusInwardWaiting
+                                    ? true
+                                    : false,
+                                isDisableColor: state.model.status != ConstantsIntValue.mmStatusInwardWaiting ||
+                                    !state.model.lock.isEmptyOrNull
+                                    ? true
+                                    : false,
                                 hintText: '',
                                 onChange: (String? value) {
                                   if (value != null) {
@@ -2722,22 +2710,17 @@ class _MaterialMovementDetailsViewState
                                         .materialNotCheckedComment ??
                                     Constants.comment,
                                 Styles.textStyleBlack14,
-                                isMandatory: true,
+                                isMandatory: false,
                               ),
                               FlutterInputField(
                                 initialValue:
                                 state.model.materialNotCheckedComment,
                                 textFormKey: Keys.claimantEmpIdTextController,
                                 hintText: '',
-                                isEnable: state.model.status == 6 ||
-                                    state.model.status == -1 ||
-                                    state.model.status == 10 ||
-                                    !state.model.lock.isEmptyOrNull
-                                    ? false
-                                    : true,
-                                isDisableColor: state.model.status == 6 ||
-                                    state.model.status == -1 ||
-                                    state.model.status == 10 ||
+                                isEnable: state.model.status == ConstantsIntValue.mmStatusInwardWaiting
+                                    ? true
+                                    : false,
+                                isDisableColor: state.model.status != ConstantsIntValue.mmStatusInwardWaiting ||
                                     !state.model.lock.isEmptyOrNull
                                     ? true
                                     : false,
