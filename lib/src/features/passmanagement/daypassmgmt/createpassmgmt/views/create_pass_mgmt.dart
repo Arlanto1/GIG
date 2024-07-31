@@ -3188,7 +3188,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             context: context,
             users: state.getDepositorResponse,
             roleName: ConstantUserRoles.atomStaticUser,
-            locationId: state.model.location!.id!,
+            locationId: 0,
             functionToCall: () {
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },
@@ -3339,7 +3339,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             context: context,
             users: state.getDepositorResponse,
             roleName: ConstantUserRoles.atomStaticUser,
-            locationId: state.model.location!.id!,
+            locationId: 0,
             functionToCall: () {
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },
