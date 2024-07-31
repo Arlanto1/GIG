@@ -1824,6 +1824,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             isDisabled: state.model.id == null &&
                                 state.isOnGoingPowerFailure!,
                             onlyDate: false,
+                            notFlagDate: true,
                             showFutureDate: false,
                             onChange: (String value) {
                               powerFailure.powerFailureStartDate =
@@ -1846,6 +1847,10 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                           BaseDate().datePickerWidgetLoading(
                             textController: endDateController,
                             onlyDate: false,
+                            notFlagDate: false,
+                            startDate: powerFailure.powerFailureStartDate,
+                            showPastDate: false,
+                            // startDate: startDateController.text,
                             onChange: (String value) {
                               powerFailure.powerFailureEndDate =
                                   Utils.dateToTimestampConversion(

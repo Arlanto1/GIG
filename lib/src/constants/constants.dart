@@ -151,7 +151,7 @@ class Constants {
   static const String forgotPassowrd = 'Forgot Password?';
   static const String support = "Support :";
   static const String supportContact = "+91 6150 961 6244";
-  static const String copyrightText = "Copyright Â© 2024 Arlanto.";
+  static const String copyrightText = "Copyright © 2024 Arlanto.";
   static const String submit = "Submit";
 
   //Dashboard
@@ -387,7 +387,8 @@ class Constants {
   // Date formats
   static const String dateFormat = 'dd/MM/yyyy';
   static const String timeFormat = 'HH:mm:ss a';
-  static const String fulldateFormat = 'dd/MM/yyyy hh:mm:ss a';
+  static const String fulldateFormat = 'dd/MM/yyyy HH:mm:ss';
+  static const String twentyFourHourDateTimeFormat = 'dd/MM/yyyy HH:mm:ss';
 
 // static const String dateFormat = 'yyyy-MM-dd';
 // static const String fulldateFormat = 'dd/MM/yyyy a HH:mm:ss';

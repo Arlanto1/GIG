@@ -283,8 +283,10 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                                         .extraProperties!.hasWritePermission!)
                             ? false
                             : true,
+                        onlyDate: false,
                         showPastDate: false,
-                        showFutureDate: true,
+                        // showFutureDate: true,
+                        startDate: widget.model.startDateVisit,
                         onChange: (String value) {
                           widget.model.endDateVisit = Utils().formatTime(value);
                         },
