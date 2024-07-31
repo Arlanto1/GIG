@@ -59,15 +59,19 @@ class AddDatePopUpState extends State<AddDatePopUp> {
                         onChange: (String value) {
                           log('--value----$value------');
                           powerFailureStartDateController.text = value;
-                           selectedStartDate = DateFormat('dd/MM/yyyy hh:mm:ss a').parse(value).toString();
-                          DateTime parsedDate = DateFormat('dd/MM/yyyy hh:mm:ss a').parse(value);
+                          selectedStartDate =
+                              DateFormat('dd/MM/yyyy hh:mm:ss a')
+                                  .parse(value)
+                                  .toString();
+                          DateTime parsedDate =
+                              DateFormat('dd/MM/yyyy hh:mm:ss a').parse(value);
 
                           // Add two days to the parsed date
-                          DateTime newDate = parsedDate.add(const Duration(days: 1));
+                          DateTime newDate =
+                              parsedDate.add(const Duration(days: 1));
 
                           // Format the new date back into the desired string format
                           startToDate = newDate.toString();
-
 
                           setState(() {});
                         },
@@ -84,9 +88,7 @@ class AddDatePopUpState extends State<AddDatePopUp> {
                         onlyDate: false,
                         startDate: selectedStartDate,
                         fromDate: selectedStartDate,
-                        toDate: startToDate.isEmptyOrNull
-                            ? ''
-                            : startToDate,
+                        toDate: startToDate.isEmptyOrNull ? '' : startToDate,
                         showFutureDate: false,
                         onChange: (String value) {
                           log('--fr-value-${powerFailureEndDateController.text}------');

@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/incident_management/models/im_ui_labels.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 import '../../models/incidents_response.dart';
 import '../../services/incident_management_services.dart';
 
 part 'incident_management_event.dart';
+
 part 'incident_management_state.dart';
 
 class IncidentManagementsBloc
@@ -41,7 +41,7 @@ class IncidentManagementsBloc
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.incidentManagementModule,
         commonServices: commonServices,
       );
@@ -98,6 +98,9 @@ class IncidentManagementsBloc
         maximumRecords: '${20}',
         // userId: '7',
         filters: BaseFilterModel(),
+        occId: occId,
+        occType: occType,
+        kldId: kldId,
       );
 
       return emit(

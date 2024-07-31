@@ -205,8 +205,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   }
 
   // get depositor user by role API call
-  Future<void> getUserByRoleDepositor(
-      String userRole, int? locationId) async {
+  Future<void> getUserByRoleDepositor(String userRole, int? locationId) async {
     try {
       // GetDepositor getDepositorData =
       //     await createFoundServices.getUserByRoleDepositor(userRole, context);
@@ -422,7 +421,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
 
   // Create user call
   Future<void> createUser(String firstName, String lastName, String email,
-      String role, BuildContext context) async {
+      String role, int locationId, BuildContext context) async {
     try {
       // CreateUserModel createUserData = await createFoundServices.createUser(
       //     firstName, lastName, email, role, context);
@@ -432,6 +431,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         lastName: lastName,
         email: email,
         role: role,
+        locationId: locationId,
         context: context,
       );
       emit(
@@ -497,8 +497,8 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   }
 
   // Serialnumber api  call
-  Future<void> getSerialnumberDetails(
-      String locationId, String moduleCode, BuildContext context, Organisation location) async {
+  Future<void> getSerialnumberDetails(String locationId, String moduleCode,
+      BuildContext context, Organisation location) async {
     try {
       SerialNumberModel response = await commonServices.getSlNo(
           locationId: locationId, moduleCode: moduleCode, context: context);

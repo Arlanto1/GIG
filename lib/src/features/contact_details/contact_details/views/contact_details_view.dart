@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 class ContactDetailsView extends StatefulWidget {
   final ContactDetailModel? model;
@@ -29,7 +28,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
   TextEditingController expectedDateOfReturnController =
       TextEditingController();
   TextEditingController actualDateOfReturnController = TextEditingController();
-  bool isReadOnly = true;
+  bool isReadOnly = false;
   List<String> returnableDropDownValues = const [
     "Returnable",
     "Non Returnable"
@@ -106,24 +105,21 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
           isReadOnly = true;
         }
 
-        // if (widget.extraProperties != null &&
-        //     !widget.extraProperties!.hasWritePermission!) {
-        //   isReadOnly = true;
-        // }
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          isReadOnly = true;
+        }
         if (state.model.status == null) {
           isReadOnly = false;
         }
-
-        /// Making it read only as per DB requirement
-        isReadOnly = true;
 
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: !isReadOnly ? true : false,
-            showSubmitButton: !isReadOnly ? true : false,
+            showSaveButton: false,
+            showSubmitButton: false,
             showDisLikeButton: false,
             showLikeButton: false,
             pdfAPIName:
@@ -263,7 +259,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseLocationDropdown().locationWidgetDisplay(
-                              isEnabled: !isReadOnly,
+                              isEnabled: false,
                               context: context,
                               locations: state.locations ?? Locations(),
                               selectedLocationName:
@@ -350,14 +346,14 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   ConstantsArgument.ranks: ranks,
                                   ConstantsArgument.parentStatus:
                                       state.model.status,
-                                  ConstantsArgument.lock: state.model.lock,
+                                  ConstantsArgument.isLocked: state.model.lock,
                                 },
                               );
                             },
                             child: const Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                 // SvgPicture.asset(
+                                // SvgPicture.asset(
                                 //   AppIcon.pluscircle,
                                 //   colorFilter: const ColorFilter.mode(
                                 //     AppColors.navigationSkyBlueColor,
@@ -365,7 +361,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 //   ),
                                 //   // color: AppColors.navigationSkyBlueColor,
                                 // ),
-                                // const SizedBox(width: 10),
+                                SizedBox(width: 10),
                                 Text(
                                   'View Contact(s)',
                                   style: TextStyle(
@@ -422,14 +418,14 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   ConstantsArgument.ranks: ranks,
                                   ConstantsArgument.parentStatus:
                                       state.model.status,
-                                  ConstantsArgument.lock: state.model.lock,
+                                  ConstantsArgument.isLocked: state.model.lock,
                                 },
                               );
                             },
                             child: const Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                 // SvgPicture.asset(
+                                // SvgPicture.asset(
                                 //   AppIcon.pluscircle,
                                 //   colorFilter: const ColorFilter.mode(
                                 //     AppColors.navigationSkyBlueColor,
@@ -437,7 +433,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 //   ),
                                 //   // color: AppColors.navigationSkyBlueColor,
                                 // ),
-                                // const SizedBox(width: 10),
+                                SizedBox(width: 10),
                                 Text(
                                   'View Contact(s)',
                                   style: TextStyle(
@@ -494,14 +490,14 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   ConstantsArgument.ranks: ranks,
                                   ConstantsArgument.parentStatus:
                                       state.model.status,
-                                  ConstantsArgument.lock: state.model.lock,
+                                  ConstantsArgument.isLocked: state.model.lock,
                                 },
                               );
                             },
                             child: const Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                 // SvgPicture.asset(
+                                // SvgPicture.asset(
                                 //   AppIcon.pluscircle,
                                 //   colorFilter: const ColorFilter.mode(
                                 //     AppColors.navigationSkyBlueColor,
@@ -509,7 +505,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 //   ),
                                 //   // color: AppColors.navigationSkyBlueColor,
                                 // ),
-                                // const SizedBox(width: 10),
+                                SizedBox(width: 10),
                                 Text(
                                   'View Contact(s)',
                                   style: TextStyle(
@@ -564,14 +560,14 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   ConstantsArgument.ranks: ranks,
                                   ConstantsArgument.parentStatus:
                                       state.model.status,
-                                  ConstantsArgument.lock: state.model.lock,
+                                  ConstantsArgument.isLocked: state.model.lock,
                                 },
                               );
                             },
                             child: const Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                 // SvgPicture.asset(
+                                // SvgPicture.asset(
                                 //   AppIcon.pluscircle,
                                 //   colorFilter: const ColorFilter.mode(
                                 //     AppColors.navigationSkyBlueColor,
@@ -579,7 +575,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 //   ),
                                 //   // color: AppColors.navigationSkyBlueColor,
                                 // ),
-                                // const SizedBox(width: 10),
+                                SizedBox(width: 10),
                                 Text(
                                   'View Contact(s)',
                                   style: TextStyle(
@@ -635,14 +631,14 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   ConstantsArgument.ranks: ranks,
                                   ConstantsArgument.parentStatus:
                                       state.model.status,
-                                  ConstantsArgument.lock: state.model.lock,
+                                  ConstantsArgument.isLocked: state.model.lock,
                                 },
                               );
                             },
                             child: const Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                 // SvgPicture.asset(
+                                // SvgPicture.asset(
                                 //   AppIcon.pluscircle,
                                 //   colorFilter: const ColorFilter.mode(
                                 //     AppColors.navigationSkyBlueColor,
@@ -650,7 +646,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 //   ),
                                 //   // color: AppColors.navigationSkyBlueColor,
                                 // ),
-                                // const SizedBox(width: 10),
+                                SizedBox(width: 10),
                                 Text(
                                   'View Contact(s)',
                                   style: TextStyle(
@@ -672,9 +668,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         cancelButtonDisplay(),
-                        if ((!isReadOnly)) ...[
-                          submitButtonDisplay(),
-                        ],
+                        // if ((!isReadOnly)) ...[
+                        //   submitButtonDisplay(),
                       ],
                     ),
                     // ],

@@ -9,8 +9,7 @@ class WebSsoMsalHandler {
 
   // late final _authority =
   //     'https://login.microsoftonline.com/$tenantId/oauth2/v2.0/authorize';
-  late final _authority =
-      'https://login.microsoftonline.com/common';
+  late final _authority = 'https://login.microsoftonline.com/common';
   final scopes = <String>[
     'https://graph.microsoft.com/user.read',
     // Add other scopes here if required.
@@ -55,7 +54,6 @@ class WebSsoMsalHandler {
       log(e.toString());
     }
   }
-
 
   Future<void> logout() async {
     try {

@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 part 'guarding_master_data_event.dart';
+
 part 'guarding_master_data_state.dart';
 
 class GuardingMasterDataBloc
@@ -30,7 +30,7 @@ class GuardingMasterDataBloc
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.guardingMasterModuleCode,
         commonServices: commonServices,
       );

@@ -48,6 +48,7 @@ class ConstantsIntValue {
   // static const String passStatusReturnedDefaced = 'Returned/Defaced';
 
   /// Shift Occurence
+  static const int occurrenceStatusCreated = 0;
   static const int submitted = 1;
 
   /// Key Management Master
@@ -86,11 +87,15 @@ class ConstantsIntValue {
   static const int leoStatusVerificationUnderProgress = 2;
   static const int leoStatusDistributed = 3;
 
-
   /// SLA Violation status
   static const int slaStatusDraft = 0;
   static const int slaStatusActive = 1;
   static const int slaStatusFinalized = 2;
+
+  ///Material Movement status
+  static const int mmStatusApproved = 6;
+  static const int mmStatusInwardWaiting =9;
+  static const int mmStatusClosed = 10;
 
 
 }

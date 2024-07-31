@@ -1,10 +1,7 @@
 import 'dart:async';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/security_systems/models/ssla_ui_labels.dart';
 
-import '../../models/requestModel/general_info_request.dart';
-import '../../models/sst_incident_response.dart';
 import '../../services/sst_incident_services.dart';
 
 part 'sst_incident_event.dart';
@@ -48,7 +45,7 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.securitySystemModule,
         commonServices: commonServices,
       );

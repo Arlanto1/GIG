@@ -35,6 +35,7 @@ class SaveRecord extends VisitingOfficialListEvent {
 class RefreshList extends VisitingOfficialListEvent {
   const RefreshList();
 }
+
 class DeleteRecord extends VisitingOfficialListEvent {
   final int id;
   final int parentId;

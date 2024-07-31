@@ -169,12 +169,13 @@ class _KeyHistoryRecordsDetailsViewState
                 ConstantsIntValue.lockChangeInitiated) &&
                 (widget.type == ConstantsIntValue.lockChangeHistoryInt) &&
                 (state.loggedInUserDetails!.userName
-                    .equalsIgnoreCase(state.model.createdBy?.userName)) ||(state.model.status ==
-                ConstantsIntValue.created || state.model.status ==
-                null) &&
-                (widget.type == ConstantsIntValue.keyLostHistoryInt) &&
-                (state.loggedInUserDetails!.userName
-                    .equalsIgnoreCase(state.model.createdBy?.userName))
+                    .equalsIgnoreCase(state.model.createdBy?.userName)) ||
+                (state.model.status ==
+                    ConstantsIntValue.created || state.model.status ==
+                    null) &&
+                    (widget.type == ConstantsIntValue.keyLostHistoryInt) &&
+                    (state.loggedInUserDetails!.userName
+                        .equalsIgnoreCase(state.model.createdBy?.userName))
                 ? true
                 : false,
             onTapSave: () {
@@ -498,6 +499,7 @@ class _KeyHistoryRecordsDetailsViewState
                                   },
                                   roleName: ConstantUserRoles
                                       .atomSubRegionalHeadUser,
+                                  locationId: 0,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<
@@ -580,6 +582,7 @@ class _KeyHistoryRecordsDetailsViewState
                                   },
                                   roleName: ConstantUserRoles
                                       .atomSecurityManagerUser,
+                                  locationId: 0,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<
@@ -907,9 +910,10 @@ class _KeyHistoryRecordsDetailsViewState
                               Constants.incidentItemList,
                               Styles.textStyleBlack14),
                           GestureDetector(
-                            onTap: () => navigateToCreateIncident(
-                              state: state,
-                            ),
+                            onTap: () =>
+                                navigateToCreateIncident(
+                                  state: state,
+                                ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
@@ -1107,7 +1111,8 @@ class _KeyHistoryRecordsDetailsViewState
         key: const Key(Keys.showButton),
         buttonText: Constants.showList,
         buttonTextKey: Keys.showButton,
-        onTap: () => {
+        onTap: () =>
+        {
           showPopUp ?? false
               ? openSecuritySystemSLATypePopUp(state: state, showListing: true)
               : Navigator.pushNamed(
@@ -1121,6 +1126,7 @@ class _KeyHistoryRecordsDetailsViewState
       ),
     );
   }
+
   openSecuritySystemSLATypePopUp({
     required KeyHistoryRecordsDetailsState state,
     required bool showListing,

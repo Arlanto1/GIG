@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/km_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 part 'key_issuance_process_record_event.dart';
+
 part 'key_issuance_process_record_state.dart';
 
 class KeyIssuanceProcessRecordBloc
@@ -42,7 +42,7 @@ class KeyIssuanceProcessRecordBloc
       //     await commonServices.getOrganisations(name: violationDescription);
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.keyManagementIssuanceModule,
         commonServices: commonServices,
       );

@@ -5,7 +5,8 @@ class IncidentGeneralInfoState extends Equatable {
   final IncidentModel model;
   final Locations? locations;
   final User? loggedInUserDetails;
-  final List<BaseUser>? users;
+  final List<BaseUser>? complainant;
+  final List<BaseUser>? complainantHr;
   final List<BaseUser>? incidentManager;
   final List<BaseUser>? incidentOwner;
   final List<BaseUser>? emailUsers;
@@ -22,9 +23,10 @@ class IncidentGeneralInfoState extends Equatable {
   factory IncidentGeneralInfoState.initial({
     required IncidentModel model,
     required Locations locations,
-    required List<BaseUser>? users,
     required User? loggedInUserDetails,
     final List<BaseUser>? emailUsers,
+    final List<BaseUser>? complainant,
+    final List<BaseUser>? complainantHr,
     final List<BaseUser>? incidentManager,
     final List<BaseUser>? incidentOwner,
     required final List<Organisation>? listOfEntities,
@@ -45,7 +47,8 @@ class IncidentGeneralInfoState extends Equatable {
       departments: departments,
       getEntitiesResponse: getEntitiesResponse,
       getArticleTypeResponse: getArticleTypeResponse,
-      users: users,
+      complainant: complainant,
+      complainantHr: complainantHr,
       incidentManager: incidentManager,
       incidentOwner: incidentOwner,
       emailUsers: emailUsers,
@@ -169,8 +172,9 @@ class IncidentGeneralInfoState extends Equatable {
     required this.status,
     required this.model,
     this.locations,
-    this.users,
     this.emailUsers,
+    this.complainant,
+    this.complainantHr,
     this.incidentManager,
     this.incidentOwner,
     this.listOfEntities,
@@ -191,8 +195,9 @@ class IncidentGeneralInfoState extends Equatable {
     Locations? locations,
     List<Organisation>? articleType,
     User? loggedInUserDetails,
-    List<BaseUser>? users,
     List<BaseUser>? emailUsers,
+    List<BaseUser>? complainant,
+    List<BaseUser>? complainantHr,
     List<BaseUser>? incidentManager,
     List<BaseUser>? incidentOwner,
     List<Organisation>? listOfEntities,
@@ -208,8 +213,9 @@ class IncidentGeneralInfoState extends Equatable {
       model: model ?? this.model,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
-      users: users ?? this.users,
       incidentManager: incidentManager ?? this.incidentManager,
+      complainant: complainant ?? this.complainant,
+      complainantHr: complainantHr ?? this.complainantHr,
       incidentOwner: incidentOwner ?? this.incidentOwner,
       emailUsers: emailUsers ?? this.emailUsers,
       listOfEntities: listOfEntities ?? this.listOfEntities,

@@ -6,6 +6,7 @@ import '../../models/aps_ui_labels.dart';
 import '../../services/annual_power_shutdown_services.dart';
 
 part 'annual_power_shutdown_list_event.dart';
+
 part 'annual_power_shutdown_list_state.dart';
 
 class AnnualPowerShutdownListBloc

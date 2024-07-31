@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
@@ -212,6 +213,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     String locationId,
     String moduleCode,
   ) async {
+    log('----Generate Serial Number-----------');
     try {
       SerialNumberModel response = await services.getSerialnumberDetails(
         locationId,
@@ -221,7 +223,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       getDBofficialByRoleDepositor(ConstantUserRoles.atomStaticUser);
       emit(
         state.copyWith(
-          getSerialnumberResponse: response,
+          slno: response.serialNo,
           status: FormStatus.success,
         ),
       );
@@ -373,7 +375,15 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
-  initializeValues() async {
+  initializeValuesForExistingRecord(
+      {required LawEnforcementDetailsModel model}) async {
+    emit(state.copyWith(
+      slno: model.slNo,
+    ));
+  }
+
+  initializeValuesForNewRecord() async {
+    log('---initializeValues--');
     lawEnforcementCubit.state.visitingOfficials = [];
     state.getVisitsCount = 0;
     state.selectedemployeeDepartmentResponse = Organisation();
@@ -389,7 +399,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     state.isOfficialIdcardSelected = 1;
     state.dBOfficialEmailIdAccompaniedLeoOfficial = BaseUser();
     state.serialnumberResponse?.serialNo = '';
-    state.getSerialnumberResponse = SerialNumberModel();
+    state.slno = '';
 
     Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
 
@@ -399,9 +409,11 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       moduleCode: Constants.leoModuleCode,
     );
 
+    log('---initializeValues---${serialNumberResponse.serialNo}-');
+
     emit(state.copyWith(
       locationSelectedlist: defaultLocation,
-      getSerialnumberResponse: serialNumberResponse,
+      slno: serialNumberResponse.serialNo,
     ));
   }
 
@@ -427,14 +439,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
 
   // Create user call
   Future<void> createUser(String firstName, String lastName, String email,
-      String role, BuildContext context) async {
+      String role, int locationId, BuildContext context) async {
     try {
       CreateUserModel createUserData = await services.createUser(
-        firstName,
-        lastName,
-        email,
-        role,
-      );
+          firstName, lastName, email, role, locationId);
       emit(
         state.copyWith(
           createUserResponse: createUserData,
@@ -636,7 +644,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
-  getSerialnumberResponse(SerialNumberModel? serialnumberResponse) async {
+  setSerialnumberResponse(SerialNumberModel? serialnumberResponse) async {
     try {
       emit(
         state.copyWith(

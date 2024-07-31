@@ -93,6 +93,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
         if (state.model.status == ConstantsIntValue.submitted) {
           isReadOnly = state.isReadOnly ?? true;
         }
+        if (!state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
         // if (widget.extraProperties != null &&
         //     !widget.extraProperties!.hasWritePermission!) {
         //   isReadOnly = true;
@@ -290,6 +293,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                         },
                                         roleName: ConstantUserRoles
                                             .atomGuardingStaffUser,
+                                        locationId: state.model.location!.id!,
                                         functionToCall: () {
                                           // refresh the list
                                           BlocProvider.of<
@@ -311,13 +315,12 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
-                              locationWidgetdislay(
-                                  selectedLocation:
+                              BaseLocationDropdown().locationWidgetDisplay(
+                                  selectedLocationName:
                                       state.model.location?.name ?? '',
-                                  enabled: state.model.id == null ||
-                                      (state.model.location?.name ?? '')
-                                          .isEmpty,
-                                  locations: state.locations,
+                                  isEnabled: !isReadOnly,
+                                  context: context,
+                                  locations: state.locations!,
                                   onTap: (Organisation? location) async {
                                     log('location?.name-----${location?.name}');
 
@@ -325,7 +328,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
 
                                     BlocProvider.of<OccurrenceGeneralInfoCubit>(
                                             context)
-                                        .updateDropdownValues(
+                                        .updateLocationDropdownValue(
                                             location: location);
                                   }),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -718,7 +721,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   if (state.model.status !=
-                                      ConstantsIntValue.submitted) ...[
+                                          ConstantsIntValue.submitted &&
+                                      !isReadOnly) ...[
                                     const SizedBox(width: 14),
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
@@ -859,7 +863,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               child: Row(
                                 children: <Widget>[
                                   if (state.model.status !=
-                                      ConstantsIntValue.submitted) ...[
+                                          ConstantsIntValue.submitted &&
+                                      !isReadOnly) ...[
                                     const SizedBox(width: 14),
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
@@ -1046,17 +1051,23 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 Constants.securitySystemSLAList,
                                 Styles.textStyleBlack14),
                             GestureDetector(
-                              onTap: () {
-                                if (isReadOnly) {
-                                  return;
-                                }
-                                openSecuritySystemSLATypePopUp(
-                                    state: state, showListing: false);
-                              },
+                              // onTap: () {
+                              //   if (isReadOnly) {
+                              //     return;
+                              //   }
+                              //   openSecuritySystemSLATypePopUp(
+                              //       state: state, showListing: false);
+                              // },
+                              onTap: () => navigateToCreateIncident(
+                                state: state,
+                                occType: 1,
+                                isSSTIncident: true,
+                              ),
                               child: Row(
                                 children: <Widget>[
                                   if (state.model.status !=
-                                      ConstantsIntValue.submitted) ...[
+                                          ConstantsIntValue.submitted &&
+                                      !isReadOnly) ...[
                                     const SizedBox(width: 14),
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
@@ -1577,7 +1588,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
           state: state,
           occType: 1,
           isSSTIncident: true,
-          isInternal: selectedLabel.value == '0' ? true : false,
+          isInternal:  true,
         );
       },
     );
@@ -1682,8 +1693,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
       'occId': state.model.id.toString(),
       'occType': occType,
     };
-    if (isInternal ?? false) {
-      map.putIfAbsent('isInternal', () => isInternal ?? false);
+    if (isInternal ?? true) {
+      map.putIfAbsent('isInternal', () => isInternal ?? true);
     }
     log('---navigateToCreateIncident--isSSTIncident---$isSSTIncident-');
     map.putIfAbsent(ConstantsArgument.location, () => state.model.location!);

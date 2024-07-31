@@ -1,10 +1,4 @@
-import 'dart:developer';
-
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:flutter/material.dart';
-
-import '../utils/app_themes/colors/app_color.dart';
 
 class FlutterInputField extends StatelessWidget {
   final String hintText;
@@ -66,7 +60,6 @@ class FlutterInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     // log('-controller?.text-----${controller?.text}--');
     return TextFormField(
       key: Key(textFormKey),
@@ -134,7 +127,7 @@ class FlutterInputField extends StatelessWidget {
         onChange(str);
       },
       inputFormatters: [
-        if (textInputType == TextInputType.number)...[
+        if (textInputType == TextInputType.number) ...[
           FilteringTextInputFormatter.digitsOnly
         ]
       ],

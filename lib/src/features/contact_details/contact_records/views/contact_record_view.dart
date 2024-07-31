@@ -96,10 +96,10 @@ class _ContactRecordViewState extends State<ContactRecordView> {
         //           );
         //         },
         //       )
-        //     : const SizedBox(),
+        //  : const SizedBox(),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: Constants.escalationMatrix,
+          title: widget.title,
           showPopUp: false,
           showSaveButton: false,
           showSubmitButton: false,
@@ -197,12 +197,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                         },
                       );
                     },
-                    showEditButton: widget.parentStatus != 0 &&
-                        widget.parentStatus != 1 &&
-                        !widget.lock.isEmptyOrNull,
-                    showDutyPostEditButton: (widget.parentStatus == 0 ||
-                            widget.parentStatus == 1) &&
-                        widget.lock.isEmptyOrNull,
+                    showEditButton: true,
                     onEditTap: (selectedIndex) async {
                       ContactRecord contactsModel =
                           await ContactDetailsServices()
@@ -227,10 +222,6 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                         },
                       );
                     },
-                    // showDeleteButton:
-                    // (widget.parentStatus == 0 || widget.parentStatus == 1)&& widget.lock.isEmptyOrNull
-                    //         ? true
-                    //         : false,
                     showDeleteButton: false,
                     onDeleteTap: (selectedIndex) async {
                       // Call Delete API

@@ -76,6 +76,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   List<ImageContent> getFiles = [];
   List<ImageContent> getAttachments = [];
   late LawEnforcementState globalState;
+
   // String? serialnumber;
   bool isDistrbuted = false;
 
@@ -93,10 +94,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       listener: (context, state) {},
       builder: (context, state) {
         log('state.model.lock.isEmptyOrNull${state.model!.lock.isEmptyOrNull}');
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          isDistrbuted = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   isDistrbuted = true;
+        // }
         if (!state.model!.lock.isEmptyOrNull) {
           isDistrbuted = true;
         }
@@ -238,14 +239,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   if (state.getVisitsCount < 1) {
                     manageAddVisitOfficialDetailWidget(state);
                   }
-                  // if (state.getSerialnumberResponse != null &&
-                  //     widget.model == null) {
-
-                  // if (serialnumber.isEmptyOrNull) {
-                  //   serialnumber =
-                  //       state.getSerialnumberResponse?.serialNo ?? "";
-                  // }
-                  // }
                   globalState = state;
                   if (state.status == FormStatus.addAttachment) {
                     getFiles = state.loadAttachments ?? [];
@@ -390,9 +383,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                             height * 0.01),
 
                                         /// slno
-
                                         CommonWidgets.horizentaltextHandling(
-                                            Constants.slno, state.getSerialnumberResponse?.serialNo ?? '',
+                                            Constants.slno, state.slno ?? '',
                                             isMandatory: true),
                                         CommonWidgets.verticalSpacerWidget(
                                             height * 0.01),
@@ -1122,9 +1114,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     super.initState();
     if (widget.model != null) {
       populateData();
+      lawEnforcementCubit.initializeValuesForExistingRecord(
+          model: widget.model!);
       lawEnforcementCubit.getDistributionGroupsDetails();
     } else {
-      lawEnforcementCubit.initializeValues();
+      lawEnforcementCubit.initializeValuesForNewRecord();
     }
 
     getLawEnforcementList(context);
@@ -1206,6 +1200,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             (widget.model?.location?.id ?? 0).toString(),
             'LEO',
           );
+
+      log('--widget.model?.slNo--22--${widget.model?.slNo}---');
 
       lawEnforcementCubit.getlocationsResponseData(mumbai);
       int isDocumentifanySelected1 =
@@ -1947,8 +1943,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     }
 
     LawLocation? location = LawLocation(
-        id: state.locationSelectedlist?.id ?? 1,
-        name: state.locationSelectedlist?.name ?? '');
+        id: state.locationSelectedlist?.id ?? widget.model?.location?.id,
+        name: state.locationSelectedlist?.name ?? widget.model?.location?.name);
     List<VisitingOfficial>? visitingOfficials;
     visitingOfficials ??= [];
     if (state.visitingOfficials != null) {
@@ -1984,7 +1980,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           id: widget.model?.id ?? 0,
           entrySecurity: entrySecurity,
           inputDate: inputDate.toString(),
-          slNo: state.getSerialnumberResponse?.serialNo ?? widget.model?.slNo,
+          slNo: state.slno ?? widget.model?.slNo,
           location: location,
           status: statusValue,
           images: images,
@@ -2007,7 +2003,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       lawEnforcement = LawEnforcement(
           entrySecurity: entrySecurity,
           inputDate: inputDate.toString(),
-          slNo: state.getSerialnumberResponse?.serialNo ?? widget.model?.slNo,
+          slNo: state.slno ?? widget.model?.slNo,
           location: location,
           status: statusValue,
           images: images,
@@ -2076,12 +2072,14 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context,
         "Please enter creator date",
       );
-    } /*else if (serialnumber != null && (serialnumber ?? '').isEmpty) {
+    }
+    /*else if (serialnumber != null && (serialnumber ?? '').isEmpty) {
       Validator().showToast(
         context,
         "Please enter serial number",
       );
-    } */else if (state.listOfEntities.isEmptyOrNull) {
+    } */
+    else if (state.listOfEntities.isEmptyOrNull) {
       Validator().showToast(
         context,
         "Please enter entity",

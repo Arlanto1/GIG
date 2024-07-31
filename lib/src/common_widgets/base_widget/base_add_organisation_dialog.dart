@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 class BaseAddOrganisationDialog extends StatefulWidget {
   const BaseAddOrganisationDialog({
@@ -251,7 +250,8 @@ class BaseAddOrganisationDialogState extends State<BaseAddOrganisationDialog> {
             );
           } on GenericResponse catch (e) {
             sca.showSnackBar(
-              SnackBar(backgroundColor: Colors.red,
+              SnackBar(
+                backgroundColor: Colors.red,
                 content: Text('${e.message}'),
                 duration: const Duration(seconds: 3), // Adjust the duration
               ),

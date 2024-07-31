@@ -213,7 +213,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                                 widget.parentStatus == 1 ||
                                 widget.parentStatus == 2) &&
                             !(widget.extraProperties != null &&
-                                !widget.extraProperties!.hasWritePermission!) && widget.lock.isEmptyOrNull
+                                !widget.extraProperties!.hasWritePermission!) &&
+                            widget.lock.isEmptyOrNull
                         ? true
                         : false,
                     showEditButton: widget.parentStatus != 0 &&
@@ -221,7 +222,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                             widget.parentStatus != 2 &&
                             widget.parentStatus != 2 &&
                             (widget.extraProperties != null &&
-                                !widget.extraProperties!.hasWritePermission!) && !widget.lock.isEmptyOrNull
+                                !widget.extraProperties!.hasWritePermission!) &&
+                            !widget.lock.isEmptyOrNull
                         ? true
                         : false,
                     onEditTap: (selectedIndex) async {
@@ -255,7 +257,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         lock: widget.lock,
                       );
                     },
-                    showViewButton: widget.lock.isEmptyOrNull ? true:false,
+                    showViewButton: widget.lock.isEmptyOrNull ? true : false,
                     onViewTap: (selectedIndex) {
                       getById(
                           state.extraProperties?.hasWritePermission ?? false,

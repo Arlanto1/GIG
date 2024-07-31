@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
 
 class SstIncidentGeneralInfoView extends StatefulWidget {
   final bool isInternal;
@@ -70,19 +69,19 @@ class _SstIncidentGeneralInfoViewState
               Navigator.popAndPushNamed(
                 context,
                 sstIncidentListRoute,
-                arguments: {"isInternal": widget.isInternal},
+                // arguments: {"isInternal": widget.isInternal},
               );
-              if (widget.viaOccurrence) {
-                Navigator.pushNamed(
-                  context,
-                  occurrenceDetailsRoute,
-                  arguments: {
-                    'id': state.model.occurrence?.id.toString(),
-                    "title": Constants.editOccurrence,
-                  },
-                );
-                return;
-              }
+              // if (widget.viaOccurrence) {
+              //   Navigator.pushNamed(
+              //     context,
+              //     occurrenceDetailsRoute,
+              //     arguments: {
+              //       'id': state.model.occurrence?.id.toString(),
+              //       "title": Constants.editOccurrence,
+              //     },
+              //   );
+              //   return;
+              // }
             },
           );
           showDialog(
@@ -125,7 +124,7 @@ class _SstIncidentGeneralInfoViewState
             .equalsIgnoreCase(state.model.createdBy?.userName))) {
           disableForm = true;
         }
-        
+
         log('---disableForm---$disableForm');
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
@@ -194,6 +193,9 @@ class _SstIncidentGeneralInfoViewState
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     children: [
+                      if (!state.model.lock.isEmptyOrNull) ...[
+                        RecordLockedWidget(text: '${state.model.lock}'),
+                      ],
                       AbsorbPointer(
                         absorbing: disableForm,
                         child: Padding(
@@ -542,12 +544,13 @@ class _SstIncidentGeneralInfoViewState
                                         BlocProvider.of<
                                                     SstIncidentGeneralInfoCubit>(
                                                 context)
-                                            .updateDropdownValues(
+                                            .updateEmailsValue(
                                           systemManager: user,
                                         );
                                       },
                                       roleName: ConstantUserRoles
                                           .atomSeniorSecurityManagerUser,
+                                      locationId: state.model.location!.id!,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
@@ -581,12 +584,13 @@ class _SstIncidentGeneralInfoViewState
                                         BlocProvider.of<
                                                     SstIncidentGeneralInfoCubit>(
                                                 context)
-                                            .updateDropdownValues(
-                                          lsm: user,
+                                            .updateEmailsValue(
+                                          securityManager: user,
                                         );
                                       },
                                       roleName: ConstantUserRoles
                                           .atomSecurityAndSeniorSecurityManagerUser,
+                                      locationId: state.model.location!.id!,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
@@ -620,12 +624,13 @@ class _SstIncidentGeneralInfoViewState
                                         BlocProvider.of<
                                                     SstIncidentGeneralInfoCubit>(
                                                 context)
-                                            .updateDropdownValues(
-                                          asl: user,
+                                            .updateEmailsValue(
+                                          securityLead: user,
                                         );
                                       },
                                       roleName: ConstantUserRoles
                                           .atomSecurityLeadAndAssistantSecurityLeadUser,
+                                      locationId: state.model.location!.id!,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
@@ -659,14 +664,15 @@ class _SstIncidentGeneralInfoViewState
                                         BlocProvider.of<
                                                     SstIncidentGeneralInfoCubit>(
                                                 context)
-                                            .updateDropdownValues(
-                                          lt: user,
+                                            .updateEmailsValue(
+                                          locationTeam: user,
                                         );
                                         FocusScope.of(context)
                                             .requestFocus(descriptionFocusNode);
                                       },
                                       roleName: ConstantUserRoles
                                           .atomSecurityTeamUser,
+                                      locationId: state.model.location!.id!,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
@@ -896,6 +902,7 @@ class _SstIncidentGeneralInfoViewState
       },
     );
   }
+
   // Widget cancelButtonDisplay(SstIncidentGeneralInfoState state) {
   //   bool condition = widget.model?.id == null ||
   //       widget.model?.status == ConstantsIntValue.cancelledStatus ||

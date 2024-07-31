@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
+import '../../../event_protection/services/event_protection_services.dart';
 import '../bloc/annual_power_shutdown_list_bloc.dart';
 
 class AnnualPowerShutdownListView extends StatefulWidget {
@@ -260,7 +261,7 @@ class _AnnualPowerShutdownListViewState
                                       );
                                     },
                                     onEditTap: (selectedIndex) {
-                                      getId(
+                                      getById(
                                           state.extraProperties
                                                   ?.hasWritePermission ??
                                               false,
@@ -311,21 +312,43 @@ class _AnnualPowerShutdownListViewState
     });
   }
 
-  getId(
+  getById(
     bool hasWritePermission, {
     required int id,
     required int eventStatus,
   }) async {
-    Navigator.pushNamed(
-      context,
-      annualPowerShutdownListDetailsRoute,
+    log('-----');
+    var nav = Navigator.of(context);
+    ShowEPGridsModel showEPGridsModel =
+        await EventProtectionServices().showEpGrids(id);
+    nav.pushNamed(
+      eventProtectionDetailsTabRoute,
       arguments: {
+        ConstantsArgument.title: Constants.annualPowerShutdownListDetails,
         'id': id.toString(),
+        'eventStatus': eventStatus,
+        ConstantsArgument.showEPGridsModel: showEPGridsModel,
         ConstantsArgument.extraProperties:
             ExtraProperties(hasWritePermission: hasWritePermission),
       },
     );
   }
+
+  // getId(
+  //   bool hasWritePermission, {
+  //   required int id,
+  //   required int eventStatus,
+  // }) async {
+  //   Navigator.pushNamed(
+  //     context,
+  //     annualPowerShutdownListDetailsRoute,
+  //     arguments: {
+  //       'id': id.toString(),
+  //       ConstantsArgument.extraProperties:
+  //           ExtraProperties(hasWritePermission: hasWritePermission),
+  //     },
+  //   );
+  // }
 
   void applySearchFilters(
     FilterCriteria model,

@@ -113,7 +113,7 @@ class _AnnualPowerShutdownListDetailsViewState
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
-            title: Constants.annualPowerShutdownListDetails,
+            title: Constants.generalInformation,
             showPopUp: false,
             showSaveButton: disableForm ? false : true,
             showSubmitButton: disableForm ? false : true,
@@ -379,6 +379,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                     },
                                     roleName: ConstantUserRoles
                                         .atomSubRegionalHeadUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -417,6 +418,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                     },
                                     roleName: ConstantUserRoles
                                         .atomSubRegionalHeadUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -457,6 +459,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                     },
                                     roleName: ConstantUserRoles
                                         .atomSeniorSecurityManagerUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -528,6 +531,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                     },
                                     roleName: ConstantUserRoles
                                         .atomSeniorSecurityManagerUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -599,6 +603,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                           .requestFocus(pocContactNoFocusNode);
                                     },
                                     roleName: ConstantUserRoles.atomStaticUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -669,6 +674,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                           pocEscalationContactNoFocusNode);
                                     },
                                     roleName: ConstantUserRoles.atomStaticUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -1092,6 +1098,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                                   context)
                                               .onCheckBoxChange(state.model);
                                         },
+                                        locationId: state.model.location!.id!,
                                       );
                                     },
                                     child: Row(
@@ -1522,6 +1529,7 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                         getBudgetCost(budgetCostModel, state);
                                       },
+                                      locationId: state.model.location!.id!,
                                     );
                                   },
                                 ),

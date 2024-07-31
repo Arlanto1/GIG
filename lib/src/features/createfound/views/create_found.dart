@@ -48,7 +48,8 @@ class _CreateFoundState extends State<CreateFound> {
   TextEditingController statusTextController = TextEditingController();
   TextEditingController depositorTextController = TextEditingController();
   TextEditingController claimantTextController = TextEditingController();
-  String isDepositorDBEmployee = "";
+
+  // String isDepositorDBEmployee = "";
 
   final FocusNode foundLocationFocusNode = FocusNode();
   final FocusNode depositorEmployeeFocusNode = FocusNode();
@@ -469,7 +470,7 @@ class _CreateFoundState extends State<CreateFound> {
     log('-----_getFoundArticleList----');
     if (isActive) {
       await createFoundArticleCubit.getUserByRoleDepositor(
-          ConstantUserRoles.atomStaticUser, selectedLocation?.id ?? null);
+          ConstantUserRoles.atomStaticUser, selectedLocation?.id);
       await createFoundArticleCubit.getLocations('ATOM_LOCATIONS', context);
       await createFoundArticleCubit.getEmployeeDepartments(
           'EMPLOYEE_DEPARTMENTS', context);
@@ -1086,7 +1087,6 @@ class _CreateFoundState extends State<CreateFound> {
                                       height * 0.01),
 
                                   /// slno
-
                                   CommonWidgets.horizentaltextHandling(
                                       state.labels?.locale.foundSlNo ??
                                           state.labels?.defaultLocale
@@ -1791,19 +1791,6 @@ class _CreateFoundState extends State<CreateFound> {
                                             )
                                           : Container(),
 
-                                      ///TODO: Need to work on signature
-                                      if (isClaimantAcceptedtoSignSelected ==
-                                          1) ...[
-                                        /// Claimant Signature
-                                        buildSignature(
-                                            controller:
-                                                claimantSignatureController,
-                                            label: Constants.claimantSignature,
-                                            spaceHeight: height,
-                                            state: state,
-                                            isReadOnly: isSignatureReadOnly),
-                                      ],
-
                                       /// is claimant confirmed by email
 
                                       widget.model != null &&
@@ -1841,27 +1828,45 @@ class _CreateFoundState extends State<CreateFound> {
                                             )
                                           : Container(),
                                     ],
+
+                                    if ((isClaimantDBEmployeeSelected == 1 &&
+                                            isClaimantAcceptedtoSignSelected ==
+                                                1) ||
+                                        isClaimantDBEmployeeSelected == 0) ...[
+                                      /// Claimant Signature
+                                      buildSignature(
+                                          controller:
+                                              claimantSignatureController,
+                                          label: Constants.claimantSignature,
+                                          spaceHeight: height,
+                                          state: state,
+                                          isReadOnly: isSignatureReadOnly),
+                                    ],
                                   ],
 
-                                  /// Item Handover By
                                   if (widget.model?.status == 2 ||
                                       widget.model?.status == 1) ...[
-                                    CommonWidgets.horizentaltextHandling(
-                                        state.labels?.locale
-                                                .foundHandoverSecurity ??
-                                            state.labels?.defaultLocale
-                                                .foundHandoverSecurity ??
-                                            Constants.itemhandoverby,
-                                        // widget.model?.status == 2
-                                        //     ? '${state.loggedInUser?.firstName ?? ''} ${state.loggedInUser?.lastName ?? ''}'
-                                        //     : '',
-                                        '${widget.model?.handoverSecurity != null ? widget.model?.handoverSecurity?.firstName : state.loggedInUser?.firstName ?? ''} ${widget.model?.handoverSecurity != null ? widget.model?.handoverSecurity?.lastName : state.loggedInUser?.lastName ?? ''}',
-                                        isMandatory: true),
-
-                                    /// Handed over date
-
                                     if (!handedoverdatedateTextController
-                                        .text.isEmptyOrNull) ...[
+                                            .text.isEmptyOrNull &&
+                                        widget.model != null &&
+                                        widget.model!.status! >
+                                            ConstantsIntValue
+                                                .articleFoundStatusUnderSecurityCustody) ...[
+                                      /// Item Handover By
+                                      CommonWidgets.horizentaltextHandling(
+                                          state.labels?.locale
+                                                  .foundHandoverSecurity ??
+                                              state.labels?.defaultLocale
+                                                  .foundHandoverSecurity ??
+                                              Constants.itemhandoverby,
+                                          // widget.model?.status == 2
+                                          //     ? '${state.loggedInUser?.firstName ?? ''} ${state.loggedInUser?.lastName ?? ''}'
+                                          //     : '',
+                                          '${widget.model?.handoverSecurity != null ? widget.model?.handoverSecurity?.firstName : state.loggedInUser?.firstName ?? ''} ${widget.model?.handoverSecurity != null ? widget.model?.handoverSecurity?.lastName : state.loggedInUser?.lastName ?? ''}',
+                                          isMandatory: true),
+
+                                      /// Handed over date
+
                                       CommonWidgets.textDisplay(
                                         state.labels?.locale.foundHandoverDate ??
                                             state.labels?.defaultLocale
@@ -1877,6 +1882,21 @@ class _CreateFoundState extends State<CreateFound> {
                                     ],
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
+
+                                    /// Rejection Comment
+                                    if (!widget.model!.rejectionComment
+                                        .isEmptyOrNull) ...[
+                                      CommonWidgets.horizentaltextHandling(
+                                          state.labels?.locale
+                                                  .foundRejectionComment ??
+                                              state.labels?.defaultLocale
+                                                  .foundRejectionComment ??
+                                              Constants.rejectionComment,
+                                          widget.model?.rejectionComment ?? '',
+                                          isMandatory: true),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+                                    ],
                                   ],
 
                                   /// upload
@@ -1944,7 +1964,8 @@ class _CreateFoundState extends State<CreateFound> {
                           ),
                         ),
                         if (widget.model?.status == 2 ||
-                            widget.model?.status == -1) ...[
+                            widget.model?.status == -1 ||
+                            !state.model.lock.isEmptyOrNull) ...[
                           Container(
                             padding: const EdgeInsets.all(5.0),
                             decoration: const ShapeDecoration(
@@ -1961,6 +1982,7 @@ class _CreateFoundState extends State<CreateFound> {
                               ],
                             ),
                           ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.03),
                         ],
                       ],
                     ),

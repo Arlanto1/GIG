@@ -42,6 +42,7 @@ class FoundListArticleDetails {
   String? depositorName;
   String? claimantName;
   String? locationName;
+  String? rejectionComment;
   String? entrySecurityName;
   String? handOverSecurityName;
   String? depositorDepartmentName;
@@ -78,6 +79,7 @@ class FoundListArticleDetails {
     this.handoverSecurity,
     this.status,
     this.modifiedDate,
+    this.rejectionComment,
     this.modifiedBy,
     this.depositorName,
     this.claimantName,

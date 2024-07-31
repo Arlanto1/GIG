@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 import '../models/guarding_master_report_model.dart';
 import '../services/guarding_master_report_services.dart';
 
 part 'guarding_master_report_event.dart';
+
 part 'guarding_master_report_state.dart';
 
 class GuardingMasterReportBloc
@@ -32,7 +32,7 @@ class GuardingMasterReportBloc
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.guardingMasterModuleCode,
         commonServices: commonServices,
       );
@@ -52,7 +52,6 @@ class GuardingMasterReportBloc
       // dynamic responseLabels = await commonServices.getUiLabels(
       //     language: await SharedPrefs.getLanguageCode(),
       //     moduleCode: Constants.guardingMasterModuleCode);
-
 
       // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
       return emit(
@@ -105,10 +104,15 @@ class GuardingMasterReportBloc
 
   FutureOr<void> _fetchList(
       FetchReportList event, Emitter<GuardingMasterReportState> emit) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
     try {
       if (state.hasReachedMax) return;
 
-      if (state.status == FormStatus.initial) {
+      if (state.status == FormStatus.initial || event.newSearch) {
         GuardingMasterReportModel getGuardingMaterialReports =
             await _services.getGuardingMasterReport(
           startPosition: '${event.startPos}',
@@ -139,9 +143,18 @@ class GuardingMasterReportBloc
           items: List.of(state.list)
             ..addAll(getGuardingMasterReport.data ?? []),
           hasReachedMax: false,
+          status: FormStatus.success,
         ),
       );
-    } catch (e) {
+    }  on TokenExpiredException catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.sessionExpired,
+        ),
+      );
+      return;
+    }catch (e) {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

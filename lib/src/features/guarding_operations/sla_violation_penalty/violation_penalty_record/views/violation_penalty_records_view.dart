@@ -14,6 +14,7 @@ class ViolationPenaltyRecordsView extends StatefulWidget {
     this.model,
     this.extraProperties,
     required this.parentStatus,
+    required this.isLocked,
   });
 
   final int id;
@@ -21,6 +22,7 @@ class ViolationPenaltyRecordsView extends StatefulWidget {
   final ViolationPenaltyRecord? model;
   final ExtraProperties? extraProperties;
   final int parentStatus;
+  final bool isLocked;
 
   @override
   State<ViolationPenaltyRecordsView> createState() => _ContactRecordViewState();
@@ -213,7 +215,6 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
                         widget.parentStatus !=
                             ConstantsIntValue.cancelledStatus,
                     onDeleteTap: (selectedIndex) async {
-
                       /// Delete Warning Dialog Box
                       var dialog = CustomAlertDialog(
                           title: Constants.deleteAttachment,
@@ -222,14 +223,16 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
                             Navigator.pop(context);
                             // Navigator.pop(context);
                             // Call Delete API
-                            BlocProvider.of<ViolationPenaltyRecordBloc>(context).add(
-                                DeleteRecord(state.items![selectedIndex].id!.toInt(),
+                            BlocProvider.of<ViolationPenaltyRecordBloc>(context)
+                                .add(DeleteRecord(
+                                    state.items![selectedIndex].id!.toInt(),
                                     widget.id));
                           },
                           positiveBtnText: Constants.yes,
                           negativeBtnText: Constants.no);
-                      showDialog(context: context, builder: (BuildContext context) => dialog);
-
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) => dialog);
 
                       // // Call Delete API
                       // BlocProvider.of<ViolationPenaltyRecordBloc>(context).add(
@@ -262,6 +265,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
           users: users,
           staffCategoriesValues: staffCategoriesValues,
           parentStatus: widget.parentStatus,
+          isLocked: widget.isLocked,
           onSubmit: (ViolationPenaltyRecord model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();

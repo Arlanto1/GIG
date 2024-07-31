@@ -374,7 +374,6 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-
       if (widget.status != null && widget.isMaterialMovementStatus == true) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(
@@ -429,7 +428,6 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         CommonWidgets.verticalSpacerWidget(5),
         Utils().buildDutyTypeRow(widget.dutyType ?? 0),
       ],
-
       if (widget.status != null &&
           widget.isKeyManagementIssuanceStatus == true) ...[
         CommonWidgets.verticalSpacerWidget(5),
@@ -814,8 +812,8 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Utils().textHandling(
-                'Shift Taken By : ', '${widget.handOverSecurity?.firstName ?? ''}  ${widget.handOverSecurity?.lastName ?? ''}'),
+            Utils().textHandling('Shift Taken By : ',
+                '${widget.handOverSecurity?.firstName ?? ''}  ${widget.handOverSecurity?.lastName ?? ''}'),
           ],
         ),
       ],

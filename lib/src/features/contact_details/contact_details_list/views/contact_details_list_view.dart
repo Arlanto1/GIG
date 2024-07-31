@@ -177,7 +177,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                       child: SmartRefresher(
                         controller: refreshController,
                         enablePullDown: true,
-                        physics: const AlwaysScrollableScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         header: WaterDropHeader(
                           waterDropColor: AppColors.navigationSkyBlueColor,
                           refresh: state.status != FormStatus.loading

@@ -35,13 +35,10 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       );
       if (Constants.addcompanytype == title) {
         await createPassMgmtCubit.companyTypes(name: 'ATOM_COMPANY_TYPES');
-      } else if (
-          Constants.addreasonfordaypass == title) {
+      } else if (Constants.addreasonfordaypass == title) {
         await createPassMgmtCubit.getDayPassreasons('DAY_PASS_REASON');
-      } else if (
-          Constants.addreasonforvendorpass == title) {
-        await createPassMgmtCubit.getVendorPassreasons(
-            'VENDOR_PASS_REASON');
+      } else if (Constants.addreasonforvendorpass == title) {
+        await createPassMgmtCubit.getVendorPassreasons('VENDOR_PASS_REASON');
       } else if (Constants.addentitytype == title) {
         await createPassMgmtCubit.getEntities('ATOM_ENTITIES');
       }
@@ -84,8 +81,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   // get depositor user by role API call
-  Future<void> getUserByRoleDepositor(
-      String userRole) async {
+  Future<void> getUserByRoleDepositor(String userRole) async {
     try {
       GetDepositor getDepositorData = await createpassmgmtServices
           .getUserByRoleDepositor(roleName: userRole);
@@ -162,13 +158,14 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 
   // Create user call
   Future<void> createUser(String firstName, String lastName, String email,
-      String role, BuildContext context) async {
+      String role, int locationId, BuildContext context) async {
     try {
       CreateUserModel createUserData = await CommonServices().createUser(
         firstName: firstName,
         lastName: lastName,
         email: email,
         role: role,
+        locationId: locationId,
         context: context,
       );
       emit(
@@ -372,11 +369,10 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   // Get employee departments
-  Future<void> getEmployeeDepartments(
-      String departmentStr) async {
+  Future<void> getEmployeeDepartments(String departmentStr) async {
     try {
-      EmployeeDepartments getEmployeeDepartments = await commonServices
-          .getDepartments(name: departmentStr);
+      EmployeeDepartments getEmployeeDepartments =
+          await commonServices.getDepartments(name: departmentStr);
       emit(
         state.copyWith(
           employeeDepartment: getEmployeeDepartments,
@@ -504,7 +500,6 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   // Get day pass reasons
   Future<void> getDayPassreasons(String roleName) async {
     try {
-
       DayPassReason dayPassreasons =
           await commonServices.getDayPassreason(name: roleName);
       emit(
@@ -541,11 +536,10 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  Future<void> getVendorPassreasons(
-      String companyStr) async {
+  Future<void> getVendorPassreasons(String companyStr) async {
     try {
-      VendorPassReason vendorPassreasons = await commonServices
-          .getVendorPassReason(name: companyStr);
+      VendorPassReason vendorPassreasons =
+          await commonServices.getVendorPassReason(name: companyStr);
       emit(
         state.copyWith(
           vendorPassReason: vendorPassreasons,
@@ -661,8 +655,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   /// Get entities api call
   Future<void> getEntities(String name) async {
     try {
-      AddEntities entities = await createpassmgmtServices.getEntities(
-          name: name);
+      AddEntities entities =
+          await createpassmgmtServices.getEntities(name: name);
       emit(
         state.copyWith(
           getEntitiesResponse: entities,
@@ -711,8 +705,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       // User getUserData =
       //     await createpassmgmtServices.getUserDetails(userId, context);
 
-      User getUserData =
-          await commonServices.getUserDetails(userId: userId);
+      User getUserData = await commonServices.getUserDetails(userId: userId);
       emit(
         state.copyWith(
           getUserDetailsResponse: getUserData,

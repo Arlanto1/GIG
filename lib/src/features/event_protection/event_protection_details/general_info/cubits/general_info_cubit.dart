@@ -4,7 +4,6 @@ import 'dart:math' as math;
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/general_info/models/ep_ui_labels.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
-import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
 part 'general_info_state.dart';
@@ -51,16 +50,17 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation>? entities =
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
-
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
-    GetDepositor emailUsers =
-        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
+    GetDepositor emailUsers = await commonServices.getAtomStaticUsers(
+        roleName: 'ATOM_STATIC_USER', locationId: state.model.location?.id);
     List<BaseUser> epm = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Sub_Regional_Head');
+        roleNames: 'ATOM_Sub_Regional_Head',
+        locationId: state.model.location?.id);
     List<BaseUser> lsm = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Senior_Security_Manager');
+        roleNames: 'ATOM_Senior_Security_Manager',
+        locationId: state.model.location?.id);
 
     emit(
       state.copyWith(
@@ -97,14 +97,18 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.eventProtectionModuleCode),
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
-        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
+        commonServices.getAtomStaticUsers(
+            roleName: 'ATOM_STATIC_USER', locationId: model.location?.id),
         commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUsers(),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
-        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head'),
         commonServices.getBaseUsersByRoles(
-            roleNames: 'ATOM_Senior_Security_Manager'),
+            roleNames: 'ATOM_Sub_Regional_Head',
+            locationId: model.location?.id),
+        commonServices.getBaseUsersByRoles(
+            roleNames: 'ATOM_Senior_Security_Manager',
+            locationId: model.location?.id),
       ]);
 
       // Assign results to variables with explicit data types
@@ -173,6 +177,56 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         ),
       );
     }
+  }
+
+  Future<void> updateLocationDropdownValue({
+    Organisation? location,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    List<BaseUser>? emailUsers = [];
+    List<BaseUser> epm = [];
+    List<BaseUser> lsm = [];
+
+    /// Get Sl No from API
+    if (location != null) {
+      log('Update Location');
+      SerialNumberModel slNo = await commonServices.getSlNo(
+        locationId: location.id.toString(),
+        moduleCode: Constants.annualPowerShutDownModuleCode,
+      );
+
+      state.model.location = location;
+      state.model.slNo = slNo.serialNo ?? '';
+      emailUsers = await commonServices.getBaseUsers(
+          roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
+      epm = await commonServices.getBaseUsers(
+          roleName: ConstantUserRoles.atomSubRegionalHeadUser,
+          locationId: location.id);
+      lsm = await commonServices.getBaseUsers(
+          roleName: ConstantUserRoles.atomSeniorSecurityManagerUser,
+          locationId: location.id);
+    }
+
+    state.model.epManager1 = null;
+    state.model.epManager2 = null;
+    state.model.lsm1 = null;
+    state.model.lsm2 = null;
+    state.model.bu1 = null;
+    state.model.bu2 = null;
+
+    emit(state.copyWith(
+      model: state.model,
+      // users: users,
+      epm: epm,
+      lsm: lsm,
+      emailUsers: emailUsers,
+      status: FormStatus.initial,
+    ));
   }
 
   Future<void> updateDropdownValues({

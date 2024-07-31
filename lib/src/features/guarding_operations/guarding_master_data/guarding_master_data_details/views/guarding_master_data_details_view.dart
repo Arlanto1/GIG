@@ -291,7 +291,7 @@ class _GuardingMasterDataDetailsViewState
               child: Column(
                 children: [
                   AbsorbPointer(
-                    absorbing: true,
+                    absorbing: false,
                     child: Form(
                       key: _formKey,
                       autovalidateMode: state.model.status == 4
@@ -418,28 +418,28 @@ class _GuardingMasterDataDetailsViewState
                                     height: 70,
                                     isDisableColor: true,
                                     onTap: () {
-                                      BaseOrganisationDialog().departmentDialog(
-                                        context: context,
-                                        organisations:
-                                            state.listOfEntities ?? [],
-                                        onTap: (Organisation entity) {
-                                          BlocProvider.of<
-                                                      GuardingMasterDataDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                            entity: entity,
-                                          );
-                                        },
-                                        title: 'Add Entity',
-                                        orgName: 'ATOM_ENTITIES',
-                                        functionToCall: () {
-                                          // refresh the list
-                                          BlocProvider.of<
-                                                      GuardingMasterDataDetailsCubit>(
-                                                  context)
-                                              .refreshList();
-                                        },
-                                      );
+                                      //   BaseOrganisationDialog().departmentDialog(
+                                      //     context: context,
+                                      //     organisations:
+                                      //         state.listOfEntities ?? [],
+                                      //     onTap: (Organisation entity) {
+                                      //       BlocProvider.of<
+                                      //                   GuardingMasterDataDetailsCubit>(
+                                      //               context)
+                                      //           .updateDropdownValues(
+                                      //         entity: entity,
+                                      //       );
+                                      //     },
+                                      //     title: 'Add Entity',
+                                      //     orgName: 'ATOM_ENTITIES',
+                                      //     functionToCall: () {
+                                      //       // refresh the list
+                                      //       BlocProvider.of<
+                                      //                   GuardingMasterDataDetailsCubit>(
+                                      //               context)
+                                      //           .refreshList();
+                                      //     },
+                                      //   );
                                     }),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
@@ -470,26 +470,26 @@ class _GuardingMasterDataDetailsViewState
                                       height: 70,
                                       isDisableColor: true,
                                       onTap: () {
-                                        BaseOrganisationDialog().userDialog(
-                                          context: context,
-                                          users: state.emailUsers!,
-                                          // TODO: Need to change EntrySecurity to BaseUser
-                                          onTap: (BaseUser user) {
-                                            BlocProvider.of<
-                                                        GuardingMasterDataDetailsCubit>(
-                                                    context)
-                                                .updateDropdownValues(
-                                              guard: user,
-                                            );
-                                          },
-                                          functionToCall: () {
-                                            // refresh the list
-                                            BlocProvider.of<
-                                                        GuardingMasterDataDetailsCubit>(
-                                                    context)
-                                                .refreshList();
-                                          },
-                                        );
+                                        // BaseOrganisationDialog().userDialog(
+                                        //   context: context,
+                                        //   users: state.emailUsers!,
+                                        //   // TODO: Need to change EntrySecurity to BaseUser
+                                        //   onTap: (BaseUser user) {
+                                        //     BlocProvider.of<
+                                        //                 GuardingMasterDataDetailsCubit>(
+                                        //             context)
+                                        //         .updateDropdownValues(
+                                        //       guard: user,
+                                        //     );
+                                        //   },
+                                        //   functionToCall: () {
+                                        //     // refresh the list
+                                        //     BlocProvider.of<
+                                        //                 GuardingMasterDataDetailsCubit>(
+                                        //             context)
+                                        //         .refreshList();
+                                        //   },
+                                        // );
                                       },
                                     ),
                                     CommonWidgets.verticalSpacerWidget(
@@ -504,31 +504,36 @@ class _GuardingMasterDataDetailsViewState
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.001)
                                     : Container(),
-                                BaseImageUpload().uploadWidget(
-                                  isDisabled: isReadOnly,
-                                  context: context,
-                                  loggedInUserDetails:
-                                      state.loggedInUserDetails ?? User(),
-                                  getFiles: guardFiles,
-                                  onImageSelected: (ImageContent data) {
-                                    log('-------function---onImageSelected---------');
-                                    List<ImageContent>? files = [];
-                                    guardFiles = [data];
-                                    files.add(data);
-                                    for (ImageContent image
-                                        in guardFiles ?? []) {
-                                      files.add(image);
-                                    }
-                                    BlocProvider.of<
-                                                GuardingMasterDataDetailsCubit>(
-                                            context)
-                                        .addAttachment(
-                                      data: files,
-                                      guardImages: guardFiles,
-                                    );
-                                  },
+                                AbsorbPointer(
+                                  absorbing: true,
+                                  child: BaseImageUpload().uploadWidget(
+                                    isDisabled: true,
+                                    context: context,
+                                    loggedInUserDetails:
+                                        state.loggedInUserDetails ?? User(),
+                                    getFiles: guardFiles,
+                                    onImageSelected: (ImageContent data) {
+                                      log('-------function---onImageSelected---------');
+                                      List<ImageContent>? files = [];
+                                      guardFiles = [data];
+                                      files.add(data);
+                                      for (ImageContent image
+                                          in guardFiles ?? []) {
+                                        files.add(image);
+                                      }
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .addAttachment(
+                                        data: files,
+                                        guardImages: guardFiles,
+                                      );
+                                    },
+                                  ),
                                 ),
-                                // Attachments
+                                // // Attachments
+                                // IgnorePointer(
+                                //   ignoring: false,
                                 BaseImageUpload().getAttachment(
                                   height: height,
                                   attachments: state.guardAttachments,
@@ -538,9 +543,11 @@ class _GuardingMasterDataDetailsViewState
                                   //         null
                                   //     ? true
                                   //     : false,
+                                  showDeleteIcon: false,
                                   moduleCode:
                                       Constants.guardingMasterModuleCode,
                                 ),
+                                //),
 
                                 /// Guarding Vendor
                                 CommonWidgets.textDisplay(
@@ -555,26 +562,26 @@ class _GuardingMasterDataDetailsViewState
                                   height: 60,
                                   isDisableColor: true,
                                   onTap: () {
-                                    BaseOrganisationDialog().departmentDialog(
-                                        context: context,
-                                        organisations: state.departments,
-                                        onTap: (Organisation department) {
-                                          BlocProvider.of<
-                                                      GuardingMasterDataDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  vendor: department);
-                                        },
-                                        orgName: 'ATOM_VENDORS',
-                                        createEntity: false,
-                                        title: 'Add Vendor',
-                                        functionToCall: () {
-                                          // refresh the list
-                                          BlocProvider.of<
-                                                      GuardingMasterDataDetailsCubit>(
-                                                  context)
-                                              .refreshList();
-                                        });
+                                    // BaseOrganisationDialog().departmentDialog(
+                                    //     context: context,
+                                    //     organisations: state.departments,
+                                    //     onTap: (Organisation department) {
+                                    //       BlocProvider.of<
+                                    //                   GuardingMasterDataDetailsCubit>(
+                                    //               context)
+                                    //           .updateDropdownValues(
+                                    //               vendor: department);
+                                    //     },
+                                    //     orgName: 'ATOM_VENDORS',
+                                    //     createEntity: false,
+                                    //     title: 'Add Vendor',
+                                    //     functionToCall: () {
+                                    //       // refresh the list
+                                    //       BlocProvider.of<
+                                    //                   GuardingMasterDataDetailsCubit>(
+                                    //               context)
+                                    //           .refreshList();
+                                    //     });
                                   },
                                 ),
 
@@ -627,30 +634,30 @@ class _GuardingMasterDataDetailsViewState
                                     initialValue:
                                         state.model.guardRank.toString(),
                                     onTap: () {
-                                      if (isDisabled) {
-                                        BaseDropDown().assetTypeDialog(
-                                            context: context,
-                                            dropDownValues:
-                                                guardRankDropDownValues
-                                                    .map((label) => label.key)
-                                                    .toList(),
-                                            onTap: (String value) {
-                                              Label? selectedLabel;
-                                              selectedLabel =
-                                                  guardRankDropDownValues
-                                                      .firstWhere(
-                                                (label) => label.key == value,
-                                                orElse: () => const Label(
-                                                    key: '', value: ''),
-                                              );
-                                              BlocProvider.of<
-                                                          GuardingMasterDataDetailsCubit>(
-                                                      context)
-                                                  .updateDropdownValues(
-                                                      guardRank: int.tryParse(
-                                                          selectedLabel.value));
-                                            });
-                                      }
+                                      // if (isDisabled) {
+                                      //   BaseDropDown().assetTypeDialog(
+                                      //       context: context,
+                                      //       dropDownValues:
+                                      //           guardRankDropDownValues
+                                      //               .map((label) => label.key)
+                                      //               .toList(),
+                                      //       onTap: (String value) {
+                                      //         Label? selectedLabel;
+                                      //         selectedLabel =
+                                      //             guardRankDropDownValues
+                                      //                 .firstWhere(
+                                      //           (label) => label.key == value,
+                                      //           orElse: () => const Label(
+                                      //               key: '', value: ''),
+                                      //         );
+                                      //         BlocProvider.of<
+                                      //                     GuardingMasterDataDetailsCubit>(
+                                      //                 context)
+                                      //             .updateDropdownValues(
+                                      //                 guardRank: int.tryParse(
+                                      //                     selectedLabel.value));
+                                      //       });
+                                      // }
                                     }),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
@@ -744,30 +751,30 @@ class _GuardingMasterDataDetailsViewState
                                     initialValue:
                                         state.model.dutyType.toString(),
                                     onTap: () {
-                                      if (isDisabled) {
-                                        BaseDropDown().assetTypeDialog(
-                                            context: context,
-                                            dropDownValues:
-                                                dutyTypeDropDownValues
-                                                    .map((label) => label.key)
-                                                    .toList(),
-                                            onTap: (String value) {
-                                              Label? selectedLabel;
-                                              selectedLabel =
-                                                  dutyTypeDropDownValues
-                                                      .firstWhere(
-                                                (label) => label.key == value,
-                                                orElse: () => const Label(
-                                                    key: '', value: ''),
-                                              );
-                                              BlocProvider.of<
-                                                          GuardingMasterDataDetailsCubit>(
-                                                      context)
-                                                  .updateDropdownValues(
-                                                      dutyType: int.tryParse(
-                                                          selectedLabel.value));
-                                            });
-                                      }
+                                      // if (isDisabled) {
+                                      //   BaseDropDown().assetTypeDialog(
+                                      //       context: context,
+                                      //       dropDownValues:
+                                      //           dutyTypeDropDownValues
+                                      //               .map((label) => label.key)
+                                      //               .toList(),
+                                      //       onTap: (String value) {
+                                      //         Label? selectedLabel;
+                                      //         selectedLabel =
+                                      //             dutyTypeDropDownValues
+                                      //                 .firstWhere(
+                                      //           (label) => label.key == value,
+                                      //           orElse: () => const Label(
+                                      //               key: '', value: ''),
+                                      //         );
+                                      //         BlocProvider.of<
+                                      //                     GuardingMasterDataDetailsCubit>(
+                                      //                 context)
+                                      //             .updateDropdownValues(
+                                      //                 dutyType: int.tryParse(
+                                      //                     selectedLabel.value));
+                                      //       });
+                                      // }
                                     }),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
@@ -784,42 +791,42 @@ class _GuardingMasterDataDetailsViewState
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 BaseDropDown().getDropDown(
-                                  isDisabled: state.model.status != 6,
+                                  isDisabled: true,
                                   textController: genderController,
                                   items: genderDropDownValues,
                                   initialValue: state.model.gender.toString(),
                                   onTap: () {
-                                    if (isDisabled) {
-                                      BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues: genderDropDownValues
-                                            .map((label) => label.key)
-                                            .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              genderDropDownValues.firstWhere(
-                                            (label) => label.key == value,
-                                            orElse: () =>
-                                                const Label(key: '', value: ''),
-                                          );
-
-                                          physicallyFitModel.gender =
-                                              int.tryParse(selectedLabel.value);
-                                          checkPhysicallyFit(
-                                              physicallyFitModel:
-                                                  physicallyFitModel,
-                                              state: state);
-
-                                          BlocProvider.of<
-                                                      GuardingMasterDataDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  gender: int.tryParse(
-                                                      selectedLabel.value));
-                                        },
-                                      );
-                                    }
+                                    // if (isDisabled) {
+                                    //   BaseDropDown().assetTypeDialog(
+                                    //     context: context,
+                                    //     dropDownValues: genderDropDownValues
+                                    //         .map((label) => label.key)
+                                    //         .toList(),
+                                    //     onTap: (String value) {
+                                    //       Label? selectedLabel;
+                                    //       selectedLabel =
+                                    //           genderDropDownValues.firstWhere(
+                                    //         (label) => label.key == value,
+                                    //         orElse: () =>
+                                    //             const Label(key: '', value: ''),
+                                    //       );
+                                    //
+                                    //       physicallyFitModel.gender =
+                                    //           int.tryParse(selectedLabel.value);
+                                    //       checkPhysicallyFit(
+                                    //           physicallyFitModel:
+                                    //               physicallyFitModel,
+                                    //           state: state);
+                                    //
+                                    //       BlocProvider.of<
+                                    //                   GuardingMasterDataDetailsCubit>(
+                                    //               context)
+                                    //           .updateDropdownValues(
+                                    //               gender: int.tryParse(
+                                    //                   selectedLabel.value));
+                                    //     },
+                                    //   );
+                                    // }
                                   },
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
@@ -838,38 +845,38 @@ class _GuardingMasterDataDetailsViewState
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 BaseDropDown().getDropDown(
-                                    isDisabled: state.model.status != 6,
+                                    isDisabled: true,
                                     textController: maritalStatusController,
                                     items: maritalStatusDropDownValues,
                                     initialValue:
                                         state.model.maritalStatus.toString(),
                                     onTap: () {
-                                      if (isDisabled) {
-                                        BaseDropDown().assetTypeDialog(
-                                            context: context,
-                                            dropDownValues:
-                                                maritalStatusDropDownValues
-                                                    .map((label) => label.key)
-                                                    .toList(),
-                                            onTap: (String value) {
-                                              Label? selectedLabel;
-                                              selectedLabel =
-                                                  maritalStatusDropDownValues
-                                                      .firstWhere(
-                                                (label) => label.key == value,
-                                                orElse: () => const Label(
-                                                    key: '', value: ''),
-                                              );
-                                              BlocProvider.of<
-                                                          GuardingMasterDataDetailsCubit>(
-                                                      context)
-                                                  .updateDropdownValues(
-                                                      maritalStatus:
-                                                          int.tryParse(
-                                                              selectedLabel
-                                                                  .value));
-                                            });
-                                      }
+                                      // if (isDisabled) {
+                                      //   BaseDropDown().assetTypeDialog(
+                                      //       context: context,
+                                      //       dropDownValues:
+                                      //           maritalStatusDropDownValues
+                                      //               .map((label) => label.key)
+                                      //               .toList(),
+                                      //       onTap: (String value) {
+                                      //         Label? selectedLabel;
+                                      //         selectedLabel =
+                                      //             maritalStatusDropDownValues
+                                      //                 .firstWhere(
+                                      //           (label) => label.key == value,
+                                      //           orElse: () => const Label(
+                                      //               key: '', value: ''),
+                                      //         );
+                                      //         BlocProvider.of<
+                                      //                     GuardingMasterDataDetailsCubit>(
+                                      //                 context)
+                                      //             .updateDropdownValues(
+                                      //                 maritalStatus:
+                                      //                     int.tryParse(
+                                      //                         selectedLabel
+                                      //                             .value));
+                                      //       });
+                                      // }
                                     }),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
@@ -966,6 +973,7 @@ class _GuardingMasterDataDetailsViewState
                                 // ),
                                 // CommonWidgets.verticalSpacerWidget(height * 0.01),
                                 BaseDate().datePickerWidgetLoading(
+                                  isDisabled: true,
                                   textController: dateOfBirthController,
                                   onlyDate: false,
                                   showFutureDate: false,
@@ -996,6 +1004,7 @@ class _GuardingMasterDataDetailsViewState
                                     height * 0.001),
 
                                 BaseDate().datePickerWidgetLoading(
+                                  isDisabled: true,
                                   onlyDate: true,
                                   textController: dateOfJoiningController,
                                   onChange: (String value) {
@@ -1034,32 +1043,32 @@ class _GuardingMasterDataDetailsViewState
                                   initialValue:
                                       '${widget.guardingMasterData?.typeOfDeployment ?? 1}',
                                   onTap: () {
-                                    if (state.model.id != null) {
-                                      BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues:
-                                            deploymentTypeDropDownValues
-                                                .map((label) => label.key)
-                                                .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              deploymentTypeDropDownValues
-                                                  .firstWhere(
-                                            (label) => label.key == value,
-                                            orElse: () =>
-                                                const Label(key: '', value: ''),
-                                          );
-                                          BlocProvider.of<
-                                                      GuardingMasterDataDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                            typeOfDeployment: int.tryParse(
-                                                selectedLabel.value),
-                                          );
-                                        },
-                                      );
-                                    }
+                                    // if (state.model.id != null) {
+                                    //   BaseDropDown().assetTypeDialog(
+                                    //     context: context,
+                                    //     dropDownValues:
+                                    //         deploymentTypeDropDownValues
+                                    //             .map((label) => label.key)
+                                    //             .toList(),
+                                    //     onTap: (String value) {
+                                    //       Label? selectedLabel;
+                                    //       selectedLabel =
+                                    //           deploymentTypeDropDownValues
+                                    //               .firstWhere(
+                                    //         (label) => label.key == value,
+                                    //         orElse: () =>
+                                    //             const Label(key: '', value: ''),
+                                    //       );
+                                    //       BlocProvider.of<
+                                    //                   GuardingMasterDataDetailsCubit>(
+                                    //               context)
+                                    //           .updateDropdownValues(
+                                    //         typeOfDeployment: int.tryParse(
+                                    //             selectedLabel.value),
+                                    //       );
+                                    //     },
+                                    //   );
+                                    // }
                                   },
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
@@ -1115,27 +1124,31 @@ class _GuardingMasterDataDetailsViewState
                                       ? CommonWidgets.verticalSpacerWidget(
                                           height * 0.001)
                                       : Container(),
-                                  BaseImageUpload().uploadWidget(
-                                    context: context,
-                                    loggedInUserDetails:
-                                        state.loggedInUserDetails ?? User(),
-                                    getFiles: deploymentFiles,
-                                    onImageSelected: (ImageContent data) {
-                                      log('-------function---onImageSelected---------');
-                                      List<ImageContent>? files = [];
-                                      files.add(data);
-                                      for (ImageContent image
-                                          in deploymentFiles ?? []) {
-                                        files.add(image);
-                                      }
-                                      BlocProvider.of<
-                                                  GuardingMasterDataDetailsCubit>(
-                                              context)
-                                          .addAttachment(
-                                        data: files,
-                                        deploymentFiles: files,
-                                      );
-                                    },
+                                  AbsorbPointer(
+                                    absorbing: true,
+                                    child: BaseImageUpload().uploadWidget(
+                                      isDisabled: true,
+                                      context: context,
+                                      loggedInUserDetails:
+                                          state.loggedInUserDetails ?? User(),
+                                      getFiles: deploymentFiles,
+                                      onImageSelected: (ImageContent data) {
+                                        log('-------function---onImageSelected---------');
+                                        List<ImageContent>? files = [];
+                                        files.add(data);
+                                        for (ImageContent image
+                                            in deploymentFiles ?? []) {
+                                          files.add(image);
+                                        }
+                                        BlocProvider.of<
+                                                    GuardingMasterDataDetailsCubit>(
+                                                context)
+                                            .addAttachment(
+                                          data: files,
+                                          deploymentFiles: files,
+                                        );
+                                      },
+                                    ),
                                   ),
                                   // Attachments
                                   BaseImageUpload().getAttachment(
@@ -1146,6 +1159,7 @@ class _GuardingMasterDataDetailsViewState
                                     //     widget.guardingMasterData != null
                                     //         ? true
                                     //         : false,
+                                    showDeleteIcon: false,
                                     moduleCode:
                                         Constants.guardingMasterModuleCode,
                                   ),
@@ -1385,27 +1399,31 @@ class _GuardingMasterDataDetailsViewState
                                     Styles.textStyleBlack14),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
-                                BaseImageUpload().uploadWidget(
-                                  context: context,
-                                  loggedInUserDetails:
-                                      state.loggedInUserDetails ?? User(),
-                                  getFiles: bioDataFiles,
-                                  onImageSelected: (ImageContent data) {
-                                    log('-------function---onImageSelected---------');
-                                    List<ImageContent>? files = [];
-                                    files.add(data);
-                                    for (ImageContent image
-                                        in bioDataFiles ?? []) {
-                                      files.add(image);
-                                    }
-                                    BlocProvider.of<
-                                                GuardingMasterDataDetailsCubit>(
-                                            context)
-                                        .addAttachment(
-                                      data: files,
-                                      bioDataFiles: files,
-                                    );
-                                  },
+                                AbsorbPointer(
+                                  absorbing: true,
+                                  child: BaseImageUpload().uploadWidget(
+                                    isDisabled: true,
+                                    context: context,
+                                    loggedInUserDetails:
+                                        state.loggedInUserDetails ?? User(),
+                                    getFiles: bioDataFiles,
+                                    onImageSelected: (ImageContent data) {
+                                      log('-------function---onImageSelected---------');
+                                      List<ImageContent>? files = [];
+                                      files.add(data);
+                                      for (ImageContent image
+                                          in bioDataFiles ?? []) {
+                                        files.add(image);
+                                      }
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .addAttachment(
+                                        data: files,
+                                        bioDataFiles: files,
+                                      );
+                                    },
+                                  ),
                                 ),
                                 // Attachments
                                 BaseImageUpload().getAttachment(
@@ -1416,6 +1434,7 @@ class _GuardingMasterDataDetailsViewState
                                   //     widget.guardingMasterData != null
                                   //         ? true
                                   //         : false,
+                                  showDeleteIcon: false,
                                   moduleCode:
                                       Constants.guardingMasterModuleCode,
                                 ),
@@ -1504,27 +1523,31 @@ class _GuardingMasterDataDetailsViewState
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.001)
                                     : Container(),
-                                BaseImageUpload().uploadWidget(
-                                  context: context,
-                                  loggedInUserDetails:
-                                      state.loggedInUserDetails ?? User(),
-                                  getFiles: permanentAddressFiles,
-                                  onImageSelected: (ImageContent data) {
-                                    log('-------function---onImageSelected---------');
-                                    List<ImageContent>? files = [];
-                                    files.add(data);
-                                    for (ImageContent image
-                                        in permanentAddressFiles ?? []) {
-                                      files.add(image);
-                                    }
-                                    BlocProvider.of<
-                                                GuardingMasterDataDetailsCubit>(
-                                            context)
-                                        .addAttachment(
-                                      data: files,
-                                      permanentAddressFiles: files,
-                                    );
-                                  },
+                                AbsorbPointer(
+                                  absorbing: true,
+                                  child: BaseImageUpload().uploadWidget(
+                                    isDisabled: true,
+                                    context: context,
+                                    loggedInUserDetails:
+                                        state.loggedInUserDetails ?? User(),
+                                    getFiles: permanentAddressFiles,
+                                    onImageSelected: (ImageContent data) {
+                                      log('-------function---onImageSelected---------');
+                                      List<ImageContent>? files = [];
+                                      files.add(data);
+                                      for (ImageContent image
+                                          in permanentAddressFiles ?? []) {
+                                        files.add(image);
+                                      }
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .addAttachment(
+                                        data: files,
+                                        permanentAddressFiles: files,
+                                      );
+                                    },
+                                  ),
                                 ),
                                 // Attachments
                                 BaseImageUpload().getAttachment(
@@ -1536,6 +1559,7 @@ class _GuardingMasterDataDetailsViewState
                                   //     widget.guardingMasterData != null
                                   //         ? true
                                   //         : false,
+                                  showDeleteIcon: false,
                                   moduleCode:
                                       Constants.guardingMasterModuleCode,
                                 ),
@@ -1585,33 +1609,38 @@ class _GuardingMasterDataDetailsViewState
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.001)
                                     : Container(),
-                                BaseImageUpload().uploadWidget(
-                                  context: context,
-                                  loggedInUserDetails:
-                                      state.loggedInUserDetails ?? User(),
-                                  getFiles: localAddressFiles,
-                                  onImageSelected: (ImageContent data) {
-                                    log('-------function---onImageSelected---------');
-                                    List<ImageContent>? files = [];
-                                    files.add(data);
-                                    for (ImageContent image
-                                        in localAddressFiles ?? []) {
-                                      files.add(image);
-                                    }
-                                    BlocProvider.of<
-                                                GuardingMasterDataDetailsCubit>(
-                                            context)
-                                        .addAttachment(
-                                      data: files,
-                                      localAddressFiles: files,
-                                    );
-                                  },
+                                AbsorbPointer(
+                                  absorbing: true,
+                                  child: BaseImageUpload().uploadWidget(
+                                    isDisabled: true,
+                                    context: context,
+                                    loggedInUserDetails:
+                                        state.loggedInUserDetails ?? User(),
+                                    getFiles: localAddressFiles,
+                                    onImageSelected: (ImageContent data) {
+                                      log('-------function---onImageSelected---------');
+                                      List<ImageContent>? files = [];
+                                      files.add(data);
+                                      for (ImageContent image
+                                          in localAddressFiles ?? []) {
+                                        files.add(image);
+                                      }
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .addAttachment(
+                                        data: files,
+                                        localAddressFiles: files,
+                                      );
+                                    },
+                                  ),
                                 ),
                                 // Attachments
                                 BaseImageUpload().getAttachment(
                                   height: height,
                                   attachments: state.localAddressAttachments,
                                   files: localAddressFiles,
+                                  showDeleteIcon: false,
                                   moduleCode:
                                       Constants.guardingMasterModuleCode,
                                 ),
@@ -1654,6 +1683,7 @@ class _GuardingMasterDataDetailsViewState
                                     height * 0.001),
 
                                 BaseDate().datePickerWidgetLoading(
+                                  isDisabled: true,
                                   textController: pvcIssuedDateController,
                                   onlyDate: true,
                                   onChange: (String value) {
@@ -1715,6 +1745,7 @@ class _GuardingMasterDataDetailsViewState
                                     : Container(),
                                 widget.guardingMasterData == null
                                     ? BaseImageUpload().uploadWidget(
+                                        isDisabled: true,
                                         context: context,
                                         loggedInUserDetails:
                                             state.loggedInUserDetails ?? User(),
@@ -1743,6 +1774,7 @@ class _GuardingMasterDataDetailsViewState
                                   height: height,
                                   attachments: state.pVCAttachments,
                                   files: pVCFiles,
+                                  showDeleteIcon: false,
                                   moduleCode:
                                       Constants.guardingMasterModuleCode,
                                 ),
@@ -1804,6 +1836,7 @@ class _GuardingMasterDataDetailsViewState
                                           height * 0.001)
                                       : Container(),
                                   BaseImageUpload().uploadWidget(
+                                    isDisabled: true,
                                     context: context,
                                     loggedInUserDetails:
                                         state.loggedInUserDetails ?? User(),
@@ -1830,6 +1863,7 @@ class _GuardingMasterDataDetailsViewState
                                     height: height,
                                     attachments: state.trainingAttachments,
                                     files: trainingFiles,
+                                    showDeleteIcon: false,
                                     moduleCode:
                                         Constants.guardingMasterModuleCode,
                                   ),
@@ -1851,6 +1885,7 @@ class _GuardingMasterDataDetailsViewState
                                     height * 0.001),
 
                                 BaseDate().datePickerWidgetLoading(
+                                  isDisabled: true,
                                   onlyDate: false,
                                   showPastDate: false,
                                   textController:
@@ -1880,33 +1915,38 @@ class _GuardingMasterDataDetailsViewState
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.001)
                                     : Container(),
-                                BaseImageUpload().uploadWidget(
-                                  context: context,
-                                  loggedInUserDetails:
-                                      state.loggedInUserDetails ?? User(),
-                                  getFiles: medicalFiles,
-                                  onImageSelected: (ImageContent data) {
-                                    log('-------function---onImageSelected---------');
-                                    List<ImageContent>? files = [];
-                                    files.add(data);
-                                    for (ImageContent image
-                                        in medicalFiles ?? []) {
-                                      files.add(image);
-                                    }
-                                    BlocProvider.of<
-                                                GuardingMasterDataDetailsCubit>(
-                                            context)
-                                        .addAttachment(
-                                      data: files,
-                                      medicalFiles: files,
-                                    );
-                                  },
+                                AbsorbPointer(
+                                  absorbing: true,
+                                  child: BaseImageUpload().uploadWidget(
+                                    isDisabled: true,
+                                    context: context,
+                                    loggedInUserDetails:
+                                        state.loggedInUserDetails ?? User(),
+                                    getFiles: medicalFiles,
+                                    onImageSelected: (ImageContent data) {
+                                      log('-------function---onImageSelected---------');
+                                      List<ImageContent>? files = [];
+                                      files.add(data);
+                                      for (ImageContent image
+                                          in medicalFiles ?? []) {
+                                        files.add(image);
+                                      }
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .addAttachment(
+                                        data: files,
+                                        medicalFiles: files,
+                                      );
+                                    },
+                                  ),
                                 ),
                                 // Attachments
                                 BaseImageUpload().getAttachment(
                                   height: height,
                                   attachments: state.medicalAttachments,
                                   files: medicalFiles,
+                                  showDeleteIcon: false,
                                   moduleCode:
                                       Constants.guardingMasterModuleCode,
                                 ),
@@ -1932,32 +1972,32 @@ class _GuardingMasterDataDetailsViewState
                                     initialValue:
                                         state.model.systemAccess.toString(),
                                     onTap: () {
-                                      if (isDisabled) {
-                                        BaseDropDown().assetTypeDialog(
-                                            context: context,
-                                            dropDownValues:
-                                                systemAccessDropDownValues
-                                                    .map((label) => label.key)
-                                                    .toList(),
-                                            onTap: (String value) {
-                                              Label? selectedLabel;
-                                              selectedLabel =
-                                                  systemAccessDropDownValues
-                                                      .firstWhere(
-                                                (label) => label.key == value,
-                                                orElse: () => const Label(
-                                                    key: '', value: ''),
-                                              );
-                                              BlocProvider.of<
-                                                          GuardingMasterDataDetailsCubit>(
-                                                      context)
-                                                  .updateDropdownValues(
-                                                      systemAccess:
-                                                          int.tryParse(
-                                                              selectedLabel
-                                                                  .value));
-                                            });
-                                      }
+                                      // if (isDisabled) {
+                                      //   BaseDropDown().assetTypeDialog(
+                                      //       context: context,
+                                      //       dropDownValues:
+                                      //           systemAccessDropDownValues
+                                      //               .map((label) => label.key)
+                                      //               .toList(),
+                                      //       onTap: (String value) {
+                                      //         Label? selectedLabel;
+                                      //         selectedLabel =
+                                      //             systemAccessDropDownValues
+                                      //                 .firstWhere(
+                                      //           (label) => label.key == value,
+                                      //           orElse: () => const Label(
+                                      //               key: '', value: ''),
+                                      //         );
+                                      //         BlocProvider.of<
+                                      //                     GuardingMasterDataDetailsCubit>(
+                                      //                 context)
+                                      //             .updateDropdownValues(
+                                      //                 systemAccess:
+                                      //                     int.tryParse(
+                                      //                         selectedLabel
+                                      //                             .value));
+                                      //       });
+                                      // }
                                     }),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
@@ -2077,37 +2117,37 @@ class _GuardingMasterDataDetailsViewState
                                         Constants.mSGBExempted,
                                     Styles.textStyleBlack14),
                                 RadioButtonsYesNo(
-                                    status: state.model.status ?? 0,
-                                    selectedValue:
-                                        state.model.msgbExempted ? 1 : 0,
-                                    onChangedYes: null,
-                                    // onChangedYes:
-                                    //     widget.guardingMasterData?.status == 6
-                                    //         ? null
-                                    //         : (val) {
-                                    //             state.model.msgbExempted = true;
-                                    //             BlocProvider.of<
-                                    //                         GuardingMasterDataDetailsCubit>(
-                                    //                     context)
-                                    //                 .showFields(
-                                    //                     msgbExempted: true);
-                                    //             //.onModelValueChange(state.guardingMasterData
-                                    //             //);
-                                    //           },
-                                    onChangedNo: null,
-                                    // onChangedNo:
-                                    //     widget.guardingMasterData?.status == 4
-                                    //         ? null
-                                    //         : (val) {
-                                    //             state.model.msgbExempted =
-                                    //                 false;
-                                    //             BlocProvider.of<
-                                    //                         GuardingMasterDataDetailsCubit>(
-                                    //                     context)
-                                    //                 .showFields(
-                                    //                     msgbExempted: false);
-                                    //           }
-                                             ),
+                                  status: state.model.status ?? 0,
+                                  selectedValue:
+                                      state.model.msgbExempted ? 1 : 0,
+                                  onChangedYes: null,
+                                  // onChangedYes:
+                                  //     widget.guardingMasterData?.status == 6
+                                  //         ? null
+                                  //         : (val) {
+                                  //             state.model.msgbExempted = true;
+                                  //             BlocProvider.of<
+                                  //                         GuardingMasterDataDetailsCubit>(
+                                  //                     context)
+                                  //                 .showFields(
+                                  //                     msgbExempted: true);
+                                  //             //.onModelValueChange(state.guardingMasterData
+                                  //             //);
+                                  //           },
+                                  onChangedNo: null,
+                                  // onChangedNo:
+                                  //     widget.guardingMasterData?.status == 4
+                                  //         ? null
+                                  //         : (val) {
+                                  //             state.model.msgbExempted =
+                                  //                 false;
+                                  //             BlocProvider.of<
+                                  //                         GuardingMasterDataDetailsCubit>(
+                                  //                     context)
+                                  //                 .showFields(
+                                  //                     msgbExempted: false);
+                                  //           }
+                                ),
 
                                 if (state.model.msgbExempted) ...[
                                   /// MSGB Exemption Date
@@ -2158,32 +2198,32 @@ class _GuardingMasterDataDetailsViewState
                                           .model.msgbFormBSubmitted
                                           .toString(),
                                       onTap: () {
-                                        if (isDisabled) {
-                                          BaseDropDown().assetTypeDialog(
-                                              context: context,
-                                              dropDownValues:
-                                                  mSGBFormBSubmittedDropDownValues
-                                                      .map((label) => label.key)
-                                                      .toList(),
-                                              onTap: (String value) {
-                                                Label? selectedLabel;
-                                                selectedLabel =
-                                                    mSGBFormBSubmittedDropDownValues
-                                                        .firstWhere(
-                                                  (label) => label.key == value,
-                                                  orElse: () => const Label(
-                                                      key: '', value: ''),
-                                                );
-                                                BlocProvider.of<
-                                                            GuardingMasterDataDetailsCubit>(
-                                                        context)
-                                                    .updateDropdownValues(
-                                                        msgbFormBSubmitted:
-                                                            int.tryParse(
-                                                                selectedLabel
-                                                                    .value));
-                                              });
-                                        }
+                                        // if (isDisabled) {
+                                        //   BaseDropDown().assetTypeDialog(
+                                        //       context: context,
+                                        //       dropDownValues:
+                                        //           mSGBFormBSubmittedDropDownValues
+                                        //               .map((label) => label.key)
+                                        //               .toList(),
+                                        //       onTap: (String value) {
+                                        //         Label? selectedLabel;
+                                        //         selectedLabel =
+                                        //             mSGBFormBSubmittedDropDownValues
+                                        //                 .firstWhere(
+                                        //           (label) => label.key == value,
+                                        //           orElse: () => const Label(
+                                        //               key: '', value: ''),
+                                        //         );
+                                        //         BlocProvider.of<
+                                        //                     GuardingMasterDataDetailsCubit>(
+                                        //                 context)
+                                        //             .updateDropdownValues(
+                                        //                 msgbFormBSubmitted:
+                                        //                     int.tryParse(
+                                        //                         selectedLabel
+                                        //                             .value));
+                                        //       });
+                                        // }
                                       }),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
@@ -2202,6 +2242,7 @@ class _GuardingMasterDataDetailsViewState
                                     height * 0.001),
 
                                 BaseDate().datePickerWidgetLoading(
+                                  isDisabled: true,
                                   onlyDate: false,
                                   showFutureDate: false,
                                   textController:
@@ -2233,6 +2274,7 @@ class _GuardingMasterDataDetailsViewState
                                     height * 0.001),
 
                                 BaseDate().datePickerWidgetLoading(
+                                  isDisabled: true,
                                   onlyDate: false,
                                   showFutureDate: false,
                                   textController:
@@ -2264,6 +2306,7 @@ class _GuardingMasterDataDetailsViewState
                                     height * 0.001),
 
                                 BaseDate().datePickerWidgetLoading(
+                                  isDisabled: true,
                                   onlyDate: false,
                                   showFutureDate: false,
                                   textController: dateOfPrecautionaryCovidDose,
@@ -2293,6 +2336,7 @@ class _GuardingMasterDataDetailsViewState
                                     height * 0.001),
 
                                 BaseDate().datePickerWidgetLoading(
+                                  isDisabled: true,
                                   onlyDate: false,
                                   showFutureDate: false,
                                   textController: ertCertificationDate,
@@ -2323,6 +2367,7 @@ class _GuardingMasterDataDetailsViewState
                                     height * 0.001),
 
                                 BaseDate().datePickerWidgetLoading(
+                                  isDisabled: true,
                                   onlyDate: false,
                                   showFutureDate: false,
                                   textController:
@@ -2586,9 +2631,9 @@ class _GuardingMasterDataDetailsViewState
           label: Constants.read,
           value: state.model.localLangProficiencyR ?? false,
           onChanged: (bool? value) {
-            state.model.localLangProficiencyR = value;
-            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                .onCheckBoxChange(state.model);
+            // state.model.localLangProficiencyR = value;
+            // BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+            //     .onCheckBoxChange(state.model);
           },
         ),
         LanguageCheckBox(
@@ -2596,9 +2641,9 @@ class _GuardingMasterDataDetailsViewState
           label: Constants.write,
           value: state.model.localLangProficiencyW ?? false,
           onChanged: (bool? value) {
-            state.model.localLangProficiencyW = value;
-            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                .onCheckBoxChange(state.model);
+            // state.model.localLangProficiencyW = value;
+            // BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+            //     .onCheckBoxChange(state.model);
           },
         ),
         LanguageCheckBox(
@@ -2606,9 +2651,9 @@ class _GuardingMasterDataDetailsViewState
           label: Constants.speak,
           value: state.model.localLangProficiencyS ?? false,
           onChanged: (bool? value) {
-            state.model.localLangProficiencyS = value;
-            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                .onCheckBoxChange(state.model);
+            // state.model.localLangProficiencyS = value;
+            // BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+            //     .onCheckBoxChange(state.model);
           },
         )
       ],
@@ -2623,9 +2668,9 @@ class _GuardingMasterDataDetailsViewState
           label: Constants.read,
           value: state.model.hindiLangProficiencyR ?? false,
           onChanged: (bool? value) {
-            state.model.hindiLangProficiencyR = value;
-            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                .onCheckBoxChange(state.model);
+            // state.model.hindiLangProficiencyR = value;
+            // BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+            //     .onCheckBoxChange(state.model);
           },
         ),
         LanguageCheckBox(
@@ -2633,9 +2678,9 @@ class _GuardingMasterDataDetailsViewState
           label: Constants.write,
           value: state.model.hindiLangProficiencyW ?? false,
           onChanged: (bool? value) {
-            state.model.hindiLangProficiencyW = value;
-            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                .onCheckBoxChange(state.model);
+            // state.model.hindiLangProficiencyW = value;
+            // BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+            //     .onCheckBoxChange(state.model);
           },
         ),
         LanguageCheckBox(
@@ -2643,9 +2688,9 @@ class _GuardingMasterDataDetailsViewState
           label: Constants.speak,
           value: state.model.hindiLangProficiencyS ?? false,
           onChanged: (bool? value) {
-            state.model.hindiLangProficiencyS = value;
-            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                .onCheckBoxChange(state.model);
+            // state.model.hindiLangProficiencyS = value;
+            // BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+            //     .onCheckBoxChange(state.model);
           },
         )
       ],
@@ -2660,9 +2705,9 @@ class _GuardingMasterDataDetailsViewState
           label: Constants.read,
           value: state.model.englishLangProficiencyR ?? false,
           onChanged: (bool? value) {
-            state.model.englishLangProficiencyR = value;
-            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                .onCheckBoxChange(state.model);
+            // state.model.englishLangProficiencyR = value;
+            // BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+            //     .onCheckBoxChange(state.model);
           },
         ),
         LanguageCheckBox(
@@ -2670,9 +2715,9 @@ class _GuardingMasterDataDetailsViewState
           label: Constants.write,
           value: state.model.englishLangProficiencyW ?? false,
           onChanged: (bool? value) {
-            state.model.englishLangProficiencyW = value;
-            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                .onCheckBoxChange(state.model);
+            // state.model.englishLangProficiencyW = value;
+            // BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+            //     .onCheckBoxChange(state.model);
           },
         ),
         LanguageCheckBox(
@@ -2680,9 +2725,9 @@ class _GuardingMasterDataDetailsViewState
           label: Constants.speak,
           value: state.model.englishLangProficiencyS ?? false,
           onChanged: (bool? value) {
-            state.model.englishLangProficiencyS = value;
-            BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                .onCheckBoxChange(state.model);
+            // state.model.englishLangProficiencyS = value;
+            // BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+            //     .onCheckBoxChange(state.model);
           },
         )
       ],
@@ -2842,30 +2887,30 @@ class _GuardingMasterDataDetailsViewState
   Widget locationWidgetdislay(GuardingMasterDataDetailsState state) {
     return GestureDetector(
       onTap: () {
-        // if (widget.occurrence == null ||
-        //     (state.occurrence.location?.name ?? '').isEmpty)
-        //     {
-        showDialog(
-          context: context,
-          builder: (BuildContext dialogContext) {
-            // print(state.getLocationsResponse);
-            return CustomExpansionListTexts(
-              locationList: state.locations,
-              onTap: (Organisation? list) async {
-                log('list?.name-----${list?.name}');
-
-                Organisation location = Organisation();
-                location.id = list?.id;
-                location.name = list?.name;
-                state.model.location = location;
-
-                BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
-                    .updateDropdownValues(location: location);
-              },
-            );
-          },
-        );
-        // }
+        // // if (widget.occurrence == null ||
+        // //     (state.occurrence.location?.name ?? '').isEmpty)
+        // //     {
+        // showDialog(
+        //   context: context,
+        //   builder: (BuildContext dialogContext) {
+        //     // print(state.getLocationsResponse);
+        //     return CustomExpansionListTexts(
+        //       locationList: state.locations,
+        //       onTap: (Organisation? list) async {
+        //         log('list?.name-----${list?.name}');
+        //
+        //         Organisation location = Organisation();
+        //         location.id = list?.id;
+        //         location.name = list?.name;
+        //         state.model.location = location;
+        //
+        //         BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
+        //             .updateDropdownValues(location: location);
+        //       },
+        //     );
+        //   },
+        // );
+        // // }
       },
       child: SelectedTileValueWidget(name: state.model.location?.name ?? ''),
     );
@@ -2898,7 +2943,7 @@ class _GuardingMasterDataDetailsViewState
           : 60,
       isDisableColor: true,
       onTap: () {
-        _showQualificationSelectionDialog(context, state);
+        // _showQualificationSelectionDialog(context, state);
       },
     );
   }
@@ -2974,8 +3019,8 @@ class _GuardingMasterDataDetailsViewState
           initialValue: extraDetails.description,
           textFormKey: Keys.materialBreifDescKey,
           hintText: Constants.informationhere,
-          isEnable: true,
-          isDisableColor: false,
+          isEnable: false,
+          isDisableColor: true,
           validateTextField: (String? user) {},
           onChange: (String value) {},
           textInputAction: TextInputAction.newline,

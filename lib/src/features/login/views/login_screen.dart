@@ -2,9 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
-import 'package:db_atom/src/utils/web_sso_msal_handler.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
-import 'package:msal_auth/msal_auth.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class LoginScreen extends StatelessWidget {

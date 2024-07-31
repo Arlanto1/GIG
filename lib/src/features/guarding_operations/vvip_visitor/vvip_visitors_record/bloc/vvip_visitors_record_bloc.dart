@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/vvip_visitor/models/vvip_ui_labels.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 import '../../models/requestModels/vvip_visitors_record_request.dart';
 import '../../models/vvip_visitor_record_model.dart';
 import '../../services/vvip_visitor_services.dart';
 
 part 'vvip_visitors_record_event.dart';
+
 part 'vvip_visitors_record_state.dart';
 
 class VVIPVisitorsRecordBloc

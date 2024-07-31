@@ -93,8 +93,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
             context: context,
             title: Constants.generalInformation,
             showPopUp: false,
-            showSaveButton: disableForm ? false : true,
-            showSubmitButton: disableForm ? false : true,
+            showSaveButton: false,
+            showSubmitButton: false,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -107,7 +107,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
               BlocProvider.of<GeneralInfoCubit>(context)
                   .submitForm(isSaveOnly: false);
             },
-            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.eventProtectionModuleCode}',
+            pdfAPIName:
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.eventProtectionModuleCode}',
           ),
           backgroundColor: AppColors.backgroundWhiteColor,
           body: getBodybuilder(state, height),
@@ -164,7 +165,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       AbsorbPointer(
-                        absorbing: disableForm,
+                        absorbing: true,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 20.0, right: 20),
                           child: Column(children: [
@@ -228,7 +229,18 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            locationWidgetdislay(state),
+                            // locationWidgetdislay(state),
+                            BaseLocationDropdown().locationWidgetDisplay(
+                                isEnabled: false,
+                                context: context,
+                                locations: state.locations ?? Locations(),
+                                selectedLocationName:
+                                    state.model.location?.name ?? '',
+                                onTap: (Organisation? location) {
+                                  BlocProvider.of<GeneralInfoCubit>(context)
+                                      .updateLocationDropdownValue(
+                                          location: location);
+                                }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Date of creation
@@ -308,7 +320,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               context: context,
                               selectedValues: state.model.entities ?? [],
                               all: state.listOfEntities ?? [],
-                              enabled: !disableForm,
+                              enabled: false,
                               onTap: (List<Organisation> selectedEntities) {
                                 log('--selectedEntities----${selectedEntities.length}');
                                 BlocProvider.of<GeneralInfoCubit>(context)
@@ -337,6 +349,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: eventStartDateController,
+                              isDisabled: true,
                               onlyDate: false,
                               showPastDate: false,
                               flagDate: true,
@@ -370,6 +383,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             // Text('${Utils().formatUnixTimestamp(state.model.eventStartDate!)}'),
                             BaseDate().datePickerWidgetLoading(
                               textController: eventEndDateController,
+                              isDisabled: true,
                               onlyDate: false,
                               // showPastDate: false,
                               startDate: state.model.eventStartDate,
@@ -396,7 +410,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               TextFieldAddButton(
                                 title: state.model.srh1?.userInfo,
                                 height: 60,
-                                isDisableColor: disableForm,
+                                isDisableColor: true,
                                 onTap: () {
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
@@ -409,6 +423,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     },
                                     roleName: ConstantUserRoles
                                         .atomSubRegionalHeadUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<GeneralInfoCubit>(context)
@@ -429,7 +444,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               TextFieldAddButton(
                                 title: state.model.srh2?.userInfo,
                                 height: 60,
-                                isDisableColor: disableForm,
+                                isDisableColor: true,
                                 onTap: () {
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
@@ -442,6 +457,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     },
                                     roleName: ConstantUserRoles
                                         .atomSubRegionalHeadUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<GeneralInfoCubit>(context)
@@ -464,7 +480,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 title: state.model.epManager1?.userInfo ??
                                     state.model.epManager1?.name,
                                 height: 60,
-                                isDisableColor: disableForm,
+                                isDisableColor: true,
                                 onTap: () {
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
@@ -478,6 +494,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     },
                                     roleName: ConstantUserRoles
                                         .atomSubRegionalHeadUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<GeneralInfoCubit>(context)
@@ -499,7 +516,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 title: state.model.epManager2?.userInfo ??
                                     state.model.epManager2?.name,
                                 height: 60,
-                                isDisableColor: disableForm,
+                                isDisableColor: true,
                                 onTap: () {
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
@@ -512,6 +529,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     },
                                     roleName: ConstantUserRoles
                                         .atomSubRegionalHeadUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<GeneralInfoCubit>(context)
@@ -534,7 +552,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               title: state.model.lsm1?.userInfo ??
                                   state.model.lsm1?.name,
                               height: 60,
-                              isDisableColor: disableForm,
+                              isDisableColor: true,
                               onTap: () {
                                 BaseOrganisationDialog().userDialog(
                                   context: context,
@@ -549,6 +567,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   },
                                   roleName: ConstantUserRoles
                                       .atomSeniorSecurityManagerUser,
+                                  locationId: state.model.location!.id!,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<GeneralInfoCubit>(context)
@@ -573,7 +592,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               textFormKey: Keys.lsm1ContactNOKey,
                               hintText: '',
                               focusNode: lSM1ContactNoFocusNode,
-                              isEnable: !disableForm,
+                              isEnable: false,
                               characterLimit: Constants.characterLimitContactNo,
                               isDisableColor: disableForm,
                               onChange: (String value) {
@@ -597,7 +616,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               title: state.model.lsm2?.userInfo ??
                                   state.model.lsm2?.name,
                               height: 60,
-                              isDisableColor: disableForm,
+                              isDisableColor: true,
                               onTap: () {
                                 BaseOrganisationDialog().userDialog(
                                   context: context,
@@ -612,6 +631,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   },
                                   roleName: ConstantUserRoles
                                       .atomSeniorSecurityManagerUser,
+                                  locationId: state.model.location!.id!,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<GeneralInfoCubit>(context)
@@ -635,11 +655,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               textInputType: TextInputType.number,
                               initialValue: state.model.lsm2ContactNo,
                               textFormKey: Keys.lsm2ContactNOKey,
-                              isEnable: !disableForm,
+                              isEnable: false,
                               hintText: '',
                               focusNode: lSM2ContactNoFocusNode,
                               characterLimit: Constants.characterLimitContactNo,
-                              isDisableColor: disableForm,
+                              isDisableColor: true,
                               onChange: (String value) {
                                 state.model.lsm2ContactNo = value;
                                 context
@@ -660,7 +680,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               title: state.model.bu1?.userInfo ??
                                   state.model.bu1?.name,
                               height: 60,
-                              isDisableColor: disableForm,
+                              isDisableColor: true,
                               onTap: () {
                                 BaseOrganisationDialog().userDialog(
                                   context: context,
@@ -674,6 +694,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                         .requestFocus(pocContactNoFocusNode);
                                   },
                                   roleName: ConstantUserRoles.atomStaticUser,
+                                  locationId: state.model.location!.id!,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<GeneralInfoCubit>(context)
@@ -699,8 +720,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               hintText: '',
                               focusNode: pocContactNoFocusNode,
                               characterLimit: Constants.characterLimitContactNo,
-                              isEnable: !disableForm,
-                              isDisableColor: disableForm,
+                              isEnable: false,
+                              isDisableColor: true,
                               onChange: (String value) {
                                 state.model.bu1ContactNo = value;
                                 context
@@ -723,7 +744,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               title: state.model.bu2?.userInfo ??
                                   state.model.bu2?.name,
                               height: 60,
-                              isDisableColor: disableForm,
+                              isDisableColor: true,
                               onTap: () {
                                 BaseOrganisationDialog().userDialog(
                                   context: context,
@@ -737,6 +758,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                         pocEscalationContactNoFocusNode);
                                   },
                                   roleName: ConstantUserRoles.atomStaticUser,
+                                  locationId: state.model.location!.id!,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<GeneralInfoCubit>(context)
@@ -762,8 +784,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               hintText: '',
                               focusNode: pocEscalationContactNoFocusNode,
                               characterLimit: Constants.characterLimitContactNo,
-                              isEnable: !disableForm,
-                              isDisableColor: disableForm,
+                              isEnable: false,
+                              isDisableColor: true,
                               onChange: (String value) {
                                 state.model.bu2ContactNo = value;
                                 context
@@ -785,7 +807,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               TextFieldAddButton(
                                 title: state.model.bu1Dept?.name,
                                 height: 60,
-                                isDisableColor: disableForm,
+                                isDisableColor: true,
                                 onTap: () {
                                   BaseOrganisationDialog().departmentDialog(
                                     context: context,
@@ -809,7 +831,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               TextFieldAddButton(
                                 title: state.model.bu2Dept?.name,
                                 height: 60,
-                                isDisableColor: disableForm,
+                                isDisableColor: true,
                                 onTap: () {
                                   BaseOrganisationDialog().departmentDialog(
                                     context: context,
@@ -841,8 +863,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 textFormKey: Keys.systemVendor1EmailKey,
                                 textCapitalization: false,
                                 hintText: '',
-                                isEnable: !disableForm,
-                                isDisableColor: disableForm,
+                                isEnable: false,
+                                isDisableColor: true,
                                 onChange: (String value) {
                                   state.model.systemVendor1 = value;
                                   context
@@ -869,8 +891,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     state.model.systemVendor1ContactNo,
                                 textFormKey: Keys.vendor1Contact1Key,
                                 hintText: '',
-                                isEnable: !disableForm,
-                                isDisableColor: disableForm,
+                                isEnable: false,
+                                isDisableColor: true,
                                 onChange: (String value) {
                                   state.model.systemVendor1ContactNo = value;
                                   context
@@ -921,8 +943,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 textFormKey: Keys.systemVendor2EmailKey,
                                 textCapitalization: false,
                                 hintText: '',
-                                isEnable: !disableForm,
-                                isDisableColor: disableForm,
+                                isEnable: false,
+                                isDisableColor: true,
                                 onChange: (String value) {
                                   state.model.systemVendor2 = value;
                                   context
@@ -952,8 +974,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 characterLimit:
                                     Constants.characterLimitContactNo,
                                 hintText: '',
-                                isEnable: !disableForm,
-                                isDisableColor: disableForm,
+                                isEnable: false,
+                                isDisableColor: true,
                                 onChange: (String value) {
                                   state.model.systemVendor2ContactNo = value;
                                   context
@@ -1003,8 +1025,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 textFormKey: Keys.systemVendor2EmailKey,
                                 textCapitalization: false,
                                 hintText: '',
-                                isEnable: !disableForm,
-                                isDisableColor: disableForm,
+                                isEnable: false,
+                                isDisableColor: true,
                                 onChange: (String value) {
                                   state.model.systemVendor3 = value;
                                   context
@@ -1032,8 +1054,8 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 characterLimit:
                                     Constants.characterLimitContactNo,
                                 hintText: '',
-                                isEnable: !disableForm,
-                                isDisableColor: disableForm,
+                                isEnable: false,
+                                isDisableColor: true,
                                 onChange: (String value) {
                                   state.model.systemVendor3ContactNo = value;
                                   context
@@ -1080,7 +1102,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             TextFieldAddButton(
                               title: state.model.requesterDepartment?.name,
                               height: 60,
-                              isDisableColor: disableForm,
+                              isDisableColor: true,
                               onTap: () {
                                 BaseOrganisationDialog().departmentDialog(
                                     context: context,
@@ -1195,6 +1217,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                                 context)
                                             .onCheckBoxChange(state.model);
                                       },
+                                      locationId: state.model.location!.id!,
                                     );
                                   },
                                   child: Row(
@@ -1203,7 +1226,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       SvgPicture.asset(
                                         AppIcon.pluscircle,
                                         colorFilter: const ColorFilter.mode(
-                                          AppColors.navigationSkyBlueColor,
+                                          AppColors.boldGreyBackground,
                                           BlendMode.srcIn,
                                         ),
                                         // color: AppColors.navigationSkyBlueColor,
@@ -1212,8 +1235,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       const Text(
                                         'Add Officer',
                                         style: TextStyle(
-                                          color:
-                                              AppColors.navigationSkyBlueColor,
+                                          color: AppColors.boldGreyBackground,
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),
@@ -1653,24 +1675,24 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             cancelButtonDisplay(),
-                            if (!disableForm) ...[
-                              submitButtonDisplay(onTap: () {
-                                FocusScope.of(context).unfocus();
-                                BlocProvider.of<GeneralInfoCubit>(context)
-                                    .submitForm(isSaveOnly: false);
-                              })
-                            ],
+                            // if (!disableForm) ...[
+                            //   submitButtonDisplay(onTap: () {
+                            //     FocusScope.of(context).unfocus();
+                            //     BlocProvider.of<GeneralInfoCubit>(context)
+                            //         .submitForm(isSaveOnly: false);
+                            //   })
+                            // ],
                           ],
                         ),
                       ],
-                      if (state.model.status != 0) ...[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            cancelButtonDisplay(),
-                          ],
-                        ),
-                      ],
+                      // if (state.model.status != 0) ...[
+                      //   Row(
+                      //     mainAxisAlignment: MainAxisAlignment.center,
+                      //     children: [
+                      //       cancelButtonDisplay(),
+                      //     ],
+                      //   ),
+                      // ],
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ]),
               ),
@@ -1693,6 +1715,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
       },
     );
   }
+
   // Widget cancelButtonDisplay(GeneralInfoState state) {
   //   bool condition = widget.model?.id == null ||
   //       widget.model?.status == ConstantsIntValue.cancelledStatus ||

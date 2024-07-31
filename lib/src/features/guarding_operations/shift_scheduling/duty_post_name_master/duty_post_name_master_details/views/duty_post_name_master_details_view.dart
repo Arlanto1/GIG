@@ -107,7 +107,8 @@ class _DutyPostNameMasterDetailsViewState
             showSaveButton: false,
             showDisLikeButton: false,
             showLikeButton: false,
-            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.dutyPostNameMasterModuleCode}',
+            pdfAPIName:
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.dutyPostNameMasterModuleCode}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<DutyPostNameMasterDetailsCubit>(context)
@@ -349,25 +350,21 @@ class _DutyPostNameMasterDetailsViewState
                             ],
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            if(state.model.lock.isEmptyOrNull)...[
-                            /// SubmitButton
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                cancelButtonDisplay(),
-                                if (showSaveSubmitButtons) ...[
-                                  submitButtonDisplay()
-                                ],
-                              ],
-                            )
-                            ],
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.04),
                           ],
                         ),
                       ),
                     ),
+
+                    /// SubmitButton
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        cancelButtonDisplay(),
+                        if (showSaveSubmitButtons) ...[submitButtonDisplay()],
+                      ],
+                    ),
+
+                    CommonWidgets.verticalSpacerWidget(height * 0.04),
                   ],
                 ),
               ),
@@ -485,7 +482,6 @@ class _DutyPostNameMasterDetailsViewState
 
   Widget cancelButtonDisplay() {
     return AppButton(
-
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
@@ -496,6 +492,7 @@ class _DutyPostNameMasterDetailsViewState
       },
     );
   }
+
   void updateRecordStatus(DutyPostNameMasterDetailsState state) {
     log('-updateRecordStatus-${widget.model?.status}--');
     if (state.model.id != null && widget.model?.status != 1) {

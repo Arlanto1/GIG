@@ -25,7 +25,13 @@ class Locations {
   @JsonKey(name: 'regions')
   List<Region>? regions;
 
-  Locations({this.west, this.south, this.northEast, this.mumbai, this.central, this.regions});
+  Locations(
+      {this.west,
+      this.south,
+      this.northEast,
+      this.mumbai,
+      this.central,
+      this.regions});
 
   factory Locations.fromJson(Map<String, dynamic> json) =>
       _$LocationsFromJson(json);
@@ -47,11 +53,14 @@ class Region {
   Region.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
         name = json['name'] as String?,
-        locations = (json['locations'] as List?)?.map((dynamic e) => Organisation.fromJson(e as Map<String,dynamic>)).toList();
+        locations = (json['locations'] as List?)
+            ?.map(
+                (dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
+            .toList();
 
   Map<String, dynamic> toJson() => {
-    'id' : id,
-    'name' : name,
-    'locations' : locations?.map((e) => e.toJson()).toList()
-  };
+        'id': id,
+        'name': name,
+        'locations': locations?.map((e) => e.toJson()).toList()
+      };
 }

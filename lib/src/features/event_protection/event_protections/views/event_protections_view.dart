@@ -95,19 +95,19 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
       builder: (context, state) {
         return Scaffold(
           backgroundColor: AppColors.cardBgColor,
-          floatingActionButton:
-              state.extraProperties?.hasWritePermission ?? false
-                  ? Flutterfloatingbutton(
-                      backgroundColor: AppColors.navigationSkyBlueColor,
-                      foregroundColor: AppColors.backgroundWhiteColor,
-                      onPressed: () => {
-                        Navigator.pushNamed(
-                          context,
-                          eventProtectionDetailsTabRoute,
-                        )
-                      },
-                    )
-                  : const SizedBox(),
+          // floatingActionButton:
+          //     state.extraProperties?.hasWritePermission ?? false
+          //         ? Flutterfloatingbutton(
+          //             backgroundColor: AppColors.navigationSkyBlueColor,
+          //             foregroundColor: AppColors.backgroundWhiteColor,
+          //             onPressed: () => {
+          //               Navigator.pushNamed(
+          //                 context,
+          //                 eventProtectionDetailsTabRoute,
+          //               )
+          //             },
+          //           )
+          //         : const SizedBox(),
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: Constants.eventProtectionTitle,
@@ -220,8 +220,8 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                   .items[index].eventEndDate.isEmptyOrNull)) {
                                 labels.add(Label(
                                     key: state.labels?.locale.eventEndDate ??
-                                        state
-                                            .labels?.defaultLocale.eventEndDate ??
+                                        state.labels?.defaultLocale
+                                            .eventEndDate ??
                                         'Event End Date',
                                     value: Utils.timestampToDateConversion(
                                         int.tryParse(
@@ -236,7 +236,6 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                       labels: labels,
                                       status: state.items[index].status,
                                       isMasterGuard: false,
-
                                       onTap: (selectedIndex) {
                                         showDialog(
                                           context: context,
@@ -320,8 +319,9 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
     nav.pushNamed(
       eventProtectionDetailsTabRoute,
       arguments: {
-        'id': id.toString(),
+        ConstantsArgument.id: id.toString(),
         'eventStatus': eventStatus,
+        ConstantsArgument.title: Constants.eventProtectionTitle,
         ConstantsArgument.showEPGridsModel: showEPGridsModel,
         ConstantsArgument.extraProperties:
             ExtraProperties(hasWritePermission: hasWritePermission),

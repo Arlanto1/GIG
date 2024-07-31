@@ -371,8 +371,11 @@ class _EventInfoViewState extends State<EventInfoView> {
                                                     : true,
                                             leftButtonTap: () {
                                               FocusScope.of(context).unfocus();
-                                              BlocProvider.of<EventInfoCubit>(context)
-                                                  .submitForm(isSaveOnly: false,addArticleFound: true);
+                                              BlocProvider.of<EventInfoCubit>(
+                                                      context)
+                                                  .submitForm(
+                                                      isSaveOnly: false,
+                                                      addArticleFound: true);
                                             },
                                           );
                                         },

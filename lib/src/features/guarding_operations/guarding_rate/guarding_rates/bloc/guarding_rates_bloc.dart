@@ -8,6 +8,7 @@ import '../../../../../../index.dart';
 import '../../services/guarding_services.dart';
 
 part 'guarding_rates_event.dart';
+
 part 'guarding_rates_state.dart';
 
 class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
@@ -57,7 +58,7 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.guardingRatesModule,
         commonServices: commonServices,
       );

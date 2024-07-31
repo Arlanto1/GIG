@@ -3,9 +3,9 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 part 'material_movement_event.dart';
+
 part 'material_movement_state.dart';
 
 class MaterialMovementBloc
@@ -35,7 +35,7 @@ class MaterialMovementBloc
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.materialMovementModuleCode,
         commonServices: commonServices,
       );
@@ -158,7 +158,8 @@ class MaterialMovementBloc
       );
 
       if (response.items?.isEmpty == true) {
-        return emit(state.copyWith(hasReachedMax: true, status: FormStatus.success));
+        return emit(
+            state.copyWith(hasReachedMax: true, status: FormStatus.success));
       }
       return emit(
         state.copyWith(

@@ -72,7 +72,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     emit(state.copyWith(status: FormStatus.loading));
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     List<BaseUser>? shiftTakenOverBy = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Guarding_Staff');
+        roleNames: ConstantUserRoles.atomGuardingStaffUser,
+        locationId: model?.location?.id);
 
     emit(
       state.copyWith(
@@ -109,9 +110,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       Analyst users =
           await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
-      List<BaseUser>? shiftTakenOverBy = await commonServices
-          .getBaseUsersByRoles(roleNames: 'ATOM_Guarding_Staff');
-
       // Get Date of Creation
       // model.inputDate = Utils().getCurrentDate();
       // model.inputDate = model.inputDate == null
@@ -145,7 +143,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
 
           log('-powerFailureModel.powerFailureStartDate--${powerFailureModel.powerFailureStartDate}-');
           if (powerFailureModel.powerFailureStartDate != null) {
-
             model.powerFailure = true;
             PowerFailureModel powerFailure = PowerFailureModel();
             powerFailure.powerFailureStartDate =
@@ -164,6 +161,10 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         }
       }
       model.entrySecurity ??= loggedInUserDetails;
+      List<BaseUser>? shiftTakenOverBy =
+          await commonServices.getBaseUsersByRoles(
+              roleNames: ConstantUserRoles.atomGuardingStaffUser,
+              locationId: model.location?.id);
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
       model.status ?? 0;
@@ -198,6 +199,40 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     }
   }
 
+  Future<void> updateLocationDropdownValue({
+    Organisation? location,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    List<BaseUser>? shiftTakenOverBy = [];
+
+    /// Get Sl No from API
+    if (location != null) {
+      log('Update Location');
+      SerialNumberModel slNo = await commonServices.getSlNo(
+        locationId: location.id.toString(),
+        moduleCode: Constants.occurrenceModule,
+      );
+
+      state.model.location = location;
+      state.model.slNo = slNo.serialNo ?? '';
+      shiftTakenOverBy = await commonServices.getBaseUsers(
+          roleName: ConstantUserRoles.atomGuardingStaffUser,
+          locationId: location.id);
+    }
+    state.model.handoverSecurity = null;
+
+    emit(state.copyWith(
+      model: state.model,
+      shiftTakenOverBy: shiftTakenOverBy,
+      status: FormStatus.initial,
+    ));
+  }
+
   Future<void> updateDropdownValues({
     List<Organisation>? entities,
     Organisation? location,
@@ -209,6 +244,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         status: FormStatus.loading,
       ),
     );
+
+    // Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
@@ -389,18 +426,16 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         in state.model.powerFailures ?? []) {
       if (!powerFailureModel.powerFailureStartDate.isEmptyOrNull &&
           !Utils().isTimestamp(powerFailureModel.powerFailureStartDate!)) {
-
-        dateTime =
-            DateFormat("dd/MM/yyyy HH:mm:ss").parse(powerFailureModel.powerFailureStartDate!);
+        dateTime = DateFormat("dd/MM/yyyy HH:mm:ss")
+            .parse(powerFailureModel.powerFailureStartDate!);
         int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
         powerFailureModel.powerFailureStartDate = inputDate.toString();
       }
 
       if (!powerFailureModel.powerFailureEndDate.isEmptyOrNull &&
           !Utils().isTimestamp(powerFailureModel.powerFailureEndDate!)) {
-
-        dateTime =
-            DateFormat("dd/MM/yyyy HH:mm:ss").parse(powerFailureModel.powerFailureEndDate!);
+        dateTime = DateFormat("dd/MM/yyyy HH:mm:ss")
+            .parse(powerFailureModel.powerFailureEndDate!);
         int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
         powerFailureModel.powerFailureEndDate = inputDate.toString();
       }
