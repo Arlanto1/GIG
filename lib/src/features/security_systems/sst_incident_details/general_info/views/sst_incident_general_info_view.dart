@@ -115,6 +115,10 @@ class _SstIncidentGeneralInfoViewState
         if (state.model.status == -1) {
           disableForm = true;
         }
+
+        if (!state.model.lock.isEmptyOrNull) {
+          disableForm = true;
+        }
         // if (widget.extraProperties != null &&
         //     !widget.extraProperties!.hasWritePermission!) {
         //   disableForm = true;
@@ -790,6 +794,7 @@ class _SstIncidentGeneralInfoViewState
                                   state.model.status == null) ...[
                                 BaseImageUpload().uploadWidget(
                                   context: context,
+                                  isDisabled: disableForm,
                                   loggedInUserDetails:
                                       state.loggedInUserDetails,
                                   getFiles: uploadFiles,
