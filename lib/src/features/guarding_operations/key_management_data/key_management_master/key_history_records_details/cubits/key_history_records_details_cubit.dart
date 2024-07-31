@@ -89,6 +89,7 @@ class KeyHistoryRecordsDetailsCubit
       state.model.createdBy ??= loggedInUserDetails;
       state.model.modifiedBy ??= loggedInUserDetails.email;
       state.model.type = type;
+      state.model.noOfKeys = parentModel.noKeys;
       // Get Date of Creation
       // state.model.createdDate = Utils().getCurrentDate();
       // state.model.modifiedDate = Utils().getCurrentDate();

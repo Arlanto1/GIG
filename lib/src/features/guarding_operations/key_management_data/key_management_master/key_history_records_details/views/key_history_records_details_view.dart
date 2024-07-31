@@ -738,9 +738,7 @@ class _KeyHistoryRecordsDetailsViewState
                                 state.model.status ==
                                     ConstantsIntValue.created) &&
                                 ((widget.type ==
-                                    ConstantsIntValue.lockChangeHistoryInt ||
-                                    widget.type ==
-                                        ConstantsIntValue.keyLostHistoryInt) &&
+                                    ConstantsIntValue.lockChangeHistoryInt) &&
                                     state.loggedInUserDetails!.userName
                                         .equalsIgnoreCase(
                                         state.model.createdBy?.userName)) ||
@@ -748,10 +746,7 @@ class _KeyHistoryRecordsDetailsViewState
                                     ConstantsIntValue.created ||
                                     state.model.status != null) &&
                                     (widget.type == ConstantsIntValue
-                                        .keyDestroyHistoryInt ||
-                                        widget.type ==
-                                            ConstantsIntValue
-                                                .keyDamageHistoryInt) &&
+                                        .keyDestroyHistoryInt ) &&
                                     state.loggedInUserDetails!.userName
                                         .equalsIgnoreCase(state.model
                                         .securityManager?.userName)) ||
@@ -759,9 +754,7 @@ class _KeyHistoryRecordsDetailsViewState
                                     ConstantsIntValue.created ||
                                     state.model.status == null) &&
                                     (widget.type == ConstantsIntValue
-                                        .keyDestroyHistoryInt ||
-                                        widget.type == ConstantsIntValue
-                                            .keyDamageHistoryInt) &&
+                                        .keyDestroyHistoryInt) &&
                                     (state.loggedInUserDetails!.userName
                                         .equalsIgnoreCase(
                                         state.model.createdBy?.userName)))) &&
@@ -775,9 +768,7 @@ class _KeyHistoryRecordsDetailsViewState
                                     ConstantsIntValue.lostInitiated) &&
                                 (widget.type ==
                                     ConstantsIntValue
-                                        .lockChangeHistoryInt ||
-                                    widget.type ==
-                                        ConstantsIntValue.keyLostHistoryInt) &&
+                                        .lockChangeHistoryInt) &&
                                 state.loggedInUserDetails!.userName
                                     .equalsIgnoreCase(
                                     state.model.createdBy?.userName)) &&
