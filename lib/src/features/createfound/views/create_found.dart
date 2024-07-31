@@ -822,6 +822,7 @@ class _CreateFoundState extends State<CreateFound> {
               backBtn: IconButton(
                 onPressed: () {
                   Navigator.pop(context);
+                  CommonServices().unlock();
                   //Navigator.pop(context);
                   // Navigator.popAndPushNamed(
                   //   context,
@@ -2126,6 +2127,7 @@ class _CreateFoundState extends State<CreateFound> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

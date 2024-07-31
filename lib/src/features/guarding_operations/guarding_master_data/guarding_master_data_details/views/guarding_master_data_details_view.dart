@@ -2801,6 +2801,7 @@ class _GuardingMasterDataDetailsViewState
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
         // updateRecordStatus(state);
       },
     );

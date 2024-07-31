@@ -380,6 +380,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

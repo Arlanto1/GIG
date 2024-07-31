@@ -945,6 +945,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

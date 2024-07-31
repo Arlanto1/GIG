@@ -30,6 +30,7 @@ class BaseAppBar {
         onPressed: popAndReplace ??
             () {
               Navigator.pop(context);
+              CommonServices().unlock();
             },
         icon:
             const Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white),
