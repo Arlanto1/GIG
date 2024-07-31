@@ -295,59 +295,61 @@ class _EventInfoViewState extends State<EventInfoView> {
                                   SizedBox(
                                     height: 450,
                                     width: double.infinity,
-                                    child: QuillHtmlEditor(
-                                      // text: widget.text,
-                                      hintText: 'Hint text goes here',
-                                      controller: controller,
-                                      isEnabled: showSaveButtons,
-                                      ensureVisible: false,
-                                      minHeight: 500,
-                                      autoFocus: true,
-                                      textStyle: editorTextStyle,
-                                      hintTextStyle: hintTextStyle,
-                                      hintTextAlign: TextAlign.start,
-                                      padding: const EdgeInsets.only(
-                                          left: 10, top: 10),
-                                      hintTextPadding:
-                                          const EdgeInsets.only(left: 20),
-                                      backgroundColor: backgroundColor,
-                                      inputAction: InputAction.newline,
-                                      onEditingComplete: (s) async {
-                                        debugPrint('Editing completed $s');
-                                        var cubit =
-                                            BlocProvider.of<EventInfoCubit>(
-                                                context);
-                                        state.model.email = await getHtmlText();
-                                        cubit.onModelValueChange(state.model);
-                                      },
-                                      loadingBuilder: (context) {
-                                        return const Center(
-                                            child: CircularProgressIndicator(
-                                          strokeWidth: 1,
-                                          color: Colors.red,
-                                        ));
-                                      },
-                                      onFocusChanged: (focus) {
-                                        debugPrint(
-                                            'has focus-----SSSS---- $focus');
+                                    child: SingleChildScrollView(
+                                      child: QuillHtmlEditor(
+                                        // text: widget.text,
+                                        hintText: 'Hint text goes here',
+                                        controller: controller,
+                                        isEnabled: showSaveButtons,
+                                        ensureVisible: true,
+                                        minHeight: 500,
+                                        autoFocus: true,
+                                        textStyle: editorTextStyle,
+                                        hintTextStyle: hintTextStyle,
+                                        hintTextAlign: TextAlign.start,
+                                        padding: const EdgeInsets.only(
+                                            left: 10, top: 10),
+                                        hintTextPadding:
+                                            const EdgeInsets.only(left: 20),
+                                        backgroundColor: backgroundColor,
+                                        inputAction: InputAction.newline,
+                                        onEditingComplete: (s) async {
+                                          debugPrint('Editing completed $s');
+                                          var cubit =
+                                              BlocProvider.of<EventInfoCubit>(
+                                                  context);
+                                          state.model.email = await getHtmlText();
+                                          cubit.onModelValueChange(state.model);
+                                        },
+                                        loadingBuilder: (context) {
+                                          return const Center(
+                                              child: CircularProgressIndicator(
+                                            strokeWidth: 1,
+                                            color: Colors.red,
+                                          ));
+                                        },
+                                        onFocusChanged: (focus) {
+                                          debugPrint(
+                                              'has focus-----SSSS---- $focus');
 
-                                        // setState(() {
-                                        //   hasFocus = focus;
-                                        // });
-                                      },
-                                      onTextChanged: (text) => debugPrint(
-                                          'widget text change $text'),
-                                      onEditorCreated: () {
-                                        debugPrint(
-                                            'Editor has been loaded--------');
-                                        // setHtmlText(widget.text);
-                                        controller
-                                            .setText(state.model.email ?? '');
-                                      },
-                                      onEditorResized: (height) => debugPrint(
-                                          'Editor resized----------- $height'),
-                                      onSelectionChanged: (sel) => debugPrint(
-                                          'index---- ${sel.index}, range ${sel.length}'),
+                                          // setState(() {
+                                          //   hasFocus = focus;
+                                          // });
+                                        },
+                                        onTextChanged: (text) => debugPrint(
+                                            'widget text change $text'),
+                                        onEditorCreated: () {
+                                          debugPrint(
+                                              'Editor has been loaded--------');
+                                          // setHtmlText(widget.text);
+                                          controller
+                                              .setText(state.model.email ?? '');
+                                        },
+                                        onEditorResized: (height) => debugPrint(
+                                            'Editor resized----------- $height'),
+                                        onSelectionChanged: (sel) => debugPrint(
+                                            'index---- ${sel.index}, range ${sel.length}'),
+                                      ),
                                     ),
                                   ),
                                 ],
