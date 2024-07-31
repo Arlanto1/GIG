@@ -71,17 +71,17 @@ class _SstIncidentGeneralInfoViewState
                 sstIncidentListRoute,
                 // arguments: {"isInternal": widget.isInternal},
               );
-              // if (widget.viaOccurrence) {
-              //   Navigator.pushNamed(
-              //     context,
-              //     occurrenceDetailsRoute,
-              //     arguments: {
-              //       'id': state.model.occurrence?.id.toString(),
-              //       "title": Constants.editOccurrence,
-              //     },
-              //   );
-              //   return;
-              // }
+              if (widget.viaOccurrence) {
+                Navigator.pushNamed(
+                  context,
+                  occurrenceDetailsRoute,
+                  arguments: {
+                    'id': state.model.occurrence?.id.toString(),
+                    "title": Constants.editOccurrence,
+                  },
+                );
+                return;
+              }
             },
           );
           showDialog(
