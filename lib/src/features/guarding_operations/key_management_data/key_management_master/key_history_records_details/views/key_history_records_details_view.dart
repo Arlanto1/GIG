@@ -99,7 +99,7 @@ class _KeyHistoryRecordsDetailsViewState
           isReadOnly = false;
         }
         showSaveAndSubmitButtons = !(widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) &&
+            !widget.extraProperties!.hasWritePermission!) ||
             (widget.lock.isEmptyOrNull) &&
             (
                 ((state.model.status == null ||
@@ -389,7 +389,7 @@ class _KeyHistoryRecordsDetailsViewState
                                               .keyDestroyHistoryInt) &&
                                   state.loggedInUserDetails!.userName
                                       .equalsIgnoreCase(
-                                      state.model.createdBy?.userName)) &&
+                                      state.model.createdBy?.userName)) ||
                                   !(widget.extraProperties != null &&
                                       !widget.extraProperties!
                                           .hasWritePermission!)) {
@@ -565,7 +565,7 @@ class _KeyHistoryRecordsDetailsViewState
                                               .keyDestroyHistoryInt) &&
                                       (state.loggedInUserDetails!.userName
                                           .equalsIgnoreCase(state
-                                          .model.createdBy?.userName)))) &&
+                                          .model.createdBy?.userName)))) ||
                                   !(widget.extraProperties != null &&
                                       !widget.extraProperties!
                                           .hasWritePermission!)) {
@@ -646,7 +646,7 @@ class _KeyHistoryRecordsDetailsViewState
                                               .keyDestroyHistoryInt) &&
                                       (state.loggedInUserDetails!.userName
                                           .equalsIgnoreCase(state
-                                          .model.createdBy?.userName)))) &&
+                                          .model.createdBy?.userName)))) ||
                                   !(widget.extraProperties != null &&
                                       !widget.extraProperties!
                                           .hasWritePermission!)) {
@@ -757,7 +757,7 @@ class _KeyHistoryRecordsDetailsViewState
                                         .keyDestroyHistoryInt) &&
                                     (state.loggedInUserDetails!.userName
                                         .equalsIgnoreCase(
-                                        state.model.createdBy?.userName)))) &&
+                                        state.model.createdBy?.userName)))) ||
                                 !(widget.extraProperties != null &&
                                     !widget.extraProperties!
                                         .hasWritePermission!),
