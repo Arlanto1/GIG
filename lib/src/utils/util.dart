@@ -9,6 +9,24 @@ import 'package:permission_handler/permission_handler.dart';
 class Utils {
   static final math.Random _random = math.Random.secure();
 
+
+  final List<String> imageExtensions = [
+    'jpeg',
+    'jpg',
+    'png',
+    'gif',
+    'bmp',
+    'webp',
+    'tiff',
+    'tif',
+    'svg'
+  ];
+
+  bool isImageFile(String fileName) {
+    String? extension = getFileExtension(fileName);
+    return imageExtensions.contains(extension.toLowerCase());
+  }
+
   String getFileNameWithoutExtension(String fileName) {
     int dotIndex = fileName.lastIndexOf('.');
     if (dotIndex == -1) return fileName; // No extension found

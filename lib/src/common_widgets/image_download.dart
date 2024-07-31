@@ -150,6 +150,7 @@ class DownloadImage {
         );
         return;
       }
+      dismissLoadingDialog(context);
 
       log('pdf---$file');
       // Ask the user to save it
