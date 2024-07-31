@@ -1084,6 +1084,7 @@ class _KeyHistoryRecordsDetailsViewState
       onTap: () {
         // updateRecordStatus(state);
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

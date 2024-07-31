@@ -632,6 +632,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

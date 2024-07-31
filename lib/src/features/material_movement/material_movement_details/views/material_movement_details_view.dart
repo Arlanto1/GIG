@@ -2978,6 +2978,7 @@ class _MaterialMovementDetailsViewState
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

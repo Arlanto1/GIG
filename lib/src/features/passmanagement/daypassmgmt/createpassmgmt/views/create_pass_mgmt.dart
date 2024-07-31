@@ -102,6 +102,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         backBtn: IconButton(
           onPressed: () {
             Navigator.pop(context);
+            CommonServices().unlock();
           },
           icon: const Icon(Icons.arrow_back_ios_new_outlined,
               color: Colors.white),
@@ -2518,6 +2519,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         updateRecordStatus();
+        CommonServices().unlock();
       },
     );
   }

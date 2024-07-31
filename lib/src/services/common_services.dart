@@ -30,6 +30,8 @@ class CommonApis {
   static final String _getStatusesByModuleId = '$baseUrl/getStatus?';
   static final String _getModuleAccessByUserRole =
       '$baseUrl/getModuleAccessByUserRole?';
+  static final String _unlock = '$baseUrl/unlock';
+  static final String _logout = '$baseUrl/logout';
 
   static const String exportDetailPagePDF = 'exportDeatilPagePDF?id=';
 }
@@ -413,5 +415,15 @@ class CommonServices {
       url: url,
     );
     return response['hasWritePermission'] as bool;
+  }
+
+  Future<void> unlock() async {
+    final String url = CommonApis._unlock;
+    await BaseApiService().postRequest(url: url, requestedData: {});
+  }
+
+  Future<void> logout() async {
+    final String url = CommonApis._logout;
+    await BaseApiService().postRequest(url: url, requestedData: {});
   }
 }

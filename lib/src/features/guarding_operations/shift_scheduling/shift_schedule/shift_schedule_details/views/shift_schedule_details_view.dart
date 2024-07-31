@@ -665,6 +665,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }
