@@ -24,7 +24,8 @@ class CreateFound extends StatefulWidget {
 class _CreateFoundState extends State<CreateFound> {
   // Default Radio Button Selected Item When App Starts.
   String radioButtonItem = '';
-  String serialNumber = '';
+
+  // String serialNumber = '';
   int pageNumber = 0;
 
   // Group Value for Radio Button.
@@ -88,8 +89,12 @@ class _CreateFoundState extends State<CreateFound> {
         exportBackgroundColor: Colors.white);
     if (widget.model != null) {
       populateData();
+      // createFoundArticleCubit.initializeValuesForExistingRecord(
+      //     model: widget.model!);
       BlocProvider.of<CreateFoundArticleCubit>(context)
           .initializeValues(widget.model);
+      BlocProvider.of<CreateFoundArticleCubit>(context)
+          .initializeValuesForExistingRecord(model: widget.model!);
     } else {
       createFoundArticleCubit.initializeValues(widget.model);
     }
@@ -98,6 +103,7 @@ class _CreateFoundState extends State<CreateFound> {
 
   @override
   void dispose() {
+    // createFoundArticleCubit.close();
     claimantSignatureController.dispose();
     super.dispose();
   }
@@ -133,7 +139,7 @@ class _CreateFoundState extends State<CreateFound> {
       handOverByValue = handOverSecurity?.userInfo != null
           ? handOverSecurity?.userInfo ?? ''
           : '';
-      serialNumber = widget.model?.slNo != null ? widget.model?.slNo ?? "" : '';
+      // serialNumber = widget.model?.slNo != null ? widget.model?.slNo ?? "" : '';
       selectedLocation = widget.model?.location != null
           ? Organisation(
               id: widget.model?.location?.id ?? 0,
@@ -232,103 +238,103 @@ class _CreateFoundState extends State<CreateFound> {
     }
   }
 
-  createFoundBody(bool isSubmit, int isFoundId) async {
-    log('-createFoundBody-----');
-
-    bool isDepositorDBEmployeeSelectedValue =
-        isDepositorDBEmployeeSelected == 1 ? true : false;
-    // int statusValue = 0;
-    // if (statusTextController.text.toLowerCase() == "found") {
-    //   statusValue = 0;
-    // } else if (statusTextController.text.toLowerCase() ==
-    //     "under security custody") {
-    //   statusValue = 0;
-    // } else {
-    //   statusValue = 2;
-    // }
-
-    int foundDate = Utils.dateToTimestampConversion(
-        foundDateTextController.text, Constants.fulldateFormat);
-    // int inputDate = Utils.dateToTimestampConversion(
-    //     dateofcreationTextController.text, Constants.fulldateFormat);
-    int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
-    Map<String, dynamic> entrySecurityBody = {
-      "userId": userDetails?.userId ?? 0,
-    };
-    Map<String, dynamic> handOverSecurityBody = {
-      "userId": handOverSecurity?.userId ?? 0,
-    };
-    Map<String, dynamic> locationBody = {
-      "id": selectedLocation?.id ?? 0,
-      "name": selectedLocation?.name ?? ''
-    };
-    Map<String, dynamic> depositorBody = {
-      "userId": selecteddepositorList?.id ?? 1,
-      "userName": selecteddepositorList?.name ?? '',
-      "email": selecteddepositorList?.email ?? '',
-    };
-    Map<String, dynamic> articleBody = {
-      "id": selectedArtclelist?.id ?? 0,
-    };
-    Map<String, dynamic> depositorDeptBody = {
-      "id": selectedEmployeedepartment?.id ?? 1,
-    };
-    Map<String, dynamic> foundBody = {
-      "status": widget.model?.status ?? 0,
-      "typeOfAsset": assetTypeTextController.text.isEmptyOrNull
-          ? ((assetTypeTextController.text.toLowerCase()) == 'company' ? 1 : 0)
-          : null,
-      "color":
-          colorTextController.text.isNotEmpty ? colorTextController.text : '',
-      "slNo": serialNumber,
-      "typeOfArticle": articleBody,
-      "entrySecurity": entrySecurityBody,
-      "handoverSecurity": handOverSecurityBody,
-      "foundLocation": foundLocationTextController.text,
-      "quantity": quantityTextController.text.isNotEmpty
-          ? int.parse(quantityTextController.text)
-          : 0,
-      "additionalInformation": additionalinformationTextController.text,
-      "depositorDbEmp": isDepositorDBEmployeeSelectedValue,
-      "inputDate": inputdate,
-      "foundDate": foundDate,
-      "location": locationBody,
-      "depositorName": isDepositorDBEmployeeSelected == 1
-          ? selecteddepositorList?.name ?? ''
-          : depositorTextController.text.isNotEmpty
-              ? depositorTextController.text
-              : '',
-      "claimantName": isClaimantDBEmployeeSelected == 1
-          ? selectedClaimList?.name ?? ''
-          : claimantTextController.text.isNotEmpty
-              ? claimantTextController.text
-              : '',
-      "employeeId": depositorEmpIdTextController.text.isNotEmpty
-          ? depositorEmpIdTextController.text
-          : '',
-      "depositorDepartment": depositorDeptBody,
-      "depositor": depositorBody,
-      "eventProtection": widget.eventId,
-      "images": getFiles
-    };
-    Map<String, dynamic> requestBody = {
-      "found": foundBody,
-    };
-    var username = await SharedPrefs.getUsername();
-    showLoadingDialog(context);
-    await createFoundArticleCubit.createFoundArticleHandle(
-        requestBody,
-        isSubmit,
-        context,
-        username,
-        widget.model != null ? Constants.editFound : Constants.createFound);
-  }
+  // createFoundBody(bool isSubmit, int isFoundId) async {
+  //   log('-createFoundBody-----');
+  //
+  //   bool isDepositorDBEmployeeSelectedValue =
+  //       isDepositorDBEmployeeSelected == 1 ? true : false;
+  //   // int statusValue = 0;
+  //   // if (statusTextController.text.toLowerCase() == "found") {
+  //   //   statusValue = 0;
+  //   // } else if (statusTextController.text.toLowerCase() ==
+  //   //     "under security custody") {
+  //   //   statusValue = 0;
+  //   // } else {
+  //   //   statusValue = 2;
+  //   // }
+  //
+  //   int foundDate = Utils.dateToTimestampConversion(
+  //       foundDateTextController.text, Constants.fulldateFormat);
+  //   // int inputDate = Utils.dateToTimestampConversion(
+  //   //     dateofcreationTextController.text, Constants.fulldateFormat);
+  //   int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+  //   Map<String, dynamic> entrySecurityBody = {
+  //     "userId": userDetails?.userId ?? 0,
+  //   };
+  //   Map<String, dynamic> handOverSecurityBody = {
+  //     "userId": handOverSecurity?.userId ?? 0,
+  //   };
+  //   Map<String, dynamic> locationBody = {
+  //     "id": selectedLocation?.id ?? 0,
+  //     "name": selectedLocation?.name ?? ''
+  //   };
+  //   Map<String, dynamic> depositorBody = {
+  //     "userId": selecteddepositorList?.id ?? 1,
+  //     "userName": selecteddepositorList?.name ?? '',
+  //     "email": selecteddepositorList?.email ?? '',
+  //   };
+  //   Map<String, dynamic> articleBody = {
+  //     "id": selectedArtclelist?.id ?? 0,
+  //   };
+  //   Map<String, dynamic> depositorDeptBody = {
+  //     "id": selectedEmployeedepartment?.id ?? 1,
+  //   };
+  //   Map<String, dynamic> foundBody = {
+  //     "status": widget.model?.status ?? 0,
+  //     "typeOfAsset": assetTypeTextController.text.isEmptyOrNull
+  //         ? ((assetTypeTextController.text.toLowerCase()) == 'company' ? 1 : 0)
+  //         : null,
+  //     "color":
+  //         colorTextController.text.isNotEmpty ? colorTextController.text : '',
+  //     // "slNo": serialNumber,
+  //     "typeOfArticle": articleBody,
+  //     "entrySecurity": entrySecurityBody,
+  //     "handoverSecurity": handOverSecurityBody,
+  //     "foundLocation": foundLocationTextController.text,
+  //     "quantity": quantityTextController.text.isNotEmpty
+  //         ? int.parse(quantityTextController.text)
+  //         : 0,
+  //     "additionalInformation": additionalinformationTextController.text,
+  //     "depositorDbEmp": isDepositorDBEmployeeSelectedValue,
+  //     "inputDate": inputdate,
+  //     "foundDate": foundDate,
+  //     "location": locationBody,
+  //     "depositorName": isDepositorDBEmployeeSelected == 1
+  //         ? selecteddepositorList?.name ?? ''
+  //         : depositorTextController.text.isNotEmpty
+  //             ? depositorTextController.text
+  //             : '',
+  //     "claimantName": isClaimantDBEmployeeSelected == 1
+  //         ? selectedClaimList?.name ?? ''
+  //         : claimantTextController.text.isNotEmpty
+  //             ? claimantTextController.text
+  //             : '',
+  //     "employeeId": depositorEmpIdTextController.text.isNotEmpty
+  //         ? depositorEmpIdTextController.text
+  //         : '',
+  //     "depositorDepartment": depositorDeptBody,
+  //     "depositor": depositorBody,
+  //     "eventProtection": widget.eventId,
+  //     "images": getFiles
+  //   };
+  //   Map<String, dynamic> requestBody = {
+  //     "found": foundBody,
+  //   };
+  //   var username = await SharedPrefs.getUsername();
+  //   showLoadingDialog(context);
+  //   await createFoundArticleCubit.createFoundArticleHandle(
+  //       requestBody,
+  //       isSubmit,
+  //       context,
+  //       username,
+  //       widget.model != null ? Constants.editFound : Constants.createFound);
+  // }
 
   /// Submit Form
   Future submitForm(
     bool isSubmit,
     int isFoundId, {
-    CreateFoundState? state,
+    required CreateFoundState state,
   }) async {
     log('-createRequestBody-----');
 
@@ -375,8 +381,8 @@ class _CreateFoundState extends State<CreateFound> {
 
     User? depositor = User(
         userId: selecteddepositorList?.id ?? widget.model?.depositor?.userId);
-    Organisation? location =
-        Organisation(id: selectedLocation?.id ?? widget.model?.location?.id);
+    // Organisation? location =
+    //     Organisation(id: selectedLocation?.id ?? widget.model?.location?.id);
     Organisation? depositorDepartment =
         selectedEmployeedepartment ?? widget.model?.depositorDepartment;
     List<ImageContent>? images =
@@ -395,7 +401,7 @@ class _CreateFoundState extends State<CreateFound> {
       );
     }
 
-    log('--claimantEmpIdTextController.text--${claimantEmpIdTextController.text}---');
+    log('--state?.slno--${state.slno}---');
     Found? found = Found(
         claimantConfirmByEmail: isClaimantSelectedByEmail,
         id: widget.model?.id,
@@ -407,7 +413,7 @@ class _CreateFoundState extends State<CreateFound> {
         claimantSign: widget.model?.claimantSign,
         handoverDate: handoverDate,
         claimantEmployeeId: int.tryParse(claimantEmpIdTextController.text),
-        slNo: serialNumber,
+        slNo: state.slno ?? '',
         images: images,
         typeOfAsset: !assetTypeTextController.text.isEmptyOrNull
             ? ((assetTypeTextController.text.toLowerCase()) == 'company'
@@ -433,7 +439,7 @@ class _CreateFoundState extends State<CreateFound> {
         foundDate: foundDate,
         entrySecurity: entrySecurity,
         handoverSecurity: handoverSecurity,
-        location: location,
+        location: state.location,
         depositorName: isDepositorDBEmployeeSelected == 1
             ? selecteddepositorList?.name ?? ''
             : depositorTextController.text.isNotEmpty
@@ -498,12 +504,12 @@ class _CreateFoundState extends State<CreateFound> {
     });
   }
 
-  createFoundValidations(BuildContext context) {
+  createFoundValidations(BuildContext context, CreateFoundState state) {
     if (statusTextController.text.isEmpty &&
         createdByValue.isEmpty &&
         (selectedLocation?.name ?? "").isEmpty &&
         dateOfCreationTextController.text.isEmpty &&
-        serialNumber.isEmpty &&
+        // serialNumber.isEmpty &&
         assetTypeTextController.text.isEmpty &&
         (selectedArtclelist?.name ?? "").isEmpty &&
         foundDateTextController.text.isEmpty &&
@@ -530,12 +536,14 @@ class _CreateFoundState extends State<CreateFound> {
         context,
         "Please enter creator date",
       );
-    } else if (serialNumber.isEmpty) {
+    }
+    /*else if (serialNumber.isEmpty) {
       Validator().showToast(
         context,
         "Please enter serial number",
       );
-    } else if (assetTypeTextController.text.isEmpty) {
+    }*/
+    else if (assetTypeTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter asset type",
@@ -623,10 +631,10 @@ class _CreateFoundState extends State<CreateFound> {
             Validator().showToast(context, "Please enter claimant");
           }
         } else {
-          submitForm(true, widget.model?.id ?? 0);
+          submitForm(true, widget.model?.id ?? 0,state: state);
         }
       } else {
-        submitForm(true, widget.model?.id ?? 0);
+        submitForm(true, widget.model?.id ?? 0, state: state);
       }
     }
   }
@@ -846,7 +854,7 @@ class _CreateFoundState extends State<CreateFound> {
                       //for now the new param is isSubmit added, if any new params needed we can add to this.
                       //createNewuserBody(false); //for save
                       //createdraftValidations(context);
-                      submitForm(false, 0);
+                      submitForm(false, 0, state: state);
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(right: 20.0),
@@ -867,7 +875,7 @@ class _CreateFoundState extends State<CreateFound> {
                     onTap: () async {
                       //loginFormKey.currentState!.validate();
                       FocusScope.of(context).unfocus();
-                      createFoundValidations(context);
+                      createFoundValidations(context, state);
                     },
                     child: const Padding(
                       padding: EdgeInsets.only(right: 20.0),
@@ -957,13 +965,13 @@ class _CreateFoundState extends State<CreateFound> {
                   claimant = selectedClaimList?.name ?? '';
                 }
 
-                if (widget.model == null || widget.model!.slNo.isEmptyOrNull) {
-                  serialnumberResponse = state.getSerialnumberResponse;
-                  log('---serialnumberResponse---${serialnumberResponse?.serialNo}----');
-                  if (serialnumberResponse != null) {
-                    serialNumber = serialnumberResponse?.serialNo ?? "";
-                  }
-                }
+                // if (widget.model == null || widget.model!.slNo.isEmptyOrNull) {
+                //   serialnumberResponse = state.slno;
+                //   log('---serialnumberResponse---${serialnumberResponse?.serialNo}----');
+                //   if (serialnumberResponse != null) {
+                //     serialNumber = serialnumberResponse?.serialNo ?? "";
+                //   }
+                // }
                 return Container(
                   color: AppColors.navigationSkyBlueColor,
                   child: SingleChildScrollView(
@@ -1069,7 +1077,29 @@ class _CreateFoundState extends State<CreateFound> {
                                       isMandatory: true),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
-                                  locationWidgetdislay(state),
+                                  // locationWidgetdislay(state),
+                                  BaseLocationDropdown().locationWidgetDisplay(
+                                      isEnabled: widget.model?.status == null || widget.model?.status == 0,
+                                      context: context,
+                                      locations: state.locations ?? Locations(),
+                                      selectedLocationName:
+                                      state.model.location?.name ?? '',
+                                      onTap: (Organisation location) async {
+                                        // BlocProvider.of<MaterialMovementDetailsCubit>(
+                                        //     context)
+                                        //     .updateLocationDropdownValue(
+                                        //     location: location);
+
+
+                                        await createFoundArticleCubit.getSerialnumberDetails(
+                                            location.id.toString() ?? '',
+                                            Constants.articleFoundModuleCode,
+                                            location);
+                                        locationselectedText = location.name ?? '';
+                                        state.model.location?.name = location.name??'';
+                                        selectedLocation = location;
+                                        setState(() {});
+                                      }),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
 
@@ -1093,7 +1123,7 @@ class _CreateFoundState extends State<CreateFound> {
                                           state.labels?.defaultLocale
                                               .foundSlNo ??
                                           Constants.slno,
-                                      serialNumber,
+                                      '${state.slno}',
                                       isMandatory: true),
 
                                   CommonWidgets.verticalSpacerWidget(
@@ -2113,7 +2143,7 @@ class _CreateFoundState extends State<CreateFound> {
       onTap: () async {
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
-        createFoundValidations(context);
+        createFoundValidations(context, state);
       },
     );
   }
@@ -2184,12 +2214,11 @@ class _CreateFoundState extends State<CreateFound> {
             context: context,
             builder: (BuildContext dialogContext) {
               return CustomExpansionListTexts(
-                locationList: state.getLocationsResponse ?? Locations(),
+                locationList: state.locations ?? Locations(),
                 onTap: (Organisation location) async {
                   await createFoundArticleCubit.getSerialnumberDetails(
                       location.id.toString() ?? '',
                       Constants.articleFoundModuleCode,
-                      context,
                       location);
                   locationselectedText = location.name ?? '';
                   selectedLocation = location;
