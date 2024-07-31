@@ -24,7 +24,7 @@ class BaseDate {
     bool showPastDate = true,
     bool showFutureDate = true,
     bool onlyDate = false,
-    bool flagDate = true,
+    bool notFlagDate = false,
     String? startDate,
     String? fromDate, // for giving date range
     String? toDate, // for giving date range
@@ -52,7 +52,7 @@ class BaseDate {
             onlyDate: onlyDate,
             fromDate: fromDate,
             toDate: toDate,
-            flagDate: flagDate,
+            notFlagDate: notFlagDate,
           );
 
           log('-textController.text----${textController.text}----');
@@ -105,7 +105,7 @@ class BaseDate {
     String? startDate,
     String? fromDate, // for giving date range
     String? toDate, // for giving date range
-     bool? flagDate, // for giving date range
+    bool? notFlagDate = true, // for giving date range
   }) async {
     DateTime? pickedDate;
 
@@ -192,7 +192,7 @@ class BaseDate {
         currentTime: currentTime,
         locale: LocaleType.en,
       );
-    } else if (flagDate == true) {
+    } else if (!startDate.isEmptyOrNull || notFlagDate == true) {
       log('--else if (flagDate == true)--');
       DatePicker.showDatePicker(
         context,
@@ -216,6 +216,7 @@ class BaseDate {
           if (pickedDate != null) {
             if (!onlyDate) {
               showTimePicker(
+                
                 context: context,
                 pickedDate: pickedDate!,
                 onlyDate: onlyDate,
@@ -224,7 +225,7 @@ class BaseDate {
               );
             }
             String dateTime =
-            setDateTime(pickedDate!, onlyDate, textController, onChange);
+                setDateTime(pickedDate!, onlyDate, textController, onChange);
             log('--!!!!!----dateTime---$dateTime------');
             return dateTime;
             // return setDateTime(pickedDate!, onlyDate, textController, onChange);
@@ -287,10 +288,10 @@ class BaseDate {
     required BuildContext context,
     required DateTime pickedDate,
     required bool onlyDate,
-    required TextEditingController textController,
+  required TextEditingController textController,
     onChange,
   }) {
-    DatePicker.showTime12hPicker(
+    DatePicker.showTimePicker(
       context,
       currentTime: pickedDate,
       // showSecondsColumn: false,

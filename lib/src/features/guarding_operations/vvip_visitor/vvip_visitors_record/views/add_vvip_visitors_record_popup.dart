@@ -284,7 +284,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                             ? false
                             : true,
                         onlyDate: false,
-                        // showPastDate: false,
+                        showPastDate: false,
                         // showFutureDate: true,
                         startDate: widget.model.startDateVisit,
                         onChange: (String value) {

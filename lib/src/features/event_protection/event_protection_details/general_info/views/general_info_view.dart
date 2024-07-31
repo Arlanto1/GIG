@@ -352,7 +352,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               isDisabled: true,
                               onlyDate: false,
                               showPastDate: false,
-                              flagDate: true,
+                              notFlagDate: true,
                               // startDate: '1727677800',
                               onChange: (String value) {
                                 log('---value-$value------');
@@ -387,7 +387,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               onlyDate: false,
                               // showPastDate: false,
                               startDate: state.model.eventStartDate,
-                              flagDate: true,
+                              notFlagDate: true,
                               onChange: (String value) {
                                 state.model.eventEndDate =
                                     Utils().formatTime(value);
