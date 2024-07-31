@@ -2713,7 +2713,6 @@ class _MaterialMovementDetailsViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.01),
-                            ],
 
                             /// Comment
                               CommonWidgets.textDisplay(
@@ -2753,7 +2752,7 @@ class _MaterialMovementDetailsViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.01),
-
+                            ],
                             /// upload
                             widget.model?.status == null ||
                                     widget.model?.status == 0 ||
