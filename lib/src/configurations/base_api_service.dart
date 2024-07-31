@@ -177,6 +177,7 @@ class BaseApiService {
         body: json.encode(requestedData),
       );
 
+
       log("HTTP Status Code: ${response.statusCode}");
       // log("Response: ${response.body}");
       // if (url.contains('getIncidentMgmtById')) {

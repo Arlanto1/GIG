@@ -10,6 +10,7 @@ import 'package:db_atom/src/features/createfound/models/user.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/contact_info/models/contact_info_model.dart';
 import 'package:db_atom/src/models/image_content.dart';
 import 'package:db_atom/src/routing/router.dart';
+import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/customalert.dart';
@@ -936,6 +937,7 @@ class _ContactInfoViewState extends State<ContactInfoView> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

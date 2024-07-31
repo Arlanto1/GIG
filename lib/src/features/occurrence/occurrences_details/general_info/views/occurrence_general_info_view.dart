@@ -1557,42 +1557,43 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
     );
   }
 
-  openSecuritySystemSLATypePopUp({
-    required OccurrenceGeneralInfoState state,
-    required bool showListing,
-  }) {
-    BaseDropDown().assetTypeDialog(
-      context: context,
-      dropDownValues: sstIncidentType.map((label) => label.key).toList(),
-      pop: false,
-      onTap: (String value) {
-        Label? selectedLabel;
-        selectedLabel = sstIncidentType.firstWhere(
-          (label) => label.key == value,
-          orElse: () => const Label(key: '', value: ''),
-        );
-
-        log('--state.model.id----${state.model.id}---');
-        if (showListing) {
-          // Navigate to Listing Page
-          Navigator.pushNamed(context, sstIncidentListRoute, arguments: {
-            "isInternal":
-                selectedLabel.value.equalsIgnoreCase('0') ? true : false,
-            "occId": state.model.id.toString(), // TODO: Need to check
-          });
-          return;
-        }
-
-        // Call navigateToCreateIncident here
-        navigateToCreateIncident(
-          state: state,
-          occType: 1,
-          isSSTIncident: true,
-          isInternal:  true,
-        );
-      },
-    );
-  }
+  // TODO: can be removed
+  // openSecuritySystemSLATypePopUp({
+  //   required OccurrenceGeneralInfoState state,
+  //   required bool showListing,
+  // }) {
+  //   BaseDropDown().assetTypeDialog(
+  //     context: context,
+  //     dropDownValues: sstIncidentType.map((label) => label.key).toList(),
+  //     pop: false,
+  //     onTap: (String value) {
+  //       Label? selectedLabel;
+  //       selectedLabel = sstIncidentType.firstWhere(
+  //         (label) => label.key == value,
+  //         orElse: () => const Label(key: '', value: ''),
+  //       );
+  //
+  //       log('--state.model.id----${state.model.id}---');
+  //       if (showListing) {
+  //         // Navigate to Listing Page
+  //         Navigator.pushNamed(context, sstIncidentListRoute, arguments: {
+  //           "isInternal":
+  //               selectedLabel.value.equalsIgnoreCase('0') ? true : false,
+  //           "occId": state.model.id.toString(), // TODO: Need to check
+  //         });
+  //         return;
+  //       }
+  //
+  //       // Call navigateToCreateIncident here
+  //       navigateToCreateIncident(
+  //         state: state,
+  //         occType: 1,
+  //         isSSTIncident: true,
+  //         isInternal: true,
+  //       );
+  //     },
+  //   );
+  // }
 
   String getStatusString(int status) {
     switch (status) {
@@ -1618,6 +1619,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }
@@ -1729,7 +1731,10 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
         buttonTextKey: Keys.showButton,
         onTap: () => {
           showPopUp ?? false
-              ? openSecuritySystemSLATypePopUp(state: state, showListing: true)
+              ? Navigator.pushNamed(context, sstIncidentListRoute, arguments: {
+                  "isInternal": true,
+                  "occId": state.model.id.toString(),
+                })
               : Navigator.pushNamed(
                   context,
                   incidentManagementsRoute,

@@ -517,6 +517,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

@@ -281,6 +281,7 @@ class _RatesInfoState extends State<RatesInfo> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

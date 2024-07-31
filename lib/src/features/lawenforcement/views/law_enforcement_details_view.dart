@@ -114,6 +114,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             backBtn: IconButton(
               onPressed: () {
                 Navigator.pop(context);
+                CommonServices().unlock();
               },
               icon: const Icon(Icons.arrow_back_ios_new_outlined,
                   color: Colors.white),
@@ -2193,6 +2194,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }
