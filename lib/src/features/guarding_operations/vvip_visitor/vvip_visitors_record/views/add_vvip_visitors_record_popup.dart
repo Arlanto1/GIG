@@ -257,6 +257,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                             ? false
                             : true,
                         showPastDate: false,
+                        notFlagDate: true,
                         onChange: (String value) {
                           FocusManager.instance.primaryFocus?.unfocus();
                           // widget.model.startDateVisit = value;
@@ -284,9 +285,12 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                             ? false
                             : true,
                         onlyDate: false,
+                        notFlagDate: true,
                         showPastDate: false,
+
                         // showFutureDate: true,
                         startDate: widget.model.startDateVisit,
+                        //fromDate: widget.model.startDateVisit,
                         onChange: (String value) {
                           widget.model.endDateVisit = Utils().formatTime(value);
                         },

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/views/add_power_failure_dates_pop_up.dart';
+import 'package:intl/intl.dart';
 
 class OccurrenceDetails extends StatefulWidget {
   final String title;
@@ -26,6 +27,10 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
   bool disableForm = true;
   bool showPowerFailureDates = false;
   bool isReadOnly = false;
+
+  String? selectedStartDate;
+
+  String? startToDate;
 
   get guardingMasterData => null;
 
@@ -1831,6 +1836,22 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   Utils.dateToTimestampConversion(
                                           value, Constants.fulldateFormat)
                                       .toString();
+                              startDateController.text = value;
+                              selectedStartDate =
+                                  DateFormat('dd/MM/yyyy HH:mm:ss')
+                                      .parse(value)
+                                      .toString();
+                              DateTime parsedDate =
+                              DateFormat('dd/MM/yyyy HH:mm:ss').parse(value);
+
+                              // Add two days to the parsed date
+                              DateTime newDate =
+                              parsedDate.add(const Duration(days: 1));
+
+                              // Format the new date back into the desired string format
+                              startToDate = newDate.toString();
+
+                              setState(() {});
                             },
                             context: context,
                           ),
@@ -1847,8 +1868,13 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                           BaseDate().datePickerWidgetLoading(
                             textController: endDateController,
                             onlyDate: false,
-                            notFlagDate: false,
-                            startDate: powerFailure.powerFailureStartDate,
+                            notFlagDate: true,
+                            startDate: selectedStartDate,
+                            fromDate: selectedStartDate,
+                            toDate: startToDate.isEmptyOrNull ? '' : startToDate,
+                            showFutureDate: false,
+                            // fromDate: powerFailure.powerFailureStartDate,
+                            //toDate = startDate.add(Duration(days: 2));
                             showPastDate: false,
                             // startDate: startDateController.text,
                             onChange: (String value) {
