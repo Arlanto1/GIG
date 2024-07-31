@@ -71,17 +71,17 @@ class _SstIncidentGeneralInfoViewState
                 sstIncidentListRoute,
                 // arguments: {"isInternal": widget.isInternal},
               );
-              // if (widget.viaOccurrence) {
-              //   Navigator.pushNamed(
-              //     context,
-              //     occurrenceDetailsRoute,
-              //     arguments: {
-              //       'id': state.model.occurrence?.id.toString(),
-              //       "title": Constants.editOccurrence,
-              //     },
-              //   );
-              //   return;
-              // }
+              if (widget.viaOccurrence) {
+                Navigator.pushNamed(
+                  context,
+                  occurrenceDetailsRoute,
+                  arguments: {
+                    'id': state.model.occurrence?.id.toString(),
+                    "title": Constants.editOccurrence,
+                  },
+                );
+                return;
+              }
             },
           );
           showDialog(
@@ -113,6 +113,10 @@ class _SstIncidentGeneralInfoViewState
           disableForm = true;
         }
         if (state.model.status == -1) {
+          disableForm = true;
+        }
+
+        if (!state.model.lock.isEmptyOrNull) {
           disableForm = true;
         }
         // if (widget.extraProperties != null &&
@@ -790,6 +794,7 @@ class _SstIncidentGeneralInfoViewState
                                   state.model.status == null) ...[
                                 BaseImageUpload().uploadWidget(
                                   context: context,
+                                  isDisabled: disableForm,
                                   loggedInUserDetails:
                                       state.loggedInUserDetails,
                                   getFiles: uploadFiles,

@@ -13,6 +13,7 @@ class KeyHistoryModel {
   User? securityManager;
   Organisation? destructionReason;
   int? noOfKeys;
+  int? noKeys;
   String? additionalInformation;
   String? comment;
   bool? investigationRequired;
@@ -22,6 +23,7 @@ class KeyHistoryModel {
   KeyHistoryModel(
       {this.id,
       this.createdBy,
+      this.noKeys,
       this.createdDate,
       this.status,
       this.keyType,
@@ -62,6 +64,7 @@ class KeyHistoryModel {
                     json['destructionReason'] as Map<String, dynamic>)
                 : null,
         noOfKeys = json['noOfKeys'] as int?,
+        noKeys = json['noKeys'] as int?,
         additionalInformation = json['additionalInformation'] as String?,
         comment = json['comment'] as String?,
         investigationRequired = json['investigationRequired'] as bool?,
@@ -76,6 +79,7 @@ class KeyHistoryModel {
         'keyType': keyType,
         'type': type,
         'slNo': slNo,
+        'noKeys': noKeys,
         'srh': srh?.toJson(),
         'lostKeyDetails': lostKeyDetails,
         'securityManager': securityManager?.toJson(),

@@ -41,8 +41,12 @@ class CreatePassMgmtService {
 
   Future<GetDepositor> getUserByRoleDepositor({
     required String roleName,
+    int? locationId,
   }) async {
     String url = '${Apis._getUsersByRole}$roleName';
+    if (locationId != null) {
+      url = '$url&locationId=$locationId';
+    }
     final response = await BaseApiService().getRequest(
       url: url,
     );

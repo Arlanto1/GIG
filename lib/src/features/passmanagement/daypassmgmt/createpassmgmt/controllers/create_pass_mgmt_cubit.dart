@@ -84,7 +84,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   Future<void> getUserByRoleDepositor(String userRole) async {
     try {
       GetDepositor getDepositorData = await createpassmgmtServices
-          .getUserByRoleDepositor(roleName: userRole);
+          .getUserByRoleDepositor(roleName: userRole,locationId: state.model.location?.id);
 
       emit(
         state.copyWith(
@@ -796,6 +796,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
             passId: passId, locationId: defaultLocation!.id!);
         // await getPassTypes(passId: passId, locationId: defaultLocation.id!);
 
+        passTypes = await createpassmgmtServices.getPassTypes(
+            passId: passId, locationId: defaultLocation!.id!);
         companyTypes = await createpassmgmtServices.getPassNo(
             passType: passId, locationId: defaultLocation.id!);
       }
