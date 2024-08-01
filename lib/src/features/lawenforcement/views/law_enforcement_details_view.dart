@@ -1198,7 +1198,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
       widget.model?.slNo ??
           await lawEnforcementCubit.getSerialnumberDetails(
-            (widget.model?.location?.id ?? 0).toString(),
+            (widget.model?.location?.id ?? 0),
             'LEO',
           );
 
@@ -1358,7 +1358,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       'EMPLOYEE_DEPARTMENTS',
     );
     await lawEnforcementCubit.getDBofficialByRoleDepositor(
-      ConstantUserRoles.atomStaticUser,
+      ConstantUserRoles.atomStaticUser,0
     );
     await lawEnforcementCubit.getUserDetails(
       userid,
@@ -1841,7 +1841,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                 //GetLocations(),
                 onTap: (Organisation? org) async {
                   await lawEnforcementCubit.getSerialnumberDetails(
-                    org?.id.toString() ?? '',
+                    org?.id ?? 0,
                     Constants.leoModuleCode,
                   );
                   // locationselectedText = list?.name ?? '';

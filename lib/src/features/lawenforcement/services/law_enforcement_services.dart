@@ -97,7 +97,7 @@ class LawEnforcementServices {
 
   // get serailnumber Details api call
   Future<SerialNumberModel> getSerialnumberDetails(
-    String locationId,
+    int locationId,
     String moduleCode,
   ) async {
     String url =
