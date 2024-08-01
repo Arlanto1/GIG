@@ -270,13 +270,19 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         ? true
                         : false,
                     onLinkOffTap: (selectedIndex) async {
+                      KeyIssuanceProcessRecord keyIssuanceProcessModel =
+                      await KeyManagementIssuanceServices()
+                          .getIssuanceProcessById(
+                          state.items[index].id ?? 0);
                       int? kmId = state.items[selectedIndex].kmId;
+                      int? kipId = state.items[selectedIndex].id;
                       Navigator.pushNamed(
                         context,
                         keyHistoryRecordsDetailsRoute,
                         arguments: {
                           ConstantsArgument.title: Constants.keyLostHistory,
                           ConstantsArgument.id: kmId,
+                          ConstantsArgument.kipId: kipId,
                           ConstantsArgument.type:
                               ConstantsIntValue.keyLostHistoryInt,
                         },
@@ -289,13 +295,19 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         ? true
                         : false,
                     onDeleteTap: (selectedIndex) async {
+                      KeyIssuanceProcessRecord keyIssuanceProcessModel =
+                      await KeyManagementIssuanceServices()
+                          .getIssuanceProcessById(
+                          state.items[index].id ?? 0);
                       int? kmId = state.items[selectedIndex].kmId;
+                      int? kipId = state.items[selectedIndex].id;
                       Navigator.pushNamed(
                         context,
                         keyHistoryRecordsDetailsRoute,
                         arguments: {
                           ConstantsArgument.title: Constants.keyDamageHistory,
                           ConstantsArgument.id: kmId,
+                          ConstantsArgument.kipId: kipId,
                           ConstantsArgument.type:
                               ConstantsIntValue.keyDamageHistoryInt,
                         },
@@ -318,6 +330,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
 
     editDataLoading(keyManagementMasterModel, hasWritePermission);
   }
+
 
   void editDataLoading(KeyManagementMasterModel? keyManagementMasterModel,
       bool hasWritePermission) {

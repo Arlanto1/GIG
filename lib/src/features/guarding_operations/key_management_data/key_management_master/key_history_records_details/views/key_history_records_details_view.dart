@@ -101,55 +101,63 @@ class _KeyHistoryRecordsDetailsViewState
         showSaveAndSubmitButtons = !(widget.extraProperties != null &&
             !widget.extraProperties!.hasWritePermission!) ||
             (widget.lock.isEmptyOrNull) &&
-            (
-                ((state.model.status == null ||
-                    state.model.status == ConstantsIntValue.created ||
-                    state.model.status ==
-                        ConstantsIntValue.lockChangeInitiated) &&
-                    (widget.type == ConstantsIntValue.lockChangeHistoryInt) &&
-                    (state.loggedInUserDetails!.userName
-                        .equalsIgnoreCase(state.model.createdBy?.userName))) ||
-                    ((state.model.status == ConstantsIntValue.created ||
-                        state.model.status == null) &&
-                        (widget.type ==
-                            ConstantsIntValue.keyDamageHistoryInt) &&
-                        state.loggedInUserDetails!.userName
-                            .equalsIgnoreCase(
-                            state.model.createdBy?.userName)) ||
-                    ((state.model.status == ConstantsIntValue.created ||
-                        state.model.status == null) &&
-                        (widget.type ==
-                            ConstantsIntValue.keyDestroyHistoryInt) &&
-                        (state.loggedInUserDetails!.userName
-                            .equalsIgnoreCase(
-                            state.model.createdBy?.userName))) ||
-                    ((state.model.status == ConstantsIntValue.created ||
-                        state.model.status == null) &&
-                        (widget.type ==
-                            ConstantsIntValue.keyLostHistoryInt) &&
-                        state.loggedInUserDetails!.userName
-                            .equalsIgnoreCase(
-                            state.model.createdBy?.userName)) ||
-                    ((state.model.status == ConstantsIntValue.damagedApproved ||
-                        state.model.status ==
-                            ConstantsIntValue.damagedInitiated ||
-                        state.model.status == ConstantsIntValue.lostInitiated ||
-                        state.model.status == ConstantsIntValue.lostApproved) &&
-                        (widget.type == ConstantsIntValue.keyLostHistoryInt ||
-                            widget.type ==
-                                ConstantsIntValue.keyDamageHistoryInt) &&
-                        (state.loggedInUserDetails!.userName
-                            .equalsIgnoreCase(state.model.srh?.userName))) ||
-                    ((state.model.status == ConstantsIntValue.created ||
-                        state.model.status == null) &&
-                        (widget.type ==
-                            ConstantsIntValue.keyDestroyHistoryInt) &&
-                        (state.loggedInUserDetails!.userName
-                            .equalsIgnoreCase(
-                            state.model.createdBy?.userName))) ||
+                (
                     ((state.model.status == null ||
-                        state.model.status == ConstantsIntValue.created)
-                        && widget.type == ConstantsIntValue.keyLostHistoryInt));
+                        state.model.status == ConstantsIntValue.created ||
+                        state.model.status ==
+                            ConstantsIntValue.lockChangeInitiated) &&
+                        (widget.type ==
+                            ConstantsIntValue.lockChangeHistoryInt) &&
+                        (state.loggedInUserDetails!.userName
+                            .equalsIgnoreCase(
+                            state.model.createdBy?.userName))) ||
+                        ((state.model.status == ConstantsIntValue.created ||
+                            state.model.status == null) &&
+                            (widget.type ==
+                                ConstantsIntValue.keyDamageHistoryInt) &&
+                            state.loggedInUserDetails!.userName
+                                .equalsIgnoreCase(
+                                state.model.createdBy?.userName)) ||
+                        ((state.model.status == ConstantsIntValue.created ||
+                            state.model.status == null) &&
+                            (widget.type ==
+                                ConstantsIntValue.keyDestroyHistoryInt) &&
+                            (state.loggedInUserDetails!.userName
+                                .equalsIgnoreCase(
+                                state.model.createdBy?.userName))) ||
+                        ((state.model.status == ConstantsIntValue.created ||
+                            state.model.status == null) &&
+                            (widget.type ==
+                                ConstantsIntValue.keyLostHistoryInt) &&
+                            state.loggedInUserDetails!.userName
+                                .equalsIgnoreCase(
+                                state.model.createdBy?.userName)) ||
+                        ((state.model.status ==
+                            ConstantsIntValue.damagedApproved ||
+                            state.model.status ==
+                                ConstantsIntValue.damagedInitiated ||
+                            state.model.status ==
+                                ConstantsIntValue.lostInitiated ||
+                            state.model.status ==
+                                ConstantsIntValue.lostApproved) &&
+                            (widget.type ==
+                                ConstantsIntValue.keyLostHistoryInt ||
+                                widget.type ==
+                                    ConstantsIntValue.keyDamageHistoryInt) &&
+                            (state.loggedInUserDetails!.userName
+                                .equalsIgnoreCase(
+                                state.model.srh?.userName))) ||
+                        ((state.model.status == ConstantsIntValue.created ||
+                            state.model.status == null) &&
+                            (widget.type ==
+                                ConstantsIntValue.keyDestroyHistoryInt) &&
+                            (state.loggedInUserDetails!.userName
+                                .equalsIgnoreCase(
+                                state.model.createdBy?.userName))) ||
+                        ((state.model.status == null ||
+                            state.model.status == ConstantsIntValue.created)
+                            && widget.type ==
+                                ConstantsIntValue.keyLostHistoryInt));
 
         showLikeDisLikeButtons =
             ((state.model.status == ConstantsIntValue.destroyInitiated &&
@@ -746,7 +754,7 @@ class _KeyHistoryRecordsDetailsViewState
                                     ConstantsIntValue.created ||
                                     state.model.status != null) &&
                                     (widget.type == ConstantsIntValue
-                                        .keyDestroyHistoryInt ) &&
+                                        .keyDestroyHistoryInt) &&
                                     state.loggedInUserDetails!.userName
                                         .equalsIgnoreCase(state.model
                                         .securityManager?.userName)) ||
@@ -757,10 +765,16 @@ class _KeyHistoryRecordsDetailsViewState
                                         .keyDestroyHistoryInt) &&
                                     (state.loggedInUserDetails!.userName
                                         .equalsIgnoreCase(
-                                        state.model.createdBy?.userName)))) ||
-                                !(widget.extraProperties != null &&
-                                    !widget.extraProperties!
-                                        .hasWritePermission!),
+                                        state.model.createdBy?.userName))) &&
+                                    (widget.type !=
+                                        ConstantsIntValue
+                                            .keyLostHistoryInt)) &&
+                                widget.type !=
+                                    ConstantsIntValue
+                                        .keyDamageHistoryInt &&
+                                    !(widget.extraProperties != null &&
+                                        !widget.extraProperties!
+                                            .hasWritePermission!),
                             isDisableColor: ((state.model.status == null ||
                                 state.model.status ==
                                     ConstantsIntValue.created ||
@@ -775,6 +789,7 @@ class _KeyHistoryRecordsDetailsViewState
                                 (widget.extraProperties != null &&
                                     !widget.extraProperties!
                                         .hasWritePermission!),
+
                             onChange: (String value) {
                               state.model.noOfKeys = int.tryParse(value);
                               context

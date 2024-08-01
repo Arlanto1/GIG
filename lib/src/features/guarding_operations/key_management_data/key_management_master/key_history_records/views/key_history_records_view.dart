@@ -13,13 +13,16 @@ class KeyHistoryRecordsView extends StatefulWidget {
       required this.type,
       this.model,
       this.extraProperties,
-      this.lock});
+      this.lock,
+      this.kipId});
 
   final int id;
   final int type;
   final KeyManagementMasterModel? model;
   final ExtraProperties? extraProperties;
   final String? lock;
+  final int? kipId;
+
 
   @override
   State<KeyHistoryRecordsView> createState() => _KeyHistoryRecordsViewState();

@@ -109,7 +109,7 @@ class KeyManagementIssuanceServices {
     return KeyManagementProcessListResponseModel.fromJson(response);
   }
 
-  Future<KeyIssuanceProcessRecord> getIssuanceProcessById(num id) async {
+  Future<KeyIssuanceProcessRecord> getIssuanceProcessById(int id) async {
     final String url = '${Apis._getIssuanceProcessById}/$id';
     final response = await BaseApiService().getRequest(
       url: url,
