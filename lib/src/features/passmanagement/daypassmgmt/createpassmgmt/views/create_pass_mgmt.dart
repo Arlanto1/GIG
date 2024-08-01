@@ -2141,7 +2141,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             (widget.extraProperties != null &&
                                                 !widget.extraProperties!
                                                     .hasWritePermission!) ||
-                                            !isDisabled) ...[
+                                            !isDisabled && widget.model?.status != 7) ...[
                                           cancelButtonDisplay(),
                                           submitButtonDisplay()
                                         ],
@@ -2159,7 +2159,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     ),
 
                     if (widget.model != null &&
-                        !widget.model!.lock.isEmptyOrNull) ...[
+                        !widget.model!.lock.isEmptyOrNull || widget.model?.status == 7) ...[
                       Container(
                         padding: const EdgeInsets.all(5.0),
                         decoration: const ShapeDecoration(
