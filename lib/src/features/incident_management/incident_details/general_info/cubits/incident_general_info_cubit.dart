@@ -150,10 +150,10 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       final List<BaseUser> emailUsers = results[2] as List<BaseUser>;
       final List<BaseUser> incidentManager = results[3] as List<BaseUser>;
       final List<BaseUser> incidentOwner = results[4] as List<BaseUser>;
-      final AddEntities entities = results[3] as AddEntities;
-      final GetArticleType getArticleType = results[4] as GetArticleType;
-      final List<User> entrySecurities = results[5] as List<User>;
-      final EmployeeDepartments departments = results[6] as EmployeeDepartments;
+      final AddEntities entities = results[5] as AddEntities;
+      final GetArticleType getArticleType = results[6] as GetArticleType;
+      final List<User> entrySecurities = results[7] as List<User>;
+      final EmployeeDepartments departments = results[8] as EmployeeDepartments;
 
       model.entrySecurity ??= loggedInUserDetails;
 
@@ -267,20 +267,6 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       state.model.typeOfArticle = typeOfArticle;
     }
 
-    state.model.status = status ?? state.model.status;
-
-    // if (state.model.typeOfArticle != null) {
-    //   state.model.typeOfArticle = typeOfArticle;
-    // }
-
-    // if (state.model.typeOfAsset != null) {
-    //   state.model.typeOfAsset = typeOfAsset;
-    // }
-
-    if (entities != null) {
-      state.model.entities = entities;
-    }
-
     if (incidentManager != null) {
       User userDetails = User(
         name: incidentManager.name,
@@ -302,6 +288,19 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       model: state.model,
       status: FormStatus.initial,
     ));
+    state.model.status = status ?? state.model.status;
+
+    // if (state.model.typeOfArticle != null) {
+    //   state.model.typeOfArticle = typeOfArticle;
+    // }
+
+    // if (state.model.typeOfAsset != null) {
+    //   state.model.typeOfAsset = typeOfAsset;
+    // }
+
+    if (entities != null) {
+      state.model.entities = entities;
+    }
 
     log('--state.model---${state.model.incidentType}--');
   }
@@ -309,7 +308,6 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
   Future<void> updateEmailsValue({
     BaseUser? complainant,
     BaseUser? complainantHr,
-
     BaseUser? emailUser,
   }) async {
     emit(
@@ -322,31 +320,46 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       User userDetails = User(
         name: complainant.name,
         userId: complainant.id,
-        userName: complainant.name,
+        email: complainant.email,
       );
-      state.model.complainant = userDetails;
-      state.complainantHr?.remove(complainant);
+      if(state.model.complainant !=null) {
+        BaseUser preselectedUser = BaseUser(
+          id: state.model.complainant?.userId,
+          name: state.model.complainant?.name,
+          email: state.model.complainant?.email,
+        );
+        state.complainantHr?.add(preselectedUser);
+      }
+        state.model.complainant = userDetails;
+        state.complainantHr?.remove(complainant);
+      }
       emit(state.copyWith(
         model: state.model,
         complainantHr: state.complainantHr,
         status: FormStatus.initial,
       ));
-    }
-
     if (complainantHr != null) {
       User userDetails = User(
         name: complainantHr.name,
         userId: complainantHr.id,
-        userName: complainantHr.name,
+        email: complainantHr.email,
       );
+      if(state.model.complainantHr !=null) {
+        BaseUser preselectedUser = BaseUser(
+          id: state.model.complainantHr?.userId,
+          name: state.model.complainantHr?.name,
+          email: state.model.complainantHr?.email,
+        );
+        state.complainant?.add(preselectedUser);
+      }
       state.model.complainantHr = userDetails;
       state.complainant?.remove(complainantHr);
-      emit(state.copyWith(
-        model: state.model,
-        complainant: state.complainant,
-        status: FormStatus.initial,
-      ));
     }
+    emit(state.copyWith(
+      model: state.model,
+      complainant: state.complainant,
+      status: FormStatus.initial,
+    ));
 
   }
 
