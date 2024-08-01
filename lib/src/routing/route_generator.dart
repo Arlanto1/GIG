@@ -1244,16 +1244,20 @@ class RouteGenerator {
 
       case keyHistoryRecordsDetailsRoute:
         KeyManagementMasterServices services = KeyManagementMasterServices();
+        KeyManagementIssuanceServices keyIssuanceServices =
+            KeyManagementIssuanceServices();
         CommonServices commonServices = CommonServices();
         int parentId = 0;
         String title;
         int type = 0;
         String? lock;
+        int? kipId;
         ExtraProperties? extraProperties;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
         parentId = arguments[ConstantsArgument.id];
+        kipId = arguments[ConstantsArgument.kipId];
         type = arguments[ConstantsArgument.type];
         KeyHistoryModel? model = arguments[ConstantsArgument.model];
         extraProperties = arguments[ConstantsArgument.extraProperties];
@@ -1264,8 +1268,10 @@ class RouteGenerator {
               services: services,
               model: model,
               parentId: parentId,
+              kipId: kipId,
               commonServices: commonServices,
               type: type,
+              keyIssuanceServices: keyIssuanceServices,
             ),
             child: KeyHistoryRecordsDetailsView(
                 model: model,

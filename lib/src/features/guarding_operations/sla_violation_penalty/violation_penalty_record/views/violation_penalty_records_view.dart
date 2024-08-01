@@ -150,29 +150,37 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
         itemBuilder: (context, index) {
           List<Label> labels = [];
           if (index < state.items!.length) {
-            //labels.add(
-            //   Label(
-            //     key: 'Email',
-            //     value: state.items![index].staffCategory ?? '',
-            //   ),
-            // );
+            labels.add(
+              Label(
+                key: 'Penalty Amount',
+                value: '${state.items![index].penaltyAmount ?? 0}',
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Total No Of Violations',
+                value: '${state.items![index].totalViolations ?? ''}',
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Total Penalty Amount',
+                value: '${state.items![index].totalPenaltyAmount ?? ''}',
+              ),
+            );
             labels.add(
               Label(
                 key: 'Violation',
                 value: state.items![index].violation?.name ?? '',
               ),
             );
-            // labels.add(
-            //   Label(
-            //     key: 'Contact No',
-            //     value: state.items[index].penaltyAmount??0,
-            //   ),
-            // );
             return index >= state.items!.length
                 ? const BaseLoader()
                 : BaseListTileItem(
                     id: state.items?[index].id,
                     labels: labels,
+                    guardRank: state.items?[index].staffCategory,
+                    isMasterGuard: true,
                     onTap: (selectedIndex) {
                       showDialog(
                         context: context,
@@ -180,6 +188,9 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
                           return BasePopUpItems(
                             id: state.items?[selectedIndex].id.toString(),
                             labels: labels,
+                            guardRank:
+                                state.items?[selectedIndex].staffCategory,
+                            isMasterGuard: true,
                           );
                         },
                       );
@@ -206,6 +217,9 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
                           return BasePopUpItems(
                             id: state.items?[selectedIndex].id.toString(),
                             labels: labels,
+                            guardRank:
+                                state.items?[selectedIndex].staffCategory,
+                            isMasterGuard: true,
                           );
                         },
                       );

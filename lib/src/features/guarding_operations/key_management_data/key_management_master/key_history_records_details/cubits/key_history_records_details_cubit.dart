@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 
 part 'key_history_records_details_state.dart';
@@ -13,24 +14,27 @@ class KeyHistoryRecordsDetailsCubit
   final int parentId;
   final int type;
   final int? kipId;
+  final KeyManagementIssuanceServices keyIssuanceServices;
 
   KeyHistoryRecordsDetailsCubit({
     required this.services,
+    // required this.keyIssuanceServices,
     required this.parentId,
     required this.type,
     required this.commonServices,
     required this.model,
-    this.kipId,
+     this.kipId,
+    required this.keyIssuanceServices,
   }) : super(
-    KeyHistoryRecordsDetailsState.initial(
-      model: model ?? KeyHistoryModel(),
-      loggedInUserDetails: User(),
-      users: const [],
-      securityManager: const [],
-      errorMessage: '',
-      departments: const [],
-    ),
-  );
+          KeyHistoryRecordsDetailsState.initial(
+            model: model ?? KeyHistoryModel(),
+            loggedInUserDetails: User(),
+            users: const [],
+            securityManager: const [],
+            errorMessage: '',
+            departments: const [],
+          ),
+        );
 
   void onModelValueChange(KeyHistoryModel model) {
     log('-onModelValueChange---');
@@ -49,12 +53,12 @@ class KeyHistoryRecordsDetailsCubit
         status: FormStatus.loading,
       ),
     );
-
     KeyManagementMasterModel parentModel = await services.getById(parentId);
-
-    // KeyIssuanceProcessRecord keyIssuanceProcessModel =
-    // await KeyManagementIssuanceServices().getIssuanceProcessById(kipId ?? 0);
-
+    KeyIssuanceProcessRecord keyIssuanceProcessModel = KeyIssuanceProcessRecord();
+    if(kipId != null) {
+      keyIssuanceProcessModel =
+      await keyIssuanceServices.getIssuanceProcessById(kipId!);
+    }
     var userId = await SharedPrefs.getUserId();
     try {
       // Use Future.wait to call API functions concurrently
@@ -89,7 +93,8 @@ class KeyHistoryRecordsDetailsCubit
       state.model.createdBy ??= loggedInUserDetails;
       state.model.modifiedBy ??= loggedInUserDetails.email;
       state.model.type = type;
-      state.model.type== 1||state.model.type== 2 ? state.model.noOfKeys =parentModel.noKeys :'';
+
+      state.model.type == 1 || state.model.type==2 ? state.model.noOfKeys = keyIssuanceProcessModel.lost:'';
       // Get Date of Creation
       // state.model.createdDate = Utils().getCurrentDate();
       // state.model.modifiedDate = Utils().getCurrentDate();
@@ -103,16 +108,15 @@ class KeyHistoryRecordsDetailsCubit
 
       emit(
         state.copyWith(
-          loggedInUserDetails: loggedInUserDetails,
-          status: FormStatus.initial,
-          model: state.model,
-          securityManager: securityManager,
-          srh: srh,
-          destructionReasons: destructionReasons,
-          labels: labels,
-          keyManagementMasterModel: parentModel,
-          // keyIssuanceProcessRecord:keyIssuanceProcessModel
-        ),
+            loggedInUserDetails: loggedInUserDetails,
+            status: FormStatus.initial,
+            model: state.model,
+            securityManager: securityManager,
+            srh: srh,
+            destructionReasons: destructionReasons,
+            labels: labels,
+            keyManagementMasterModel: parentModel,
+            keyIssuanceProcessRecord: keyIssuanceProcessModel),
       );
     } catch (e) {
       log('Initialization issue',
@@ -223,9 +227,7 @@ class KeyHistoryRecordsDetailsCubit
     }
 
     state.model.createdDate =
-        (DateTime
-            .now()
-            .millisecondsSinceEpoch ~/ 1000).toString();
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     // Setting time in milliseconds
     // DateTime dateTime;
@@ -238,16 +240,13 @@ class KeyHistoryRecordsDetailsCubit
     //   state.model.createdDate = inputDate.toString();
     // }
     state.model.modifiedDate =
-        (DateTime
-            .now()
-            .millisecondsSinceEpoch ~/ 1000).toString();
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     // Create/Update API Call
     KeyHistoryRecordRequest request =
-    KeyHistoryRecordRequest(keyLossGi: state.model);
+        KeyHistoryRecordRequest(keyLossGi: state.model);
     // state.model.keyManagementId = parentId.toString();
 
-    log('---state.keyManagementMasterModel?.noKeys----${state
-        .keyManagementMasterModel?.noKeys}------');
+    log('---state.keyManagementMasterModel?.noKeys----${state.keyManagementMasterModel?.noKeys}------');
 
     GenericResponse response = GenericResponse();
     try {
@@ -329,8 +328,8 @@ class KeyHistoryRecordsDetailsCubit
       state.model.createdDate = state.model.createdDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.createdDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.createdDate ?? '0'),
+              Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {
       emit(

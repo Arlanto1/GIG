@@ -77,7 +77,7 @@ class SLAViolationPenaltyDetailsCubit
 
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     List<BaseUser> emailUsers =
-        await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
+        await commonServices.getBaseUsersByRoles(roleNames: ConstantUserRoles.atomStaticUser,locationId: location?.id);
 
     Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
 
@@ -122,7 +122,7 @@ class SLAViolationPenaltyDetailsCubit
           await commonServices.getUserDetails(userId: userId);
 
       List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
-          roleNames: ConstantUserRoles.atomStaticUser);
+          roleNames: ConstantUserRoles.atomStaticUser,locationId: location?.id);
 
       if (location != null) {
         state.model.location = location;
@@ -265,7 +265,7 @@ class SLAViolationPenaltyDetailsCubit
     emit(state.copyWith(
       model: state.model,
       users: users,
-      emailUsers: emailUsers,
+      // emailUsers: emailUsers,
       status: FormStatus.initial,
     ));
   }
