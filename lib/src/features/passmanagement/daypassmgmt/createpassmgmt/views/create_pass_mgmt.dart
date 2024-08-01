@@ -66,6 +66,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   bool isFTECompanyNameEditable = true;
   bool isDisabled = false;
   int pageNumber = 0;
+  bool isShowSaveAndSubmitButton = false;
+
 
   @override
   void initState() {
@@ -237,12 +239,32 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 isDisabled = false;
               }
 
+              if(widget.model?.status != 7 &&
+                  widget.model?.status != 2 &&
+              widget.model?.status != 4&&
+              widget.model?.status != 5&&
+              widget.model?.status != 6&&
+              widget.model?.status != 8&&
+                  widget.model?.status != 9){
+                isDisabled = false;
+              }
+
               if (widget.model != null && !widget.model!.lock.isEmptyOrNull) {
                 isDisabled = true;
               }
               if (widget.extraProperties != null &&
                   !widget.extraProperties!.hasWritePermission!) {
                 isDisabled = true;
+              }
+              if (((widget.model?.status == null ||
+                  widget.model?.status == 0 ||
+                  widget.model?.status == 1 ||
+                  widget.model?.status == 3) &&
+                  (widget.model != null && widget.model!.lock.isEmptyOrNull)) ||
+                  widget.model == null ||
+                  (widget.extraProperties != null &&
+                      !widget.extraProperties!.hasWritePermission!)){
+                isShowSaveAndSubmitButton = true;
               }
               if (state.getSerialnumberResponse != null &&
                   !state.getSerialnumberResponse!.serialNo.isEmptyOrNull) {
@@ -2137,11 +2159,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        if (state.model.status == 3 ||
-                                            (widget.extraProperties != null &&
-                                                !widget.extraProperties!
-                                                    .hasWritePermission!) ||
-                                            !isDisabled && widget.model?.status != 7) ...[
+                                        if (isShowSaveAndSubmitButton) ...[
                                           cancelButtonDisplay(),
                                           submitButtonDisplay()
                                         ],
@@ -2158,8 +2176,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                       ),
                     ),
 
-                    if (widget.model != null &&
-                        !widget.model!.lock.isEmptyOrNull || widget.model?.status == 7) ...[
+                    if (!isShowSaveAndSubmitButton) ...[
                       Container(
                         padding: const EdgeInsets.all(5.0),
                         decoration: const ShapeDecoration(
