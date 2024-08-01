@@ -54,9 +54,11 @@ class KeyHistoryRecordsDetailsCubit
       ),
     );
     KeyManagementMasterModel parentModel = await services.getById(parentId);
-    KeyIssuanceProcessRecord keyIssuanceProcessModel =
-        await keyIssuanceServices.getIssuanceProcessById(kipId!);
-
+    KeyIssuanceProcessRecord keyIssuanceProcessModel = KeyIssuanceProcessRecord();
+    if(kipId != null) {
+      keyIssuanceProcessModel =
+      await keyIssuanceServices.getIssuanceProcessById(kipId!);
+    }
     var userId = await SharedPrefs.getUserId();
     try {
       // Use Future.wait to call API functions concurrently
@@ -91,10 +93,8 @@ class KeyHistoryRecordsDetailsCubit
       state.model.createdBy ??= loggedInUserDetails;
       state.model.modifiedBy ??= loggedInUserDetails.email;
       state.model.type = type;
-      state.model.type == 1 || state.model.type == 2
-          ? state.model.noOfKeys = keyIssuanceProcessModel.lost
-          : '';
 
+      state.model.type == 1 || state.model.type==2 ? state.model.noOfKeys = keyIssuanceProcessModel.lost:'';
       // Get Date of Creation
       // state.model.createdDate = Utils().getCurrentDate();
       // state.model.modifiedDate = Utils().getCurrentDate();
