@@ -2445,6 +2445,36 @@ class _MaterialMovementDetailsViewState
                                             // materialMovement: materialMovement,
                                           );
                                         }),
+                              /// Comment
+                              if (!state.model.materialPhysicallyChecked) ...[
+                                CommonWidgets.textDisplay(
+                                  state.labels?.locale
+                                      .materialNotCheckedComment ??
+                                      state.labels?.defaultLocale
+                                          .materialNotCheckedComment ??
+                                      Constants.comment,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                ),
+                                FlutterInputField(
+                                  initialValue:
+                                  state.model.materialNotCheckedComment,
+                                  textFormKey: Keys.claimantEmpIdTextController,
+                                  hintText: '',
+                                  isEnable: state.model.status == 0,
+                                  isDisableColor: state.model.status != 0 ,
+                                  onChange: (String value) {
+                                    state.model.materialNotCheckedComment =
+                                        value;
+                                    context
+                                        .read<MaterialMovementDetailsCubit>()
+                                        .onModelValueChange(state.model);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                              ],
                             ],
 
                             if (!widget.isInward && (widget.model?.status == ConstantsIntValue.mmStatusApproved || widget.model?.status == ConstantsIntValue.mmStatusInwardWaiting || widget.model?.status == ConstantsIntValue.mmStatusClosed)) ...[
