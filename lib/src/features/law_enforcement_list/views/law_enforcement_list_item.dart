@@ -95,7 +95,7 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                                 ? Utils.timestampToDateConversion(
                                     int.tryParse(
                                         widget.userItem.inputDate ?? '0'),
-                                    Constants.fulldateFormat)
+                                    Constants.dateFormat)
                                 : ''),
                       ],
                     ),
