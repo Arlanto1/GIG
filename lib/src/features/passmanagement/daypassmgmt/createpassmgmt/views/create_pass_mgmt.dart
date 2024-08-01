@@ -236,6 +236,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   widget.model?.status == 1) {
                 isDisabled = false;
               }
+              if (
+                  widget.model?.status == 7) {
+                isDisabled = true;
+              }
 
               if (widget.model != null && !widget.model!.lock.isEmptyOrNull) {
                 isDisabled = true;
@@ -2159,7 +2163,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     ),
 
                     if (widget.model != null &&
-                        !widget.model!.lock.isEmptyOrNull) ...[
+                        !widget.model!.lock.isEmptyOrNull || widget.model?.status == 7) ...[
                       Container(
                         padding: const EdgeInsets.all(5.0),
                         decoration: const ShapeDecoration(
