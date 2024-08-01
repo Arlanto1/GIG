@@ -62,7 +62,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       emit(
         state.copyWith(
           model: model,
-          location: defaultLocation,
+          location: model.location,
           slno: serialNumberResponse?.serialNo,
           loggedInUser: loggedInUserDetails,
         ),
