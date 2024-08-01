@@ -37,16 +37,21 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
   TextEditingController contactNoController = TextEditingController();
   final FocusNode officeAddressFocusNode = FocusNode();
 
+  late List<Organisation> updatedDepartmentList;
+
   @override
   void initState() {
     super.initState();
-
     nameController.text = widget.model.name ?? '';
     departmentController.text = widget.model.department?.name ?? '';
     designationController.text = widget.model.designation ?? '';
     officeAddressController.text = widget.model.address ?? '';
     emailIdController.text = widget.model.email ?? '';
     contactNoController.text = widget.model.contactNo ?? '';
+
+    /// updated department list after adding new department
+    updatedDepartmentList = widget.departments;
+
   }
 
   @override
@@ -146,7 +151,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                           if (widget.showSaveButton) {
                             BaseOrganisationDialog().departmentDialog(
                                 context: context,
-                                organisations: widget.departments,
+                                organisations: updatedDepartmentList,
                                 onTap: (Organisation user) {
                                   log('-user.name----${user.name}-');
 
@@ -164,10 +169,15 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                                 orgName: 'ATOM_LEO_DEPARTMENTS',
                                 createEntity: true,
                                 title: Constants.department,
-                                functionToCall: () {
-                                  BlocProvider.of<VisitingOfficialListBloc>(
-                                          context)
-                                      .add(const RefreshList());
+                                functionToCall: () async {
+                                  updatedDepartmentList =
+                                      await CommonServices().getOrganisations(
+                                    name: 'ATOM_LEO_DEPARTMENTS',
+                                  );
+
+                                  // BlocProvider.of<VisitingOfficialListBloc>(
+                                  //         context)
+                                  //     .add(const RefreshList());
                                 });
                           }
                         },
