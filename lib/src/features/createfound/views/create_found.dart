@@ -631,7 +631,7 @@ class _CreateFoundState extends State<CreateFound> {
             Validator().showToast(context, "Please enter claimant");
           }
         } else {
-          submitForm(true, widget.model?.id ?? 0,state: state);
+          submitForm(true, widget.model?.id ?? 0, state: state);
         }
       } else {
         submitForm(true, widget.model?.id ?? 0, state: state);
@@ -702,6 +702,9 @@ class _CreateFoundState extends State<CreateFound> {
   }
 
   depositorDialog(CreateFoundState state, String name) {
+    state.getDepositorResponse?.atomStaticUser
+        ?.removeWhere((u) => u.email == state.model.depositor?.email);
+
     showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
@@ -1080,24 +1083,28 @@ class _CreateFoundState extends State<CreateFound> {
                                       height * 0.001),
                                   // locationWidgetdislay(state),
                                   BaseLocationDropdown().locationWidgetDisplay(
-                                      isEnabled: widget.model?.status == null || widget.model?.status == 0,
+                                      isEnabled: widget.model?.status == null ||
+                                          widget.model?.status == 0,
                                       context: context,
                                       locations: state.locations ?? Locations(),
                                       selectedLocationName:
-                                      state.model.location?.name ?? '',
+                                          state.model.location?.name ?? '',
                                       onTap: (Organisation location) async {
                                         // BlocProvider.of<MaterialMovementDetailsCubit>(
                                         //     context)
                                         //     .updateLocationDropdownValue(
                                         //     location: location);
 
-
-                                        await createFoundArticleCubit.getSerialnumberDetails(
-                                            location.id.toString() ?? '',
-                                            Constants.articleFoundModuleCode,
-                                            location);
-                                        locationselectedText = location.name ?? '';
-                                        state.model.location?.name = location.name??'';
+                                        await createFoundArticleCubit
+                                            .getSerialnumberDetails(
+                                                location.id.toString() ?? '',
+                                                Constants
+                                                    .articleFoundModuleCode,
+                                                location);
+                                        locationselectedText =
+                                            location.name ?? '';
+                                        state.model.location?.name =
+                                            location.name ?? '';
                                         selectedLocation = location;
                                         setState(() {});
                                       }),
@@ -1603,7 +1610,7 @@ class _CreateFoundState extends State<CreateFound> {
                                           )
                                         : Container(),
 
-                                    ///claimant
+                                    /// claimant
                                     CommonWidgets.textDisplay(
                                         state.labels?.locale.foundClaimant ??
                                             state.labels?.defaultLocale
