@@ -141,7 +141,7 @@ class _LawEnforcementCustomPopUpListState
                   widget.userItem?.inputDate != null
                       ? Utils.timestampToDateConversion(
                           int.parse(widget.userItem?.inputDate ?? '0'),
-                          Constants.dateFormat)
+                          Constants.fulldateFormat)
                       : ''),
             ],
           ),

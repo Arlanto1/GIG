@@ -265,7 +265,7 @@ class SLAViolationPenaltyDetailsCubit
     emit(state.copyWith(
       model: state.model,
       users: users,
-      // emailUsers: emailUsers,
+      emailUsers: emailUsers,
       status: FormStatus.initial,
     ));
   }
