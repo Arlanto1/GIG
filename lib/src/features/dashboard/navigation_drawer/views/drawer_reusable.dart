@@ -255,7 +255,7 @@ class NavigationDrawer1 extends StatelessWidget {
                         : AppColors.textGreyThemeColor)),
             //selected: i == _lastSelectedItem,
             onTap: () {
-              log('-_genericItemSelection---title---$title---');
+              // log('-_genericItemSelection---title---$title---');
               switch (title) {
                 /// 2nd Level Menu
                 case Constants.materialMovement:
@@ -809,7 +809,7 @@ class NavigationDrawer1 extends StatelessWidget {
 
     for (int i = 0; i < items.length; i++) {
       MenuItem drawerItem = items[i];
-      log('--drawerItem-title-${drawerItem.title}--');
+      // log('--drawerItem-title-${drawerItem.title}--');
       children.add(
         drawerItem.numberOfChildren == 0
             ? Container(
@@ -837,7 +837,7 @@ class NavigationDrawer1 extends StatelessWidget {
                               : AppColors.textGreyThemeColor)),
                   // selected: i == _lastSelectedItem,
                   onTap: () {
-                    log('-onTap-----title---$title---');
+                    // log('-onTap-----title---$title---');
                     if (title == Constants.guardingOperations) {
                       _onGuardingOperationItemSelected(i, context, drawerItem);
                       return;
@@ -1154,7 +1154,7 @@ class NavigationDrawer1 extends StatelessWidget {
     BuildContext context,
     String title,
   ) {
-    log('--title---$title--');
+    // log('--title---$title--');
     switch (title) {
       case Constants.materialMovement:
         return _genericItemSelection(

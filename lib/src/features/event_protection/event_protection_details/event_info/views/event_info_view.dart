@@ -1,10 +1,12 @@
 import 'dart:core';
 import 'dart:developer';
 
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
+import 'package:db_atom/src/common_widgets/base_widget/record_locked_widget.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
@@ -32,10 +34,12 @@ class EventInfoView extends StatefulWidget {
     super.key,
     required this.title,
     required this.editForm,
+    required this.isEventProtection,
   });
 
   final String title;
   final bool editForm;
+  final bool isEventProtection;
 
   @override
   State<EventInfoView> createState() => _EventInfoViewState();
@@ -143,6 +147,10 @@ class _EventInfoViewState extends State<EventInfoView> {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            if (!state.model.lock.isEmptyOrNull) ...[
+              RecordLockedWidget(
+                  text: '${state.model.lock}'),
+            ],
             Container(
               height: height * 0.01,
               color: AppColors.navigationSkyBlueColor,
@@ -228,7 +236,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                               ),
                             ),
                             getEmail(state.additionalEmails ?? []),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
                             Container(
                               height: 700,
                               width: double.infinity,
@@ -318,7 +326,8 @@ class _EventInfoViewState extends State<EventInfoView> {
                                           var cubit =
                                               BlocProvider.of<EventInfoCubit>(
                                                   context);
-                                          state.model.email = await getHtmlText();
+                                          state.model.email =
+                                              await getHtmlText();
                                           cubit.onModelValueChange(state.model);
                                         },
                                         loadingBuilder: (context) {
@@ -358,35 +367,40 @@ class _EventInfoViewState extends State<EventInfoView> {
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            if (state.eventDuration == 2) ...[
-                              Center(
-                                child: submitButtonDisplay(
-                                    label: 'Articles Found',
-                                    onTap: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return ArticleDialog(
-                                            articles: state.foundArticles ?? [],
-                                            showLeftButton:
-                                                (state.model.status ?? 0) > 22
-                                                    ? false
-                                                    : true,
-                                            leftButtonTap: () {
-                                              FocusScope.of(context).unfocus();
-                                              BlocProvider.of<EventInfoCubit>(
-                                                      context)
-                                                  .submitForm(
-                                                      isSaveOnly: false,
-                                                      addArticleFound: true);
-                                            },
-                                          );
-                                        },
-                                      );
-                                    }),
-                              ),
+                            /// Will show for only Event Protection
+                            if (widget.isEventProtection) ...[
+                              if (state.eventDuration == 2) ...[
+                                Center(
+                                  child: submitButtonDisplay(
+                                      label: 'Articles Found',
+                                      onTap: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return ArticleDialog(
+                                              articles:
+                                                  state.foundArticles ?? [],
+                                              showLeftButton:
+                                                  (state.model.status ?? 0) > 22
+                                                      ? false
+                                                      : true,
+                                              leftButtonTap: () {
+                                                FocusScope.of(context)
+                                                    .unfocus();
+                                                BlocProvider.of<EventInfoCubit>(
+                                                        context)
+                                                    .submitForm(
+                                                        isSaveOnly: false,
+                                                        addArticleFound: true);
+                                              },
+                                            );
+                                          },
+                                        );
+                                      }),
+                                ),
+                              ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// upload Photo
                             CommonWidgets.textDisplay(
@@ -437,7 +451,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                               onTap: () {
                                 FocusScope.of(context).unfocus();
                                 BlocProvider.of<EventInfoCubit>(context)
-                                    .submitForm(isSaveOnly: true);
+                                    .submitForm(isSaveOnly: false);
                               },
                             ),
                           ],
@@ -558,8 +572,10 @@ class _EventInfoViewState extends State<EventInfoView> {
     );
   }
 
-  Widget submitButtonDisplay(
-      {required Function onTap, String? label = Constants.submit}) {
+  Widget submitButtonDisplay({
+    required Function onTap,
+    String? label = Constants.submit,
+  }) {
     return AppButton(
       width: 150,
       buttonText: label,

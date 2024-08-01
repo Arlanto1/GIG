@@ -322,6 +322,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
         ConstantsArgument.id: id.toString(),
         'eventStatus': eventStatus,
         ConstantsArgument.title: Constants.eventProtectionTitle,
+        ConstantsArgument.isEventProtection: true,
         ConstantsArgument.showEPGridsModel: showEPGridsModel,
         ConstantsArgument.extraProperties:
             ExtraProperties(hasWritePermission: hasWritePermission),
