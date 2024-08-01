@@ -1,10 +1,12 @@
 import 'dart:core';
 import 'dart:developer';
 
+import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
 import 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
+import 'package:db_atom/src/common_widgets/base_widget/record_locked_widget.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
@@ -32,10 +34,12 @@ class EventInfoView extends StatefulWidget {
     super.key,
     required this.title,
     required this.editForm,
+    required this.isEventProtection,
   });
 
   final String title;
   final bool editForm;
+  final bool isEventProtection;
 
   @override
   State<EventInfoView> createState() => _EventInfoViewState();
@@ -59,7 +63,6 @@ class _EventInfoViewState extends State<EventInfoView> {
     BlocProvider.of<EventInfoCubit>(context).initializeValues();
   }
 
-  bool hasFocus = false;
   bool showSaveButtons = false;
 
   @override
@@ -98,6 +101,9 @@ class _EventInfoViewState extends State<EventInfoView> {
           showSaveButtons = true;
         }
 
+        if (!state.model.lock.isEmptyOrNull) {
+          showSaveButtons = false;
+        }
         // if(widget.editForm){
         //   showSaveButtons == true;
         // }
@@ -166,6 +172,9 @@ class _EventInfoViewState extends State<EventInfoView> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     children: [
+                      if (!state.model.lock.isEmptyOrNull) ...[
+                        RecordLockedWidget(text: '${state.model.lock}'),
+                      ],
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0, right: 20),
                         child: Column(
@@ -198,37 +207,43 @@ class _EventInfoViewState extends State<EventInfoView> {
                                 Constants.additionalEmails,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            GestureDetector(
-                              onTap: () {
-                                addEmail();
-                              },
-                              child: Row(
-                                children: <Widget>[
-                                  // Expanded(
-                                  //child:
-                                  const SizedBox(width: 14),
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                    colorFilter: const ColorFilter.mode(
-                                      AppColors.navigationSkyBlueColor,
-                                      BlendMode.srcIn,
+                            Opacity(
+                              opacity: showSaveButtons ? 1 : 0.5,
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (!showSaveButtons) {
+                                    return;
+                                  }
+                                  addEmail();
+                                },
+                                child: Row(
+                                  children: <Widget>[
+                                    // Expanded(
+                                    //child:
+                                    const SizedBox(width: 14),
+                                    SvgPicture.asset(
+                                      AppIcon.pluscircle,
+                                      colorFilter: const ColorFilter.mode(
+                                        AppColors.navigationSkyBlueColor,
+                                        BlendMode.srcIn,
+                                      ),
+                                      // color: AppColors.navigationSkyBlueColor,
                                     ),
-                                    // color: AppColors.navigationSkyBlueColor,
-                                  ),
-                                  // ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    Constants.additionalEmails,
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkyBlueColor,
-                                      decoration: TextDecoration.underline,
+                                    // ),
+                                    const SizedBox(width: 10),
+                                    const Text(
+                                      Constants.additionalEmails,
+                                      style: TextStyle(
+                                        color: AppColors.navigationSkyBlueColor,
+                                        decoration: TextDecoration.underline,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                             getEmail(state.additionalEmails ?? []),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
                             Container(
                               height: 700,
                               width: double.infinity,
@@ -295,59 +310,62 @@ class _EventInfoViewState extends State<EventInfoView> {
                                   SizedBox(
                                     height: 450,
                                     width: double.infinity,
-                                    child: QuillHtmlEditor(
-                                      // text: widget.text,
-                                      hintText: 'Hint text goes here',
-                                      controller: controller,
-                                      isEnabled: showSaveButtons,
-                                      ensureVisible: false,
-                                      minHeight: 500,
-                                      autoFocus: true,
-                                      textStyle: editorTextStyle,
-                                      hintTextStyle: hintTextStyle,
-                                      hintTextAlign: TextAlign.start,
-                                      padding: const EdgeInsets.only(
-                                          left: 10, top: 10),
-                                      hintTextPadding:
-                                          const EdgeInsets.only(left: 20),
-                                      backgroundColor: backgroundColor,
-                                      inputAction: InputAction.newline,
-                                      onEditingComplete: (s) async {
-                                        debugPrint('Editing completed $s');
-                                        var cubit =
-                                            BlocProvider.of<EventInfoCubit>(
-                                                context);
-                                        state.model.email = await getHtmlText();
-                                        cubit.onModelValueChange(state.model);
-                                      },
-                                      loadingBuilder: (context) {
-                                        return const Center(
-                                            child: CircularProgressIndicator(
-                                          strokeWidth: 1,
-                                          color: Colors.red,
-                                        ));
-                                      },
-                                      onFocusChanged: (focus) {
-                                        debugPrint(
-                                            'has focus-----SSSS---- $focus');
+                                    child: SingleChildScrollView(
+                                      child: QuillHtmlEditor(
+                                        // text: widget.text,
+                                        hintText: 'Hint text goes here',
+                                        controller: controller,
+                                        isEnabled: showSaveButtons,
+                                        ensureVisible: true,
+                                        minHeight: 500,
+                                        autoFocus: true,
+                                        textStyle: editorTextStyle,
+                                        hintTextStyle: hintTextStyle,
+                                        hintTextAlign: TextAlign.start,
+                                        padding: const EdgeInsets.only(
+                                            left: 10, top: 10),
+                                        hintTextPadding:
+                                            const EdgeInsets.only(left: 20),
+                                        backgroundColor: backgroundColor,
+                                        inputAction: InputAction.newline,
+                                        onEditingComplete: (s) async {
+                                          debugPrint('Editing completed $s');
+                                          var cubit =
+                                              BlocProvider.of<EventInfoCubit>(
+                                                  context);
+                                          state.model.email =
+                                              await getHtmlText();
+                                          cubit.onModelValueChange(state.model);
+                                        },
+                                        loadingBuilder: (context) {
+                                          return const Center(
+                                              child: CircularProgressIndicator(
+                                            strokeWidth: 1,
+                                            color: Colors.red,
+                                          ));
+                                        },
+                                        onFocusChanged: (focus) {
+                                          debugPrint(
+                                              'has focus-----SSSS---- $focus');
 
-                                        // setState(() {
-                                        //   hasFocus = focus;
-                                        // });
-                                      },
-                                      onTextChanged: (text) => debugPrint(
-                                          'widget text change $text'),
-                                      onEditorCreated: () {
-                                        debugPrint(
-                                            'Editor has been loaded--------');
-                                        // setHtmlText(widget.text);
-                                        controller
-                                            .setText(state.model.email ?? '');
-                                      },
-                                      onEditorResized: (height) => debugPrint(
-                                          'Editor resized----------- $height'),
-                                      onSelectionChanged: (sel) => debugPrint(
-                                          'index---- ${sel.index}, range ${sel.length}'),
+                                          // setState(() {
+                                          //   hasFocus = focus;
+                                          // });
+                                        },
+                                        onTextChanged: (text) => debugPrint(
+                                            'widget text change $text'),
+                                        onEditorCreated: () {
+                                          debugPrint(
+                                              'Editor has been loaded--------');
+                                          // setHtmlText(widget.text);
+                                          controller
+                                              .setText(state.model.email ?? '');
+                                        },
+                                        onEditorResized: (height) => debugPrint(
+                                            'Editor resized----------- $height'),
+                                        onSelectionChanged: (sel) => debugPrint(
+                                            'index---- ${sel.index}, range ${sel.length}'),
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -356,35 +374,40 @@ class _EventInfoViewState extends State<EventInfoView> {
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            if (state.eventDuration == 2) ...[
-                              Center(
-                                child: submitButtonDisplay(
-                                    label: 'Articles Found',
-                                    onTap: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return ArticleDialog(
-                                            articles: state.foundArticles ?? [],
-                                            showLeftButton:
-                                                (state.model.status ?? 0) > 22
-                                                    ? false
-                                                    : true,
-                                            leftButtonTap: () {
-                                              FocusScope.of(context).unfocus();
-                                              BlocProvider.of<EventInfoCubit>(
-                                                      context)
-                                                  .submitForm(
-                                                      isSaveOnly: false,
-                                                      addArticleFound: true);
-                                            },
-                                          );
-                                        },
-                                      );
-                                    }),
-                              ),
+                            /// Will show for only Event Protection
+                            if (widget.isEventProtection) ...[
+                              if (state.eventDuration == 2) ...[
+                                Center(
+                                  child: submitButtonDisplay(
+                                      label: 'Articles Found',
+                                      onTap: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return ArticleDialog(
+                                              articles:
+                                                  state.foundArticles ?? [],
+                                              showLeftButton:
+                                                  (state.model.status ?? 0) > 22
+                                                      ? false
+                                                      : true,
+                                              leftButtonTap: () {
+                                                FocusScope.of(context)
+                                                    .unfocus();
+                                                BlocProvider.of<EventInfoCubit>(
+                                                        context)
+                                                    .submitForm(
+                                                        isSaveOnly: false,
+                                                        addArticleFound: true);
+                                              },
+                                            );
+                                          },
+                                        );
+                                      }),
+                                ),
+                              ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// upload Photo
                             CommonWidgets.textDisplay(
@@ -415,6 +438,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                               height: height,
                               attachments: state.guardAttachments,
                               files: guardFiles,
+                              isDisabled: !showSaveButtons,
                               // showDownloadIcon:
                               //     state.model.image != null ? true : false,
                               moduleCode: Constants.eventProtectionModuleCode,
@@ -435,7 +459,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                               onTap: () {
                                 FocusScope.of(context).unfocus();
                                 BlocProvider.of<EventInfoCubit>(context)
-                                    .submitForm(isSaveOnly: true);
+                                    .submitForm(isSaveOnly: false);
                               },
                             ),
                           ],
@@ -556,8 +580,10 @@ class _EventInfoViewState extends State<EventInfoView> {
     );
   }
 
-  Widget submitButtonDisplay(
-      {required Function onTap, String? label = Constants.submit}) {
+  Widget submitButtonDisplay({
+    required Function onTap,
+    String? label = Constants.submit,
+  }) {
     return AppButton(
       width: 150,
       buttonText: label,
@@ -581,11 +607,14 @@ class _EventInfoViewState extends State<EventInfoView> {
             email,
             textAlign: TextAlign.start,
           ),
-          IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: () {
-              onPressedRemoveEmail(email);
-            },
+          Opacity(
+            opacity: showSaveButtons ? 1 : 0.5,
+            child: IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                onPressedRemoveEmail(email);
+              },
+            ),
           ),
         ],
       ));

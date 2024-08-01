@@ -26,4 +26,6 @@ class ConstantsArgument {
   static const String extraProperties = "extraParameters";
   static const String isLocked = "isLocked";
   static const String kipId = "kipId";
+  static const String isEventProtection = "isEventProtection";
+
 }

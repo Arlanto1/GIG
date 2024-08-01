@@ -28,14 +28,6 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
   bool showPowerFailureDates = false;
   bool isReadOnly = false;
 
-  String? selectedStartDate;
-
-  String? startToDate;
-
-  get guardingMasterData => null;
-
-  get model => null;
-
   @override
   void initState() {
     super.initState();
@@ -1802,12 +1794,23 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
   List<Widget> getPowerFailures(OccurrenceGeneralInfoState state, height) {
     List<Widget> widgets = [];
 
-    log('-view-model.powerFailures--${state.model.powerFailures?.length}-');
     for (PowerFailureModel powerFailure in state.model.powerFailures ?? []) {
       TextEditingController startDateController = TextEditingController();
       TextEditingController endDateController = TextEditingController();
       startDateController.text = powerFailure.powerFailureStartDate ?? '';
       endDateController.text = powerFailure.powerFailureEndDate ?? '';
+
+      String? selectedStartDate;
+      String? afterTwoDays;
+      selectedStartDate = powerFailure.powerFailureStartDate;
+      DateTime fromDate = DateTime.now();
+
+      if (!selectedStartDate.isEmptyOrNull) {
+        int timestampInt = int.parse(selectedStartDate??'');
+        fromDate = DateTime.fromMillisecondsSinceEpoch(timestampInt * 1000);
+        DateTime newDateTime = fromDate.add(const Duration(days: 1));
+        afterTwoDays = newDateTime.toString();
+      }
       widgets.add(
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1817,6 +1820,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
               children: [
                 Column(
                   children: [
+                    /// Start Date
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 1.5,
                       child: Column(
@@ -1842,14 +1846,15 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       .parse(value)
                                       .toString();
                               DateTime parsedDate =
-                              DateFormat('dd/MM/yyyy HH:mm:ss').parse(value);
+                                  DateFormat('dd/MM/yyyy HH:mm:ss')
+                                      .parse(value);
 
                               // Add two days to the parsed date
                               DateTime newDate =
-                              parsedDate.add(const Duration(days: 1));
+                                  parsedDate.add(const Duration(days: 1));
 
                               // Format the new date back into the desired string format
-                              startToDate = newDate.toString();
+                              afterTwoDays = newDate.toString();
 
                               setState(() {});
                             },
@@ -1858,6 +1863,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                         ],
                       ),
                     ),
+
+                    /// End Date
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 1.5,
                       child: Column(
@@ -1869,9 +1876,10 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             textController: endDateController,
                             onlyDate: false,
                             notFlagDate: true,
-                            startDate: selectedStartDate,
-                            fromDate: selectedStartDate,
-                            toDate: startToDate.isEmptyOrNull ? '' : startToDate,
+                            // startDate: selectedStartDate,
+                            fromDate: fromDate.toString(),
+                            toDate:
+                                afterTwoDays.isEmptyOrNull ? '' : afterTwoDays,
                             showFutureDate: false,
                             // fromDate: powerFailure.powerFailureStartDate,
                             //toDate = startDate.add(Duration(days: 2));

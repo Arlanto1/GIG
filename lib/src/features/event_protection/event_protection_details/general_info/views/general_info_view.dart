@@ -191,7 +191,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled: false,
+                                isDisabled: true,
                                 textController: statusController,
                                 items: eventProtectionGiStatus,
                                 initialValue: '${state.model.status ?? 0}',
@@ -370,7 +370,6 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            Text('--state.model.eventStartDate--${state.model.eventStartDate}--'),
                             /// Event End Date
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.eventEndDate ??

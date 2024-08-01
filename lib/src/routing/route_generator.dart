@@ -790,6 +790,7 @@ class RouteGenerator {
         String id = '';
         String title = '';
         int eventStatus = 0;
+        bool? isEventProtection = false;
         ShowEPGridsModel showEPGridsModel = ShowEPGridsModel();
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
@@ -798,6 +799,7 @@ class RouteGenerator {
           eventStatus = arguments['eventStatus'];
           showEPGridsModel = arguments[ConstantsArgument.showEPGridsModel];
           title = arguments[ConstantsArgument.title];
+          isEventProtection = arguments[ConstantsArgument.isEventProtection];
         }
         return MaterialPageRoute(
             builder: (context) => EventProtectionDetails(
@@ -805,6 +807,7 @@ class RouteGenerator {
                   title: title,
                   eventStatus: eventStatus,
                   showEPGridsModel: showEPGridsModel,
+                  isEventProtection: isEventProtection ?? false,
                 ));
       // case generalInfoTilesViewRoute:
       //   String id = '';
@@ -882,6 +885,7 @@ class RouteGenerator {
       case eventInfoRoute:
         String id = '';
         bool editForm = false;
+        bool? isEventProtection = false;
 
         int eventDuration = 0;
         String title = '';
@@ -892,6 +896,7 @@ class RouteGenerator {
           id = arguments['id'];
           eventDuration = arguments['eventDuration'];
           editForm = arguments[ConstantsArgument.editForm];
+          isEventProtection = arguments[ConstantsArgument.isEventProtection];
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<EventInfoCubit>(
@@ -904,6 +909,7 @@ class RouteGenerator {
             child: EventInfoView(
               title: title,
               editForm: editForm,
+              isEventProtection: isEventProtection ?? false,
             ),
           ),
         );

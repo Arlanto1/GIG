@@ -25,7 +25,6 @@ class _SstIncidentGeneralInfoViewState
     extends State<SstIncidentGeneralInfoView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController incidentDateTimeController = TextEditingController();
-  TextEditingController closureTargetDateController = TextEditingController();
   TextEditingController statusController = TextEditingController();
   TextEditingController assetTypeController = TextEditingController();
   TextEditingController incidentTypeController = TextEditingController();

@@ -5,6 +5,7 @@ class EventProtectionDetails extends StatelessWidget {
   final String id;
   final String title;
   final int eventStatus;
+  final bool isEventProtection;
   final ShowEPGridsModel showEPGridsModel;
 
   EventProtectionDetails({
@@ -13,6 +14,7 @@ class EventProtectionDetails extends StatelessWidget {
     required this.title,
     required this.eventStatus,
     required this.showEPGridsModel,
+    required this.isEventProtection,
   });
 
   final EventProtectionServices services = EventProtectionServices();
@@ -64,6 +66,8 @@ class EventProtectionDetails extends StatelessWidget {
                     height: height,
                   ),
                 ),
+
+                /// Before Tile
                 if (showEPGridsModel.before ?? false) ...[
                   InkWell(
                     onTap: () {
@@ -74,6 +78,8 @@ class EventProtectionDetails extends StatelessWidget {
                           'title': Constants.beforeEventInformation,
                           'id': id,
                           'eventDuration': 0,
+                          ConstantsArgument.isEventProtection:
+                              isEventProtection,
                           ConstantsArgument.editForm:
                               showEPGridsModel.editBefore,
                         },
@@ -86,6 +92,8 @@ class EventProtectionDetails extends StatelessWidget {
                     ),
                   ),
                 ],
+
+                /// During Tile
                 if (showEPGridsModel.during ?? false) ...[
                   InkWell(
                     onTap: () {
@@ -98,6 +106,8 @@ class EventProtectionDetails extends StatelessWidget {
                           'eventDuration': 1,
                           ConstantsArgument.editForm:
                               showEPGridsModel.editDuring,
+                          ConstantsArgument.isEventProtection:
+                          isEventProtection,
                         },
                       );
                     },
@@ -108,6 +118,8 @@ class EventProtectionDetails extends StatelessWidget {
                     ),
                   ),
                 ],
+
+                /// After Tile
                 if (showEPGridsModel.after ?? false) ...[
                   InkWell(
                     onTap: () {

@@ -27,12 +27,14 @@ class CreateFoundNewUser extends StatefulWidget {
     this.lawstate,
     this.createoundstate,
     this.createpassmgmtstate,
+    required this.locationId,
   });
 
   final String title;
   final LawEnforcementState? lawstate;
   final CreateFoundState? createoundstate;
   final CreatePassMgmtState? createpassmgmtstate;
+  final int locationId;
 
   @override
   State<CreateFoundNewUser> createState() => CreateFoundNewUserState();
@@ -220,7 +222,7 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
         } else {
           try {
             _getFoundNewuser(firstnameTextController.text,
-                lastnameTextController.text, emailTextController.text, 0);
+                lastnameTextController.text, emailTextController.text, widget.locationId);
           } catch (e) {
             // present userwith error message
           }
