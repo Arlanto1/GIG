@@ -10,7 +10,7 @@ class ViolationPenaltyRecord {
   Organisation? violation;
   double? penaltyAmount;
   num? totalViolations;
-  num? staffCategory;
+  int? staffCategory;
   num? totalPenaltyAmount;
 
   ViolationPenaltyRecord({
