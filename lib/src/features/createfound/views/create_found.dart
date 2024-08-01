@@ -402,6 +402,7 @@ class _CreateFoundState extends State<CreateFound> {
     }
 
     log('--state?.slno--${state.slno}---');
+    log('--state.location--${state.location?.name}---');
     Found? found = Found(
         claimantConfirmByEmail: isClaimantSelectedByEmail,
         id: widget.model?.id,
