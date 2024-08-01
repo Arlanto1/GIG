@@ -102,6 +102,9 @@ class _EventInfoViewState extends State<EventInfoView> {
           showSaveButtons = true;
         }
 
+        if (!state.model.lock.isEmptyOrNull) {
+          showSaveButtons = false;
+        }
         // if(widget.editForm){
         //   showSaveButtons == true;
         // }
@@ -147,10 +150,6 @@ class _EventInfoViewState extends State<EventInfoView> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            if (!state.model.lock.isEmptyOrNull) ...[
-              RecordLockedWidget(
-                  text: '${state.model.lock}'),
-            ],
             Container(
               height: height * 0.01,
               color: AppColors.navigationSkyBlueColor,
@@ -174,6 +173,9 @@ class _EventInfoViewState extends State<EventInfoView> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     children: [
+                      if (!state.model.lock.isEmptyOrNull) ...[
+                        RecordLockedWidget(text: '${state.model.lock}'),
+                      ],
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0, right: 20),
                         child: Column(
@@ -206,33 +208,39 @@ class _EventInfoViewState extends State<EventInfoView> {
                                 Constants.additionalEmails,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            GestureDetector(
-                              onTap: () {
-                                addEmail();
-                              },
-                              child: Row(
-                                children: <Widget>[
-                                  // Expanded(
-                                  //child:
-                                  const SizedBox(width: 14),
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                    colorFilter: const ColorFilter.mode(
-                                      AppColors.navigationSkyBlueColor,
-                                      BlendMode.srcIn,
+                            Opacity(
+                              opacity: showSaveButtons ? 1 : 0.5,
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (!showSaveButtons) {
+                                    return;
+                                  }
+                                  addEmail();
+                                },
+                                child: Row(
+                                  children: <Widget>[
+                                    // Expanded(
+                                    //child:
+                                    const SizedBox(width: 14),
+                                    SvgPicture.asset(
+                                      AppIcon.pluscircle,
+                                      colorFilter: const ColorFilter.mode(
+                                        AppColors.navigationSkyBlueColor,
+                                        BlendMode.srcIn,
+                                      ),
+                                      // color: AppColors.navigationSkyBlueColor,
                                     ),
-                                    // color: AppColors.navigationSkyBlueColor,
-                                  ),
-                                  // ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    Constants.additionalEmails,
-                                    style: TextStyle(
-                                      color: AppColors.navigationSkyBlueColor,
-                                      decoration: TextDecoration.underline,
+                                    // ),
+                                    const SizedBox(width: 10),
+                                    const Text(
+                                      Constants.additionalEmails,
+                                      style: TextStyle(
+                                        color: AppColors.navigationSkyBlueColor,
+                                        decoration: TextDecoration.underline,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                             getEmail(state.additionalEmails ?? []),
@@ -431,6 +439,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                               height: height,
                               attachments: state.guardAttachments,
                               files: guardFiles,
+                              isDisabled: !showSaveButtons,
                               // showDownloadIcon:
                               //     state.model.image != null ? true : false,
                               moduleCode: Constants.eventProtectionModuleCode,
@@ -599,11 +608,14 @@ class _EventInfoViewState extends State<EventInfoView> {
             email,
             textAlign: TextAlign.start,
           ),
-          IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: () {
-              onPressedRemoveEmail(email);
-            },
+          Opacity(
+            opacity: showSaveButtons ? 1 : 0.5,
+            child: IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                onPressedRemoveEmail(email);
+              },
+            ),
           ),
         ],
       ));
