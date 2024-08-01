@@ -718,6 +718,7 @@ class _CreateFoundState extends State<CreateFound> {
                     return CreateFoundNewUser(
                       title: Constants.createnewuser,
                       createoundstate: state,
+                      locationId: state.location!.id!,
                     );
                   });
             },

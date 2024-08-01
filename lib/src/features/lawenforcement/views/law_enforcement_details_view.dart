@@ -1466,6 +1466,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                     return CreateFoundNewUser(
                       title: Constants.createnewuser,
                       lawstate: state,
+                      locationId: state.locationSelectedlist!.id!,
                     );
                   });
             },
