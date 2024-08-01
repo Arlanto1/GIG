@@ -150,24 +150,30 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
         itemBuilder: (context, index) {
           List<Label> labels = [];
           if (index < state.items!.length) {
-            //labels.add(
-            //   Label(
-            //     key: 'Email',
-            //     value: state.items![index].staffCategory ?? '',
-            //   ),
-            // );
             labels.add(
               Label(
                 key: 'Violation',
                 value: state.items![index].violation?.name ?? '',
               ),
             );
-            // labels.add(
-            //   Label(
-            //     key: 'Contact No',
-            //     value: state.items[index].penaltyAmount??0,
-            //   ),
-            // );
+            labels.add(
+              Label(
+                key: 'Penalty Amount',
+                value: '${state.items![index].penaltyAmount ?? 0}',
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Total No Of Violations',
+                value: '${state.items![index].totalViolations ?? ''}',
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Total Penalty Amount',
+                value: '${state.items![index].totalPenaltyAmount ?? ''}',
+              ),
+            );
             return index >= state.items!.length
                 ? const BaseLoader()
                 : BaseListTileItem(
