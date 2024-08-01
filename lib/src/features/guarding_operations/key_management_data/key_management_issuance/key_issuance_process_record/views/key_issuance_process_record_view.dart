@@ -263,7 +263,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                           state.extraProperties?.hasWritePermission ?? false,
                           state.items[index].kmId);
                     },
-                    showLinkOffButton: (widget.parentStatus == 1 ||
+                    showLinkOffButton: widget.lock.isEmptyOrNull && (widget.parentStatus == 1 ||
                                 widget.parentStatus == 2) &&
                             !(widget.extraProperties != null &&
                                 !widget.extraProperties!.hasWritePermission!)
@@ -288,7 +288,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         },
                       );
                     },
-                    showDeleteButton: (widget.parentStatus == 1 ||
+                    showDeleteButton:widget.lock.isEmptyOrNull && (widget.parentStatus == 1 ||
                                 widget.parentStatus == 2) &&
                             !(widget.extraProperties != null &&
                                 !widget.extraProperties!.hasWritePermission!)
