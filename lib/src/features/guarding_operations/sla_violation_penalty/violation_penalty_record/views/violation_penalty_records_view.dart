@@ -152,12 +152,6 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
           if (index < state.items!.length) {
             labels.add(
               Label(
-                key: 'Violation',
-                value: state.items![index].violation?.name ?? '',
-              ),
-            );
-            labels.add(
-              Label(
                 key: 'Penalty Amount',
                 value: '${state.items![index].penaltyAmount ?? 0}',
               ),
@@ -172,6 +166,12 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
               Label(
                 key: 'Total Penalty Amount',
                 value: '${state.items![index].totalPenaltyAmount ?? ''}',
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Violation',
+                value: state.items![index].violation?.name ?? '',
               ),
             );
             return index >= state.items!.length
