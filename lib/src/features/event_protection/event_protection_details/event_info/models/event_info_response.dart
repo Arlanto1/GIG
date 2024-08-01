@@ -18,6 +18,7 @@ class EventInfoResponse {
   String? emails;
   String? email;
   List<ImageContent>? image;
+  String? lock;
 
   EventInfoResponse.fromJson(Map<String, dynamic> json) {
     log('-json id--${json['id']}-');
@@ -26,6 +27,7 @@ class EventInfoResponse {
     status = json['status'];
     date = json['date'];
     emails = json['emails'];
+    lock = json['lock'];
     email = json['email'];
     image =
         List.from(json['image']).map((e) => ImageContent.fromJson(e)).toList();
@@ -35,6 +37,7 @@ class EventInfoResponse {
     final data = <String, dynamic>{};
     data['id'] = id;
     data['status'] = status;
+    data['lock'] = lock;
     data['date'] = date;
     data['emails'] = emails;
     data['email'] = email;

@@ -212,18 +212,19 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Utils().textHandling('ID : ', widget.id.toString()),
+          CommonWidgets.verticalSpacerWidget(5),
         ],
       ),
       if (widget.slNo != null && widget.slNo!.isNotEmpty) ...[
         Row(
           children: [
-            CommonWidgets.verticalSpacerWidget(8),
+            // CommonWidgets.verticalSpacerWidget(8),
             Utils().textHandling('Sl No : ', widget.slNo.toString()),
           ],
         ),
       ],
       if (widget.locationRegion != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           children: [
             Utils()
@@ -232,7 +233,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.location != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           children: [
             Utils().textHandling('Location : ', widget.location?.name ?? " "),
@@ -240,7 +241,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.locationRegionEntity != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           children: [
             Utils().textHandling(
@@ -249,7 +250,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.locationEntity != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -259,7 +260,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.challanNo != null && widget.challanNo!.isNotEmpty) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -269,7 +270,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.keyType != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -278,7 +279,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.type != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -287,7 +288,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.srh != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -296,7 +297,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.securityManager != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -306,7 +307,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.keyNo != null && !widget.keyNo.isEmptyOrNull) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -315,7 +316,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.keyTagging != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -325,7 +326,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.doorName != null && !widget.doorName.isEmptyOrNull) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -335,7 +336,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.quantity != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -344,7 +345,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.inputDate != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           children: [
             Utils().textHandling(
@@ -358,7 +359,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.vendors != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           children: [
             Utils().textHandling('Vendor : ', widget.vendors?.name ?? ''),
@@ -366,7 +367,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.entrySecurityName != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           children: [
             Utils().textHandling(
@@ -457,7 +458,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.locationStr != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -466,7 +467,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.vendor != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           children: [
             Utils().textHandling('Vendor : ', widget.vendor.toString()),
@@ -488,7 +489,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         Utils().buildAttendanceDutyTypeRow(widget.dutyType ?? 0),
       ],
       if (widget.epManager1Name != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           children: [
             Utils().textHandling('Event protection Manager 1 : ',
@@ -497,7 +498,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.eventType != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           children: [
             Utils().textHandling('Event Type : ',
@@ -551,7 +552,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.guardCount != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -561,7 +562,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.mcNotSubmitted != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -572,7 +573,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.mcExpired != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -583,7 +584,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.photoNotSubmitted != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -593,7 +594,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.deploymentOrderPending != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -604,7 +605,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.pvcExpired != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -614,7 +615,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.msgbExempted != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -624,7 +625,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.msgbNotExempted != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -634,7 +635,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.msgbFormBNotSubmitted != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -645,7 +646,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.msgbFormBUnderProcess != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -656,7 +657,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.systemAccess != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -666,7 +667,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.trainingCertPending != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -677,7 +678,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.precPending != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -688,7 +689,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.precDoseCount != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -699,7 +700,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.ertCertified != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -709,7 +710,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.ertPending != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -719,7 +720,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.esicPending != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -729,7 +730,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.uanNoPending != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -739,7 +740,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.firstAidCertified != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -750,7 +751,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.status != null && widget.isSLAViolationStatus == true) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -759,7 +760,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.firstAidNotCertified != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -808,7 +809,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.handOverSecurity != null) ...[
-        CommonWidgets.verticalSpacerWidget(8),
+        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

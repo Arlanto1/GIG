@@ -30,6 +30,9 @@ class BaseImageUpload {
                 backgroundColor: AppColors.navigationSkyBlueColor,
               ),
               onPressed: () {
+                if(isDisabled??false){
+                  return;
+                }
                 showDialog(
                     context: context,
                     builder: (BuildContext dialogContext) {

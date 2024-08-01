@@ -116,8 +116,10 @@ class BaseDate {
 
     if (!startDate.isEmptyOrNull) {
       if (startDate!.contains('-')) {
+        // it is formated date
         minTime = DateTime.parse(startDate);
       } else {
+        // it is a timestamp
         // Parse the startDate as an int and convert it to milliseconds
         int millisecondsSinceEpoch = startDate.toIntOrNull() ?? 0;
 

@@ -1485,11 +1485,11 @@ class Utils {
         style: Styles.textStyleRegularNormalGrey14,
         children: <TextSpan>[
           TextSpan(text: title),
-          if (desc.length > 15) ...[
-            const TextSpan(
-              text: '\n', // Add '\n' before desc
-            ),
-          ],
+          // if (desc.length > 15) ...[
+          //   const TextSpan(
+          //     text: '\n', // Add '\n' before desc
+          //   ),
+          // ],
           TextSpan(
             text: desc,
             style: Styles.textStyleBoldGrey14,
