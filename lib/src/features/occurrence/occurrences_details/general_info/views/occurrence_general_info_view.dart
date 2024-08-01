@@ -1794,6 +1794,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
   List<Widget> getPowerFailures(OccurrenceGeneralInfoState state, height) {
     List<Widget> widgets = [];
 
+    log('-view-model.powerFailures--${state.model.powerFailures?.length}-');
     for (PowerFailureModel powerFailure in state.model.powerFailures ?? []) {
       TextEditingController startDateController = TextEditingController();
       TextEditingController endDateController = TextEditingController();
@@ -1802,11 +1803,17 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
 
       String? selectedStartDate;
       String? afterTwoDays;
+      log('--powerFailure.powerFailureStartDate-${powerFailure.powerFailureStartDate}--');
+
       selectedStartDate = powerFailure.powerFailureStartDate;
       DateTime fromDate = DateTime.now();
 
+
       if (!selectedStartDate.isEmptyOrNull) {
-        int timestampInt = int.parse(selectedStartDate??'');
+        RegExp spaceOrSpecialCharRegExp = RegExp(r'[ \\\W]');
+        // Check if the string contains spaces or special characters
+        String timestamp = Utils().formatTime(selectedStartDate ?? '');
+        int timestampInt = int.parse(spaceOrSpecialCharRegExp.hasMatch(selectedStartDate??'')? timestamp:selectedStartDate??'');
         fromDate = DateTime.fromMillisecondsSinceEpoch(timestampInt * 1000);
         DateTime newDateTime = fromDate.add(const Duration(days: 1));
         afterTwoDays = newDateTime.toString();
