@@ -63,7 +63,6 @@ class _EventInfoViewState extends State<EventInfoView> {
     BlocProvider.of<EventInfoCubit>(context).initializeValues();
   }
 
-  bool hasFocus = false;
   bool showSaveButtons = false;
 
   @override
