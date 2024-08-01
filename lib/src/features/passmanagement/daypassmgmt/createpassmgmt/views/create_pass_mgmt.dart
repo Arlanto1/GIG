@@ -236,10 +236,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   widget.model?.status == 1) {
                 isDisabled = false;
               }
-              if (
-                  widget.model?.status == 7) {
-                isDisabled = true;
-              }
 
               if (widget.model != null && !widget.model!.lock.isEmptyOrNull) {
                 isDisabled = true;
@@ -2145,7 +2141,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             (widget.extraProperties != null &&
                                                 !widget.extraProperties!
                                                     .hasWritePermission!) ||
-                                            !isDisabled) ...[
+                                            !isDisabled && widget.model?.status != 7) ...[
                                           cancelButtonDisplay(),
                                           submitButtonDisplay()
                                         ],
