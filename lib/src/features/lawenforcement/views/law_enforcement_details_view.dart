@@ -411,7 +411,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           textController:
                                               actualDateTextController,
                                           isDisabled:
-                                              (widget.model?.status == -1)
+                                              (widget.model?.status == -1) ||
+                                                  isDistrbuted
                                                   ? true
                                                   : false,
                                           //initialDate: DateTime.now().subtract(Duration(days: 1)),
