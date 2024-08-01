@@ -513,7 +513,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   // get DB Official email ID Accompanied LEO official API call
-  Future<void> getDBofficialByRoleDepositor(String roleName,int locationId) async {
+  Future<void> getDBofficialByRoleDepositor(String roleName,int? locationId) async {
     try {
       List<BaseUser>? getDepositorData = await commonServices.getBaseUsers(
         roleName: roleName,
