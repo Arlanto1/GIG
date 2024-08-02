@@ -73,6 +73,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
           //     context, state.message ?? '', 'Material Movement', '');
         }
         if (state.status == FormStatus.navigateToNextScreen) {
+          log('---state.model.fromDate--${state.model.fromDate}--');
           Navigator.push(
             context,
             MaterialPageRoute(
