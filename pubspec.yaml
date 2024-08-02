@@ -122,6 +122,7 @@ dependencies:
   flutter_appauth: ^6.0.6
   msal_auth: ^2.0.0
   photo_view: ^0.15.0
+  custom_refresh_indicator: ^4.0.1
 
 dev_dependencies:
 #  flutter_launcher_icons:

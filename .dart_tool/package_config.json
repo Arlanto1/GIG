@@ -194,6 +194,12 @@
       "languageVersion": "3.1"
     },
     {
+      "name": "custom_refresh_indicator",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/custom_refresh_indicator-4.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "dart_extensions",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/dart_extensions-2.2.4",
       "packageUri": "lib/",
@@ -1364,7 +1370,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2024-08-02T02:39:17.689570Z",
+  "generated": "2024-08-02T06:53:08.401149Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///Users/anurag/Downloads/flutter",

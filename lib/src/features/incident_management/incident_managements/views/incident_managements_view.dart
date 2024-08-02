@@ -1,5 +1,7 @@
 import 'dart:developer';
+import 'dart:math' as math;
 
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:db_atom/index.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
@@ -62,7 +64,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
     }
   }
 
-  void _onRefresh() async {
+  Future<void> _onRefresh() async {
     context.read<IncidentManagementsBloc>().add(
           const RefreshList(),
         );
@@ -159,19 +161,18 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                         UtilsCommon().showNoRecordWidget(
                             state: state, height: height, items: state.items),
                         Expanded(
-                          child: SmartRefresher(
-                            controller: refreshController,
-                            enablePullDown: true,
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            header: WaterDropHeader(
-                              waterDropColor: AppColors.navigationSkyBlueColor,
-                              refresh: state.status != FormStatus.loading
-                                  ? const BaseLoader()
-                                  : null,
-                            ),
-                            key: const Key(Keys.refreshKey),
-                            onRefresh: _onRefresh,
-                            onLoading: _onLoading,
+                          child: CustomMaterialIndicator(
+                            onRefresh: ()=> _onRefresh(), // Your refresh logic
+                            backgroundColor: Colors.white,
+                            indicatorBuilder: (context, controller) {
+                              return Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: CircularProgressIndicator(
+                                  color: Colors.redAccent,
+                                  value: controller.state.isLoading ? null : math.min(controller.value, 1.0),
+                                ),
+                              );
+                            },
                             child: ListView.builder(
                               controller: _scrollController,
                               itemCount: state.hasReachedMax
