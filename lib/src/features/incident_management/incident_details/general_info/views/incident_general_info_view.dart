@@ -7,10 +7,12 @@ class IncidentGeneralInfoView extends StatefulWidget {
   const IncidentGeneralInfoView({
     super.key,
     required this.viaOccurrence,
+    required this.viaKeyIssuance,
     this.extraProperties,
   });
 
   final bool viaOccurrence;
+  final bool viaKeyIssuance;
   final ExtraProperties? extraProperties;
 
   @override
@@ -72,6 +74,17 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                 );
                 return;
               }
+              if (widget.viaKeyIssuance) {
+                Navigator.pushNamed(
+                  context,
+                  keyHistoryRecordsDetailsRoute,
+                  arguments: {
+                    'id': state.model.keyLossGi?.id.toString(),
+                    "title": Constants.editKeyLostHistory,
+                  },
+                );
+                return;
+              }
             },
           );
           showDialog(
@@ -92,10 +105,10 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
         if (state.model.status! < 0 || !state.model.lock.isEmptyOrNull) {
           disableForm = true;
         }
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          disableForm = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   disableForm = true;
+        // }
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
@@ -139,12 +152,17 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
       String formattedDate =
           DateFormat(Constants.fulldateFormat).format(futureDate);
       closureTargetDateController.text = formattedDate;
-      state.model.closureTargetDate = closureTargetDateController.text;
+
+      DateTime dateTime;
+      dateTime = DateFormat("dd/MM/yyyy HH:mm:ss")
+          .parse(closureTargetDateController.text);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.closureTargetDate = inputDate.toString();
     } else {
       closureTargetDateController.text = Utils.timestampToDateConversion(
           int.tryParse(state.model.closureTargetDate ?? '0'),
           Constants.fulldateFormat);
-      state.model.closureTargetDate = closureTargetDateController.text;
+      // state.model.closureTargetDate = closureTargetDateController.text;
     }
   }
 
@@ -274,7 +292,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                                   BlocProvider.of<IncidentGeneralInfoCubit>(
                                           context)
-                                      .updateDropdownValues(location: location);
+                                      .updateLocationDropdownValue(
+                                          location: location);
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -425,6 +444,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                           .updateDropdownValues(
                                               typeOfArticle: articleType);
                                     },
+                                    leftImage: true,
                                     orgName: 'ARTICLE_LIST',
                                     functionToCall: () {
                                       // refresh the list
@@ -517,13 +537,14 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
-                                          .updateDropdownValues(
+                                          .updateEmailsValue(
                                         complainant: user,
                                       );
                                       FocusScope.of(context).requestFocus(
                                           complainantEmpIdFocusNode);
                                     },
                                     roleName: ConstantUserRoles.atomStaticUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
@@ -657,11 +678,12 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   onTap: (BaseUser user) {
                                     BlocProvider.of<IncidentGeneralInfoCubit>(
                                             context)
-                                        .updateDropdownValues(
-                                      complainantHR: user,
+                                        .updateEmailsValue(
+                                      complainantHr: user,
                                     );
                                   },
                                   roleName: ConstantUserRoles.atomStaticUser,
+                                  locationId: state.model.location!.id!,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<IncidentGeneralInfoCubit>(
@@ -768,7 +790,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       );
                                     },
                                     roleName: ConstantUserRoles
-                                        .atomSeniorSecurityManagerUser,
+                                        .atomStaticUser,
+                                    locationId:  state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
@@ -810,7 +833,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                           incidentDescriptionFocusNode);
                                     },
                                     roleName: ConstantUserRoles
-                                        .atomSubRegionalHeadUser,
+                                        .atomStaticUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
@@ -865,7 +889,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: closureTargetDateController,
-                              isDisabled: state.model.status != null ||
+                              isDisabled: (state.model.status != null &&
+                                      state.model.status! >= 1) ||
                                   !state.model.lock.isEmptyOrNull,
                               onlyDate: false,
                               showPastDate: false,
@@ -920,6 +945,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

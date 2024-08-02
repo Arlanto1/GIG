@@ -24,6 +24,8 @@ class ConstantsArgument {
   static const String isMasterKey = "isMasterKey";
   static const String viaAttendance = "viaAttendance";
   static const String extraProperties = "extraParameters";
-  static const String lock = "lock";
+  static const String isLocked = "isLocked";
+  static const String kipId = "kipId";
+  static const String isEventProtection = "isEventProtection";
 
 }

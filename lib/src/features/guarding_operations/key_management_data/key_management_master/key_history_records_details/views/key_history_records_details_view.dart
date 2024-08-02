@@ -99,57 +99,65 @@ class _KeyHistoryRecordsDetailsViewState
           isReadOnly = false;
         }
         showSaveAndSubmitButtons = !(widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) &&
+            !widget.extraProperties!.hasWritePermission!) ||
             (widget.lock.isEmptyOrNull) &&
-            (
-                ((state.model.status == null ||
-                    state.model.status == ConstantsIntValue.created ||
-                    state.model.status ==
-                        ConstantsIntValue.lockChangeInitiated) &&
-                    (widget.type == ConstantsIntValue.lockChangeHistoryInt) &&
-                    (state.loggedInUserDetails!.userName
-                        .equalsIgnoreCase(state.model.createdBy?.userName))) ||
-                    ((state.model.status == ConstantsIntValue.created ||
-                        state.model.status == null) &&
-                        (widget.type ==
-                            ConstantsIntValue.keyDamageHistoryInt) &&
-                        state.loggedInUserDetails!.userName
-                            .equalsIgnoreCase(
-                            state.model.createdBy?.userName)) ||
-                    ((state.model.status == ConstantsIntValue.created ||
-                        state.model.status == null) &&
-                        (widget.type ==
-                            ConstantsIntValue.keyDestroyHistoryInt) &&
-                        (state.loggedInUserDetails!.userName
-                            .equalsIgnoreCase(
-                            state.model.createdBy?.userName))) ||
-                    ((state.model.status == ConstantsIntValue.created ||
-                        state.model.status == null) &&
-                        (widget.type ==
-                            ConstantsIntValue.keyLostHistoryInt) &&
-                        state.loggedInUserDetails!.userName
-                            .equalsIgnoreCase(
-                            state.model.createdBy?.userName)) ||
-                    ((state.model.status == ConstantsIntValue.damagedApproved ||
-                        state.model.status ==
-                            ConstantsIntValue.damagedInitiated ||
-                        state.model.status == ConstantsIntValue.lostInitiated ||
-                        state.model.status == ConstantsIntValue.lostApproved) &&
-                        (widget.type == ConstantsIntValue.keyLostHistoryInt ||
-                            widget.type ==
-                                ConstantsIntValue.keyDamageHistoryInt) &&
-                        (state.loggedInUserDetails!.userName
-                            .equalsIgnoreCase(state.model.srh?.userName))) ||
-                    ((state.model.status == ConstantsIntValue.created ||
-                        state.model.status == null) &&
-                        (widget.type ==
-                            ConstantsIntValue.keyDestroyHistoryInt) &&
-                        (state.loggedInUserDetails!.userName
-                            .equalsIgnoreCase(
-                            state.model.createdBy?.userName))) ||
+                (
                     ((state.model.status == null ||
-                        state.model.status == ConstantsIntValue.created)
-                        && widget.type == ConstantsIntValue.keyLostHistoryInt));
+                        state.model.status == ConstantsIntValue.created ||
+                        state.model.status ==
+                            ConstantsIntValue.lockChangeInitiated) &&
+                        (widget.type ==
+                            ConstantsIntValue.lockChangeHistoryInt) &&
+                        (state.loggedInUserDetails!.userName
+                            .equalsIgnoreCase(
+                            state.model.createdBy?.userName))) ||
+                        ((state.model.status == ConstantsIntValue.created ||
+                            state.model.status == null) &&
+                            (widget.type ==
+                                ConstantsIntValue.keyDamageHistoryInt) &&
+                            state.loggedInUserDetails!.userName
+                                .equalsIgnoreCase(
+                                state.model.createdBy?.userName)) ||
+                        ((state.model.status == ConstantsIntValue.created ||
+                            state.model.status == null) &&
+                            (widget.type ==
+                                ConstantsIntValue.keyDestroyHistoryInt) &&
+                            (state.loggedInUserDetails!.userName
+                                .equalsIgnoreCase(
+                                state.model.createdBy?.userName))) ||
+                        ((state.model.status == ConstantsIntValue.created ||
+                            state.model.status == null) &&
+                            (widget.type ==
+                                ConstantsIntValue.keyLostHistoryInt) &&
+                            state.loggedInUserDetails!.userName
+                                .equalsIgnoreCase(
+                                state.model.createdBy?.userName)) ||
+                        ((state.model.status ==
+                            ConstantsIntValue.damagedApproved ||
+                            state.model.status ==
+                                ConstantsIntValue.damagedInitiated ||
+                            state.model.status ==
+                                ConstantsIntValue.lostInitiated ||
+                            state.model.status ==
+                                ConstantsIntValue.lostApproved) &&
+                            (widget.type ==
+                                ConstantsIntValue.keyLostHistoryInt ||
+                                widget.type ==
+                                    ConstantsIntValue.keyDamageHistoryInt) &&
+                            (state.loggedInUserDetails!.userName
+                                .equalsIgnoreCase(
+                                state.model.srh?.userName))) ||
+                        ((state.model.status == ConstantsIntValue.created ||
+                            state.model.status == null) &&
+                            (widget.type ==
+                                ConstantsIntValue.keyDestroyHistoryInt) &&
+                            (state.loggedInUserDetails!.userName
+                                .equalsIgnoreCase(
+                                state.model.createdBy?.userName))) ||
+                        ((state.model.status == null ||
+                            state.model.status == ConstantsIntValue.created)
+                            && widget.type ==
+                                ConstantsIntValue.keyLostHistoryInt));
 
         showLikeDisLikeButtons =
             ((state.model.status == ConstantsIntValue.destroyInitiated &&
@@ -169,12 +177,13 @@ class _KeyHistoryRecordsDetailsViewState
                 ConstantsIntValue.lockChangeInitiated) &&
                 (widget.type == ConstantsIntValue.lockChangeHistoryInt) &&
                 (state.loggedInUserDetails!.userName
-                    .equalsIgnoreCase(state.model.createdBy?.userName)) ||(state.model.status ==
-                ConstantsIntValue.created || state.model.status ==
-                null) &&
-                (widget.type == ConstantsIntValue.keyLostHistoryInt) &&
-                (state.loggedInUserDetails!.userName
-                    .equalsIgnoreCase(state.model.createdBy?.userName))
+                    .equalsIgnoreCase(state.model.createdBy?.userName)) ||
+                (state.model.status ==
+                    ConstantsIntValue.created || state.model.status ==
+                    null) &&
+                    (widget.type == ConstantsIntValue.keyLostHistoryInt) &&
+                    (state.loggedInUserDetails!.userName
+                        .equalsIgnoreCase(state.model.createdBy?.userName))
                 ? true
                 : false,
             onTapSave: () {
@@ -388,7 +397,7 @@ class _KeyHistoryRecordsDetailsViewState
                                               .keyDestroyHistoryInt) &&
                                   state.loggedInUserDetails!.userName
                                       .equalsIgnoreCase(
-                                      state.model.createdBy?.userName)) &&
+                                      state.model.createdBy?.userName)) ||
                                   !(widget.extraProperties != null &&
                                       !widget.extraProperties!
                                           .hasWritePermission!)) {
@@ -498,6 +507,7 @@ class _KeyHistoryRecordsDetailsViewState
                                   },
                                   roleName: ConstantUserRoles
                                       .atomSubRegionalHeadUser,
+                                  locationId: 0,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<
@@ -563,7 +573,7 @@ class _KeyHistoryRecordsDetailsViewState
                                               .keyDestroyHistoryInt) &&
                                       (state.loggedInUserDetails!.userName
                                           .equalsIgnoreCase(state
-                                          .model.createdBy?.userName)))) &&
+                                          .model.createdBy?.userName)))) ||
                                   !(widget.extraProperties != null &&
                                       !widget.extraProperties!
                                           .hasWritePermission!)) {
@@ -580,6 +590,7 @@ class _KeyHistoryRecordsDetailsViewState
                                   },
                                   roleName: ConstantUserRoles
                                       .atomSecurityManagerUser,
+                                  locationId: 0,
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<
@@ -643,7 +654,7 @@ class _KeyHistoryRecordsDetailsViewState
                                               .keyDestroyHistoryInt) &&
                                       (state.loggedInUserDetails!.userName
                                           .equalsIgnoreCase(state
-                                          .model.createdBy?.userName)))) &&
+                                          .model.createdBy?.userName)))) ||
                                   !(widget.extraProperties != null &&
                                       !widget.extraProperties!
                                           .hasWritePermission!)) {
@@ -735,9 +746,7 @@ class _KeyHistoryRecordsDetailsViewState
                                 state.model.status ==
                                     ConstantsIntValue.created) &&
                                 ((widget.type ==
-                                    ConstantsIntValue.lockChangeHistoryInt ||
-                                    widget.type ==
-                                        ConstantsIntValue.keyLostHistoryInt) &&
+                                    ConstantsIntValue.lockChangeHistoryInt) &&
                                     state.loggedInUserDetails!.userName
                                         .equalsIgnoreCase(
                                         state.model.createdBy?.userName)) ||
@@ -745,10 +754,7 @@ class _KeyHistoryRecordsDetailsViewState
                                     ConstantsIntValue.created ||
                                     state.model.status != null) &&
                                     (widget.type == ConstantsIntValue
-                                        .keyDestroyHistoryInt ||
-                                        widget.type ==
-                                            ConstantsIntValue
-                                                .keyDamageHistoryInt) &&
+                                        .keyDestroyHistoryInt) &&
                                     state.loggedInUserDetails!.userName
                                         .equalsIgnoreCase(state.model
                                         .securityManager?.userName)) ||
@@ -756,15 +762,19 @@ class _KeyHistoryRecordsDetailsViewState
                                     ConstantsIntValue.created ||
                                     state.model.status == null) &&
                                     (widget.type == ConstantsIntValue
-                                        .keyDestroyHistoryInt ||
-                                        widget.type == ConstantsIntValue
-                                            .keyDamageHistoryInt) &&
+                                        .keyDestroyHistoryInt) &&
                                     (state.loggedInUserDetails!.userName
                                         .equalsIgnoreCase(
-                                        state.model.createdBy?.userName)))) &&
-                                !(widget.extraProperties != null &&
-                                    !widget.extraProperties!
-                                        .hasWritePermission!),
+                                        state.model.createdBy?.userName))) &&
+                                    (widget.type !=
+                                        ConstantsIntValue
+                                            .keyLostHistoryInt)) &&
+                                widget.type !=
+                                    ConstantsIntValue
+                                        .keyDamageHistoryInt &&
+                                    !(widget.extraProperties != null &&
+                                        !widget.extraProperties!
+                                            .hasWritePermission!),
                             isDisableColor: ((state.model.status == null ||
                                 state.model.status ==
                                     ConstantsIntValue.created ||
@@ -772,15 +782,14 @@ class _KeyHistoryRecordsDetailsViewState
                                     ConstantsIntValue.lostInitiated) &&
                                 (widget.type ==
                                     ConstantsIntValue
-                                        .lockChangeHistoryInt ||
-                                    widget.type ==
-                                        ConstantsIntValue.keyLostHistoryInt) &&
+                                        .lockChangeHistoryInt) &&
                                 state.loggedInUserDetails!.userName
                                     .equalsIgnoreCase(
                                     state.model.createdBy?.userName)) &&
                                 (widget.extraProperties != null &&
                                     !widget.extraProperties!
                                         .hasWritePermission!),
+
                             onChange: (String value) {
                               state.model.noOfKeys = int.tryParse(value);
                               context
@@ -902,61 +911,110 @@ class _KeyHistoryRecordsDetailsViewState
                               }),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
-                        if (state.model.investigationRequired ?? false) ...[
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              Constants.incident,
-                              style: Styles.styleHeaderGreyText16,
-                            ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        if (state.model.investigationRequired == true) ...[
+                          CommonWidgets.textDisplay(
+                              Constants.incidentItemList,
+                              Styles.textStyleBlack14),
                           GestureDetector(
-                            onTap: () async {
-                              NavigatorState nav = Navigator.of(context);
-                              bool isSaveSuccess = await BlocProvider.of<
-                                  KeyHistoryRecordsDetailsCubit>(context)
-                                  .submitForm(
-                                isSaveOnly: true,
-                                navigateToNextScreen: true,
-                              );
-                              if (!isSaveSuccess) {
-                                return;
-                              }
-                              nav.pushNamed(
-                                incidentManagementsRoute,
-                                arguments: {
-                                  ConstantsArgument.title: Constants.incident,
-                                  ConstantsArgument.id: state.model.id,
-                                  // ConstantsArgument.kldId:
-                                  //     state.model.id,
-                                },
-                              );
-                            },
+                            onTap: () =>
+                                navigateToCreateIncident(
+                                  state: state,
+                                ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                SvgPicture.asset(
-                                  AppIcon.pluscircle,
-                                  colorFilter: const ColorFilter.mode(
-                                    AppColors.navigationSkyBlueColor,
-                                    BlendMode.srcIn,
+                                if (state.model.status !=
+                                    ConstantsIntValue.submitted) ...[
+                                  const SizedBox(width: 14),
+                                  SvgPicture.asset(
+                                    AppIcon.pluscircle,
+                                    colorFilter: const ColorFilter.mode(
+                                      AppColors.navigationSkyBlueColor,
+                                      BlendMode.srcIn,
+                                    ),
+                                    // color: AppColors.navigationSkyBlueColor,
                                   ),
-                                  // color: AppColors.navigationSkyBlueColor,
-                                ),
-                                const SizedBox(width: 10),
-                                const Text(
-                                  'Add/View Incident(S)',
-                                  style: TextStyle(
-                                    color: AppColors.navigationSkyBlueColor,
-                                    decoration: TextDecoration.underline,
+                                  const SizedBox(width: 10),
+                                  const Text(
+                                    'Add Incident Item List',
+                                    style: TextStyle(
+                                      color: AppColors.navigationSkyBlueColor,
+                                      decoration: TextDecoration.underline,
+                                    ),
                                   ),
+                                  // if (state.model.incidentItems != null &&
+                                  //     !state.model.incidentItems!.where(
+                                  //         (element) =>
+                                  //             element.incidentType ==
+                                  //             1).isEmptyOrNull) ...[
+                                  CommonWidgets.horizontalSpacerWidget(
+                                      height * 0.01),
+                                ],
+                                showButtonDisplay(
+                                  kldId: state.model.id.toString(),
+                                  state: state,
                                 ),
+                                // ],
                               ],
                             ),
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
+
+                        // if (state.model.investigationRequired ?? false) ...[
+                        //   Container(
+                        //     alignment: Alignment.topLeft,
+                        //     child: Text(
+                        //       Constants.incident,
+                        //       style: Styles.styleHeaderGreyText16,
+                        //     ),
+                        //   ),
+                        //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        //   GestureDetector(
+                        //     onTap: () async {
+                        //       NavigatorState nav = Navigator.of(context);
+                        //       bool isSaveSuccess = await BlocProvider.of<
+                        //           KeyHistoryRecordsDetailsCubit>(context)
+                        //           .submitForm(
+                        //         isSaveOnly: true,
+                        //         navigateToNextScreen: true,
+                        //       );
+                        //       if (!isSaveSuccess) {
+                        //         return;
+                        //       }
+                        //       nav.pushNamed(
+                        //         incidentManagementDetailsRoute,
+                        //         arguments: {
+                        //           ConstantsArgument.title: Constants.incident,
+                        //           // ConstantsArgument.id: state.model.id,
+                        //           ConstantsArgument.kldId:
+                        //               state.model.id,
+                        //         },
+                        //       );
+                        //     },
+                        //     child: Row(
+                        //       mainAxisAlignment: MainAxisAlignment.start,
+                        //       children: <Widget>[
+                        //         SvgPicture.asset(
+                        //           AppIcon.pluscircle,
+                        //           colorFilter: const ColorFilter.mode(
+                        //             AppColors.navigationSkyBlueColor,
+                        //             BlendMode.srcIn,
+                        //           ),
+                        //           // color: AppColors.navigationSkyBlueColor,
+                        //         ),
+                        //         const SizedBox(width: 10),
+                        //         const Text(
+                        //           'Add/View Incident(S)',
+                        //           style: TextStyle(
+                        //             color: AppColors.navigationSkyBlueColor,
+                        //             decoration: TextDecoration.underline,
+                        //           ),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ),
+                        //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        // ],
                         if(state.model.status ==
                             ConstantsIntValue.destroyRejected)...[
 
@@ -1041,7 +1099,89 @@ class _KeyHistoryRecordsDetailsViewState
       onTap: () {
         // updateRecordStatus(state);
         Navigator.pop(context);
+        CommonServices().unlock();
       },
+    );
+  }
+
+  Widget showButtonDisplay({
+    required String kldId,
+    bool? showPopUp,
+    required KeyHistoryRecordsDetailsState state,
+  }) {
+    return AbsorbPointer(
+      absorbing: false,
+      child: AppButton(
+        height: 40,
+        width: 100,
+        backgroundColor: Colors.white,
+        key: const Key(Keys.showButton),
+        buttonText: Constants.showList,
+        buttonTextKey: Keys.showButton,
+        onTap: () =>
+        {
+          showPopUp ?? false
+              ? openSecuritySystemSLATypePopUp(state: state, showListing: true)
+              : Navigator.pushNamed(
+            context,
+            incidentManagementsRoute,
+            arguments: {
+              'kldId': kldId,
+            },
+          ),
+        },
+      ),
+    );
+  }
+
+  openSecuritySystemSLATypePopUp({
+    required KeyHistoryRecordsDetailsState state,
+    required bool showListing,
+  }) {
+    BaseDropDown().assetTypeDialog(
+      context: context,
+      dropDownValues: sstIncidentType.map((label) => label.key).toList(),
+      pop: false,
+      onTap: (String value) {
+        log('--state.model.id----${state.model.id}---');
+        if (showListing) {
+          // Navigate to Listing Page
+          Navigator.pushNamed(context, incidentManagementsRoute, arguments: {
+            "kldId": state.model.id.toString(), // TODO: Need to check
+          });
+          return;
+        }
+      },
+    );
+  }
+
+
+  Future<void> navigateToCreateIncident({
+    required KeyHistoryRecordsDetailsState state,
+  }) async {
+    log('---navigateToCreateIncident--@@@-');
+    if (isReadOnly) {
+      return;
+    }
+    NavigatorState nav = Navigator.of(context);
+    bool isSaveSuccess =
+    await BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context).submitForm(
+      isSaveOnly: true,
+      navigateToNextScreen: true,
+    );
+
+    // For checking validations
+    if (!isSaveSuccess) {
+      return;
+    }
+    var map = {
+      'kldId': state.model.id.toString(),
+    };
+
+
+    nav.pushNamed(
+      incidentManagementDetailsRoute,
+      arguments: map,
     );
   }
 

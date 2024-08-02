@@ -42,7 +42,8 @@ const guardingOperationDrawerItems = [
   MenuItem(Constants.guardingMasterReport, AppIcon.guardingMasterReportIcon, 0),
   // MenuItem(Constants.guardingRate, AppIcon.guardingMasterRatesIcon, 0),
   MenuItem(Constants.shiftOccurrence, AppIcon.shiftOccurrenceIcon, 0),
-  MenuItem(Constants.slaViolationPenaltyTitle, AppIcon.slaViolationPenaltyIcon, 0),
+  MenuItem(
+      Constants.slaViolationPenaltyTitle, AppIcon.slaViolationPenaltyIcon, 0),
   //const MenuItem(Constants.femaleDropPickUp, AppIcon.femalePickUpDropIcon, 0),
   // MenuItem(Constants.keyManagementData, AppIcon.keyManagementListIcon, 1),
   // MenuItem(Constants.shiftScheduling, AppIcon.keyManagementListIcon, 1),

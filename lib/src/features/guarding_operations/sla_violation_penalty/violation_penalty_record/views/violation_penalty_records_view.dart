@@ -14,6 +14,7 @@ class ViolationPenaltyRecordsView extends StatefulWidget {
     this.model,
     this.extraProperties,
     required this.parentStatus,
+    required this.isLocked,
   });
 
   final int id;
@@ -21,6 +22,7 @@ class ViolationPenaltyRecordsView extends StatefulWidget {
   final ViolationPenaltyRecord? model;
   final ExtraProperties? extraProperties;
   final int parentStatus;
+  final bool isLocked;
 
   @override
   State<ViolationPenaltyRecordsView> createState() => _ContactRecordViewState();
@@ -81,7 +83,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
             widget.parentStatus != ConstantsIntValue.slaStatusFinalized &&
                     widget.parentStatus != ConstantsIntValue.cancelledStatus &&
                     !(widget.extraProperties != null &&
-                        !widget.extraProperties!.hasWritePermission!)
+                        !widget.extraProperties!.hasWritePermission!) && !widget.isLocked
                 ? Flutterfloatingbutton(
                     backgroundColor: AppColors.navigationSkyBlueColor,
                     foregroundColor: AppColors.backgroundWhiteColor,
@@ -148,29 +150,37 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
         itemBuilder: (context, index) {
           List<Label> labels = [];
           if (index < state.items!.length) {
-            //labels.add(
-            //   Label(
-            //     key: 'Email',
-            //     value: state.items![index].staffCategory ?? '',
-            //   ),
-            // );
+            labels.add(
+              Label(
+                key: 'Penalty Amount',
+                value: '${state.items![index].penaltyAmount ?? 0}',
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Total No Of Violations',
+                value: '${state.items![index].totalViolations ?? ''}',
+              ),
+            );
+            labels.add(
+              Label(
+                key: 'Total Penalty Amount',
+                value: '${state.items![index].totalPenaltyAmount ?? ''}',
+              ),
+            );
             labels.add(
               Label(
                 key: 'Violation',
                 value: state.items![index].violation?.name ?? '',
               ),
             );
-            // labels.add(
-            //   Label(
-            //     key: 'Contact No',
-            //     value: state.items[index].penaltyAmount??0,
-            //   ),
-            // );
             return index >= state.items!.length
                 ? const BaseLoader()
                 : BaseListTileItem(
                     id: state.items?[index].id,
                     labels: labels,
+                    guardRank: state.items?[index].staffCategory,
+                    isMasterGuard: true,
                     onTap: (selectedIndex) {
                       showDialog(
                         context: context,
@@ -178,6 +188,9 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
                           return BasePopUpItems(
                             id: state.items?[selectedIndex].id.toString(),
                             labels: labels,
+                            guardRank:
+                                state.items?[selectedIndex].staffCategory,
+                            isMasterGuard: true,
                           );
                         },
                       );
@@ -204,6 +217,9 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
                           return BasePopUpItems(
                             id: state.items?[selectedIndex].id.toString(),
                             labels: labels,
+                            guardRank:
+                                state.items?[selectedIndex].staffCategory,
+                            isMasterGuard: true,
                           );
                         },
                       );
@@ -211,9 +227,8 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
                     showDeleteButton: widget.parentStatus !=
                             ConstantsIntValue.slaStatusFinalized &&
                         widget.parentStatus !=
-                            ConstantsIntValue.cancelledStatus,
+                            ConstantsIntValue.cancelledStatus && !widget.isLocked,
                     onDeleteTap: (selectedIndex) async {
-
                       /// Delete Warning Dialog Box
                       var dialog = CustomAlertDialog(
                           title: Constants.deleteAttachment,
@@ -222,14 +237,16 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
                             Navigator.pop(context);
                             // Navigator.pop(context);
                             // Call Delete API
-                            BlocProvider.of<ViolationPenaltyRecordBloc>(context).add(
-                                DeleteRecord(state.items![selectedIndex].id!.toInt(),
+                            BlocProvider.of<ViolationPenaltyRecordBloc>(context)
+                                .add(DeleteRecord(
+                                    state.items![selectedIndex].id!.toInt(),
                                     widget.id));
                           },
                           positiveBtnText: Constants.yes,
                           negativeBtnText: Constants.no);
-                      showDialog(context: context, builder: (BuildContext context) => dialog);
-
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) => dialog);
 
                       // // Call Delete API
                       // BlocProvider.of<ViolationPenaltyRecordBloc>(context).add(
@@ -262,6 +279,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
           users: users,
           staffCategoriesValues: staffCategoriesValues,
           parentStatus: widget.parentStatus,
+          isLocked: widget.isLocked,
           onSubmit: (ViolationPenaltyRecord model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();

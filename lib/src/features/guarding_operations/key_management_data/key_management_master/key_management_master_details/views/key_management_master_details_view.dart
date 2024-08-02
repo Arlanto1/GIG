@@ -100,10 +100,10 @@ class _KeyManagementMasterDetailsViewState
           isReadOnly = false;
         }
 
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          isReadOnly = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   isReadOnly = true;
+        // }
 
         showSaveSubmitButton = state.model.status != 2 &&
             state.model.status != -1 &&
@@ -692,7 +692,7 @@ class _KeyManagementMasterDetailsViewState
                                 //     state.labels?.defaultLocale.entrySecurity ??
                                 Constants.noKeysIssued,
                                 isMandatory: true,
-                                '${state.model.noKeysIssued}'),
+                                ' ${state.model.noKeysIssued??''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Keys Available
@@ -700,7 +700,7 @@ class _KeyManagementMasterDetailsViewState
                                 state.labels?.locale.available ??
                                     state.labels?.defaultLocale.available ??
                                     Constants.noOfKeysAvailable,
-                                '${state.model.available}'),
+                                '${state.model.available??''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Keys Returned
@@ -708,7 +708,7 @@ class _KeyManagementMasterDetailsViewState
                                 state.labels?.locale.returned ??
                                     state.labels?.defaultLocale.returned ??
                                     Constants.noOfKeysReturned,
-                                '${state.model.returned}'),
+                                '${state.model.returned??''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Keys not Returned
@@ -716,7 +716,7 @@ class _KeyManagementMasterDetailsViewState
                                 state.labels?.locale.notReturned ??
                                     state.labels?.defaultLocale.notReturned ??
                                     Constants.noOfKeysNotReturned,
-                                '${state.model.notReturned}'),
+                                '${state.model.notReturned??''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Keys Lost
@@ -724,7 +724,7 @@ class _KeyManagementMasterDetailsViewState
                                 state.labels?.locale.lost ??
                                     state.labels?.defaultLocale.lost ??
                                     Constants.noOfKeysLost,
-                                '${state.model.lost}'),
+                                '${state.model.lost??''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Keys Damaged
@@ -732,7 +732,7 @@ class _KeyManagementMasterDetailsViewState
                                 state.labels?.locale.damaged ??
                                     state.labels?.defaultLocale.damaged ??
                                     Constants.noOfKeysDamaged,
-                                '${state.model.damaged}'),
+                                '${state.model.damaged??''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Master Keys Issued
@@ -741,7 +741,7 @@ class _KeyManagementMasterDetailsViewState
                                     state.labels?.defaultLocale
                                         .noKeysIssuedMaster ??
                                     Constants.noOfMasterKeysIssued,
-                                '${state.model.noKeysIssuedMaster}'),
+                                '${state.model.noKeysIssuedMaster??''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Master Keys Available
@@ -750,7 +750,7 @@ class _KeyManagementMasterDetailsViewState
                                     state.labels?.defaultLocale
                                         .availableMaster ??
                                     Constants.noOfMasterKeysAvailable,
-                                '${state.model.availableMaster}'),
+                                '${state.model.availableMaster??''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Master Keys Returned
@@ -759,7 +759,7 @@ class _KeyManagementMasterDetailsViewState
                                     state
                                         .labels?.defaultLocale.returnedMaster ??
                                     Constants.noOfMasterKeysReturned,
-                                '${state.model.returnedMaster}'),
+                                '${state.model.returnedMaster??''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Master Keys Not Returned
@@ -768,7 +768,7 @@ class _KeyManagementMasterDetailsViewState
                                     state.labels?.defaultLocale
                                         .notReturnedMaster ??
                                     Constants.noOfMasterKeysNotReturned,
-                                '${state.model.notReturnedMaster}'),
+                                '${state.model.notReturnedMaster??''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Master Keys Lost
@@ -776,7 +776,7 @@ class _KeyManagementMasterDetailsViewState
                                 state.labels?.locale.lostMaster ??
                                     state.labels?.defaultLocale.lostMaster ??
                                     Constants.noOfMasterKeysLost,
-                                '${state.model.lostMaster}'),
+                                '${state.model.lostMaster??''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Master Keys Damaged
@@ -784,14 +784,14 @@ class _KeyManagementMasterDetailsViewState
                                 state.labels?.locale.damagedMaster ??
                                     state.labels?.defaultLocale.damagedMaster ??
                                     Constants.noOfMasterKeysDamaged,
-                                '${state.model.damagedMaster}'),
+                                '${state.model.damagedMaster??''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ],
 
-                          ///Lock Change History
+                          /// Lock Change History
                           if (widget.model?.noKeys != null &&
-                              widget.model?.noMasterKey != null &&
                               widget.model!.noKeys! > 0 &&
+                              widget.model?.noMasterKey != null &&
                               widget.model!.noMasterKey! > 0 &&
                               state.model.status != null &&
                               state.model.status != 0 &&
@@ -826,7 +826,8 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
                                         ConstantsIntValue.lockChangeHistoryInt,
-                                    ConstantsArgument.lock: state.model.lock,
+                                    ConstantsArgument.isLocked:
+                                        state.model.lock,
                                   },
                                 );
                               },
@@ -889,7 +890,8 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
                                         ConstantsIntValue.keyLostHistoryInt,
-                                    ConstantsArgument.lock: state.model.lock,
+                                    ConstantsArgument.isLocked:
+                                        state.model.lock,
                                   },
                                 );
                               },
@@ -952,7 +954,8 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
                                         ConstantsIntValue.keyDamageHistoryInt,
-                                    ConstantsArgument.lock: state.model.lock,
+                                    ConstantsArgument.isLocked:
+                                        state.model.lock,
                                   },
                                 );
                               },
@@ -1012,7 +1015,8 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.type:
                                         ConstantsIntValue.keyDestroyHistoryInt,
-                                    ConstantsArgument.lock: state.model.lock,
+                                    ConstantsArgument.isLocked:
+                                        state.model.lock,
                                   },
                                 );
                               },
@@ -1075,6 +1079,7 @@ class _KeyManagementMasterDetailsViewState
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

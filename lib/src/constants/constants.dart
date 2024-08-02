@@ -151,7 +151,7 @@ class Constants {
   static const String forgotPassowrd = 'Forgot Password?';
   static const String support = "Support :";
   static const String supportContact = "+91 6150 961 6244";
-  static const String copyrightText = "Copyright Â© 2024 Arlanto.";
+  static const String copyrightText = "Copyright © 2024 Arlanto.";
   static const String submit = "Submit";
 
   //Dashboard
@@ -166,9 +166,11 @@ class Constants {
   static const String administration = "Administration";
   static const String profile = 'Profile';
   static const String articleFoundRegisterListTitle = 'Article Found Register';
-  static const String lawEnforcementVisitsListTitle = 'Law Enforcement Visits List';
+  static const String lawEnforcementVisitsListTitle =
+      'Law Enforcement Visits List';
   static const String eventProtectionList = 'Event Protection List';
-  static const String annualPowerShutdownListTitle = 'Annual Power Shutdown List';
+  static const String annualPowerShutdownListTitle =
+      'Annual Power Shutdown List';
   static const String annualPowerShutdownListDetails =
       'Annual Power Shutdown List Details';
   static const String sCRI = 'SCRI';
@@ -385,7 +387,8 @@ class Constants {
   // Date formats
   static const String dateFormat = 'dd/MM/yyyy';
   static const String timeFormat = 'HH:mm:ss a';
-  static const String fulldateFormat = 'dd/MM/yyyy hh:mm:ss a';
+  static const String fulldateFormat = 'dd/MM/yyyy HH:mm:ss';
+  static const String twentyFourHourDateTimeFormat = 'dd/MM/yyyy HH:mm:ss';
 
 // static const String dateFormat = 'yyyy-MM-dd';
 // static const String fulldateFormat = 'dd/MM/yyyy a HH:mm:ss';
@@ -764,9 +767,10 @@ class Constants {
   static const String noOfMasterKeysIssued = 'No.of Master Keys Issued';
   static const String noOfMasterKeysAvailable = 'No.of  Master Keys Available';
   static const String noOfMasterKeysReturned = 'No.of  Master Keys Returned';
-  static const String noOfMasterKeysNotReturned = 'No.of  Master Keys Not Returned';
-  static const String noOfMasterKeysLost= 'No.of  Master Keys Lost';
-  static const String noOfMasterKeysDamaged= 'No.of  Master Keys Damaged';
+  static const String noOfMasterKeysNotReturned =
+      'No.of  Master Keys Not Returned';
+  static const String noOfMasterKeysLost = 'No.of  Master Keys Lost';
+  static const String noOfMasterKeysDamaged = 'No.of  Master Keys Damaged';
   static const String keyDescription = 'Key Description';
   static const String keyTaggingDone =
       'Key Tagging Done? (Numbered Matching with lock)';

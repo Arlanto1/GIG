@@ -20,7 +20,7 @@ class BaseAppBar {
     Function? onTapCustomIcon,
     Function? onTapPDFIcon,
     String? excelAPIName,
-    String? pdfAPIName,   // used for Listing Page and Details Page
+    String? pdfAPIName, // used for Listing Page and Details Page
     IconData? customIcon,
   }) {
     return AppHeader(
@@ -30,6 +30,7 @@ class BaseAppBar {
         onPressed: popAndReplace ??
             () {
               Navigator.pop(context);
+              CommonServices().unlock();
             },
         icon:
             const Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white),
@@ -130,8 +131,7 @@ class BaseAppBar {
         if (!pdfAPIName.isEmptyOrNull && checkIfUrlContainsId(pdfAPIName!)) ...[
           GestureDetector(
             onTap: () {
-              DownloadImage().exportPdf(context, 'export.pdf',
-                  '/$pdfAPIName');
+              DownloadImage().exportPdf(context, 'export.pdf', '/$pdfAPIName');
             },
             child: const Padding(
               padding: EdgeInsets.only(right: 20.0),

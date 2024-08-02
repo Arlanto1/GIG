@@ -74,32 +74,32 @@ class _ContactRecordViewState extends State<ContactRecordView> {
     }, builder: (context, state) {
       return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: (
-                widget.parentStatus == 0 ||
-                widget.parentStatus == 1) &&!(widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) && widget.lock.isEmptyOrNull
-            ? Flutterfloatingbutton(
-                backgroundColor: AppColors.navigationSkyBlueColor,
-                foregroundColor: AppColors.backgroundWhiteColor,
-                onPressed: () {
-                  showAddContactPopUp(
-                      context: context,
-                      contact: ContactRecord(
-                        contactId: widget.id,
-                        email: '',
-                        contactNo: '',
-                        rank: Organisation(),
-                        type: widget.type,
-                      ),
-                      users: state.ranks,
-                      rankType: widget.rankType,
-                  );
-                },
-              )
-            : const SizedBox(),
+        // floatingActionButton: (
+        //         widget.parentStatus == 0 ||
+        //         widget.parentStatus == 1) &&!(widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) && widget.lock.isEmptyOrNull
+        //     ? Flutterfloatingbutton(
+        //         backgroundColor: AppColors.navigationSkyBlueColor,
+        //         foregroundColor: AppColors.backgroundWhiteColor,
+        //         onPressed: () {
+        //           showAddContactPopUp(
+        //               context: context,
+        //               contact: ContactRecord(
+        //                 contactId: widget.id,
+        //                 email: '',
+        //                 contactNo: '',
+        //                 rank: Organisation(),
+        //                 type: widget.type,
+        //               ),
+        //               users: state.ranks,
+        //               rankType: widget.rankType,
+        //           );
+        //         },
+        //       )
+        //  : const SizedBox(),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: Constants.escalationMatrix,
+          title: widget.title,
           showPopUp: false,
           showSaveButton: false,
           showSubmitButton: false,
@@ -117,20 +117,23 @@ class _ContactRecordViewState extends State<ContactRecordView> {
       return const BaseLoader();
     }
 
-    if (state.items.isEmptyOrNull && !isPopUpShown && widget.lock.isEmptyOrNull && widget.parentStatus != ConstantsIntValue.cancelledStatus) {
+    if (state.items.isEmptyOrNull &&
+        !isPopUpShown &&
+        widget.lock.isEmptyOrNull &&
+        widget.parentStatus != ConstantsIntValue.cancelledStatus) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         isPopUpShown = true;
         showAddContactPopUp(
-            context: context,
-            contact: ContactRecord(
-              contactId: widget.id,
-              email: '',
-              contactNo: '',
-              rank: Organisation(),
-              type: widget.type,
-            ),
-            users: state.ranks,
-            rankType: widget.rankType,
+          context: context,
+          contact: ContactRecord(
+            contactId: widget.id,
+            email: '',
+            contactNo: '',
+            rank: Organisation(),
+            type: widget.type,
+          ),
+          users: state.ranks,
+          rankType: widget.rankType,
         );
       });
       return const NoRecordFoundWidget();
@@ -194,18 +197,17 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                         },
                       );
                     },
-                  showEditButton: widget.parentStatus != 0 && widget.parentStatus != 1 &&  !widget.lock.isEmptyOrNull,
-              showDutyPostEditButton: (widget.parentStatus == 0 || widget.parentStatus == 1) && widget.lock.isEmptyOrNull,
+                    showEditButton: true,
                     onEditTap: (selectedIndex) async {
                       ContactRecord contactsModel =
                           await ContactDetailsServices()
                               .getCdById(state.items?[index].id ?? 0);
 
                       showAddContactPopUp(
-                          context: context,
-                          contact: contactsModel,
-                          users: state.ranks,
-                          rankType: widget.rankType,
+                        context: context,
+                        contact: contactsModel,
+                        users: state.ranks,
+                        rankType: widget.rankType,
                       );
                       // getDetails(state.items?[index].id ?? 0);
                     },
@@ -220,10 +222,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                         },
                       );
                     },
-                    showDeleteButton:
-                    (widget.parentStatus == 0 || widget.parentStatus == 1)&& widget.lock.isEmptyOrNull
-                            ? true
-                            : false,
+                    showDeleteButton: false,
                     onDeleteTap: (selectedIndex) async {
                       // Call Delete API
                       BlocProvider.of<ContactRecordBloc>(context).add(

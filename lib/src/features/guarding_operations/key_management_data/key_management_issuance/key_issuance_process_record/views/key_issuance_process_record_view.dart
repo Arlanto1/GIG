@@ -213,7 +213,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                                 widget.parentStatus == 1 ||
                                 widget.parentStatus == 2) &&
                             !(widget.extraProperties != null &&
-                                !widget.extraProperties!.hasWritePermission!) && widget.lock.isEmptyOrNull
+                                !widget.extraProperties!.hasWritePermission!) &&
+                            widget.lock.isEmptyOrNull
                         ? true
                         : false,
                     showEditButton: widget.parentStatus != 0 &&
@@ -221,7 +222,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                             widget.parentStatus != 2 &&
                             widget.parentStatus != 2 &&
                             (widget.extraProperties != null &&
-                                !widget.extraProperties!.hasWritePermission!) && !widget.lock.isEmptyOrNull
+                                !widget.extraProperties!.hasWritePermission!) &&
+                            !widget.lock.isEmptyOrNull
                         ? true
                         : false,
                     onEditTap: (selectedIndex) async {
@@ -255,45 +257,57 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         lock: widget.lock,
                       );
                     },
-                    showViewButton: widget.lock.isEmptyOrNull ? true:false,
+                    showViewButton: widget.lock.isEmptyOrNull ? true : false,
                     onViewTap: (selectedIndex) {
                       getById(
                           state.extraProperties?.hasWritePermission ?? false,
                           state.items[index].kmId);
                     },
-                    showLinkOffButton: (widget.parentStatus == 1 ||
+                    showLinkOffButton: widget.lock.isEmptyOrNull && (widget.parentStatus == 1 ||
                                 widget.parentStatus == 2) &&
                             !(widget.extraProperties != null &&
                                 !widget.extraProperties!.hasWritePermission!)
                         ? true
                         : false,
                     onLinkOffTap: (selectedIndex) async {
+                      KeyIssuanceProcessRecord keyIssuanceProcessModel =
+                      await KeyManagementIssuanceServices()
+                          .getIssuanceProcessById(
+                          state.items[index].id ?? 0);
                       int? kmId = state.items[selectedIndex].kmId;
+                      int? kipId = state.items[selectedIndex].id;
                       Navigator.pushNamed(
                         context,
                         keyHistoryRecordsDetailsRoute,
                         arguments: {
                           ConstantsArgument.title: Constants.keyLostHistory,
                           ConstantsArgument.id: kmId,
+                          ConstantsArgument.kipId: kipId,
                           ConstantsArgument.type:
                               ConstantsIntValue.keyLostHistoryInt,
                         },
                       );
                     },
-                    showDeleteButton: (widget.parentStatus == 1 ||
+                    showDeleteButton:widget.lock.isEmptyOrNull && (widget.parentStatus == 1 ||
                                 widget.parentStatus == 2) &&
                             !(widget.extraProperties != null &&
                                 !widget.extraProperties!.hasWritePermission!)
                         ? true
                         : false,
                     onDeleteTap: (selectedIndex) async {
+                      KeyIssuanceProcessRecord keyIssuanceProcessModel =
+                      await KeyManagementIssuanceServices()
+                          .getIssuanceProcessById(
+                          state.items[index].id ?? 0);
                       int? kmId = state.items[selectedIndex].kmId;
+                      int? kipId = state.items[selectedIndex].id;
                       Navigator.pushNamed(
                         context,
                         keyHistoryRecordsDetailsRoute,
                         arguments: {
                           ConstantsArgument.title: Constants.keyDamageHistory,
                           ConstantsArgument.id: kmId,
+                          ConstantsArgument.kipId: kipId,
                           ConstantsArgument.type:
                               ConstantsIntValue.keyDamageHistoryInt,
                         },
@@ -316,6 +330,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
 
     editDataLoading(keyManagementMasterModel, hasWritePermission);
   }
+
 
   void editDataLoading(KeyManagementMasterModel? keyManagementMasterModel,
       bool hasWritePermission) {

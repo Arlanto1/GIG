@@ -5,7 +5,6 @@ class KeyManagementIssuanceDetailsState extends Equatable {
   final KeyManagementIssuanceModel model;
   final Locations? locations;
   final User? loggedInUserDetails;
-  final List<BaseUser>? users;
   final List<Organisation>? listOfEntities;
   final List<Organisation> departments;
   final List<Organisation> typeOfServices;
@@ -30,7 +29,6 @@ class KeyManagementIssuanceDetailsState extends Equatable {
       model: model,
       locations: locations,
       loggedInUserDetails: loggedInUserDetails,
-      users: users,
       listOfEntities: listOfEntities,
       departments: departments,
       typeOfServices: typeOfServices,
@@ -184,7 +182,6 @@ class KeyManagementIssuanceDetailsState extends Equatable {
     this.listOfEntities,
     required this.departments,
     required this.typeOfServices,
-    this.users,
     this.message,
     this.labels,
     this.emailUsers,
@@ -195,7 +192,6 @@ class KeyManagementIssuanceDetailsState extends Equatable {
     KeyManagementIssuanceModel? model,
     Locations? locations,
     User? loggedInUserDetails,
-    List<BaseUser>? users,
     List<Organisation>? listOfEntities,
     List<Organisation>? departments,
     List<Organisation>? typeOfServices,
@@ -208,7 +204,6 @@ class KeyManagementIssuanceDetailsState extends Equatable {
       model: model ?? this.model,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
-      users: users ?? this.users,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       departments: departments ?? this.departments,
       typeOfServices: typeOfServices ?? this.typeOfServices,

@@ -1,8 +1,5 @@
-import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/general_info_model.dart';
-
+import '../../../../index.dart';
 import '../../../models/history.dart';
-import '../../../models/organisation.dart';
-import '../../createfound/models/user.dart';
 
 class IncidentsResponse {
   List<IncidentModel>? items;
@@ -109,8 +106,8 @@ class IncidentModel {
   List<dynamic>? incidentReadAcross;
   List<dynamic>? images;
   OccurrenceModel? occurrence;
+  KeyHistoryModel? keyLossGi;
   int? occType;
-  int? kldId;
   String? entrySecurityName;
   String? systemReviewerName;
   String? incidentManagerName;
@@ -198,7 +195,7 @@ class IncidentModel {
     this.images,
     this.occType,
     this.occurrence,
-    this.kldId,
+    this.keyLossGi,
     this.entrySecurityName,
     this.systemReviewerName,
     this.incidentManagerName,
@@ -321,12 +318,10 @@ class IncidentModel {
             ? OccurrenceModel.fromJson(
                 json['occurrence'] as Map<String, dynamic>)
             : null,
-        // kmlId =
-        //     (json['keyHistoryModel'] as Map<String, dynamic>?) != null
-        //         ? KeyHistoryModel.fromJson(
-        //             json['keyHistoryModel'] as Map<String, dynamic>)
-        //         : null,
-        kldId = json['kldId'] as int?,
+        keyLossGi = (json['keyLossGi'] as Map<String, dynamic>?) != null
+            ? KeyHistoryModel.fromJson(
+                json['keyLossGi'] as Map<String, dynamic>)
+            : null,
         entrySecurityName = json['entrySecurityName'] as String?,
         systemReviewerName = json['systemReviewerName'] as String?,
         incidentManagerName = json['incidentManagerName'] as String?,
@@ -414,7 +409,7 @@ class IncidentModel {
         'images': images,
         'occType': occType,
         'occurrence': occurrence?.toJson(),
-        'kldId': kldId,
+        'keyLossGi': keyLossGi?.toJson(),
         'entrySecurityName': entrySecurityName,
         'systemReviewerName': systemReviewerName,
         'incidentManagerName': incidentManagerName,

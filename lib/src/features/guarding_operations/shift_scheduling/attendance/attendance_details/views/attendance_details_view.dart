@@ -96,10 +96,10 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
         if (state.model.status == 0) {
           isReadOnly = true;
         }
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          isReadOnly = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   isReadOnly = true;
+        // }
         if (state.model.status == ConstantsIntValue.cancelledStatus) {
           isReadOnly = true;
         }
@@ -517,6 +517,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

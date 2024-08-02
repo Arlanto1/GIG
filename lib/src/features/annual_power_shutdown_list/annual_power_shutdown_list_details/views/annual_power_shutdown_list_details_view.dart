@@ -99,10 +99,10 @@ class _AnnualPowerShutdownListDetailsViewState
           disableForm = true;
         }
 
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          disableForm = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   disableForm = true;
+        // }
         if (state.model.status == null) {
           disableForm = false;
         }
@@ -110,10 +110,14 @@ class _AnnualPowerShutdownListDetailsViewState
         if (state.model.status! > 0) {
           disableForm = true;
         }
+
+        /// Because this form is Read mode only
+        disableForm = true;
+
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
-            title: Constants.annualPowerShutdownListDetails,
+            title: Constants.generalInformation,
             showPopUp: false,
             showSaveButton: disableForm ? false : true,
             showSubmitButton: disableForm ? false : true,
@@ -309,6 +313,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 textController: eventStartDateController,
                                 onlyDate: false,
                                 showPastDate: false,
+                                isDisabled: disableForm,
                                 onChange: (String value) {
                                   log('---value-$value------');
                                   state.model.eventStartDate =
@@ -338,6 +343,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               BaseDate().datePickerWidgetLoading(
                                 textController: eventEndDateController,
                                 //onlyDate: false,
+                                isDisabled: disableForm,
                                 showPastDate: false,
                                 startDate: state.model.eventStartDate,
                                 onChange: (String value) {
@@ -379,6 +385,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                     },
                                     roleName: ConstantUserRoles
                                         .atomSubRegionalHeadUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -417,6 +424,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                     },
                                     roleName: ConstantUserRoles
                                         .atomSubRegionalHeadUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -457,6 +465,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                     },
                                     roleName: ConstantUserRoles
                                         .atomSeniorSecurityManagerUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -528,6 +537,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                     },
                                     roleName: ConstantUserRoles
                                         .atomSeniorSecurityManagerUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -599,6 +609,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                           .requestFocus(pocContactNoFocusNode);
                                     },
                                     roleName: ConstantUserRoles.atomStaticUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -669,6 +680,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                           pocEscalationContactNoFocusNode);
                                     },
                                     roleName: ConstantUserRoles.atomStaticUser,
+                                    locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -1012,114 +1024,121 @@ class _AnnualPowerShutdownListDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               //if (!disableForm) ...[
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ...state.model.epOfficers
-                                          ?.asMap()
-                                          .entries
-                                          .map((entry) {
-                                        final index = entry.key;
-                                        final officer = entry.value;
-                                        return Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Row(
-                                              children: <Widget>[
-                                                const SizedBox(width: 10),
-                                                BasicWidgetFunctions()
-                                                    .getStringText(
-                                                  strings: [officer],
-                                                ),
-                                              ],
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                // Remove the officer from the list
-                                                state.model.epOfficers
-                                                    ?.removeAt(index);
-                                                // Trigger UI update
-                                                BlocProvider.of<
-                                                            AnnualPowerShutdownListDetailsCubit>(
-                                                        context)
-                                                    .onCheckBoxChange(
-                                                        state.model);
-                                              },
-                                              child: Row(
+                              Opacity(
+                                opacity: disableForm? 0.5:1,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ...state.model.epOfficers
+                                            ?.asMap()
+                                            .entries
+                                            .map((entry) {
+                                          final index = entry.key;
+                                          final officer = entry.value;
+                                          return Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Row(
                                                 children: <Widget>[
                                                   const SizedBox(width: 10),
-                                                  SvgPicture.asset(
-                                                    AppIcon.close,
-                                                    // Add your close icon asset here
-                                                    // color: Colors
-                                                    //     .black, // Set color as per your design
+                                                  BasicWidgetFunctions()
+                                                      .getStringText(
+                                                    strings: [officer],
                                                   ),
-                                                  const SizedBox(width: 14),
                                                 ],
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  // Remove the officer from the list
+                                                  state.model.epOfficers
+                                                      ?.removeAt(index);
+                                                  // Trigger UI update
+                                                  BlocProvider.of<
+                                                              AnnualPowerShutdownListDetailsCubit>(
+                                                          context)
+                                                      .onCheckBoxChange(
+                                                          state.model);
+                                                },
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    const SizedBox(width: 10),
+                                                    SvgPicture.asset(
+                                                      AppIcon.close,
+                                                      // Add your close icon asset here
+                                                      // color: Colors
+                                                      //     .black, // Set color as per your design
+                                                    ),
+                                                    const SizedBox(width: 14),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        }).toList() ??
+                                        [],
+                                    GestureDetector(
+                                      onTap: () {
+                                        BaseOrganisationDialog().userDialog(
+                                          context: context,
+                                          enabled: !disableForm,
+                                          users: state.emailUsers!,
+                                          onTap: (BaseUser user) {
+                                            state.model.epOfficers ??= [];
+
+                                            if (state.model.epOfficers!
+                                                .contains(user.email!)) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  content: Text(
+                                                      'Officer already added! Please add another officer.'),
+                                                ),
+                                              );
+                                              return;
+                                            }
+
+                                            state.model.epOfficers
+                                                ?.add(user.email ?? '');
+                                            log('--eventProtectionGi--22-${state.model.epOfficers}-');
+                                            BlocProvider.of<
+                                                        AnnualPowerShutdownListDetailsCubit>(
+                                                    context)
+                                                .onCheckBoxChange(state.model);
+                                          },
+                                          locationId: state.model.location!.id!,
+                                        );
+                                      },
+                                      child: Opacity(
+                                        opacity: disableForm? 0.5:1,
+                                        child: Row(
+                                          children: <Widget>[
+                                            const SizedBox(width: 14),
+                                            SvgPicture.asset(
+                                              AppIcon.pluscircle,
+                                              colorFilter: const ColorFilter.mode(
+                                                AppColors.navigationSkyBlueColor,
+                                                BlendMode.srcIn,
+                                              ),
+                                              // color:
+                                              //     AppColors.navigationSkyBlueColor,
+                                            ),
+                                            const SizedBox(width: 10),
+                                            const Text(
+                                              'Add Officer',
+                                              style: TextStyle(
+                                                color: AppColors
+                                                    .navigationSkyBlueColor,
+                                                decoration:
+                                                    TextDecoration.underline,
                                               ),
                                             ),
                                           ],
-                                        );
-                                      }).toList() ??
-                                      [],
-                                  GestureDetector(
-                                    onTap: () {
-                                      BaseOrganisationDialog().userDialog(
-                                        context: context,
-                                        enabled: !disableForm,
-                                        users: state.emailUsers!,
-                                        onTap: (BaseUser user) {
-                                          state.model.epOfficers ??= [];
-
-                                          if (state.model.epOfficers!
-                                              .contains(user.email!)) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                content: Text(
-                                                    'Officer already added! Please add another officer.'),
-                                              ),
-                                            );
-                                            return;
-                                          }
-
-                                          state.model.epOfficers
-                                              ?.add(user.email ?? '');
-                                          log('--eventProtectionGi--22-${state.model.epOfficers}-');
-                                          BlocProvider.of<
-                                                      AnnualPowerShutdownListDetailsCubit>(
-                                                  context)
-                                              .onCheckBoxChange(state.model);
-                                        },
-                                      );
-                                    },
-                                    child: Row(
-                                      children: <Widget>[
-                                        const SizedBox(width: 14),
-                                        SvgPicture.asset(
-                                          AppIcon.pluscircle,
-                                          colorFilter: const ColorFilter.mode(
-                                            AppColors.navigationSkyBlueColor,
-                                            BlendMode.srcIn,
-                                          ),
-                                          // color:
-                                          //     AppColors.navigationSkyBlueColor,
                                         ),
-                                        const SizedBox(width: 10),
-                                        const Text(
-                                          'Add Officer',
-                                          style: TextStyle(
-                                            color: AppColors
-                                                .navigationSkyBlueColor,
-                                            decoration:
-                                                TextDecoration.underline,
-                                          ),
-                                        ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                               //],
 
@@ -1133,20 +1152,23 @@ class _AnnualPowerShutdownListDetailsViewState
                                           .isExtraSecurityDeploymentRequired,
                                   Styles.textStyleBlack14,
                                 ),
-                                Checkbox(
-                                    activeColor:
-                                        AppColors.navigationSkyBlueColor,
-                                    focusColor:
-                                        AppColors.navigationSkyBlueColor,
-                                    value: state.model.extraSecurityDeployed,
-                                    onChanged: (bool? value) {
-                                      state.model.extraSecurityDeployed =
-                                          value!;
-                                      BlocProvider.of<
-                                                  AnnualPowerShutdownListDetailsCubit>(
-                                              context)
-                                          .onCheckBoxChange(state.model);
-                                    })
+                                Opacity(
+                                  opacity: disableForm? 0.5:1,
+                                  child: Checkbox(
+                                      activeColor:
+                                          AppColors.navigationSkyBlueColor,
+                                      focusColor:
+                                          AppColors.navigationSkyBlueColor,
+                                      value: state.model.extraSecurityDeployed,
+                                      onChanged: (bool? value) {
+                                        state.model.extraSecurityDeployed =
+                                            value!;
+                                        BlocProvider.of<
+                                                    AnnualPowerShutdownListDetailsCubit>(
+                                                context)
+                                            .onCheckBoxChange(state.model);
+                                      }),
+                                )
                               ]),
 
                               if (state.model.extraSecurityDeployed) ...[
@@ -1522,6 +1544,7 @@ class _AnnualPowerShutdownListDetailsViewState
 
                                         getBudgetCost(budgetCostModel, state);
                                       },
+                                      locationId: state.model.location!.id!,
                                     );
                                   },
                                 ),
@@ -1609,7 +1632,8 @@ class _AnnualPowerShutdownListDetailsViewState
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
-      },
+        CommonServices().unlock();
+        },
     );
   }
 
@@ -1681,7 +1705,7 @@ class _AnnualPowerShutdownListDetailsViewState
                 budgetCostModel.locationId = location?.id;
 
                 BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)
-                    .updateDropdownValues(location: location);
+                    .updateLocationDropdownValue(location: location);
               },
             );
           },

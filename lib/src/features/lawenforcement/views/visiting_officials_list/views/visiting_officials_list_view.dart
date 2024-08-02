@@ -186,7 +186,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
             labels.add(
               Label(
                 key: 'Phone Number',
-                value: state.items![index].contactNo?? '',
+                value: state.items![index].contactNo ?? '',
               ),
             );
             return index >= state.items!.length

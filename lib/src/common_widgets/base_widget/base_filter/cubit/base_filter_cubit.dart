@@ -1,5 +1,4 @@
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 part 'base_filter_state.dart';
 

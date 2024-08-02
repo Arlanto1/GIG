@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/show_image.dart';
@@ -31,6 +30,9 @@ class BaseImageUpload {
                 backgroundColor: AppColors.navigationSkyBlueColor,
               ),
               onPressed: () {
+                if(isDisabled??false){
+                  return;
+                }
                 showDialog(
                     context: context,
                     builder: (BuildContext dialogContext) {
@@ -70,11 +72,9 @@ class BaseImageUpload {
     bool? showDeleteIcon = true,
     bool isDisabled = false,
   }) {
-    log('-isDisabled-$isDisabled--');
     if (isDisabled) {
       showDeleteIcon = false;
     }
-    log('-showDeleteIcon-$showDeleteIcon--');
     if (attachments != null) {
       return Column(
         children: [
@@ -131,16 +131,20 @@ class AttachmentListViewState extends State<AttachmentListView> {
         itemBuilder: (BuildContext context, int index) {
           ImageContent? imageData = widget.attachmentListviews?[index];
           TextEditingController imageNameController = TextEditingController();
-          imageNameController.text = imageData?.title ?? '';
+          imageNameController.text =
+              Utils().getFileNameWithoutExtension(imageData?.title ?? '');
 
+          String imageExt = Utils().getFileExtension(imageData?.title ?? '');
           return Column(
             children: <Widget>[
               ListTile(
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    /// View Icon
-                    if (imageData?.id == null) ...[
+                    /// View Image
+                    if (Utils()
+                        .imageExtensions
+                        .contains(imageExt.replaceAll('.', ''))) ...[
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -158,36 +162,38 @@ class AttachmentListViewState extends State<AttachmentListView> {
                         child: ImageFromBytes(imageData: imageData),
                       ),
                       const SizedBox(width: 10),
-                    ],
-                    if (imageData?.id != null) ...[
+                      // if (imageData?.id != null) ...[
+                      //   GestureDetector(
+                      //     onTap: () {
+                      //       // Add your download functionality here
+                      //       DownloadImage().saveImage(
+                      //           context: context,
+                      //           id: imageData?.id ?? 0,
+                      //           name: imageData?.title ?? '',
+                      //           moduleCode: widget.moduleCode,
+                      //           viewOnly: true);
+                      //     },
+                      //     child: ImageFromBytes(imageData: imageData),
+                      //   ),
+                      //   const SizedBox(width: 10),
+                      // ],
+                    ] else ...[
+                      /// Download Icon
                       GestureDetector(
                         onTap: () {
                           // Add your download functionality here
                           DownloadImage().saveImage(
-                              context: context,
-                              id: imageData?.id ?? 0,
-                              name: imageData?.title ?? '',
-                              moduleCode: widget.moduleCode,
-                              viewOnly: true);
+                            context: context,
+                            id: imageData?.id ?? 0,
+                            name: imageData?.title ?? '',
+                            moduleCode: widget.moduleCode,
+                          );
                         },
-                        child: ImageFromBytes(imageData: imageData),
+                        child: BaseIcons().downloadIcon(),
                       ),
-                      const SizedBox(width: 10),
                     ],
 
-                    // /// Download Icon
-                    // GestureDetector(
-                    //   onTap: () {
-                    //     // Add your download functionality here
-                    //     DownloadImage().saveImage(
-                    //       context: context,
-                    //       id: imageData?.id ?? 0,
-                    //       name: imageData?.title ?? '',
-                    //       moduleCode: widget.moduleCode,
-                    //     );
-                    //   },
-                    //   child: BaseIcons().downloadIcon(),
-                    // ),
+                    /// Download PDF
 
                     /// Delete Icon
                     if (widget.showDeleteIcon == true) ...[
@@ -245,7 +251,7 @@ class AttachmentListViewState extends State<AttachmentListView> {
                   isEnable: widget.showDeleteIcon == true ? true : false,
                   isDisableColor: false,
                   onChange: (String value) {
-                    imageData?.title = imageNameController.text;
+                    imageData?.title = (value + imageExt);
                   },
                   validateTextField: (String? user) {},
                 ),
@@ -282,9 +288,6 @@ class ImageFromBytes extends StatelessWidget {
       imageBytes = null;
     }
 
-    if (!isImageFile(imageData!.title!)) {
-      return const Text('Image not valid');
-    }
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(40),
@@ -307,29 +310,5 @@ class ImageFromBytes extends StatelessWidget {
               ),
       ),
     );
-  }
-
-  List<String> imageExtensions = [
-    'jpeg',
-    'jpg',
-    'png',
-    'gif',
-    'bmp',
-    'webp',
-    'tiff',
-    'tif',
-    'svg'
-  ];
-
-  bool isImageFile(String fileName) {
-    String? extension = getFileExtension(fileName);
-    return extension != null &&
-        imageExtensions.contains(extension.toLowerCase());
-  }
-
-  String? getFileExtension(String fileName) {
-    int dotIndex = fileName.lastIndexOf('.');
-    if (dotIndex == -1) return null;
-    return fileName.substring(dotIndex + 1);
   }
 }

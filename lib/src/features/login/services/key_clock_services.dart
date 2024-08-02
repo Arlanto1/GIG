@@ -7,7 +7,8 @@ import 'package:http/http.dart' as http;
 class Apis {
   static final String baseUrl = Environment().config.keyClockApiHost;
   static final String keyClockRealm = Environment().config.keyClockRealm;
-  static final String keyClockClientSecret = Environment().config.keyClockClientSecret;
+  static final String keyClockClientSecret =
+      Environment().config.keyClockClientSecret;
 
   static final String _login = '$baseUrl/login';
 }
@@ -21,6 +22,7 @@ class KeyClockServices {
   // static const String baseUrl = 'https://qa.keycloak.arlanto.com';
   // static const String realm = 'Atom';
   static const String clientId = 'atom';
+
   // static const String clientSecret = 'JbU8TZf8juktrQgsDjBwjb2W3FehRtPl';
 
   Future<String> login(LoginRequestModel data) async {
@@ -42,7 +44,8 @@ class KeyClockServices {
   Future<Map<String, dynamic>> authenticate(
       String username, String password) async {
     // Keycloak authentication endpoint
-    String authUrl = '${Apis.baseUrl}/realms/${Apis.keyClockRealm}/protocol/openid-connect/token';
+    String authUrl =
+        '${Apis.baseUrl}/realms/${Apis.keyClockRealm}/protocol/openid-connect/token';
     log('---authUrl----$authUrl----');
 
     // Construct the request body

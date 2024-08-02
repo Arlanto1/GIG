@@ -83,10 +83,10 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
         // if (state.model.status == null) {
         //   isReadOnly = false;
         // }
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          isReadOnly = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   isReadOnly = true;
+        // }
         initializeDates();
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
@@ -99,8 +99,8 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                   isReadOnly || !state.model.lock.isEmptyOrNull ? false : true,
               showDisLikeButton: false,
               showLikeButton: false,
-              pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.dutyPostMasterModuleCode}',
-
+              pdfAPIName:
+                  '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.dutyPostMasterModuleCode}',
               onTapSave: () {
                 FocusScope.of(context).unfocus();
                 BlocProvider.of<DutyPostMasterDetailsCubit>(context)
@@ -499,24 +499,22 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// SubmitButton
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                cancelButtonDisplay(),
-                                if (!isReadOnly &&
-                                    state.model.lock.isEmptyOrNull) ...[
-                                  submitButtonDisplay()
-                                ],
-                              ],
-                            ),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.04),
                           ],
                         ),
                       ),
                     ),
+
+                    /// SubmitButton
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        cancelButtonDisplay(),
+                        if (!isReadOnly && state.model.lock.isEmptyOrNull) ...[
+                          submitButtonDisplay()
+                        ],
+                      ],
+                    ),
+                    CommonWidgets.verticalSpacerWidget(height * 0.04),
                   ],
                 ),
               ),

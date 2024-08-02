@@ -13,6 +13,7 @@ class BaseOrganisationDialog {
     bool? createEntity, // Ex: false
     Function? functionToCall,
     bool enabled = true,
+    bool? leftImage = false,
   }) {
     FocusManager.instance.primaryFocus?.unfocus();
     return showDialog(
@@ -21,8 +22,9 @@ class BaseOrganisationDialog {
         log('-organisations-----');
         return CustomListTexts(
           duplicateEmployeeDepartments: organisations,
+
           /// Uncomment leftImageName to enable + icon functionality
-          // leftImageName: functionToCall != null ? AppIcon.addicon : null,
+          leftImageName: leftImage == true ? AppIcon.addicon : null,
           onLeftButtonTap: () {
             Navigator.pop(context);
             showDialog(
@@ -52,6 +54,7 @@ class BaseOrganisationDialog {
     Function? functionToCall,
     bool enabled = true,
     String? roleName,
+    required int locationId,
   }) {
     FocusManager.instance.primaryFocus?.unfocus();
     showDialog(
@@ -73,6 +76,7 @@ class BaseOrganisationDialog {
                   return BaseAddUserDialog(
                     title: Constants.createnewuser,
                     roleName: roleName ?? '',
+                    locationId: locationId,
                     functionToCall: functionToCall ?? () {},
                   );
                 });

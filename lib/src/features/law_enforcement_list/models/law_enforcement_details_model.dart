@@ -8,7 +8,7 @@ LawEnforcementDetailsModel lawEnforcementDetailsFromJson(String str) =>
 String lawEnforcementDetailsToJson(LawEnforcementDetailsModel data) =>
     json.encode(data.toJson());
 
-class LawEnforcementDetailsModel extends BaseObject{
+class LawEnforcementDetailsModel extends BaseObject {
   int? id;
   String? slNo;
   String? inputDate;

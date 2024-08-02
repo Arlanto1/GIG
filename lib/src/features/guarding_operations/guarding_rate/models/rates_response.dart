@@ -49,6 +49,7 @@ class GMRate {
   List<PayRate>? securityGunManRates;
   List<PayRate>? otherRates;
   List<dynamic>? history;
+  String? lock;
 
   GMRate({
     this.id,
@@ -68,11 +69,13 @@ class GMRate {
     this.securityGunManRates,
     this.otherRates,
     this.history,
+    this.lock,
   });
 
   GMRate.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
         slNo = json['slNo'] as String?,
+        lock = json['lock'] as String?,
         location = (json['location'] as Map<String, dynamic>?) != null
             ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
             : null,

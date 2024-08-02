@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-
 import '../../../../index.dart';
 
 CreateFoundRequestBody foundListArticleDetailsFromJson(String str) =>
@@ -26,7 +25,7 @@ class CreateFoundRequestBody {
       };
 }
 
-class Found extends BaseObject{
+class Found extends BaseObject {
   String? slNo;
   int? eventProtection;
   int? typeOfAsset;

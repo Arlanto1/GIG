@@ -15,7 +15,7 @@ class IncidentManagementsView extends StatefulWidget {
 
   final String? occId;
   final int? occType;
-  final int? kldId;
+  final String? kldId;
 
   @override
   State<IncidentManagementsView> createState() =>
@@ -46,22 +46,6 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
       ..dispose();
     super.dispose();
   }
-
-  // void _onScroll() {
-  //   if (!_scrollController.hasClients) return;
-  //   final maxScroll = _scrollController.position.maxScrollExtent;
-  //   final currentScroll = _scrollController.position.pixels;
-  //
-  //   // Set a threshold value, e.g., 100 pixels from the end
-  //   const threshold = 1000.0;
-  //
-  //   if (maxScroll - currentScroll <= threshold) {
-  //     pageNumber = pageNumber + 20;
-  //     context
-  //         .read<EventProtectionsBloc>()
-  //         .add(InwardFetch(startPos: pageNumber, maxPos: 20));
-  //   }
-  // }
 
   void _onScroll() {
     if (!_scrollController.hasClients) return;
@@ -95,6 +79,8 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    double height = size.height;
     return BlocConsumer<IncidentManagementsBloc, IncidentManagementsState>(
       listener: (context, state) {
         Utils().formError(state, context);
@@ -103,25 +89,26 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
       builder: (context, state) {
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,
-            floatingActionButton: (state.extraProperties?.hasWritePermission ??
-                        false) &&
-                    widget.occId
-                        .isEmptyOrNull /// disable + icon when navigating via Shift Occurrence
-                ? Flutterfloatingbutton(
-                    backgroundColor: AppColors.navigationSkyBlueColor,
-                    foregroundColor: AppColors.backgroundWhiteColor,
-                    onPressed: () => {
-                      Navigator.pushNamed(
-                        context,
-                        incidentManagementDetailsRoute,
-                        arguments: {
-                          'occId': widget.occId?.toString(),
-                          'occType': widget.occType,
+            floatingActionButton:
+                (state.extraProperties?.hasWritePermission ?? false) &&
+                        widget.occId.isEmptyOrNull
+
+                    /// disable + icon when navigating via Shift Occurrence
+                    ? Flutterfloatingbutton(
+                        backgroundColor: AppColors.navigationSkyBlueColor,
+                        foregroundColor: AppColors.backgroundWhiteColor,
+                        onPressed: () => {
+                          Navigator.pushNamed(
+                            context,
+                            incidentManagementDetailsRoute,
+                            arguments: {
+                              'occId': widget.occId?.toString(),
+                              'occType': widget.occType,
+                            },
+                          )
                         },
                       )
-                    },
-                  )
-                : const SizedBox(),
+                    : const SizedBox(),
             appBar: BaseAppBar().buildAppHeader(
               context: context,
               title: Constants.incidentManagementTitle,
@@ -133,178 +120,173 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
               excelAPIName: 'exportIMExcel',
               pdfAPIName: 'exportIMPdf',
             ),
-            body: getBody(state));
+            body: BlocBuilder<IncidentManagementsBloc, IncidentManagementsState>(
+                builder: (context, state) {
+                  // if (state.status == FormStatus.initial) {
+                  //   return const BaseLoader();
+                  // }
+                  // if (state.list.isEmpty) {
+                  //   return const NoRecordFoundWidget();
+                  // }
+                  return Container(
+                    margin: allMargin16,
+                    decoration: const ShapeDecoration(
+                        color: AppColors.backgroundWhiteColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20.0)),
+                        )),
+                    child: Column(
+                      // crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        BaseSearchWidget(
+                          applySearchFilters: applySearchFilters,
+                          applyFilters: applyFilters,
+                          commonFilters: state.commonFilters ??
+                              CommonFilters(
+                                statuses: [],
+                                regions: [],
+                              ),
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.001),
+                        // if (state.status == FormStatus.loading) ...[
+                        //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        //   const BaseLoader(),
+                        //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        // ],
+                        // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+                        // Text('state.status=====${state.status}'),
+                        UtilsCommon().showNoRecordWidget(
+                            state: state, height: height, items: state.items),
+                        Expanded(
+                          child: SmartRefresher(
+                            controller: refreshController,
+                            enablePullDown: true,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            header: WaterDropHeader(
+                              waterDropColor: AppColors.navigationSkyBlueColor,
+                              refresh: state.status != FormStatus.loading
+                                  ? const BaseLoader()
+                                  : null,
+                            ),
+                            key: const Key(Keys.refreshKey),
+                            onRefresh: _onRefresh,
+                            onLoading: _onLoading,
+                            child: ListView.builder(
+                              controller: _scrollController,
+                              itemCount: state.hasReachedMax
+                                  ? state.items.length
+                                  : state.items.length + 1,
+                              itemBuilder: (context, index) {
+                                List<Label> labels = [];
+                                if (index < state.items.length) {
+                                  labels.add(Label(
+                                      key: state.labels?.locale.inputDate ??
+                                          state.labels?.defaultLocale.inputDate ??
+                                          'Date of Creation',
+                                      value: state.items[index].inputDate != null
+                                          ? Utils.timestampToDateConversion(
+                                          int.parse(state.items[index].inputDate ?? '0'),
+                                          Constants.dateFormat)
+                                          : ''));
+                                  labels.add(
+                                    Label(
+                                      key: state.labels?.locale.locationRegion ??
+                                          state.labels?.defaultLocale.locationRegion ??
+                                          'Region',
+                                      value: state.items[index].locationRegion?.name ?? '',
+                                    ),
+                                  );
+                                  labels.add(
+                                    Label(
+                                      key: state.labels?.locale.location ??
+                                          state.labels?.defaultLocale.location ??
+                                          'Location',
+                                      value: state.items[index].location?.name ?? '',
+                                    ),
+                                  );
+                                  labels.add(Label(
+                                      key: state.labels?.locale.entrySecurity ??
+                                          state.labels?.defaultLocale.entrySecurity ??
+                                          'Created By',
+                                      value:
+                                      '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
+                                  return index >= state.items.length
+                                      ? const BaseLoader()
+                                      : BaseListTileItem(
+                                    id: state.items[index].id,
+                                    labels: labels,
+                                    status: state.items[index].status,
+                                    incidentType: state.items[index].incidentType,
+                                    isMasterGuard: false,
+                                    isEventProtectionStatus: false,
+                                    isIncident: true,
+                                    onTap: (selectedIndex) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext dialogContext) {
+                                          return BasePopUpItems(
+                                            id: state.items[selectedIndex].id
+                                                .toString(),
+                                            labels: labels,
+                                            slNo: state.items[selectedIndex].slNo,
+                                            status: state.items[selectedIndex].status,
+                                            incidentType:
+                                            state.items[selectedIndex].incidentType,
+                                            isMasterGuard: false,
+                                            isEventProtectionStatus: false,
+                                            isIncident: true,
+                                          );
+                                        },
+                                      );
+                                    },
+                                    onEditTap: (selectedIndex) {
+                                      getById(
+                                        state.extraProperties?.hasWritePermission ??
+                                            false,
+                                        id: state.items[index].id ?? 0,
+                                        occType: state.items[index].occType ?? 0,
+                                      );
+                                    },
+                                    onViewTap: (selectedIndex) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext dialogContext) {
+                                          return BasePopUpItems(
+                                            id: state.items[selectedIndex].id
+                                                .toString(),
+                                            labels: labels,
+                                            slNo: state.items[selectedIndex].slNo,
+                                            status: state.items[selectedIndex].status,
+                                            isMasterGuard: false,
+                                            isEventProtectionStatus: false,
+                                            isIncident: true,
+                                            incidentType:
+                                            state.items[selectedIndex].incidentType,
+                                          );
+                                        },
+                                      );
+                                    },
+                                    index: index,
+                                  );
+                                }
+
+                                // Handle the case where index is out of bounds
+                                return const Center(
+                                  child: SizedBox(),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }));
       },
     );
   }
 
-  Widget getBody(IncidentManagementsState state) {
-    // if (state.status == FormStatus.initial) {
-    //   return const BaseLoader();
-    // }
-    // if (state.items.isEmptyOrNull) {
-    //   return const NoRecordFoundWidget();
-    // }
-    final size = MediaQuery.of(context).size;
-    double height = size.height;
-    return Container(
-      margin: allMargin16,
-      decoration: const ShapeDecoration(
-          color: AppColors.backgroundWhiteColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-          )),
-      child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          BaseSearchWidget(
-            applySearchFilters: applySearchFilters,
-            applyFilters: applyFilters,
-            commonFilters: state.commonFilters ??
-                CommonFilters(
-                  statuses: [],
-                  regions: [],
-                ),
-          ),
-          if (state.status == FormStatus.loading) ...[
-            const BaseLoader(),
-          ],
-          // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
-          // Text('state.status=====${state.status}'),
-          if (state.items.isEmptyOrNull &&
-              state.status != FormStatus.initial &&
-              state.status != FormStatus.loading) ...[
-            const NoRecordFoundWidget(),
-          ],
-
-          UtilsCommon().showNoRecordWidget(
-              state: state, height: height, items: state.items),
-          Expanded(
-            child: SmartRefresher(
-              controller: refreshController,
-              enablePullDown: true,
-              physics: const AlwaysScrollableScrollPhysics(),
-              header: WaterDropHeader(
-                waterDropColor: AppColors.navigationSkyBlueColor,
-                refresh: state.status != FormStatus.loading
-                    ? const BaseLoader()
-                    : null,
-              ),
-              key: const Key(Keys.refreshKey),
-              onRefresh: _onRefresh,
-              onLoading: _onLoading,
-              child: ListView.builder(
-                controller: _scrollController,
-                itemCount: state.hasReachedMax
-                    ? state.items.length
-                    : state.items.length + 1,
-                itemBuilder: (context, index) {
-                  List<Label> labels = [];
-
-                  if (index < state.items.length) {
-                    labels.add(Label(
-                        key: state.labels?.locale.inputDate ??
-                            state.labels?.defaultLocale.inputDate ??
-                            'Date of Creation',
-                        value: state.items[index].inputDate != null
-                            ? Utils.timestampToDateConversion(
-                                int.parse(state.items[index].inputDate ?? '0'),
-                                Constants.dateFormat)
-                            : ''));
-                    labels.add(
-                      Label(
-                        key: state.labels?.locale.locationRegion ??
-                            state.labels?.defaultLocale.locationRegion ??
-                            'Region',
-                        value: state.items[index].locationRegion?.name ?? '',
-                      ),
-                    );
-                    labels.add(
-                      Label(
-                        key: state.labels?.locale.location ??
-                            state.labels?.defaultLocale.location ??
-                            'Location',
-                        value: state.items[index].location?.name ?? '',
-                      ),
-                    );
-                    labels.add(Label(
-                        key: state.labels?.locale.entrySecurity ??
-                            state.labels?.defaultLocale.entrySecurity ??
-                            'Created By',
-                        value:
-                            '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
-                    return index >= state.items.length
-                        ? const BaseLoader()
-                        : BaseListTileItem(
-                            id: state.items[index].id,
-                            labels: labels,
-                            status: state.items[index].status,
-                            incidentType: state.items[index].incidentType,
-                            isMasterGuard: false,
-                            isEventProtectionStatus: false,
-                            isIncident: true,
-                            onTap: (selectedIndex) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext dialogContext) {
-                                  return BasePopUpItems(
-                                    id: state.items[selectedIndex].id
-                                        .toString(),
-                                    labels: labels,
-                                    slNo: state.items[selectedIndex].slNo,
-                                    status: state.items[selectedIndex].status,
-                                    incidentType:
-                                        state.items[selectedIndex].incidentType,
-                                    isMasterGuard: false,
-                                    isEventProtectionStatus: false,
-                                    isIncident: true,
-                                  );
-                                },
-                              );
-                            },
-                            onEditTap: (selectedIndex) {
-                              getById(
-                                state.extraProperties?.hasWritePermission ??
-                                    false,
-                                id: state.items[index].id ?? 0,
-                                occType: state.items[index].occType ?? 0,
-                              );
-                            },
-                            onViewTap: (selectedIndex) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext dialogContext) {
-                                  return BasePopUpItems(
-                                    id: state.items[selectedIndex].id
-                                        .toString(),
-                                    labels: labels,
-                                    slNo: state.items[selectedIndex].slNo,
-                                    status: state.items[selectedIndex].status,
-                                    isMasterGuard: false,
-                                    isEventProtectionStatus: false,
-                                    isIncident: true,
-                                    incidentType:
-                                        state.items[selectedIndex].incidentType,
-                                  );
-                                },
-                              );
-                            },
-                            index: index,
-                          );
-                  }
-
-                  // Handle the case where index is out of bounds
-                  return const Center(
-                    child: SizedBox(),
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   getById(bool hasWritePermission,
       {required int id, required int occType}) async {

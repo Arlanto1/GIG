@@ -48,6 +48,7 @@ class ShiftScheduleModel extends BaseObject {
   String? modifiedBy;
   String? modifiedDate;
   String? poc;
+  String? entrySecurityName;
 
   factory ShiftScheduleModel.fromJson(Map<String, dynamic> json) =>
       _$ShiftScheduleModelFromJson(json);
@@ -55,19 +56,21 @@ class ShiftScheduleModel extends BaseObject {
   @override
   Map<String, dynamic> toJson() => _$ShiftScheduleModelToJson(this);
 
-  ShiftScheduleModel(
-      {this.id,
-      this.entrySecurity,
-      this.location,
-      this.locationRegion,
-      this.inputDate,
-      this.slNo,
-      this.vendor,
-      this.dutyType,
-      this.status,
-      this.fromDate,
-      this.toDate,
-      this.modifiedBy,
-      this.modifiedDate,
-      this.poc});
+  ShiftScheduleModel({
+    this.id,
+    this.entrySecurity,
+    this.location,
+    this.locationRegion,
+    this.inputDate,
+    this.slNo,
+    this.vendor,
+    this.dutyType,
+    this.status,
+    this.fromDate,
+    this.toDate,
+    this.modifiedBy,
+    this.modifiedDate,
+    this.poc,
+    this.entrySecurityName,
+  });
 }

@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/models/ss_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:intl/intl.dart';
 
@@ -397,8 +396,8 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           state.model.inputDate = state.model.inputDate == null
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'),
-              Constants.fulldateFormat);
+                  int.tryParse(state.model.inputDate ?? '0'),
+                  Constants.fulldateFormat);
           return;
         }
         response = (await services.createShiftSchedule(
@@ -423,8 +422,8 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       log('--Exception-e-----}--');
       emit(
         state.copyWith(

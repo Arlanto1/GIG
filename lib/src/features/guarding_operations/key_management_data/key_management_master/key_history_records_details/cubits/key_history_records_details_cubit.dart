@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 part 'key_history_records_details_state.dart';
 
@@ -14,14 +14,17 @@ class KeyHistoryRecordsDetailsCubit
   final int parentId;
   final int type;
   final int? kipId;
+  final KeyManagementIssuanceServices keyIssuanceServices;
 
   KeyHistoryRecordsDetailsCubit({
     required this.services,
+    // required this.keyIssuanceServices,
     required this.parentId,
     required this.type,
     required this.commonServices,
     required this.model,
-    this.kipId,
+     this.kipId,
+    required this.keyIssuanceServices,
   }) : super(
           KeyHistoryRecordsDetailsState.initial(
             model: model ?? KeyHistoryModel(),
@@ -50,12 +53,12 @@ class KeyHistoryRecordsDetailsCubit
         status: FormStatus.loading,
       ),
     );
-
     KeyManagementMasterModel parentModel = await services.getById(parentId);
-
-    // KeyIssuanceProcessRecord keyIssuanceProcessModel =
-    // await KeyManagementIssuanceServices().getIssuanceProcessById(kipId ?? 0);
-
+    KeyIssuanceProcessRecord keyIssuanceProcessModel = KeyIssuanceProcessRecord();
+    if(kipId != null) {
+      keyIssuanceProcessModel =
+      await keyIssuanceServices.getIssuanceProcessById(kipId!);
+    }
     var userId = await SharedPrefs.getUserId();
     try {
       // Use Future.wait to call API functions concurrently
@@ -78,9 +81,9 @@ class KeyHistoryRecordsDetailsCubit
       Organisation? defaultLocation = futures[4];
       List<BaseUser> srh = futures[5];
 
-      if (defaultLocation != null && state.model.slNo == null) {
+      if (parentModel.location != null && state.model.slNo == null) {
         SerialNumberModel slNo = await commonServices.getKLDSlNo(
-          locationId: defaultLocation.id.toString(),
+          locationId: parentModel.location!.id.toString(),
           moduleCode: Constants.keyLossDestructionModule,
           type: type,
           kmId: parentId,
@@ -90,6 +93,8 @@ class KeyHistoryRecordsDetailsCubit
       state.model.createdBy ??= loggedInUserDetails;
       state.model.modifiedBy ??= loggedInUserDetails.email;
       state.model.type = type;
+
+      state.model.type == 1 || state.model.type==2 ? state.model.noOfKeys = keyIssuanceProcessModel.lost:'';
       // Get Date of Creation
       // state.model.createdDate = Utils().getCurrentDate();
       // state.model.modifiedDate = Utils().getCurrentDate();
@@ -103,16 +108,15 @@ class KeyHistoryRecordsDetailsCubit
 
       emit(
         state.copyWith(
-          loggedInUserDetails: loggedInUserDetails,
-          status: FormStatus.initial,
-          model: state.model,
-          securityManager: securityManager,
-          srh: srh,
-          destructionReasons: destructionReasons,
-          labels: labels,
-          keyManagementMasterModel: parentModel,
-          // keyIssuanceProcessRecord:keyIssuanceProcessModel
-        ),
+            loggedInUserDetails: loggedInUserDetails,
+            status: FormStatus.initial,
+            model: state.model,
+            securityManager: securityManager,
+            srh: srh,
+            destructionReasons: destructionReasons,
+            labels: labels,
+            keyManagementMasterModel: parentModel,
+            keyIssuanceProcessRecord: keyIssuanceProcessModel),
       );
     } catch (e) {
       log('Initialization issue',
@@ -163,7 +167,7 @@ class KeyHistoryRecordsDetailsCubit
         status: FormStatus.loading,
       ),
     );
-    ////Get Sl No from API
+    //Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getKLDSlNo(
           locationId: location.id.toString(),

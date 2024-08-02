@@ -1,10 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_cubit.dart';
-import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
-import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart';
-import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
 import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
 import 'package:intl/intl.dart';
 
@@ -76,7 +72,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   List<ImageContent> getFiles = [];
   List<ImageContent> getAttachments = [];
   late LawEnforcementState globalState;
-  String? serialnumber;
+
+  // String? serialnumber;
   bool isDistrbuted = false;
 
   int isOfficialIdcardSelected = 0;
@@ -93,10 +90,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       listener: (context, state) {},
       builder: (context, state) {
         log('state.model.lock.isEmptyOrNull${state.model!.lock.isEmptyOrNull}');
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          isDistrbuted = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   isDistrbuted = true;
+        // }
         if (!state.model!.lock.isEmptyOrNull) {
           isDistrbuted = true;
         }
@@ -113,6 +110,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             backBtn: IconButton(
               onPressed: () {
                 Navigator.pop(context);
+                CommonServices().unlock();
               },
               icon: const Icon(Icons.arrow_back_ios_new_outlined,
                   color: Colors.white),
@@ -238,13 +236,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   if (state.getVisitsCount < 1) {
                     manageAddVisitOfficialDetailWidget(state);
                   }
-                  // if (state.getSerialnumberResponse != null &&
-                  //     widget.model == null) {
-
-                  if (serialnumber.isEmptyOrNull) {
-                    serialnumber = state.getSerialnumberResponse?.serialNo ?? "";
-                  }
-                  // }
                   globalState = state;
                   if (state.status == FormStatus.addAttachment) {
                     getFiles = state.loadAttachments ?? [];
@@ -389,9 +380,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                             height * 0.01),
 
                                         /// slno
-
                                         CommonWidgets.horizentaltextHandling(
-                                            Constants.slno, serialnumber ?? '',
+                                            Constants.slno, state.slno ?? '',
                                             isMandatory: true),
                                         CommonWidgets.verticalSpacerWidget(
                                             height * 0.01),
@@ -421,7 +411,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           textController:
                                               actualDateTextController,
                                           isDisabled:
-                                              (widget.model?.status == -1)
+                                              (widget.model?.status == -1) ||
+                                                  isDistrbuted
                                                   ? true
                                                   : false,
                                           //initialDate: DateTime.now().subtract(Duration(days: 1)),
@@ -764,14 +755,13 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
                                       // Upload
 
-                                      if(                                      (widget.model == null ||
-                                          widget.model?.status == 0 ||
-                                          widget.model?.status == 1 ||
-                                          widget.model?.status == 2) ||
+                                      if ((widget.model == null ||
+                                              widget.model?.status == 0 ||
+                                              widget.model?.status == 1 ||
+                                              widget.model?.status == 2) ||
                                           (widget.model != null &&
                                               widget.model!.lock
-                                                  .isEmptyOrNull)
-                                      )...[
+                                                  .isEmptyOrNull)) ...[
                                         CommonWidgets.textDisplay(
                                             Constants.upload,
                                             Styles.textStyleBlack14),
@@ -1122,9 +1112,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     super.initState();
     if (widget.model != null) {
       populateData();
+      lawEnforcementCubit.initializeValuesForExistingRecord(
+          model: widget.model!);
       lawEnforcementCubit.getDistributionGroupsDetails();
     } else {
-      lawEnforcementCubit.initializeValues();
+      lawEnforcementCubit.initializeValuesForNewRecord();
     }
 
     getLawEnforcementList(context);
@@ -1199,13 +1191,15 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           : Organisation();
 
       log('--widget.model?.slNo----${widget.model?.slNo}---');
-      serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
+      // serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
 
       widget.model?.slNo ??
           await lawEnforcementCubit.getSerialnumberDetails(
-            (widget.model?.location?.id ?? 0).toString(),
+            (widget.model?.location?.id ?? 0),
             'LEO',
           );
+
+      log('--widget.model?.slNo--22--${widget.model?.slNo}---');
 
       lawEnforcementCubit.getlocationsResponseData(mumbai);
       int isDocumentifanySelected1 =
@@ -1361,9 +1355,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       'EMPLOYEE_DEPARTMENTS',
     );
     await lawEnforcementCubit.getDBofficialByRoleDepositor(
-      ConstantUserRoles.atomStaticUser,
-      context,
-    );
+      ConstantUserRoles.atomStaticUser, widget.model?.location?.id);
     await lawEnforcementCubit.getUserDetails(
       userid,
     );
@@ -1463,8 +1455,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicateDepostorList:
-                state.getDepositorResponse?.atomStaticUser ?? [],
+            duplicateDepostorList: state.getDepositorResponse ?? [],
             leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
@@ -1475,6 +1466,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                     return CreateFoundNewUser(
                       title: Constants.createnewuser,
                       lawstate: state,
+                      locationId: state.locationSelectedlist!.id!,
                     );
                   });
             },
@@ -1846,8 +1838,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                 //GetLocations(),
                 onTap: (Organisation? org) async {
                   await lawEnforcementCubit.getSerialnumberDetails(
-                    org?.id.toString() ?? '',
-                    'LEO',
+                    org?.id ?? 0,
+                    Constants.leoModuleCode,
                   );
                   // locationselectedText = list?.name ?? '';
                   // locationSelectedlist = list;
@@ -1949,8 +1941,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     }
 
     LawLocation? location = LawLocation(
-        id: state.locationSelectedlist?.id ?? 1,
-        name: state.locationSelectedlist?.name ?? '');
+        id: state.locationSelectedlist?.id ?? widget.model?.location?.id,
+        name: state.locationSelectedlist?.name ?? widget.model?.location?.name);
     List<VisitingOfficial>? visitingOfficials;
     visitingOfficials ??= [];
     if (state.visitingOfficials != null) {
@@ -1986,7 +1978,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           id: widget.model?.id ?? 0,
           entrySecurity: entrySecurity,
           inputDate: inputDate.toString(),
-          slNo: serialnumber ?? '',
+          slNo: state.slno ?? widget.model?.slNo,
           location: location,
           status: statusValue,
           images: images,
@@ -2009,7 +2001,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       lawEnforcement = LawEnforcement(
           entrySecurity: entrySecurity,
           inputDate: inputDate.toString(),
-          slNo: serialnumber ?? '',
+          slNo: state.slno ?? widget.model?.slNo,
           location: location,
           status: statusValue,
           images: images,
@@ -2050,7 +2042,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         state.getUserDetailsResponse == null &&
         state.locationSelectedlist == null &&
         dateofcreationTextController.text.isEmpty &&
-        serialnumber == null &&
+        // serialnumber == null &&
         state.listOfEntities == null &&
         actualDateTextController.text.isEmpty &&
         state.leoPurposeVisitResponse == null &&
@@ -2078,12 +2070,14 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context,
         "Please enter creator date",
       );
-    } else if (serialnumber != null && (serialnumber ?? '').isEmpty) {
+    }
+    /*else if (serialnumber != null && (serialnumber ?? '').isEmpty) {
       Validator().showToast(
         context,
         "Please enter serial number",
       );
-    } else if (state.listOfEntities.isEmptyOrNull) {
+    } */
+    else if (state.listOfEntities.isEmptyOrNull) {
       Validator().showToast(
         context,
         "Please enter entity",
@@ -2197,6 +2191,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

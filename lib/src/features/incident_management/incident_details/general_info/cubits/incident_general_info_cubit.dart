@@ -1,30 +1,10 @@
 import 'dart:developer';
 import 'dart:math' as math;
 
-import 'package:bloc/bloc.dart';
-import 'package:dart_extensions/dart_extensions.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/features/createfound/models/emplyee_departments_model.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/serial_number_model.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/incident_management/models/im_ui_labels.dart';
-import 'package:db_atom/src/features/lawenforcement/models/add_entities.dart';
-import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/general_info_model.dart';
-import 'package:db_atom/src/models/base_user.dart';
-import 'package:db_atom/src/models/image_content.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/models/responseModels/generic_response.dart';
-import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../enums/form_status.dart';
-import '../../../../../models/responseModels/error_response_validation.dart';
-import '../../../../../utils/util.dart';
-import '../../../../createfound/models/get_articletype_model.dart';
-import '../../../../passmanagement/daypassmgmt/createpassmgmt/models/analyst_model.dart';
 import '../../../models/incidents_response.dart';
 import '../../../services/incident_management_services.dart';
 import '../models/requestModel/general_info_request.dart';
@@ -36,7 +16,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
   final String id;
   final String occId;
   final int occType;
-  final int kldId;
+  final String kldId;
   final CommonServices commonServices;
   final Organisation? location;
 
@@ -52,7 +32,6 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           IncidentGeneralInfoState.initial(
             model: IncidentModel(),
             locations: Locations(),
-            users: const [],
             emailUsers: const [],
             errorMessage: '',
             loadAttachments: const [],
@@ -78,21 +57,24 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
 
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
-    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     List<Organisation>? entities =
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
-    List<BaseUser> emailUsers =
-        await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
-    List<BaseUser> incidentManager = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Senior_Security_Manager');
-    List<BaseUser> incidentOwner = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Sub_Regional_Head');
+    List<BaseUser> emailUsers = await commonServices.getBaseUsers(
+        roleName: ConstantUserRoles.atomStaticUser,
+        locationId: state.model.location?.id);
+    // List<BaseUser> incidentManager = await commonServices.getBaseUsers(
+    //     roleName: 'ATOM_Senior_Security_Manager',
+    //     locationId: state.model.location?.id);
+    // List<BaseUser> incidentOwner = await commonServices.getBaseUsers(
+    //     roleName: 'ATOM_Sub_Regional_Head',
+    //     locationId: state.model.location?.id);
     emit(
       state.copyWith(
         status: FormStatus.initial,
-        users: users.t1Analyst,
-        incidentManager: incidentManager,
-        incidentOwner: incidentOwner,
+        complainant: emailUsers,
+        complainantHr: emailUsers,
+        incidentManager: emailUsers,
+        incidentOwner: emailUsers,
         getEntitiesResponse: entities,
         listOfEntities: entities,
         emailUsers: emailUsers,
@@ -122,36 +104,9 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
               int.tryParse(model.inputDate ?? '0'), Constants.fulldateFormat);
-      // model.inputDate = Utils().getCurrentDate();
-      // model.inputDate = model.inputDate == null
-      //     ? Utils().getCurrentDate()
-      //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
       state.model.incidentType ??= 0;
-      Locations getLocationsData =
-          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
-      User loggedInUserDetails =
-          await commonServices.getUserDetails(userId: userId);
-      model.entrySecurity ??= loggedInUserDetails;
-
-      List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
-          roleNames: 'ATOM_STATIC_USER');
-      List<BaseUser> incidentManager = await commonServices.getBaseUsersByRoles(
-          roleNames: 'ATOM_Senior_Security_Manager');
-      List<BaseUser> incidentOwner = await commonServices.getBaseUsersByRoles(
-          roleNames: 'ATOM_Sub_Regional_Head');
-      AddEntities entities =
-          await commonServices.getEntities(name: 'ATOM_ENTITIES');
-
-      GetArticleType getArticleType =
-          await commonServices.getArticleType(name: 'ARTICLE_LIST');
-
-      List<User> entrySecurities = await commonServices.getUsers();
-
-      EmployeeDepartments departments =
-          await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
-
-      if (location == null && state.model.location == null) {
+      if (location == null && model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
         log('defaultLocation $defaultLocation');
         if (defaultLocation != null) {
@@ -162,7 +117,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           model.location = defaultLocation;
           model.slNo = slNo.serialNo;
         }
-      } else if(location != null) {
+      } else if (location != null) {
         /// it is getting redirected from Shift Occurrence
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: location!.id.toString(),
@@ -171,6 +126,37 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         model.location = location;
         model.slNo = slNo.serialNo;
       }
+
+      final results = await Future.wait([
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getUserDetails(userId: userId),
+        commonServices.getBaseUsers(
+            roleName: ConstantUserRoles.atomStaticUser,
+            locationId: model.location?.id),
+        commonServices.getBaseUsers(
+            roleName: 'ATOM_Senior_Security_Manager',
+            locationId: model.location?.id),
+        commonServices.getBaseUsers(
+            roleName: 'ATOM_Sub_Regional_Head', locationId: model.location?.id),
+        commonServices.getEntities(name: 'ATOM_ENTITIES'),
+        commonServices.getArticleType(name: 'ARTICLE_LIST'),
+        commonServices.getUsers(),
+        commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
+      ]);
+
+      // Assign results to respective variables
+      final Locations getLocationsData = results[0] as Locations;
+      final User loggedInUserDetails = results[1] as User;
+      final List<BaseUser> emailUsers = results[2] as List<BaseUser>;
+      final List<BaseUser> incidentManager = results[3] as List<BaseUser>;
+      final List<BaseUser> incidentOwner = results[4] as List<BaseUser>;
+      final AddEntities entities = results[5] as AddEntities;
+      final GetArticleType getArticleType = results[6] as GetArticleType;
+      final List<User> entrySecurities = results[7] as List<User>;
+      final EmployeeDepartments departments = results[8] as EmployeeDepartments;
+
+      model.entrySecurity ??= loggedInUserDetails;
+
       emit(
         state.copyWith(
           model: model,
@@ -178,6 +164,8 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           articleType: getArticleType.articleList,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
+          complainant: emailUsers,
+          complainantHr: emailUsers,
           incidentOwner: incidentOwner,
           incidentManager: incidentManager,
           emailUsers: emailUsers,
@@ -199,20 +187,67 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     }
   }
 
+  Future<void> updateLocationDropdownValue({
+    Organisation? location,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    List<BaseUser> emailUsers = [];
+    List<BaseUser> incidentManager = [];
+    List<BaseUser> incidentOwner = [];
+
+    ////Get Sl No from API
+    if (location != null) {
+      SerialNumberModel slNo = await commonServices.getSlNo(
+        locationId: location.id.toString(),
+        moduleCode: Constants.incidentManagementModule,
+      );
+
+      state.model.location = location;
+      state.model.slNo = slNo.serialNo ?? '';
+
+      emailUsers = await commonServices.getBaseUsers(
+          roleName: ConstantUserRoles.atomStaticUser,
+          locationId: state.model.location?.id);
+      incidentManager = await commonServices.getBaseUsers(
+          roleName: 'ATOM_Senior_Security_Manager',
+          locationId: state.model.location?.id);
+      incidentOwner = await commonServices.getBaseUsers(
+          roleName: 'ATOM_Sub_Regional_Head',
+          locationId: state.model.location?.id);
+    }
+
+    state.model.incidentManager = null;
+    state.model.complainantHr = null;
+    state.model.incidentOwner = null;
+    emit(state.copyWith(
+      model: state.model,
+      emailUsers: emailUsers,
+      complainant: emailUsers,
+      complainantHr: emailUsers,
+      incidentManager: incidentManager,
+      incidentOwner: incidentOwner,
+      status: FormStatus.initial,
+    ));
+
+    log('--state.model---${state.model.incidentType}--');
+  }
+
   Future<void> updateDropdownValues({
-    BaseUser? complainant,
-    BaseUser? complainantHR,
-    BaseUser? incidentManager,
-    BaseUser? incidentOwner,
     List<Organisation>? entities,
     Organisation? complainantDepartment,
-    Organisation? location,
     Organisation? typeOfArticle,
     // BaseUser? user,
     Organisation? vendor,
     int? status,
     int? incidentType,
     int? typeOfAsset,
+    BaseUser? incidentManager,
+    BaseUser? incidentOwner,
   }) async {
     emit(
       state.copyWith(
@@ -225,26 +260,14 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     state.model.typeOfAsset = typeOfAsset ?? state.model.typeOfAsset;
     log('--assetType----$typeOfAsset--');
 
-    if (complainant != null) {
-      User userDetails = User(
-        name: complainant.name,
-        userId: complainant.id,
-        userName: complainant.name,
-      );
-      state.model.complainant = userDetails;
+    if (complainantDepartment != null) {
+      state.model.complainantDepartment = complainantDepartment;
     }
-
-    if (complainantHR != null) {
-      User userDetails = User(
-        name: complainantHR.name,
-        userId: complainantHR.id,
-        userName: complainantHR.name,
-      );
-      state.model.complainantHr = userDetails;
+    if (typeOfArticle != null) {
+      state.model.typeOfArticle = typeOfArticle;
     }
 
     if (incidentManager != null) {
-      state.incidentManager?.remove(incidentManager);
       User userDetails = User(
         name: incidentManager.name,
         userId: incidentManager.id,
@@ -254,7 +277,6 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     }
 
     if (incidentOwner != null) {
-      state.incidentOwner?.remove(incidentOwner);
       User userDetails = User(
         name: incidentOwner.name,
         userId: incidentOwner.id,
@@ -262,25 +284,10 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       );
       state.model.incidentOwner = userDetails;
     }
-
-    if (complainantDepartment != null) {
-      state.model.complainantDepartment = complainantDepartment;
-    }
-    if (typeOfArticle != null) {
-      state.model.typeOfArticle = typeOfArticle;
-    }
-
-    ////Get Sl No from API
-    if (location != null) {
-      SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: location.id.toString(),
-        moduleCode: Constants.incidentManagementModule,
-      );
-
-      state.model.location = location;
-      state.model.slNo = slNo.serialNo ?? '';
-    }
-
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.initial,
+    ));
     state.model.status = status ?? state.model.status;
 
     // if (state.model.typeOfArticle != null) {
@@ -295,12 +302,65 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       state.model.entities = entities;
     }
 
+    log('--state.model---${state.model.incidentType}--');
+  }
+
+  Future<void> updateEmailsValue({
+    BaseUser? complainant,
+    BaseUser? complainantHr,
+    BaseUser? emailUser,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    if (complainant != null) {
+      User userDetails = User(
+        name: complainant.name,
+        userId: complainant.id,
+        email: complainant.email,
+      );
+      if(state.model.complainant !=null) {
+        BaseUser preselectedUser = BaseUser(
+          id: state.model.complainant?.userId,
+          name: state.model.complainant?.name,
+          email: state.model.complainant?.email,
+        );
+        state.complainantHr?.add(preselectedUser);
+      }
+        state.model.complainant = userDetails;
+        state.complainantHr?.remove(complainant);
+      }
+      emit(state.copyWith(
+        model: state.model,
+        complainantHr: state.complainantHr,
+        status: FormStatus.initial,
+      ));
+    if (complainantHr != null) {
+      User userDetails = User(
+        name: complainantHr.name,
+        userId: complainantHr.id,
+        email: complainantHr.email,
+      );
+      if(state.model.complainantHr !=null) {
+        BaseUser preselectedUser = BaseUser(
+          id: state.model.complainantHr?.userId,
+          name: state.model.complainantHr?.name,
+          email: state.model.complainantHr?.email,
+        );
+        state.complainant?.add(preselectedUser);
+      }
+      state.model.complainantHr = userDetails;
+      state.complainant?.remove(complainantHr);
+    }
     emit(state.copyWith(
       model: state.model,
+      complainant: state.complainant,
       status: FormStatus.initial,
     ));
 
-    log('--state.model---${state.model.incidentType}--');
   }
 
   void addAttachment({
@@ -371,14 +431,22 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.inputDate = inputDate.toString();
     }
+
+    if (!Utils().isTimestamp(state.model.closureTargetDate!)) {
+      dateTime = DateFormat("dd/MM/yyyy HH:mm:ss")
+          .parse(state.model.closureTargetDate!);
+      int closureTargetDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.closureTargetDate = closureTargetDate.toString();
+    }
     state.model.incidentType ??= 0;
     state.model.occurrence ??= OccurrenceModel();
     state.model.occurrence?.id = occId.toIntOrNull();
     state.model.occType = occType;
-    // KeyHistoryModel kldId ??= KeyHistoryModel();
-    state.model.kldId ??= kldId;
+    state.model.keyLossGi ??= KeyHistoryModel();
+    state.model.keyLossGi?.id = kldId.toIntOrNull();
 
     log('---state.model.occurrence-save---${state.model.occurrence?.id}--');
+    log('---state.model.keyLossGi-save---${state.model.keyLossGi?.id}--');
 
     // Create/Update API Call
     IncidentGeneralInfoRequest request =

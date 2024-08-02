@@ -95,9 +95,13 @@ class _RatesInfoState extends State<RatesInfo> {
                       padding: const EdgeInsets.only(left: 20.0, right: 20),
                       child: Column(children: [
                         CommonWidgets.verticalSpacerWidget(height * 0.02),
+                        if (!state.model.lock.isEmptyOrNull) ...[
+                          RecordLockedWidget(text: '${state.model.lock}'),
+                        ],
 
                         /// Created By
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Row(
                               children: [
@@ -112,10 +116,11 @@ class _RatesInfoState extends State<RatesInfo> {
                                     height * 0.01),
                               ],
                             ),
-                            const Spacer(),
+                            // const Spacer(),
                             const Text('1/6'),
                           ],
                         ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Location
                         CommonWidgets.textDisplay(
@@ -276,6 +281,7 @@ class _RatesInfoState extends State<RatesInfo> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

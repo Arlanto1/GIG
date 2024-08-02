@@ -38,16 +38,15 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     List<Organisation> quantityUnits = await commonServices.getOrganisations(
         name: 'ATOM_MATERIAL_MOVEMENT_UNIT');
 
-    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
-    List<BaseUser> emailUsers =
-        await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
+    List<BaseUser> emailUsers = await commonServices.getBaseUsers(
+        roleName: ConstantUserRoles.atomStaticUser,
+        locationId: state.model.location?.id);
 
     emit(
       state.copyWith(
         status: FormStatus.initial,
-        users: users.t1Analyst,
         loadAttachments: state.model.images,
         emailUsers: emailUsers,
         departments: departments.employeeDepartments,
@@ -97,24 +96,43 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     );
 
     var userId = await SharedPrefs.getUserId();
+
+    Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+
+    if (state.model.location == null && defaultLocation != null) {
+      String moduleCode = isInward ?? false
+          ? Constants.materialMovementInwardReturnableModule
+          : Constants.materialMovementOutwardNonReturnableModule;
+
+      SerialNumberModel slNo = await commonServices.getSlNo(
+        locationId: defaultLocation.id.toString(),
+        moduleCode: moduleCode,
+      );
+
+      state.model.location = defaultLocation;
+      state.model.slNo = slNo.serialNo;
+    }
+
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
-        commonServices.getUsersByRole(roleName: 'T1_Analyst'),
+        commonServices.getUsersByRole(roleName: 'T1_Analyst'), // TODO: remove
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.materialMovementModuleCode),
         SharedPrefs.getDefaultLocation(),
-        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER'),
+        commonServices.getBaseUsers(
+            roleName: ConstantUserRoles.atomStaticUser,
+            locationId: state.model.location?.id),
         commonServices.getOrganisations(name: 'ATOM_MATERIAL_MOVEMENT_UNIT'),
       ]);
 
       Locations locations = futures[0];
       User loggedInUserDetails = futures[1];
-      Analyst users = futures[2];
+      Analyst users = futures[2]; // TODO: remove
       EmployeeDepartments departments = futures[3];
       dynamic responseLabels = futures[4];
       Organisation? defaultLocation = futures[5];
@@ -147,19 +165,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       }
 
       MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
-      if (state.model.location == null && defaultLocation != null) {
-        String moduleCode = isInward ?? false
-            ? Constants.materialMovementInwardReturnableModule
-            : Constants.materialMovementOutwardNonReturnableModule;
-
-        SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: defaultLocation.id.toString(),
-          moduleCode: moduleCode,
-        );
-
-        state.model.location = defaultLocation;
-        state.model.slNo = slNo.serialNo;
-      }
 
       log('--loggedInUserDetails---${loggedInUserDetails.firstName}----');
 
@@ -174,7 +179,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           loggedInUserDetails: state.model.entrySecurity,
           status: FormStatus.initial,
           model: state.model,
-          users: users.t1Analyst,
           loadAttachments: state.model.images,
           emailUsers: emailUsers,
           approver1Users: emailUsers,
@@ -198,8 +202,50 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
   }
 
-  Future<void> updateDropdownValues({
+  Future<void> updateLocationDropdownValue({
     Organisation? location,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    List<BaseUser> emailUsers = [];
+    // Get Sl No from API
+    if (location != null && isInward == true) {
+      SerialNumberModel slNo = await commonServices.getSlNo(
+        locationId: location.id.toString(),
+        moduleCode: Constants.materialMovementInwardReturnableModule,
+      );
+      state.model.location = location;
+      state.model.slNo = slNo.serialNo;
+
+      emailUsers = await commonServices.getBaseUsers(
+          roleName: ConstantUserRoles.atomStaticUser,
+          locationId: state.model.location?.id);
+    }
+    if (location != null && isInward == false) {
+      SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: location.id.toString(),
+          moduleCode: state.model.returnable ?? false
+              ? Constants.materialMovementOutwardReturnableModule
+              : Constants.materialMovementOutwardNonReturnableModule);
+      state.model.location = location;
+      state.model.slNo = slNo.serialNo;
+      emailUsers = await commonServices.getBaseUsers(
+          roleName: ConstantUserRoles.atomStaticUser,
+          locationId: state.model.location?.id);
+    }
+    state.model.receiverEmail = null;
+    emit(state.copyWith(
+      model: state.model,
+      emailUsers: emailUsers,
+      status: FormStatus.initial,
+    ));
+  }
+
+  Future<void> updateDropdownValues({
     BaseUser? user,
     BaseUser? receiverEmailUser,
     BaseUser? receiverEmail,
@@ -219,24 +265,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         status: FormStatus.loading,
       ),
     );
-    // Get Sl No from API
-    if (location != null && isInward == true) {
-      SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: location.id.toString(),
-        moduleCode: Constants.materialMovementInwardReturnableModule,
-      );
-      state.model.location = location;
-      state.model.slNo = slNo.serialNo;
-    }
-    if (location != null && isInward == false) {
-      SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: location.id.toString(),
-          moduleCode: state.model.returnable ?? false
-              ? Constants.materialMovementOutwardReturnableModule
-              : Constants.materialMovementOutwardNonReturnableModule);
-      state.model.location = location;
-      state.model.slNo = slNo.serialNo;
-    }
+
     state.model.status = status ?? state.model.status;
     // if (location != null &&
     //     isInward == false &&
@@ -250,23 +279,27 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     // }
 
     if (user != null) {
-      state.model.receiverEmail = user.name;
+      state.model.receiverEmail = user.email;
     }
 
     if (receiverEmailUser != null) {
-      state.model.receiverEmail = receiverEmailUser.name;
+      state.model.receiverEmail =
+          '${receiverEmailUser.name} (${receiverEmailUser.email})';
     }
 
     if (receiverEmail != null) {
-      state.model.receiverEmail = receiverEmail.name;
+      state.model.receiverEmail =
+          '${receiverEmail.name} (${receiverEmail.email})';
     }
 
     if (requesterEmailUser != null) {
-      state.model.requestorEmail = requesterEmailUser.name;
+      state.model.requestorEmail =
+          '${requesterEmailUser.name} (${requesterEmailUser.email})';
     }
 
     if (returnReceiverMailId != null) {
-      state.model.returnReceiverMailId = returnReceiverMailId.name;
+      state.model.returnReceiverMailId =
+          '${returnReceiverMailId.name} (${returnReceiverMailId.email})';
     }
     if (requesterDepartment != null) {
       state.model.requestorDepartment = requesterDepartment;
@@ -316,16 +349,17 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     );
 
     if (requesterEmailUser != null) {
-      state.model.requestorEmail = requesterEmailUser.name;
-
-      emit(
-        state.copyWith(
-          requestorEmailUsers: state.emailUsers,
-        ),
-      );
+      if( state.model.requestorEmail != null){
+        BaseUser preSelectedUser = BaseUser(
+          name: state.model.requestorEmail,
+          // email:state.model.requestorEmail,
+        );
+        state.approver1Users?.add(preSelectedUser);
+      }
+      state.model.requestorEmail =
+      '${requesterEmailUser.name} ${requesterEmailUser.email != null ?'(${requesterEmailUser.email})' :''}';
       state.approver1Users?.remove(requesterEmailUser);
       state.approver2Users?.remove(requesterEmailUser);
-
       emit(
         state.copyWith(
           model: state.model,
@@ -337,14 +371,15 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
 
     if (approver1EmailUser != null) {
-      state.model.approver1Email = approver1EmailUser.name;
-
-      emit(
-        state.copyWith(
-          approver2Users: state.emailUsers,
-        ),
-      );
-
+      if( state.model.approver1Email != null){
+        BaseUser preSelectedUser = BaseUser(
+          name: state.model.approver1Email,
+          // email: state.model.approver1Email,
+        );
+        state.approver2Users?.add(preSelectedUser);
+      }
+      state.model.approver1Email =
+      '${approver1EmailUser.name} ${approver1EmailUser.email != null ?'(${approver1EmailUser.email})' :''}';
       state.requestorEmailUsers?.remove(approver1EmailUser);
       state.approver2Users?.remove(approver1EmailUser);
 
@@ -359,14 +394,16 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
 
     if (approver2EmailUser != null) {
-      state.model.approver2Email = approver2EmailUser.name;
 
-      emit(
-        state.copyWith(
-          approver1Users: state.emailUsers,
-        ),
-      );
+      if( state.model.approver2Email != null){
+        BaseUser preSelectedUser = BaseUser(
+          name: state.model.approver2Email,
+          // email:state.model.approver2Email,
+        );
+        state.approver1Users?.add(preSelectedUser);
 
+      }
+      state.model.approver2Email = '${approver2EmailUser.name} ${approver2EmailUser.email != null ?'(${approver2EmailUser.email})':''}';
       state.requestorEmailUsers?.remove(approver2EmailUser);
       state.approver1Users?.remove(approver2EmailUser);
 

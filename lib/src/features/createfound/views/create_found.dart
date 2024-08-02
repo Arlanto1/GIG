@@ -24,7 +24,8 @@ class CreateFound extends StatefulWidget {
 class _CreateFoundState extends State<CreateFound> {
   // Default Radio Button Selected Item When App Starts.
   String radioButtonItem = '';
-  String serialNumber = '';
+
+  // String serialNumber = '';
   int pageNumber = 0;
 
   // Group Value for Radio Button.
@@ -48,7 +49,8 @@ class _CreateFoundState extends State<CreateFound> {
   TextEditingController statusTextController = TextEditingController();
   TextEditingController depositorTextController = TextEditingController();
   TextEditingController claimantTextController = TextEditingController();
-  String isDepositorDBEmployee = "";
+
+  // String isDepositorDBEmployee = "";
 
   final FocusNode foundLocationFocusNode = FocusNode();
   final FocusNode depositorEmployeeFocusNode = FocusNode();
@@ -68,7 +70,7 @@ class _CreateFoundState extends State<CreateFound> {
   BaseUser? selectedClaimList;
   User? userDetails;
   User? handOverSecurity;
-  Organisation? locationSelectedlist;
+  Organisation? selectedLocation;
   SubmitCreateFoundModel? createfoundResponse;
   SerialNumberModel? serialnumberResponse;
   List<ImageContent> getFiles = [];
@@ -79,23 +81,29 @@ class _CreateFoundState extends State<CreateFound> {
   @override
   void initState() {
     super.initState();
+    log('------initState-----');
+    getFoundArticleList();
     claimantSignatureController = SignatureController(
         penStrokeWidth: 2,
         penColor: Colors.black,
         exportBackgroundColor: Colors.white);
     if (widget.model != null) {
       populateData();
+      // createFoundArticleCubit.initializeValuesForExistingRecord(
+      //     model: widget.model!);
       BlocProvider.of<CreateFoundArticleCubit>(context)
           .initializeValues(widget.model);
+      BlocProvider.of<CreateFoundArticleCubit>(context)
+          .initializeValuesForExistingRecord(model: widget.model!);
     } else {
       createFoundArticleCubit.initializeValues(widget.model);
     }
-    _getFoundArticleList();
     _getCurrentDate();
   }
 
   @override
   void dispose() {
+    // createFoundArticleCubit.close();
     claimantSignatureController.dispose();
     super.dispose();
   }
@@ -131,15 +139,14 @@ class _CreateFoundState extends State<CreateFound> {
       handOverByValue = handOverSecurity?.userInfo != null
           ? handOverSecurity?.userInfo ?? ''
           : '';
-      serialNumber = widget.model?.slNo != null ? widget.model?.slNo ?? "" : '';
-      locationSelectedlist = widget.model?.location != null
+      // serialNumber = widget.model?.slNo != null ? widget.model?.slNo ?? "" : '';
+      selectedLocation = widget.model?.location != null
           ? Organisation(
               id: widget.model?.location?.id ?? 0,
               name: widget.model?.location?.name ?? "")
           : Organisation();
-      locationselectedText = locationSelectedlist?.name != null
-          ? locationSelectedlist?.name ?? ""
-          : '';
+      locationselectedText =
+          selectedLocation?.name != null ? selectedLocation?.name ?? "" : '';
       quantityTextController.text = widget.model?.quantity != null
           ? widget.model?.quantity.toString() ?? ""
           : '';
@@ -231,103 +238,103 @@ class _CreateFoundState extends State<CreateFound> {
     }
   }
 
-  createFoundBody(bool isSubmit, int isFoundId) async {
-    log('-createFoundBody-----');
-
-    bool isDepositorDBEmployeeSelectedValue =
-        isDepositorDBEmployeeSelected == 1 ? true : false;
-    // int statusValue = 0;
-    // if (statusTextController.text.toLowerCase() == "found") {
-    //   statusValue = 0;
-    // } else if (statusTextController.text.toLowerCase() ==
-    //     "under security custody") {
-    //   statusValue = 0;
-    // } else {
-    //   statusValue = 2;
-    // }
-
-    int foundDate = Utils.dateToTimestampConversion(
-        foundDateTextController.text, Constants.fulldateFormat);
-    // int inputDate = Utils.dateToTimestampConversion(
-    //     dateofcreationTextController.text, Constants.fulldateFormat);
-    int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
-    Map<String, dynamic> entrySecurityBody = {
-      "userId": userDetails?.userId ?? 0,
-    };
-    Map<String, dynamic> handOverSecurityBody = {
-      "userId": handOverSecurity?.userId ?? 0,
-    };
-    Map<String, dynamic> locationBody = {
-      "id": locationSelectedlist?.id ?? 0,
-      "name": locationSelectedlist?.name ?? ''
-    };
-    Map<String, dynamic> depositorBody = {
-      "userId": selecteddepositorList?.id ?? 1,
-      "userName": selecteddepositorList?.name ?? '',
-      "email": selecteddepositorList?.email ?? '',
-    };
-    Map<String, dynamic> articleBody = {
-      "id": selectedArtclelist?.id ?? 0,
-    };
-    Map<String, dynamic> depositorDeptBody = {
-      "id": selectedEmployeedepartment?.id ?? 1,
-    };
-    Map<String, dynamic> foundBody = {
-      "status": widget.model?.status ?? 0,
-      "typeOfAsset": assetTypeTextController.text.isEmptyOrNull
-          ? ((assetTypeTextController.text.toLowerCase()) == 'company' ? 1 : 0)
-          : null,
-      "color":
-          colorTextController.text.isNotEmpty ? colorTextController.text : '',
-      "slNo": serialNumber,
-      "typeOfArticle": articleBody,
-      "entrySecurity": entrySecurityBody,
-      "handoverSecurity": handOverSecurityBody,
-      "foundLocation": foundLocationTextController.text,
-      "quantity": quantityTextController.text.isNotEmpty
-          ? int.parse(quantityTextController.text)
-          : 0,
-      "additionalInformation": additionalinformationTextController.text,
-      "depositorDbEmp": isDepositorDBEmployeeSelectedValue,
-      "inputDate": inputdate,
-      "foundDate": foundDate,
-      "location": locationBody,
-      "depositorName": isDepositorDBEmployeeSelected == 1
-          ? selecteddepositorList?.name ?? ''
-          : depositorTextController.text.isNotEmpty
-              ? depositorTextController.text
-              : '',
-      "claimantName": isClaimantDBEmployeeSelected == 1
-          ? selectedClaimList?.name ?? ''
-          : claimantTextController.text.isNotEmpty
-              ? claimantTextController.text
-              : '',
-      "employeeId": depositorEmpIdTextController.text.isNotEmpty
-          ? depositorEmpIdTextController.text
-          : '',
-      "depositorDepartment": depositorDeptBody,
-      "depositor": depositorBody,
-      "eventProtection": widget.eventId,
-      "images": getFiles
-    };
-    Map<String, dynamic> requestBody = {
-      "found": foundBody,
-    };
-    var username = await SharedPrefs.getUsername();
-    showLoadingDialog(context);
-    await createFoundArticleCubit.createFoundArticleHandle(
-        requestBody,
-        isSubmit,
-        context,
-        username,
-        widget.model != null ? Constants.editFound : Constants.createFound);
-  }
+  // createFoundBody(bool isSubmit, int isFoundId) async {
+  //   log('-createFoundBody-----');
+  //
+  //   bool isDepositorDBEmployeeSelectedValue =
+  //       isDepositorDBEmployeeSelected == 1 ? true : false;
+  //   // int statusValue = 0;
+  //   // if (statusTextController.text.toLowerCase() == "found") {
+  //   //   statusValue = 0;
+  //   // } else if (statusTextController.text.toLowerCase() ==
+  //   //     "under security custody") {
+  //   //   statusValue = 0;
+  //   // } else {
+  //   //   statusValue = 2;
+  //   // }
+  //
+  //   int foundDate = Utils.dateToTimestampConversion(
+  //       foundDateTextController.text, Constants.fulldateFormat);
+  //   // int inputDate = Utils.dateToTimestampConversion(
+  //   //     dateofcreationTextController.text, Constants.fulldateFormat);
+  //   int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+  //   Map<String, dynamic> entrySecurityBody = {
+  //     "userId": userDetails?.userId ?? 0,
+  //   };
+  //   Map<String, dynamic> handOverSecurityBody = {
+  //     "userId": handOverSecurity?.userId ?? 0,
+  //   };
+  //   Map<String, dynamic> locationBody = {
+  //     "id": selectedLocation?.id ?? 0,
+  //     "name": selectedLocation?.name ?? ''
+  //   };
+  //   Map<String, dynamic> depositorBody = {
+  //     "userId": selecteddepositorList?.id ?? 1,
+  //     "userName": selecteddepositorList?.name ?? '',
+  //     "email": selecteddepositorList?.email ?? '',
+  //   };
+  //   Map<String, dynamic> articleBody = {
+  //     "id": selectedArtclelist?.id ?? 0,
+  //   };
+  //   Map<String, dynamic> depositorDeptBody = {
+  //     "id": selectedEmployeedepartment?.id ?? 1,
+  //   };
+  //   Map<String, dynamic> foundBody = {
+  //     "status": widget.model?.status ?? 0,
+  //     "typeOfAsset": assetTypeTextController.text.isEmptyOrNull
+  //         ? ((assetTypeTextController.text.toLowerCase()) == 'company' ? 1 : 0)
+  //         : null,
+  //     "color":
+  //         colorTextController.text.isNotEmpty ? colorTextController.text : '',
+  //     // "slNo": serialNumber,
+  //     "typeOfArticle": articleBody,
+  //     "entrySecurity": entrySecurityBody,
+  //     "handoverSecurity": handOverSecurityBody,
+  //     "foundLocation": foundLocationTextController.text,
+  //     "quantity": quantityTextController.text.isNotEmpty
+  //         ? int.parse(quantityTextController.text)
+  //         : 0,
+  //     "additionalInformation": additionalinformationTextController.text,
+  //     "depositorDbEmp": isDepositorDBEmployeeSelectedValue,
+  //     "inputDate": inputdate,
+  //     "foundDate": foundDate,
+  //     "location": locationBody,
+  //     "depositorName": isDepositorDBEmployeeSelected == 1
+  //         ? selecteddepositorList?.name ?? ''
+  //         : depositorTextController.text.isNotEmpty
+  //             ? depositorTextController.text
+  //             : '',
+  //     "claimantName": isClaimantDBEmployeeSelected == 1
+  //         ? selectedClaimList?.name ?? ''
+  //         : claimantTextController.text.isNotEmpty
+  //             ? claimantTextController.text
+  //             : '',
+  //     "employeeId": depositorEmpIdTextController.text.isNotEmpty
+  //         ? depositorEmpIdTextController.text
+  //         : '',
+  //     "depositorDepartment": depositorDeptBody,
+  //     "depositor": depositorBody,
+  //     "eventProtection": widget.eventId,
+  //     "images": getFiles
+  //   };
+  //   Map<String, dynamic> requestBody = {
+  //     "found": foundBody,
+  //   };
+  //   var username = await SharedPrefs.getUsername();
+  //   showLoadingDialog(context);
+  //   await createFoundArticleCubit.createFoundArticleHandle(
+  //       requestBody,
+  //       isSubmit,
+  //       context,
+  //       username,
+  //       widget.model != null ? Constants.editFound : Constants.createFound);
+  // }
 
   /// Submit Form
   Future submitForm(
     bool isSubmit,
     int isFoundId, {
-    CreateFoundState? state,
+    required CreateFoundState state,
   }) async {
     log('-createRequestBody-----');
 
@@ -346,7 +353,7 @@ class _CreateFoundState extends State<CreateFound> {
     String? handoverDate;
     if (widget.model?.handoverDate != null) {
       handoverDate = widget.model?.handoverDate;
-    } else {
+    } else if (widget.model?.status == 1) {
       handoverDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     }
     // Utils.dateToTimestampConversion(
@@ -364,14 +371,18 @@ class _CreateFoundState extends State<CreateFound> {
         id: selectedArtclelist?.id ?? widget.model?.typeOfArticle?.id);
     User? entrySecurity = User(
         userId: userDetails?.userId ?? widget.model?.entrySecurity?.userId);
-    User? handoverSecurity = User(
-        userId:
-            widget.model?.handoverSecurity?.userId ?? handOverSecurity?.userId);
+    User? handoverSecurity = widget.model?.status ==
+            ConstantsIntValue.articleFoundStatusUnderSecurityCustody
+        ? User(userId: state?.loggedInUser?.userId ?? handOverSecurity?.userId)
+        : null;
+
+    log('-=state?.loggedInUser?.userId====${state?.loggedInUser?.userId}==');
+    // return;
 
     User? depositor = User(
         userId: selecteddepositorList?.id ?? widget.model?.depositor?.userId);
-    Organisation? location = Organisation(
-        id: locationSelectedlist?.id ?? widget.model?.location?.id);
+    // Organisation? location =
+    //     Organisation(id: selectedLocation?.id ?? widget.model?.location?.id);
     Organisation? depositorDepartment =
         selectedEmployeedepartment ?? widget.model?.depositorDepartment;
     List<ImageContent>? images =
@@ -390,7 +401,8 @@ class _CreateFoundState extends State<CreateFound> {
       );
     }
 
-    log('--claimantEmpIdTextController.text--${claimantEmpIdTextController.text}---');
+    log('--state?.slno--${state.slno}---');
+    log('--state.location--${state.location?.name}---');
     Found? found = Found(
         claimantConfirmByEmail: isClaimantSelectedByEmail,
         id: widget.model?.id,
@@ -402,7 +414,7 @@ class _CreateFoundState extends State<CreateFound> {
         claimantSign: widget.model?.claimantSign,
         handoverDate: handoverDate,
         claimantEmployeeId: int.tryParse(claimantEmpIdTextController.text),
-        slNo: serialNumber,
+        slNo: state.slno ?? '',
         images: images,
         typeOfAsset: !assetTypeTextController.text.isEmptyOrNull
             ? ((assetTypeTextController.text.toLowerCase()) == 'company'
@@ -428,7 +440,7 @@ class _CreateFoundState extends State<CreateFound> {
         foundDate: foundDate,
         entrySecurity: entrySecurity,
         handoverSecurity: handoverSecurity,
-        location: location,
+        location: state.location,
         depositorName: isDepositorDBEmployeeSelected == 1
             ? selecteddepositorList?.name ?? ''
             : depositorTextController.text.isNotEmpty
@@ -459,19 +471,22 @@ class _CreateFoundState extends State<CreateFound> {
         pageNumber.toString(), '20', userid, context);
   }
 
-  void _getFoundArticleList() async {
+  void getFoundArticleList() async {
     var userid = await SharedPrefs.getUserId();
     final bool isActive = await network_handler.networkChecking(context);
+    log('-----_getFoundArticleList----');
     if (isActive) {
       await createFoundArticleCubit.getUserByRoleDepositor(
-          ConstantUserRoles.atomStaticUser, context);
+          ConstantUserRoles.atomStaticUser, selectedLocation?.id);
       await createFoundArticleCubit.getLocations('ATOM_LOCATIONS', context);
       await createFoundArticleCubit.getEmployeeDepartments(
           'EMPLOYEE_DEPARTMENTS', context);
       await createFoundArticleCubit.getArticleType('ARTICLE_LIST', context);
-      if (widget.model == null) {
-        await createFoundArticleCubit.getUserDetails(userid, context);
-      }
+      // if (widget.model == null) {
+      await createFoundArticleCubit.getUserDetails(userid, context);
+      // }
+
+      log('-----iffffff----');
     } else {
       Utils.showAlertMessage("No Network connection", context);
     }
@@ -484,18 +499,18 @@ class _CreateFoundState extends State<CreateFound> {
     //you can implement different kind of Date Format here according to your requirement
     dateOfCreationTextController.text = formattedDate;
     statusTextController.text = 'Found';
-    handedoverdatedateTextController.text = formattedDate;
+    // handedoverdatedateTextController.text = formattedDate;
     setState(() {
       // dateinput.text = formattedDate; //set output date to TextField value.
     });
   }
 
-  createFoundValidations(BuildContext context) {
+  createFoundValidations(BuildContext context, CreateFoundState state) {
     if (statusTextController.text.isEmpty &&
         createdByValue.isEmpty &&
-        (locationSelectedlist?.name ?? "").isEmpty &&
+        (selectedLocation?.name ?? "").isEmpty &&
         dateOfCreationTextController.text.isEmpty &&
-        serialNumber.isEmpty &&
+        // serialNumber.isEmpty &&
         assetTypeTextController.text.isEmpty &&
         (selectedArtclelist?.name ?? "").isEmpty &&
         foundDateTextController.text.isEmpty &&
@@ -512,7 +527,7 @@ class _CreateFoundState extends State<CreateFound> {
         context,
         "Please fill all required fields",
       );
-    } else if ((locationSelectedlist?.name ?? "").isEmpty) {
+    } else if ((selectedLocation?.name ?? "").isEmpty) {
       Validator().showToast(
         context,
         "Please enter location",
@@ -522,12 +537,14 @@ class _CreateFoundState extends State<CreateFound> {
         context,
         "Please enter creator date",
       );
-    } else if (serialNumber.isEmpty) {
+    }
+    /*else if (serialNumber.isEmpty) {
       Validator().showToast(
         context,
         "Please enter serial number",
       );
-    } else if (assetTypeTextController.text.isEmpty) {
+    }*/
+    else if (assetTypeTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter asset type",
@@ -615,10 +632,10 @@ class _CreateFoundState extends State<CreateFound> {
             Validator().showToast(context, "Please enter claimant");
           }
         } else {
-          submitForm(true, widget.model?.id ?? 0);
+          submitForm(true, widget.model?.id ?? 0, state: state);
         }
       } else {
-        submitForm(true, widget.model?.id ?? 0);
+        submitForm(true, widget.model?.id ?? 0, state: state);
       }
     }
   }
@@ -686,6 +703,9 @@ class _CreateFoundState extends State<CreateFound> {
   }
 
   depositorDialog(CreateFoundState state, String name) {
+    state.getDepositorResponse?.atomStaticUser
+        ?.removeWhere((u) => u.email == state.model.depositor?.email);
+
     showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
@@ -702,6 +722,7 @@ class _CreateFoundState extends State<CreateFound> {
                     return CreateFoundNewUser(
                       title: Constants.createnewuser,
                       createoundstate: state,
+                      locationId: state.location!.id!,
                     );
                   });
             },
@@ -753,11 +774,11 @@ class _CreateFoundState extends State<CreateFound> {
   }
 
   initiallyLocationandSerialnumberdataset(CreateFoundState state) async {
-    if (locationSelectedlist == null &&
+    if (selectedLocation == null &&
         state.location != null &&
         widget.model == null) {
-      locationSelectedlist = state.location;
-      locationselectedText = locationSelectedlist!.name.toString();
+      selectedLocation = state.location;
+      locationselectedText = selectedLocation!.name.toString();
     }
   }
 
@@ -814,6 +835,7 @@ class _CreateFoundState extends State<CreateFound> {
               backBtn: IconButton(
                 onPressed: () {
                   Navigator.pop(context);
+                  CommonServices().unlock();
                   //Navigator.pop(context);
                   // Navigator.popAndPushNamed(
                   //   context,
@@ -837,7 +859,7 @@ class _CreateFoundState extends State<CreateFound> {
                       //for now the new param is isSubmit added, if any new params needed we can add to this.
                       //createNewuserBody(false); //for save
                       //createdraftValidations(context);
-                      submitForm(false, 0);
+                      submitForm(false, 0, state: state);
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(right: 20.0),
@@ -858,7 +880,7 @@ class _CreateFoundState extends State<CreateFound> {
                     onTap: () async {
                       //loginFormKey.currentState!.validate();
                       FocusScope.of(context).unfocus();
-                      createFoundValidations(context);
+                      createFoundValidations(context, state);
                     },
                     child: const Padding(
                       padding: EdgeInsets.only(right: 20.0),
@@ -907,10 +929,10 @@ class _CreateFoundState extends State<CreateFound> {
                     ConstantsIntValue.articleFoundStatusHandedOverOrClaimed) {
                   isSignatureReadOnly = true;
                 }
-                if (widget.extraProperties != null &&
-                    !widget.extraProperties!.hasWritePermission!) {
-                  isDisabled = true;
-                }
+                // if (widget.extraProperties != null &&
+                //     !widget.extraProperties!.hasWritePermission!) {
+                //   isDisabled = true;
+                // }
                 if (!state.model.lock.isEmptyOrNull) {
                   isDisabled = true;
                 }
@@ -932,6 +954,7 @@ class _CreateFoundState extends State<CreateFound> {
                 // }
                 initiallyLocationandSerialnumberdataset(state);
                 if (widget.model == null) {
+                  log('---Create New Record---');
                   userDetails = state.loggedInUser ?? User();
                   handOverSecurity = state.loggedInUser ?? User();
                   if (userDetails != null) {
@@ -947,11 +970,13 @@ class _CreateFoundState extends State<CreateFound> {
                   claimant = selectedClaimList?.name ?? '';
                 }
 
-                serialnumberResponse = state.getSerialnumberResponse;
-                log('---serialnumberResponse---${serialnumberResponse?.serialNo}----');
-                if (serialnumberResponse != null) {
-                  serialNumber = serialnumberResponse?.serialNo ?? "";
-                }
+                // if (widget.model == null || widget.model!.slNo.isEmptyOrNull) {
+                //   serialnumberResponse = state.slno;
+                //   log('---serialnumberResponse---${serialnumberResponse?.serialNo}----');
+                //   if (serialnumberResponse != null) {
+                //     serialNumber = serialnumberResponse?.serialNo ?? "";
+                //   }
+                // }
                 return Container(
                   color: AppColors.navigationSkyBlueColor,
                   child: SingleChildScrollView(
@@ -1057,7 +1082,33 @@ class _CreateFoundState extends State<CreateFound> {
                                       isMandatory: true),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
-                                  locationWidgetdislay(state),
+                                  // locationWidgetdislay(state),
+                                  BaseLocationDropdown().locationWidgetDisplay(
+                                      isEnabled: widget.model?.status == null ||
+                                          widget.model?.status == 0,
+                                      context: context,
+                                      locations: state.locations ?? Locations(),
+                                      selectedLocationName:
+                                          state.model.location?.name ?? '',
+                                      onTap: (Organisation location) async {
+                                        // BlocProvider.of<MaterialMovementDetailsCubit>(
+                                        //     context)
+                                        //     .updateLocationDropdownValue(
+                                        //     location: location);
+
+                                        await createFoundArticleCubit
+                                            .getSerialnumberDetails(
+                                                location.id.toString() ?? '',
+                                                Constants
+                                                    .articleFoundModuleCode,
+                                                location);
+                                        locationselectedText =
+                                            location.name ?? '';
+                                        state.model.location?.name =
+                                            location.name ?? '';
+                                        selectedLocation = location;
+                                        setState(() {});
+                                      }),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
 
@@ -1076,13 +1127,12 @@ class _CreateFoundState extends State<CreateFound> {
                                       height * 0.01),
 
                                   /// slno
-
                                   CommonWidgets.horizentaltextHandling(
                                       state.labels?.locale.foundSlNo ??
                                           state.labels?.defaultLocale
                                               .foundSlNo ??
                                           Constants.slno,
-                                      serialNumber,
+                                      '${state.slno}',
                                       isMandatory: true),
 
                                   CommonWidgets.verticalSpacerWidget(
@@ -1561,7 +1611,7 @@ class _CreateFoundState extends State<CreateFound> {
                                           )
                                         : Container(),
 
-                                    ///claimant
+                                    /// claimant
                                     CommonWidgets.textDisplay(
                                         state.labels?.locale.foundClaimant ??
                                             state.labels?.defaultLocale
@@ -1781,19 +1831,6 @@ class _CreateFoundState extends State<CreateFound> {
                                             )
                                           : Container(),
 
-                                      ///TODO: Need to work on signature
-                                      if (isClaimantAcceptedtoSignSelected ==
-                                          1) ...[
-                                        /// Claimant Signature
-                                        buildSignature(
-                                            controller:
-                                                claimantSignatureController,
-                                            label: Constants.claimantSignature,
-                                            spaceHeight: height,
-                                            state: state,
-                                            isReadOnly: isSignatureReadOnly),
-                                      ],
-
                                       /// is claimant confirmed by email
 
                                       widget.model != null &&
@@ -1831,40 +1868,76 @@ class _CreateFoundState extends State<CreateFound> {
                                             )
                                           : Container(),
                                     ],
+
+                                    if ((isClaimantDBEmployeeSelected == 1 &&
+                                            isClaimantAcceptedtoSignSelected ==
+                                                1) ||
+                                        isClaimantDBEmployeeSelected == 0) ...[
+                                      /// Claimant Signature
+                                      buildSignature(
+                                          controller:
+                                              claimantSignatureController,
+                                          label: Constants.claimantSignature,
+                                          spaceHeight: height,
+                                          state: state,
+                                          isReadOnly: isSignatureReadOnly),
+                                    ],
                                   ],
 
-                                  /// Item Handover By
                                   if (widget.model?.status == 2 ||
                                       widget.model?.status == 1) ...[
-                                    CommonWidgets.horizentaltextHandling(
-                                        state.labels?.locale
-                                                .foundHandoverSecurity ??
+                                    if (!handedoverdatedateTextController
+                                            .text.isEmptyOrNull &&
+                                        widget.model != null &&
+                                        widget.model!.status! >
+                                            ConstantsIntValue
+                                                .articleFoundStatusUnderSecurityCustody) ...[
+                                      /// Item Handover By
+                                      CommonWidgets.horizentaltextHandling(
+                                          state.labels?.locale
+                                                  .foundHandoverSecurity ??
+                                              state.labels?.defaultLocale
+                                                  .foundHandoverSecurity ??
+                                              Constants.itemhandoverby,
+                                          // widget.model?.status == 2
+                                          //     ? '${state.loggedInUser?.firstName ?? ''} ${state.loggedInUser?.lastName ?? ''}'
+                                          //     : '',
+                                          '${widget.model?.handoverSecurity != null ? widget.model?.handoverSecurity?.firstName : state.loggedInUser?.firstName ?? ''} ${widget.model?.handoverSecurity != null ? widget.model?.handoverSecurity?.lastName : state.loggedInUser?.lastName ?? ''}',
+                                          isMandatory: true),
+
+                                      /// Handed over date
+
+                                      CommonWidgets.textDisplay(
+                                        state.labels?.locale.foundHandoverDate ??
                                             state.labels?.defaultLocale
-                                                .foundHandoverSecurity ??
-                                            Constants.itemhandoverby,
-                                        // widget.model?.status == 2
-                                        //     ? '${state.loggedInUser?.firstName ?? ''} ${state.loggedInUser?.lastName ?? ''}'
-                                        //     : '',
-                                        '${widget.model?.handoverSecurity != null ? widget.model?.handoverSecurity?.firstName : state.loggedInUser?.firstName ?? ''} ${widget.model?.handoverSecurity != null ? widget.model?.handoverSecurity?.lastName : state.loggedInUser?.lastName ?? ''}',
-                                        isMandatory: true),
-
-                                    /// Handed over date
-
-                                    CommonWidgets.textDisplay(
-                                      state.labels?.locale.foundHandoverDate ??
-                                          state.labels?.defaultLocale
-                                              .foundHandoverDate ??
-                                          Constants.handedoverdate,
-                                      Styles.textStyleBlack14,
-                                      isMandatory: true,
-                                    ),
+                                                .foundHandoverDate ??
+                                            Constants.handedoverdate,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true,
+                                      ),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      datepickerWidgetLoading(
+                                          handedoverdatedateTextController),
+                                    ],
                                     CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001),
-                                    datepickerWidgetLoading(
-                                        handedoverdatedateTextController),
+                                        height * 0.01),
+
+                                    /// Rejection Comment
+                                    if (!widget.model!.rejectionComment
+                                        .isEmptyOrNull) ...[
+                                      CommonWidgets.horizentaltextHandling(
+                                          state.labels?.locale
+                                                  .foundRejectionComment ??
+                                              state.labels?.defaultLocale
+                                                  .foundRejectionComment ??
+                                              Constants.rejectionComment,
+                                          widget.model?.rejectionComment ?? '',
+                                          isMandatory: true),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+                                    ],
                                   ],
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
 
                                   /// upload
                                   if (widget.model == null ||
@@ -1876,8 +1949,7 @@ class _CreateFoundState extends State<CreateFound> {
                                       onImageSelected: (ImageContent data) {
                                         List<ImageContent>? files = [];
                                         files.add(data);
-                                        for (ImageContent image
-                                            in getFiles) {
+                                        for (ImageContent image in getFiles) {
                                           files.add(image);
                                         }
                                         BlocProvider.of<
@@ -1932,7 +2004,8 @@ class _CreateFoundState extends State<CreateFound> {
                           ),
                         ),
                         if (widget.model?.status == 2 ||
-                            widget.model?.status == -1) ...[
+                            widget.model?.status == -1 ||
+                            !state.model.lock.isEmptyOrNull) ...[
                           Container(
                             padding: const EdgeInsets.all(5.0),
                             decoration: const ShapeDecoration(
@@ -1949,6 +2022,7 @@ class _CreateFoundState extends State<CreateFound> {
                               ],
                             ),
                           ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.03),
                         ],
                       ],
                     ),
@@ -2078,7 +2152,7 @@ class _CreateFoundState extends State<CreateFound> {
       onTap: () async {
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
-        createFoundValidations(context);
+        createFoundValidations(context, state);
       },
     );
   }
@@ -2092,6 +2166,7 @@ class _CreateFoundState extends State<CreateFound> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }
@@ -2148,14 +2223,14 @@ class _CreateFoundState extends State<CreateFound> {
             context: context,
             builder: (BuildContext dialogContext) {
               return CustomExpansionListTexts(
-                locationList: state.getLocationsResponse ?? Locations(),
-                onTap: (Organisation? list) async {
+                locationList: state.locations ?? Locations(),
+                onTap: (Organisation location) async {
                   await createFoundArticleCubit.getSerialnumberDetails(
-                      list?.id.toString() ?? '',
+                      location.id.toString() ?? '',
                       Constants.articleFoundModuleCode,
-                      context);
-                  locationselectedText = list?.name ?? '';
-                  locationSelectedlist = list;
+                      location);
+                  locationselectedText = location.name ?? '';
+                  selectedLocation = location;
                   setState(() {});
                 },
               );

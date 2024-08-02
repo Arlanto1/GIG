@@ -22,7 +22,16 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         );
   CommonServices commonServices = CommonServices();
 
+  void initializeValuesForExistingRecord(
+      {required FoundListArticleDetails model}) {
+    log('--initializeValuesForExistingRecord----');
+    emit(state.copyWith(
+      slno: model.slNo,
+    ));
+  }
+
   Future<void> initializeValues(FoundListArticleDetails? model) async {
+    log('----initializeValues-----');
     //Show Loader and emit loading state
     emit(
       state.copyWith(
@@ -39,19 +48,22 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
           await commonServices.getUserDetails(userId: userId);
       Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
 
-      SerialNumberModel serialNumberResponse;
-      serialNumberResponse = await commonServices.getSlNo(
-        locationId: defaultLocation!.id.toString(),
-        moduleCode: Constants.articleFoundModuleCode,
-      );
-
-      model.location = defaultLocation;
-      model.slNo = serialNumberResponse.serialNo;
+      SerialNumberModel? serialNumberResponse;
+      log('---defaultLocation--${defaultLocation?.name}----');
+      if (model.slNo.isEmptyOrNull) {
+        log('----model.slNo.isEmptyOrNull-----');
+        serialNumberResponse = await commonServices.getSlNo(
+          locationId: defaultLocation!.id.toString(),
+          moduleCode: Constants.articleFoundModuleCode,
+        );
+        model.slNo = serialNumberResponse.serialNo;
+        model.location = defaultLocation;
+      }
       emit(
         state.copyWith(
           model: model,
-          location: defaultLocation,
-          getSerialnumberResponse: serialNumberResponse,
+          location: model.location,
+          slno: serialNumberResponse?.serialNo,
           loggedInUser: loggedInUserDetails,
         ),
       );
@@ -204,14 +216,13 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   }
 
   // get depositor user by role API call
-  Future<void> getUserByRoleDepositor(
-      String userRole, BuildContext context) async {
+  Future<void> getUserByRoleDepositor(String userRole, int? locationId) async {
     try {
       // GetDepositor getDepositorData =
       //     await createFoundServices.getUserByRoleDepositor(userRole, context);
 
       GetDepositor getDepositorData = await commonServices.getAtomStaticUsers(
-          roleName: userRole, context: context);
+          roleName: userRole, locationId: locationId);
 
       emit(
         state.copyWith(
@@ -240,7 +251,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       emit(
         state.copyWith(
           model: model,
-          getLocationsResponse: getLocationsData,
+          locations: getLocationsData,
           status: FormStatus.initial,
         ),
       );
@@ -421,7 +432,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
 
   // Create user call
   Future<void> createUser(String firstName, String lastName, String email,
-      String role, BuildContext context) async {
+      String role, int locationId, BuildContext context) async {
     try {
       // CreateUserModel createUserData = await createFoundServices.createUser(
       //     firstName, lastName, email, role, context);
@@ -431,6 +442,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         lastName: lastName,
         email: email,
         role: role,
+        locationId: locationId,
         context: context,
       );
       emit(
@@ -442,7 +454,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       );
       dismissLoadingDialog(context);
       await createFoundArticleCubit.getUserByRoleDepositor(
-          'ATOM_STATIC_USER', context);
+          'ATOM_STATIC_USER', state.location?.id);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
             context, 'Added successfully', Constants.newuser, '');
@@ -475,6 +487,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     try {
       User user =
           await commonServices.getUserDetails(userId: userId, context: context);
+      log('-----iffffff---useruser-----${user.userId}-');
 
       emit(
         state.copyWith(
@@ -496,14 +509,24 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
 
   // Serialnumber api  call
   Future<void> getSerialnumberDetails(
-      String locationId, String moduleCode, BuildContext context) async {
+    String locationId,
+    String moduleCode,
+    Organisation location,
+  ) async {
+    log('Will Generate New Serial Number.');
     try {
       SerialNumberModel response = await commonServices.getSlNo(
-          locationId: locationId, moduleCode: moduleCode, context: context);
+          locationId: locationId, moduleCode: moduleCode);
+
+      GetDepositor getDepositorData = await commonServices.getAtomStaticUsers(
+          roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
+
       emit(
         state.copyWith(
-          model: model,
-          getSerialnumberResponse: response,
+          // model: model,
+          getDepositorResponse: getDepositorData,
+          location: location,
+          slno: response.serialNo,
           status: FormStatus.initial,
         ),
       );

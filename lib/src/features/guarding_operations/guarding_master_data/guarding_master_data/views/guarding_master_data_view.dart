@@ -179,6 +179,18 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                                     value: state.list[index].location?.name ??
                                         ''));
                                 labels.add(Label(
+                                    key: state.labels?.locale.vendor ??
+                                        state.labels?.defaultLocale.vendor ??
+                                        'Vendor',
+                                    value:  state.list[index].vendor?.name ?? ''));
+                                labels.add(Label(
+                                    key: state.labels?.locale.guard ??
+                                        state.labels?.defaultLocale
+                                            .guard ??
+                                        'Guard Name',
+                                    value:
+                                    '${state.list[index].guard?.firstName ?? ''} ${state.list[index].guard?.lastName ?? ''}'));
+                                labels.add(Label(
                                     key: state.labels?.locale.entrySecurity ??
                                         state.labels?.defaultLocale
                                             .entrySecurity ??

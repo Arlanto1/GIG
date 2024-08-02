@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_bloc.dart';
+import 'package:email_validator/email_validator.dart';
 
 class AddVisitingOfficialPopUp extends StatefulWidget {
   const AddVisitingOfficialPopUp({
@@ -36,16 +37,21 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
   TextEditingController contactNoController = TextEditingController();
   final FocusNode officeAddressFocusNode = FocusNode();
 
+  late List<Organisation> updatedDepartmentList;
+
   @override
   void initState() {
     super.initState();
-
     nameController.text = widget.model.name ?? '';
     departmentController.text = widget.model.department?.name ?? '';
     designationController.text = widget.model.designation ?? '';
     officeAddressController.text = widget.model.address ?? '';
     emailIdController.text = widget.model.email ?? '';
     contactNoController.text = widget.model.contactNo ?? '';
+
+    /// updated department list after adding new department
+    updatedDepartmentList = widget.departments;
+
   }
 
   @override
@@ -145,7 +151,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                           if (widget.showSaveButton) {
                             BaseOrganisationDialog().departmentDialog(
                                 context: context,
-                                organisations: widget.departments,
+                                organisations: updatedDepartmentList,
                                 onTap: (Organisation user) {
                                   log('-user.name----${user.name}-');
 
@@ -159,13 +165,19 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                                   FocusScope.of(context)
                                       .requestFocus(officeAddressFocusNode);
                                 },
+                                leftImage: true,
                                 orgName: 'ATOM_LEO_DEPARTMENTS',
-                                createEntity: false,
+                                createEntity: true,
                                 title: Constants.department,
-                                functionToCall: () {
-                                  BlocProvider.of<VisitingOfficialListBloc>(
-                                          context)
-                                      .add(const RefreshList());
+                                functionToCall: () async {
+                                  updatedDepartmentList =
+                                      await CommonServices().getOrganisations(
+                                    name: 'ATOM_LEO_DEPARTMENTS',
+                                  );
+
+                                  // BlocProvider.of<VisitingOfficialListBloc>(
+                                  //         context)
+                                  //     .add(const RefreshList());
                                 });
                           }
                         },
@@ -335,9 +347,17 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
           status: false, message: 'Please enter Office Address');
     }
 
-    if (!widget.model.email.isEmptyOrNull &&!Validator.emailValidation(widget.model.email!) ) {
+    if (widget.model.contactNo.isEmptyOrNull) {
       return const ErrorResponse(
-          status: false, message: 'Please enter valid Email Address.');
+          status: false, message: 'Please enter Phone Number.');
+    }
+
+    if (!widget.model.email.isEmptyOrNull &&
+        !EmailValidator.validate(widget.model.email!)) {
+      return const ErrorResponse(
+        status: false,
+        message: 'Please enter a email.',
+      );
     }
     if ((!Utils().isNumeric(widget.model.contactNo!) ||
             widget.model.contactNo!.length < 10 ||
@@ -348,10 +368,6 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
         message: 'Please enter a valid contact number.',
       );
     }
-    // if (widget.model.contactNo.isEmptyOrNull) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Contact No.');
-    // }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }

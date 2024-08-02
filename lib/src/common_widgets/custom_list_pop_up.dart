@@ -135,6 +135,15 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
               ],
             ),
           ],
+          if (widget.userItem?.typeOfArticle != null) ...[
+            CommonWidgets.verticalSpacerWidget(8),
+            Row(
+              children: [
+                textHandling('Article Type : ',
+                    widget.userItem?.typeOfArticle?.name ?? " "),
+              ],
+            ),
+          ],
           if (widget.userItem?.color != null) ...[
             CommonWidgets.verticalSpacerWidget(8),
             Row(

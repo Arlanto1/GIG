@@ -33,8 +33,7 @@ class VIVPVisitorRecordModel {
         endDateVisit = json['endDateVisit'] as String?,
         lock = json['lock'] as String?;
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
         'email': email,

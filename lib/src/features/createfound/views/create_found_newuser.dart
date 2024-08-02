@@ -27,12 +27,14 @@ class CreateFoundNewUser extends StatefulWidget {
     this.lawstate,
     this.createoundstate,
     this.createpassmgmtstate,
+    required this.locationId,
   });
 
   final String title;
   final LawEnforcementState? lawstate;
   final CreateFoundState? createoundstate;
   final CreatePassMgmtState? createpassmgmtstate;
+  final int locationId;
 
   @override
   State<CreateFoundNewUser> createState() => CreateFoundNewUserState();
@@ -53,21 +55,22 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
     //_getFoundNewuser();
   }
 
-  void _getFoundNewuser(String firstname, String lastname, String email) async {
+  void _getFoundNewuser(
+      String firstname, String lastname, String email, int locationId) async {
     showLoadingDialog(context);
     if (widget.createoundstate != null) {
       log('---_getFoundNewuser------');
       await createFoundArticleCubit.createUser(
-          firstname, lastname, email, 'ATOM_STATIC_USER', context);
+          firstname, lastname, email, 'ATOM_STATIC_USER', locationId, context);
     } else if (widget.createpassmgmtstate != null) {
       CreatePassMgmtCubit createPassMgmtCubit = CreatePassMgmtCubit(
           createpassmgmtServices:
               createpassmgmtServices); // Instantiate CreatePassMgmtCubit
       await createPassMgmtCubit.createUser(
-          firstname, lastname, email, 'ATOM_STATIC_USER', context);
+          firstname, lastname, email, 'ATOM_STATIC_USER', locationId, context);
     } else if (widget.lawstate != null) {
       await lawEnforcementCubit.createUser(
-          firstname, lastname, email, 'ATOM_STATIC_USER', context);
+          firstname, lastname, email, 'ATOM_STATIC_USER', locationId, context);
     }
   }
 
@@ -219,7 +222,7 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
         } else {
           try {
             _getFoundNewuser(firstnameTextController.text,
-                lastnameTextController.text, emailTextController.text);
+                lastnameTextController.text, emailTextController.text, widget.locationId);
           } catch (e) {
             // present userwith error message
           }

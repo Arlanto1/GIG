@@ -9,7 +9,8 @@ class CommonApis {
   // static const String v2 = '/v2';
   static final String _getUiLabels = '$baseUrl/getLabels?';
   static final String _getOrganisations = '$baseUrl/getOrganisation?name=';
-  static final String _getLocationsNew = '$baseUrl/getAtomLocations?isSezLocations=';
+  static final String _getLocationsNew =
+      '$baseUrl/getAtomLocations?isSezLocations=';
   static final String _getArticleType = '$baseUrl/getOrganisation?name=';
   static final String _getUserDetails = '$baseUrl/getUserDetails?userId=';
   static final String _getSlNo = '$baseUrl/getSlNo?';
@@ -29,19 +30,20 @@ class CommonApis {
   static final String _getStatusesByModuleId = '$baseUrl/getStatus?';
   static final String _getModuleAccessByUserRole =
       '$baseUrl/getModuleAccessByUserRole?';
+  static final String _unlock = '$baseUrl/unlock';
+  static final String _logout = '$baseUrl/logout';
 
-  static const String exportDetailPagePDF =
-      'exportDeatilPagePDF?id=';
-
+  static const String exportDetailPagePDF = 'exportDeatilPagePDF?id=';
 }
 
 class CommonServices {
-  Future<dynamic> getUiLabels({
-    required String language,
-    required String moduleCode,
-    BuildContext? context,f
-  }) async {
-    String url = '${CommonApis._getUiLabels}locale=$language&module=$moduleCode';
+  Future<dynamic> getUiLabels(
+      {required String language,
+      required String moduleCode,
+      BuildContext? context,
+      f}) async {
+    String url =
+        '${CommonApis._getUiLabels}locale=$language&module=$moduleCode';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -211,9 +213,12 @@ class CommonServices {
 
   Future<Analyst> getUsersByRole({
     required String roleName,
-    BuildContext? context,
+    int? locationId,
   }) async {
     String url = '${CommonApis._getUsersByRole}$roleName';
+    if (locationId != null) {
+      url = '$url&locationId=$locationId';
+    }
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -222,9 +227,13 @@ class CommonServices {
 
   Future<List<BaseUser>> getBaseUsers({
     required String roleName,
+    int? locationId,
     BuildContext? context,
   }) async {
     String url = '${CommonApis._getUsersByRole}$roleName';
+    if (locationId != null) {
+      url = '$url&locationId=$locationId';
+    }
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -238,9 +247,13 @@ class CommonServices {
 
   Future<List<BaseUser>> getBaseUsersByRoles({
     required String roleNames,
+    int? locationId,
     BuildContext? context,
   }) async {
     String url = '${CommonApis._getUsersByRoles}$roleNames';
+    if (locationId != null) {
+      url = '$url&locationId=$locationId';
+    }
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -251,9 +264,12 @@ class CommonServices {
 
   Future<GetDepositor> getAtomStaticUsers({
     required String roleName,
-    BuildContext? context,
+    int? locationId,
   }) async {
     String url = '${CommonApis._getUsersByRole}$roleName';
+    if (locationId != null) {
+      url = '$url&locationId=$locationId';
+    }
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -307,10 +323,11 @@ class CommonServices {
     required String lastName,
     required String email,
     required String role,
+    required int locationId,
     BuildContext? context,
   }) async {
     final String url =
-        "${CommonApis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role";
+        "${CommonApis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role&locationId=$locationId";
     final response =
         await BaseApiService().postRequest(url: url, requestedData: {});
     return CreateUserModel.fromJson(response);
@@ -392,10 +409,21 @@ class CommonServices {
     BuildContext? context,
     int? filter,
   }) async {
-    String url = '${CommonApis._getModuleAccessByUserRole}moduleCode=$moduleCode';
+    String url =
+        '${CommonApis._getModuleAccessByUserRole}moduleCode=$moduleCode';
     final response = await BaseApiService().getRequest(
       url: url,
     );
     return response['hasWritePermission'] as bool;
+  }
+
+  Future<void> unlock() async {
+    final String url = CommonApis._unlock;
+    await BaseApiService().postRequest(url: url, requestedData: {});
+  }
+
+  Future<void> logout() async {
+    final String url = CommonApis._logout;
+    await BaseApiService().postRequest(url: url, requestedData: {});
   }
 }

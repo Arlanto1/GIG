@@ -31,7 +31,6 @@ class CreatePassMgmtService {
   /// get Entities api call
   Future<AddEntities> getEntities({
     required String name,
-    required BuildContext context,
   }) async {
     String url = '${Apis.getOrganisation}$name';
     final response = await BaseApiService().getRequest(
@@ -42,8 +41,12 @@ class CreatePassMgmtService {
 
   Future<GetDepositor> getUserByRoleDepositor({
     required String roleName,
+    int? locationId,
   }) async {
     String url = '${Apis._getUsersByRole}$roleName';
+    if (locationId != null) {
+      url = '$url&locationId=$locationId';
+    }
     final response = await BaseApiService().getRequest(
       url: url,
     );

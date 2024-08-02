@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
@@ -56,13 +57,13 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         Utils.dynamicAlert(context, 'Added sucessfully', title, '');
       });
     } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          model: model,
-          message: Constants.errorText,
-          status: FormStatus.failure,
-        ),
-      );
+      // emit(
+      //   state.copyWith(
+      //     model: model,
+      //     message: e.message,
+      //     status: FormStatus.failure,
+      //   ),
+      // );
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(context, e.message ?? '', Constants.addarticletype,
@@ -79,7 +80,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       emit(
         state.copyWith(
           model: model,
-          message: Constants.errorText,
+          message: e.toString(),
           status: FormStatus.failure,
         ),
       );
@@ -209,17 +210,20 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
 
   // Serialnumber api  call
   Future<void> getSerialnumberDetails(
-    String locationId,
+    int locationId,
     String moduleCode,
   ) async {
+    log('----Generate Serial Number-----------');
     try {
       SerialNumberModel response = await services.getSerialnumberDetails(
         locationId,
         moduleCode,
       );
+
+      getDBofficialByRoleDepositor(ConstantUserRoles.atomStaticUser,locationId);
       emit(
         state.copyWith(
-          getSerialnumberResponse: response,
+          slno: response.serialNo,
           status: FormStatus.success,
         ),
       );
@@ -371,7 +375,16 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
-  initializeValues() async {
+  initializeValuesForExistingRecord({
+    required LawEnforcementDetailsModel model,
+  }) async {
+    emit(state.copyWith(
+      slno: model.slNo,
+    ));
+  }
+
+  initializeValuesForNewRecord() async {
+    log('---initializeValues--');
     lawEnforcementCubit.state.visitingOfficials = [];
     state.getVisitsCount = 0;
     state.selectedemployeeDepartmentResponse = Organisation();
@@ -387,7 +400,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     state.isOfficialIdcardSelected = 1;
     state.dBOfficialEmailIdAccompaniedLeoOfficial = BaseUser();
     state.serialnumberResponse?.serialNo = '';
-    state.getSerialnumberResponse = SerialNumberModel();
+    state.slno = '';
 
     Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
 
@@ -397,9 +410,11 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       moduleCode: Constants.leoModuleCode,
     );
 
+    log('---initializeValues---${serialNumberResponse.serialNo}-');
+
     emit(state.copyWith(
       locationSelectedlist: defaultLocation,
-      getSerialnumberResponse: serialNumberResponse,
+      slno: serialNumberResponse.serialNo,
     ));
   }
 
@@ -425,14 +440,10 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
 
   // Create user call
   Future<void> createUser(String firstName, String lastName, String email,
-      String role, BuildContext context) async {
+      String role, int locationId, BuildContext context) async {
     try {
       CreateUserModel createUserData = await services.createUser(
-        firstName,
-        lastName,
-        email,
-        role,
-      );
+          firstName, lastName, email, role, locationId);
       emit(
         state.copyWith(
           createUserResponse: createUserData,
@@ -440,8 +451,8 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         ),
       );
       dismissLoadingDialog(context);
-      await lawEnforcementCubit.getDBofficialByRoleDepositor(
-          ConstantUserRoles.atomStaticUser, context);
+      await lawEnforcementCubit
+          .getDBofficialByRoleDepositor(ConstantUserRoles.atomStaticUser,locationId);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
             context, 'Added successfully', Constants.newuser, '');
@@ -502,11 +513,11 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   // get DB Official email ID Accompanied LEO official API call
-  Future<void> getDBofficialByRoleDepositor(
-      String roleName, BuildContext context) async {
+  Future<void> getDBofficialByRoleDepositor(String roleName,int? locationId) async {
     try {
-      GetDepositor getDepositorData = await services.getDBOfficialdepartments(
-        roleName,
+      List<BaseUser>? getDepositorData = await commonServices.getBaseUsers(
+        roleName: roleName,
+        locationId: locationId,
       );
       emit(
         state.copyWith(
@@ -634,7 +645,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
-  getSerialnumberResponse(SerialNumberModel? serialnumberResponse) async {
+  setSerialnumberResponse(SerialNumberModel? serialnumberResponse) async {
     try {
       emit(
         state.copyWith(

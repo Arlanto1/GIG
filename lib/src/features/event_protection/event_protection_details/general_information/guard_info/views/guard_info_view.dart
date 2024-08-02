@@ -68,7 +68,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
-            title: Constants.guardInformation,
+            title: '2222',
             showPopUp: false,
             showSaveButton: state.guardInfoModel.status != 4 ? true : false,
             showSubmitButton: state.guardInfoModel.status != 4 ? true : false,
@@ -625,7 +625,6 @@ class _GuardInfoViewState extends State<GuardInfoView> {
 
   Widget cancelButtonDisplay() {
     return AppButton(
-      
       width: Constants.cancelButtonWidth,
       backgroundColor: Colors.white,
       key: const Key(Keys.cancelButton),
@@ -633,6 +632,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

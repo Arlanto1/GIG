@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/views/add_power_failure_dates_pop_up.dart';
+import 'package:intl/intl.dart';
 
 class OccurrenceDetails extends StatefulWidget {
   final String title;
@@ -26,10 +27,6 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
   bool disableForm = true;
   bool showPowerFailureDates = false;
   bool isReadOnly = false;
-
-  get guardingMasterData => null;
-
-  get model => null;
 
   @override
   void initState() {
@@ -93,10 +90,13 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
         if (state.model.status == ConstantsIntValue.submitted) {
           isReadOnly = state.isReadOnly ?? true;
         }
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
+        if (!state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   isReadOnly = true;
+        // }
         showSaveSubmitButtons = (state.model.status == 0 ||
                 state.model.status == null ||
                 !isReadOnly) &&
@@ -290,6 +290,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                         },
                                         roleName: ConstantUserRoles
                                             .atomGuardingStaffUser,
+                                        locationId: state.model.location!.id!,
                                         functionToCall: () {
                                           // refresh the list
                                           BlocProvider.of<
@@ -311,13 +312,12 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
-                              locationWidgetdislay(
-                                  selectedLocation:
+                              BaseLocationDropdown().locationWidgetDisplay(
+                                  selectedLocationName:
                                       state.model.location?.name ?? '',
-                                  enabled: state.model.id == null ||
-                                      (state.model.location?.name ?? '')
-                                          .isEmpty,
-                                  locations: state.locations,
+                                  isEnabled: !isReadOnly,
+                                  context: context,
+                                  locations: state.locations!,
                                   onTap: (Organisation? location) async {
                                     log('location?.name-----${location?.name}');
 
@@ -325,7 +325,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
 
                                     BlocProvider.of<OccurrenceGeneralInfoCubit>(
                                             context)
-                                        .updateDropdownValues(
+                                        .updateLocationDropdownValue(
                                             location: location);
                                   }),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -718,7 +718,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   if (state.model.status !=
-                                      ConstantsIntValue.submitted) ...[
+                                          ConstantsIntValue.submitted &&
+                                      !isReadOnly) ...[
                                     const SizedBox(width: 14),
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
@@ -859,7 +860,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               child: Row(
                                 children: <Widget>[
                                   if (state.model.status !=
-                                      ConstantsIntValue.submitted) ...[
+                                          ConstantsIntValue.submitted &&
+                                      !isReadOnly) ...[
                                     const SizedBox(width: 14),
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
@@ -1046,17 +1048,23 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 Constants.securitySystemSLAList,
                                 Styles.textStyleBlack14),
                             GestureDetector(
-                              onTap: () {
-                                if (isReadOnly) {
-                                  return;
-                                }
-                                openSecuritySystemSLATypePopUp(
-                                    state: state, showListing: false);
-                              },
+                              // onTap: () {
+                              //   if (isReadOnly) {
+                              //     return;
+                              //   }
+                              //   openSecuritySystemSLATypePopUp(
+                              //       state: state, showListing: false);
+                              // },
+                              onTap: () => navigateToCreateIncident(
+                                state: state,
+                                occType: 1,
+                                isSSTIncident: true,
+                              ),
                               child: Row(
                                 children: <Widget>[
                                   if (state.model.status !=
-                                      ConstantsIntValue.submitted) ...[
+                                          ConstantsIntValue.submitted &&
+                                      !isReadOnly) ...[
                                     const SizedBox(width: 14),
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
@@ -1546,42 +1554,43 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
     );
   }
 
-  openSecuritySystemSLATypePopUp({
-    required OccurrenceGeneralInfoState state,
-    required bool showListing,
-  }) {
-    BaseDropDown().assetTypeDialog(
-      context: context,
-      dropDownValues: sstIncidentType.map((label) => label.key).toList(),
-      pop: false,
-      onTap: (String value) {
-        Label? selectedLabel;
-        selectedLabel = sstIncidentType.firstWhere(
-          (label) => label.key == value,
-          orElse: () => const Label(key: '', value: ''),
-        );
-
-        log('--state.model.id----${state.model.id}---');
-        if (showListing) {
-          // Navigate to Listing Page
-          Navigator.pushNamed(context, sstIncidentListRoute, arguments: {
-            "isInternal":
-                selectedLabel.value.equalsIgnoreCase('0') ? true : false,
-            "occId": state.model.id.toString(), // TODO: Need to check
-          });
-          return;
-        }
-
-        // Call navigateToCreateIncident here
-        navigateToCreateIncident(
-          state: state,
-          occType: 1,
-          isSSTIncident: true,
-          isInternal: selectedLabel.value == '0' ? true : false,
-        );
-      },
-    );
-  }
+  // TODO: can be removed
+  // openSecuritySystemSLATypePopUp({
+  //   required OccurrenceGeneralInfoState state,
+  //   required bool showListing,
+  // }) {
+  //   BaseDropDown().assetTypeDialog(
+  //     context: context,
+  //     dropDownValues: sstIncidentType.map((label) => label.key).toList(),
+  //     pop: false,
+  //     onTap: (String value) {
+  //       Label? selectedLabel;
+  //       selectedLabel = sstIncidentType.firstWhere(
+  //         (label) => label.key == value,
+  //         orElse: () => const Label(key: '', value: ''),
+  //       );
+  //
+  //       log('--state.model.id----${state.model.id}---');
+  //       if (showListing) {
+  //         // Navigate to Listing Page
+  //         Navigator.pushNamed(context, sstIncidentListRoute, arguments: {
+  //           "isInternal":
+  //               selectedLabel.value.equalsIgnoreCase('0') ? true : false,
+  //           "occId": state.model.id.toString(), // TODO: Need to check
+  //         });
+  //         return;
+  //       }
+  //
+  //       // Call navigateToCreateIncident here
+  //       navigateToCreateIncident(
+  //         state: state,
+  //         occType: 1,
+  //         isSSTIncident: true,
+  //         isInternal: true,
+  //       );
+  //     },
+  //   );
+  // }
 
   String getStatusString(int status) {
     switch (status) {
@@ -1607,6 +1616,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }
@@ -1682,8 +1692,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
       'occId': state.model.id.toString(),
       'occType': occType,
     };
-    if (isInternal ?? false) {
-      map.putIfAbsent('isInternal', () => isInternal ?? false);
+    if (isInternal ?? true) {
+      map.putIfAbsent('isInternal', () => isInternal ?? true);
     }
     log('---navigateToCreateIncident--isSSTIncident---$isSSTIncident-');
     map.putIfAbsent(ConstantsArgument.location, () => state.model.location!);
@@ -1718,7 +1728,10 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
         buttonTextKey: Keys.showButton,
         onTap: () => {
           showPopUp ?? false
-              ? openSecuritySystemSLATypePopUp(state: state, showListing: true)
+              ? Navigator.pushNamed(context, sstIncidentListRoute, arguments: {
+                  "isInternal": true,
+                  "occId": state.model.id.toString(),
+                })
               : Navigator.pushNamed(
                   context,
                   incidentManagementsRoute,
@@ -1787,6 +1800,24 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
       TextEditingController endDateController = TextEditingController();
       startDateController.text = powerFailure.powerFailureStartDate ?? '';
       endDateController.text = powerFailure.powerFailureEndDate ?? '';
+
+      String? selectedStartDate;
+      String? afterTwoDays;
+      log('--powerFailure.powerFailureStartDate-${powerFailure.powerFailureStartDate}--');
+
+      selectedStartDate = powerFailure.powerFailureStartDate;
+      DateTime fromDate = DateTime.now();
+
+
+      if (!selectedStartDate.isEmptyOrNull) {
+        RegExp spaceOrSpecialCharRegExp = RegExp(r'[ \\\W]');
+        // Check if the string contains spaces or special characters
+        String timestamp = Utils().formatTime(selectedStartDate ?? '');
+        int timestampInt = int.parse(spaceOrSpecialCharRegExp.hasMatch(selectedStartDate??'')? timestamp:selectedStartDate??'');
+        fromDate = DateTime.fromMillisecondsSinceEpoch(timestampInt * 1000);
+        DateTime newDateTime = fromDate.add(const Duration(days: 1));
+        afterTwoDays = newDateTime.toString();
+      }
       widgets.add(
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1796,6 +1827,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
               children: [
                 Column(
                   children: [
+                    /// Start Date
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 1.5,
                       child: Column(
@@ -1808,18 +1840,38 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             isDisabled: state.model.id == null &&
                                 state.isOnGoingPowerFailure!,
                             onlyDate: false,
+                            notFlagDate: true,
                             showFutureDate: false,
                             onChange: (String value) {
                               powerFailure.powerFailureStartDate =
                                   Utils.dateToTimestampConversion(
                                           value, Constants.fulldateFormat)
                                       .toString();
+                              startDateController.text = value;
+                              selectedStartDate =
+                                  DateFormat('dd/MM/yyyy HH:mm:ss')
+                                      .parse(value)
+                                      .toString();
+                              DateTime parsedDate =
+                                  DateFormat('dd/MM/yyyy HH:mm:ss')
+                                      .parse(value);
+
+                              // Add two days to the parsed date
+                              DateTime newDate =
+                                  parsedDate.add(const Duration(days: 1));
+
+                              // Format the new date back into the desired string format
+                              afterTwoDays = newDate.toString();
+
+                              setState(() {});
                             },
                             context: context,
                           ),
                         ],
                       ),
                     ),
+
+                    /// End Date
                     SizedBox(
                       width: MediaQuery.of(context).size.width / 1.5,
                       child: Column(
@@ -1830,6 +1882,16 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                           BaseDate().datePickerWidgetLoading(
                             textController: endDateController,
                             onlyDate: false,
+                            notFlagDate: true,
+                            // startDate: selectedStartDate,
+                            fromDate: fromDate.toString(),
+                            toDate:
+                                afterTwoDays.isEmptyOrNull ? '' : afterTwoDays,
+                            showFutureDate: false,
+                            // fromDate: powerFailure.powerFailureStartDate,
+                            //toDate = startDate.add(Duration(days: 2));
+                            showPastDate: false,
+                            // startDate: startDateController.text,
                             onChange: (String value) {
                               powerFailure.powerFailureEndDate =
                                   Utils.dateToTimestampConversion(

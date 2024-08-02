@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 part 'sla_violation_penalty_list_event.dart';
 part 'sla_violation_penalty_list_state.dart';
@@ -31,13 +30,13 @@ class SLAViolationPenaltyListBloc
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
+          await UtilsCommon().checkWritePermission(
         moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
         commonServices: commonServices,
       );
 
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-          module: Constants.contactDetailsModuleCode);
+          module: Constants.slaViolationPenaltyDetailsModuleCode);
 
       List<Organisation> regions =
           await commonServices.getRegionsOrLocationsByRegionId();

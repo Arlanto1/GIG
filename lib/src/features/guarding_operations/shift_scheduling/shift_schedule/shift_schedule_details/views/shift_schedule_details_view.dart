@@ -99,10 +99,10 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
         if (state.model.status == null) {
           isReadOnly = false;
         }
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          isReadOnly = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   isReadOnly = true;
+        // }
 
         initializeDates(state);
         return Scaffold(
@@ -497,7 +497,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               textController: toDateController,
                               onlyDate: true,
                               showPastDate: false,
-                              startDate: state.availableDate?.toDate,
+                              startDate: state.model.fromDate,
                               isDisabled: state.model.status != null &&
                                   state.model.status !=
                                       ConstantsIntValue.shiftScheduleDraft,
@@ -563,24 +563,24 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                   }),
                             ],
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// SubmitButton
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                cancelButtonDisplay(),
-                                if ((state.model.status != -1 || !isReadOnly) &&
-                                    state.model.lock.isEmptyOrNull) ...[
-                                  submitButtonDisplay()
-                                ],
-                              ],
-                            ),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.04),
                           ],
                         ),
                       ),
                     ),
+
+                    /// SubmitButton
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        cancelButtonDisplay(),
+                        if ((state.model.status != -1 || !isReadOnly) &&
+                            state.model.lock.isEmptyOrNull) ...[
+                          submitButtonDisplay()
+                        ],
+                      ],
+                    ),
+
+                    CommonWidgets.verticalSpacerWidget(height * 0.04),
                   ],
                 ),
               ),
@@ -665,6 +665,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

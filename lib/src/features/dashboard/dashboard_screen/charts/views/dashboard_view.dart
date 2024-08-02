@@ -181,6 +181,7 @@ class DashboardViewState extends State<DashboardView>
         message: Constants.logoutValidation,
         onPositivePressed: () {
           Validator.logoutAction(context);
+          CommonServices().unlock();
         },
         positiveBtnText: Constants.yes,
         negativeBtnText: Constants.no);

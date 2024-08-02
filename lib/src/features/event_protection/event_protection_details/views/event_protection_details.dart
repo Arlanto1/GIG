@@ -3,14 +3,18 @@ import 'package:db_atom/src/features/event_protection/services/event_protection_
 
 class EventProtectionDetails extends StatelessWidget {
   final String id;
+  final String title;
   final int eventStatus;
+  final bool isEventProtection;
   final ShowEPGridsModel showEPGridsModel;
 
   EventProtectionDetails({
     super.key,
     required this.id,
+    required this.title,
     required this.eventStatus,
     required this.showEPGridsModel,
+    required this.isEventProtection,
   });
 
   final EventProtectionServices services = EventProtectionServices();
@@ -24,7 +28,7 @@ class EventProtectionDetails extends StatelessWidget {
       backgroundColor: AppColors.cardBgColor,
       appBar: BaseAppBar().buildAppHeader(
         context: context,
-        title: Constants.eventProtectionTitle,
+        title: title ?? Constants.eventProtectionTitle,
         showPopUp: true,
         showSaveButton: false,
         showSubmitButton: false,
@@ -48,7 +52,9 @@ class EventProtectionDetails extends StatelessWidget {
                       showGuardInfo = showGuardInfoResponse.showGuardInfo;
                     }
                     nav.pushNamed(
-                      generalInfoGIRoute, // change it
+                      title == Constants.annualPowerShutdownListDetails
+                          ? annualPowerShutdownListDetailsRoute
+                          : eventProtectionGeneralInfoGIRoute, // change it
                       arguments: {
                         'id': id,
                         'showGuardInfo': showGuardInfo,
@@ -60,6 +66,8 @@ class EventProtectionDetails extends StatelessWidget {
                     height: height,
                   ),
                 ),
+
+                /// Before Tile
                 if (showEPGridsModel.before ?? false) ...[
                   InkWell(
                     onTap: () {
@@ -70,6 +78,8 @@ class EventProtectionDetails extends StatelessWidget {
                           'title': Constants.beforeEventInformation,
                           'id': id,
                           'eventDuration': 0,
+                          ConstantsArgument.isEventProtection:
+                              isEventProtection,
                           ConstantsArgument.editForm:
                               showEPGridsModel.editBefore,
                         },
@@ -82,6 +92,8 @@ class EventProtectionDetails extends StatelessWidget {
                     ),
                   ),
                 ],
+
+                /// During Tile
                 if (showEPGridsModel.during ?? false) ...[
                   InkWell(
                     onTap: () {
@@ -94,6 +106,8 @@ class EventProtectionDetails extends StatelessWidget {
                           'eventDuration': 1,
                           ConstantsArgument.editForm:
                               showEPGridsModel.editDuring,
+                          ConstantsArgument.isEventProtection:
+                          isEventProtection,
                         },
                       );
                     },
@@ -104,6 +118,8 @@ class EventProtectionDetails extends StatelessWidget {
                     ),
                   ),
                 ],
+
+                /// After Tile
                 if (showEPGridsModel.after ?? false) ...[
                   InkWell(
                     onTap: () {

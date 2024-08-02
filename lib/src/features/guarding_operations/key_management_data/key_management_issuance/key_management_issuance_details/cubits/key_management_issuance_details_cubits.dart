@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/km_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
-import 'package:db_atom/src/services/common_services.dart';
 import 'package:intl/intl.dart';
 
 part 'key_management_issuance_details_state.dart';
@@ -35,10 +34,9 @@ class KeyManagementIssuanceDetailsCubit
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation>? entities =
-    await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
-    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
-    List<BaseUser> emailUsers =
-        await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
+        await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
+    List<BaseUser> emailUsers = await commonServices.getBaseUsers(
+        roleName: 'ATOM_STATIC_USER', locationId: state.model.location?.id);
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
@@ -46,7 +44,6 @@ class KeyManagementIssuanceDetailsCubit
       state.copyWith(
         status: FormStatus.initial,
         listOfEntities: entities,
-        users: users.t1Analyst,
         emailUsers: emailUsers,
         departments: departments.employeeDepartments,
       ),
@@ -73,19 +70,29 @@ class KeyManagementIssuanceDetailsCubit
     );
     var userId = await SharedPrefs.getUserId();
     try {
+      Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+      if (state.model.location == null && defaultLocation != null) {
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: defaultLocation.id.toString(),
+          moduleCode: Constants.keyManagementIssuanceModule,
+        );
+        state.model.location = defaultLocation;
+        state.model.slNo = slNo.serialNo;
+      }
+
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
-        commonServices.getUsersByRole(roleName: 'T1_Analyst'),
+        commonServices.getUsersByRole(roleName: 'T1_Analyst'), // todo  remove
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
-        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER'),
+        commonServices.getBaseUsers(
+            roleName: 'ATOM_STATIC_USER', locationId: state.model.location?.id),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.keyManagementIssuanceModule),
-        SharedPrefs.getDefaultLocation(),
       ]);
 
       Locations getLocationsData = futures[0];
@@ -96,15 +103,7 @@ class KeyManagementIssuanceDetailsCubit
       List<BaseUser> emailUsers = futures[5];
       EmployeeDepartments departments = futures[6];
       // dynamic responseLabels = futures[7];
-      Organisation? defaultLocation = futures[8];
-      if (state.model.location == null && defaultLocation != null) {
-        SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.keyManagementIssuanceModule,
-        );
-        state.model.location = defaultLocation;
-        state.model.slNo = slNo.serialNo;
-      }
+
       state.model.createdBy ??= loggedInUserDetails;
       // Get Date of Creation
       // state.model.createdDate = Utils().getCurrentDate();
@@ -134,7 +133,6 @@ class KeyManagementIssuanceDetailsCubit
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
-          users: users.t1Analyst,
           departments: departments.employeeDepartments,
           listOfEntities: entities.atomEntities,
           emailUsers: emailUsers,
@@ -153,11 +151,42 @@ class KeyManagementIssuanceDetailsCubit
     }
   }
 
+  Future<void> updateLocationDropdownValue({
+    Organisation? location,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    List<BaseUser> emailUsers = [];
+    // Get Sl No from API
+    if (location != null) {
+      SerialNumberModel slNo = await commonServices.getSlNo(
+        locationId: location.id.toString(),
+        moduleCode: Constants.keyManagementIssuanceModule,
+      );
+
+      state.model.location = location;
+      state.model.slNo = slNo.serialNo;
+
+      emailUsers = await commonServices.getBaseUsers(
+          roleName: 'ATOM_STATIC_USER', locationId: location.id);
+    }
+    state.model.dbSponsorCwrT2 = null;
+    state.model.handedOverTo = null;
+
+    emit(state.copyWith(
+      model: state.model,
+      emailUsers: emailUsers,
+      status: FormStatus.initial,
+    ));
+  }
+
   Future<void> updateDropdownValues({
     List<Organisation>? entities,
     Organisation? department,
     List<Organisation>? typeOfServices,
-    Organisation? location,
     BaseUser? user,
     BaseUser? approver,
     BaseUser? handedOverTo,
@@ -170,29 +199,11 @@ class KeyManagementIssuanceDetailsCubit
         status: FormStatus.loading,
       ),
     );
-    // Get Sl No from API
-    if (location != null) {
-      SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: location.id.toString(),
-        moduleCode: Constants.keyManagementIssuanceModule,
-      );
-
-      state.model.location = location;
-      state.model.slNo = slNo.serialNo;
-    }
 
     state.model.employeeType = employeeType ?? state.model.employeeType;
     state.model.keyHandingOverDuration =
         keyHandingOverDuration ?? state.model.keyHandingOverDuration ?? 1;
 
-    if (location != null) {
-      SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: location.id.toString(),
-          moduleCode: Constants.keyManagementIssuanceModule);
-      state.model.location = location;
-      state.model.slNo = slNo.serialNo;
-    }
-    log('--entities--${entities?.length}-');
     if (!entities.isEmptyOrNull) {
       state.model.entities = entities;
     }
@@ -266,6 +277,7 @@ class KeyManagementIssuanceDetailsCubit
     KeyManagementIssuanceRequest request =
         KeyManagementIssuanceRequest(keyIssuanceGi: state.model);
 
+    log('--@@@---}----');
     // TODO: Need to change from Backend- Status should be handled from backend
     state.model.status ??= 0;
     GenericResponse response = GenericResponse();

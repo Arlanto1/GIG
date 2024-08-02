@@ -83,10 +83,10 @@ class _KeyLossDestructionDetailsViewState
         //   isReadOnly = true;
         // }
         isReadOnly = state.isReadOnly ?? true;
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          isReadOnly = true;
-        }
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   isReadOnly = true;
+        // }
         if (state.model.status == null) {
           isReadOnly = false;
         }
@@ -97,11 +97,12 @@ class _KeyLossDestructionDetailsViewState
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 7 && !isReadOnly ,
-            showSubmitButton: state.model.status != 7 && !isReadOnly ,
+            showSaveButton: state.model.status != 7 && !isReadOnly,
+            showSubmitButton: state.model.status != 7 && !isReadOnly,
             showDisLikeButton: state.model.status == 7 && !isReadOnly,
             showLikeButton: state.model.status == 7 && !isReadOnly,
-            pdfAPIName: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.keyLossDestructionModule}',
+            pdfAPIName:
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.keyLossDestructionModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyLossDestructionDetailsCubit>(context)
@@ -381,6 +382,7 @@ class _KeyLossDestructionDetailsViewState
                                         srh: user,
                                       );
                                     },
+                                    locationId: 0,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -435,8 +437,7 @@ class _KeyLossDestructionDetailsViewState
                                 title: state.model.securityManager?.userInfo ??
                                     state.model.securityManager?.name,
                                 height: 70,
-                                isDisableColor:
-                                    isReadOnly,
+                                isDisableColor: isReadOnly,
                                 onTap: () {
                                   if (state.model.status == 0 ||
                                       state.model.status == null ||
@@ -452,6 +453,7 @@ class _KeyLossDestructionDetailsViewState
                                           securityManager: user,
                                         );
                                       },
+                                      locationId: 0,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
@@ -476,8 +478,7 @@ class _KeyLossDestructionDetailsViewState
                               TextFieldAddButton(
                                 title: state.model.destructionReason?.name,
                                 height: 70,
-                                isDisableColor:
-                                    isReadOnly,
+                                isDisableColor: isReadOnly,
                                 onTap: () {
                                   if (state.model.status == 0 ||
                                       state.model.status == null ||
@@ -713,6 +714,7 @@ class _KeyLossDestructionDetailsViewState
       buttonTextKey: Keys.cancelButton,
       onTap: () {
         Navigator.pop(context);
+        CommonServices().unlock();
       },
     );
   }

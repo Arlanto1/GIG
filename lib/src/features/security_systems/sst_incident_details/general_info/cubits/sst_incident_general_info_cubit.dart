@@ -2,12 +2,8 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/security_systems/models/ssla_ui_labels.dart';
-import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
+import 'package:db_atom/src/features/security_systems/services/sst_incident_services.dart';
 import 'package:intl/intl.dart';
-
-import '../../../models/requestModel/general_info_request.dart';
-import '../../../services/sst_incident_services.dart';
 
 part 'sst_incident_general_info_state.dart';
 
@@ -33,7 +29,6 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
             model: SstIncident(),
             locations: Locations(),
             users: const [],
-            emailUsers: const [],
             errorMessage: '',
             loadAttachments: const [],
             eventId: null,
@@ -60,28 +55,32 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation>? entities =
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
-    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
-    GetDepositor emailUsers =
-        await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
 
-    List<BaseUser> locationTeamUsers =
-        await commonServices.getBaseUsers(roleName: 'ATOM_Security_Team');
+    List<BaseUser> systemManagerUsers = await commonServices.getBaseUsers(
+        roleName: ConstantUserRoles.atomSecuritySystemManagerUser,
+        locationId: state.model.location?.id);
+
+    List<BaseUser> locationTeamUsers = await commonServices.getBaseUsers(
+        roleName: ConstantUserRoles.atomSecurityTeamUser,
+        locationId: state.model.location?.id);
 
     List<BaseUser> securityLeads = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_ROLE_Security_Lead;ATOM_Assistant_Security_Lead');
+        roleNames:
+            ConstantUserRoles.atomSecurityLeadAndAssistantSecurityLeadUser,
+        locationId: state.model.location?.id);
 
     List<BaseUser> securityManagers = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Security_Manager;ATOM_Senior_Security_Manager');
+        roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+        locationId: state.model.location?.id);
 
     emit(
       state.copyWith(
         listOfEntities: entities,
         status: FormStatus.initial,
-        users: users.t1Analyst,
         uploadAttachments: state.model.attachments,
-        emailUsers: emailUsers.atomStaticUser,
         vendors: vendors.items,
+        systemManagers: systemManagerUsers,
         securityLeads: securityLeads,
         securityManagers: securityManagers,
         locationTeamUsers: locationTeamUsers,
@@ -110,28 +109,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       //     ? Utils().getCurrentDate()
       //     : Utils().formatUnixTimestamp(model.createdDate ?? '');
 
-      model.createdDate = model.createdDate == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
-              int.tryParse(model.createdDate ?? '0'), Constants.fulldateFormat);
-
-      Locations getLocationsData =
-          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
-
-      User loggedInUserDetails =
-          await commonServices.getUserDetails(userId: userId);
-
-      model.createdBy ??= loggedInUserDetails;
-      List<BaseUser> users =
-          await commonServices.getBaseUsers(roleName: 'T1_Analyst');
-
-      List<Organisation> entities =
-          await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
-      List<User> entrySecurities = await commonServices.getUsers();
-      List<Organisation> vendors =
-          await commonServices.getOrganisations(name: 'ATOM_VENDORS');
-
-      if (location == null && state.model.location == null) {
+      if (location == null && model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
         if (defaultLocation != null) {
           SerialNumberModel slNo = await commonServices.getSlNo(
@@ -141,7 +119,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           model.location = defaultLocation;
           model.slNo = slNo.serialNo;
         }
-      } else if(location != null) {
+      } else if (location != null) {
         /// it is getting redirected from Shift Occurrence
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: location!.id.toString(),
@@ -150,21 +128,49 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         model.location = location;
         model.slNo = slNo.serialNo;
       }
-      List<BaseUser> securityLeads = await commonServices.getBaseUsersByRoles(
-          roleNames: 'ATOM_ROLE_Security_Lead;ATOM_Assistant_Security_Lead');
 
-      List<BaseUser> securityManagers =
-          await commonServices.getBaseUsersByRoles(
-              roleNames: 'ATOM_Security_Manager;ATOM_Senior_Security_Manager');
+      final futures = await Future.wait([
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getUserDetails(userId: userId),
+        commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
+        commonServices.getUsers(),
+        commonServices.getOrganisations(name: 'ATOM_VENDORS'),
+        commonServices.getBaseUsersByRoles(
+          roleNames:
+              ConstantUserRoles.atomSecurityLeadAndAssistantSecurityLeadUser,
+          locationId: model.location?.id,
+        ),
+        commonServices.getBaseUsersByRoles(
+          roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+          locationId: model.location?.id,
+        ),
+        commonServices.getBaseUsers(
+          roleName: ConstantUserRoles.atomSecurityTeamUser,
+          locationId: model.location?.id,
+        ),
+        commonServices.getBaseUsers(
+          roleName: ConstantUserRoles.atomSecuritySystemManagerUser,
+          locationId: model.location?.id,
+        ),
+      ]);
 
-      List<BaseUser> locationTeamUsers =
-          await commonServices.getBaseUsers(roleName: 'ATOM_Security_Team');
+      // Assign futures to respective variables
+      final Locations getLocationsData = futures[0] as Locations;
+      final User loggedInUserDetails = futures[1] as User;
+      final List<Organisation> entities = futures[2] as List<Organisation>;
+      final List<User> entrySecurities = futures[3] as List<User>;
+      final List<Organisation> vendors = futures[4] as List<Organisation>;
+      final List<BaseUser> securityLeads = futures[5] as List<BaseUser>;
+      final List<BaseUser> securityManagers = futures[6] as List<BaseUser>;
+      final List<BaseUser> locationTeamUsers = futures[7] as List<BaseUser>;
+      final List<BaseUser> systemManagers = futures[8] as List<BaseUser>;
 
-      List<BaseUser> systemManagers = await commonServices.getBaseUsers(
-          roleName: 'ATOM_Security_System_Manager');
+      model.createdDate = model.createdDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(model.createdDate ?? '0'), Constants.fulldateFormat);
 
-      List<BaseUser>? emailUsers =
-          await commonServices.getBaseUsers(roleName: 'ATOM_STATIC_USER');
+      model.createdBy ??= loggedInUserDetails;
 
       if (isInternal == true) {
         state.model.staffType = 1;
@@ -181,12 +187,10 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
-          users: users,
           systemManagers: systemManagers,
           securityLeads: securityLeads,
           securityManagers: securityManagers,
           locationTeamUsers: locationTeamUsers,
-          emailUsers: emailUsers,
           vendors: vendors,
           entrySecurities: entrySecurities,
           listOfEntities: entities,
@@ -199,12 +203,61 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     }
   }
 
+  Future<void> updateLocationDropdownValue({
+    Organisation? location,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    List<BaseUser> locationTeamUsers = [];
+    List<BaseUser> securityLeads = [];
+    List<BaseUser> securityManagers = [];
+    ////Get Sl No from API
+    if (location != null) {
+      SerialNumberModel slNo = await commonServices.getSlNo(
+        locationId: location.id.toString(),
+        moduleCode: Constants.securitySystemModule,
+      );
+
+      state.model.location = location;
+      state.model.slNo = slNo.serialNo ?? '';
+
+      locationTeamUsers = await commonServices.getBaseUsers(
+          roleName: ConstantUserRoles.atomSecurityTeamUser,
+          locationId: location.id);
+
+      securityLeads = await commonServices.getBaseUsersByRoles(
+          roleNames:
+              ConstantUserRoles.atomSecurityLeadAndAssistantSecurityLeadUser,
+          locationId: location.id);
+
+      securityManagers = await commonServices.getBaseUsersByRoles(
+          roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+          locationId: location.id);
+    }
+
+    state.model.asl = null;
+    state.model.lsm = null;
+    state.model.lt = null;
+    state.model.systemManager = null;
+
+    emit(state.copyWith(
+      model: state.model,
+      securityLeads: securityLeads,
+      securityManagers: securityManagers,
+      locationTeamUsers: locationTeamUsers,
+      status: FormStatus.initial,
+    ));
+  }
+
   Future<void> updateDropdownValues({
     BaseUser? asl,
     BaseUser? systemManager,
     BaseUser? lt,
     Organisation? vendor,
-    Organisation? location,
     BaseUser? lsm,
     Organisation? entity,
     int? status,
@@ -260,73 +313,6 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       );
     }
 
-    if (systemManager != null) {
-      User userDetails = User(
-        name: systemManager.name,
-        userId: systemManager.id,
-        email: systemManager.email,
-      );
-      state.model.systemManager = userDetails;
-
-      emit(
-        state.copyWith(
-          systemManagers: state.emailUsers,
-        ),
-      );
-    }
-    if (lsm != null) {
-      User userDetails = User(
-        name: lsm.name,
-        userId: lsm.id,
-        email: lsm.email,
-      );
-      state.model.lsm = userDetails;
-
-      emit(
-        state.copyWith(
-          securityManagers: state.emailUsers,
-        ),
-      );
-    }
-    if (lt != null) {
-      User userDetails = User(
-        name: lt.name,
-        userId: lt.id,
-        email: lt.email,
-      );
-      state.model.lt = userDetails;
-
-      emit(
-        state.copyWith(
-          locationTeamUsers: state.emailUsers,
-        ),
-      );
-    }
-    if (asl != null) {
-      User userDetails = User(
-        name: asl.name,
-        userId: asl.id,
-        email: asl.email,
-      );
-      state.model.asl = userDetails;
-
-      emit(
-        state.copyWith(
-          securityLeads: state.emailUsers,
-        ),
-      );
-    }
-
-    ////Get Sl No from API
-    if (location != null) {
-      SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: location.id.toString(),
-        moduleCode: Constants.securitySystemModule,
-      );
-
-      state.model.location = location;
-      state.model.slNo = slNo.serialNo ?? '';
-    }
     state.model.status = status ?? state.model.status;
 
     // if (entities != null) {
@@ -335,6 +321,98 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
     emit(state.copyWith(
       model: state.model,
+      uploadAttachments: state.model.attachments,
+      status: FormStatus.initial,
+    ));
+  }
+
+  Future<void> updateEmailsValue({
+    BaseUser? systemManager,
+    BaseUser? securityManager,
+    BaseUser? securityLead,
+    BaseUser? locationTeam,
+    BaseUser? emailUser,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    if (systemManager != null) {
+      User userDetails = User(
+        name: systemManager.name,
+        userId: systemManager.id,
+        userName: systemManager.name,
+      );
+      state.model.systemManager = userDetails;
+      state.securityManagers?.remove(systemManager);
+      state.securityLeads?.remove(systemManager);
+      state.locationTeamUsers?.remove(systemManager);
+      emit(state.copyWith(
+        model: state.model,
+        securityManagers: state.securityManagers,
+        securityLeads: state.securityLeads,
+        locationTeamUsers: state.locationTeamUsers,
+        status: FormStatus.initial,
+      ));
+    }
+
+    if (securityManager != null) {
+      User userDetails = User(
+        name: securityManager.name,
+        userId: securityManager.id,
+        userName: securityManager.name,
+      );
+      state.model.lsm = userDetails;
+      state.systemManagers?.remove(securityManager);
+      state.securityLeads?.remove(securityManager);
+      state.locationTeamUsers?.remove(securityManager);
+
+      emit(state.copyWith(
+        model: state.model,
+        systemManagers: state.systemManagers,
+        securityLeads: state.securityLeads,
+        locationTeamUsers: state.locationTeamUsers,
+        status: FormStatus.initial,
+      ));
+    }
+
+    if (securityLead != null) {
+      User userDetails = User(
+        name: securityLead.name,
+        userId: securityLead.id,
+        userName: securityLead.name,
+      );
+      state.model.asl = userDetails;
+      state.systemManagers?.remove(securityLead);
+      state.securityManagers?.remove(securityLead);
+      state.locationTeamUsers?.remove(securityLead);
+      emit(state.copyWith(
+        model: state.model,
+        systemManagers: state.systemManagers,
+        securityManagers: state.securityManagers,
+        locationTeamUsers: state.locationTeamUsers,
+        status: FormStatus.initial,
+      ));
+    }
+
+    if (locationTeam != null) {
+      User userDetails = User(
+        name: locationTeam.name,
+        userId: locationTeam.id,
+        userName: locationTeam.name,
+      );
+      state.model.lt = userDetails;
+      state.systemManagers?.remove(locationTeam);
+      state.securityManagers?.remove(locationTeam);
+      state.securityLeads?.remove(locationTeam);
+    }
+    emit(state.copyWith(
+      model: state.model,
+      systemManagers: state.systemManagers,
+      securityManagers: state.securityManagers,
+      securityLeads: state.securityLeads,
       status: FormStatus.initial,
     ));
   }

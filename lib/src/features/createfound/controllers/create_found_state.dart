@@ -1,10 +1,9 @@
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/article_found_register_module/foundlist/models/af_ui_labels.dart';
 
 class CreateFoundState extends Equatable {
   final FoundListArticleDetails model;
   final GetDepositor? getDepositorResponse;
-  final Locations? getLocationsResponse;
+  final Locations? locations;
   final Organisation? location;
   final EmployeeDepartments? getEmployeeDepartmentsResponse;
   final GetArticleType? getArticleTypeResponse;
@@ -14,7 +13,7 @@ class CreateFoundState extends Equatable {
   final User? loggedInUser;
   final User? handedOverUser;
   final SubmitCreateFoundModel? createFoundResponse;
-  final SerialNumberModel? getSerialnumberResponse;
+  final String? slno;
   final String? message;
   final FormStatus status;
   final List<ImageContent>? loadAttachments;
@@ -24,7 +23,7 @@ class CreateFoundState extends Equatable {
   const CreateFoundState({
     required this.model,
     this.getDepositorResponse,
-    this.getLocationsResponse,
+    this.locations,
     this.location,
     this.getEmployeeDepartmentsResponse,
     this.getArticleTypeResponse,
@@ -34,7 +33,7 @@ class CreateFoundState extends Equatable {
     this.loggedInUser,
     this.handedOverUser,
     this.createFoundResponse,
-    this.getSerialnumberResponse,
+    this.slno,
     required this.status,
     this.message,
     this.loadAttachments,
@@ -45,7 +44,7 @@ class CreateFoundState extends Equatable {
   @override
   List<Object?> get props => [
         getDepositorResponse,
-        getLocationsResponse,
+        locations,
         location,
         getEmployeeDepartmentsResponse,
         getArticleTypeResponse,
@@ -55,7 +54,7 @@ class CreateFoundState extends Equatable {
         loggedInUser,
         handedOverUser,
         createFoundResponse,
-        getSerialnumberResponse,
+        slno,
         message,
         status,
         loadAttachments,
@@ -66,7 +65,7 @@ class CreateFoundState extends Equatable {
   CreateFoundState copyWith({
     FoundListArticleDetails? model,
     GetDepositor? getDepositorResponse,
-    Locations? getLocationsResponse,
+    Locations? locations,
     Organisation? location,
     EmployeeDepartments? getEmployeeDepartmentsResponse,
     GetArticleType? getArticleTypeResponse,
@@ -76,7 +75,7 @@ class CreateFoundState extends Equatable {
     User? loggedInUser,
     User? handedOverUser,
     SubmitCreateFoundModel? createFoundResponse,
-    SerialNumberModel? getSerialnumberResponse,
+    String? slno,
     String? message,
     FormStatus? status,
     List<ImageContent>? loadAttachments,
@@ -86,7 +85,7 @@ class CreateFoundState extends Equatable {
     return CreateFoundState(
       model: model ?? this.model,
       getDepositorResponse: getDepositorResponse ?? this.getDepositorResponse,
-      getLocationsResponse: getLocationsResponse ?? this.getLocationsResponse,
+      locations: locations ?? this.locations,
       location: location ?? this.location,
       getEmployeeDepartmentsResponse:
           getEmployeeDepartmentsResponse ?? this.getEmployeeDepartmentsResponse,
@@ -100,8 +99,8 @@ class CreateFoundState extends Equatable {
       loggedInUser: loggedInUser ?? this.loggedInUser,
       handedOverUser: handedOverUser ?? this.handedOverUser,
       createFoundResponse: createFoundResponse ?? this.createFoundResponse,
-      getSerialnumberResponse:
-          getSerialnumberResponse ?? this.getSerialnumberResponse,
+      slno:
+          slno ?? this.slno,
       message: message ?? this.message,
       status: status ?? this.status,
       loadAttachments: loadAttachments ?? this.loadAttachments,

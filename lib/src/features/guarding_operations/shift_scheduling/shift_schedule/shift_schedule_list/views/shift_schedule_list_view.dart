@@ -176,8 +176,17 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                             .entrySecurity ??
                                         'Created By',
                                     value:
-                                        '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
+                                        state.items[index].entrySecurityName ??
+                                            ''));
 
+                                labels.add(Label(
+                                    key: state.labels?.locale.locationRegion ??
+                                        state.labels?.defaultLocale
+                                            .locationRegion ??
+                                        'Regionasdasd',
+                                    value: state.items[index].entrySecurityName
+                                            .toString() ??
+                                        ''));
                                 labels.add(Label(
                                     key: state.labels?.locale.locationRegion ??
                                         state.labels?.defaultLocale

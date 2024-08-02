@@ -61,7 +61,6 @@ class UtilsCommon {
     required double height,
     required List items,
   }) {
-    log('----showNoRecordWidget---');
     // if (items.isEmptyOrNull &&
     //     state.status != FormStatus.loading &&
     //     state.status != FormStatus.initial) {
@@ -73,7 +72,8 @@ class UtilsCommon {
     //     ],
     //   );
     // } else
-    if (items.isEmptyOrNull && state.status != FormStatus.loading&&
+    if (items.isEmptyOrNull &&
+        state.status != FormStatus.loading &&
         (state.status == FormStatus.initial ||
             state.status == FormStatus.success)) {
       return Column(
@@ -83,7 +83,6 @@ class UtilsCommon {
         ],
       );
     }
-    log('----showNoRecordWidget--else-');
     return const SizedBox();
   }
 }
