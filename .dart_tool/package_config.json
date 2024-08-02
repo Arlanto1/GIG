@@ -291,9 +291,9 @@
     },
     {
       "name": "firebase_core",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/firebase_core-3.1.1",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/firebase_core-3.2.0",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.2"
     },
     {
       "name": "firebase_core_platform_interface",
@@ -303,7 +303,7 @@
     },
     {
       "name": "firebase_core_web",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/firebase_core_web-2.17.2",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/firebase_core_web-2.17.3",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -1364,7 +1364,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2024-07-15T12:00:05.240471Z",
+  "generated": "2024-08-02T02:39:17.689570Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///Users/anurag/Downloads/flutter",
