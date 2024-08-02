@@ -178,6 +178,7 @@ class BaseApiService {
       );
 
 
+      // throw GenericResponse(message: 'TEST');
       log("HTTP Status Code: ${response.statusCode}");
       // log("Response: ${response.body}");
       // if (url.contains('getIncidentMgmtById')) {

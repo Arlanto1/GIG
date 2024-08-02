@@ -127,6 +127,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
   void submitForm({
     bool isSaveOnly = false,
     required Shift model,
+    FormStatus? status,
   }) async {
     emit(
       state.copyWith(
@@ -198,7 +199,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     emit(
       state.copyWith(
         message: response.message,
-        status: FormStatus.success,
+        status: status == null ? FormStatus.success: FormStatus.initial,
       ),
     );
   }

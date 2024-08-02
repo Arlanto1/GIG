@@ -85,9 +85,9 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<DutyPostDetailsCubit>(context).submitForm(
-                isSaveOnly: true,
-                model: state.model,
-              );
+                  isSaveOnly: true,
+                  model: state.model,
+                  status: FormStatus.initial);
             },
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
@@ -151,7 +151,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                /// Rank
+                                /// Rank Dropdown
                                 CommonWidgets.textDisplay(
                                   state.labels?.locale.rank ??
                                       state.labels?.defaultLocale.rank ??
@@ -173,16 +173,26 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                       selectedRank = value;
                                     });
                                     log('---onChange-region-----');
+
                                     BlocProvider.of<DutyPostDetailsCubit>(
                                             context)
-                                        .getShiftListByAssignedDutyPostId(
-                                            rank: value?.id);
+                                        .submitForm(
+                                      isSaveOnly: true,
+                                      model: state.model,
+                                      status: FormStatus.initial,
+                                    );
+                                    if (state.status != FormStatus.formError) {
+                                      BlocProvider.of<DutyPostDetailsCubit>(
+                                              context)
+                                          .getShiftListByAssignedDutyPostId(
+                                              rank: value?.id);
+                                    }
                                   },
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
-                                /// Select For Shift:
+                                /// Select For Shift Dropdown
                                 CommonWidgets.textDisplay(
                                   state.labels?.locale.rank ??
                                       state.labels?.defaultLocale.rank ??
@@ -202,13 +212,24 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                     });
                                     BlocProvider.of<DutyPostDetailsCubit>(
                                             context)
-                                        .getAvailableSelectedGuardsByShift(
-                                      // rank: state.selectedRank,
-                                      shift: value!,
+                                        .submitForm(
+                                      isSaveOnly: true,
+                                      model: state.model,
+                                      status: FormStatus.initial,
                                     );
+
+                                    if (state.status != FormStatus.formError) {
+                                      BlocProvider.of<DutyPostDetailsCubit>(
+                                              context)
+                                          .getAvailableSelectedGuardsByShift(
+                                        // rank: state.selectedRank,
+                                        shift: value!,
+                                      );
+                                    }
                                   },
                                 ),
 
+                                /// Guard Lists (Drag Drop)
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -295,6 +316,16 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                 ..remove(guard);
               shift.availableGuards = List.from(shift.availableGuards!)
                 ..add(guard);
+
+              log('---shift.selectedGuards.isEmptyOrNull-11---${shift.selectedGuards.isEmptyOrNull}--');
+
+              shift.replacements
+                  ?.removeWhere((u) => u.replacementBy?.id == guard.id);
+              /// To remove all the replacements
+              // if (guard.id = shift.selectedGuards.isEmptyOrNull) {
+              //   log('---shift.selectedGuards.isEmptyOrNull------');
+              //   shift.replacements?.clear();
+              // }
             });
           },
         ),
@@ -432,37 +463,55 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
             dutyPostId: widget.model!.id!,
             shiftId: state.selectedShift!.id!,
           ),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  buildTextWithLabel(
-                      'Replacement For:', replacement.replacedFor?.name),
-                  buildTextWithLabel(
-                    'From Date:',
-                    replacement.fromDate != null
-                        ? Utils.timestampToDateConversion(
-                            int.tryParse(replacement.fromDate ?? '0'),
-                            Constants.dateFormat,
-                          )
-                        : '',
+          child: Stack(
+            children: [
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      buildTextWithLabel(
+                          'Replacement For:', replacement.replacedFor?.name),
+                      buildTextWithLabel(
+                        'From Date:',
+                        replacement.fromDate != null
+                            ? Utils.timestampToDateConversion(
+                                int.tryParse(replacement.fromDate ?? '0'),
+                                Constants.dateFormat,
+                              )
+                            : '',
+                      ),
+                      buildTextWithLabel(
+                        'To Date:',
+                        replacement.toDate != null
+                            ? Utils.timestampToDateConversion(
+                                int.parse(replacement.toDate ?? '0'),
+                                Constants.dateFormat,
+                              )
+                            : '',
+                      ),
+                      buildTextWithLabel(
+                          'Replacement By:', replacement.replacementBy?.name),
+                    ],
                   ),
-                  buildTextWithLabel(
-                    'To Date:',
-                    replacement.toDate != null
-                        ? Utils.timestampToDateConversion(
-                            int.parse(replacement.toDate ?? '0'),
-                            Constants.dateFormat,
-                          )
-                        : '',
-                  ),
-                  buildTextWithLabel(
-                      'Replacement By:', replacement.replacementBy?.name),
-                ],
+                ),
               ),
-            ),
+              Positioned(
+                right: 0,
+                top: 0,
+                child: InkWell(
+                  onTap: () {
+                    state.model.replacements?.remove(replacement);
+                    setState(() {});
+                  },
+                  child: Card(
+                    elevation: 5,
+                    child: BaseIcons().closeIcon(),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
     ];
