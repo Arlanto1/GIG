@@ -252,7 +252,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                   BlocProvider.of<
                                               SLAViolationPenaltyDetailsCubit>(
                                           context)
-                                      .updateDropdownValues(location: location);
+                                      .updateLocationDropdownValue(location: location);
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
