@@ -163,7 +163,7 @@ class _KeyHistoryRecordsDetailsViewState
             ((state.model.status == ConstantsIntValue.destroyInitiated &&
                 widget.type == ConstantsIntValue.keyDestroyHistoryInt) &&
                 state.loggedInUserDetails!.userName
-                    .equalsIgnoreCase(state.model.securityManager?.userName)) &&
+                    .equalsIgnoreCase(state.model.securityManager?.userName)) ||
                 !(widget.extraProperties != null &&
                     !widget.extraProperties!.hasWritePermission!);
 
@@ -173,19 +173,7 @@ class _KeyHistoryRecordsDetailsViewState
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: showSaveAndSubmitButtons || (state.model.status ==
-                ConstantsIntValue.lockChangeInitiated) &&
-                (widget.type == ConstantsIntValue.lockChangeHistoryInt) &&
-                (state.loggedInUserDetails!.userName
-                    .equalsIgnoreCase(state.model.createdBy?.userName)) ||
-                (state.model.status ==
-                    ConstantsIntValue.created || state.model.status ==
-                    null) &&
-                    (widget.type == ConstantsIntValue.keyLostHistoryInt) &&
-                    (state.loggedInUserDetails!.userName
-                        .equalsIgnoreCase(state.model.createdBy?.userName))
-                ? true
-                : false,
+            showSaveButton:false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
