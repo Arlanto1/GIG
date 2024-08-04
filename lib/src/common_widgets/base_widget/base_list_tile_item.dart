@@ -375,7 +375,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                             (widget.isKeyManagementStatus &&
                                 (widget.status == -1 || widget.status == 2)) ||
                             (widget.isEventProtectionStatus &&
-                                (widget.status != 0)) ||
+                                (widget.status != null)) ||
                             (widget.isDutyPostNameMasterStatus &&
                                 widget.status == -1) ||
                             (widget.isShiftScheduleStatus &&

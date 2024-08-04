@@ -205,6 +205,43 @@ class SLAViolationPenaltyDetailsCubit
     }
   }
 
+  Future<void> updateLocationDropdownValue({
+    Organisation? location,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    List<BaseUser> approver = [];
+
+    ////Get Sl No from API
+    if (location != null) {
+      SerialNumberModel slNo = await commonServices.getSlNo(
+        locationId: location.id.toString(),
+        moduleCode: Constants.securitySystemModule,
+      );
+
+      state.model.location = location;
+      state.model.slNo = slNo.serialNo ?? '';
+
+      approver = await commonServices.getBaseUsers(
+          roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
+
+
+    }
+
+    state.model.approver = null;
+
+
+    emit(state.copyWith(
+      model: state.model,
+      emailUsers: approver,
+
+      status: FormStatus.initial,
+    ));
+  }
   Future<void> updateDropdownValues({
     List<Organisation>? entities,
     List<Organisation>? vendors,
@@ -265,7 +302,7 @@ class SLAViolationPenaltyDetailsCubit
     emit(state.copyWith(
       model: state.model,
       users: users,
-      emailUsers: emailUsers,
+      emailUsers: state.emailUsers,
       status: FormStatus.initial,
     ));
   }
