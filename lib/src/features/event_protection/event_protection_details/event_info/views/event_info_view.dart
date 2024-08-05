@@ -49,7 +49,7 @@ class _EventInfoViewState extends State<EventInfoView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   // final quill.QuillController _controller = quill.QuillController.basic();
-  final QuillEditorController controller = QuillEditorController();
+  final QuillEditorController quillController = QuillEditorController();
 
   User? userDetails;
   List<ImageContent>? guardFiles;
@@ -161,7 +161,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
               child: AbsorbPointer(
-                absorbing: !widget.editForm,
+                absorbing: showSaveButtons,
                 child: Form(
                   key: _formKey,
                   autovalidateMode: state.model.status == 30
@@ -276,7 +276,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                     iconColor: toolbarIconColor,
                                     activeIconColor:
                                         Colors.greenAccent.shade400,
-                                    controller: controller,
+                                    controller: quillController,
                                     crossAxisAlignment:
                                         WrapCrossAlignment.start,
                                     direction: Axis.horizontal,
@@ -314,7 +314,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                       child: QuillHtmlEditor(
                                         // text: widget.text,
                                         hintText: 'Hint text goes here',
-                                        controller: controller,
+                                        controller: quillController,
                                         isEnabled: showSaveButtons,
                                         ensureVisible: true,
                                         minHeight: 500,
@@ -358,7 +358,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                           debugPrint(
                                               'Editor has been loaded--------');
                                           // setHtmlText(widget.text);
-                                          controller
+                                          quillController
                                               .setText(state.model.email ?? '');
                                         },
                                         onEditorResized: (height) => debugPrint(
@@ -630,40 +630,40 @@ class _EventInfoViewState extends State<EventInfoView> {
 
   ///[getHtmlText] to get the html text from editor
   Future<String> getHtmlText() async {
-    String? htmlText = await controller.getText();
+    String? htmlText = await quillController.getText();
     debugPrint(htmlText);
     return htmlText;
   }
 
   ///[setHtmlText] to set the html text to editor
   void setHtmlText(String text) async {
-    await controller.setText(text);
+    await quillController.setText(text);
   }
 
   ///[insertNetworkImage] to set the html text to editor
   void insertNetworkImage(String url) async {
-    await controller.embedImage(url);
+    await quillController.embedImage(url);
   }
 
   ///[insertVideoURL] to set the video url to editor
   ///this method recognises the inserted url and sanitize to make it embeddable url
   ///eg: converts youtube video to embed video, same for vimeo
   void insertVideoURL(String url) async {
-    await controller.embedVideo(url);
+    await quillController.embedVideo(url);
   }
 
   /// to set the html text to editor
   /// if index is not set, it will be inserted at the cursor postion
   void insertHtmlText(String text, {int? index}) async {
-    await controller.insertText(text, index: index);
+    await quillController.insertText(text, index: index);
   }
 
   /// to clear the editor
-  void clearEditor() => controller.clear();
+  void clearEditor() => quillController.clear();
 
   /// to enable/disable the editor
-  void enableEditor(bool enable) => controller.enableEditor(enable);
+  void enableEditor(bool enable) => quillController.enableEditor(enable);
 
   /// method to un focus editor
-  void unFocusEditor() => controller.unFocus();
+  void unFocusEditor() => quillController.unFocus();
 }

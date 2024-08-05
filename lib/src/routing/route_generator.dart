@@ -224,7 +224,7 @@ class RouteGenerator {
       case addemployeedepartmentRoute:
         return MaterialPageRoute(
           builder: (context) => const AddEmployeeDepartment(
-            title: Constants.addemployeedepartment,
+            title: Constants.addEmployeeDepartment,
           ),
         );
 

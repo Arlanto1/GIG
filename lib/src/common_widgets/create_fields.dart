@@ -316,7 +316,7 @@ class AddNewFieldsState extends State<AddNewFields> {
                 Constants.addpurposeofvisittype == widget.title ||
                 Constants.addleoofficialtype == widget.title) {
               _addCompany(nameTextController.text, keyTextController.text);
-            } else if (Constants.addemployeedepartment == widget.title) {
+            } else if (Constants.addEmployeeDepartment == widget.title) {
               _createEmployeeDepartment(
                   nameTextController.text, keyTextController.text);
             }

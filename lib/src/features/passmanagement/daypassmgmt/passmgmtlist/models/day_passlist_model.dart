@@ -288,78 +288,6 @@ class PassManagementModel {
       };
 }
 
-enum Area { CATEGORY, SOURCE_SYSTEM }
-
-final areaValues =
-    EnumValues({"Category": Area.CATEGORY, "SourceSystem": Area.SOURCE_SYSTEM});
-
-enum DisplayName {
-  T1_ADMIN_CATEGORY_DB_ATOM,
-  T1_ADMIN_SOURCE_SYSTEM_DB_ATOM,
-  T1_ADMIN_SOURCE_SYSTEM_DEFAULT,
-  T1_ANALYST_CATEGORY_DB_ATOM,
-  T1_ANALYST_SOURCE_SYSTEM_DB_ATOM,
-  T1_MANAGER_CATEGORY_DB_ATOM,
-  T1_MANAGER_SOURCE_SYSTEM_DB_ATOM,
-  T1_PERFORMER_CATEGORY_DB_ATOM,
-  T1_PERFORMER_SOURCE_SYSTEM_DB_ATOM,
-  T1_USER_CATEGORY_DB_ATOM,
-  T1_USER_SOURCE_SYSTEM_DB_ATOM,
-  T1_USER_SOURCE_SYSTEM_DEFAULT
-}
-
-final displayNameValues = EnumValues({
-  "T1_Admin Category DB_ATOM": DisplayName.T1_ADMIN_CATEGORY_DB_ATOM,
-  "T1_Admin Source System DB_ATOM": DisplayName.T1_ADMIN_SOURCE_SYSTEM_DB_ATOM,
-  "T1_Admin Source System Default": DisplayName.T1_ADMIN_SOURCE_SYSTEM_DEFAULT,
-  "T1_Analyst Category DB_ATOM": DisplayName.T1_ANALYST_CATEGORY_DB_ATOM,
-  "T1_Analyst Source System DB_ATOM":
-      DisplayName.T1_ANALYST_SOURCE_SYSTEM_DB_ATOM,
-  "T1_Manager Category DB_ATOM": DisplayName.T1_MANAGER_CATEGORY_DB_ATOM,
-  "T1_Manager Source System DB_ATOM":
-      DisplayName.T1_MANAGER_SOURCE_SYSTEM_DB_ATOM,
-  "T1_Performer Category DB_ATOM": DisplayName.T1_PERFORMER_CATEGORY_DB_ATOM,
-  "T1_Performer Source System DB_ATOM":
-      DisplayName.T1_PERFORMER_SOURCE_SYSTEM_DB_ATOM,
-  "T1_User Category DB_ATOM": DisplayName.T1_USER_CATEGORY_DB_ATOM,
-  "T1_User Source System DB_ATOM": DisplayName.T1_USER_SOURCE_SYSTEM_DB_ATOM,
-  "T1_User Source System Default": DisplayName.T1_USER_SOURCE_SYSTEM_DEFAULT
-});
-
-enum Filter { DB_ATOM, DEFAULT }
-
-final filterValues =
-    EnumValues({"DB_ATOM": Filter.DB_ATOM, "Default": Filter.DEFAULT});
-
-enum Application { DB_ATOM, TRACKING1 }
-
-final applicationValues = EnumValues(
-    {"DB_ATOM": Application.DB_ATOM, "Tracking1": Application.TRACKING1});
-
-enum Name {
-  ATOM_STATIC_USER,
-  T1_ADMIN,
-  T1_ANALYST,
-  T1_MANAGER,
-  T1_PERFORMER,
-  T1_SUPER_ADMIN,
-  T1_USER
-}
-
-final nameValues = EnumValues({
-  "ATOM_STATIC_USER": Name.ATOM_STATIC_USER,
-  "T1_Admin": Name.T1_ADMIN,
-  "T1_Analyst": Name.T1_ANALYST,
-  "T1_Manager": Name.T1_MANAGER,
-  "T1_Performer": Name.T1_PERFORMER,
-  "T1_SuperAdmin": Name.T1_SUPER_ADMIN,
-  "T1_User": Name.T1_USER
-});
-
-enum UserStatus { ACTIVE }
-
-final userStatusValues = EnumValues({"ACTIVE": UserStatus.ACTIVE});
-
 class PassInfo {
   int? id;
   int? passType;
@@ -416,16 +344,4 @@ class PassInfo {
         "dws": dws,
         "status": status,
       };
-}
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }
