@@ -59,7 +59,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
               Navigator.pop(context);
               Navigator.popAndPushNamed(
                 context,
-                occurrenceRoute,
+                shiftOccurrenceRoute,
               );
             },
           );
