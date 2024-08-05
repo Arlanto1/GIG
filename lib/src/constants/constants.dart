@@ -889,6 +889,7 @@ class Constants {
 
   /// Ticket Life Cycle
   static const String sentReminder = 'Reminder Sent';
+  static const String sentRemindertoVendor = 'Sent reminder to Vendor.';
 
   /// Module Code for roles
   static const String passManagementRolesModuleCode = 'PM';
