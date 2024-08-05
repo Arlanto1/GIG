@@ -195,7 +195,7 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
 
             sca.showSnackBar(
               const SnackBar(
-                content: Text('Added Successfully.'),
+                content: Text(Constants.userAddedUpdatedSuccessfully),
                 duration: Duration(seconds: 3), // Adjust the duration
               ),
             );

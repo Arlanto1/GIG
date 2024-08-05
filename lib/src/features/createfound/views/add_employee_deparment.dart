@@ -207,7 +207,7 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
           try {
             if (Constants.addarticletype == widget.title) {
               _addArticle(nameTextController.text, keyTextController.text);
-            } else if (Constants.addemployeedepartment == widget.title) {
+            } else if (Constants.addEmployeeDepartment == widget.title) {
               _createEmployeeDepartment(
                   nameTextController.text, keyTextController.text);
             }

@@ -3,10 +3,7 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_state.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart';
-import 'package:db_atom/src/features/lawenforcement/models/law_enforement_request.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
 
@@ -54,7 +51,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       dismissLoadingDialog(context);
 
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        Utils.dynamicAlert(context, 'Added sucessfully', title, '');
+        Utils.dynamicAlert(context, Constants.addedSuccessfully, title, '');
       });
     } on GenericResponse catch (e) {
       // emit(
@@ -111,8 +108,8 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         'EMPLOYEE_DEPARTMENTS',
       );
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        Utils.dynamicAlert(
-            context, 'Added successfully', Constants.addemployeedepartment, '');
+        Utils.dynamicAlert(context, Constants.addedSuccessfully,
+            Constants.addEmployeeDepartment, '');
       });
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
@@ -127,7 +124,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(context, Constants.errorText,
-            Constants.addemployeedepartment, Constants.errorText);
+            Constants.addEmployeeDepartment, Constants.errorText);
       });
     }
   }
@@ -220,7 +217,8 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         moduleCode,
       );
 
-      getDBofficialByRoleDepositor(ConstantUserRoles.atomStaticUser,locationId);
+      getDBofficialByRoleDepositor(
+          ConstantUserRoles.atomStaticUser, locationId);
       emit(
         state.copyWith(
           slno: response.serialNo,
@@ -451,11 +449,11 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
         ),
       );
       dismissLoadingDialog(context);
-      await lawEnforcementCubit
-          .getDBofficialByRoleDepositor(ConstantUserRoles.atomStaticUser,locationId);
+      await lawEnforcementCubit.getDBofficialByRoleDepositor(
+          ConstantUserRoles.atomStaticUser, locationId);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        Utils.dynamicAlert(
-            context, 'Added successfully', Constants.newuser, '');
+        Utils.dynamicAlert(context, Constants.userAddedUpdatedSuccessfully,
+            Constants.newuser, '');
       });
     } on GenericResponse catch (e) {
       emit(
@@ -513,7 +511,8 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   // get DB Official email ID Accompanied LEO official API call
-  Future<void> getDBofficialByRoleDepositor(String roleName,int? locationId) async {
+  Future<void> getDBofficialByRoleDepositor(
+      String roleName, int? locationId) async {
     try {
       List<BaseUser>? getDepositorData = await commonServices.getBaseUsers(
         roleName: roleName,
