@@ -104,6 +104,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                             arguments: {
                               'occId': widget.occId?.toString(),
                               'occType': widget.occType,
+                              'kldId': widget.kldId?.toString(),
                             },
                           )
                         },

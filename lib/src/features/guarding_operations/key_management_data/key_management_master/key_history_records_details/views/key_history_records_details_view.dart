@@ -134,19 +134,23 @@ class _KeyHistoryRecordsDetailsViewState
 
         if ((state.model.status == null ||
             state.model.status == ConstantsIntValue.created) ||
-           state.model.status !=
-            ConstantsIntValue.destroyInitiated &&
-            ((state.model.status == ConstantsIntValue.lockChangeInitiated &&
-                state.loggedInUserDetails!.userName.equalsIgnoreCase(
-                    state.model.createdBy?.userName)) || (state.model.status == ConstantsIntValue.damagedApproved &&
-                state.loggedInUserDetails!.userName.equalsIgnoreCase(
-                    state.model.srh?.userName)) ||
-                (state.model.status == ConstantsIntValue.lostApproved &&
+            state.model.status !=
+                ConstantsIntValue.destroyInitiated &&
+                ((state.model.status == ConstantsIntValue.lockChangeInitiated &&
                     state.loggedInUserDetails!.userName.equalsIgnoreCase(
-                        state.model.srh?.userName)) ||
-                (state.model.status == ConstantsIntValue.destroyApproved &&
-                    state.loggedInUserDetails!.userName.equalsIgnoreCase(
-                        state.model.securityManager?.userName)))) {
+                        state.model.createdBy?.userName)) ||
+                    (state.model.status == ConstantsIntValue.damagedApproved &&
+                        state.loggedInUserDetails!.userName.equalsIgnoreCase(
+                            state.model.srh?.userName)) ||
+                    (state.model.status == ConstantsIntValue.lostApproved &&
+                        state.loggedInUserDetails!.userName.equalsIgnoreCase(
+                            state.model.srh?.userName)) ||
+                    (state.model.status == ConstantsIntValue.destroyApproved &&
+                        state.loggedInUserDetails!.userName.equalsIgnoreCase(
+                            state.model.securityManager?.userName)) ||
+                    (state.model.status == ConstantsIntValue.lostInitiated &&
+                        state.loggedInUserDetails!.userName.equalsIgnoreCase(
+                            state.model.srh?.userName)))) {
           showSaveAndSubmitButtons = true;
         }
         initializeDates();
@@ -437,10 +441,15 @@ class _KeyHistoryRecordsDetailsViewState
                             title: state.model.srh?.userInfo ??
                                 state.model.srh?.name,
                             height: 70,
-                            isDisableColor: !(editKeyLostHistory ||
-                                editKeyDamageHistory),
+                            isDisableColor: !(state.model.status !=
+                                ConstantsIntValue.closed && state.loggedInUserDetails!.userName
+                                .equalsIgnoreCase(
+                                state.model.srh?.userName)) && state.model.status !=null,
                             onTap: () {
-                              if (editKeyLostHistory || editKeyDamageHistory) {
+                              if ((state.model.status !=
+                                  ConstantsIntValue.closed && state.loggedInUserDetails!.userName
+                                  .equalsIgnoreCase(
+                                  state.model.srh?.userName)) || state.model.status == null) {
                                 BaseOrganisationDialog().userDialog(
                                   context: context,
                                   enabled: showSaveAndSubmitButtons,
@@ -491,14 +500,17 @@ class _KeyHistoryRecordsDetailsViewState
                                 state.model.securityManager?.userName) ||
                                 state.model.status == null ||
                                 state.model.status ==
-                                    ConstantsIntValue.created) || state.model.status == ConstantsIntValue.closed,
+                                    ConstantsIntValue.created) ||
+                                state.model.status == ConstantsIntValue.closed,
                             onTap: () {
                               if ((state.loggedInUserDetails!.userName
                                   .equalsIgnoreCase(
                                   state.model.securityManager?.userName) ||
                                   state.model.status == null ||
                                   state.model.status ==
-                                      ConstantsIntValue.created) && state.model.status != ConstantsIntValue.closed) {
+                                      ConstantsIntValue.created) &&
+                                  state.model.status !=
+                                      ConstantsIntValue.closed) {
                                 BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.securityManager!,
@@ -537,27 +549,30 @@ class _KeyHistoryRecordsDetailsViewState
                           TextFieldAddButton(
                             title: state.model.destructionReason?.name,
                             height: 60,
-                            isDisableColor: !(state.loggedInUserDetails!.userName
+                            isDisableColor: !(state.loggedInUserDetails!
+                                .userName
                                 .equalsIgnoreCase(
                                 state.model.securityManager?.userName) ||
                                 state.loggedInUserDetails!.userName
                                     .equalsIgnoreCase(
-                                    state.model.srh?.userName)||
+                                    state.model.srh?.userName) ||
                                 state.model.status == null ||
                                 state.model.status ==
-                                    ConstantsIntValue.created) || state.model.status ==
-                                ConstantsIntValue.closed,
+                                    ConstantsIntValue.created) ||
+                                state.model.status ==
+                                    ConstantsIntValue.closed,
                             onTap: () {
                               if ((state.loggedInUserDetails!.userName
                                   .equalsIgnoreCase(
                                   state.model.securityManager?.userName) ||
                                   state.loggedInUserDetails!.userName
                                       .equalsIgnoreCase(
-                                      state.model.srh?.userName)||
+                                      state.model.srh?.userName) ||
                                   state.model.status == null ||
                                   state.model.status ==
-                                      ConstantsIntValue.created) && state.model.status !=
-                                  ConstantsIntValue.closed) {
+                                      ConstantsIntValue.created) &&
+                                  state.model.status !=
+                                      ConstantsIntValue.closed) {
                                 BaseOrganisationDialog().departmentDialog(
                                     context: context,
                                     organisations: state.destructionReasons,
@@ -606,8 +621,18 @@ class _KeyHistoryRecordsDetailsViewState
                             textFormKey: Keys.additionInitiativesKey,
                             hintText: Constants.informationhere,
                             showBorder: true,
-                            isEnable: true,
-                            isDisableColor: false,
+                            isEnable: (state.model.status !=
+                                ConstantsIntValue.closed &&
+                                state.loggedInUserDetails!.userName
+                                    .equalsIgnoreCase(
+                                    state.model.srh?.userName)) ||
+                                state.model.status == null,
+                            isDisableColor: ! ((state.model.status !=
+                                ConstantsIntValue.closed &&
+                                state.loggedInUserDetails!.userName
+                                    .equalsIgnoreCase(
+                                    state.model.srh?.userName)) ||
+                                state.model.status == null),
                             onChange: (String value) {
                               state.model.lostKeyDetails = value;
                               context
@@ -642,6 +667,7 @@ class _KeyHistoryRecordsDetailsViewState
                             textFormKey: Keys.guardingPOCKey,
                             hintText: '',
                             focusNode: noOfKeysFocusNode,
+
                             isEnable: (state.model.status ==
                                 ConstantsIntValue.created ||
                                 state.model.status == null) && (widget.type ==
@@ -670,114 +696,120 @@ class _KeyHistoryRecordsDetailsViewState
                             Styles.textStyleBlack14),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         FlutterInputField(
-                            lineHeight: 6,
-                            initialValue: state.model.additionalInformation,
-                            textFormKey: Keys.additionInitiativesKey,
-                            hintText: Constants.informationhere,
-                            showBorder: true,
-                            isEnable:
-                            (state.loggedInUserDetails!.userName
-                                .equalsIgnoreCase(
-                                state.model.securityManager?.userName) ||
-                                state.loggedInUserDetails!.userName
-                                    .equalsIgnoreCase(
-                                    state.model.srh?.userName)||
-                                    state.model.status == null ||
-                                    state.model.status ==
-                                        ConstantsIntValue.created )|| (state.model.status ==
-                                ConstantsIntValue.lockChangeInitiated && state.loggedInUserDetails!.userName
-                                .equalsIgnoreCase(
-                                state.model.createdBy?.userName)) && state.model.status !=
-                                ConstantsIntValue.closed,
-                            isDisableColor:
-                            !((state.loggedInUserDetails!.userName
-                                .equalsIgnoreCase(
-                                state.model.securityManager?.userName) ||
-                                state.loggedInUserDetails!.userName
-                                    .equalsIgnoreCase(
-                                    state.model.srh?.userName)||
-                                state.model.status == null ||
-                                state.model.status ==
-                                    ConstantsIntValue.created )|| (state.model.status ==
-                                ConstantsIntValue.lockChangeInitiated && state.loggedInUserDetails!.userName
-                                .equalsIgnoreCase(
-                                state.model.createdBy?.userName))) || state.model.status ==
-                                ConstantsIntValue.closed,
-                            onChange: (String value) {
-                              state.model.additionalInformation = value;
-                              context
-                                  .read<KeyHistoryRecordsDetailsCubit>()
-                                  .onModelValueChange(state.model);
-                            },
-                            validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          lineHeight: 6,
+                          initialValue: state.model.additionalInformation,
+                          textFormKey: Keys.additionInitiativesKey,
+                          hintText: Constants.informationhere,
+                          showBorder: true,
+                          isEnable:
+                          (state.loggedInUserDetails!.userName
+                              .equalsIgnoreCase(
+                              state.model.securityManager?.userName) ||
+                              state.loggedInUserDetails!.userName
+                                  .equalsIgnoreCase(
+                                  state.model.srh?.userName) ||
+                              state.model.status == null ||
+                              state.model.status ==
+                                  ConstantsIntValue.created) ||
+                              (state.model.status ==
+                                  ConstantsIntValue.lockChangeInitiated &&
+                                  state.loggedInUserDetails!.userName
+                                      .equalsIgnoreCase(
+                                      state.model.createdBy?.userName)) &&
+                                  state.model.status !=
+                                      ConstantsIntValue.closed,
+                          isDisableColor:
+                          !((state.loggedInUserDetails!.userName
+                              .equalsIgnoreCase(
+                              state.model.securityManager?.userName) ||
+                              state.loggedInUserDetails!.userName
+                                  .equalsIgnoreCase(
+                                  state.model.srh?.userName) ||
+                              state.model.status == null ||
+                              state.model.status ==
+                                  ConstantsIntValue.created) ||
+                              (state.model.status ==
+                                  ConstantsIntValue.lockChangeInitiated &&
+                                  state.loggedInUserDetails!.userName
+                                      .equalsIgnoreCase(
+                                      state.model.createdBy?.userName))) ||
+                              state.model.status ==
+                                  ConstantsIntValue.closed,
+                          onChange: (String value) {
+                            state.model.additionalInformation = value;
+                            context
+                                .read<KeyHistoryRecordsDetailsCubit>()
+                                .onModelValueChange(state.model);
+                          },
+                          validateTextField: (String? user) {},
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Investigation Required
-                            if (widget.type ==
-                        ConstantsIntValue.keyLostHistoryInt ||
-                        widget.type ==
-                            ConstantsIntValue.keyDamageHistoryInt)
-                        ...[
-                          CommonWidgets.textDisplay(
-                              state.labels?.locale.investigationRequired ??
-                                  state.labels?.defaultLocale
-                                      .investigationRequired ??
-                                  Constants.investigationRequired,
-                              isMandatory: true,
-                              Styles.textStyleBlack14),
-                          RadioButtonsYesNo(
-                              status: state.model.status ?? 0,
-                              selectedValue:
-                              state.model.investigationRequired ?? false
-                                  ? 1
-                                  : 0,
-                              onChangedYes: (!(((state.model.status == null ||
-                                  state.model.status ==
-                                      ConstantsIntValue.created) &&
-                                  (widget.type ==
-                                      ConstantsIntValue.keyDamageHistoryInt ||
-                                      widget.type ==
-                                          ConstantsIntValue
-                                              .keyLostHistoryInt) &&
-                                  state.loggedInUserDetails!.userName
-                                      .equalsIgnoreCase(
-                                      state.model.createdBy?.userName)))) &&
-                                  (widget.extraProperties != null &&
-                                      !widget.extraProperties!
-                                          .hasWritePermission!)
-                                  ? null
-                                  : (val) {
-                                state.model.investigationRequired = true;
-                                BlocProvider.of<
-                                    KeyHistoryRecordsDetailsCubit>(
-                                    context)
-                                    .onCheckBoxChange(state.model);
-                              },
-                              onChangedNo: !(((state.model.status == null ||
-                                  state.model.status ==
-                                      ConstantsIntValue.created) &&
-                                  (widget.type ==
-                                      ConstantsIntValue.keyDamageHistoryInt ||
-                                      widget.type ==
-                                          ConstantsIntValue
-                                              .keyLostHistoryInt) &&
-                                  state.loggedInUserDetails!.userName
-                                      .equalsIgnoreCase(
-                                      state.model.createdBy?.userName))) &&
-                                  (widget.extraProperties != null &&
-                                      !widget.extraProperties!
-                                          .hasWritePermission!)
-                                  ? null
-                                  : (val) {
-                                state.model.investigationRequired = false;
-                                BlocProvider.of<
-                                    KeyHistoryRecordsDetailsCubit>(
-                                    context)
-                                    .onCheckBoxChange(state.model);
-                              }),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                        ],
+                        /// Investigation Required
+                        if (widget.type ==
+                            ConstantsIntValue.keyLostHistoryInt ||
+                            widget.type ==
+                                ConstantsIntValue.keyDamageHistoryInt)
+                          ...[
+                            CommonWidgets.textDisplay(
+                                state.labels?.locale.investigationRequired ??
+                                    state.labels?.defaultLocale
+                                        .investigationRequired ??
+                                    Constants.investigationRequired,
+                                isMandatory: true,
+                                Styles.textStyleBlack14),
+                            RadioButtonsYesNo(
+                                status: state.model.status ?? 0,
+                                selectedValue:
+                                state.model.investigationRequired ?? false
+                                    ? 1
+                                    : 0,
+                                onChangedYes: (!(((state.model.status == null ||
+                                    state.model.status ==
+                                        ConstantsIntValue.created) &&
+                                    (widget.type ==
+                                        ConstantsIntValue.keyDamageHistoryInt ||
+                                        widget.type ==
+                                            ConstantsIntValue
+                                                .keyLostHistoryInt) &&
+                                    state.loggedInUserDetails!.userName
+                                        .equalsIgnoreCase(
+                                        state.model.createdBy?.userName)))) &&
+                                    (widget.extraProperties != null &&
+                                        !widget.extraProperties!
+                                            .hasWritePermission!)
+                                    ? null
+                                    : (val) {
+                                  state.model.investigationRequired = true;
+                                  BlocProvider.of<
+                                      KeyHistoryRecordsDetailsCubit>(
+                                      context)
+                                      .onCheckBoxChange(state.model);
+                                },
+                                onChangedNo: !(((state.model.status == null ||
+                                    state.model.status ==
+                                        ConstantsIntValue.created) &&
+                                    (widget.type ==
+                                        ConstantsIntValue.keyDamageHistoryInt ||
+                                        widget.type ==
+                                            ConstantsIntValue
+                                                .keyLostHistoryInt) &&
+                                    state.loggedInUserDetails!.userName
+                                        .equalsIgnoreCase(
+                                        state.model.createdBy?.userName))) &&
+                                    (widget.extraProperties != null &&
+                                        !widget.extraProperties!
+                                            .hasWritePermission!)
+                                    ? null
+                                    : (val) {
+                                  state.model.investigationRequired = false;
+                                  BlocProvider.of<
+                                      KeyHistoryRecordsDetailsCubit>(
+                                      context)
+                                      .onCheckBoxChange(state.model);
+                                }),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ],
                         if (state.model.investigationRequired == true) ...[
                           CommonWidgets.textDisplay(
                               Constants.incidentItemList,
@@ -972,6 +1004,8 @@ class _KeyHistoryRecordsDetailsViewState
     bool? showPopUp,
     required KeyHistoryRecordsDetailsState state,
   }) {
+    log('--kld-ogi--$kldId--');
+
     return AbsorbPointer(
       absorbing: false,
       child: AppButton(
@@ -1037,11 +1071,11 @@ class _KeyHistoryRecordsDetailsViewState
     if (!isSaveSuccess) {
       return;
     }
+    log('--state.model.id-----keyLossGi-------${state.model.id}-----');
+
     var map = {
       'kldId': state.model.id.toString(),
     };
-
-
     nav.pushNamed(
       incidentManagementDetailsRoute,
       arguments: map,
