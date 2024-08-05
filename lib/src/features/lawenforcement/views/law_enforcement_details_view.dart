@@ -1693,7 +1693,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   context: context,
                   builder: (BuildContext dialogContext) {
                     return AddEmployeeDepartment(
-                      title: Constants.addemployeedepartment,
+                      title: Constants.addEmployeeDepartment,
                       lawState: state,
                     );
                   });
