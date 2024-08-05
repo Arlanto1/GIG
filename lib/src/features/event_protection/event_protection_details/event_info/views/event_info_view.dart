@@ -612,6 +612,9 @@ class _EventInfoViewState extends State<EventInfoView> {
             child: IconButton(
               icon: const Icon(Icons.delete),
               onPressed: () {
+                if (!showSaveButtons) {
+                  return;
+                }
                 onPressedRemoveEmail(email);
               },
             ),
