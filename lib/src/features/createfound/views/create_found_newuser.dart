@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/common_widgets/cubits.dart';
 import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
@@ -219,7 +220,10 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
             context,
             "Please enter all the required fields",
           );
-        } else {
+        }  else if (!emailTextController.text.isEmptyOrNull && !Validator.isValidEmail(emailTextController.text)) {
+          Validator().showToast(
+              context, Constants.enterValidEmail);
+        }else {
           try {
             _getFoundNewuser(firstnameTextController.text,
                 lastnameTextController.text, emailTextController.text, widget.locationId);
