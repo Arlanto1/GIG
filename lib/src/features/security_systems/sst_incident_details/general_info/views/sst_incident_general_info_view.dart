@@ -73,7 +73,7 @@ class _SstIncidentGeneralInfoViewState
               if (widget.viaOccurrence) {
                 Navigator.pushNamed(
                   context,
-                  occurrenceDetailsRoute,
+                  shiftOccurrenceDetailsRoute,
                   arguments: {
                     'id': state.model.occurrence?.id.toString(),
                     "title": Constants.editOccurrence,

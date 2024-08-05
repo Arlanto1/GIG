@@ -52,8 +52,8 @@ const String guardingRatesGRIRoute = '/guardingRatesGRIRoute';
 const String payRateRoute = '/payRateRoute';
 const String femaleDropPickUpRoute = '/femaleDropPickUpRoute';
 
-const String occurrenceRoute = '/occurrenceRoute';
-const String occurrenceDetailsRoute = '/occurrenceDetailsRoute';
+const String shiftOccurrenceRoute = '/shiftOccurrenceRoute';
+const String shiftOccurrenceDetailsRoute = '/shiftOccurrenceDetailsRoute';
 
 const String contactDetailsListRoute = '/contactDetailsListRoute';
 const String contactDetailsRoute = '/contactDetailsRoute';

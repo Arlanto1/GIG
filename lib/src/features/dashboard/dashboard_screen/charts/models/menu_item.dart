@@ -5,10 +5,3 @@ class MenuItem {
 
   const MenuItem(this.title, this.imageName, this.numberOfChildren);
 }
-
-class ImageIconDimension {
-  final double height;
-  final double width;
-
-  const ImageIconDimension(this.height, this.width);
-}
