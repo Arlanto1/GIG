@@ -606,10 +606,8 @@ class _KeyHistoryRecordsDetailsViewState
                             textFormKey: Keys.additionInitiativesKey,
                             hintText: Constants.informationhere,
                             showBorder: true,
-                            isEnable: state.model.status ==
-                                ConstantsIntValue.created,
-                            isDisableColor: state.model.status !=
-                                ConstantsIntValue.created,
+                            isEnable: true,
+                            isDisableColor: false,
                             onChange: (String value) {
                               state.model.lostKeyDetails = value;
                               context
@@ -644,9 +642,12 @@ class _KeyHistoryRecordsDetailsViewState
                             textFormKey: Keys.guardingPOCKey,
                             hintText: '',
                             focusNode: noOfKeysFocusNode,
-                            isEnable: state.model.status ==
+                            isEnable: (state.model.status ==
                                 ConstantsIntValue.created ||
-                                state.model.status == null,
+                                state.model.status == null) && (widget.type ==
+                                ConstantsIntValue.lockChangeHistoryInt ||
+                                widget.type ==
+                                    ConstantsIntValue.keyDestroyHistoryInt),
                             isDisableColor: state.model.status !=
                                 ConstantsIntValue.created,
                             onChange: (String value) {

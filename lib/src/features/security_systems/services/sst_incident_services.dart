@@ -30,7 +30,7 @@ class SstIncidentServices {
   }) async {
     String url =
         '${Apis._get}startPos=$startPosition&maxResults=$maximumRecords'
-        '&ticketType=$ticketType&staffType=$staffType';
+        '&ticketType=$ticketType&staffType=1';
     if (!occId.isEmptyOrNull) {
       url = '$url&occuId=$occId';
     }
