@@ -37,6 +37,9 @@ SLAViolationPenaltyModel _$SLAViolationPenaltyModelFromJson(
           ? null
           : User.fromJson(json['approver'] as Map<String, dynamic>),
       attdInfoId: json['attdInfoId'] as String?,
+      entitiesInfo: json['entitiesInfo'] as String?,
+      vendorInfo: json['vendorInfo'] as String?,
+      typeOfServiceInfo: json['typeOfServiceInfo'] as String?,
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$SLAViolationPenaltyModelToJson(
@@ -56,4 +59,7 @@ Map<String, dynamic> _$SLAViolationPenaltyModelToJson(
       'approver': instance.approver,
       'poc': instance.poc,
       'attdInfoId': instance.attdInfoId,
+      'entitiesInfo': instance.entitiesInfo,
+      'vendorInfo': instance.vendorInfo,
+      'typeOfServiceInfo': instance.typeOfServiceInfo,
     };
