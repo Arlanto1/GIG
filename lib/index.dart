@@ -104,10 +104,13 @@ export 'package:db_atom/src/features/createfound/views/upload_attachment.dart';
 export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/cubits/charts_cubit.dart';
 export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/models/chart_data_model.dart';
 export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/models/menu_item.dart';
+export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/bottom_menu_handler.dart';
 export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/charts/base_bar_charts.dart';
 export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/charts/base_pie_charts.dart';
 export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/charts/base_verticle_bar_charts.dart';
 export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart';
+export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/widgets/custom_bottom_navigation_bar_widget.dart';
+export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/widgets/floating_sub_menu_widget.dart';
 export 'package:db_atom/src/features/dashboard/navigation_drawer/cubits/drawer_cubit.dart';
 export 'package:db_atom/src/features/dashboard/navigation_drawer/views/drawer_header_widget.dart';
 export 'package:db_atom/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart';
@@ -275,6 +278,7 @@ export 'package:db_atom/src/utils/utils_common.dart';
 export 'package:db_atom/src/utils/validators/validator.dart';
 export 'package:equatable/equatable.dart';
 export 'package:firebase_core/firebase_core.dart';
+export 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 // export 'package:firebase_messaging/firebase_messaging.dart';
 export 'package:flutter/foundation.dart';
 export 'package:flutter/material.dart';
@@ -286,8 +290,4 @@ export 'package:flutter_pdfview/flutter_pdfview.dart';
 export 'package:json_annotation/json_annotation.dart';
 export 'package:path_provider/path_provider.dart';
 export 'package:syncfusion_flutter_charts/charts.dart';
-
-
-
-export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/floating_sub_menu.dart';
-export 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
+export 'package:email_validator/email_validator.dart';
