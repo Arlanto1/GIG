@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/show_image.dart';
@@ -145,8 +146,10 @@ class AttachmentListViewState extends State<AttachmentListView> {
                     if (Utils()
                         .imageExtensions
                         .contains(imageExt.replaceAll('.', ''))) ...[
+                          Text('--'),
                       GestureDetector(
                         onTap: () {
+                          log('-onTap--');
                           Navigator.push(
                             context,
                             MaterialPageRoute(

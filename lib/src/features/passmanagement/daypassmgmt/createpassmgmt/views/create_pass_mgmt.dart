@@ -252,10 +252,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               if (widget.model != null && !widget.model!.lock.isEmptyOrNull) {
                 isDisabled = true;
               }
-              if (widget.extraProperties != null &&
-                  !widget.extraProperties!.hasWritePermission!) {
-                isDisabled = true;
-              }
+              // if (widget.extraProperties != null &&
+              //     !widget.extraProperties!.hasWritePermission!) {
+              //   isDisabled = true;
+              // }
               if (((widget.model?.status == null ||
                   widget.model?.status == 0 ||
                   widget.model?.status == 1 ||

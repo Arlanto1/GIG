@@ -42,6 +42,8 @@ class ChartsCubit extends Cubit<ChartsState> {
       ];
 
       final results = await Future.wait(futures);
+      DisplayMenu displayMenu =
+          await SharedPrefs.getDisplayMenu() ?? DisplayMenu();
 
       List<PieChartData> lawEnforcementVisitByEntity = results[0];
       List<PieChartData> lawEnforcementVisitByRegion = results[1];
@@ -54,6 +56,7 @@ class ChartsCubit extends Cubit<ChartsState> {
           eventProtectionByRegion: eventProtectionByRegion,
           status: FormStatus.initial,
           notificationCount: count,
+          displayMenu: displayMenu,
         ),
       );
     } on GenericResponse catch (e) {
