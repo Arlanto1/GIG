@@ -66,7 +66,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
               if (widget.viaOccurrence) {
                 Navigator.pushNamed(
                   context,
-                  occurrenceDetailsRoute,
+                  shiftOccurrenceDetailsRoute,
                   arguments: {
                     'id': state.model.occurrence?.id.toString(),
                     "title": Constants.editOccurrence,
@@ -789,8 +789,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                         incidentManager: user,
                                       );
                                     },
-                                    roleName: ConstantUserRoles
-                                        .atomStaticUser,
+                                    roleName: ConstantUserRoles.atomSeniorSecurityManagerUser,
                                     locationId:  state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list
@@ -833,7 +832,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                           incidentDescriptionFocusNode);
                                     },
                                     roleName: ConstantUserRoles
-                                        .atomStaticUser,
+                                        .atomSubRegionalHeadUser,
                                     locationId: state.model.location!.id!,
                                     functionToCall: () {
                                       // refresh the list

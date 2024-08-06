@@ -86,48 +86,46 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
       //   foregroundColor: AppColors.backgroundWhitecolor,
       //   onPressed: () {},
       // ),
-      appBar: AppHeader(
-        isTitleCenter: false,
+      // appBar: AppHeader(
+      //   isTitleCenter: false,
+      //   title: widget.title,
+      //   backBtn: IconButton(
+      //     onPressed: () {
+      //       Navigator.pop(context);
+      //     },
+      //     icon: const Icon(Icons.arrow_back_ios_new_outlined,
+      //         color: Colors.white),
+      //   ),
+      //   action: [
+      //     CustomPopmenu(
+      //       //itemList :[],
+      //       itemList: const [
+      //         PopMenuItems("Export Excel", AppIcon.exportexcel),
+      //         PopMenuItems("Export PDF", AppIcon.exportpdf),
+      //       ],
+      //       itemTap: (value) async {
+      //         if (value == 0) {
+      //           DownloadImage().exportExcel(
+      //               context, 'export.xslx', '/exportPassMgmtExcel');
+      //         } else if (value == 1) {
+      //           DownloadImage()
+      //               .exportPdf(context, 'export.pdf', '/exportPassMgmtPDF');
+      //         }
+      //       },
+      //       popupimagename: AppIcon.morewhiteicon,
+      //     ),
+      //   ],
+      // ),
+      appBar: BaseAppBar().buildAppHeader(
+        context: context,
         title: widget.title,
-        backBtn: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.arrow_back_ios_new_outlined,
-              color: Colors.white),
-        ),
-        action: [
-          CustomPopmenu(
-            //itemList :[],
-            itemList: const [
-              PopMenuItems("Export Excel", AppIcon.exportexcel),
-              PopMenuItems("Export PDF", AppIcon.exportpdf),
-            ],
-            itemTap: (value) async {
-              String userid = await SharedPrefs.getUserId();
-              if (value == 0) {
-                DownloadImage().passexportExcel(
-                    context,
-                    int.parse(userid),
-                    'export.xslx',
-                    int.parse(widget.passId),
-                    0,
-                    '/exportPassInfoExcel');
-              } else if (value == 1) {
-                // DownloadImage().exportPdf(context, int.parse(userid),
-                //     'export.pdf', 0, pageNumber, '/exportPassInfoPDF');
-                DownloadImage().passexportExcel(
-                    context,
-                    int.parse(userid),
-                    'export.pdf',
-                    int.parse(widget.passId),
-                    0,
-                    '/exportPassInfoPDF');
-              }
-            },
-            popupimagename: AppIcon.morewhiteicon,
-          ),
-        ],
+        showPopUp: true,
+        showSaveButton: false,
+        showSubmitButton: false,
+        showDisLikeButton: false,
+        showLikeButton: false,
+        excelAPIName: 'exportPassMgmtExcel?passType=${widget.passId}&isList=',
+        pdfAPIName: 'exportPassMgmtPDF?passType=${widget.passId}&isList=',
       ),
       body: BlocBuilder<DayPassInfoCubit, DayPassInfoState>(
           bloc: dayPassInfoCubit,

@@ -1669,28 +1669,13 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                       ),
 
                       /// SubmitButton
-                      if (state.model.status == 0) ...[
+                      // if (state.model.status != 0) ...[
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             cancelButtonDisplay(),
-                            // if (!disableForm) ...[
-                            //   submitButtonDisplay(onTap: () {
-                            //     FocusScope.of(context).unfocus();
-                            //     BlocProvider.of<GeneralInfoCubit>(context)
-                            //         .submitForm(isSaveOnly: false);
-                            //   })
-                            // ],
                           ],
                         ),
-                      ],
-                      // if (state.model.status != 0) ...[
-                      //   Row(
-                      //     mainAxisAlignment: MainAxisAlignment.center,
-                      //     children: [
-                      //       cancelButtonDisplay(),
-                      //     ],
-                      //   ),
                       // ],
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ]),

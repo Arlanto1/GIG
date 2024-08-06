@@ -224,7 +224,7 @@ class RouteGenerator {
       case addemployeedepartmentRoute:
         return MaterialPageRoute(
           builder: (context) => const AddEmployeeDepartment(
-            title: Constants.addemployeedepartment,
+            title: Constants.addEmployeeDepartment,
           ),
         );
 
@@ -520,7 +520,7 @@ class RouteGenerator {
             ),
           ),
         );
-      case occurrenceRoute:
+      case shiftOccurrenceRoute:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ocb.OccurrencesBloc>(
             create: (_) => ocb.OccurrencesBloc()
@@ -533,7 +533,7 @@ class RouteGenerator {
           ),
         );
 
-      case occurrenceDetailsRoute:
+      case shiftOccurrenceDetailsRoute:
         OccurrenceDetailsServices services = OccurrenceDetailsServices();
         CommonServices commonServices = CommonServices();
         String id = '';

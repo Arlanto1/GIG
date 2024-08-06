@@ -15,6 +15,7 @@ class DashboardViewState extends State<DashboardView>
     with WidgetsBindingObserver {
   String userName = '';
   String email = '';
+  late DisplayMenu displayMenu;
 
   @override
   void initState() {
@@ -31,6 +32,8 @@ class DashboardViewState extends State<DashboardView>
     userName = await SharedPrefs.getUsername();
     email = await SharedPrefs.getEmail();
     log('username : $userName email is : $email');
+
+    displayMenu = await SharedPrefs.getDisplayMenu() ?? DisplayMenu();
 
     // try {
     //   await FCMHandler.initializeFCM();
@@ -125,6 +128,12 @@ class DashboardViewState extends State<DashboardView>
           //     },
           //     child: getBody(state)),
 
+          /// Bottom Navigation Bar
+          bottomNavigationBar: CustomBottomNavigationBar(
+            scaffoldKey: scaffoldKey,
+            context: context,
+            displayMenu: displayMenu,
+          ),
           body: getBody(state),
         );
       },

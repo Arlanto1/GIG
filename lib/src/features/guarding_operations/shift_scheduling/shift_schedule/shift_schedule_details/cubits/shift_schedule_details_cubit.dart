@@ -181,6 +181,14 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           pocs: pocs,
         ),
       );
+    } on TokenExpiredException catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.sessionExpired,
+        ),
+      );
+      return;
     } catch (e) {
       log('Initialization issue',
           error: e, name: 'Shift Schedule Details Cubit');

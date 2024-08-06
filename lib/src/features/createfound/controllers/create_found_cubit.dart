@@ -342,7 +342,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
-            context, 'Added successfully', Constants.addarticletype, '');
+            context, Constants.addedSuccessfully, Constants.addarticletype, '');
       });
     } on GenericResponse catch (e) {
       emit(
@@ -391,7 +391,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
-            context, 'Added Successfully', Constants.addEmpDepartment, '');
+            context, Constants.addedSuccessfully, Constants.addEmpDepartment, '');
       });
     } on GenericResponse catch (e) {
       emit(
@@ -454,10 +454,10 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       );
       dismissLoadingDialog(context);
       await createFoundArticleCubit.getUserByRoleDepositor(
-          'ATOM_STATIC_USER', state.location?.id);
+          ConstantUserRoles.atomStaticUser, state.location?.id);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
-            context, 'Added successfully', Constants.newuser, '');
+            context, Constants.userAddedUpdatedSuccessfully, Constants.newuser, '');
       });
     } on GenericResponse catch (e) {
       emit(
