@@ -4,10 +4,10 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/dashboard/navigation_drawer/views/menu_permissions.dart';
 
 class BottomMenuHandler {
-  final BuildContext context;final DisplayMenu displayMenu;
+  final BuildContext context;
+  final DisplayMenu displayMenu;
 
   final double positionX;
-
 
   const BottomMenuHandler({
     required this.context,
@@ -40,7 +40,7 @@ class BottomMenuHandler {
                 ),
               ),
             ),
-            FloatingSubMenu(
+            FloatingSubMenuWidget(
               menuItems: menuItems,
               onOptionSelected: onOptionSelected,
               positionX: positionX,
@@ -52,8 +52,7 @@ class BottomMenuHandler {
   }
 
   /// Guarding Operations
-  void openGuardingOperationSubMenu(
-  ) {
+  void openGuardingOperationSubMenu() {
     List<MenuItem> menuItems = [];
 
     MenuPermissions()
@@ -159,5 +158,4 @@ class BottomMenuHandler {
         break;
     }
   }
-
 }

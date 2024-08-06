@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/bottom_menu_handler.dart';
 
 import 'charts/base_pyramid_charts.dart';
 
@@ -34,7 +33,7 @@ class DashboardViewState extends State<DashboardView>
     email = await SharedPrefs.getEmail();
     log('username : $userName email is : $email');
 
-    displayMenu = await SharedPrefs.getDisplayMenu()?? DisplayMenu();
+    displayMenu = await SharedPrefs.getDisplayMenu() ?? DisplayMenu();
 
     // try {
     //   await FCMHandler.initializeFCM();
@@ -129,7 +128,12 @@ class DashboardViewState extends State<DashboardView>
           //     },
           //     child: getBody(state)),
 
-          bottomNavigationBar: buildBottomNavigationBar(),
+          /// Bottom Navigation Bar
+          bottomNavigationBar: CustomBottomNavigationBar(
+            scaffoldKey: scaffoldKey,
+            context: context,
+            displayMenu: displayMenu,
+          ),
           body: getBody(state),
         );
       },
@@ -220,56 +224,5 @@ class DashboardViewState extends State<DashboardView>
         ],
       ),
     );
-  }
-
-  SizedBox buildBottomNavigationBar() {
-    return SizedBox(
-      height: 140,
-      child: FloatingNavbar(
-        onTap: _handleNavTap,
-        backgroundColor: AppColors.navigationSkyBlueColor,
-        selectedBackgroundColor: AppColors.white,
-        selectedItemColor: AppColors.navigationSkyBlueColor,
-        currentIndex: 0,
-        items: [
-          FloatingNavbarItem(
-              icon: Icons.person_pin_outlined,
-              title: Constants.guardingOperations),
-          FloatingNavbarItem(
-              icon: Icons.supervised_user_circle_sharp,
-              title: Constants.materialMovement),
-          FloatingNavbarItem(
-              icon: Icons.calendar_month, title: Constants.shiftScheduling),
-          // FloatingNavbarItem(
-          //     icon: Icons.chat_bubble_outline, title: 'Chats'),
-          // FloatingNavbarItem(icon: Icons.settings, title: 'Settings'),
-        ],
-      ),
-    );
-  }
-
-  /// Bottom Navigation Code
-  void _handleNavTap(int selectedIndex) {
-    // Get the position of the tapped item
-    RenderBox renderBox =
-        scaffoldKey.currentContext?.findRenderObject() as RenderBox;
-    Offset offset = renderBox.localToGlobal(Offset.zero);
-    double itemWidth =
-        renderBox.size.width / 4; // Assuming 4 items in the navbar
-    double positionX = offset.dx + selectedIndex * itemWidth + itemWidth / 2;
-
-    switch (selectedIndex) {
-      case 0:
-        BottomMenuHandler(context: context, displayMenu: displayMenu, positionX:positionX ).openGuardingOperationSubMenu();
-        break;
-      case 1:
-        BottomMenuHandler(context: context, displayMenu: displayMenu, positionX:positionX).openMaterialMovementSubMenu();
-        break;
-      case 2:
-        BottomMenuHandler(context: context, displayMenu: displayMenu, positionX:positionX).openShiftScheduleSubMenu();
-        break;
-      default:
-        log('Invalid tab index: $selectedIndex');
-    }
   }
 }
