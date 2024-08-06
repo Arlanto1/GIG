@@ -261,7 +261,7 @@ class Constants {
   static const String chest = 'Chest (inch)';
 
   static const String buildinglocation = 'Building Location';
-  static const String addemployeedepartment = 'Add Employee Department';
+  static const String addEmployeeDepartment = 'Add Employee Department';
   static const String addreasonfordaypass = 'Add Reason for Day Pass';
   static const String addreasonforvendorpass = 'Add Reason for Vendor Pass';
   static const String save = 'Save';
@@ -300,6 +300,8 @@ class Constants {
   static const String isclaimantdbemployee = 'Is Claimant DB Employee';
   static const String isclaimantacceptedtosign = 'Claimant accepted to sign';
   static const String isclaimantacceptedbyemail = 'Claimant Confirmed by Email';
+  static const String addedSuccessfully = 'Added Successfully.';
+  static const String userAddedUpdatedSuccessfully = 'User Added/Updated Successfully.';
 
   // Law enforcement
   static const String createlawenforcement =

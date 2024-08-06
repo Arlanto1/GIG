@@ -5,6 +5,7 @@ class ChartsState extends Equatable {
   final List<PieChartData>? lawEnforcementVisitByRegion;
   final List<PieChartData>? eventProtectionByRegion;
   final int? notificationCount;
+  final DisplayMenu? displayMenu;
   final FormStatus? status;
   final String? message;
 
@@ -32,6 +33,7 @@ class ChartsState extends Equatable {
     this.lawEnforcementVisitByEntity,
     this.lawEnforcementVisitByRegion,
     this.eventProtectionByRegion,
+    this.displayMenu,
     this.message,
     this.notificationCount,
   });
@@ -41,6 +43,7 @@ class ChartsState extends Equatable {
     List<PieChartData>? lawEnforcementVisitByRegion,
     List<PieChartData>? eventProtectionByRegion,
     String? message,
+    DisplayMenu? displayMenu,
     int? notificationCount,
     FormStatus? status,
   }) {
@@ -54,6 +57,7 @@ class ChartsState extends Equatable {
       message: message ?? this.message,
       status: status ?? this.status,
       notificationCount: notificationCount ?? this.notificationCount,
+      displayMenu: displayMenu ?? this.displayMenu,
     );
   }
 }

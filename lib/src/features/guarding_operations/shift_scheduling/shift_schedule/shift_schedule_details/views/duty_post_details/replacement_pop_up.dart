@@ -74,9 +74,12 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
   }
 
   NextAvailableDateRange? dates;
+  bool reasonConditions = false;
 
   @override
   Widget build(BuildContext context) {
+    Label? selectedReason;
+
     return AlertDialog(
       backgroundColor: AppColors.backgroundWhiteColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -85,7 +88,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
         return SizedBox(
-          height: height / 1.9,
+          height: height / 1.65,
           width: width,
           child: Stack(
             clipBehavior: Clip.none,
@@ -124,6 +127,8 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                               //     .updateReplacement(widget.model);
 
                               if (widget.rankId != null) {
+                                showLoadingDialog(context);
+
                                 dates = await ShiftScheduleServices()
                                     .getNextAvailableReplacementDates(
                                   rankId: widget.rankId!,
@@ -131,6 +136,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                                   dutyPostId: widget.dutyPostId!,
                                   shiftId: widget.shiftId!,
                                 );
+                                dismissLoadingDialog(context);
                               }
 
                               // BlocProvider.of<DutyPostDetailsCubit>(
@@ -166,14 +172,20 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                                 .map((label) => label.key)
                                 .toList(),
                             onTap: (String value) {
-                              Label? selectedLabel;
-                              selectedLabel = reasonDropDownValues.firstWhere(
+                              selectedReason = reasonDropDownValues.firstWhere(
                                 (label) => label.key == value,
                                 orElse: () => const Label(key: '', value: ''),
                               );
+                              setState(() {
+                                reasonConditions = (selectedReason != null &&
+                                    (selectedReason!.value == '1' ||
+                                        selectedReason!.value == '2'));
+                              });
+                              log('--reasonConditions-$reasonConditions-');
+
                               widget.model.status =
-                                  int.tryParse(selectedLabel.value);
-                              reasonController.text = selectedLabel.key;
+                                  int.tryParse(selectedReason!.value);
+                              reasonController.text = selectedReason!.key;
                             },
                           );
                         },
@@ -202,8 +214,11 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                           //     .onModelValueChange(state.model);
 
                           widget.model.fromDate = Utils().formatTime(value);
+                          log('--widget.model.status-${widget.model.status}---');
 
-                          if (widget.model.status == 2) {
+                          log('--selectedReason-${selectedReason?.value}---');
+
+                          if (widget.model.status == 2 || reasonConditions) {
                             toDateController.text = fromDateController.text;
                             widget.model.toDate = Utils().formatTime(value);
                           }
@@ -222,11 +237,13 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
 
+                      // Text('-reasonConditions--$reasonConditions-'),
                       BaseDate().datePickerWidgetLoading(
                         textController: toDateController,
                         onlyDate: true,
                         showPastDate: false,
                         fromDate: dates?.fromDate,
+                        isDisabled: reasonConditions,
                         toDate: dates?.toDate,
                         onChange: (String value) {
                           widget.model.toDate = Utils().formatTime(value);
@@ -315,6 +332,15 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
       buttonTextKey: Keys.saveButtonText,
       backgroundColor: AppColors.navigationSkyBlueColor,
       onTap: () {
+
+        if (!isFormValid.status) {
+          Validator().showToast(
+            context,
+            isFormValid.message,
+          );
+          return;
+        }
+
         // widget.model?.dutyPostLocationName = dutyPostLocationNameController.text;
         BlocProvider.of<DutyPostDetailsCubit>(widget.mainContext)
             .updateReplacement(widget.model);
@@ -322,4 +348,29 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
       },
     );
   }
+
+  ErrorResponse get isFormValid {
+    if (replacementForController.text.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Replacement For');
+    }
+
+    if (reasonController.text.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Reason');
+    }
+    if (fromDateController.text.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter From Date');
+    }
+    if (toDateController.text.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter To Date');
+    }
+    if (replacementByController.text.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Replacement By');
+    }
+
+    return const ErrorResponse(status: true, message: 'Form is Valid');
+  }
+
 }

@@ -244,7 +244,7 @@ class BaseAddOrganisationDialogState extends State<BaseAddOrganisationDialog> {
 
             sca.showSnackBar(
               const SnackBar(
-                content: Text('Added Successfully.'),
+                content: Text(Constants.addedSuccessfully),
                 duration: Duration(seconds: 3), // Adjust the duration
               ),
             );

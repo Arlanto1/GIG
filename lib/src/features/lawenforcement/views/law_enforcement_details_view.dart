@@ -1693,7 +1693,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   context: context,
                   builder: (BuildContext dialogContext) {
                     return AddEmployeeDepartment(
-                      title: Constants.addemployeedepartment,
+                      title: Constants.addEmployeeDepartment,
                       lawState: state,
                     );
                   });
@@ -1813,7 +1813,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       title: state.dBOfficialEmailIdAccompaniedLeoOfficial != null
           ? ('${state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? ''}${state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? ''}')
           : '',
-      height: 70,
+      height: 90,
       isDisableColor: isDistrbuted,
       onTap: () {
         if (!isDistrbuted) {

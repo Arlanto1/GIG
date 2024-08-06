@@ -44,7 +44,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       }
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        Utils.dynamicAlert(context, 'Added successfully', title, '');
+        Utils.dynamicAlert(context, Constants.addedSuccessfully, title, '');
       });
     } on GenericResponse catch (e) {
       emit(
@@ -177,7 +177,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       await createPassMgmtCubit.getAnalysts();
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        Utils.dynamicAlert(context, 'Added sucessfully', Constants.newuser, '');
+        Utils.dynamicAlert(context, Constants.userAddedUpdatedSuccessfully, Constants.newuser, '');
       });
     } on GenericResponse catch (e) {
       emit(
@@ -209,7 +209,6 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  // law organisation call
   Future<void> createEmployeeDepartments(
       String name, String orgName, BuildContext context) async {
     try {
@@ -226,8 +225,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
           context,
-          'Added successfully',
-          Constants.addemployeedepartment,
+          Constants.addedSuccessfully,
+          Constants.addEmployeeDepartment,
           '',
         );
       });
@@ -260,7 +259,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(context, Constants.errorText,
-            Constants.addemployeedepartment, Constants.errorText);
+            Constants.addEmployeeDepartment, Constants.errorText);
       });
     }
   }
@@ -579,7 +578,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   Future<void> getAnalysts() async {
     try {
       Analyst analysts = await commonServices.getUsersByRole(
-          roleName: 'T1_Analyst', locationId: state.location?.id);
+          roleName: ConstantUserRoles.atomStaticUser, locationId: state.location?.id);
       emit(
         state.copyWith(
           analyst: analysts,

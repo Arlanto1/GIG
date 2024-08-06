@@ -753,7 +753,7 @@ class _CreateFoundState extends State<CreateFound> {
                   context: context,
                   builder: (BuildContext dialogContext) {
                     return AddEmployeeDepartment(
-                      title: Constants.addemployeedepartment,
+                      title: Constants.addEmployeeDepartment,
                       createFoundState: state,
                     );
                   });

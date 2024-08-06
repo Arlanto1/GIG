@@ -132,7 +132,11 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
                             //this.username = username;
                             setState(() {});
                           },
-                          validateTextField: (String? user) {},
+                          validateTextField: (String? username) {
+                            if (!Validator.isValidEmail(username)) {
+                              return Constants.enterValidEmail;
+                            }
+                          },
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.03),
                         buttonViews(context, width),
@@ -177,6 +181,9 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
             context,
             "Please enter all the required fields",
           );
+        }  else if (!emailTextController.text.isEmptyOrNull && !Validator.isValidEmail(emailTextController.text)) {
+          Validator().showToast(
+              context, Constants.enterValidEmail);
         } else {
           var sca = ScaffoldMessenger.of(context);
           try {
@@ -195,7 +202,7 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
 
             sca.showSnackBar(
               const SnackBar(
-                content: Text('Added Successfully.'),
+                content: Text(Constants.userAddedUpdatedSuccessfully),
                 duration: Duration(seconds: 3), // Adjust the duration
               ),
             );
