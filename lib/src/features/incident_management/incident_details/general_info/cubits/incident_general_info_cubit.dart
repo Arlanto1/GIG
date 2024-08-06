@@ -84,6 +84,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
 
   Future<void> initializeValues() async {
     log('initializeValues---incidentGeneralCubit-occId---$occId--');
+    log('initializeValues---incidentGeneralCubit-kldId---$kldId--');
 
     //Show Loader and emit loading state
     emit(

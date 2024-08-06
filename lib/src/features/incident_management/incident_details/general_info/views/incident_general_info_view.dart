@@ -43,6 +43,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
   @override
   Widget build(BuildContext context) {
     log('---viaOccurrence-----${widget.viaOccurrence}-----');
+    log('---viaKeyIssuance-----${widget.viaKeyIssuance}-----');
 
     final size = MediaQuery.of(context).size;
     final height = size.height;
@@ -59,10 +60,12 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
-              Navigator.popAndPushNamed(
-                context,
-                incidentManagementsRoute,
-              );
+              if (!widget.viaOccurrence && !widget.viaKeyIssuance) {
+                Navigator.popAndPushNamed(
+                  context,
+                  incidentManagementsRoute,
+                );
+              }
               if (widget.viaOccurrence) {
                 Navigator.pushNamed(
                   context,

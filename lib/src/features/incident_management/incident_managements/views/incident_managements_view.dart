@@ -91,7 +91,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
             backgroundColor: AppColors.cardBgColor,
             floatingActionButton:
                 (state.extraProperties?.hasWritePermission ?? false) &&
-                        widget.occId.isEmptyOrNull
+                    (widget.occId.isEmptyOrNull || widget.kldId.isEmptyOrNull)
 
                     /// disable + icon when navigating via Shift Occurrence
                     ? Flutterfloatingbutton(
@@ -104,6 +104,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                             arguments: {
                               'occId': widget.occId?.toString(),
                               'occType': widget.occType,
+                              'kldId': widget.kldId?.toString(),
                             },
                           )
                         },

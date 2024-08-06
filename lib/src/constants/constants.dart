@@ -891,6 +891,9 @@ class Constants {
   static const String sentReminder = 'Reminder Sent';
   static const String sentRemindertoVendor = 'Sent reminder to Vendor.';
 
+  ///Key issuance Process
+  static const String valueNotAccepted = 'Value Not Accepted';
+  static const String enteredValueNotAccepted = 'Entered Value not accepted';
   /// Module Code for roles
   static const String passManagementRolesModuleCode = 'PM';
 }

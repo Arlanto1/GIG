@@ -350,6 +350,8 @@ class KeyHistoryRecordsDetailsCubit
       );
       return false;
     }
+    log('---response--msg--${response.message}---');
+
     emit(
       state.copyWith(
         message: response.message,

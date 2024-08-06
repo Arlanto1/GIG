@@ -19,6 +19,7 @@ class KeyIssuanceProcessRecordsView extends StatefulWidget {
     this.id,
     this.extraProperties,
     this.lock,
+    this.kldId,
   });
 
   final int parentId;
@@ -30,6 +31,7 @@ class KeyIssuanceProcessRecordsView extends StatefulWidget {
   final int? id;
   final ExtraProperties? extraProperties;
   final String? lock;
+  final int? kldId;
 
   @override
   State<KeyIssuanceProcessRecordsView> createState() =>
@@ -276,15 +278,35 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         ? true
                         : false,
                     onLinkOffTap: (selectedIndex) async {
-                      KeyIssuanceProcessRecord keyIssuanceProcessModel =
                       await KeyManagementIssuanceServices()
                           .getIssuanceProcessById(
                           state.items[index].id ?? 0);
                       int? kmId = state.items[selectedIndex].kmId;
                       int? kipId = state.items[selectedIndex].id;
+                      if(state.items[selectedIndex].lost == 0){
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text(Constants.valueNotAccepted),
+                              content:
+                              const Text(Constants.enteredValueNotAccepted),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text(Constants.ok),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                      else{
                       Navigator.pushNamed(
                         context,
-                        keyHistoryRecordsDetailsRoute,
+                     keyHistoryRecordsDetailsRoute,
                         arguments: {
                           ConstantsArgument.title: Constants.keyLostHistory,
                           ConstantsArgument.id: kmId,
@@ -293,6 +315,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                               ConstantsIntValue.keyLostHistoryInt,
                         },
                       );
+                      }
                     },
                     showDeleteButton:widget.lock.isEmptyOrNull && (widget.parentStatus == 1 ||
                                 widget.parentStatus == 2) &&
@@ -301,15 +324,35 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         ? true
                         : false,
                     onDeleteTap: (selectedIndex) async {
-                      KeyIssuanceProcessRecord keyIssuanceProcessModel =
                       await KeyManagementIssuanceServices()
                           .getIssuanceProcessById(
                           state.items[index].id ?? 0);
                       int? kmId = state.items[selectedIndex].kmId;
                       int? kipId = state.items[selectedIndex].id;
+                      if(state.items[selectedIndex].damaged == 0){
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text(Constants.valueNotAccepted),
+                              content:
+                              const Text(Constants.enteredValueNotAccepted),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text(Constants.ok),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                      else{
                       Navigator.pushNamed(
                         context,
-                        keyHistoryRecordsDetailsRoute,
+                      keyHistoryRecordsDetailsRoute,
                         arguments: {
                           ConstantsArgument.title: Constants.keyDamageHistory,
                           ConstantsArgument.id: kmId,
@@ -318,7 +361,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                               ConstantsIntValue.keyDamageHistoryInt,
                         },
                       );
-                    },
+                    }},
                     index: index,
                   );
           }
