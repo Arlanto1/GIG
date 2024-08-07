@@ -120,13 +120,13 @@ class _EventInfoViewState extends State<EventInfoView> {
             showLikeButton: false,
             onTapSave: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<EventInfoCubit>(context)
-                  .submitForm(isSaveOnly: true);
+              BlocProvider.of<EventInfoCubit>(context).submitForm(
+                  isSaveOnly: true, updatedEmailText: updatedEmailText ?? '');
             },
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<EventInfoCubit>(context)
-                  .submitForm(isSaveOnly: false);
+              BlocProvider.of<EventInfoCubit>(context).submitForm(
+                  isSaveOnly: false, updatedEmailText: updatedEmailText ?? '');
             },
           ),
           backgroundColor: AppColors.backgroundWhiteColor,
@@ -135,6 +135,8 @@ class _EventInfoViewState extends State<EventInfoView> {
       },
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
+
+  String? updatedEmailText;
 
   getBodybuilder(EventInfoState state, height) {
     if (state.status == FormStatus.loading) {
@@ -145,6 +147,7 @@ class _EventInfoViewState extends State<EventInfoView> {
         state.status == FormStatus.initial) {
       guardFiles = state.guardAttachments ?? [];
     }
+
     return Container(
       color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
@@ -341,12 +344,11 @@ class _EventInfoViewState extends State<EventInfoView> {
                                             onEditingComplete: (s) async {
                                               debugPrint(
                                                   'Editing completed $s');
-                                              var cubit = BlocProvider.of<
-                                                  EventInfoCubit>(context);
-                                              state.model.email =
-                                                  await getHtmlText();
-                                              cubit.onModelValueChange(
-                                                  state.model);
+                                              state.model.email = s;
+                                              BlocProvider.of<EventInfoCubit>(
+                                                      context)
+                                                  .onModelValueChange(
+                                                      state.model);
                                             },
                                             loadingBuilder: (context) {
                                               return const Center(
@@ -360,12 +362,12 @@ class _EventInfoViewState extends State<EventInfoView> {
                                               debugPrint(
                                                   'has focus-----SSSS---- $focus');
 
-                                              // setState(() {
-                                              //   hasFocus = focus;
-                                              // });
                                             },
-                                            onTextChanged: (text) => debugPrint(
-                                                'widget text change $text'),
+                                            onTextChanged: (text) {
+                                              debugPrint(
+                                                  'widget text change $text');
+                                              updatedEmailText = text;
+                                            },
                                             onEditorCreated: () {
                                               debugPrint(
                                                   'Editor has been loaded--------');
@@ -415,7 +417,10 @@ class _EventInfoViewState extends State<EventInfoView> {
                                                         .submitForm(
                                                             isSaveOnly: false,
                                                             addArticleFound:
-                                                                true);
+                                                                true,
+                                                            updatedEmailText:
+                                                                updatedEmailText ??
+                                                                    '');
                                                   },
                                                 );
                                               },
@@ -482,10 +487,11 @@ class _EventInfoViewState extends State<EventInfoView> {
                       cancelButtonDisplay(),
                       if (showSaveButtons) ...[
                         submitButtonDisplay(
-                          onTap: () {
+                          onTap: () async {
                             FocusScope.of(context).unfocus();
-                            BlocProvider.of<EventInfoCubit>(context)
-                                .submitForm(isSaveOnly: false);
+                            BlocProvider.of<EventInfoCubit>(context).submitForm(
+                                isSaveOnly: false,
+                                updatedEmailText: updatedEmailText ?? '');
                           },
                         ),
                       ],
@@ -602,7 +608,6 @@ class _EventInfoViewState extends State<EventInfoView> {
   }
 
   Widget getEmail(List<String> emails) {
-    log('-getEmail---${emails.toString()}--');
     List<Widget> widgets = [];
 
     for (String email in emails) {

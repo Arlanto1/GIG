@@ -84,6 +84,11 @@ class EventInfoCubit extends Cubit<EventInfoState> {
   }
 
   void onModelValueChange(EventInfoResponse model) {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
     log('-onModelValueChange--${model.email}-');
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
@@ -120,12 +125,19 @@ class EventInfoCubit extends Cubit<EventInfoState> {
   void submitForm({
     bool isSaveOnly = false,
     bool addArticleFound = false,
+    required String updatedEmailText,
   }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
+
+    log('-state.email####--${state.model.email}-----');
+
+    if(!updatedEmailText.isEmptyOrNull) {
+      state.model.email = updatedEmailText;
+    }
 
     DateTime dateTime;
     if (state.model.date != null && !Utils().isTimestamp(state.model.date!)) {

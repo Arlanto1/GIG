@@ -146,7 +146,6 @@ class AttachmentListViewState extends State<AttachmentListView> {
                     if (Utils()
                         .imageExtensions
                         .contains(imageExt.replaceAll('.', ''))) ...[
-                          Text('--'),
                       GestureDetector(
                         onTap: () {
                           log('-onTap--');
