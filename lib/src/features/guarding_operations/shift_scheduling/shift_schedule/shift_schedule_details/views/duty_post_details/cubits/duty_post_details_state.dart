@@ -31,7 +31,23 @@ class DutyPostDetailsState extends Equatable {
     );
   }
 
+  static const String msg = 'Please create replacement for ';
+
   ErrorResponse get isValidDraft {
+    // List<BaseUser>? needReplacementUsers = model.selectedGuards?.where((u)=> !u.description.isEmptyOrNull).toList();
+    // model.replacements
+
+    if (model.selectedGuards != null && model.replacements != null) {
+      for (BaseUser guard in model.selectedGuards!) {
+        if (guard.description != null) {
+          bool isReplaced = model.replacements!
+              .any((replacement) => replacement.replacedFor == guard);
+          if (!isReplaced) {
+            return ErrorResponse(status: false, message: '$msg${guard.name}');
+          }
+        }
+      }
+    }
     // if (model.status == null) {
     //   return const ErrorResponse(status: false, message: 'Please enter Status');
     // }
@@ -56,6 +72,18 @@ class DutyPostDetailsState extends Equatable {
   }
 
   ErrorResponse get isValid {
+
+    if (model.selectedGuards != null && model.replacements != null) {
+      for (BaseUser guard in model.selectedGuards!) {
+        if (guard.description != null) {
+          bool isReplaced = model.replacements!
+              .any((replacement) => replacement.replacedFor == guard);
+          if (!isReplaced) {
+            return ErrorResponse(status: false, message: '$msg${guard.name}');
+          }
+        }
+      }
+    }
     // if (model.location == null) {
     //   return const ErrorResponse(
     //       status: false, message: 'Please enter Location');

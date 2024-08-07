@@ -141,6 +141,13 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
               await services.getOccPowerFailure(
                   locationId: model.location?.id.toString() ?? '');
 
+          StringResponse followUp =
+          await services.getOccFollowUp(
+              locationId: model.location?.id.toString() ?? '');
+
+          if(!followUp.comments.isEmptyOrNull) {
+            model.comments = followUp.comments;
+          }
           log('-powerFailureModel.powerFailureStartDate--${powerFailureModel.powerFailureStartDate}-');
           if (powerFailureModel.powerFailureStartDate != null) {
             model.powerFailure = true;

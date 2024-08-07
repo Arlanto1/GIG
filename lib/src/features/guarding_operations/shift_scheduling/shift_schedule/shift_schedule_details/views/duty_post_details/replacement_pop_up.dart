@@ -166,6 +166,13 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                         textController: reasonController,
                         items: reasonDropDownValues,
                         onTap: () {
+                          if (!isReplacedForSelected.status) {
+                            Validator().showToast(
+                              context,
+                              isReplacedForSelected.message,
+                            );
+                            return;
+                          }
                           BaseDropDown().assetTypeDialog(
                             context: context,
                             dropDownValues: reasonDropDownValues
@@ -208,6 +215,14 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                         fromDate: dates?.fromDate,
                         toDate: dates?.toDate,
                         onChange: (String value) {
+
+                          if (!isReplacedForSelected.status) {
+                            Validator().showToast(
+                              context,
+                              isReplacedForSelected.message,
+                            );
+                            return;
+                          }
                           // state.model.fromDate = Utils().formatTime(value);
                           // BlocProvider.of<ShiftScheduleDetailsCubit>(
                           //     context)
@@ -348,6 +363,16 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
       },
     );
   }
+
+
+  ErrorResponse get isReplacedForSelected {
+    if (replacementForController.text.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Replacement For');
+    }
+
+    return const ErrorResponse(status: true, message: 'Form is Valid');
+  }
+
 
   ErrorResponse get isFormValid {
     if (replacementForController.text.isEmptyOrNull) {

@@ -85,7 +85,8 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
         id: id, module: Constants.contactDetailsModule);
   }
 
-  Future<void> getShiftListByAssignedDutyPostId({required rank}) async {
+  Future<void> getShiftListByAssignedDutyPostId(
+      {required Organisation rank}) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -93,15 +94,16 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     );
 
     List<Organisation> shifts = await services.getShiftListByAssignedDutyPostId(
-        dutyPostId: parentModel.id!, rankId: rank);
+        dutyPostId: parentModel.id!, rankId: rank.id!);
     Organisation selectedShift = shifts.first;
-    getAvailableSelectedGuardsByShift(shift: selectedShift);
 
     emit(state.copyWith(
       shifts: shifts,
+      selectedRank: rank,
       status: FormStatus.initial,
       selectedShift: selectedShift,
     ));
+    getAvailableSelectedGuardsByShift(shift: selectedShift);
   }
 
   Future<void> getAvailableSelectedGuardsByShift({
@@ -121,6 +123,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     emit(state.copyWith(
       model: model,
       status: FormStatus.initial,
+      selectedShift: shift,
     ));
   }
 
@@ -128,13 +131,14 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     bool isSaveOnly = false,
     required Shift model,
     FormStatus? status,
+    required Organisation newSelectedShift,
   }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
-    log('---submitDutyPost---');
+    log('---state.selectedShift!.id-${state.selectedShift!.id}--');
 
     // Create/Update API Call
     ShiftRequest request = ShiftRequest(shifts: model);
@@ -145,7 +149,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
-              status: FormStatus.error,
+              status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
@@ -155,8 +159,8 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
           body: request,
           isSubmit: false,
           dutyPostId: parentModel.id!,
-          rankId: state.selectedShift!.id!,
-          shiftId: state.selectedShift!.id!,
+          rankId: state.selectedRank!.id!,
+          shiftId: newSelectedShift!.id!,
         ));
       } else {
         //Validating Fields
@@ -169,13 +173,13 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
         //   );
         //   return;
         // }
-        response = (await services.saveSelectedGuards(
+        response = await services.saveSelectedGuards(
           body: request,
           isSubmit: true,
           dutyPostId: parentModel.id!,
-          rankId: state.selectedShift!.id!,
+          rankId: state.selectedRank!.id!,
           shiftId: state.selectedShift!.id!,
-        ));
+        );
       }
     } on GenericResponse catch (e) {
       emit(
@@ -199,7 +203,8 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     emit(
       state.copyWith(
         message: response.message,
-        status: status == null ? FormStatus.success: FormStatus.initial,
+        status: status == null ? FormStatus.success : FormStatus.initial,
+        selectedShift: newSelectedShift,
       ),
     );
   }

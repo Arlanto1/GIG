@@ -437,7 +437,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       // CreateUserModel createUserData = await createFoundServices.createUser(
       //     firstName, lastName, email, role, context);
 
-      CreateUserModel createUserData = await commonServices.createUser(
+      User createUserData = await commonServices.createUser(
         firstName: firstName,
         lastName: lastName,
         email: email,

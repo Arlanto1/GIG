@@ -85,15 +85,18 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<DutyPostDetailsCubit>(context).submitForm(
-                  isSaveOnly: true,
-                  model: state.model,
-                  status: FormStatus.initial);
+                isSaveOnly: true,
+                model: state.model,
+                status: FormStatus.initial,
+                newSelectedShift: state.selectedShift!,
+              );
             },
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<DutyPostDetailsCubit>(context).submitForm(
                 isSaveOnly: false,
                 model: state.model,
+                newSelectedShift: state.selectedShift!,
               );
             },
           ),
@@ -174,19 +177,20 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                     });
                                     log('---onChange-region-----');
 
-                                    BlocProvider.of<DutyPostDetailsCubit>(
-                                            context)
-                                        .submitForm(
-                                      isSaveOnly: true,
-                                      model: state.model,
-                                      status: FormStatus.initial,
-                                    );
-                                    if (state.status != FormStatus.formError) {
+                                    // BlocProvider.of<DutyPostDetailsCubit>(
+                                    //         context)
+                                    //     .submitForm(
+                                    //   isSaveOnly: true,
+                                    //   model: state.model,
+                                    //   status: FormStatus.initial,
+                                    //   newSelectedShift: state.selectedShift!,
+                                    // );
+                                    // if (state.status != FormStatus.formError) {
                                       BlocProvider.of<DutyPostDetailsCubit>(
                                               context)
                                           .getShiftListByAssignedDutyPostId(
-                                              rank: value?.id);
-                                    }
+                                              rank: value!);
+                                    // }
                                   },
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
@@ -200,6 +204,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
+
                                 DropdownWidget(
                                   label: 'Select Shift',
                                   items: state.shifts ?? [],
@@ -210,22 +215,23 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                     setState(() {
                                       selectedShift = value;
                                     });
+                                    // BlocProvider.of<DutyPostDetailsCubit>(
+                                    //         context)
+                                    //     .submitForm(
+                                    //   isSaveOnly: true,
+                                    //   model: state.model,
+                                    //   status: FormStatus.initial,
+                                    //   newSelectedShift: value!,
+                                    // );
+
+                                    // if (state.status != FormStatus.formError) {
                                     BlocProvider.of<DutyPostDetailsCubit>(
                                             context)
-                                        .submitForm(
-                                      isSaveOnly: true,
-                                      model: state.model,
-                                      status: FormStatus.initial,
+                                        .getAvailableSelectedGuardsByShift(
+                                      // rank: state.selectedRank,
+                                      shift: value!,
                                     );
-
-                                    if (state.status != FormStatus.formError) {
-                                      BlocProvider.of<DutyPostDetailsCubit>(
-                                              context)
-                                          .getAvailableSelectedGuardsByShift(
-                                        // rank: state.selectedRank,
-                                        shift: value!,
-                                      );
-                                    }
+                                    // }
                                   },
                                 ),
 
@@ -250,6 +256,12 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                     .model.selectedGuards.isEmptyOrNull) ...[
                                   buildReplacementColumn(state),
                                 ],
+
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
+
+                                /// Save Button
+                                Center(child: submitButtonDisplay(state)),
                               ],
                             ),
                           ),
@@ -265,6 +277,25 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget submitButtonDisplay(DutyPostDetailsState state) {
+    log('-state.selectedShift--${state.selectedShift}----');
+    return AppButton(
+      width: 150,
+      key: const Key(Keys.submitButton),
+      buttonText: Constants.save,
+      buttonTextKey: Keys.submitButton,
+      onTap: () async {
+        FocusScope.of(context).unfocus();
+        BlocProvider.of<DutyPostDetailsCubit>(context).submitForm(
+          isSaveOnly: true,
+          model: state.model,
+          status: FormStatus.initial,
+          newSelectedShift: state.selectedShift!,
+        );
+      },
     );
   }
 
@@ -320,7 +351,8 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
               log('---shift.selectedGuards.isEmptyOrNull-11---${shift.selectedGuards.isEmptyOrNull}--');
 
               shift.replacements
-                  ?.removeWhere((u) => u.replacementBy?.id == guard.id);
+                  ?.removeWhere((u) => u.replacedFor?.id == guard.id);
+
               /// To remove all the replacements
               // if (guard.id = shift.selectedGuards.isEmptyOrNull) {
               //   log('---shift.selectedGuards.isEmptyOrNull------');
@@ -346,7 +378,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
         borderRadius: BorderRadius.circular(10.0),
         color: AppColors.disableTextFieldBackground,
       ),
-      height: MediaQuery.of(context).size.height / 3.3,
+      height: MediaQuery.of(context).size.height / 2.5,
       width: MediaQuery.of(context).size.width / 2.3,
       child: availableGuards.isEmptyOrNull
           ? const Center(child: Text('No Guards Found.'))

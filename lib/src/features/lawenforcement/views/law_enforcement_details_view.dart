@@ -101,6 +101,15 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         if (widget.model?.status == 3) {
           isDistrbuted = true;
         }
+
+        log('-widget.model?.isEligibleToEdit---${widget.model?.isEligibleToEdit}---');
+        if (widget.model?.isEligibleToEdit == false) {
+          isDistrbuted = true;
+        }
+        if(widget.model?.status == ConstantsIntValue.leoStatusSubmitted) {
+          isDistrbuted = true;
+        }
+
         return Scaffold(
           appBar: AppHeader(
             isTitleCenter: false,
@@ -412,7 +421,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                               actualDateTextController,
                                           isDisabled:
                                               (widget.model?.status == -1) ||
-                                                  isDistrbuted
+                                                      isDistrbuted
                                                   ? true
                                                   : false,
                                           //initialDate: DateTime.now().subtract(Duration(days: 1)),
@@ -1355,7 +1364,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       'EMPLOYEE_DEPARTMENTS',
     );
     await lawEnforcementCubit.getDBofficialByRoleDepositor(
-      ConstantUserRoles.atomStaticUser, widget.model?.location?.id);
+        ConstantUserRoles.atomStaticUser, widget.model?.location?.id);
     await lawEnforcementCubit.getUserDetails(
       userid,
     );

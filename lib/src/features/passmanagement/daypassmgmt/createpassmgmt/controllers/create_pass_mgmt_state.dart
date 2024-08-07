@@ -57,7 +57,7 @@ class CreatePassMgmtState extends Equatable {
   String? passValidUntilDate = '';
   List<Organisation>? passTypes;
 
-  CreateUserModel? createUserResponse;
+  User? createUserResponse;
   User? hostResponse;
   User? dbsponsorResponse;
   BaseUser? nameResponse;
@@ -166,7 +166,7 @@ class CreatePassMgmtState extends Equatable {
   //   int? escortedbyhost,
   //   int? exceptionalApproval,
   //   List<ImageContent>? photoAttachments,
-  //   CreateUserModel? createUserResponse,
+  //   User? createUserResponse,
   //   User? hostResponse,
   //   User? dbsponsorResponse,
   //   BaseUser? nameResponse,
@@ -327,7 +327,7 @@ class CreatePassMgmtState extends Equatable {
     int? exceptionalApproval,
     String? passValidUntilDate,
     List<Organisation>? passTypes,
-    CreateUserModel? createUserResponse,
+    User? createUserResponse,
     User? hostResponse,
     User? dbsponsorResponse,
     BaseUser? nameResponse,

@@ -66,7 +66,7 @@ class _CreateFoundState extends State<CreateFound> {
   String claimantDepartmentName = '';
   String claimant = '';
   Organisation? selectedArtclelist;
-  BaseUser? selecteddepositorList;
+  BaseUser? selectedDepositorUser;
   BaseUser? selectedClaimList;
   User? userDetails;
   User? handOverSecurity;
@@ -113,7 +113,7 @@ class _CreateFoundState extends State<CreateFound> {
     widget.model?.typeOfAsset == 0;
     if (widget.model != null) {
       await SharedPrefs.setFoundId(widget.model?.id ?? 0);
-      selecteddepositorList = widget.model?.depositor != null
+      selectedDepositorUser = widget.model?.depositor != null
           ? BaseUser(
               email: widget.model?.depositor?.email ?? "",
               id: widget.model?.depositor?.userId ?? 0,
@@ -238,98 +238,6 @@ class _CreateFoundState extends State<CreateFound> {
     }
   }
 
-  // createFoundBody(bool isSubmit, int isFoundId) async {
-  //   log('-createFoundBody-----');
-  //
-  //   bool isDepositorDBEmployeeSelectedValue =
-  //       isDepositorDBEmployeeSelected == 1 ? true : false;
-  //   // int statusValue = 0;
-  //   // if (statusTextController.text.toLowerCase() == "found") {
-  //   //   statusValue = 0;
-  //   // } else if (statusTextController.text.toLowerCase() ==
-  //   //     "under security custody") {
-  //   //   statusValue = 0;
-  //   // } else {
-  //   //   statusValue = 2;
-  //   // }
-  //
-  //   int foundDate = Utils.dateToTimestampConversion(
-  //       foundDateTextController.text, Constants.fulldateFormat);
-  //   // int inputDate = Utils.dateToTimestampConversion(
-  //   //     dateofcreationTextController.text, Constants.fulldateFormat);
-  //   int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
-  //   Map<String, dynamic> entrySecurityBody = {
-  //     "userId": userDetails?.userId ?? 0,
-  //   };
-  //   Map<String, dynamic> handOverSecurityBody = {
-  //     "userId": handOverSecurity?.userId ?? 0,
-  //   };
-  //   Map<String, dynamic> locationBody = {
-  //     "id": selectedLocation?.id ?? 0,
-  //     "name": selectedLocation?.name ?? ''
-  //   };
-  //   Map<String, dynamic> depositorBody = {
-  //     "userId": selecteddepositorList?.id ?? 1,
-  //     "userName": selecteddepositorList?.name ?? '',
-  //     "email": selecteddepositorList?.email ?? '',
-  //   };
-  //   Map<String, dynamic> articleBody = {
-  //     "id": selectedArtclelist?.id ?? 0,
-  //   };
-  //   Map<String, dynamic> depositorDeptBody = {
-  //     "id": selectedEmployeedepartment?.id ?? 1,
-  //   };
-  //   Map<String, dynamic> foundBody = {
-  //     "status": widget.model?.status ?? 0,
-  //     "typeOfAsset": assetTypeTextController.text.isEmptyOrNull
-  //         ? ((assetTypeTextController.text.toLowerCase()) == 'company' ? 1 : 0)
-  //         : null,
-  //     "color":
-  //         colorTextController.text.isNotEmpty ? colorTextController.text : '',
-  //     // "slNo": serialNumber,
-  //     "typeOfArticle": articleBody,
-  //     "entrySecurity": entrySecurityBody,
-  //     "handoverSecurity": handOverSecurityBody,
-  //     "foundLocation": foundLocationTextController.text,
-  //     "quantity": quantityTextController.text.isNotEmpty
-  //         ? int.parse(quantityTextController.text)
-  //         : 0,
-  //     "additionalInformation": additionalinformationTextController.text,
-  //     "depositorDbEmp": isDepositorDBEmployeeSelectedValue,
-  //     "inputDate": inputdate,
-  //     "foundDate": foundDate,
-  //     "location": locationBody,
-  //     "depositorName": isDepositorDBEmployeeSelected == 1
-  //         ? selecteddepositorList?.name ?? ''
-  //         : depositorTextController.text.isNotEmpty
-  //             ? depositorTextController.text
-  //             : '',
-  //     "claimantName": isClaimantDBEmployeeSelected == 1
-  //         ? selectedClaimList?.name ?? ''
-  //         : claimantTextController.text.isNotEmpty
-  //             ? claimantTextController.text
-  //             : '',
-  //     "employeeId": depositorEmpIdTextController.text.isNotEmpty
-  //         ? depositorEmpIdTextController.text
-  //         : '',
-  //     "depositorDepartment": depositorDeptBody,
-  //     "depositor": depositorBody,
-  //     "eventProtection": widget.eventId,
-  //     "images": getFiles
-  //   };
-  //   Map<String, dynamic> requestBody = {
-  //     "found": foundBody,
-  //   };
-  //   var username = await SharedPrefs.getUsername();
-  //   showLoadingDialog(context);
-  //   await createFoundArticleCubit.createFoundArticleHandle(
-  //       requestBody,
-  //       isSubmit,
-  //       context,
-  //       username,
-  //       widget.model != null ? Constants.editFound : Constants.createFound);
-  // }
-
   /// Submit Form
   Future submitForm(
     bool isSubmit,
@@ -380,7 +288,7 @@ class _CreateFoundState extends State<CreateFound> {
     // return;
 
     User? depositor = User(
-        userId: selecteddepositorList?.id ?? widget.model?.depositor?.userId);
+        userId: selectedDepositorUser?.id ?? widget.model?.depositor?.userId);
     // Organisation? location =
     //     Organisation(id: selectedLocation?.id ?? widget.model?.location?.id);
     Organisation? depositorDepartment =
@@ -442,7 +350,7 @@ class _CreateFoundState extends State<CreateFound> {
         handoverSecurity: handoverSecurity,
         location: state.location,
         depositorName: isDepositorDBEmployeeSelected == 1
-            ? selecteddepositorList?.name ?? ''
+            ? selectedDepositorUser?.name ?? ''
             : depositorTextController.text.isNotEmpty
                 ? depositorTextController.text
                 : '',
@@ -518,7 +426,7 @@ class _CreateFoundState extends State<CreateFound> {
         additionalinformationTextController.text.isEmpty &&
         // quantityTextController.text.isEmpty &&
         (((isDepositorDBEmployeeSelected == 1 &&
-                    (selecteddepositorList?.name ?? "").isEmpty) &&
+                    (selectedDepositorUser?.name ?? "").isEmpty) &&
                 depositorEmpIdTextController.text.isEmpty &&
                 (selectedEmployeedepartment?.name ?? "").isEmpty) ||
             (isDepositorDBEmployeeSelected == 0 &&
@@ -578,10 +486,10 @@ class _CreateFoundState extends State<CreateFound> {
         depositorTextController.text.isEmpty) {
       Validator().showToast(context, "Please enter depositor");
     } else if (isDepositorDBEmployeeSelected == 1 &&
-        (((selecteddepositorList?.name ?? "").isEmpty) ||
+        (((selectedDepositorUser?.name ?? "").isEmpty) ||
             (depositorEmpIdTextController.text.isEmpty) ||
             ((selectedEmployeedepartment?.name ?? "").isEmpty))) {
-      if ((selecteddepositorList?.name ?? "").isEmpty) {
+      if ((selectedDepositorUser?.name ?? "").isEmpty) {
         Validator().showToast(
           context,
           "Please enter depositor",
@@ -726,11 +634,11 @@ class _CreateFoundState extends State<CreateFound> {
                     );
                   });
             },
-            onTap: (BaseUser list) {
+            onTap: (BaseUser user) {
               if (name.toLowerCase() == 'depositor') {
-                selecteddepositorList = list;
+                selectedDepositorUser = user;
               } else {
-                selectedClaimList = list;
+                selectedClaimList = user;
               }
               setState(() {});
             },
@@ -1432,9 +1340,9 @@ class _CreateFoundState extends State<CreateFound> {
                                       height * 0.001),
                                   isDepositorDBEmployeeSelected == 1
                                       ? TextFieldAddButton(
-                                          title: selecteddepositorList?.name !=
+                                          title: selectedDepositorUser?.name !=
                                                   null
-                                              ? ('${selecteddepositorList?.name ?? ''}(${selecteddepositorList?.email ?? ''})')
+                                              ? ('${selectedDepositorUser?.name ?? ''}(${selectedDepositorUser?.email ?? ''})')
                                               : '',
                                           height: 70,
                                           isDisableColor: widget

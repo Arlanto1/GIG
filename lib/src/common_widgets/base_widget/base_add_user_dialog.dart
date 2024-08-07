@@ -188,7 +188,7 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
           var sca = ScaffoldMessenger.of(context);
           try {
             var nav = Navigator.of(context);
-            CreateUserModel createUserData = await CommonServices().createUser(
+            User createUserData = await CommonServices().createUser(
               firstName: firstnameTextController.text,
               lastName: lastnameTextController.text,
               email: emailTextController.text,

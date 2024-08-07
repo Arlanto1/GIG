@@ -318,7 +318,7 @@ class CommonServices {
     return Organisation.fromJson(response);
   }
 
-  Future<CreateUserModel> createUser({
+  Future<User> createUser({
     required String firstName,
     required String lastName,
     required String email,
@@ -330,7 +330,7 @@ class CommonServices {
         "${CommonApis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role&locationId=$locationId";
     final response =
         await BaseApiService().postRequest(url: url, requestedData: {});
-    return CreateUserModel.fromJson(response);
+    return User.fromJson(response);
   }
 
   Future<List<PieChartData>> getDashboardChart({required String module}) async {

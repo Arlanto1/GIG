@@ -455,62 +455,43 @@ class _EventInfoViewState extends State<EventInfoView> {
                               ],
                             ),
                           ),
-
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// SubmitButton
-                          if (showSaveButtons) ...[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                cancelButtonDisplay(),
-                                submitButtonDisplay(
-                                  onTap: () {
-                                    FocusScope.of(context).unfocus();
-                                    BlocProvider.of<EventInfoCubit>(context)
-                                        .submitForm(isSaveOnly: false);
-                                  },
-                                ),
-                              ],
-                            ),
-                          ],
-                          CommonWidgets.verticalSpacerWidget(height * 0.04),
                         ],
                       ),
                     ),
                   ),
-                  if (!showSaveButtons) ...[
-                    // Attachments
-                    BaseImageUpload().getAttachment(
-                      height: height,
-                      attachments: state.guardAttachments,
-                      files: guardFiles,
-                      isDisabled: !showSaveButtons,
-                      // showDownloadIcon:
-                      //     state.model.image != null ? true : false,
-                      moduleCode: widget.isEventProtection
-                          ? Constants.eventProtectionModuleCode
-                          : Constants.annualPowerShutDownModuleCode,
-                    ),
-                    CommonWidgets.verticalSpacerWidget(height * 0.02),
-                    Container(
-                      padding: const EdgeInsets.all(5.0),
-                      decoration: const ShapeDecoration(
-                        color: AppColors.backgroundWhiteColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(00.0)),
+                  // Text('-${state.guardAttachments?.length}-${guardFiles?.length}--'),
+                  // Attachments
+                  BaseImageUpload().getAttachment(
+                    height: height,
+                    attachments: state.guardAttachments,
+                    files: guardFiles,
+                    isDisabled: !showSaveButtons,
+                    // showDownloadIcon:
+                    //     state.model.image != null ? true : false,
+                    moduleCode: widget.isEventProtection
+                        ? Constants.eventProtectionModuleCode
+                        : Constants.annualPowerShutDownModuleCode,
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                  /// SubmitButton
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      cancelButtonDisplay(),
+                      if (showSaveButtons) ...[
+                        submitButtonDisplay(
+                          onTap: () {
+                            FocusScope.of(context).unfocus();
+                            BlocProvider.of<EventInfoCubit>(context)
+                                .submitForm(isSaveOnly: false);
+                          },
                         ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          cancelButtonDisplay(),
-                        ],
-                      ),
-                    ),
-                    CommonWidgets.verticalSpacerWidget(height * 0.04),
-                  ],
+                      ],
+                    ],
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.04),
                 ],
               ),
             ),

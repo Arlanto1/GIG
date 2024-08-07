@@ -9,7 +9,7 @@ class CreateFoundState extends Equatable {
   final GetArticleType? getArticleTypeResponse;
   final Organisation? createOrganisationResponse;
   final Organisation? createEmployeeDepartments;
-  final CreateUserModel? createUserResponse;
+  final User? createUserResponse;
   final User? loggedInUser;
   final User? handedOverUser;
   final SubmitCreateFoundModel? createFoundResponse;
@@ -71,7 +71,7 @@ class CreateFoundState extends Equatable {
     GetArticleType? getArticleTypeResponse,
     Organisation? createOrganisationResponse,
     Organisation? createEmployeeDepartments,
-    CreateUserModel? createUserResponse,
+    User? createUserResponse,
     User? loggedInUser,
     User? handedOverUser,
     SubmitCreateFoundModel? createFoundResponse,

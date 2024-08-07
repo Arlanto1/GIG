@@ -34,6 +34,8 @@ class LawEnforcementDetailsModel extends BaseObject {
   List<Organisation>? mailList;
   String? entityDesc;
   String? entrySecurityName;
+  bool? isEligibleToEdit;
+  bool? isEligibleToCancel;
 
   LawEnforcementDetailsModel({
     this.id,
@@ -48,6 +50,8 @@ class LawEnforcementDetailsModel extends BaseObject {
     this.images,
     this.entities,
     this.visitorInUniform,
+    this.isEligibleToEdit,
+    this.isEligibleToCancel,
     this.dbOfficialEmail,
     this.dbOfficialEmailDepartment,
     this.dbOfficialAccompaniedEmail,
@@ -68,6 +72,8 @@ class LawEnforcementDetailsModel extends BaseObject {
         id: json["id"],
         slNo: json["slNo"],
         inputDate: json["inputDate"],
+        isEligibleToCancel: json["isEligibleToCancel"],
+        isEligibleToEdit: json["isEligibleToEdit"],
         location: json["location"] == null
             ? null
             : Organisation.fromJson(json["location"]),
@@ -124,6 +130,8 @@ class LawEnforcementDetailsModel extends BaseObject {
         "locationRegion": locationRegion?.toJson(),
         "timeOfVisit": timeOfVisit,
         "officialCardVerified": officialCardVerified,
+        'isEligibleToEdit': isEligibleToEdit,
+        'isEligibleToCancel': isEligibleToCancel,
         "visitPurpose": visitPurpose?.toJson(),
         "documentVerified": documentVerified,
         "images": images == null
