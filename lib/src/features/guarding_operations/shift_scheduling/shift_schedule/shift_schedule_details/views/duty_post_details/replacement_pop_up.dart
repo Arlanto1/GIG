@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/common_widgets/base_widget/date_widgets/available_dates_picker.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details/cubits/duty_post_details_cubit.dart';
 
@@ -39,18 +40,23 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
   @override
   void initState() {
     super.initState();
-    if (widget.model.id != null) {
-      log('--widget.model?.replacementBy?.name------${widget.model.replacementBy?.name}--');
-      if (widget.model.replacedFor != null) {
-        setDateRange(widget.model.replacedFor!);
-      }
-      replacementForController.text = widget.model.replacedFor?.name ?? '';
-      replacementByController.text = widget.model.replacementBy?.name ?? '';
+    log('--widget.model------${widget.model}--');
+
+    replacementForController.text = widget.model.replacedFor?.name ?? '';
+    replacementByController.text = widget.model.replacementBy?.name ?? '';
+
+    if (!widget.model.fromDate.isEmptyOrNull) {
       fromDateController.text = Utils.timestampToDateConversion(
           int.parse(widget.model.fromDate ?? '0'), Constants.dateFormat);
 
       toDateController.text = Utils.timestampToDateConversion(
           int.parse(widget.model.toDate ?? '0'), Constants.dateFormat);
+    }
+    if (widget.model.id != null) {
+      log('--widget.model?.replacementBy?.name------${widget.model.replacementBy?.name}--');
+      if (widget.model.replacedFor != null) {
+        setDateRange(widget.model.replacedFor!);
+      }
     }
 
     log('widget.model.status--${widget.model.status}----');
@@ -61,6 +67,16 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
       reasonController.text = matchingLabel.key;
     }
     log('reasonController.text---${reasonController.text}----');
+  }
+
+  @override
+  void dispose() {
+    replacementForController.dispose();
+    replacementByController.dispose();
+    fromDateController.dispose();
+    toDateController.dispose();
+    reasonController.dispose();
+    super.dispose();
   }
 
   Future<void> setDateRange(BaseUser user) async {
@@ -207,39 +223,22 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                         isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.001),
-                      BaseDate().datePickerWidgetLoading(
+                      LimitedDatePicker(
                         textController: fromDateController,
-                        onlyDate: true,
-                        showPastDate: false,
-                        fromDate: dates?.fromDate,
-                        toDate: dates?.toDate,
+                        availableDates: dates?.availableDates ?? [],
+                        isDisabled: false,
                         onChange: (String value) {
-
-                          if (!isReplacedForSelected.status) {
-                            Validator().showToast(
-                              context,
-                              isReplacedForSelected.message,
-                            );
-                            return;
-                          }
-                          // state.model.fromDate = Utils().formatTime(value);
-                          // BlocProvider.of<ShiftScheduleDetailsCubit>(
-                          //     context)
-                          //     .onModelValueChange(state.model);
-
                           widget.model.fromDate = Utils().formatTime(value);
-                          log('--widget.model.status-${widget.model.status}---');
-
-                          log('--selectedReason-${selectedReason?.value}---');
-
-                          if (widget.model.status == 2 || reasonConditions) {
-                            toDateController.text = fromDateController.text;
-                            widget.model.toDate = Utils().formatTime(value);
+                          if (reasonConditions) {
+                            log('--iffffff-reasonConditions--');
+                            setState(() {
+                              widget.model.toDate = Utils().formatTime(value);
+                              toDateController.text = fromDateController.text;
+                            });
                           }
                         },
-                        context: context,
                       ),
+
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                       /// To Date
@@ -252,18 +251,13 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
 
-                      // Text('-reasonConditions--$reasonConditions-'),
-                      BaseDate().datePickerWidgetLoading(
+                      LimitedDatePicker(
                         textController: toDateController,
-                        onlyDate: true,
-                        showPastDate: false,
-                        fromDate: dates?.fromDate,
-                        isDisabled: reasonConditions,
-                        toDate: dates?.toDate,
+                        availableDates: dates?.availableDates ?? [],
                         onChange: (String value) {
                           widget.model.toDate = Utils().formatTime(value);
                         },
-                        context: context,
+                        isDisabled: reasonConditions,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -347,7 +341,6 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
       buttonTextKey: Keys.saveButtonText,
       backgroundColor: AppColors.navigationSkyBlueColor,
       onTap: () {
-
         if (!isFormValid.status) {
           Validator().showToast(
             context,
@@ -356,6 +349,11 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
           return;
         }
 
+        /// Assigning temporary Id in order to update is properly
+        if (widget.model.id == null && widget.model.tempId.isEmptyOrNull) {
+          widget.model.tempId = Utils.createCryptoRandomString();
+        }
+        log('-widget.model.tempId---${widget.model.tempId}----');
         // widget.model?.dutyPostLocationName = dutyPostLocationNameController.text;
         BlocProvider.of<DutyPostDetailsCubit>(widget.mainContext)
             .updateReplacement(widget.model);
@@ -364,24 +362,23 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
     );
   }
 
-
   ErrorResponse get isReplacedForSelected {
     if (replacementForController.text.isEmptyOrNull) {
-      return const ErrorResponse(status: false, message: 'Please enter Replacement For');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Replacement For');
     }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
-
   ErrorResponse get isFormValid {
     if (replacementForController.text.isEmptyOrNull) {
-      return const ErrorResponse(status: false, message: 'Please enter Replacement For');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Replacement For');
     }
 
     if (reasonController.text.isEmptyOrNull) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Reason');
+      return const ErrorResponse(status: false, message: 'Please enter Reason');
     }
     if (fromDateController.text.isEmptyOrNull) {
       return const ErrorResponse(
@@ -391,11 +388,23 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
       return const ErrorResponse(
           status: false, message: 'Please enter To Date');
     }
+
+    final fromDate = DateTime.tryParse(fromDateController.text);
+    final toDate = DateTime.tryParse(toDateController.text);
+
+    if (fromDate != null && toDate != null) {
+      if (fromDate!.isAfter(toDate!)) {
+        // Show an error dialog or handle the error as needed
+        return const ErrorResponse(
+            status: false,
+            message: 'From Date cannot be later than the To Date');
+      }
+    }
     if (replacementByController.text.isEmptyOrNull) {
-      return const ErrorResponse(status: false, message: 'Please enter Replacement By');
+      return const ErrorResponse(
+          status: false, message: 'Please enter Replacement By');
     }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
-
 }

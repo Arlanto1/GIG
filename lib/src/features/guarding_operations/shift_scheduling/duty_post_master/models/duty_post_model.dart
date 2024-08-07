@@ -174,6 +174,9 @@ class Replacement {
   String? toDate;
   int? status;
 
+  /// For front end only
+  String? tempId;
+
   Replacement({
     this.id,
     this.replacedFor,
@@ -181,6 +184,7 @@ class Replacement {
     this.fromDate,
     this.toDate,
     this.status,
+    this.tempId,
   });
 
   factory Replacement.fromJson(Map<String, dynamic> json) {
