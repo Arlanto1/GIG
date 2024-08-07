@@ -2,6 +2,7 @@ import '../../../../../../index.dart';
 
 class KeyHistoryModel {
   int? id;
+  int? kmId;
   User? createdBy;
   String? createdDate;
   int? status;
@@ -22,6 +23,7 @@ class KeyHistoryModel {
 
   KeyHistoryModel(
       {this.id,
+        this.kmId,
       this.createdBy,
       this.noKeys,
       this.createdDate,
@@ -42,6 +44,7 @@ class KeyHistoryModel {
 
   KeyHistoryModel.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
+        kmId = json['kmId'] as int?,
         createdBy = (json['createdBy'] as Map<String, dynamic>?) != null
             ? User.fromJson(json['createdBy'] as Map<String, dynamic>)
             : null,
@@ -73,6 +76,7 @@ class KeyHistoryModel {
 
   Map<String, dynamic> toJson() => {
         'id': id,
+    'kmId':kmId,
         'createdBy': createdBy?.toJson(),
         'createdDate': createdDate,
         'status': status,
