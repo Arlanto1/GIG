@@ -29,7 +29,7 @@ class EventProtectionDetails extends StatelessWidget {
       appBar: BaseAppBar().buildAppHeader(
         context: context,
         title: title ?? Constants.eventProtectionTitle,
-        showPopUp: true,
+        showPopUp: false,
         showSaveButton: false,
         showSubmitButton: false,
         showDisLikeButton: false,

@@ -278,11 +278,6 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         ? true
                         : false,
                     onLinkOffTap: (selectedIndex) async {
-                      await KeyManagementIssuanceServices()
-                          .getIssuanceProcessById(
-                          state.items[index].id ?? 0);
-                      int? kmId = state.items[selectedIndex].kmId;
-                      int? kipId = state.items[selectedIndex].id;
                       if(state.items[selectedIndex].lost == 0){
                         showDialog(
                           context: context,
@@ -304,19 +299,24 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         );
                       }
                       else{
-                      Navigator.pushNamed(
-                        context,
-                     keyHistoryRecordsDetailsRoute,
-                        arguments: {
-                          ConstantsArgument.title: Constants.keyLostHistory,
-                          ConstantsArgument.id: kmId,
-                          ConstantsArgument.kipId: kipId,
-                          ConstantsArgument.type:
-                              ConstantsIntValue.keyLostHistoryInt,
-                        },
-                      );
+                        getKeyHistoryById(
+                            state.extraProperties?.hasWritePermission ?? false,
+                            state.items[index].kmId, widget.parentId, ConstantsIntValue.keyLostHistoryInt);
+
+                        // Navigator.pushNamed(
+                        //   context,
+                        //   keyHistoryRecordsDetailsRoute,
+                        //   arguments: {
+                        //     ConstantsArgument.title: Constants.keyLostHistory,
+                        //     ConstantsArgument.id: kmId,
+                        //     ConstantsArgument.kipId: kipId,
+                        //     ConstantsArgument.type:
+                        //     ConstantsIntValue.keyLostHistoryInt,
+                        //   },
+                        // );
                       }
-                    },
+                      },
+
                     showDeleteButton:widget.lock.isEmptyOrNull && (widget.parentStatus == 1 ||
                                 widget.parentStatus == 2) &&
                             !(widget.extraProperties != null &&
@@ -324,11 +324,6 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         ? true
                         : false,
                     onDeleteTap: (selectedIndex) async {
-                      await KeyManagementIssuanceServices()
-                          .getIssuanceProcessById(
-                          state.items[index].id ?? 0);
-                      int? kmId = state.items[selectedIndex].kmId;
-                      int? kipId = state.items[selectedIndex].id;
                       if(state.items[selectedIndex].damaged == 0){
                         showDialog(
                           context: context,
@@ -350,17 +345,20 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         );
                       }
                       else{
-                      Navigator.pushNamed(
-                        context,
-                      keyHistoryRecordsDetailsRoute,
-                        arguments: {
-                          ConstantsArgument.title: Constants.keyDamageHistory,
-                          ConstantsArgument.id: kmId,
-                          ConstantsArgument.kipId: kipId,
-                          ConstantsArgument.type:
-                              ConstantsIntValue.keyDamageHistoryInt,
-                        },
-                      );
+                        getKeyHistoryById(
+                            state.extraProperties?.hasWritePermission ?? false,
+                            state.items[index].kmId, widget.parentId, ConstantsIntValue.keyDamageHistoryInt);
+                      // Navigator.pushNamed(
+                      //   context,
+                      // keyHistoryRecordsDetailsRoute,
+                      //   arguments: {
+                      //     ConstantsArgument.title: Constants.keyDamageHistory,
+                      //     ConstantsArgument.id: kmId,
+                      //     ConstantsArgument.kipId: kipId,
+                      //     ConstantsArgument.type:
+                      //         ConstantsIntValue.keyDamageHistoryInt,
+                      //   },
+                      // );
                     }},
                     index: index,
                   );
@@ -390,6 +388,32 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
         "title": Constants.editkeyManagementMaster,
         ConstantsArgument.extraProperties:
             ExtraProperties(hasWritePermission: hasWritePermission),
+      });
+    }
+  }
+
+  getKeyHistoryById(bool hasWritePermission, int? keyManagementId,int? keyIssuanceId, int? type) async {
+    showLoadingDialog(context);
+
+    KeyHistoryModel keyHistoryModel =
+    await KeyManagementIssuanceServices().getIssuanceKHById(keyManagementId!,keyIssuanceId!,type!);
+
+    editKeyHistoryDataLoading(keyHistoryModel, hasWritePermission);
+  }
+
+
+  void editKeyHistoryDataLoading(KeyHistoryModel? keyHistoryModel,
+      bool hasWritePermission) {
+    log('keyHistoryModel.kmId----${keyHistoryModel?.kmId}');
+    dismissLoadingDialog(context);
+    if (keyHistoryModel != null) {
+      Navigator.pushNamed(context, keyHistoryRecordsDetailsRoute, arguments: {
+        "keyLossGi": KeyHistoryModel,
+            ConstantsArgument.title: Constants.keyLostHistory,
+        ConstantsArgument.parentId: keyHistoryModel.kmId,
+        ConstantsArgument.type: ConstantsIntValue.keyLostHistoryInt,
+        ConstantsArgument.extraProperties:
+        ExtraProperties(hasWritePermission: hasWritePermission),
       });
     }
   }

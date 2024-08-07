@@ -1256,7 +1256,7 @@ class RouteGenerator {
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
-        parentId = arguments[ConstantsArgument.id];
+        parentId = arguments[ConstantsArgument.parentId];
         kipId = arguments[ConstantsArgument.kipId];
         type = arguments[ConstantsArgument.type];
         KeyHistoryModel? model = arguments[ConstantsArgument.model];
