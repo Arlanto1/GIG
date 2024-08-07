@@ -220,6 +220,9 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
 
     // Check if replacement has an ID
     if (replacement.id != null) {
+      log('Updating Existing Replacement');
+
+      log('---replacement.id != null---');
       // Iterate over ranks and shifts to find and update the replacement
       state.model.replacements?.forEach((existingReplacement) {
         log('----existingReplacement-${existingReplacement.id} ${(replacement.id)}--${existingReplacement.toString()}-');
@@ -232,7 +235,40 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
           existingReplacement.status = replacement.status;
         }
       });
+    } else if (replacement.id == null && replacement.tempId != null) {
+      log('Creating/Updating new Replacement');
+      log('-replacement.tempId------${replacement.tempId}');
+
+      if (state.model.replacements == null ||
+          state.model.replacements!.isEmpty) {
+        log('state.model.replacements == null');
+        state.model.replacements ??= [];
+        state.model.replacements!.add(replacement);
+
+      } else {
+        // Iterate over ranks and shifts to find and update the replacement
+        state.model.replacements?.forEach((existingReplacement) {
+          log('----existingReplacement-${existingReplacement.id} ${(replacement
+              .id)}--${existingReplacement.toString()}-');
+          if (existingReplacement.id == null &&
+              existingReplacement.tempId == replacement.tempId) {
+            // Update the existing replacement with the new values
+            existingReplacement.replacedFor = replacement.replacedFor;
+            existingReplacement.replacementBy = replacement.replacementBy;
+            existingReplacement.fromDate = replacement.fromDate;
+            existingReplacement.toDate = replacement.toDate;
+            existingReplacement.status = replacement.status;
+          }
+
+          // state.model.replacements ??= [];
+          // state.model.replacements!.add(replacement);
+
+          // updateReplacements(existingReplacement);
+        });
+      }
     } else {
+      // TODO: this else case be removed
+      log('--updateReplacement-else---');
       // If replacement has no ID, add it as a new object to the replacements list
       state.model.replacements ??= [];
       state.model.replacements!.add(replacement);

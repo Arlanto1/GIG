@@ -25,7 +25,7 @@ export 'package:db_atom/src/common_widgets/base_widget/base_pop_up_items.dart';
 export 'package:db_atom/src/common_widgets/base_widget/base_tile.dart';
 export 'package:db_atom/src/common_widgets/base_widget/basic_widget_functions.dart';
 export 'package:db_atom/src/common_widgets/base_widget/check_box.dart';
-export 'package:db_atom/src/common_widgets/base_widget/date_picker_dialog.dart';
+export 'package:db_atom/src/common_widgets/base_widget/date_widgets/date_picker_dialog.dart';
 export 'package:db_atom/src/common_widgets/base_widget/multiple_selection_pop_up.dart';
 export 'package:db_atom/src/common_widgets/base_widget/notification_bell.dart';
 export 'package:db_atom/src/common_widgets/base_widget/radio_buttons_yes_no.dart';

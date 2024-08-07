@@ -189,6 +189,7 @@ class Utils {
           DateTime.fromMillisecondsSinceEpoch(int.parse(dateTimeString) * 1000);
       return DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
     }
+
     final List<String> dateFormats = [
       'dd/MM/yyyy a hh:mm:ss',
       'dd/MM/yyyy HH:mm:ss',
@@ -196,6 +197,7 @@ class Utils {
       'yyyy-MM-ddTHH:mm:ss',
       'dd/MM/yyyy',
       'yyyy-MM-dd HH:mm:ss.SSS',
+      'yyyy-MM-dd',
     ];
 
     // Try parsing the input string using each format
