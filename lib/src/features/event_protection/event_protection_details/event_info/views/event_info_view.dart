@@ -48,14 +48,14 @@ class EventInfoView extends StatefulWidget {
 class _EventInfoViewState extends State<EventInfoView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  // final quill.QuillController _controller = quill.QuillController.basic();
   final QuillEditorController quillController = QuillEditorController();
 
   User? userDetails;
   List<ImageContent>? guardFiles;
   TextEditingController dateController = TextEditingController();
   TextEditingController addEmailController = TextEditingController();
-  TextEditingController deleteEmailController = TextEditingController();
+
+  bool showSaveButtons = false;
 
   @override
   void initState() {
@@ -63,7 +63,13 @@ class _EventInfoViewState extends State<EventInfoView> {
     BlocProvider.of<EventInfoCubit>(context).initializeValues();
   }
 
-  bool showSaveButtons = false;
+  @override
+  void dispose() {
+    dateController.dispose();
+    addEmailController.dispose();
+    quillController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -361,7 +367,6 @@ class _EventInfoViewState extends State<EventInfoView> {
                                             onFocusChanged: (focus) {
                                               debugPrint(
                                                   'has focus-----SSSS---- $focus');
-
                                             },
                                             onTextChanged: (text) {
                                               debugPrint(
@@ -394,38 +399,37 @@ class _EventInfoViewState extends State<EventInfoView> {
                                   if (state.eventDuration == 2) ...[
                                     Center(
                                       child: submitButtonDisplay(
-                                          label: 'Articles Found',
-                                          onTap: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return ArticleDialog(
-                                                  articles:
-                                                      state.foundArticles ?? [],
-                                                  showLeftButton:
-                                                      (state.model.status ??
-                                                                  0) >
-                                                              22
-                                                          ? false
-                                                          : true,
-                                                  leftButtonTap: () {
-                                                    FocusScope.of(context)
-                                                        .unfocus();
-                                                    BlocProvider.of<
-                                                                EventInfoCubit>(
-                                                            context)
-                                                        .submitForm(
-                                                            isSaveOnly: false,
-                                                            addArticleFound:
-                                                                true,
-                                                            updatedEmailText:
-                                                                updatedEmailText ??
-                                                                    '');
-                                                  },
-                                                );
-                                              },
-                                            );
-                                          }),
+                                        label: 'Articles Found',
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return ArticleDialog(
+                                                articles:
+                                                    state.foundArticles ?? [],
+                                                showLeftButton:
+                                                    (state.model.status ?? 0) >
+                                                            22
+                                                        ? false
+                                                        : true,
+                                                leftButtonTap: () {
+                                                  FocusScope.of(context)
+                                                      .unfocus();
+                                                  BlocProvider.of<
+                                                              EventInfoCubit>(
+                                                          context)
+                                                      .submitForm(
+                                                          isSaveOnly: false,
+                                                          addArticleFound: true,
+                                                          updatedEmailText:
+                                                              updatedEmailText ??
+                                                                  '');
+                                                },
+                                              );
+                                            },
+                                          );
+                                        },
+                                      ),
                                     ),
                                   ],
                                   CommonWidgets.verticalSpacerWidget(
@@ -465,8 +469,8 @@ class _EventInfoViewState extends State<EventInfoView> {
                       ),
                     ),
                   ),
-                  // Text('-${state.guardAttachments?.length}-${guardFiles?.length}--'),
-                  // Attachments
+
+                  /// Attachments
                   BaseImageUpload().getAttachment(
                     height: height,
                     attachments: state.guardAttachments,
