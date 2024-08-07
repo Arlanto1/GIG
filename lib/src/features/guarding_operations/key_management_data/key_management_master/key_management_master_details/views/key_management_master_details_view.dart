@@ -373,8 +373,9 @@ class _KeyManagementMasterDetailsViewState
                                       FocusScope.of(context).requestFocus(
                                           keyDescriptionFocusNode);
                                     },
+                                    leftImage: true,
                                     orgName: 'KEY_MANAGEMENT_DOOR_TYPE',
-                                    createEntity: false,
+                                    createEntity: true,
                                     title: 'Add Key Type',
                                     functionToCall: () {
                                       // refresh the list

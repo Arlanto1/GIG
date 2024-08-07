@@ -23,7 +23,7 @@ class KeyHistoryRecordsDetailsCubit
     required this.type,
     required this.commonServices,
     required this.model,
-     this.kipId,
+    this.kipId,
     required this.keyIssuanceServices,
   }) : super(
           KeyHistoryRecordsDetailsState.initial(
@@ -53,11 +53,13 @@ class KeyHistoryRecordsDetailsCubit
         status: FormStatus.loading,
       ),
     );
+    log('---model.nokeyss--${model?.noKeys}---${model?.noOfKeys}-----');
     KeyManagementMasterModel parentModel = await services.getById(parentId);
-    KeyIssuanceProcessRecord keyIssuanceProcessModel = KeyIssuanceProcessRecord();
-    if(kipId != null) {
+    KeyIssuanceProcessRecord keyIssuanceProcessModel =
+        KeyIssuanceProcessRecord();
+    if (kipId != null) {
       keyIssuanceProcessModel =
-      await keyIssuanceServices.getIssuanceProcessById(kipId!);
+          await keyIssuanceServices.getIssuanceProcessById(kipId!);
     }
     var userId = await SharedPrefs.getUserId();
     try {
@@ -94,7 +96,15 @@ class KeyHistoryRecordsDetailsCubit
       state.model.modifiedBy ??= loggedInUserDetails.email;
       state.model.type = type;
 
-      state.model.type == 1 || state.model.type==2 ? state.model.noOfKeys = keyIssuanceProcessModel.lost:'';
+      //setting lost value to the noOfKeys
+      if (state.model.type == ConstantsIntValue.keyLostHistoryInt ||
+          state.model.type == ConstantsIntValue.keyDamageHistoryInt) {
+        if (state.model.noOfKeys == null || state.model.noOfKeys == 0) {
+          state.model.noOfKeys = keyIssuanceProcessModel.lost;
+        } else {
+          model?.noOfKeys = state.model.noOfKeys;
+        }
+      }
       // Get Date of Creation
       // state.model.createdDate = Utils().getCurrentDate();
       // state.model.modifiedDate = Utils().getCurrentDate();
@@ -340,6 +350,8 @@ class KeyHistoryRecordsDetailsCubit
       );
       return false;
     }
+    log('---response--msg--${response.message}---');
+
     emit(
       state.copyWith(
         message: response.message,

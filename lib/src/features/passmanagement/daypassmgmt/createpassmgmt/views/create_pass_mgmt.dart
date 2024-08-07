@@ -3056,12 +3056,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           ? "FTE"
           : state.selectedCompanyType?.name ?? '',
       height: 60,
-      isDisableColor: widget.model?.status == 0 ||
-          widget.model == null ||
-          (widget.extraProperties != null &&
-              !widget.extraProperties!.hasWritePermission!)
-          ? false
-          : true,
+      isDisableColor: !((widget.model == null || widget.model?.status == 0) &&
+          !(widget.extraProperties != null &&
+              !widget.extraProperties!.hasWritePermission!)),
       onTap: () {
         if ((widget.model == null || widget.model?.status == 0) &&
             !(widget.extraProperties != null &&
