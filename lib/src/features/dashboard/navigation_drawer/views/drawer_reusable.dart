@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/dashboard/navigation_drawer/views/menu_permissions.dart';
 
 class NavigationDrawer1 extends StatelessWidget {
   NavigationDrawer1(
@@ -327,7 +328,7 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   _onMaterialMovementItemSelected(int index, BuildContext context) async {
-    _menuScaffoldKey.currentState!.closeDrawer();
+    // _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
     context.read<DrawerCubit>().getPassMgmtIndexChange(index);
     if (index == 0) {
@@ -340,7 +341,7 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   _onSCRIItemSelected(int index, BuildContext context) async {
-    _menuScaffoldKey.currentState!.closeDrawer();
+    // _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
     context.read<DrawerCubit>().getPassMgmtIndexChange(index);
     if (index == 0) {
@@ -352,7 +353,7 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   _onSecurityFunctionsItemSelected(int index, BuildContext context) async {
-    _menuScaffoldKey.currentState!.closeDrawer();
+    // _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
     context.read<DrawerCubit>().getPassMgmtIndexChange(index);
     if (index == 0) {
@@ -366,7 +367,7 @@ class NavigationDrawer1 extends StatelessWidget {
   _onSecuritySystemIncidentItemSelected(int index, BuildContext context) async {
     log('-_onSecuritySystemIncidentItemSelected------');
 
-    _menuScaffoldKey.currentState!.closeDrawer();
+    // _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
@@ -382,7 +383,7 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   _onKeyManagementItemSelected(int index, BuildContext context) async {
-    _menuScaffoldKey.currentState!.closeDrawer();
+    // _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
@@ -419,7 +420,7 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   _onShiftScheduleItemSelected(int index, BuildContext context) async {
-    _menuScaffoldKey.currentState!.closeDrawer();
+    // _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
 
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
@@ -464,7 +465,7 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   _onCostAndBillingItemSelected(int index, BuildContext context) async {
-    _menuScaffoldKey.currentState!.closeDrawer();
+    // _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
     context.read<DrawerCubit>().getPassMgmtIndexChange(index);
     if (index == 0) {
@@ -478,7 +479,7 @@ class NavigationDrawer1 extends StatelessWidget {
   // TODO: Fix the Drawer Index
   _onGuardingOperationItemSelected(
       int index, BuildContext context, MenuItem item) async {
-    _menuScaffoldKey.currentState!.closeDrawer();
+    // _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
@@ -498,7 +499,7 @@ class NavigationDrawer1 extends StatelessWidget {
         return Navigator.pushNamed(context, guardingMasterReportRoute);
       // break;
       case Constants.shiftOccurrence:
-        Navigator.pushNamed(context, occurrenceRoute);
+        Navigator.pushNamed(context, shiftOccurrenceRoute);
         break;
       case Constants.slaViolationPenaltyTitle:
         Navigator.pushNamed(context, slaViolationPenaltyListRoute);
@@ -925,7 +926,7 @@ class NavigationDrawer1 extends StatelessWidget {
 
   _onExpansionSelectItem(int index, BuildContext context, MenuItem item) async {
     log('---_onExpansionSelectItem--$index-');
-    _menuScaffoldKey.currentState!.closeDrawer();
+    // _menuScaffoldKey.currentState!.closeDrawer();
     _opearationsLastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
@@ -978,7 +979,7 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   _onPassMgmtSelectItem(int index, BuildContext context) async {
-    _menuScaffoldKey.currentState!.closeDrawer();
+    // _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
@@ -1095,7 +1096,7 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   _onSecurityExpansionSelectItem(int index, BuildContext context) async {
-    _menuScaffoldKey.currentState!.closeDrawer();
+    // _menuScaffoldKey.currentState!.closeDrawer();
     _securityfunfunctionslastSelectedItem = index;
     //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
     //state = const DrawerInitial();
@@ -1111,7 +1112,7 @@ class NavigationDrawer1 extends StatelessWidget {
   ) async {
     //Navigator.pop(context)
     if (index != 4) {
-      _menuScaffoldKey.currentState!.closeDrawer();
+      // _menuScaffoldKey.currentState!.closeDrawer();
     }
     _lastSelectedItem = index;
     // var lastindex = await SharedPrefs.setIdentifymenuindex(index);
@@ -1173,30 +1174,31 @@ class NavigationDrawer1 extends StatelessWidget {
       //   );
       case Constants.guardingOperations:
         List<MenuItem> menuItems = [];
+        MenuPermissions().checkMenuPermissionsGuardingOperations(displayMenu, menuItems);
 
-        if (displayMenu?.cD ?? false) {
-          menuItems.add(const MenuItem(
-              Constants.escalationMatrix, AppIcon.escalationMatrixIcon, 0));
-        }
-
-        if (displayMenu?.gM ?? false) {
-          menuItems.add(const MenuItem(
-              Constants.guardingMasterData, AppIcon.guardingMasterDataIcon, 0));
-        }
-
-        if (displayMenu?.gMR ?? false) {
-          menuItems.add(const MenuItem(Constants.guardingMasterReport,
-              AppIcon.guardingMasterReportIcon, 0));
-        }
-
-        if (displayMenu?.oCC ?? false) {
-          menuItems.add(const MenuItem(
-              Constants.shiftOccurrence, AppIcon.shiftOccurrenceIcon, 0));
-        }
-        if (displayMenu?.sVP ?? false) {
-          menuItems.add(const MenuItem(Constants.slaViolationPenaltyTitle,
-              AppIcon.slaViolationPenaltyIcon, 0));
-        }
+        // if (displayMenu?.cD ?? false) {
+        //   menuItems.add(const MenuItem(
+        //       Constants.escalationMatrix, AppIcon.escalationMatrixIcon, 0));
+        // }
+        //
+        // if (displayMenu?.gM ?? false) {
+        //   menuItems.add(const MenuItem(
+        //       Constants.guardingMasterData, AppIcon.guardingMasterDataIcon, 0));
+        // }
+        //
+        // if (displayMenu?.gMR ?? false) {
+        //   menuItems.add(const MenuItem(Constants.guardingMasterReport,
+        //       AppIcon.guardingMasterReportIcon, 0));
+        // }
+        //
+        // if (displayMenu?.oCC ?? false) {
+        //   menuItems.add(const MenuItem(
+        //       Constants.shiftOccurrence, AppIcon.shiftOccurrenceIcon, 0));
+        // }
+        // if (displayMenu?.sVP ?? false) {
+        //   menuItems.add(const MenuItem(Constants.slaViolationPenaltyTitle,
+        //       AppIcon.slaViolationPenaltyIcon, 0));
+        // }
         return _genericItemExpandable(
           context,
           menuItems,
@@ -1248,25 +1250,7 @@ class NavigationDrawer1 extends StatelessWidget {
       case shiftSchedulingTitle:
         List<MenuItem> menuItems = [];
 
-        if (displayMenu?.aTD ?? false) {
-          menuItems.add(
-              const MenuItem(Constants.attendance, AppIcon.attendanceIcon, 0));
-        }
-
-        if (displayMenu?.ssDPM ?? false) {
-          menuItems.add(const MenuItem(
-              Constants.dutyPostMaster, AppIcon.dutyPostMasterIcon, 0));
-        }
-
-        if (displayMenu?.sSDP ?? false) {
-          menuItems.add(const MenuItem(
-              Constants.dutyPostNameMaster, AppIcon.dutyPostNameMasterIcon, 0));
-        }
-
-        if (displayMenu?.sS ?? false) {
-          menuItems.add(const MenuItem(
-              Constants.shiftSchedule, AppIcon.shiftScheduleIcon, 0));
-        }
+        MenuPermissions().checkMenuPermissionsShiftSchedule(displayMenu, menuItems);
         return _genericItemExpandable(
           context,
           menuItems,
@@ -1291,4 +1275,5 @@ class NavigationDrawer1 extends StatelessWidget {
             context, guardingOperationDrawerItems, title);
     }
   }
+
 }

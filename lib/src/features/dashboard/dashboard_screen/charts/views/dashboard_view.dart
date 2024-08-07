@@ -32,6 +32,7 @@ class DashboardViewState extends State<DashboardView>
     email = await SharedPrefs.getEmail();
     log('username : $userName email is : $email');
 
+
     // try {
     //   await FCMHandler.initializeFCM();
     //   FCMHandler.setupForegroundMessageHandler();
@@ -125,6 +126,12 @@ class DashboardViewState extends State<DashboardView>
           //     },
           //     child: getBody(state)),
 
+          /// Bottom Navigation Bar
+          bottomNavigationBar: CustomBottomNavigationBar(
+            scaffoldKey: scaffoldKey,
+            context: context,
+            displayMenu: state.displayMenu?? DisplayMenu(),
+          ),
           body: getBody(state),
         );
       },

@@ -82,7 +82,7 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                         backgroundColor: AppColors.navigationSkyBlueColor,
                         foregroundColor: AppColors.backgroundWhiteColor,
                         onPressed: () => {
-                          Navigator.pushNamed(context, occurrenceDetailsRoute,
+                          Navigator.pushNamed(context, shiftOccurrenceDetailsRoute,
                               arguments: {
                                 "title": Constants.createOccurrence,
                               }),
@@ -297,7 +297,7 @@ class _OccurrencesViewState extends State<OccurrencesView> {
   }) async {
     Navigator.pushNamed(
       context,
-      occurrenceDetailsRoute,
+      shiftOccurrenceDetailsRoute,
       arguments: {
         'id': id.toString(),
         "title": Constants.editOccurrence,

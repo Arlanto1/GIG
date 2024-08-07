@@ -69,7 +69,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
               if (widget.viaOccurrence) {
                 Navigator.pushNamed(
                   context,
-                  occurrenceDetailsRoute,
+                  shiftOccurrenceDetailsRoute,
                   arguments: {
                     'id': state.model.occurrence?.id.toString(),
                     "title": Constants.editOccurrence,
