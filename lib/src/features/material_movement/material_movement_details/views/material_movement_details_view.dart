@@ -1846,7 +1846,6 @@ class _MaterialMovementDetailsViewState
                                     initialValue: state.model.takenOutEmail,
                                     textFormKey: Keys.takenOutByKey,
                                     hintText: '',
-                                    characterLimit: 17,
                                     isEnable: state.model.status == 6,
                                     isDisableColor: state.model.status != 6,
                                     onChange: (String value) {
@@ -1876,6 +1875,7 @@ class _MaterialMovementDetailsViewState
                                     initialValue: state.model.takenOutContactNo,
                                     textFormKey: Keys.takenOutContactKey,
                                     hintText: '',
+                                    characterLimit: 17,
                                     isEnable: state.model.status == 6 &&
                                         state.model.lock.isEmptyOrNull,
                                     isDisableColor: state.model.status != 6 ||
