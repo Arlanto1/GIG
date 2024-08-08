@@ -243,9 +243,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
     emit(state.copyWith(
       model: state.model,
-      // requestorEmailUsers: emailUsers,
-      // approver1Users: emailUsers,
-      // approver2Users: emailUsers,
+      requestorEmailUsers: emailUsers,
+      approver1Users: emailUsers,
+      approver2Users: emailUsers,
       status: FormStatus.initial,
     ));
   }
