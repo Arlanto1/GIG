@@ -58,6 +58,10 @@ class KeyHistoryRecordsDetailsCubit
     KeyManagementMasterModel parentModel = await services.getById(parentId);
     KeyIssuanceProcessRecord keyIssuanceProcessModel =
         KeyIssuanceProcessRecord();
+
+    log('---kipId--$kipId-');
+
+
     if (kipId != null) {
       keyIssuanceProcessModel =
           await keyIssuanceServices.getIssuanceProcessById(kipId!);
@@ -97,13 +101,17 @@ class KeyHistoryRecordsDetailsCubit
       state.model.modifiedBy ??= loggedInUserDetails.email;
       state.model.type = type;
 
+      log('---before--');
       //setting lost value to the noOfKeys
       if (state.model.type == ConstantsIntValue.keyLostHistoryInt ||
           state.model.type == ConstantsIntValue.keyDamageHistoryInt) {
+        log('---1111--');
         if (state.model.noOfKeys == null || state.model.noOfKeys == 0) {
+          log('--22222--${keyIssuanceProcessModel.lost}-');
+
           state.model.noOfKeys = keyIssuanceProcessModel.lost;
         } else {
-          model?.noOfKeys = state.model.noOfKeys;
+          model?.noOfKeys = state.model.noOfKeys; // wrong: it will always be null
         }
       }
       // Get Date of Creation
