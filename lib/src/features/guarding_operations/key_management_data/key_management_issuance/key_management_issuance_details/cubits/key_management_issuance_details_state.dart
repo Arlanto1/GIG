@@ -96,6 +96,12 @@ class KeyManagementIssuanceDetailsState extends Equatable {
     }
     if (model.status != null &&
         model.status != 0 &&
+        model.keyReturnDateTime == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Key Returned Date And Time');
+    }
+    if (model.status != null &&
+        model.status != 0 &&
         model.returnedByName.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Returned By Name');
@@ -161,6 +167,13 @@ class KeyManagementIssuanceDetailsState extends Equatable {
     if (model.dbSponsorCwrT2 == null && model.employeeType == 3) {
       return const ErrorResponse(
           status: false, message: 'Please enter DB Sponsor of CWR T2');
+    }
+
+    if (model.status != null &&
+        model.status != 0 &&
+        model.keyReturnDateTime == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Key Returned Date And Time');
     }
     if (model.status != null &&
         model.status != 0 &&
