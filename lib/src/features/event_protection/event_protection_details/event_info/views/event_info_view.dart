@@ -206,6 +206,9 @@ class _EventInfoViewState extends State<EventInfoView> {
                                   textController: dateController,
                                   isDisabled: !showSaveButtons,
                                   onlyDate: false,
+                                  startDate: DateTime.fromMillisecondsSinceEpoch(int.parse('${state.model.startDate}') * 1000).toString(),
+                                  fromDate: DateTime.fromMillisecondsSinceEpoch(int.parse('${state.model.startDate}') * 1000).toString(),
+                                  toDate: DateTime.fromMillisecondsSinceEpoch(int.parse('${state.model.endDate}') * 1000).toString(),
                                   onChange: (String value) {
                                     dateController.text = value;
                                     state.model.date = value;
