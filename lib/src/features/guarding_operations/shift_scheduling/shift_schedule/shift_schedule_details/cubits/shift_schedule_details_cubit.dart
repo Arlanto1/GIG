@@ -385,6 +385,11 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
               message: state.isValidDraft.message,
             ),
           );
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+                  int.tryParse(state.model.inputDate ?? '0'),
+                  Constants.fulldateFormat);
           return;
         }
         response = (await services.createShiftSchedule(
@@ -397,12 +402,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
               status: FormStatus.formError,
               message: state.isValid.message,
             ),
-          );
-          state.model.inputDate = state.model.inputDate == null
-              ? Utils().getCurrentDate()
-              : Utils.timestampToDateConversion(
-                  int.tryParse(state.model.inputDate ?? '0'),
-                  Constants.fulldateFormat);
+           );
           return;
         }
         response = (await services.createShiftSchedule(
@@ -420,15 +420,10 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'),
-              Constants.fulldateFormat);
+          int.tryParse(state.model.inputDate ?? '0'),
+          Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
-      state.model.inputDate = state.model.inputDate == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'),
-              Constants.fulldateFormat);
       log('--Exception-e-----}--');
       emit(
         state.copyWith(
