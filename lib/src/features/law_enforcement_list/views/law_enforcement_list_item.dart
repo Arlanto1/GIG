@@ -1,5 +1,6 @@
 // Created by Ramesh
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
@@ -117,7 +118,7 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                     ? widget.onEditTap!(widget.index)
                     : null;
               },
-              icon: widget.userItem.status == 3 || widget.userItem.status == -1
+              icon: widget.userItem.status == ConstantsIntValue.leoStatusDistributed || widget.userItem.status == ConstantsIntValue.cancelledStatus || widget.userItem.status == ConstantsIntValue.leoStatusSubmitted
                   ? const Icon(Icons.edit_off_outlined)
                   : const Icon(Icons.edit),
             ),
