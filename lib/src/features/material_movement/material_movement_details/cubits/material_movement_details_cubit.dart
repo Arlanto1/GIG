@@ -237,13 +237,15 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           roleName: ConstantUserRoles.atomStaticUser,
           locationId: state.model.location?.id);
     }
-    state.model.receiverEmail = null;
+    state.model.requestorEmail = null;
     state.model.approver1Email = null;
     state.model.approver2Email = null;
 
     emit(state.copyWith(
       model: state.model,
-      emailUsers: emailUsers,
+      requestorEmailUsers: emailUsers,
+      approver1Users: emailUsers,
+      approver2Users: emailUsers,
       status: FormStatus.initial,
     ));
   }
