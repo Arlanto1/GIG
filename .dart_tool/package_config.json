@@ -314,6 +314,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "floating_bottom_navigation_bar",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/floating_bottom_navigation_bar-1.5.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter",
       "rootUri": "file:///Users/anurag/Downloads/flutter/packages/flutter",
       "packageUri": "lib/",
@@ -1364,7 +1370,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2024-08-02T02:39:17.689570Z",
+  "generated": "2024-08-08T07:24:10.650194Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///Users/anurag/Downloads/flutter",

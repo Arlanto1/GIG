@@ -511,6 +511,11 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         ));
       }
     } on GenericResponse catch (e) {
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.inputDate ?? '0'),
+          Constants.fulldateFormat);
       emit(
         state.copyWith(
           message: e.message,
@@ -519,6 +524,11 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       );
       return;
     } on Exception catch (e) {
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.inputDate ?? '0'),
+          Constants.fulldateFormat);
       emit(
         state.copyWith(
           message: e.toString(),

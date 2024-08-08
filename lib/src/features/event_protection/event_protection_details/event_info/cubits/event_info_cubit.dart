@@ -4,7 +4,6 @@ import 'dart:math' as math;
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:intl/intl.dart';
 
 part 'event_info_state.dart';

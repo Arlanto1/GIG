@@ -236,8 +236,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
         }
       });
     } else if (replacement.id == null && replacement.tempId != null) {
-      log('Creating/Updating new Replacement');
-      log('-replacement.tempId------${replacement.tempId}');
+      log('Creating/Updating new Replacement with tempId: ${replacement.tempId}');
 
       if (state.model.replacements == null ||
           state.model.replacements!.isEmpty) {
@@ -252,6 +251,8 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
               .id)}--${existingReplacement.toString()}-');
           if (existingReplacement.id == null &&
               existingReplacement.tempId == replacement.tempId) {
+            log('Updating Replacement with tempId: ${replacement.tempId}');
+
             // Update the existing replacement with the new values
             existingReplacement.replacedFor = replacement.replacedFor;
             existingReplacement.replacementBy = replacement.replacementBy;
@@ -263,7 +264,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
           // state.model.replacements ??= [];
           // state.model.replacements!.add(replacement);
 
-          // updateReplacements(existingReplacement);
+          updateReplacements(existingReplacement);
         });
       }
     } else {
@@ -281,7 +282,27 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
       status: FormStatus.initial,
     ));
   }
+  void updateReplacements(Replacement replacement) {
+    log('--updateReplacement----');
+    // Initialize the list if it's null
+    state.model.replacements ??= [];
 
+    // Create a separate list to hold the replacements to be added
+    List<Replacement> newReplacements = [];
+
+    log('--updateReplacement---1111--state.model.replacements?.length--${state.model.replacements?.length}-');
+    // Iterate over the list and add items to the new list
+    for (var item in state.model.replacements!) {
+      newReplacements.add(item);
+    }
+
+    // Add the new replacement to the new list
+    newReplacements.add(replacement);
+
+    // Replace the old list with the new list
+    state.model.replacements = newReplacements;
+    log('--updateReplacement--2222---state.model.replacements?.length--${state.model.replacements?.length}-');
+  }
   Future<void> getNextAvailableReplacementDates({required int userId}) async {
     emit(
       state.copyWith(
