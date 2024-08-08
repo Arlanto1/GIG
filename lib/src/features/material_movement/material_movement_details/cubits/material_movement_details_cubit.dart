@@ -237,10 +237,15 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           roleName: ConstantUserRoles.atomStaticUser,
           locationId: state.model.location?.id);
     }
-    state.model.receiverEmail = null;
+    state.model.requestorEmail = null;
+    state.model.approver1Email = null;
+    state.model.approver2Email = null;
+
     emit(state.copyWith(
       model: state.model,
-      emailUsers: emailUsers,
+      requestorEmailUsers: emailUsers,
+      approver1Users: emailUsers,
+      approver2Users: emailUsers,
       status: FormStatus.initial,
     ));
   }
@@ -292,10 +297,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           '${receiverEmail.name} (${receiverEmail.email})';
     }
 
-    if (requesterEmailUser != null) {
-      state.model.requestorEmail =
-          '${requesterEmailUser.name} (${requesterEmailUser.email})';
-    }
+    // if (requesterEmailUser != null) {
+    //   state.model.requestorEmail =
+    //       '${requesterEmailUser.name} (${requesterEmailUser.email})';
+    // }
 
     if (returnReceiverMailId != null) {
       state.model.returnReceiverMailId =
@@ -359,7 +364,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.requestorEmail =
       '${requesterEmailUser.name} ${requesterEmailUser.email != null ?'(${requesterEmailUser.email})' :''}';
       state.approver1Users?.remove(requesterEmailUser);
-      state.approver2Users?.remove(requesterEmailUser);
       emit(
         state.copyWith(
           model: state.model,
@@ -380,7 +384,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       }
       state.model.approver1Email =
       '${approver1EmailUser.name} ${approver1EmailUser.email != null ?'(${approver1EmailUser.email})' :''}';
-      state.requestorEmailUsers?.remove(approver1EmailUser);
       state.approver2Users?.remove(approver1EmailUser);
 
       emit(
@@ -404,7 +407,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
       }
       state.model.approver2Email = '${approver2EmailUser.name} ${approver2EmailUser.email != null ?'(${approver2EmailUser.email})':''}';
-      state.requestorEmailUsers?.remove(approver2EmailUser);
       state.approver1Users?.remove(approver2EmailUser);
 
       emit(

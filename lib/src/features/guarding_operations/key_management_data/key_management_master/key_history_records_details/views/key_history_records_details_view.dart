@@ -610,7 +610,7 @@ class _KeyHistoryRecordsDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             textInputType: TextInputType.number,
-                            initialValue: '${state.model.noOfKeys ?? ''}',
+                            initialValue: '${state.model.noOfKeys  ?? ''}',
                             textFormKey: Keys.guardingPOCKey,
                             hintText: '',
                             focusNode: noOfKeysFocusNode,

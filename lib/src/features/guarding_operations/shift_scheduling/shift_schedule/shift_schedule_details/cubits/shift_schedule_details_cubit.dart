@@ -220,9 +220,9 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         locationId: location.id.toString(),
         moduleCode: Constants.shiftScheduleModuleCode,
       );
-
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
+      state.model.locationRegion = null;
       model?.inputDate = model?.inputDate == null
           ? Utils().getCurrentDate()
           : Utils().formatUnixTimestamp(model?.inputDate ?? '');
@@ -230,7 +230,6 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         List<DutyPostModel> dutyPosts = await getDutyPosts();
 
         NextAvailableDateRange availableDate = await getNextAvailableDate();
-
         emit(state.copyWith(
           model: state.model,
           dutyPosts: dutyPosts,
@@ -385,6 +384,11 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
               message: state.isValidDraft.message,
             ),
           );
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+                  int.tryParse(state.model.inputDate ?? '0'),
+                  Constants.fulldateFormat);
           return;
         }
         response = (await services.createShiftSchedule(
@@ -398,11 +402,6 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
               message: state.isValid.message,
             ),
           );
-          state.model.inputDate = state.model.inputDate == null
-              ? Utils().getCurrentDate()
-              : Utils.timestampToDateConversion(
-                  int.tryParse(state.model.inputDate ?? '0'),
-                  Constants.fulldateFormat);
           return;
         }
         response = (await services.createShiftSchedule(
@@ -424,11 +423,6 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
               Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
-      state.model.inputDate = state.model.inputDate == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'),
-              Constants.fulldateFormat);
       log('--Exception-e-----}--');
       emit(
         state.copyWith(

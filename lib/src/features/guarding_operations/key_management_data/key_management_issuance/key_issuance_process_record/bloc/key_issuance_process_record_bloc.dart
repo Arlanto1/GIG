@@ -41,6 +41,7 @@ class KeyIssuanceProcessRecordBloc
       // List<Organisation> items =
       //     await commonServices.getOrganisations(name: violationDescription);
 
+
       ExtraProperties extraProperties =
           await UtilsCommon().checkWritePermission(
         moduleCode: Constants.keyManagementIssuanceModule,

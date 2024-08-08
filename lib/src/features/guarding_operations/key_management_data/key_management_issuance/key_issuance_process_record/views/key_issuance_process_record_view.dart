@@ -14,7 +14,7 @@ class KeyIssuanceProcessRecordsView extends StatefulWidget {
     required this.parentStatus,
     required this.locationId,
     required this.title,
-    this.model,
+    // this.model,
     required this.isMasterKey,
     this.id,
     this.extraProperties,
@@ -26,7 +26,7 @@ class KeyIssuanceProcessRecordsView extends StatefulWidget {
   final int parentStatus;
   final int locationId;
   final String title;
-  final KeyIssuanceProcessRecord? model;
+  // final KeyIssuanceProcessRecord? model;
   final bool isMasterKey;
   final int? id;
   final ExtraProperties? extraProperties;
@@ -258,12 +258,11 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         lock: widget.lock,
                       );
                     },
-                    showViewButton: (
-                        widget.parentStatus == 1 ||
-                        widget.parentStatus == 2) &&
-                        !(widget.extraProperties != null &&
-                            !widget.extraProperties!.hasWritePermission!) &&
-                        widget.lock.isEmptyOrNull
+                    showViewButton: (widget.parentStatus == 1 ||
+                                widget.parentStatus == 2) &&
+                            !(widget.extraProperties != null &&
+                                !widget.extraProperties!.hasWritePermission!) &&
+                            widget.lock.isEmptyOrNull
                         ? true
                         : false,
                     onViewTap: (selectedIndex) {
@@ -271,21 +270,22 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                           state.extraProperties?.hasWritePermission ?? false,
                           state.items[index].kmId);
                     },
-                    showLinkOffButton: widget.lock.isEmptyOrNull && (widget.parentStatus == 1 ||
+                    showLinkOffButton: widget.lock.isEmptyOrNull &&
+                            (widget.parentStatus == 1 ||
                                 widget.parentStatus == 2) &&
                             !(widget.extraProperties != null &&
                                 !widget.extraProperties!.hasWritePermission!)
                         ? true
                         : false,
                     onLinkOffTap: (selectedIndex) async {
-                      if(state.items[selectedIndex].lost == 0){
+                      if (state.items[selectedIndex].lost == 0) {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: const Text(Constants.valueNotAccepted),
                               content:
-                              const Text(Constants.enteredValueNotAccepted),
+                                  const Text(Constants.enteredValueNotAccepted),
                               actions: <Widget>[
                                 TextButton(
                                   child: const Text(Constants.ok),
@@ -297,12 +297,17 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                             );
                           },
                         );
-                      }
-                      else{
+                      } else {
                         getKeyHistoryById(
                             state.extraProperties?.hasWritePermission ?? false,
-                            state.items[index].kmId, widget.parentId, ConstantsIntValue.keyLostHistoryInt);
-
+                            state.items[index].kmId,
+                            widget.parentId,
+                            ConstantsIntValue.keyLostHistoryInt);
+                        // await KeyManagementIssuanceServices()
+                        //     .getIssuanceProcessById(
+                        //     state.items[index].id ?? 0);
+                        // int? kmId = state.items[selectedIndex].kmId;
+                        // int? kipId = state.items[selectedIndex].id;
                         // Navigator.pushNamed(
                         //   context,
                         //   keyHistoryRecordsDetailsRoute,
@@ -315,23 +320,23 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         //   },
                         // );
                       }
-                      },
-
-                    showDeleteButton:widget.lock.isEmptyOrNull && (widget.parentStatus == 1 ||
+                    },
+                    showDeleteButton: widget.lock.isEmptyOrNull &&
+                            (widget.parentStatus == 1 ||
                                 widget.parentStatus == 2) &&
                             !(widget.extraProperties != null &&
                                 !widget.extraProperties!.hasWritePermission!)
                         ? true
                         : false,
                     onDeleteTap: (selectedIndex) async {
-                      if(state.items[selectedIndex].damaged == 0){
+                      if (state.items[selectedIndex].damaged == 0) {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: const Text(Constants.valueNotAccepted),
                               content:
-                              const Text(Constants.enteredValueNotAccepted),
+                                  const Text(Constants.enteredValueNotAccepted),
                               actions: <Widget>[
                                 TextButton(
                                   child: const Text(Constants.ok),
@@ -343,27 +348,31 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                             );
                           },
                         );
+                      } else {
+                        await KeyManagementIssuanceServices()
+                            .getIssuanceProcessById(state.items[index].id ?? 0);
+                        int? kmId = state.items[selectedIndex].kmId;
+                        int? kipId = state.items[selectedIndex].id;
+                        // getKeyHistoryById(
+                        //     state.extraProperties?.hasWritePermission ?? false,
+                        //     state.items[index].kmId, widget.parentId, ConstantsIntValue.keyDamageHistoryInt);
+                        Navigator.pushNamed(
+                          context,
+                          keyHistoryRecordsDetailsRoute,
+                          arguments: {
+                            ConstantsArgument.title: Constants.keyDamageHistory,
+                            ConstantsArgument.id: kmId,
+                            ConstantsArgument.kipId: kipId,
+                            ConstantsArgument.type:
+                                ConstantsIntValue.keyDamageHistoryInt,
+                          },
+                        );
                       }
-                      else{
-                        getKeyHistoryById(
-                            state.extraProperties?.hasWritePermission ?? false,
-                            state.items[index].kmId, widget.parentId, ConstantsIntValue.keyDamageHistoryInt);
-                      // Navigator.pushNamed(
-                      //   context,
-                      // keyHistoryRecordsDetailsRoute,
-                      //   arguments: {
-                      //     ConstantsArgument.title: Constants.keyDamageHistory,
-                      //     ConstantsArgument.id: kmId,
-                      //     ConstantsArgument.kipId: kipId,
-                      //     ConstantsArgument.type:
-                      //         ConstantsIntValue.keyDamageHistoryInt,
-                      //   },
-                      // );
-                    }},
+                    },
                     index: index,
                   );
           }
-          return null;
+          return const SizedBox();
         },
       ),
     );
@@ -371,6 +380,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
 
   getById(bool hasWritePermission, int? kmId) async {
     showLoadingDialog(context);
+    log('MasterId $kmId');
 
     KeyManagementMasterModel keyManagementMasterModel =
         await KeyManagementMasterServices().getById(kmId!);
@@ -378,9 +388,9 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     editDataLoading(keyManagementMasterModel, hasWritePermission);
   }
 
-
   void editDataLoading(KeyManagementMasterModel? keyManagementMasterModel,
       bool hasWritePermission) {
+    log('MasterId ${keyManagementMasterModel?.id}');
     dismissLoadingDialog(context);
     if (keyManagementMasterModel != null) {
       Navigator.pushNamed(context, keyManagementMasterDetailsRoute, arguments: {
@@ -392,45 +402,41 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     }
   }
 
-  getKeyHistoryById(bool hasWritePermission, int? keyManagementId,int? keyIssuanceId, int? type) async {
+  getKeyHistoryById(bool hasWritePermission, int? kmId,
+      int? keyIssuanceId, int? type) async {
     showLoadingDialog(context);
 
-    KeyHistoryModel keyHistoryModel =
-    await KeyManagementIssuanceServices().getIssuanceKHById(keyManagementId!,keyIssuanceId!,type!);
+    KeyHistoryModel keyHistoryModel = await KeyManagementIssuanceServices()
+        .getIssuanceKHById(kmId!, keyIssuanceId!, type!);
 
-    editKeyHistoryDataLoading(keyHistoryModel, hasWritePermission);
+    editKeyHistoryDataLoading(kmId, keyHistoryModel, hasWritePermission);
   }
 
-
-  void editKeyHistoryDataLoading(KeyHistoryModel? keyHistoryModel,
-      bool hasWritePermission) {
-    log('keyHistoryModel.kmId----${keyHistoryModel?.kmId}');
+  Future<void> editKeyHistoryDataLoading(int kmId,
+      KeyHistoryModel? keyHistoryModel, bool hasWritePermission) async {
     dismissLoadingDialog(context);
-    if (keyHistoryModel != null) {
+    log('KMID $kmId');
+    if (keyHistoryModel?.id != null) {
       Navigator.pushNamed(context, keyHistoryRecordsDetailsRoute, arguments: {
         "keyLossGi": KeyHistoryModel,
-            ConstantsArgument.title: Constants.keyLostHistory,
-        ConstantsArgument.parentId: keyHistoryModel.kmId,
+        ConstantsArgument.title: Constants.keyLostHistory,
+        ConstantsArgument.id: keyHistoryModel?.kmId,
         ConstantsArgument.type: ConstantsIntValue.keyLostHistoryInt,
         ConstantsArgument.extraProperties:
-        ExtraProperties(hasWritePermission: hasWritePermission),
+            ExtraProperties(hasWritePermission: hasWritePermission),
       });
+    } else {
+      Navigator.pushNamed(
+        context,
+        keyHistoryRecordsDetailsRoute,
+        arguments: {
+          ConstantsArgument.title: Constants.keyLostHistory,
+          ConstantsArgument.id: kmId,
+          // ConstantsArgument.kipId: widget.model?.id,
+          ConstantsArgument.type: ConstantsIntValue.keyLostHistoryInt,
+        },
+      );
     }
-  }
-
-  createRecord(int? kmId) async {
-    showLoadingDialog(context);
-
-    KeyHistoryRecordRequest request = KeyHistoryRecordRequest();
-    await KeyManagementMasterServices().createKeyHistoryRecord(
-      body: request,
-      kmId: kmId.toString(),
-      isSubmit: false,
-    );
-    Navigator.pushNamed(context, keyHistoryRecordsDetailsRoute, arguments: {
-      "keyLossGi": KeyHistoryModel,
-      "title": Constants.keyLostHistory
-    });
   }
 
   showAddKeyIssuanceProcessPopUp({

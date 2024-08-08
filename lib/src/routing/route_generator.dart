@@ -1247,7 +1247,8 @@ class RouteGenerator {
         KeyManagementIssuanceServices keyIssuanceServices =
             KeyManagementIssuanceServices();
         CommonServices commonServices = CommonServices();
-        int parentId = 0;
+        // int? parentId;
+        int? id;
         String title;
         int type = 0;
         String? lock;
@@ -1256,18 +1257,20 @@ class RouteGenerator {
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
-        parentId = arguments[ConstantsArgument.parentId];
+        // parentId = arguments[ConstantsArgument.parentId];
+        id = arguments[ConstantsArgument.id];
         kipId = arguments[ConstantsArgument.kipId];
         type = arguments[ConstantsArgument.type];
         KeyHistoryModel? model = arguments[ConstantsArgument.model];
         extraProperties = arguments[ConstantsArgument.extraProperties];
         lock = arguments[ConstantsArgument.isLocked];
+        log('srh--${model?.srh?.name}--');
         return MaterialPageRoute(
           builder: (context) => BlocProvider<KeyHistoryRecordsDetailsCubit>(
             create: (_) => KeyHistoryRecordsDetailsCubit(
               services: services,
               model: model,
-              parentId: parentId,
+              parentId: id!,
               kipId: kipId,
               commonServices: commonServices,
               type: type,
@@ -1276,7 +1279,7 @@ class RouteGenerator {
             child: KeyHistoryRecordsDetailsView(
                 model: model,
                 title: title,
-                parentId: parentId,
+                parentId: id!,
                 type: type,
                 extraProperties: extraProperties,
                 lock: lock),

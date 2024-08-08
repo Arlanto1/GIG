@@ -301,7 +301,7 @@ class Constants {
   static const String isclaimantacceptedtosign = 'Claimant accepted to sign';
   static const String isclaimantacceptedbyemail = 'Claimant Confirmed by Email';
   static const String addedSuccessfully = 'Added Successfully.';
-  static const String userAddedUpdatedSuccessfully = 'User Added/User Already Exist.';
+  static const String userAddedUpdatedSuccessfully = 'List is Updated(Search with the email).';
 
   // Law enforcement
   static const String createlawenforcement =
