@@ -243,9 +243,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
     emit(state.copyWith(
       model: state.model,
-      requestorEmailUsers: emailUsers,
-      approver1Users: emailUsers,
-      approver2Users: emailUsers,
+      // requestorEmailUsers: emailUsers,
+      // approver1Users: emailUsers,
+      // approver2Users: emailUsers,
       status: FormStatus.initial,
     ));
   }
@@ -364,6 +364,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.requestorEmail =
       '${requesterEmailUser.name} ${requesterEmailUser.email != null ?'(${requesterEmailUser.email})' :''}';
       state.approver1Users?.remove(requesterEmailUser);
+      state.approver2Users?.remove(requesterEmailUser);
       emit(
         state.copyWith(
           model: state.model,
@@ -385,6 +386,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.approver1Email =
       '${approver1EmailUser.name} ${approver1EmailUser.email != null ?'(${approver1EmailUser.email})' :''}';
       state.approver2Users?.remove(approver1EmailUser);
+      state.requestorEmailUsers?.remove(approver1EmailUser);
 
       emit(
         state.copyWith(
@@ -408,6 +410,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       }
       state.model.approver2Email = '${approver2EmailUser.name} ${approver2EmailUser.email != null ?'(${approver2EmailUser.email})':''}';
       state.approver1Users?.remove(approver2EmailUser);
+      state.requestorEmailUsers?.remove(approver2EmailUser);
 
       emit(
         state.copyWith(
