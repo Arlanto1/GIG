@@ -77,7 +77,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       List<Organisation> dutyPosts = [];
       // Organisation? location = state.model.location;
 
-      if (state.model.location == null || defaultLocation != null) {
+      if (state.model.location == null && defaultLocation != null) {
         // SerialNumberModel slNo = await commonServices.getSlNo(
         //   locationId: defaultLocation.id.toString(),
         //   moduleCode: Constants.contactDetailsModule,

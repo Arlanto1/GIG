@@ -267,10 +267,10 @@ class KeyManagementIssuanceDetailsCubit
       state.model.keyHandOverDate =
           (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     }
-    if (state.model.status == 1) {
-      state.model.keyReturnDateTime =
-          (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-    }
+    // if (state.model.status == 1) {
+    //   state.model.keyReturnDateTime =
+    //       (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // }
     state.model.keyHandOverDue ??=
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     // Create/Update API Call

@@ -66,7 +66,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       listener: (context, state) {
         log('-state.status---${state.status}----');
         log('-HandOverDuration---${state.model.keyHandingOverDuration}----');
-        // Utils().errorAndLogout(state, context);
+        Utils().formError(state, context);
+        Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Key Management Issuance',
@@ -1073,9 +1074,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-
         BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
-            .submitForm();
+            .submitForm(isSaveOnly: false);
       },
     );
   }
