@@ -124,7 +124,7 @@ class KeyManagementMasterServices {
   Future<GenericResponse> createKeyHistoryRecord({
     required KeyHistoryRecordRequest body,
     required bool isSubmit,
-    required String kmId,
+    required String? kmId,
   }) async {
     // var userId = await SharedPrefs.getUserId();
     final String url =

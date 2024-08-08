@@ -54,6 +54,7 @@ class KeyHistoryRecordsDetailsCubit
       ),
     );
     log('---model.nokeyss--${model?.noKeys}---${model?.noOfKeys}-----');
+    log('---srhh--${model?.srh}-');
     KeyManagementMasterModel parentModel = await services.getById(parentId);
     KeyIssuanceProcessRecord keyIssuanceProcessModel =
         KeyIssuanceProcessRecord();
