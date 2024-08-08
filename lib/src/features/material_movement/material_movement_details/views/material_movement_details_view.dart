@@ -1875,7 +1875,7 @@ class _MaterialMovementDetailsViewState
                                     initialValue: state.model.takenOutContactNo,
                                     textFormKey: Keys.takenOutContactKey,
                                     hintText: '',
-                                    characterLimit: 17,
+                                    characterLimit: Constants.characterLimitContactNo,
                                     isEnable: state.model.status == 6 &&
                                         state.model.lock.isEmptyOrNull,
                                     isDisableColor: state.model.status != 6 ||
