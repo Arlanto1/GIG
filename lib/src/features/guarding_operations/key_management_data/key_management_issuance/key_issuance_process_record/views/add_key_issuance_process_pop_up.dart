@@ -207,6 +207,10 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                       keyDescriptionController.text =
                                           org.keyDescription ?? '';
                                       selectedKeyDescription = org;
+                                      keyTypeController.clear();
+                                      noOfKeysController.clear();
+                                      alreadyIssuedKeysController.clear();
+                                      availableKeysController.clear();
                                     });
                                   },
                                 );
