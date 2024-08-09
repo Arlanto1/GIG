@@ -180,7 +180,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           status: FormStatus.initial,
           model: state.model,
           loadAttachments: state.model.images,
-          emailUsers: emailUsers,
+          requestorEmailUsers: emailUsers,
           approver1Users: emailUsers,
           approver2Users: emailUsers,
           departments: departments.employeeDepartments,
