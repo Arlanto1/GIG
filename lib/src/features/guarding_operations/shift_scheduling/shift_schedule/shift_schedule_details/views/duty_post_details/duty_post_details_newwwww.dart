@@ -186,10 +186,10 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                     //   newSelectedShift: state.selectedShift!,
                                     // );
                                     // if (state.status != FormStatus.formError) {
-                                      BlocProvider.of<DutyPostDetailsCubit>(
-                                              context)
-                                          .getShiftListByAssignedDutyPostId(
-                                              rank: value!);
+                                    BlocProvider.of<DutyPostDetailsCubit>(
+                                            context)
+                                        .getShiftListByAssignedDutyPostId(
+                                            rank: value!);
                                     // }
                                   },
                                 ),
@@ -241,10 +241,12 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     buildShiftColumn(
+                                      state: state,
                                       shift: state.model,
                                       isSourceList: true,
                                     ),
                                     buildShiftColumn(
+                                      state: state,
                                       shift: state.model,
                                       isSourceList: false,
                                     ),
@@ -299,14 +301,17 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
     );
   }
 
-  Column buildShiftColumn({required Shift shift, required bool isSourceList}) {
+  Column buildShiftColumn(
+      {required Shift shift,
+      required bool isSourceList,
+      required DutyPostDetailsState state}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         CommonWidgets.textDisplay(
           isSourceList
-              ? 'Select For Shift: ${shift.shift}'
+              ? 'Select For Shift: ${state.selectedShift?.name??shift.shift}'
               : 'Selected (Max Allowed: ${shift.allowed})',
           isMandatory: false,
           Styles.textStyleBlack14,
