@@ -72,10 +72,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
 
     emit(state.copyWith(model: model, status: FormStatus.loading));
-    String email = await SharedPrefs.getEmail();
     bool isReadOnly;
 
-    if (state.model.requestorEmail.equalsIgnoreCase(email)) {
+    if (state.model.requestorEmail.equalsIgnoreCase(state.loggedInUserDetails?.userName)) {
       isReadOnly = false;
     } else {
       isReadOnly = true;
@@ -176,11 +175,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       emit(
         state.copyWith(
           locations: locations,
-          loggedInUserDetails: state.model.entrySecurity,
+          loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
           loadAttachments: state.model.images,
-          emailUsers: emailUsers,
+          requestorEmailUsers: emailUsers,
           approver1Users: emailUsers,
           approver2Users: emailUsers,
           departments: departments.employeeDepartments,
