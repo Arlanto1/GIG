@@ -160,7 +160,7 @@ class DutyPostNameMasterDetailsCubit
       state.model.slNo = slNo.serialNo;
 
       try {
-            await services.checkDpmExists(locationId: location.id!);
+            await services.checkDutyPostNameExists(locationId: location.id!);
       } on GenericResponse catch (e) {
         state.model.location = null;
         state.model.slNo = null;

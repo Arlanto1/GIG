@@ -152,6 +152,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
           locationId: location.id.toString());
       log('--dutyPosts-${dutyPosts.length}---');
 
+      await checkDpmExistsOrNot(state.model);
       emit(state.copyWith(
         dutyPosts: dutyPosts,
         status: FormStatus.initial,
@@ -159,14 +160,57 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     }
 
     log('--dutyPostName--${dutyPostName?.name}---');
-    //if (location != null) {
-    state.model.dutyPostLocation = dutyPostName ?? state.model.dutyPostLocation;
-    // }
-    state.model.rankId = rankId ?? state.model.rankId;
+    if (dutyPostName != null) {
+      state.model.dutyPostLocation = dutyPostName;
+      await checkDpmExistsOrNot(state.model);
+    }
+    if (rankId != null) {
+      state.model.rankId = rankId;
+      await checkDpmExistsOrNot(state.model);
+    }
+
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,
     ));
+  }
+
+  Future<void> checkDpmExistsOrNot(DutyPostMasterModel model) async {
+    if (state.model.location?.id == null ||
+        state.model.dutyPostLocation?.id == null ||
+        state.model.rankId == null) {
+      log('Not calling API because mandatory fields are not filled yet.');
+      return;
+    }
+    try {
+      await services.checkDpmExists(
+        locationId: state.model.location!.id!,
+        dutyPostLocationId: state.model.dutyPostLocation!.id!,
+        rankId: state.model.rankId!,
+      );
+    } on GenericResponse catch (e) {
+      state.model.location = null;
+
+      log('----GenericResponse---');
+      emit(
+        state.copyWith(
+          model: state.model,
+          message: e.message,
+          status: FormStatus.formError,
+        ),
+      );
+      return;
+    } on Exception catch (e) {
+      state.model.location = null;
+      emit(
+        state.copyWith(
+          model: state.model,
+          message: e.toString(),
+          status: FormStatus.formError,
+        ),
+      );
+      return;
+    }
   }
 
   void submitForm({bool isSaveOnly = false}) async {
