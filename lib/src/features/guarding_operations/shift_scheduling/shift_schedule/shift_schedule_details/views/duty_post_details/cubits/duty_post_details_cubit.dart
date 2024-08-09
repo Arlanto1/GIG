@@ -127,7 +127,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     ));
   }
 
-  void submitForm({
+  Future<void> submitForm({
     bool isSaveOnly = false,
     required Shift model,
     FormStatus? status,
@@ -160,7 +160,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
           isSubmit: false,
           dutyPostId: parentModel.id!,
           rankId: state.selectedRank!.id!,
-          shiftId: newSelectedShift!.id!,
+          shiftId: newSelectedShift.id!,
         ));
       } else {
         //Validating Fields
@@ -209,7 +209,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     );
   }
 
-  void updateReplacement(Replacement updatedReplacement) {
+  Future<void> updateReplacement(Replacement updatedReplacement) async {
     emit(state.copyWith(status: FormStatus.loading));
 
     if (updatedReplacement.id != null) {
@@ -234,6 +234,18 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
       model: state.model,
       status: FormStatus.initial,
     ));
+
+
+    /// Saving the record
+    await submitForm(
+      isSaveOnly: true,
+      model: state.model,
+      status: FormStatus.initial,
+      newSelectedShift: state.selectedShift!,
+    );
+
+    /// refreshing the list so that we can refresh the validation for creating new replacements.
+    initializeValues();
   }
 
   Future<void> getNextAvailableReplacementDates({required int userId}) async {
