@@ -358,6 +358,10 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
         // widget.model?.dutyPostLocationName = dutyPostLocationNameController.text;
         BlocProvider.of<DutyPostDetailsCubit>(widget.mainContext)
             .updateReplacement(widget.model);
+
+
+
+        // widget.refreshFunction; // this function is not being called
         Navigator.pop(context);
       },
     );

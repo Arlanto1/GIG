@@ -3623,9 +3623,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     int passValidFromDate = (DateTime
         .now()
         .millisecondsSinceEpoch ~/ 1000);
-    int passReturnedOn = (DateTime
-        .now()
-        .millisecondsSinceEpoch ~/ 1000);
+    int? passReturnedOn;
+
+    log('state.model.updatedStatus--${state.model.updatedStatus}--');
+    if(state.model.updatedStatus != ConstantsIntValue.passStatusLostDeActivated) {
+      passReturnedOn = (DateTime
+          .now()
+          .millisecondsSinceEpoch ~/ 1000);
+    }
     // int passValidUntilDate =
     //     (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 12 * 3600; //Add
     //
@@ -3789,9 +3794,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     User? entrySecurity = widget.model?.entrySecurity ??
         User(userId: state.getUserDetailsResponse?.userId ?? 1);
 
-    User? handoverSecurity = widget.model?.status == 1
-        ? widget.model?.handoverSecurity ??
-        User(userId: state.getUserDetailsResponse?.userId ?? 1)
+    User? handoverSecurity = widget.model?.status == ConstantsIntValue.passStatusHandedOver
+        ? widget.model?.handoverSecurity
         : null;
     if (statusTextController.text.isEmptyOrNull) {
       Validator().showToast(
@@ -3866,7 +3870,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         //     : passValidUntilDate.toString(),
         startTime: passValidFromDate.toString(),
         returnedTime:
-        widget.model?.status == 1 ? passReturnedOn.toString() : null,
+        widget.model?.status == ConstantsIntValue.passStatusHandedOver ? passReturnedOn.toString() : null,
         hostName: dbsponsorTextController.text.isEmpty
             ? state.hostResponse?.userInfo ?? ''
             : state.dbsponsorResponse?.userInfo ?? '',

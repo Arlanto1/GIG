@@ -321,6 +321,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                             orElse: () =>
                                                 const Label(key: '', value: ''),
                                           );
+
                                           BlocProvider.of<
                                                       DutyPostMasterDetailsCubit>(
                                                   context)

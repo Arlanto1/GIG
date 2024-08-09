@@ -102,6 +102,11 @@ class BaseApiService {
           // TODO: Need to handle the logout case
           throw GenericResponse.fromJson(responseBody);
         }
+        if (response.statusCode.toString() == "400") {
+          log("will log out now${response.statusCode}");
+          // TODO: Need to handle the logout case
+          throw GenericResponse.fromJson(responseBody);
+        }
         throw json.decode(response.body);
       }
     } on SocketException {
