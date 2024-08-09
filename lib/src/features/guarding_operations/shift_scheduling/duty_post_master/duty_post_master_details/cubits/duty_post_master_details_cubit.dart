@@ -191,7 +191,6 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     } on GenericResponse catch (e) {
       state.model.location = null;
 
-      log('----GenericResponse---');
       emit(
         state.copyWith(
           model: state.model,
