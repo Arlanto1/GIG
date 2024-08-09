@@ -98,5 +98,7 @@ class ConstantsIntValue {
   static const int mmStatusInwardWaiting =9;
   static const int mmStatusClosed = 10;
 
+  ///Key Issuance status
+  static const int issuanceHandedOverStatus = 1;
 
 }
