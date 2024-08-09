@@ -327,7 +327,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       // If replacement has no ID, add it as a new object to the replacements list
       state.selectedDutyPostModel?.ranks?.forEach((rank) {
         rank.shifts?.forEach((shift) {
-          shift.replacements ??= [];
+          shift.replacements ??= {};
           shift.replacements!.add(replacement);
         });
       });
@@ -544,5 +544,11 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
         id: id, module: Constants.shiftScheduleModuleCode);
+  }
+
+  @override
+  Future<void> close() {
+    // Clean up resources and stop emitting states
+    return super.close();
   }
 }

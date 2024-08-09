@@ -46,7 +46,7 @@ Shift _$ShiftFromJson(Map<String, dynamic> json) => Shift(
       briefingPoints: json['briefingPoints'] as String?,
       replacements: (json['replacements'] as List<dynamic>?)
           ?.map((e) => Replacement.fromJson(e as Map<String, dynamic>))
-          .toList(),
+          .toSet(),
     );
 
 Map<String, dynamic> _$ShiftToJson(Shift instance) => <String, dynamic>{
@@ -57,7 +57,7 @@ Map<String, dynamic> _$ShiftToJson(Shift instance) => <String, dynamic>{
       'activeShift': instance.activeShift,
       'selectedGuards': instance.selectedGuards,
       'availableGuards': instance.availableGuards,
-      'replacements': instance.replacements,
+      'replacements': instance.replacements?.toList(),
       'selectForAttendance': instance.selectForAttendance,
       'attended': instance.attended,
       'previousShift': instance.previousShift,
@@ -75,6 +75,7 @@ Replacement _$ReplacementFromJson(Map<String, dynamic> json) => Replacement(
       fromDate: json['fromDate'] as String?,
       toDate: json['toDate'] as String?,
       status: (json['status'] as num?)?.toInt(),
+      tempId: json['tempId'] as String?,
     );
 
 Map<String, dynamic> _$ReplacementToJson(Replacement instance) =>
@@ -85,4 +86,5 @@ Map<String, dynamic> _$ReplacementToJson(Replacement instance) =>
       'fromDate': instance.fromDate,
       'toDate': instance.toDate,
       'status': instance.status,
+      'tempId': instance.tempId,
     };
