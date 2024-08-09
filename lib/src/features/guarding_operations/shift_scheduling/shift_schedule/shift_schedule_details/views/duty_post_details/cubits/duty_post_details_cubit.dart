@@ -209,100 +209,33 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     );
   }
 
-  void updateReplacement(
-    Replacement replacement,
-  ) {
-    emit(state.copyWith(
-      status: FormStatus.loading,
-    ));
+  void updateReplacement(Replacement updatedReplacement) {
+    emit(state.copyWith(status: FormStatus.loading));
 
-    log('----replacement.fromDate---${replacement.fromDate}-');
-
-    // Check if replacement has an ID
-    if (replacement.id != null) {
+    if (updatedReplacement.id != null) {
       log('Updating Existing Replacement');
-
-      log('---replacement.id != null---');
-      // Iterate over ranks and shifts to find and update the replacement
-      state.model.replacements?.forEach((existingReplacement) {
-        log('----existingReplacement-${existingReplacement.id} ${(replacement.id)}--${existingReplacement.toString()}-');
-        if (existingReplacement.id == replacement.id) {
-          // Update the existing replacement with the new values
-          existingReplacement.replacedFor = replacement.replacedFor;
-          existingReplacement.replacementBy = replacement.replacementBy;
-          existingReplacement.fromDate = replacement.fromDate;
-          existingReplacement.toDate = replacement.toDate;
-          existingReplacement.status = replacement.status;
-        }
-      });
-    } else if (replacement.id == null && replacement.tempId != null) {
-      log('Creating/Updating new Replacement with tempId: ${replacement.tempId}');
-
-      if (state.model.replacements == null ||
-          state.model.replacements!.isEmpty) {
-        log('state.model.replacements == null');
-        state.model.replacements ??= [];
-        state.model.replacements!.add(replacement);
-
-      } else {
-        // Iterate over ranks and shifts to find and update the replacement
-        state.model.replacements?.forEach((existingReplacement) {
-          log('----existingReplacement-${existingReplacement.id} ${(replacement
-              .id)}--${existingReplacement.toString()}-');
-          if (existingReplacement.id == null &&
-              existingReplacement.tempId == replacement.tempId) {
-            log('Updating Replacement with tempId: ${replacement.tempId}');
-
-            // Update the existing replacement with the new values
-            existingReplacement.replacedFor = replacement.replacedFor;
-            existingReplacement.replacementBy = replacement.replacementBy;
-            existingReplacement.fromDate = replacement.fromDate;
-            existingReplacement.toDate = replacement.toDate;
-            existingReplacement.status = replacement.status;
-          }
-
-          // state.model.replacements ??= [];
-          // state.model.replacements!.add(replacement);
-
-          updateReplacements(existingReplacement);
-        });
-      }
+      state.model.replacements = state.model.replacements
+          ?.map((existing) =>
+              existing.id == updatedReplacement.id ? updatedReplacement : existing)
+          .toSet();
     } else {
-      // TODO: this else case be removed
-      log('--updateReplacement-else---');
-      // If replacement has no ID, add it as a new object to the replacements list
-      state.model.replacements ??= [];
-      state.model.replacements!.add(replacement);
+      /// Handle new replacements
+      state.model.replacements ??= {};
+      if (updatedReplacement.tempId != null) {
+        log('Creating/Updating new Replacement with tempId: ${updatedReplacement.tempId}');
+        // Remove any existing replacement with the same tempId before adding
+        state.model.replacements!
+            .removeWhere((existingReplacement) => existingReplacement.tempId == updatedReplacement.tempId);
+      }
+      state.model.replacements!.add(updatedReplacement);
     }
 
-    log('----end----');
     emit(state.copyWith(
       model: state.model,
-      // seletedDutyPostModel: state.selectedDutyPostModel,
       status: FormStatus.initial,
     ));
   }
-  void updateReplacements(Replacement replacement) {
-    log('--updateReplacement----');
-    // Initialize the list if it's null
-    state.model.replacements ??= [];
 
-    // Create a separate list to hold the replacements to be added
-    List<Replacement> newReplacements = [];
-
-    log('--updateReplacement---1111--state.model.replacements?.length--${state.model.replacements?.length}-');
-    // Iterate over the list and add items to the new list
-    for (var item in state.model.replacements!) {
-      newReplacements.add(item);
-    }
-
-    // Add the new replacement to the new list
-    newReplacements.add(replacement);
-
-    // Replace the old list with the new list
-    state.model.replacements = newReplacements;
-    log('--updateReplacement--2222---state.model.replacements?.length--${state.model.replacements?.length}-');
-  }
   Future<void> getNextAvailableReplacementDates({required int userId}) async {
     emit(
       state.copyWith(
