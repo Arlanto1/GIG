@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/dpn_ui_labels.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/requestModel/duty_post_name_master_request.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
 import 'package:intl/intl.dart';
 
@@ -149,7 +148,8 @@ class DutyPostNameMasterDetailsCubit
         status: FormStatus.loading,
       ),
     );
-    ////Get Sl No from API
+
+    /// Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
@@ -158,6 +158,33 @@ class DutyPostNameMasterDetailsCubit
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
+
+      try {
+            await services.checkDpmExists(locationId: location.id!);
+      } on GenericResponse catch (e) {
+        state.model.location = null;
+        state.model.slNo = null;
+
+        log('----GenericResponse---');
+        emit(
+          state.copyWith(
+            model: state.model,
+            message: e.message,
+            status: FormStatus.formError,
+          ),
+        );
+      } on Exception catch (e) {
+        state.model.location = null;
+        state.model.slNo = null;
+        emit(
+          state.copyWith(
+            model: state.model,
+            message: e.toString(),
+            status: FormStatus.formError,
+          ),
+        );
+        return;
+      }
     }
 
     state.model.status = status ?? state.model.status;
