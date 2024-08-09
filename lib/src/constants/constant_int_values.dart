@@ -37,8 +37,6 @@ class ConstantsIntValue {
 
   static const String sezCompanyTypes = 'ATOM_SEZ_COMPANY_TYPES';
 
-  static const int businessUserReview = 1;
-
   // // Status
   // static const String passStatusReturned = 'Returned';
   // static const String passStatusLostDeActivated = 'Lost/De-Activated';
@@ -94,7 +92,11 @@ class ConstantsIntValue {
   static const int slaStatusFinalized = 2;
 
   ///Material Movement status
+  static const int businessUserReview = 1;
   static const int mmStatusDraft = 0;
+  static const int mmStatusLSMReview = 3;
+  static const int mmStatusLSMApproved = 4;
+  static const int mmStatusLSMRejected = 5;
   static const int mmStatusApproved = 6;
   static const int mmStatusInwardWaiting =9;
   static const int mmStatusClosed = 10;
