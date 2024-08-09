@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/models/requestModel/duty_post_name_master_request.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -11,6 +10,9 @@ class Apis {
   static final String _getById = '$baseUrl/getDpnById';
 
   static final String _create = '$baseUrl/createDpn?';
+
+  static final String _checkDutyPostNameExists =
+      '$baseUrl/checkDutyPostExists?';
 }
 
 class DutyPostNameMasterServices {
@@ -55,5 +57,14 @@ class DutyPostNameMasterServices {
       requestedData: body.toJson(),
     );
     return GenericResponse.fromJson(response);
+  }
+
+  Future<MessageResponse> checkDpmExists({required int locationId}) async {
+    final String url =
+        '${Apis._checkDutyPostNameExists}locationId=$locationId';
+    var response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return MessageResponse.fromJson(response);
   }
 }
