@@ -96,7 +96,7 @@ class Shift {
   bool activeShift;
   List<BaseUser>? selectedGuards;
   List<BaseUser>? availableGuards;
-  List<Replacement>? replacements;
+  Set<Replacement>? replacements;
 
   List<BaseUser>? selectForAttendance;
   List<BaseUser>? attended;

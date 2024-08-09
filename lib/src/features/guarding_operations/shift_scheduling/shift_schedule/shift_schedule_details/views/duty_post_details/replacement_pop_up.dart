@@ -353,6 +353,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
         if (widget.model.id == null && widget.model.tempId.isEmptyOrNull) {
           widget.model.tempId = Utils.createCryptoRandomString();
         }
+        log('--Add/Update Replacement--- ${(widget.model.id)}--${widget.model.toString()}-');
         log('-widget.model.tempId---${widget.model.tempId}----');
         // widget.model?.dutyPostLocationName = dutyPostLocationNameController.text;
         BlocProvider.of<DutyPostDetailsCubit>(widget.mainContext)
