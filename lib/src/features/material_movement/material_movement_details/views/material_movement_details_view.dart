@@ -563,7 +563,7 @@ class _MaterialMovementDetailsViewState
                                       .materialDescription ??
                                   Constants.materialBriefDescription,
                               Styles.textStyleBlack14,
-                              isMandatory: true,
+                              isMandatory: state.model.status != ConstantsIntValue. mmStatusDraft ? true :false,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
@@ -607,7 +607,7 @@ class _MaterialMovementDetailsViewState
                                   state.labels?.defaultLocale.quantity ??
                                   Constants.quantity,
                               Styles.textStyleBlack14,
-                              isMandatory: true,
+                              isMandatory: state.model.status != ConstantsIntValue. mmStatusDraft ? true :false,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -698,8 +698,7 @@ class _MaterialMovementDetailsViewState
                                     state.labels?.defaultLocale.modelInfo ??
                                     Constants.equipmentNo,
                                 Styles.textStyleBlack14,
-                                isMandatory:
-                                    widget.model == null ? false : true,
+                                isMandatory: state.model.status != ConstantsIntValue. mmStatusDraft ? true :false,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -745,8 +744,7 @@ class _MaterialMovementDetailsViewState
                                     state.labels?.defaultLocale.address ??
                                     Constants.address,
                                 Styles.textStyleBlack14,
-                                isMandatory:
-                                    widget.model == null ? false : true,
+                                isMandatory: state.model.status != ConstantsIntValue. mmStatusDraft ? true :false,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -940,8 +938,7 @@ class _MaterialMovementDetailsViewState
                                         .requestorDepartment ??
                                     Constants.requestorDepartment,
                                 Styles.textStyleBlack14,
-                                isMandatory:
-                                    widget.model == null ? false : true,
+                                isMandatory: state.model.status != ConstantsIntValue. mmStatusDraft ? true :false,
                               ),
                               widget.model?.status == 6
                                   ? FlutterInputField(
@@ -1046,8 +1043,7 @@ class _MaterialMovementDetailsViewState
                                     state.labels?.defaultLocale.sentTo ??
                                     Constants.sentTo,
                                 Styles.textStyleBlack14,
-                                isMandatory:
-                                    widget.model == null ? false : true,
+                                isMandatory: state.model.status != ConstantsIntValue. mmStatusDraft ? true :false,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -1092,8 +1088,7 @@ class _MaterialMovementDetailsViewState
                                     state.labels?.defaultLocale.purpose ??
                                     Constants.purpose,
                                 Styles.textStyleBlack14,
-                                isMandatory:
-                                    widget.model == null ? false : true,
+                                isMandatory: state.model.status != ConstantsIntValue. mmStatusDraft ? true :false,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -1137,7 +1132,7 @@ class _MaterialMovementDetailsViewState
                                     state.labels?.defaultLocale.preparedBy ??
                                     Constants.preparedBy,
                                 Styles.textStyleBlack14,
-                                isMandatory: true,
+                                isMandatory: state.model.status != ConstantsIntValue. mmStatusDraft ? true :false,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -1182,8 +1177,7 @@ class _MaterialMovementDetailsViewState
                                         .preparedByDepartment ??
                                     Constants.preparedByDepartment,
                                 Styles.textStyleBlack14,
-                                isMandatory:
-                                    widget.model == null ? false : true,
+                                isMandatory: state.model.status != ConstantsIntValue. mmStatusDraft ? true :false,
                               ),
                               widget.model?.status == 6
                                   ? FlutterInputField(
