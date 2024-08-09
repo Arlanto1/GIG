@@ -828,7 +828,7 @@ class _MaterialMovementDetailsViewState
                                               BaseOrganisationDialog()
                                                   .userDialog(
                                                 context: context,
-                                                users: state.emailUsers!,
+                                                users: state.requestorEmailUsers!,
                                                 onTap: (BaseUser user) {
                                                   BlocProvider.of<
                                                               MaterialMovementDetailsCubit>(
