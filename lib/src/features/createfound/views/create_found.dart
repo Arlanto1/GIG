@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 
 class CreateFound extends StatefulWidget {
   final FoundListArticleDetails? model;
-  final int? eventId;
+  final int? eventId; // For creating Article Found inside Event Protection
   final ExtraProperties? extraProperties;
 
   const CreateFound({
@@ -365,6 +365,9 @@ class _CreateFoundState extends State<CreateFound> {
             ? depositorEmpIdTextController.text
             : '');
     found.eventProtection = widget.eventId;
+
+    log('--${widget.eventId}-found.eventProtection--${found.eventProtection}-');
+    // return;
     CreateFoundRequestBody requestBody = CreateFoundRequestBody(found: found);
     // showLoadingDialog(context);
     await createFoundArticleCubit.createNewFoundArticle(
@@ -704,6 +707,22 @@ class _CreateFoundState extends State<CreateFound> {
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
+        log('-state.status----${state.status}----widget.eventId---${widget.eventId}-');
+        if (widget.eventId != null && state.status == FormStatus.success) {
+          // Navigator.pop(context);
+          Navigator.popAndPushNamed(
+            context,
+            eventInfoRoute,
+            arguments: {
+              ConstantsArgument.title: Constants.afterEventInformation,
+              ConstantsArgument.id: widget.eventId.toString(),
+              'eventDuration': 2,
+              ConstantsArgument.editForm: true,
+              ConstantsArgument.isEventProtection: true,
+            },
+          );
+          return;
+        }
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: Constants.generalInformation,

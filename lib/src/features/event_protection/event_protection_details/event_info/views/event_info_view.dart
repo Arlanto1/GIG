@@ -5,7 +5,9 @@ import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/common_widgets/app_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_app_bar.dart';
 import 'package:db_atom/src/common_widgets/base_widget/base_circular_loader.dart';
+import 'package:db_atom/src/common_widgets/base_widget/base_icon_buttons/add_view_button.dart';
 import 'package:db_atom/src/common_widgets/base_widget/date_widgets/date_picker_dialog.dart';
+import 'package:db_atom/src/common_widgets/base_widget/opacity_absorb_widget.dart';
 import 'package:db_atom/src/common_widgets/base_widget/record_locked_widget.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -186,12 +188,10 @@ class _EventInfoViewState extends State<EventInfoView> {
                           RecordLockedWidget(text: '${state.model.lock}'),
                         ],
                         Padding(
-                          padding:
-                              const EdgeInsets.only(left: 20.0, right: 20),
+                          padding: const EdgeInsets.only(left: 20.0, right: 20),
                           child: Column(
                             children: [
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Event Started At
                               if (state.eventDuration != 1) ...[
@@ -206,9 +206,20 @@ class _EventInfoViewState extends State<EventInfoView> {
                                   textController: dateController,
                                   isDisabled: !showSaveButtons,
                                   onlyDate: false,
-                                  startDate: DateTime.fromMillisecondsSinceEpoch(int.parse('${state.model.startDate}') * 1000).toString(),
-                                  fromDate: DateTime.fromMillisecondsSinceEpoch(int.parse('${state.model.startDate}') * 1000).toString(),
-                                  toDate: DateTime.fromMillisecondsSinceEpoch(int.parse('${state.model.endDate}') * 1000).toString(),
+                                  startDate: DateTime
+                                          .fromMillisecondsSinceEpoch(int.parse(
+                                                  '${state.model.startDate}') *
+                                              1000)
+                                      .toString(),
+                                  fromDate: DateTime.fromMillisecondsSinceEpoch(
+                                          int.parse(
+                                                  '${state.model.startDate}') *
+                                              1000)
+                                      .toString(),
+                                  toDate: DateTime.fromMillisecondsSinceEpoch(
+                                          int.parse('${state.model.endDate}') *
+                                              1000)
+                                      .toString(),
                                   onChange: (String value) {
                                     dateController.text = value;
                                     state.model.date = value;
@@ -222,8 +233,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                               CommonWidgets.textDisplay(
                                   Constants.additionalEmails,
                                   Styles.textStyleBlack14),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
                               Opacity(
                                 opacity: showSaveButtons ? 1 : 0.5,
                                 child: GestureDetector(
@@ -251,10 +261,9 @@ class _EventInfoViewState extends State<EventInfoView> {
                                       const Text(
                                         Constants.additionalEmails,
                                         style: TextStyle(
-                                          color: AppColors
-                                              .navigationSkyBlueColor,
-                                          decoration:
-                                              TextDecoration.underline,
+                                          color:
+                                              AppColors.navigationSkyBlueColor,
+                                          decoration: TextDecoration.underline,
                                         ),
                                       ),
                                     ],
@@ -262,8 +271,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                 ),
                               ),
                               getEmail(state.additionalEmails ?? []),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                               Container(
                                 height: 700,
                                 width: double.infinity,
@@ -349,8 +357,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                           backgroundColor: backgroundColor,
                                           inputAction: InputAction.newline,
                                           onEditingComplete: (s) async {
-                                            debugPrint(
-                                                'Editing completed $s');
+                                            debugPrint('Editing completed $s');
                                             state.model.email = s;
                                             BlocProvider.of<EventInfoCubit>(
                                                     context)
@@ -392,44 +399,110 @@ class _EventInfoViewState extends State<EventInfoView> {
                                 ),
                               ),
 
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Will show for only Event Protection
                               if (widget.isEventProtection) ...[
                                 if (state.eventDuration == 2) ...[
                                   Center(
-                                    child: submitButtonDisplay(
-                                      label: 'Articles Found',
-                                      onTap: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return ArticleDialog(
-                                              articles:
-                                                  state.foundArticles ?? [],
-                                              showLeftButton:
-                                                  (state.model.status ?? 0) >
-                                                          22
-                                                      ? false
-                                                      : true,
-                                              leftButtonTap: () {
-                                                FocusScope.of(context)
-                                                    .unfocus();
-                                                BlocProvider.of<
-                                                            EventInfoCubit>(
-                                                        context)
-                                                    .submitForm(
-                                                        isSaveOnly: false,
-                                                        addArticleFound: true,
-                                                        updatedEmailText:
-                                                            updatedEmailText ??
-                                                                '');
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        OpacityAbsorbInkWellWidget(
+                                          absorbing: !showSaveButtons,
+                                          onTap: () {
+                                            Navigator.pushNamed(
+                                              context,
+                                              createFoundScreenRoute,
+                                              arguments: {
+                                                'eventId': state.model.id
                                               },
                                             );
                                           },
-                                        );
-                                      },
+                                          child: const AddViewButton(
+                                            label: 'Add Article Found',
+                                          ),
+                                        ),
+                                        if (!state
+                                            .foundArticles.isEmptyOrNull) ...[
+                                          submitButtonDisplay(
+                                            label: Constants.showList,
+                                            onTap: () {
+                                              // Navigator.pushNamed(
+                                              //   context,
+                                              //   createFoundScreenRoute,
+                                              //   arguments: {'eventId': state.model.id},
+                                              // );
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return ArticleDialog(
+                                                    articles:
+                                                        state.foundArticles ??
+                                                            [],
+                                                    showLeftButton:
+                                                    false,
+                                                    leftButtonTap: () {
+                                                      FocusScope.of(context)
+                                                          .unfocus();
+                                                      BlocProvider.of<
+                                                                  EventInfoCubit>(
+                                                              this.context)
+                                                          .submitForm(
+                                                              isSaveOnly: true,
+                                                              addArticleFound:
+                                                                  true,
+                                                              updatedEmailText:
+                                                                  updatedEmailText ??
+                                                                      '');
+                                                    },
+                                                  );
+                                                },
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                        // submitButtonDisplay(
+                                        //   label: 'Add Article Found',
+                                        //   onTap: () {
+                                        //     // Navigator.pushNamed(
+                                        //     //   context,
+                                        //     //   createFoundScreenRoute,
+                                        //     //   arguments: {'eventId': state.model.id},
+                                        //     // );
+                                        //     showDialog(
+                                        //       context: context,
+                                        //       builder: (context) {
+                                        //         return ArticleDialog(
+                                        //           articles:
+                                        //               state.foundArticles ?? [],
+                                        //           showLeftButton:
+                                        //               (state.model.status ??
+                                        //                           0) >
+                                        //                       22
+                                        //                   ? false
+                                        //                   : true,
+                                        //           leftButtonTap: () {
+                                        //             FocusScope.of(context)
+                                        //                 .unfocus();
+                                        //             BlocProvider.of<
+                                        //                         EventInfoCubit>(
+                                        //                     this.context)
+                                        //                 .submitForm(
+                                        //                     isSaveOnly: true,
+                                        //                     addArticleFound:
+                                        //                         true,
+                                        //                     updatedEmailText:
+                                        //                         updatedEmailText ??
+                                        //                             '');
+                                        //           },
+                                        //         );
+                                        //       },
+                                        //     );
+                                        //   },
+                                        // ),
+                                      ],
                                     ),
                                   ),
                                 ],
@@ -454,8 +527,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                   log('-------function---onImageSelected---------');
                                   List<ImageContent>? files = [];
                                   files.add(data);
-                                  for (ImageContent image
-                                      in guardFiles ?? []) {
+                                  for (ImageContent image in guardFiles ?? []) {
                                     files.add(image);
                                   }
                                   BlocProvider.of<EventInfoCubit>(context)

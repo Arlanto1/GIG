@@ -802,13 +802,14 @@ class RouteGenerator {
           isEventProtection = arguments[ConstantsArgument.isEventProtection];
         }
         return MaterialPageRoute(
-            builder: (context) => EventProtectionDetails(
-                  id: id,
-                  title: title,
-                  eventStatus: eventStatus,
-                  showEPGridsModel: showEPGridsModel,
-                  isEventProtection: isEventProtection ?? false,
-                ));
+          builder: (context) => EventProtectionDetails(
+            id: id,
+            title: title,
+            eventStatus: eventStatus,
+            showEPGridsModel: showEPGridsModel,
+            isEventProtection: isEventProtection ?? false,
+          ),
+        );
       // case generalInfoTilesViewRoute:
       //   String id = '';
       //   bool showGuardInfo = true;
