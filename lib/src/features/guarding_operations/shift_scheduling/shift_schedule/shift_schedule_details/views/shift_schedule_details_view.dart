@@ -81,9 +81,11 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                 create: (_) => DutyPostDetailsCubit(
                   parentModel: state.selectedDutyPostModel ?? DutyPostModel(),
                   id: state.model.id.toString(),
+                  shiftScheduleId: state.model.id!,
                 ),
                 child: DutyPostDetailsNewwwww(
                   model: state.selectedDutyPostModel ?? DutyPostModel(),
+                  shiftScheduleId: state.model.id!,
                 ),
               ),
             ),

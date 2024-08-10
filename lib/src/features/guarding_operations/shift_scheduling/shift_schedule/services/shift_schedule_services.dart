@@ -213,9 +213,10 @@ class ShiftScheduleServices {
     required int dutyPostId,
     required int rankId,
     required int shiftId,
+    required int shiftScheduleId,
   }) async {
     final String url =
-        "${Apis._saveSelectedGuards}isSubmit=$isSubmit&shiftAssignedDutyPostId=$dutyPostId&rankId=$rankId&shiftId=$shiftId";
+        "${Apis._saveSelectedGuards}isSubmit=$isSubmit&shiftAssignedDutyPostId=$dutyPostId&rankId=$rankId&shiftId=$shiftId&shiftScheduleId=$shiftScheduleId";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),

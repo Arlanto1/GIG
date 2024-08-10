@@ -10,7 +10,12 @@ import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 class ArticleFoundListView extends StatefulWidget {
   const ArticleFoundListView({
     super.key,
+    required this.eventId,
+    required this.eventProtectionId,
   });
+
+  final int? eventId;
+  final String? eventProtectionId;
 
   @override
   State<ArticleFoundListView> createState() => _ArticleFoundListViewState();
@@ -92,6 +97,11 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
                         Navigator.pushNamed(
                           context,
                           createFoundScreenRoute,
+                          arguments: {
+                            ConstantsArgument.eventId: widget.eventId,
+                            ConstantsArgument.eventProtectionId:
+                                widget.eventProtectionId,
+                          },
                         )
                       },
                     )
@@ -241,7 +251,9 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
     if (model != null) {
       Navigator.pushNamed(context, createFoundScreenRoute, arguments: {
         "UserElement": model,
-        'eventId': model.id,
+        ConstantsArgument.eventId: widget.eventId,
+        ConstantsArgument.eventProtectionId:
+        widget.eventProtectionId,
         ConstantsArgument.extraProperties:
             ExtraProperties(hasWritePermission: hasWritePermission),
       });

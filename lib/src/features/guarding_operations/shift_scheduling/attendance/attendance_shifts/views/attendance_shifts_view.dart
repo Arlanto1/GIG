@@ -8,11 +8,13 @@ class AttendanceShiftsView extends StatefulWidget {
     required this.location,
     required this.locationRegion,
     required this.vendor,
+    required this.attInfoId,
   });
 
   final Organisation location;
   final Organisation locationRegion;
   final Organisation vendor;
+  final int attInfoId;
 
   @override
   AttendanceShiftsViewState createState() => AttendanceShiftsViewState();
@@ -350,8 +352,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               context,
               slaViolationPenaltyDetailsRoute,
               arguments: {
-                "title": Constants.slaViolationPenaltyTitle,
-                "attdInfoId": state.model.id.toString(),
+                ConstantsArgument.title: Constants.slaViolationPenaltyTitle,
+                ConstantsArgument.attdInfoId: widget.attInfoId.toString(),
                 ConstantsArgument.location: widget.location,
                 ConstantsArgument.locationRegion: widget.locationRegion,
                 ConstantsArgument.vendor: widget.vendor,
@@ -438,8 +440,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           onTap: () => showReplacementPopUp(
             context: context,
             model: Replacement(),
-            availableGuards: shift.availableGuards ?? [],
-            selectedGuards: shift.selectedGuards ?? [],
+            availableGuards: shift.availableGuards ?? {},
+            selectedGuards: shift.selectedGuards ?? {},
           ),
           child: Row(
             children: <Widget>[
@@ -485,8 +487,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           onTap: () => showReplacementPopUp(
             context: context,
             model: replacement,
-            availableGuards: shift.availableGuards ?? [],
-            selectedGuards: shift.selectedGuards ?? [],
+            availableGuards: shift.availableGuards ?? {},
+            selectedGuards: shift.selectedGuards ?? {},
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -573,7 +575,11 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   element.name ?? '',
-                  style: const TextStyle(fontSize: 15),
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: selectedGuard == element
+                          ? AppColors.white
+                          : AppColors.black),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -587,8 +593,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
   void showReplacementPopUp({
     required BuildContext context,
     required Replacement model,
-    required List<BaseUser> availableGuards,
-    required List<BaseUser> selectedGuards,
+    required Set<BaseUser> availableGuards,
+    required Set<BaseUser> selectedGuards,
   }) {
     showDialog(
       context: context,

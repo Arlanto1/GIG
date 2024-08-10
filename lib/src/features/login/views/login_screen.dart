@@ -412,8 +412,8 @@ class _LoginState extends State<Login> {
       String userName, String pwd, String otp) {
     return LoginRequestModel(
         request: Request(
-      userName: username,
-      password: password,
+      userName: username.trim(),
+      password: password.trim(),
       otp: otp,
     ));
   }

@@ -17,8 +17,11 @@ class FoundListCubit extends Cubit<FoundListState> {
         );
 
   // Found Article list API call
-  Future<void> getFoundList(String startPosition, String maximumRecords,
-      String userId, BuildContext context) async {
+  Future<void> getFoundList(
+    String startPosition,
+    String maximumRecords,
+    String userId,
+  ) async {
     if (startPosition == '0') {
       emit(state.copyWith(stateType: FoundListStateType.loading));
     }

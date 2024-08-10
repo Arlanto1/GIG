@@ -334,6 +334,7 @@ class SLAViolationPenaltyDetailsCubit
     if (!attdInfoId.isEmptyOrNull) {
       state.model.attdInfoId = attdInfoId;
     }
+    log('-attdInfoId-111-$attdInfoId--');
     // Create/Update API Call
     SLAViolationPenaltyRequest request =
         SLAViolationPenaltyRequest(svpGi: state.model);

@@ -123,6 +123,7 @@ class ArticleFoundBloc extends Bloc<ArticleFoundStateEvent, ArticleFoundState> {
         response = await services.getFoundArticleList(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
+          eventId: event.eventId,
           filters: event.filters,
         );
 
