@@ -182,6 +182,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           requestorEmailUsers: emailUsers,
           approver1Users: emailUsers,
           approver2Users: emailUsers,
+          returnReceiverEmailId: emailUsers,
           departments: departments.employeeDepartments,
           quantityUnits: quantityUnits,
           labels: labels,
