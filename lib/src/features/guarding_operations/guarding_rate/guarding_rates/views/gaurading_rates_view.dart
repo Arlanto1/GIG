@@ -194,7 +194,7 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
                                         int.parse(
                                             state.items[index].inputDate ??
                                                 '0'),
-                                        Constants.dateFormat)
+                                        Constants.twentyFourHourDateTimeFormat)
                                     : ''));
                             labels.add(Label(
                                 key: state.labels?.locale.locationRegion ??

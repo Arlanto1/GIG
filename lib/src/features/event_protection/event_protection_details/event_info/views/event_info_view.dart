@@ -402,7 +402,8 @@ class _EventInfoViewState extends State<EventInfoView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Will show for only Event Protection
-                              if (widget.isEventProtection) ...[
+                              if (!widget.isEventProtection) ...[
+
                                 if (state.eventDuration == 2) ...[
                                   Center(
                                     child: Row(

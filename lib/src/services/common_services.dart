@@ -228,7 +228,6 @@ class CommonServices {
   Future<List<BaseUser>> getBaseUsers({
     required String roleName,
     int? locationId,
-    BuildContext? context,
   }) async {
     String url = '${CommonApis._getUsersByRole}$roleName';
     if (locationId != null) {
@@ -248,7 +247,6 @@ class CommonServices {
   Future<List<BaseUser>> getBaseUsersByRoles({
     required String roleNames,
     int? locationId,
-    BuildContext? context,
   }) async {
     String url = '${CommonApis._getUsersByRoles}$roleNames';
     if (locationId != null) {

@@ -188,7 +188,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                                       value: state.items[index].inputDate != null
                                           ? Utils.timestampToDateConversion(
                                           int.parse(state.items[index].inputDate ?? '0'),
-                                          Constants.dateFormat)
+                                          Constants.twentyFourHourDateTimeFormat)
                                           : ''));
                                   labels.add(
                                     Label(
