@@ -908,7 +908,7 @@ class _KeyManagementMasterDetailsViewState
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
-                                    'Add/View Key Lost History(S)',
+                                    'View Key Lost History(S)',
                                     style: TextStyle(
                                       color: AppColors.navigationSkyBlueColor,
                                       decoration: TextDecoration.underline,
@@ -972,7 +972,7 @@ class _KeyManagementMasterDetailsViewState
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
-                                    'Add/View Key Damage History(S)',
+                                    'View Key Damage History(S)',
                                     style: TextStyle(
                                       color: AppColors.navigationSkyBlueColor,
                                       decoration: TextDecoration.underline,
