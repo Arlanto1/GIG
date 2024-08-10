@@ -79,10 +79,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           body: Padding(
             padding: const EdgeInsets.all(20),
             child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: getBody(state, height, state.model),
-              ),
+              child: getBody(state, height, state.model),
             ),
           ),
         );
@@ -93,49 +90,56 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
   void submitDutyPost(BuildContext context, {required bool isSaveOnly}) {
     FocusScope.of(context).unfocus();
     log('----onTap${isSaveOnly ? 'Save' : 'Submit'}--');
-    BlocProvider.of<AttendanceShiftsCubit>(context)
-        .submitForm(isSaveOnly: isSaveOnly);
+    BlocProvider.of<AttendanceShiftsCubit>(context).submitForm(
+        isSaveOnly: isSaveOnly, status: isSaveOnly ? FormStatus.initial : null);
   }
 
-  List<Widget> getBody(
+  Widget getBody(
     AttendanceShiftsState state,
     double height,
     DutyPostModel model,
   ) {
     log('--model.name-${model.name}-');
     log('--model.ranks-${model.ranks?.length}-');
-    return [
-      for (Rank rank in model.ranks ?? [])
-        IntrinsicHeight(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Rank: ${Utils().buildGuardRank(guardRank: rank.rank ?? 0, returnTextOnly: true)}',
-                  style: Styles.textStyleNavigator16,
+
+    if (state.status == FormStatus.loading) {
+      return const BaseLoader();
+    }
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (Rank rank in model.ranks ?? [])
+          IntrinsicHeight(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Rank: ${Utils().buildGuardRank(guardRank: rank.rank ?? 0, returnTextOnly: true)}',
+                    style: Styles.textStyleNavigator16,
+                  ),
                 ),
-              ),
-              CommonWidgets.verticalSpacerWidget(height * 0.01),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: buildDutyPostSelectionWidget(
-                      state,
-                      rank.attendanceShift ?? [],
-                      height,
+                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: buildDutyPostSelectionWidget(
+                        state,
+                        rank.attendanceShift ?? [],
+                        height,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-    ];
+      ],
+    );
   }
 
   List<Widget> buildDutyPostSelectionWidget(
@@ -244,8 +248,10 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         MultiSelectDropdown(
           briefingPoints: state.briefingPoints ?? [],
           selectedPoints: shift.briefingPoints?.split(',') ?? [],
-          updatedBriefingPoints: (List<String> points) {
+          onSelectedBriefingPointsChanged: (List<String> points) {
+            log('-points--$points--');
             shift.briefingPoints = Utils().joinListWithComma(points);
+            // Update the points in your Bloc or state management accordingly
             // BlocProvider.of<AttendanceShiftsCubit>(context).updateBriefingPoints();
           },
         ),
@@ -265,6 +271,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             shift: shift,
           )
         ],
+        CommonWidgets.verticalSpacerWidget(
+            MediaQuery.of(context).size.height * 0.02),
       ],
     ];
   }
