@@ -46,7 +46,7 @@ class _LoginPasswordState extends State<LoginPassword> {
       hintText: Constants.hintPassword,
       onChange: (String str) => widget.onChange(str),
       textCapitalization: false,
-      isSecure: true,
+      isSecure: !_showPassword,
       validateTextField: (String? pwd) => widget.validatePassword(pwd),
       textInputAction: widget.textInputAction,
       focusNode: widget.passFocusNode,
@@ -63,7 +63,7 @@ class _LoginPasswordState extends State<LoginPassword> {
         ),
       ),
       suffixWidget: IconButton(
-        icon: !_showPassword
+        icon: _showPassword
             ? SvgPicture.asset(
                 AppIcon.closeEye,
                 key: const Key('closed_eye'),

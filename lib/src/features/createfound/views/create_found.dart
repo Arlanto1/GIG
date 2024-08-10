@@ -393,7 +393,7 @@ class _CreateFoundState extends State<CreateFound> {
     log('-----_getFoundArticleList----');
     if (isActive) {
       await createFoundArticleCubit.getUserByRoleDepositor(
-          ConstantUserRoles.atomStaticUser, selectedLocation?.id);
+          ConstantUserRoles.atomStaticUser);
       await createFoundArticleCubit.getLocations('ATOM_LOCATIONS');
       await createFoundArticleCubit
           .getEmployeeDepartments('EMPLOYEE_DEPARTMENTS');
@@ -1349,6 +1349,7 @@ class _CreateFoundState extends State<CreateFound> {
                                       isMandatory: true),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
+
                                   isDepositorDBEmployeeSelected == 1
                                       ? TextFieldAddButton(
                                           title: selectedDepositorUser?.name !=

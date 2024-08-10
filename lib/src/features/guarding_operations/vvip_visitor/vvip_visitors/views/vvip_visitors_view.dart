@@ -186,7 +186,7 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
                                           int.parse(
                                               state.items[index].inputDate ??
                                                   '0'),
-                                          Constants.dateFormat)
+                                          Constants.twentyFourHourDateTimeFormat)
                                       : ''));
                               labels.add(Label(
                                   key: state.labels?.locale.location ??

@@ -176,7 +176,7 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                             int.parse(
                                                 state.list[index].createdDate ??
                                                     '0'),
-                                            Constants.dateFormat)
+                                            Constants.twentyFourHourDateTimeFormat)
                                         : ''));
                                 labels.add(Label(
                                     key: state.labels?.locale.locationRegion ??

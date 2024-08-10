@@ -198,6 +198,7 @@ class _LoginState extends State<Login> {
                                           height * 0.001),
                                       LoginPassword(
                                         passFocusNode: _passwordFocus,
+
                                         textInputAction: TextInputAction.done,
                                         validatePassword: ((String? password) {
                                           if (!Validator.isValidPassword(
