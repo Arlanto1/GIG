@@ -28,5 +28,7 @@ class InitializeValuesAF extends ArticleFoundStateEvent {
 }
 
 class RefreshList extends ArticleFoundStateEvent {
-  const RefreshList();
+  final int? eventId;
+
+  const RefreshList({this.eventId});
 }

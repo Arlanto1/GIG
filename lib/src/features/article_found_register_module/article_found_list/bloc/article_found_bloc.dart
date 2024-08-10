@@ -6,7 +6,6 @@ import 'package:db_atom/src/features/article_found_register_module/foundlist/mod
 import 'package:db_atom/src/features/article_found_register_module/foundlist/services/foundlist_services.dart';
 
 part 'article_found_event.dart';
-
 part 'article_found_state.dart';
 
 class ArticleFoundBloc extends Bloc<ArticleFoundStateEvent, ArticleFoundState> {
@@ -87,6 +86,7 @@ class ArticleFoundBloc extends Bloc<ArticleFoundStateEvent, ArticleFoundState> {
       response = await services.getFoundArticleList(
         startPosition: '${0}',
         maximumRecords: '${20}',
+        eventId: event.eventId,
         filters: BaseFilterModel(),
       );
 
@@ -135,16 +135,18 @@ class ArticleFoundBloc extends Bloc<ArticleFoundStateEvent, ArticleFoundState> {
         );
       }
 
-      log('-_fetchArticleFound------##--');
+      log('-_fetchArticleFound--${event.eventId}-event.eventId---##--');
       FoundListModel response;
       response = await services.getFoundArticleList(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
+        eventId: event.eventId,
         filters: event.filters,
       );
 
       if (response.items?.isEmpty == true) {
-        return emit(state.copyWith(hasReachedMax: true));
+        return emit(
+            state.copyWith(hasReachedMax: true, status: FormStatus.success));
       }
       return emit(
         state.copyWith(

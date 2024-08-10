@@ -55,6 +55,7 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
             maxPos: Constants.maxResults,
             newSearch: false,
             filters: filters,
+        eventId: widget.eventId,
           ));
     }
   }
@@ -64,7 +65,7 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
 
   void _onRefresh() async {
     context.read<ArticleFoundBloc>().add(
-          const RefreshList(),
+          RefreshList(eventId: widget.eventId),
         );
     await Future.delayed(const Duration(milliseconds: 2000));
     refreshController.refreshCompleted();
@@ -88,24 +89,24 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
       builder: (context, state) {
         return Scaffold(
           backgroundColor: AppColors.cardBgColor,
-          floatingActionButton:
-              state.extraProperties?.hasWritePermission ?? false
-                  ? Flutterfloatingbutton(
-                      backgroundColor: AppColors.navigationSkyBlueColor,
-                      foregroundColor: AppColors.backgroundWhiteColor,
-                      onPressed: () => {
-                        Navigator.pushNamed(
-                          context,
-                          createFoundScreenRoute,
-                          arguments: {
-                            ConstantsArgument.eventId: widget.eventId,
-                            ConstantsArgument.eventProtectionId:
-                                widget.eventProtectionId,
-                          },
-                        )
+          floatingActionButton: (widget.eventProtectionId.isEmptyOrNull) &&
+                  ((state.extraProperties?.hasWritePermission ?? false))
+              ? Flutterfloatingbutton(
+                  backgroundColor: AppColors.navigationSkyBlueColor,
+                  foregroundColor: AppColors.backgroundWhiteColor,
+                  onPressed: () => {
+                    Navigator.pushNamed(
+                      context,
+                      createFoundScreenRoute,
+                      arguments: {
+                        ConstantsArgument.eventId: widget.eventId,
+                        ConstantsArgument.eventProtectionId:
+                            widget.eventProtectionId,
                       },
                     )
-                  : const SizedBox(),
+                  },
+                )
+              : const SizedBox(),
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: Constants.foundListTitle,
@@ -252,8 +253,7 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
       Navigator.pushNamed(context, createFoundScreenRoute, arguments: {
         "UserElement": model,
         ConstantsArgument.eventId: widget.eventId,
-        ConstantsArgument.eventProtectionId:
-        widget.eventProtectionId,
+        ConstantsArgument.eventProtectionId: widget.eventProtectionId,
         ConstantsArgument.extraProperties:
             ExtraProperties(hasWritePermission: hasWritePermission),
       });

@@ -21,6 +21,7 @@ class FoundListCubit extends Cubit<FoundListState> {
     String startPosition,
     String maximumRecords,
     String userId,
+      int? eventId,
   ) async {
     if (startPosition == '0') {
       emit(state.copyWith(stateType: FoundListStateType.loading));
@@ -30,6 +31,7 @@ class FoundListCubit extends Cubit<FoundListState> {
           await foundListServices.getFoundArticleList(
         startPosition: startPosition,
         maximumRecords: maximumRecords,
+        eventId: eventId,
         filters: BaseFilterModel(),
       );
 
@@ -62,29 +64,6 @@ class FoundListCubit extends Cubit<FoundListState> {
           ),
         );
       }
-    }
-  }
-
-  Future<void> refreshList(
-    String startPosition,
-    String maximumRecords,
-  ) async {
-    try {
-      FoundListModel foundListModelResponse =
-          await foundListServices.getFoundArticleList(
-        startPosition: startPosition,
-        maximumRecords: maximumRecords,
-        filters: BaseFilterModel(),
-      );
-
-      return emit(
-        state.copyWith(
-          foundListModel: foundListModelResponse,
-          stateType: FoundListStateType.success,
-        ),
-      );
-    } on Exception {
-      return emit(state.copyWith(stateType: FoundListStateType.failure));
     }
   }
 }

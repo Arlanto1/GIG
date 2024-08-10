@@ -8,7 +8,8 @@ import 'package:intl/intl.dart';
 class CreateFound extends StatefulWidget {
   final FoundListArticleDetails? model;
   final int? eventId; // For creating Article Found inside Event Protection
-  final String? eventProtectionId; // For creating Article Found inside Event Protection
+  final String?
+      eventProtectionId; // For creating Article Found inside Event Protection
   final ExtraProperties? extraProperties;
 
   const CreateFound({
@@ -382,6 +383,7 @@ class _CreateFoundState extends State<CreateFound> {
       pageNumber.toString(),
       '20',
       userid,
+      widget.eventId,
     );
   }
 
@@ -450,8 +452,7 @@ class _CreateFoundState extends State<CreateFound> {
         context,
         "Please enter creator date",
       );
-    }
-    else if (assetTypeTextController.text.isEmpty) {
+    } else if (assetTypeTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter asset type",
@@ -712,7 +713,9 @@ class _CreateFoundState extends State<CreateFound> {
             arguments: {
               ConstantsArgument.title: Constants.afterEventInformation,
               ConstantsArgument.id: widget.eventProtectionId.toString(),
-              'eventDuration': 2, /// 2 is for After the Event
+              'eventDuration': 2,
+
+              /// 2 is for After the Event
               ConstantsArgument.editForm: true,
               ConstantsArgument.isEventProtection: true,
             },

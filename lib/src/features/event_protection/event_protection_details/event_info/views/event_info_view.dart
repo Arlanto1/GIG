@@ -390,7 +390,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                       children: [
                                         /// Add Button
                                         OpacityAbsorbInkWellWidget(
-                                          absorbing: !showSaveButtons,
+                                          absorbing: showSaveButtons,
                                           onTap: () {
                                             Navigator.pushNamed(
                                               context,
