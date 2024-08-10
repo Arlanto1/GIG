@@ -133,7 +133,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void submitForm({bool isSaveOnly = false}) async {
+  void submitForm({bool isSaveOnly = false, FormStatus? status}) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -190,7 +190,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     emit(
       state.copyWith(
         message: response.message,
-        status: FormStatus.success,
+        status: status == null ? FormStatus.success : FormStatus.initial,
       ),
     );
   }

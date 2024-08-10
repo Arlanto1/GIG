@@ -186,7 +186,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                                           int.parse(
                                               state.items[index].inputDate ??
                                                   '0'),
-                                          Constants.dateFormat)
+                                          Constants.twentyFourHourDateTimeFormat)
                                       : ''));
                               labels.add(Label(
                                   key: 'Region',

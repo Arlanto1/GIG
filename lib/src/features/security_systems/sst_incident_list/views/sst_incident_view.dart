@@ -209,7 +209,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                           ? Utils.timestampToDateConversion(
                               int.tryParse(
                                   state.items[index].createdDate ?? '0'),
-                              Constants.dateFormat)
+                              Constants.twentyFourHourDateTimeFormat)
                           : '',
                     ));
                     labels.add(Label(

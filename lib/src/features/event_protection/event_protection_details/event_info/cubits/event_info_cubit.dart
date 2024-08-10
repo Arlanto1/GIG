@@ -10,22 +10,22 @@ part 'event_info_state.dart';
 
 class EventInfoCubit extends Cubit<EventInfoState> {
   final EventProtectionServices services;
-  final String id;
-  final int eventDuration;
+  final String eventProtectionId;
+  final int eventDurationType;    /// Before, During, After the event
   final CommonServices commonServices;
 
   EventInfoCubit({
     required this.services,
     required this.commonServices,
-    required this.id,
-    required this.eventDuration,
+    required this.eventProtectionId,
+    required this.eventDurationType,
   }) : super(
           EventInfoState.initial(
               model: EventInfoResponse(),
               locations: Locations(),
               loggedInUserDetails: User(),
               users: const [],
-              eventDuration: eventDuration,
+              eventDuration: eventDurationType,
               emailUsers: const [],
               errorMessage: '',
               loadAttachments: const [],
@@ -47,11 +47,13 @@ class EventInfoCubit extends Cubit<EventInfoState> {
     );
     try {
       EventInfoResponse model = EventInfoResponse();
-      if (id.isNotEmpty) {
-        model = await services.getEventInfo(id, eventDuration);
+
+      log('--id----$eventProtectionId--');
+      if (eventProtectionId.isNotEmpty) {
+        model = await services.getEventInfo(eventProtectionId, eventDurationType);
       }
       FoundListModel foundArticles = await services.getFoundArticleList(
-          startPosition: '0', maximumRecords: '50', eventId: id.toString());
+          startPosition: '0', maximumRecords: '50', eventId: eventProtectionId.toString());
       List<String> emails = Utils().splitStringAfterComma(model.emails ?? '');
 
       emit(
@@ -154,7 +156,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
     try {
       if (isSaveOnly) {
         response = (await services.createEventEi(
-            body: request, isSubmit: false, eventDuration: eventDuration));
+            body: request, isSubmit: false, eventDuration: eventDurationType));
       } else {
         //Validating Fields
         if (!state.isValid.status) {
@@ -167,7 +169,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
           return;
         }
         response = (await services.createEventEi(
-            body: request, isSubmit: true, eventDuration: eventDuration));
+            body: request, isSubmit: true, eventDuration: eventDurationType));
       }
     } on GenericResponse catch (e) {
       emit(

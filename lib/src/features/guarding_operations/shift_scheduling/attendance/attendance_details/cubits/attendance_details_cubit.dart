@@ -245,9 +245,10 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
     log('-navigateToNextScreen----attInfoId----${state.model.id}----dutyPostNameId---$dutyPostNameId-----');
     emit(state.copyWith(status: FormStatus.loading));
     emit(state.copyWith(
-        status: FormStatus.navigateToNextScreen,
-        parentId: state.model.id,
-        selectedDutyPostNameId: dutyPostNameId));
+      status: FormStatus.navigateToNextScreen,
+      parentId: state.model.id,
+      selectedDutyPostNameId: dutyPostNameId,
+    ));
   }
 
   void updateStatus({required String id}) {

@@ -178,7 +178,7 @@ class _AnnualPowerShutdownListViewState
                                         int.tryParse(
                                             state.items[index].inputDate ??
                                                 '0'),
-                                        Constants.dateFormat)
+                                        Constants.twentyFourHourDateTimeFormat)
                                     : ''));
                             labels.add(Label(
                                 key: state.labels?.locale.locationRegion ??
@@ -206,7 +206,7 @@ class _AnnualPowerShutdownListViewState
                                       int.tryParse(
                                           state.items[index].eventStartDate ??
                                               '0'),
-                                      Constants.dateFormat)));
+                                      Constants.twentyFourHourDateTimeFormat)));
                             }
                             if (!state
                                 .items[index].eventEndDate.isEmptyOrNull) {
@@ -219,7 +219,7 @@ class _AnnualPowerShutdownListViewState
                                       int.tryParse(
                                           state.items[index].eventEndDate ??
                                               '0'),
-                                      Constants.dateFormat)));
+                                      Constants.twentyFourHourDateTimeFormat)));
                             }
                             labels.add(Label(
                               key: state.labels?.locale.budget ??

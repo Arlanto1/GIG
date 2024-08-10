@@ -155,10 +155,11 @@ class FlutterInputField extends StatelessWidget {
 
 class ObscuringTextEditingController extends TextEditingController {
   @override
-  TextSpan buildTextSpan(
-      {required BuildContext context,
-      required bool withComposing,
-      TextStyle? style}) {
+  TextSpan buildTextSpan({
+    required BuildContext context,
+    required bool withComposing,
+    TextStyle? style,
+  }) {
     var displayValue = '•' * value.text.length;
     if (!value.composing.isValid || !withComposing) {
       return TextSpan(style: style, text: displayValue);

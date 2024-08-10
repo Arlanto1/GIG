@@ -170,7 +170,7 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                                             int.parse(
                                                 state.list[index].inputDate ??
                                                     '0'),
-                                            Constants.dateFormat)
+                                            Constants.twentyFourHourDateTimeFormat)
                                         : ''),
                               );
                               labels.add(Label(

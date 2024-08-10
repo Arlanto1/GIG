@@ -46,7 +46,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       loginData = await loginService.loginUser(event.requestModel);
       var data = event.requestModel;
-      userName = data.request?.userName ?? '';
+      userName = data.request?.userName?.trim() ?? '';
       password = data.request?.password ?? '';
 
       deviceToken = await SharedPrefs.getDeviceToken();

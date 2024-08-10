@@ -106,6 +106,19 @@ class SLAViolationPenaltyDetailsCubit
       ),
     );
     var userId = await SharedPrefs.getUserId();
+
+    if (state.model.location == null) {
+      Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+      if (defaultLocation != null) {
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: defaultLocation.id.toString(),
+          moduleCode: Constants.slaViolationPenaltyDetailsModule,
+        );
+        state.model.location = defaultLocation;
+        state.model.slNo = slNo.serialNo;
+      }
+    }
+
     try {
       Locations getLocationsData =
           await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
@@ -122,7 +135,7 @@ class SLAViolationPenaltyDetailsCubit
           await commonServices.getUserDetails(userId: userId);
 
       List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
-          roleNames: ConstantUserRoles.atomStaticUser,locationId: location?.id);
+          roleNames: ConstantUserRoles.atomStaticUser,locationId: state.model.location?.id);
 
       if (location != null) {
         state.model.location = location;
@@ -162,17 +175,6 @@ class SLAViolationPenaltyDetailsCubit
         state.model.slNo = slNo.serialNo;
       }
 
-      if (state.model.location == null) {
-        Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
-        if (defaultLocation != null) {
-          SerialNumberModel slNo = await commonServices.getSlNo(
-            locationId: defaultLocation.id.toString(),
-            moduleCode: Constants.slaViolationPenaltyDetailsModule,
-          );
-          state.model.location = defaultLocation;
-          state.model.slNo = slNo.serialNo;
-        }
-      }
 
       List<String> pocs = Utils().splitStringAfterComma(state.model.poc ?? '');
       log('-typeOfService.items---${typeOfService.items}---');
@@ -332,6 +334,7 @@ class SLAViolationPenaltyDetailsCubit
     if (!attdInfoId.isEmptyOrNull) {
       state.model.attdInfoId = attdInfoId;
     }
+    log('-attdInfoId-111-$attdInfoId--');
     // Create/Update API Call
     SLAViolationPenaltyRequest request =
         SLAViolationPenaltyRequest(svpGi: state.model);
