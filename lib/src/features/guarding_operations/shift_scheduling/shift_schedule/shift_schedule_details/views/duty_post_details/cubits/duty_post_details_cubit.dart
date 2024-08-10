@@ -10,10 +10,12 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
   final DutyPostModel parentModel;
   final String id;
   final CommonServices commonServices = CommonServices();
+  final int shiftScheduleId;
 
   DutyPostDetailsCubit({
     required this.parentModel,
     required this.id,
+    required this.shiftScheduleId,
   }) : super(
           DutyPostDetailsState.initial(
             locations: Locations(),
@@ -33,17 +35,18 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
       ),
     );
 
+    ///
     Organisation selectedRank;
     try {
       List<Organisation> ranks = await services
           .getRanksListByAssignedDutyPostId(dutyPostId: parentModel.id!);
 
-      selectedRank = ranks.first;
+      selectedRank = state.selectedRank ?? ranks.first;
 
       List<Organisation> shifts =
           await services.getShiftListByAssignedDutyPostId(
               dutyPostId: parentModel.id!, rankId: selectedRank.id!);
-      Organisation selectedShift = shifts.first;
+      Organisation selectedShift = state.selectedShift ?? shifts.first;
 
       Shift model = await services.getAvailableSelectedGuardsByShift(
         shiftId: selectedShift.id!,
@@ -129,11 +132,78 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     ));
   }
 
+  Future<void> updateReplacement(Replacement updatedReplacement) async {
+    emit(state.copyWith(status: FormStatus.loading));
+
+    if (updatedReplacement.id != null) {
+      log('Updating Existing Replacement');
+      state.model.replacements = state.model.replacements
+          ?.map((existing) => existing.id == updatedReplacement.id
+              ? updatedReplacement
+              : existing)
+          .toSet();
+    } else {
+      /// Handle new replacements
+      state.model.replacements ??= {};
+      if (updatedReplacement.tempId != null) {
+        log('Creating/Updating new Replacement with tempId: ${updatedReplacement.tempId}');
+        // Remove any existing replacement with the same tempId before adding
+        state.model.replacements!.removeWhere((existingReplacement) =>
+            existingReplacement.tempId == updatedReplacement.tempId);
+      }
+      state.model.replacements!.add(updatedReplacement);
+    }
+
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.initial,
+    ));
+
+    /// Saving and Refresh the record
+    await submitAndRefreshScreen(checkValidations: true);
+  }
+
+  Future<void> submitAndRefreshScreen({required bool checkValidations}) async {
+    /// Saving the record
+    await submitForm(
+      isSaveOnly: false,
+      model: state.model,
+      status: FormStatus.initial,
+      newSelectedShift: state.selectedShift!,
+      checkValidations: checkValidations,
+    );
+
+    /// refreshing the list so that we can refresh the validation for creating new replacements.
+    initializeValues();
+  }
+
+  Future<void> getNextAvailableReplacementDates({required int userId}) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    NextAvailableDateRange replacementDateRange =
+        await services.getNextAvailableReplacementDates(
+      dutyPostId: parentModel.id!,
+      rankId: state.selectedRank!.id!,
+      userId: userId,
+      shiftId: state.selectedShift!.id!,
+    );
+
+    emit(state.copyWith(
+      status: FormStatus.initial,
+      replacementDates: replacementDateRange,
+    ));
+  }
+
   Future<void> submitForm({
     bool isSaveOnly = false,
     required Shift model,
     FormStatus? status,
     required Organisation newSelectedShift,
+    required bool checkValidations,
   }) async {
     emit(
       state.copyWith(
@@ -145,9 +215,10 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     // Create/Update API Call
     ShiftRequest request = ShiftRequest(shifts: model);
 
+    log('--checkValidations-$checkValidations-');
     GenericResponse response = GenericResponse();
     try {
-      if (isSaveOnly) {
+      if (isSaveOnly && checkValidations) {
         if (!state.isValidDraft.status) {
           emit(
             state.copyWith(
@@ -163,6 +234,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
           dutyPostId: parentModel.id!,
           rankId: state.selectedRank!.id!,
           shiftId: newSelectedShift.id!,
+          shiftScheduleId: shiftScheduleId,
         ));
       } else {
         //Validating Fields
@@ -181,6 +253,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
           dutyPostId: parentModel.id!,
           rankId: state.selectedRank!.id!,
           shiftId: state.selectedShift!.id!,
+          shiftScheduleId: shiftScheduleId,
         );
       }
     } on GenericResponse catch (e) {
@@ -209,65 +282,5 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
         selectedShift: newSelectedShift,
       ),
     );
-  }
-
-  Future<void> updateReplacement(Replacement updatedReplacement) async {
-    emit(state.copyWith(status: FormStatus.loading));
-
-    if (updatedReplacement.id != null) {
-      log('Updating Existing Replacement');
-      state.model.replacements = state.model.replacements
-          ?.map((existing) => existing.id == updatedReplacement.id
-              ? updatedReplacement
-              : existing)
-          .toSet();
-    } else {
-      /// Handle new replacements
-      state.model.replacements ??= {};
-      if (updatedReplacement.tempId != null) {
-        log('Creating/Updating new Replacement with tempId: ${updatedReplacement.tempId}');
-        // Remove any existing replacement with the same tempId before adding
-        state.model.replacements!.removeWhere((existingReplacement) =>
-            existingReplacement.tempId == updatedReplacement.tempId);
-      }
-      state.model.replacements!.add(updatedReplacement);
-    }
-
-    emit(state.copyWith(
-      model: state.model,
-      status: FormStatus.initial,
-    ));
-
-    /// Saving the record
-    await submitForm(
-      isSaveOnly: true,
-      model: state.model,
-      status: FormStatus.initial,
-      newSelectedShift: state.selectedShift!,
-    );
-
-    /// refreshing the list so that we can refresh the validation for creating new replacements.
-    initializeValues();
-  }
-
-  Future<void> getNextAvailableReplacementDates({required int userId}) async {
-    emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
-    );
-
-    NextAvailableDateRange replacementDateRange =
-        await services.getNextAvailableReplacementDates(
-      dutyPostId: parentModel.id!,
-      rankId: state.selectedRank!.id!,
-      userId: userId,
-      shiftId: state.selectedShift!.id!,
-    );
-
-    emit(state.copyWith(
-      status: FormStatus.initial,
-      replacementDates: replacementDateRange,
-    ));
   }
 }

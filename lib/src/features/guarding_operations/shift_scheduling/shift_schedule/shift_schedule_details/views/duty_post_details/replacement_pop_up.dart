@@ -19,8 +19,8 @@ class AddReplacementPopUp extends StatefulWidget {
 
   final BuildContext mainContext;
   final Replacement model;
-  final List<BaseUser> availableGuards;
-  final List<BaseUser> selectedGuards;
+  final Set<BaseUser> availableGuards;
+  final Set<BaseUser> selectedGuards;
   final int? dutyPostId;
   final int? rankId;
   final int? shiftId;
@@ -130,7 +130,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                         onTap: () {
                           BaseOrganisationDialog().userDialog(
                             context: context,
-                            users: widget.selectedGuards,
+                            users: widget.selectedGuards.toList(),
                             onTap: (BaseUser user) async {
                               // BlocProvider.of<ShiftScheduleDetailsCubit>(context)
                               //     .updateDropdownValuesReplacement(
@@ -277,7 +277,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                         onTap: () {
                           BaseOrganisationDialog().userDialog(
                             context: context,
-                            users: widget.availableGuards,
+                            users: widget.availableGuards.toList(),
                             onTap: (BaseUser user) {
                               replacementByController.text = user.name ?? '';
                               widget.model.replacementBy = user;

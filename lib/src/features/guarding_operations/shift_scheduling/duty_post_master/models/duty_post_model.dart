@@ -94,8 +94,8 @@ class Shift {
   int? allowed;
   int? attdStatus;
   bool activeShift;
-  List<BaseUser>? selectedGuards;
-  List<BaseUser>? availableGuards;
+  Set<BaseUser>? selectedGuards;
+  Set<BaseUser>? availableGuards;
   Set<Replacement>? replacements;
 
   List<BaseUser>? selectForAttendance;

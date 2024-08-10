@@ -118,7 +118,6 @@ class CommonServices {
 
   Future<EmployeeDepartments> getDepartments({
     required String name,
-    BuildContext? context,
   }) async {
     String url = '${CommonApis._getOrganisations}$name';
     final response = await BaseApiService().getRequest(
@@ -159,7 +158,6 @@ class CommonServices {
 
   Future<GetArticleType> getArticleType({
     required String name,
-    BuildContext? context,
   }) async {
     String url = '${CommonApis._getArticleType}$name';
     final response = await BaseApiService().getRequest(
@@ -170,7 +168,6 @@ class CommonServices {
 
   Future<User> getUserDetails({
     required String userId,
-    BuildContext? context,
   }) async {
     String url = '${CommonApis._getUserDetails}$userId';
     final response = await BaseApiService().getRequest(
