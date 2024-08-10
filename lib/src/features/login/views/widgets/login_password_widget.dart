@@ -1,11 +1,4 @@
-// Created by Ramesh
-
-import 'package:db_atom/src/common_widgets/new_search_textfield.dart';
-import 'package:db_atom/src/constants/app_icon.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/utils/helpers/keys/keys.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:db_atom/index.dart';
 
 class LoginPassword extends StatefulWidget {
   final Function(String? password) validatePassword;
@@ -14,13 +7,14 @@ class LoginPassword extends StatefulWidget {
   final Function? onFieldSubmitted;
   final TextInputAction? textInputAction;
 
-  const LoginPassword(
-      {super.key,
-      required this.validatePassword,
-      required this.onChange,
-      this.passFocusNode,
-      this.onFieldSubmitted,
-      this.textInputAction});
+  const LoginPassword({
+    super.key,
+    required this.validatePassword,
+    required this.onChange,
+    this.passFocusNode,
+    this.onFieldSubmitted,
+    this.textInputAction,
+  });
 
   @override
   State<LoginPassword> createState() => _LoginPasswordState();
@@ -28,14 +22,11 @@ class LoginPassword extends StatefulWidget {
 
 class _LoginPasswordState extends State<LoginPassword> {
   bool _showPassword = false;
-  TextEditingController passwordTextController =
-      ObscuringTextEditingController();
+  TextEditingController passwordTextController = TextEditingController();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    // passwordTextController.text = "123456";
   }
 
   @override
@@ -64,15 +55,106 @@ class _LoginPasswordState extends State<LoginPassword> {
       ),
       suffixWidget: IconButton(
         icon: _showPassword
-            ? SvgPicture.asset(
-                AppIcon.closeEye,
-                key: const Key('closed_eye'),
-              )
-            : SvgPicture.asset(AppIcon.openEye, key: const Key('open_eye')),
+            ? const Icon(Icons.visibility_off)
+            : const Icon(Icons.visibility),
         onPressed: () {
-          setState(() => _showPassword = !_showPassword);
+          setState(() {
+            _showPassword = !_showPassword;
+          });
         },
       ),
+    );
+  }
+}
+
+class PasswordField extends StatefulWidget {
+  final String hintText;
+  final Function(String? password) validatePassword;
+  final Function(String onChangeStr) onChange;
+  final FocusNode? passFocusNode;
+  final Function? onFieldSubmitted;
+  final TextInputAction? textInputAction;
+  final bool isEnable;
+  final bool? showBorder;
+  final bool? isDisableColor;
+  final int lineHeight;
+  final double hintFontSize;
+  final bool textCapitalization;
+
+  const PasswordField({
+    super.key,
+    required this.hintText,
+    required this.validatePassword,
+    required this.onChange,
+    this.passFocusNode,
+    this.onFieldSubmitted,
+    this.textInputAction,
+    this.isEnable = true,
+    this.showBorder = false,
+    this.isDisableColor,
+    this.lineHeight = 1,
+    this.hintFontSize = 16.0,
+    this.textCapitalization = true,
+  });
+
+  @override
+  State<PasswordField> createState() => _PasswordFieldState();
+}
+
+class _PasswordFieldState extends State<PasswordField> {
+  bool _showPassword = false;
+  late TextEditingController passwordTextController;
+
+  @override
+  void initState() {
+    super.initState();
+    passwordTextController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    passwordTextController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: passwordTextController,
+      focusNode: widget.passFocusNode,
+      obscureText: !_showPassword,
+      textInputAction: widget.textInputAction,
+      textCapitalization: widget.textCapitalization
+          ? TextCapitalization.sentences
+          : TextCapitalization.none,
+      enabled: widget.isEnable,
+      maxLines: widget.lineHeight,
+      decoration:  InputDecoration(
+              labelText: widget.hintText,
+              labelStyle: const TextStyle(
+                color: Colors.grey,
+              ),
+              focusedBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.blue),
+              ),
+              suffixIcon: IconButton(
+                icon: Icon(
+                  !_showPassword ? Icons.visibility_off : Icons.visibility,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _showPassword = !_showPassword;
+                  });
+                },
+              ),
+            ),
+      onChanged: widget.onChange,
+      validator: (password) => widget.validatePassword(password),
+      onFieldSubmitted: (value) {
+        if (widget.onFieldSubmitted != null) {
+          widget.onFieldSubmitted!(value);
+        }
+      },
     );
   }
 }

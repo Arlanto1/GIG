@@ -196,30 +196,54 @@ class _LoginState extends State<Login> {
                                       ),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
-                                      LoginPassword(
-                                        passFocusNode: _passwordFocus,
+                                      // LoginPassword(
+                                      //   passFocusNode: _passwordFocus,
+                                      //
+                                      //
+                                      //   textInputAction: TextInputAction.done,
+                                      //   validatePassword: ((String? password) {
+                                      //     if (!Validator.isValidPassword(
+                                      //         password)) {
+                                      //       return Constants.passwordError;
+                                      //     } else if (!Validator
+                                      //         .passwordValidation(password)) {
+                                      //       return Constants
+                                      //           .passwordLengthError;
+                                      //     }
+                                      //   }),
+                                      //   onFieldSubmitted: (term) {
+                                      //     _passwordFocus.unfocus();
+                                      //
+                                      //     //FocusScope.of(context).requestFocus(_passwordFocus);
+                                      //     _loginButtonAction(bloc);
+                                      //   },
+                                      //   onChange: (String password) {
+                                      //     this.password = password;
+                                      //   },
+                                      // ),
 
+                                      /// Password
+                                      PasswordField(
+                                        hintText: '',
+                                        passFocusNode: _passwordFocus,
                                         textInputAction: TextInputAction.done,
-                                        validatePassword: ((String? password) {
-                                          if (!Validator.isValidPassword(
-                                              password)) {
-                                            return Constants.passwordError;
-                                          } else if (!Validator
-                                              .passwordValidation(password)) {
-                                            return Constants
-                                                .passwordLengthError;
+                                        validatePassword: (String? password) {
+                                          if (!Validator.isValidPassword(password)) {
+                                            return 'Password does not meet the criteria.';
+                                          } else if (!Validator.passwordValidation(password)) {
+                                            return 'Password must be at least 8 characters long.';
                                           }
-                                        }),
+                                          return null;
+                                        },
                                         onFieldSubmitted: (term) {
                                           _passwordFocus.unfocus();
-
-                                          //FocusScope.of(context).requestFocus(_passwordFocus);
                                           _loginButtonAction(bloc);
                                         },
                                         onChange: (String password) {
                                           this.password = password;
                                         },
                                       ),
+
                                     ],
                                   ),
 
