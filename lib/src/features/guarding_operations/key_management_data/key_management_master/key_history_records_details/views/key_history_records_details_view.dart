@@ -450,7 +450,7 @@ class _KeyHistoryRecordsDetailsViewState
                                 BaseOrganisationDialog().userDialog(
                                   context: context,
                                   enabled: showSaveAndSubmitButtons,
-                                  users: state.srh,
+                                  users: state.sRHs,
                                   onTap: (BaseUser user) {
                                     BlocProvider.of<
                                                 KeyHistoryRecordsDetailsCubit>(
@@ -495,7 +495,7 @@ class _KeyHistoryRecordsDetailsViewState
                               if (editSecurityManagerAndReason) {
                                 BaseOrganisationDialog().userDialog(
                                   context: context,
-                                  users: state.securityManager!,
+                                  users: state.securityManagers!,
                                   onTap: (BaseUser user) {
                                     BlocProvider.of<
                                                 KeyHistoryRecordsDetailsCubit>(

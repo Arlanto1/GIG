@@ -63,23 +63,33 @@ class KeyManagementMasterDetailsCubit
       ),
     );
 
+
+    Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+    if (state.model.location == null && defaultLocation != null) {
+      SerialNumberModel slNo = await commonServices.getSlNo(
+        locationId: defaultLocation.id.toString(),
+        moduleCode: Constants.keyManagementMasterModule,
+      );
+      state.model.location = defaultLocation;
+      state.model.slNo = slNo.serialNo;
+    }
+
     var userId = await SharedPrefs.getUserId();
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
-        commonServices.getUsersByRole(roleName: 'T1_Analyst'),
+        commonServices.getUsersByRole(roleName: 'T1_Analyst', locationId: state.model.location?.id),
         commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
         commonServices.getQualification(name: 'GUARD_QUALIFICATIONS'),
-        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
+        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER', locationId: state.model.location?.id),
         commonServices.getKeyType(name: 'KEY_MANAGEMENT_DOOR_TYPE'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.keyManagementMasterModule),
-        SharedPrefs.getDefaultLocation(),
       ]);
 
       Locations getLocationsData = futures[0];
@@ -90,15 +100,7 @@ class KeyManagementMasterDetailsCubit
       GetDepositor emailUsers = futures[6];
       KeyType departments = futures[7];
       dynamic responseLabels = futures[9];
-      Organisation? defaultLocation = futures[10];
-      if (state.model.location == null && defaultLocation != null) {
-        SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.keyManagementMasterModule,
-        );
-        state.model.location = defaultLocation;
-        state.model.slNo = slNo.serialNo;
-      }
+
       state.model.createdBy ??= loggedInUserDetails;
       state.model.modifiedBy ??= loggedInUserDetails;
       // state.model.createdDate = state.model.createdDate == null

@@ -160,7 +160,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     ));
 
     /// Saving and Refresh the record
-    await submitAndRefreshScreen(checkValidations: true);
+    await submitAndRefreshScreen(checkValidations: false);
   }
 
   Future<void> submitAndRefreshScreen({required bool checkValidations}) async {
@@ -174,7 +174,9 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     );
 
     /// refreshing the list so that we can refresh the validation for creating new replacements.
-    initializeValues();
+    if(state.status != FormStatus.formError) {
+      initializeValues();
+    }
   }
 
   Future<void> getNextAvailableReplacementDates({required int userId}) async {
