@@ -1900,6 +1900,7 @@ class _MaterialMovementDetailsViewState
                                     hintText: '',
                                     characterLimit:
                                         Constants.characterLimitContactNo,
+                                    textInputType: TextInputType.number,
                                     isEnable: state.model.status == 6 &&
                                         state.model.lock.isEmptyOrNull,
                                     isDisableColor: showSaveSubmitButtons ? false : true,

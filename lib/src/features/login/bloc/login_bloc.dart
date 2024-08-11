@@ -90,6 +90,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       }
     } catch (e) {
       // Handle API errors here
+
+      log('--e-$e-------to-${e.toString()}-');
       if (e is GenericResponse) {
         emit(LoginFailureState(
           message: e.message ?? 'An unexpected error occurred.',
@@ -105,7 +107,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         // Handle other unexpected errors
         log('Server Might Be Restarting: $e');
         emit(LoginFailureState(
-          message: 'Please check your network connection and try again.',
+          message: 'Please check your network connection and try again. Reason: ${e.toString()}',
           status: FormStatus.error,
         ));
       }

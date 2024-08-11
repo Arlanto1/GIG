@@ -154,6 +154,8 @@ class Constants {
   static const String copyrightText = "Copyright © 2024 Arlanto.";
   static const String submit = "Submit";
 
+  static const String locationPermissionError = 'Please enable location services!';
+
   //Dashboard
   static const String home = 'Home';
   static const String dashboard = 'Dashboard';
