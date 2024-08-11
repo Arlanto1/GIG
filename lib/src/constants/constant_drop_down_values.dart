@@ -151,13 +151,13 @@ const List<Label> guardRankDropDownValues = [
 ];
 
 const List<Label> staffCategoryDropDownValues = [
-  Label(key: 'Guarding Agency', value: '1'),
-  Label(key: 'Security Guard', value: '2'),
-  Label(key: 'Security Lady', value: '3'),
-  Label(key: 'Security Supervisor', value: '4'),
-  Label(key: 'Security Officer', value: '5'),
-  Label(key: 'Security Facilitator', value: '6'),
-  Label(key: 'NA', value: '7'),
+  Label(key: 'Guarding Agency', value: '0'),
+  Label(key: 'Security Guard', value: '1'),
+  Label(key: 'Security Lady', value: '2'),
+  Label(key: 'Security Supervisor', value: '3'),
+  Label(key: 'Security Officer', value: '4'),
+  Label(key: 'Security Facilitator', value: '5'),
+  Label(key: 'NA', value: '6'),
 ];
 const List<Label> deploymentTypeDropDownValues = [
   Label(key: 'New Deployment', value: '1'),
