@@ -170,13 +170,16 @@ class _MaterialMovementDetailsViewState
                 (state.model.entrySecurity!.email
                     .equalsIgnoreCase(state.loggedInUserDetails?.email));
 
+
         showSaveSubmitButtons = widget.model == null ||
             state.model.status == 0 ||
             state.model.status != ConstantsIntValue.mmStatusLSMApproved &&
                 state.model.status != ConstantsIntValue.mmStatusLSMReview &&
-                requesterEmailUser != null &&
+                (requesterEmailUser != null &&
                 requesterEmailUser
-                    .contains('${state.loggedInUserDetails?.email}');
+                    .contains('${state.loggedInUserDetails?.email}')) || ((state.model.status == ConstantsIntValue.mmStatusApproved || state.model.status == ConstantsIntValue.mmStatusInwardWaiting) &&
+            (state.model.entrySecurity!.email
+                .equalsIgnoreCase(state.loggedInUserDetails?.email))) ;
 
         // showLikeAndDislikeButton =
         //     (state.model.status == ConstantsIntValue.mmStatusLSMReview) &&
@@ -279,9 +282,11 @@ class _MaterialMovementDetailsViewState
           int.tryParse(state.model.expectedDateOfReturn ?? '0'),
           Constants.dateFormat);
     }
-    actualDateOfReturnController.text = Utils.timestampToDateConversion(
-        int.tryParse(widget.model?.actualDateOfReturn ?? '0'),
-        Constants.dateFormat);
+    if (state.model.expectedDateOfReturn != null) {
+      actualDateOfReturnController.text = Utils.timestampToDateConversion(
+          int.tryParse(widget.model?.actualDateOfReturn ?? '0'),
+          Constants.dateFormat);
+    }
     takenOutOnDateController.text = Utils.timestampToDateConversion(
         int.tryParse(widget.model?.takenOutDate ?? '0'), Constants.dateFormat);
   }
@@ -523,7 +528,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 3 ||
                                       state.model.status == 4 ||
                                       state.model.status == 5 ||
-                                      state.model.status == 1 ||state.model.status == 7 ||
+                                      state.model.status == 1 ||state.model.status == 7 ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                       !state.model.lock.isEmptyOrNull
                                   ? false
                                   : true,
@@ -533,7 +538,7 @@ class _MaterialMovementDetailsViewState
                                   state.model.status == 2 ||
                                   state.model.status == 3 ||
                                   state.model.status == 5 ||
-                                  state.model.status == 1 ||state.model.status == 7||
+                                  state.model.status == 1 ||state.model.status == 7||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                   !state.model.lock.isEmptyOrNull,
                               onChange: (String value) {
                                 state.model.challanNo = value;
@@ -612,7 +617,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 6 ||
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
-                                      state.model.status == 4 ||
+                                      state.model.status == 4 ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                       !state.model.lock.isEmptyOrNull
                                   ? false
                                   : true,
@@ -622,7 +627,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 2 ||
                                       state.model.status == 3 ||
                                       state.model.status == 4 ||
-                                      !showSaveSubmitButtons ||
+                                      !showSaveSubmitButtons ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                       !state.model.lock.isEmptyOrNull
                                   ? true
                                   : false,
@@ -671,7 +676,7 @@ class _MaterialMovementDetailsViewState
                                             state.model.status == 6 ||
                                             state.model.status == 2 ||
                                             state.model.status == 3 ||
-                                            state.model.status == 4 ||
+                                            state.model.status == 4 ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                             isReadOnly
                                         ? false
                                         : true,
@@ -681,7 +686,7 @@ class _MaterialMovementDetailsViewState
                                             state.model.status == 2 ||
                                             state.model.status == 3 ||
                                             state.model.status == 4 ||
-                                            !showSaveSubmitButtons ||
+                                            !showSaveSubmitButtons ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                             !state.model.lock.isEmptyOrNull
                                         ? true
                                         : false,
@@ -719,7 +724,7 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == 2 ||
                                               state.model.status == 3 ||
                                               state.model.status == 4 ||
-                                              !showSaveSubmitButtons ||
+                                              !showSaveSubmitButtons ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                               !state.model.lock.isEmptyOrNull
                                           ? true
                                           : false,
@@ -759,7 +764,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 6 ||
                                         state.model.status == 2 ||
                                         state.model.status == 3 ||
-                                        state.model.status == 4 ||
+                                        state.model.status == 4 ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                         isReadOnly
                                     ? false
                                     : true,
@@ -769,7 +774,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 2 ||
                                         state.model.status == 3 ||
                                         state.model.status == 4 ||
-                                        !showSaveSubmitButtons ||
+                                        !showSaveSubmitButtons ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                         !state.model.lock.isEmptyOrNull
                                     ? true
                                     : false,
@@ -810,7 +815,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 6 ||
                                         state.model.status == 2 ||
                                         state.model.status == 3 ||
-                                        state.model.status == 4 ||
+                                        state.model.status == 4 ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                         !state.model.lock.isEmptyOrNull
                                     ? false
                                     : true,
@@ -820,7 +825,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 2 ||
                                         state.model.status == 3 ||
                                         state.model.status == 4 ||
-                                        !showSaveSubmitButtons ||
+                                        !showSaveSubmitButtons ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                         !state.model.lock.isEmptyOrNull
                                     ? true
                                     : false,
@@ -848,9 +853,7 @@ class _MaterialMovementDetailsViewState
                                     Styles.textStyleBlack14,
                                     isMandatory: true,
                                   ),
-                                  widget.model?.status != 6 ||
-                                          state.model.status == 1
-                                      ? TextFieldAddButton(
+                                  TextFieldAddButton(
                                           title: state.model.requestorEmail,
                                           height: 70,
                                           isDisableColor:
@@ -862,7 +865,7 @@ class _MaterialMovementDetailsViewState
                                                   state.model.status == 4 ||
                                                   state.model.status == 5 ||
                                                   state.model.status == 1 ||
-                                                  state.model.status == 7,
+                                                  state.model.status == 7 ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting,
                                           onTap: () {
                                             if (state.model.status == 10 ||
                                                     state.model.status == -1 ||
@@ -872,7 +875,7 @@ class _MaterialMovementDetailsViewState
                                                     state.model.status == 5 ||
                                                     state.model.status == 4 ||
                                                     state.model.status == 1 ||
-                                                    state.model.status == 7 ||
+                                                    state.model.status == 7 ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                                     !state.model.lock
                                                         .isEmptyOrNull
                                                 ? false
@@ -907,37 +910,37 @@ class _MaterialMovementDetailsViewState
                                               );
                                             }
                                           })
-                                      : FlutterInputField(
-                                          initialValue:
-                                              state.model.requestorEmail,
-                                          textFormKey: Keys.requesterEmailKey,
-                                          hintText: '',
-                                          isEnable: state.model.status == 10 ||
-                                                  state.model.status == -1 ||
-                                                  state.model.status == 6 ||
-                                                  state.model.status == 2 ||
-                                                  state.model.status == 3 ||
-                                                  state.model.status == 4 ||
-                                                  state.model.status == 5 ||
-                                                  state.model.status == 1 ||
-                                                  state.model.status == 7 ||
-                                                  !state
-                                                      .model.lock.isEmptyOrNull
-                                              ? false
-                                              : true,
-                                          isDisableColor:
-                                              state.model.status == 10 ||
-                                                  state.model.status == -1 ||
-                                                  state.model.status == 6 ||
-                                                  state.model.status == 2 ||
-                                                  state.model.status == 3 ||
-                                                  state.model.status == 4 ||
-                                                  state.model.status == 5 ||
-                                                  state.model.status == 1 ||
-                                                  state.model.status == 7,
-                                          onChange: (String username) {},
-                                          validateTextField: (String? user) {},
-                                        ),
+                                      // : FlutterInputField(
+                                      //     initialValue:
+                                      //         state.model.requestorEmail,
+                                      //     textFormKey: Keys.requesterEmailKey,
+                                      //     hintText: '',
+                                      //     isEnable: state.model.status == 10 ||
+                                      //             state.model.status == -1 ||
+                                      //             state.model.status == 6 ||
+                                      //             state.model.status == 2 ||
+                                      //             state.model.status == 3 ||
+                                      //             state.model.status == 4 ||
+                                      //             state.model.status == 5 ||
+                                      //             state.model.status == 1 ||
+                                      //             state.model.status == 7 ||
+                                      //             !state
+                                      //                 .model.lock.isEmptyOrNull
+                                      //         ? false
+                                      //         : true,
+                                      //     isDisableColor:
+                                      //         state.model.status == 10 ||
+                                      //             state.model.status == -1 ||
+                                      //             state.model.status == 6 ||
+                                      //             state.model.status == 2 ||
+                                      //             state.model.status == 3 ||
+                                      //             state.model.status == 4 ||
+                                      //             state.model.status == 5 ||
+                                      //             state.model.status == 1 ||
+                                      //             state.model.status == 7,
+                                      //     onChange: (String username) {},
+                                      //     validateTextField: (String? user) {},
+                                      //   ),
                                 ],
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -967,7 +970,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 3 ||
                                         state.model.status == 4 ||
                                         state.model.status == 5 ||
-                                        state.model.status == 1 ||state.model.status == 7||
+                                        state.model.status == 1 ||state.model.status == 7||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                         !state.model.lock.isEmptyOrNull
                                     ? false
                                     : true,
@@ -978,7 +981,7 @@ class _MaterialMovementDetailsViewState
                                     state.model.status == 3 ||
                                     state.model.status == 4 ||
                                     state.model.status == 5 ||
-                                    state.model.status == 1 ||state.model.status == 7,
+                                    state.model.status == 1 ||state.model.status == 7 ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting,
                                 onChange: (String value) {
                                   state.model.requestorEmployeeId = value;
                                   context
@@ -1002,42 +1005,43 @@ class _MaterialMovementDetailsViewState
                                     ? true
                                     : false,
                               ),
-                              widget.model?.status == 6
-                                  ? FlutterInputField(
-                                      initialValue:
-                                          state.model.requestorDepartment?.name,
-                                      textFormKey: Keys.requesterDepartmentKey,
-                                      hintText: '',
-                                      isEnable: state.model.status != 6 ||
-                                          state.model.status != -1 ||
-                                          state.model.status != 10 ||
-                                          state.model.status != 2 ||
-                                          state.model.status != 3 ||
-                                          state.model.status == 4 ||
-                                          state.model.status == 5 ||
-                                          state.model.lock.isEmptyOrNull,
-                                      isDisableColor: state.model.status ==
-                                                  10 ||
-                                              state.model.status == -1 ||
-                                              state.model.status == 6 ||
-                                              state.model.status == 2 ||
-                                              state.model.status == 3 ||
-                                              state.model.status == 4 ||
-                                              !showSaveSubmitButtons ||
-                                              !state.model.lock.isEmptyOrNull
-                                          ? true
-                                          : false,
-                                      onChange: (String value) {
-                                        state.model.requestorDepartment?.name =
-                                            value;
-                                        context
-                                            .read<
-                                                MaterialMovementDetailsCubit>()
-                                            .onModelValueChange(state.model);
-                                      },
-                                      validateTextField: (String? user) {},
-                                    )
-                                  : TextFieldAddButton(
+                              // widget.model?.status == 6
+                              //     ? FlutterInputField(
+                              //         initialValue:
+                              //             state.model.requestorDepartment?.name,
+                              //         textFormKey: Keys.requesterDepartmentKey,
+                              //         hintText: '',
+                              //         isEnable: state.model.status != 6 ||
+                              //             state.model.status != -1 ||
+                              //             state.model.status != 10 ||
+                              //             state.model.status != 2 ||
+                              //             state.model.status != 3 ||
+                              //             state.model.status == 4 ||
+                              //             state.model.status == 5 ||
+                              //             state.model.lock.isEmptyOrNull,
+                              //         isDisableColor: state.model.status ==
+                              //                     10 ||
+                              //                 state.model.status == -1 ||
+                              //                 state.model.status == 6 ||
+                              //                 state.model.status == 2 ||
+                              //                 state.model.status == 3 ||
+                              //                 state.model.status == 4 ||
+                              //                 !showSaveSubmitButtons ||
+                              //                 !state.model.lock.isEmptyOrNull
+                              //             ? true
+                              //             : false,
+                              //         onChange: (String value) {
+                              //           state.model.requestorDepartment?.name =
+                              //               value;
+                              //           context
+                              //               .read<
+                              //                   MaterialMovementDetailsCubit>()
+                              //               .onModelValueChange(state.model);
+                              //         },
+                              //         validateTextField: (String? user) {},
+                              //       )
+                              //     :
+                              TextFieldAddButton(
                                       title:
                                           state.model.requestorDepartment?.name,
                                       height: 70,
@@ -1048,7 +1052,7 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == 2 ||
                                               state.model.status == 3 ||
                                               state.model.status == 4 ||
-                                              !showSaveSubmitButtons ||
+                                              !showSaveSubmitButtons ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                               !state.model.lock.isEmptyOrNull
                                           ? true
                                           : false,
@@ -1058,7 +1062,7 @@ class _MaterialMovementDetailsViewState
                                                 state.model.status == -1 ||
                                                 state.model.status == 2 ||
                                                 state.model.status == 3 ||
-                                                state.model.status == 4 ||
+                                                state.model.status == 4 ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                                 !state.model.lock.isEmptyOrNull
                                             ? false
                                             : true) {
@@ -1128,7 +1132,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 6 ||
                                         state.model.status == 2 ||
                                         state.model.status == 3 ||
-                                        state.model.status == 4 ||
+                                        state.model.status == 4 || state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                         isReadOnly
                                     ? false
                                     : true,
@@ -1138,7 +1142,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 2 ||
                                         state.model.status == 3 ||
                                         state.model.status == 4 ||
-                                        !showSaveSubmitButtons ||
+                                        !showSaveSubmitButtons ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                         !state.model.lock.isEmptyOrNull
                                     ? true
                                     : false,
@@ -1177,7 +1181,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 6 ||
                                         state.model.status == 2 ||
                                         state.model.status == 3 ||
-                                        state.model.status == 4 ||
+                                        state.model.status == 4 ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                         isReadOnly
                                     ? false
                                     : true,
@@ -1187,7 +1191,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 2 ||
                                         state.model.status == 3 ||
                                         state.model.status == 4 ||
-                                        !showSaveSubmitButtons ||
+                                        !showSaveSubmitButtons ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                         !state.model.lock.isEmptyOrNull
                                     ? true
                                     : false,
@@ -1226,7 +1230,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 6 ||
                                         state.model.status == 2 ||
                                         state.model.status == 3 ||
-                                        state.model.status == 4 ||
+                                        state.model.status == 4 ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                         isReadOnly
                                     ? false
                                     : true,
@@ -1236,7 +1240,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 2 ||
                                         state.model.status == 3 ||
                                         state.model.status == 4 ||
-                                        !showSaveSubmitButtons ||
+                                        !showSaveSubmitButtons ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                         !state.model.lock.isEmptyOrNull
                                     ? true
                                     : false,
@@ -1263,44 +1267,45 @@ class _MaterialMovementDetailsViewState
                                     ? true
                                     : false,
                               ),
-                              widget.model?.status == 6
-                                  ? FlutterInputField(
-                                      initialValue: state
-                                          .model.preparedByDepartment?.name,
-                                      textFormKey: Keys.preparedByDepartmentKey,
-                                      hintText: '',
-                                      isEnable: state.model.status == 10 ||
-                                              state.model.status == -1 ||
-                                              state.model.status == 6 ||
-                                              state.model.status == 2 ||
-                                              state.model.status == 3 ||
-                                              state.model.status == 4 ||
-                                              state.model.status == 5 ||
-                                              isReadOnly
-                                          ? false
-                                          : true,
-                                      isDisableColor: state.model.status ==
-                                                  10 ||
-                                              state.model.status == -1 ||
-                                              state.model.status == 6 ||
-                                              state.model.status == 2 ||
-                                              state.model.status == 3 ||
-                                              state.model.status == 4 ||
-                                              !showSaveSubmitButtons ||
-                                              !state.model.lock.isEmptyOrNull
-                                          ? true
-                                          : false,
-                                      onChange: (String value) {
-                                        state.model.preparedByDepartment?.name =
-                                            value;
-                                        context
-                                            .read<
-                                                MaterialMovementDetailsCubit>()
-                                            .onModelValueChange(state.model);
-                                      },
-                                      validateTextField: (String? user) {},
-                                    )
-                                  : TextFieldAddButton(
+                              // widget.model?.status == 6
+                              //     ? FlutterInputField(
+                              //         initialValue: state
+                              //             .model.preparedByDepartment?.name,
+                              //         textFormKey: Keys.preparedByDepartmentKey,
+                              //         hintText: '',
+                              //         isEnable: state.model.status == 10 ||
+                              //                 state.model.status == -1 ||
+                              //                 state.model.status == 6 ||
+                              //                 state.model.status == 2 ||
+                              //                 state.model.status == 3 ||
+                              //                 state.model.status == 4 ||
+                              //                 state.model.status == 5 || state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
+                              //                 isReadOnly
+                              //             ? false
+                              //             : true,
+                              //         isDisableColor: state.model.status ==
+                              //                     10 ||
+                              //                 state.model.status == -1 ||
+                              //                 state.model.status == 6 ||
+                              //                 state.model.status == 2 ||
+                              //                 state.model.status == 3 ||
+                              //                 state.model.status == 4 ||
+                              //                 !showSaveSubmitButtons ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
+                              //                 !state.model.lock.isEmptyOrNull
+                              //             ? true
+                              //             : false,
+                              //         onChange: (String value) {
+                              //           state.model.preparedByDepartment?.name =
+                              //               value;
+                              //           context
+                              //               .read<
+                              //                   MaterialMovementDetailsCubit>()
+                              //               .onModelValueChange(state.model);
+                              //         },
+                              //         validateTextField: (String? user) {},
+                              //       )
+                              //     :
+                              TextFieldAddButton(
                                       title: state
                                           .model.preparedByDepartment?.name,
                                       height: 70,
@@ -1311,7 +1316,7 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == 2 ||
                                               state.model.status == 3 ||
                                               state.model.status == 4 ||
-                                              !showSaveSubmitButtons ||
+                                              !showSaveSubmitButtons ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                               !state.model.lock.isEmptyOrNull
                                           ? true
                                           : false,
@@ -1321,7 +1326,7 @@ class _MaterialMovementDetailsViewState
                                                 state.model.status == 10 ||
                                                 state.model.status == 2 ||
                                                 state.model.status == 3 ||
-                                                state.model.status == 4 ||
+                                                state.model.status == 4 ||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                                 isReadOnly)
                                             ? false
                                             : true) {
@@ -1372,8 +1377,7 @@ class _MaterialMovementDetailsViewState
                                     Styles.textStyleBlack14,
                                     isMandatory: true,
                                   ),
-                                  widget.model?.status != 6
-                                      ? TextFieldAddButton(
+                                TextFieldAddButton(
                                           title: state.model.approver1Email,
                                           height: 70,
                                           isDisableColor: (state.model.status ==
@@ -1384,7 +1388,7 @@ class _MaterialMovementDetailsViewState
                                                   state.model.status == 3 ||
                                                   state.model.status == 4 ||
                                                   state.model.status == 5 ||
-                                                  state.model.status == 1||state.model.status == 7)
+                                                  state.model.status == 1||state.model.status == 7||state.model.status == ConstantsIntValue.mmStatusInwardWaiting)
                                               ? true
                                               : false,
                                           onTap: () {
@@ -1395,7 +1399,7 @@ class _MaterialMovementDetailsViewState
                                                     state.model.status == 3 ||
                                                     state.model.status == 4 ||
                                                     state.model.status == 5 ||
-                                                    state.model.status == 1 ||state.model.status == 7||
+                                                    state.model.status == 1 ||state.model.status == 7||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                                     !state.model.lock
                                                         .isEmptyOrNull)
                                                 ? false
@@ -1426,32 +1430,32 @@ class _MaterialMovementDetailsViewState
                                               );
                                             }
                                           })
-                                      : FlutterInputField(
-                                          initialValue:
-                                              state.model.approver1Email,
-                                          textFormKey: Keys.approver1EmailKey,
-                                          hintText: '',
-                                          isEnable: state.model.status != 6 ||
-                                              state.model.status != -1 ||
-                                              state.model.status != 10 ||
-                                              state.model.status != 2 ||
-                                              state.model.status != 3 ||
-                                              state.model.status != 4 ||
-                                              state.model.status != 5 ||
-                                              state.model.status != 1 ||
-                                              state.model.lock.isEmptyOrNull,
-                                          isDisableColor:
-                                              state.model.status == 6 ||
-                                                  state.model.status == 10 ||
-                                                  state.model.status == -1 ||
-                                                  state.model.status == 2 ||
-                                                  state.model.status == 3 ||
-                                                  state.model.status == 4 ||
-                                                  state.model.status == 5 ||
-                                                  state.model.status == 1,
-                                          onChange: (String username) {},
-                                          validateTextField: (String? user) {},
-                                        ),
+                                      // : FlutterInputField(
+                                      //     initialValue:
+                                      //         state.model.approver1Email,
+                                      //     textFormKey: Keys.approver1EmailKey,
+                                      //     hintText: '',
+                                      //     isEnable: state.model.status != 6 ||
+                                      //         state.model.status != -1 ||
+                                      //         state.model.status != 10 ||
+                                      //         state.model.status != 2 ||
+                                      //         state.model.status != 3 ||
+                                      //         state.model.status != 4 ||
+                                      //         state.model.status != 5 ||
+                                      //         state.model.status != 1 ||
+                                      //         state.model.lock.isEmptyOrNull,
+                                      //     isDisableColor:
+                                      //         state.model.status == 6 ||
+                                      //             state.model.status == 10 ||
+                                      //             state.model.status == -1 ||
+                                      //             state.model.status == 2 ||
+                                      //             state.model.status == 3 ||
+                                      //             state.model.status == 4 ||
+                                      //             state.model.status == 5 ||
+                                      //             state.model.status == 1,
+                                      //     onChange: (String username) {},
+                                      //     validateTextField: (String? user) {},
+                                      //   ),
                                 ],
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1465,34 +1469,7 @@ class _MaterialMovementDetailsViewState
                                 Styles.textStyleBlack14,
                                 isMandatory: true,
                               ),
-                              widget.model?.status == 6
-                                  ? FlutterInputField(
-                                      initialValue:
-                                          state.model.approver1Department?.name,
-                                      textFormKey: Keys.aprrover1DepartmentKey,
-                                      hintText: '',
-                                      isEnable: state.model.status != 6 ||
-                                          state.model.status != 10 ||
-                                          state.model.status != -1 ||
-                                          state.model.status != 2 ||
-                                          state.model.status != 3 ||
-                                          state.model.status != 4 ||
-                                          state.model.status != 5 ||
-                                          state.model.status != 1 ||
-                                          state.model.lock.isEmptyOrNull,
-                                      isDisableColor: state.model.status == 6 ||
-                                          state.model.status == 1,
-                                      onChange: (String value) {
-                                        state.model.approver1Department?.name =
-                                            value;
-                                        context
-                                            .read<
-                                                MaterialMovementDetailsCubit>()
-                                            .onModelValueChange(state.model);
-                                      },
-                                      validateTextField: (String? user) {},
-                                    )
-                                  : TextFieldAddButton(
+                               TextFieldAddButton(
                                       title:
                                           state.model.approver1Department?.name,
                                       height: 70,
@@ -1504,7 +1481,7 @@ class _MaterialMovementDetailsViewState
                                                   state.model.status == 3 ||
                                                   state.model.status == 4 ||
                                                   state.model.status == 5 ||
-                                                  state.model.status == 1||state.model.status == 7)
+                                                  state.model.status == 1||state.model.status == 7||state.model.status == ConstantsIntValue.mmStatusInwardWaiting)
                                               ? true
                                               : false,
                                       onTap: () {
@@ -1515,7 +1492,7 @@ class _MaterialMovementDetailsViewState
                                                 state.model.status == 3 ||
                                                 state.model.status == 4 ||
                                                 state.model.status == 5 ||
-                                                state.model.status == 1 ||state.model.status == 7||
+                                                state.model.status == 1 ||state.model.status == 7||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                                 !state.model.lock.isEmptyOrNull)
                                             ? false
                                             : true) {
@@ -1567,8 +1544,7 @@ class _MaterialMovementDetailsViewState
                                     Styles.textStyleBlack14,
                                     isMandatory: true,
                                   ),
-                                  widget.model?.status != 6
-                                      ? TextFieldAddButton(
+                                 TextFieldAddButton(
                                           title: state.model.approver2Email,
                                           height: 70,
                                           isDisableColor: (state.model.status ==
@@ -1579,7 +1555,7 @@ class _MaterialMovementDetailsViewState
                                                   state.model.status == 3 ||
                                                   state.model.status == 4 ||
                                                   state.model.status == 5 ||
-                                                  state.model.status == 1||state.model.status == 7)
+                                                  state.model.status == 1||state.model.status == 7||state.model.status == ConstantsIntValue.mmStatusInwardWaiting)
                                               ? true
                                               : false,
                                           onTap: () {
@@ -1590,7 +1566,7 @@ class _MaterialMovementDetailsViewState
                                                     state.model.status == 3 ||
                                                     state.model.status == 4 ||
                                                     state.model.status == 5 ||
-                                                    state.model.status == 1 ||state.model.status == 7||
+                                                    state.model.status == 1 ||state.model.status == 7||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                                     !state.model.lock
                                                         .isEmptyOrNull)
                                                 ? false
@@ -1621,32 +1597,32 @@ class _MaterialMovementDetailsViewState
                                               );
                                             }
                                           })
-                                      : FlutterInputField(
-                                          initialValue:
-                                              state.model.approver2Email,
-                                          textFormKey: Keys.approver2EmailKey,
-                                          hintText: '',
-                                          isEnable: state.model.status != 6 ||
-                                              state.model.status != 10 ||
-                                              state.model.status != -1 ||
-                                              state.model.status != 2 ||
-                                              state.model.status != 3 ||
-                                              state.model.status != 4 ||
-                                              state.model.status != 5 ||
-                                              state.model.status != 1 ||
-                                              state.model.lock.isEmptyOrNull,
-                                          isDisableColor:
-                                              state.model.status == 6 ||
-                                                  state.model.status == 10 ||
-                                                  state.model.status == -1 ||
-                                                  state.model.status == 2 ||
-                                                  state.model.status == 3 ||
-                                                  state.model.status == 4 ||
-                                                  state.model.status == 5 ||
-                                                  state.model.status == 1,
-                                          onChange: (String username) {},
-                                          validateTextField: (String? user) {},
-                                        ),
+                                      // : FlutterInputField(
+                                      //     initialValue:
+                                      //         state.model.approver2Email,
+                                      //     textFormKey: Keys.approver2EmailKey,
+                                      //     hintText: '',
+                                      //     isEnable: state.model.status != 6 ||
+                                      //         state.model.status != 10 ||
+                                      //         state.model.status != -1 ||
+                                      //         state.model.status != 2 ||
+                                      //         state.model.status != 3 ||
+                                      //         state.model.status != 4 ||
+                                      //         state.model.status != 5 ||
+                                      //         state.model.status != 1 ||
+                                      //         state.model.lock.isEmptyOrNull,
+                                      //     isDisableColor:
+                                      //         state.model.status == 6 ||
+                                      //             state.model.status == 10 ||
+                                      //             state.model.status == -1 ||
+                                      //             state.model.status == 2 ||
+                                      //             state.model.status == 3 ||
+                                      //             state.model.status == 4 ||
+                                      //             state.model.status == 5 ||
+                                      //             state.model.status == 1,
+                                      //     onChange: (String username) {},
+                                      //     validateTextField: (String? user) {},
+                                      //   ),
                                 ],
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1660,40 +1636,7 @@ class _MaterialMovementDetailsViewState
                                 Styles.textStyleBlack14,
                                 isMandatory: true,
                               ),
-                              widget.model?.status == 6
-                                  ? FlutterInputField(
-                                      initialValue:
-                                          state.model.approver2Department?.name,
-                                      textFormKey: Keys.approver2EmailKey,
-                                      hintText: '',
-                                      isEnable: state.model.status != 6 ||
-                                          state.model.status != 10 ||
-                                          state.model.status != 1 ||
-                                          state.model.status != 2 ||
-                                          state.model.status != 3 ||
-                                          state.model.status != 4 ||
-                                          state.model.status != 5 ||
-                                          state.model.status != 1 ||
-                                          state.model.lock.isEmptyOrNull,
-                                      isDisableColor: state.model.status == 6 ||
-                                          state.model.status == 10 ||
-                                          state.model.status == -1 ||
-                                          state.model.status == 2 ||
-                                          state.model.status == 3 ||
-                                          state.model.status == 4 ||
-                                          state.model.status == 5 ||
-                                          state.model.status == 1,
-                                      onChange: (String value) {
-                                        state.model.approver2Department?.name =
-                                            value;
-                                        context
-                                            .read<
-                                                MaterialMovementDetailsCubit>()
-                                            .onModelValueChange(state.model);
-                                      },
-                                      validateTextField: (String? user) {},
-                                    )
-                                  : TextFieldAddButton(
+                              TextFieldAddButton(
                                       title:
                                           state.model.approver2Department?.name,
                                       height: 70,
@@ -1705,7 +1648,7 @@ class _MaterialMovementDetailsViewState
                                                   state.model.status == 3 ||
                                                   state.model.status == 4 ||
                                                   state.model.status == 5 ||
-                                                  state.model.status == 1||state.model.status == 7)
+                                                  state.model.status == 1||state.model.status == 7||state.model.status == ConstantsIntValue.mmStatusInwardWaiting)
                                               ? true
                                               : false,
                                       onTap: () {
@@ -1716,7 +1659,7 @@ class _MaterialMovementDetailsViewState
                                                 state.model.status == 3 ||
                                                 state.model.status == 4 ||
                                                 state.model.status == 5 ||
-                                                state.model.status == 1 ||state.model.status == 7||
+                                                state.model.status == 1 ||state.model.status == 7||state.model.status == ConstantsIntValue.mmStatusInwardWaiting||
                                                 !state.model.lock.isEmptyOrNull)
                                             ? false
                                             : true) {
@@ -1927,7 +1870,7 @@ class _MaterialMovementDetailsViewState
                                     textFormKey: Keys.takenOutByKey,
                                     hintText: '',
                                     isEnable: state.model.status == 6,
-                                    isDisableColor: state.model.status != 6,
+                                    isDisableColor: showSaveSubmitButtons ? false : true,
                                     onChange: (String value) {
                                       state.model.takenOutEmail = value;
                                       context
@@ -1959,8 +1902,7 @@ class _MaterialMovementDetailsViewState
                                         Constants.characterLimitContactNo,
                                     isEnable: state.model.status == 6 &&
                                         state.model.lock.isEmptyOrNull,
-                                    isDisableColor: state.model.status != 6 ||
-                                        !state.model.lock.isEmptyOrNull,
+                                    isDisableColor: showSaveSubmitButtons ? false : true,
                                     onChange: (String value) {
                                       state.model.takenOutContactNo = value;
                                       context
@@ -1988,11 +1930,10 @@ class _MaterialMovementDetailsViewState
                                     initialValue: state.model.takenOutAddress,
                                     textFormKey: Keys.takenOutAddressKey,
                                     hintText: '',
-                                    showBorder: true,
+                                    showBorder: false,
                                     isEnable: state.model.status == 6 &&
                                         state.model.lock.isEmptyOrNull,
-                                    isDisableColor: state.model.status != 6 ||
-                                        !state.model.lock.isEmptyOrNull,
+                                    isDisableColor: showSaveSubmitButtons ? false : true,
                                     onChange: (String value) {
                                       state.model.takenOutAddress = value;
                                       context
@@ -2020,6 +1961,8 @@ class _MaterialMovementDetailsViewState
                                   BaseDate().datePickerWidgetLoading(
                                     textController: takenOutOnDateController,
                                     onlyDate: true,
+                                    showFutureDate: false,
+                                    showPastDate: false,
                                     onChange: (String value) {
                                       state.model.takenOutDate =
                                           Utils().formatTime(value);
@@ -2455,16 +2398,6 @@ class _MaterialMovementDetailsViewState
                                 state: state,
                               ),
 
-                              /// Security Signature
-                              buildSignature(
-                                controller: securitySignatureController,
-                                label: state.labels?.locale.entrySecuritySign ??
-                                    state.labels?.defaultLocale
-                                        .entrySecuritySign ??
-                                    Constants.securitySignature,
-                                spaceHeight: height,
-                                state: state,
-                              ),
                               // CommonWidgets.textDisplay(
                               //     Constants.securitySignature,
                               //     Styles.textStyleBlack14,),
@@ -2631,7 +2564,7 @@ class _MaterialMovementDetailsViewState
                                   textFormKey: Keys.claimantEmpIdTextController,
                                   hintText: '',
                                   isEnable: state.model.status == 6,
-                                  isDisableColor: state.model.status != 6,
+                                  isDisableColor: showSaveSubmitButtons ? false : true,
                                   onChange: (String value) {
                                     state.model.materialNotCheckedComment =
                                         value;
@@ -2644,13 +2577,6 @@ class _MaterialMovementDetailsViewState
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
                               ],
-                            ],
-                            if ((state.model.status ==
-                                        ConstantsIntValue
-                                            .mmStatusInwardWaiting ||
-                                    state.model.status ==
-                                        ConstantsIntValue.mmStatusClosed) &&
-                                !widget.isInward) ...[
                               /// Security Signature
                               buildSignature(
                                 controller: securitySignatureController,
@@ -2661,6 +2587,23 @@ class _MaterialMovementDetailsViewState
                                 spaceHeight: height,
                                 state: state,
                               ),
+                            ],
+                            if ((state.model.status ==
+                                        ConstantsIntValue
+                                            .mmStatusInwardWaiting ||
+                                    state.model.status ==
+                                        ConstantsIntValue.mmStatusClosed) &&
+                                !widget.isInward && state.model.returnable == true) ...[
+                              // /// Security Signature
+                              // buildSignature(
+                              //   controller: securitySignatureController,
+                              //   label: state.labels?.locale.entrySecuritySign ??
+                              //       state.labels?.defaultLocale
+                              //           .entrySecuritySign ??
+                              //       Constants.securitySignature,
+                              //   spaceHeight: height,
+                              //   state: state,
+                              // ),
 
                               /// Actual Date Of Return
                               CommonWidgets.textDisplay(
@@ -2676,6 +2619,8 @@ class _MaterialMovementDetailsViewState
                               BaseDate().datePickerWidgetLoading(
                                 textController: actualDateOfReturnController,
                                 onlyDate: true,
+                                showFutureDate: true,
+                                showPastDate: false,
                                 onChange: (String value) {
                                   state.model.actualDateOfReturn =
                                       Utils().formatTime(value);
@@ -2759,13 +2704,13 @@ class _MaterialMovementDetailsViewState
                                               BaseOrganisationDialog()
                                                   .userDialog(
                                                 context: context,
-                                                users: state.emailUsers!,
+                                                users: state.returnReceiverEmailId!,
                                                 onTap: (BaseUser user) {
                                                   BlocProvider.of<
                                                               MaterialMovementDetailsCubit>(
                                                           context)
                                                       .updateDropdownValues(
-                                                          returnReceiverMailId:
+                                                      returnReceiverMailId:
                                                               user);
                                                 },
                                                 roleName: ConstantUserRoles
@@ -2856,7 +2801,7 @@ class _MaterialMovementDetailsViewState
                               ),
                               FlutterInputField(
                                 initialValue:
-                                    state.model.materialNotCheckedComment,
+                                    state.model.comment,
                                 textFormKey: Keys.claimantEmpIdTextController,
                                 hintText: '',
                                 isEnable: state.model.status ==
@@ -2870,7 +2815,7 @@ class _MaterialMovementDetailsViewState
                                     ? true
                                     : false,
                                 onChange: (String value) {
-                                  state.model.materialNotCheckedComment = value;
+                                  state.model.comment = value;
                                   context
                                       .read<MaterialMovementDetailsCubit>()
                                       .onModelValueChange(state.model);
