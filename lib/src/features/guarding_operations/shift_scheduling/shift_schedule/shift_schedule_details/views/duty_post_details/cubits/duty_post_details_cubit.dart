@@ -166,7 +166,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
   Future<void> submitAndRefreshScreen({required bool checkValidations}) async {
     /// Saving the record
     await submitForm(
-      isSaveOnly: false,
+      isSaveOnly: true,
       model: state.model,
       status: FormStatus.initial,
       newSelectedShift: state.selectedShift!,
@@ -211,6 +211,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
       ),
     );
     log('---state.selectedShift!.id-${state.selectedShift!.id}--');
+    log('---isSaveOnly---$isSaveOnly--');
 
     // Create/Update API Call
     ShiftRequest request = ShiftRequest(shifts: model);
@@ -218,8 +219,8 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     log('--checkValidations-$checkValidations-');
     GenericResponse response = GenericResponse();
     try {
-      if (isSaveOnly && checkValidations) {
-        if (!state.isValidDraft.status) {
+      if (isSaveOnly) {
+        if (checkValidations && !state.isValidDraft.status) {
           emit(
             state.copyWith(
               status: FormStatus.formError,
