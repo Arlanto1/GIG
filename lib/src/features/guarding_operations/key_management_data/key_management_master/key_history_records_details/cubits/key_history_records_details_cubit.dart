@@ -72,8 +72,7 @@ class KeyHistoryRecordsDetailsCubit
         commonServices.getUserDetails(userId: userId),
         commonServices.getBaseUsersByRoles(
             roleNames: 'ATOM_Security_Manager',
-            locationId: parentModel.location?.id),
-        // TODO: Need to change the role
+            locationId: parentModel.location!.id!),
         commonServices.getOrganisations(
             name: 'KEY_MANAGEMENT_DESTRUCTION_REASON'),
         commonServices.getUiLabels(
@@ -82,7 +81,7 @@ class KeyHistoryRecordsDetailsCubit
         SharedPrefs.getDefaultLocation(),
         commonServices.getBaseUsersByRoles(
             roleNames: 'ATOM_Sub_Regional_Head',
-            locationId: parentModel.location?.id),
+            locationId: parentModel.location!.id!),
       ]);
 
       User loggedInUserDetails = futures[0];
@@ -160,9 +159,9 @@ class KeyHistoryRecordsDetailsCubit
     List<Organisation>? departments = await commonServices.getOrganisations(
         name: 'KEY_MANAGEMENT_DESTRUCTION_REASON');
     List<BaseUser> securityManager = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Security_Manager');
+        roleNames: 'ATOM_Security_Manager', locationId: state.keyManagementMasterModel!.location!.id!);
     List<BaseUser> srh = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Sub_Regional_Head');
+        roleNames: 'ATOM_Sub_Regional_Head', locationId: state.keyManagementMasterModel!.location!.id!);
 
     emit(
       state.copyWith(
