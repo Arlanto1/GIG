@@ -381,9 +381,9 @@ class _EventInfoViewState extends State<EventInfoView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Will show for only Event Protection
-                              if (!widget.isEventProtection) ...[
+                              if (widget.isEventProtection) ...[
 
-                                if (state.eventDuration == 2) ...[
+                                if (state.eventDuration == ConstantsIntValue.eventDurationAfter) ...[
                                   Center(
                                     child: Row(
                                       mainAxisAlignment:
@@ -412,7 +412,7 @@ class _EventInfoViewState extends State<EventInfoView> {
 
                                         /// Show List Button
                                         if (!state
-                                            .foundArticles.isEmptyOrNull) ...[
+                                            .foundArticles.isEmptyOrNull && state.model.status! > 22) ...[
                                           submitButtonDisplay(
                                             label: Constants.showList,
                                             onTap: () {
