@@ -28,5 +28,8 @@ class ConstantsArgument {
   static const String kipId = "kipId";
   static const String isEventProtection = "isEventProtection";
   static const String keyMasterId = "keyMasterId";
+  static const String attdInfoId = "attdInfoId";
+  static const String eventId = "eventId";
+  static const String eventProtectionId = "eventProtectionId";
 
 }

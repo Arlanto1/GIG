@@ -30,10 +30,10 @@ Shift _$ShiftFromJson(Map<String, dynamic> json) => Shift(
       activeShift: json['activeShift'] as bool? ?? false,
       selectedGuards: (json['selectedGuards'] as List<dynamic>?)
           ?.map((e) => BaseUser.fromJson(e as Map<String, dynamic>))
-          .toList(),
+          .toSet(),
       availableGuards: (json['availableGuards'] as List<dynamic>?)
           ?.map((e) => BaseUser.fromJson(e as Map<String, dynamic>))
-          .toList(),
+          .toSet(),
       selectForAttendance: (json['selectForAttendance'] as List<dynamic>?)
           ?.map((e) => BaseUser.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -55,8 +55,8 @@ Map<String, dynamic> _$ShiftToJson(Shift instance) => <String, dynamic>{
       'allowed': instance.allowed,
       'attdStatus': instance.attdStatus,
       'activeShift': instance.activeShift,
-      'selectedGuards': instance.selectedGuards,
-      'availableGuards': instance.availableGuards,
+      'selectedGuards': instance.selectedGuards?.toList(),
+      'availableGuards': instance.availableGuards?.toList(),
       'replacements': instance.replacements?.toList(),
       'selectForAttendance': instance.selectForAttendance,
       'attended': instance.attended,

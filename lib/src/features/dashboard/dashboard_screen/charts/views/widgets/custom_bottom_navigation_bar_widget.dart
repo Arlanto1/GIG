@@ -31,6 +31,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
               icon: Icons.supervised_user_circle_sharp,
               title: Constants.materialMovement),
           FloatingNavbarItem(
+              icon: Icons.quick_contacts_mail_rounded,
+              title: Constants.passManagement),
+          FloatingNavbarItem(
               icon: Icons.calendar_month, title: Constants.shiftScheduling),
           // Additional items can be added here...
         ],
@@ -65,6 +68,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
         bottomMenuHandler.openMaterialMovementSubMenu();
         break;
       case 2:
+        bottomMenuHandler.openPassManagementSubMenu();
+        break;
+        case 3:
         bottomMenuHandler.openShiftScheduleSubMenu();
         break;
       default:

@@ -9,13 +9,32 @@ class Apis {
 }
 
 class FoundListServices {
+
+  // Future<FoundListModel> getFoundArticleList({
+  //   required String startPosition,
+  //   required String maximumRecords,
+  //   required String eventId,
+  // }) async {
+  //   String url =
+  //       '${Apis._getArticleFounds}?startPos=$startPosition&maxResults=$maximumRecords&eventId=$eventId';
+  //   final response = await BaseApiService().getRequest(
+  //     url: url,
+  //   );
+  //   return FoundListModel.fromJson(response);
+  // }
+
   Future<FoundListModel> getFoundArticleList({
     required String startPosition,
     required String maximumRecords,
+    int? eventId,
     required BaseFilterModel filters,
   }) async {
     String url =
         '${Apis._getArticleList}startPos=$startPosition&maxResults=$maximumRecords';
+
+    if(eventId != null) {
+      url = '$url&eventId=$eventId';
+    }
     var response = await BaseApiService().postRequest(
       requestedData: filters.toJson(),
       isAuthenticated: true,

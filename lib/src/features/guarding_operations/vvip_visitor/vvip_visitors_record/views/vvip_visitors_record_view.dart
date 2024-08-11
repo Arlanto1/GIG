@@ -179,7 +179,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
                       'Start Date of Visit',
                   value: Utils.timestampToDateConversion(
                       int.parse(state.items![index].startDateVisit ?? '0'),
-                      Constants.dateFormat)));
+                      Constants.twentyFourHourDateTimeFormat)));
             }
             if (!(state.items![index].endDateVisit.isEmptyOrNull)) {
               labels.add(Label(
@@ -188,7 +188,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
                       'End Date of Visit',
                   value: Utils.timestampToDateConversion(
                       int.parse(state.items![index].endDateVisit ?? '0'),
-                      Constants.dateFormat)));
+                      Constants.twentyFourHourDateTimeFormat)));
             }
             return index >= state.items!.length
                 ? const BaseLoader()

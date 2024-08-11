@@ -52,11 +52,12 @@ class KeyClockServices {
     Map<String, dynamic> requestBody = {
       'grant_type': 'password',
       'client_id': clientId,
-      'username': username,
+      'username': username.trim(),
       'password': password,
       'client_secret': Apis.keyClockClientSecret,
     };
 
+    log("requestedData - ${jsonEncode(requestBody)}");
     // Send a POST request to Keycloak's token endpoint
     var response = await http.post(
       Uri.parse(authUrl),

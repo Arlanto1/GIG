@@ -122,6 +122,51 @@ class BottomMenuHandler {
     }
   }
 
+  /// PassManagement
+  void openPassManagementSubMenu() {
+    List<MenuItem> menuItems = [];
+    MenuPermissions().checkMenuPermissionsPassManagement(displayMenu, menuItems);
+    openSubMenu(
+      context: context,
+      positionX: positionX,
+      menuItems: menuItems,
+      onOptionSelected: _onPassManagementSubMenu,
+    );
+  }
+  void _onPassManagementSubMenu(BuildContext context, int optionIndex) {
+    log('Selected option: $optionIndex');
+    // Navigate to the respective screen based on optionIndex
+    switch (optionIndex) {
+      case 0:
+        log('day pass management index0');
+        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+          "passMngDetails": PassMngArguments(0, 'Day Pass Management', false)
+        });
+        break;
+      case 1:
+        log('Sez pass Management index6');
+        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+          "passMngDetails": PassMngArguments(3, 'Sez Pass Management', false)
+        });
+        break;
+      case 2:
+        log('vendor pass management index4');
+        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+          "passMngDetails": PassMngArguments(2, 'Vendor Pass Management', false)
+        });
+        break;
+      case 3:
+        log('visitor pass management index2');
+        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+          "passMngDetails":
+          PassMngArguments(1, 'Visitor Pass Management', false)
+        });
+        break;
+      default:
+        break;
+    }
+  }
+
   /// Shift Scheduling
   void openShiftScheduleSubMenu() {
     List<MenuItem> menuItems = [];

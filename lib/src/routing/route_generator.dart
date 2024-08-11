@@ -210,11 +210,14 @@ class RouteGenerator {
           FoundListArticleDetails? model = arguments["UserElement"];
           ExtraProperties? extraProperties =
               arguments[ConstantsArgument.extraProperties];
-          int eventId = arguments['eventId'];
+          int? eventId = arguments[ConstantsArgument.eventId];
+          String? eventProtectionId =
+              arguments[ConstantsArgument.eventProtectionId];
           return MaterialPageRoute(
             builder: (context) => CreateFound(
               model: model,
               eventId: eventId,
+              eventProtectionId: eventProtectionId,
               extraProperties: extraProperties,
             ),
           );
@@ -231,6 +234,14 @@ class RouteGenerator {
       // case articleFoundListRoute:
       //   return MaterialPageRoute(builder: (context) => const ArticleFoundListView());
       case articleFoundListRoute:
+        int? eventId;
+        String? eventProtectionId;
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          eventId = arguments[ConstantsArgument.eventId];
+          eventProtectionId = arguments[ConstantsArgument.eventProtectionId];
+        }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<af.ArticleFoundBloc>(
             create: (_) => af.ArticleFoundBloc()
@@ -240,9 +251,13 @@ class RouteGenerator {
                   maxPos: Constants.maxResults,
                   newSearch: true,
                   filters: BaseFilterModel(),
+                  eventId: eventId,
                 ),
               ),
-            child: const ArticleFoundListView(),
+            child: ArticleFoundListView(
+              eventId: eventId,
+              eventProtectionId: eventProtectionId,
+            ),
           ),
         );
 
@@ -599,13 +614,13 @@ class RouteGenerator {
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
-        attdInfoId = arguments['attdInfoId'] ?? '';
+        attdInfoId = arguments[ConstantsArgument.attdInfoId] ?? '';
         SLAViolationPenaltyModel? model = arguments[ConstantsArgument.model];
         location = arguments[ConstantsArgument.location];
         locationRegion = arguments[ConstantsArgument.locationRegion];
         vendor = arguments[ConstantsArgument.vendor];
         extraProperties = arguments[ConstantsArgument.extraProperties];
-
+        log('--attdInfoId--$attdInfoId-');
         viaAttendance = location != null ? true : false;
         return MaterialPageRoute(
           builder: (context) => BlocProvider<SLAViolationPenaltyDetailsCubit>(
@@ -802,13 +817,14 @@ class RouteGenerator {
           isEventProtection = arguments[ConstantsArgument.isEventProtection];
         }
         return MaterialPageRoute(
-            builder: (context) => EventProtectionDetails(
-                  id: id,
-                  title: title,
-                  eventStatus: eventStatus,
-                  showEPGridsModel: showEPGridsModel,
-                  isEventProtection: isEventProtection ?? false,
-                ));
+          builder: (context) => EventProtectionDetails(
+            id: id,
+            title: title,
+            eventStatus: eventStatus,
+            showEPGridsModel: showEPGridsModel,
+            isEventProtection: isEventProtection ?? false,
+          ),
+        );
       // case generalInfoTilesViewRoute:
       //   String id = '';
       //   bool showGuardInfo = true;
@@ -886,14 +902,14 @@ class RouteGenerator {
         String id = '';
         bool editForm = false;
         bool? isEventProtection = false;
-
         int eventDuration = 0;
         String title = '';
+
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           title = arguments[ConstantsArgument.title] ?? '';
-          id = arguments['id'];
+          id = arguments[ConstantsArgument.id];
           eventDuration = arguments['eventDuration'];
           editForm = arguments[ConstantsArgument.editForm];
           isEventProtection = arguments[ConstantsArgument.isEventProtection];
@@ -903,12 +919,13 @@ class RouteGenerator {
             create: (_) => EventInfoCubit(
               services: EventProtectionServices(),
               commonServices: CommonServices(),
-              id: id,
-              eventDuration: eventDuration,
+              eventProtectionId: id,
+              eventDurationType: eventDuration,
             ),
             child: EventInfoView(
               title: title,
               editForm: editForm,
+              eventProtectionId: id,
               isEventProtection: isEventProtection ?? false,
             ),
           ),
@@ -1563,6 +1580,7 @@ class RouteGenerator {
               slaServices: slaServices,
             ),
             child: AttendanceShiftsView(
+              attInfoId: attInfoId!,
               location: location!,
               locationRegion: locationRegion!,
               vendor: vendor!,
