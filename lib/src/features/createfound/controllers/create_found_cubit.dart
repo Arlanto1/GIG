@@ -41,36 +41,24 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     );
 
     var userId = await SharedPrefs.getUserId();
-    model ??= FoundListArticleDetails();
-    // Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
-
-    SerialNumberModel? serialNumberResponse;
-    // log('---defaultLocation--${defaultLocation?.name}----');
-    // if (model.slNo.isEmptyOrNull) {
-    //   log('----model.slNo.isEmptyOrNull-----');
-    //   serialNumberResponse = await commonServices.getSlNo(
-    //     locationId: defaultLocation!.id.toString(),
-    //     moduleCode: Constants.articleFoundModuleCode,
-    //   );
-    //   model.slNo = serialNumberResponse.serialNo;
-    //   model.location = defaultLocation;
-    // }
-    if (model.location == null) {
-      Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
-      if (defaultLocation != null) {
-        SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.articleFoundModuleCode,
-        );
-        model.location = defaultLocation;
-        model.slNo = slNo.serialNo;
-      }
-    }
     try {
+      model ??= FoundListArticleDetails();
 
       User loggedInUserDetails =
-          await commonServices.getUserDetails(userId: userId);
+      await commonServices.getUserDetails(userId: userId);
+      Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
 
+      SerialNumberModel? serialNumberResponse;
+      log('---defaultLocation--${defaultLocation?.name}----');
+      if (model.slNo.isEmptyOrNull) {
+        log('----model.slNo.isEmptyOrNull-----');
+        serialNumberResponse = await commonServices.getSlNo(
+          locationId: defaultLocation!.id.toString(),
+          moduleCode: Constants.articleFoundModuleCode,
+        );
+        model.slNo = serialNumberResponse.serialNo;
+        model.location = defaultLocation;
+      }
       emit(
         state.copyWith(
           model: model,
