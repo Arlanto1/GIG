@@ -48,7 +48,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.copyWith(
         status: FormStatus.initial,
         loadAttachments: state.model.images,
-        emailUsers: emailUsers,
+        // emailUsers: emailUsers,
         departments: departments.employeeDepartments,
         quantityUnits: quantityUnits,
       ),
@@ -138,6 +138,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       List<BaseUser> emailUsers = futures[6];
       List<Organisation> quantityUnits = futures[7];
 
+      log('--emailUsers--${emailUsers.length}---');
       // Get Date of Creation
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
