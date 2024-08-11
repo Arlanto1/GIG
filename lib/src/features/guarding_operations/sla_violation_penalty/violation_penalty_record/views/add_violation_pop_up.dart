@@ -212,6 +212,12 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                     orElse: () =>
                                         const Label(key: '', value: ''),
                                   );
+
+                                  // selectedLabel = staffCategoryDropDownValues.firstWhere(
+                                  //       (label) => label.key.toLowerCase() == value.toLowerCase(),
+                                  //   orElse: () => const Label(key: '', value: ''),
+                                  // );
+
                                   staffCategoryController.text =
                                       selectedLabel.key;
                                   widget.model.staffCategory =
@@ -219,7 +225,14 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
                                   int? staffCategoriesValue = widget
                                       .staffCategoriesValues[selectedLabel.key];
-                                  log('--staffCategoriesValue----$staffCategoriesValue---');
+                                  // log('--staffCategoriesValue----$widget.staffCategoriesValues[selectedLabel.key]---');
+                                  log('--staffCategoriesValue----${widget.staffCategoriesValues}---');
+                                  // log('Selected Label: ${selectedLabel.key}, Value: ${selectedLabel.value}');
+
+                                  if (staffCategoriesValue == null) {
+                                    log('No matching value found for key: ${selectedLabel.key}');
+                                  }
+
                                   if (staffCategoriesValue != null) {
                                     numberOfViolationsAmountController.text =
                                         staffCategoriesValue.toString();

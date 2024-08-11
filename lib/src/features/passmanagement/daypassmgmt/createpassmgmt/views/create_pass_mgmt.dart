@@ -4243,14 +4243,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         "Please enter pass valid until",
       );
     }
-    // else if ((widget.passId == ConstantsIntValue.passIdVisitor || widget.passId == ConstantsIntValue.passIdVendor) &&
-    //     ((state.escortedbyhost ?? 0) == 0) &&
-    //     (escortedbyTextController.text.isEmpty)) {
-    //   Validator().showToast(
-    //     context,
-    //     "Please enter escorted by",
-    //   );
-    // }
+    else if ((widget.passId == ConstantsIntValue.passIdVisitor || widget.passId == ConstantsIntValue.passIdVendor) &&
+        ((state.escortedbyhost ?? 0) == 0) &&
+        (escortedByTextController.text.isEmpty)) {
+      Validator().showToast(
+        context,
+        "Please enter escorted by",
+      );
+    }
     else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
             widget.passId == ConstantsIntValue.passIdVendor) &&
         ((state.escortedbyhost ?? 0) == 0) &&
