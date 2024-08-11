@@ -491,7 +491,7 @@ class GuardingMasterDataDetailsCubit
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;
@@ -537,7 +537,7 @@ class GuardingMasterDataDetailsCubit
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;
