@@ -13,6 +13,7 @@ class MaterialMovementDetailsState extends Equatable {
   final List<BaseUser>? approver1Users;
   final List<BaseUser>? approver2Users;
   final List<BaseUser>? returnReceiverEmailId;
+  final List<BaseUser>? receiverEmailUsers;
 
   final List<Organisation> departments;
   final List<ImageContent>? loadAttachments;
@@ -238,6 +239,7 @@ class MaterialMovementDetailsState extends Equatable {
     this.returnReceiverEmailId,
     this.approver1Users,
     this.approver2Users,
+    this.receiverEmailUsers,
     this.rejectionComment,
     this.isReadOnly,
   });
@@ -252,6 +254,7 @@ class MaterialMovementDetailsState extends Equatable {
     List<BaseUser>? returnReceiverEmailId,
     List<BaseUser>? approver1Users,
     List<BaseUser>? approver2Users,
+    List<BaseUser>? receiverEmailUsers,
     List<Organisation>? departments,
     List<ImageContent>? loadAttachments,
     List<Organisation>? quantityUnits,
@@ -274,6 +277,7 @@ class MaterialMovementDetailsState extends Equatable {
       returnReceiverEmailId: returnReceiverEmailId ?? this.returnReceiverEmailId,
       approver1Users: approver1Users ?? this.approver1Users,
       approver2Users: approver2Users ?? this.approver2Users,
+      receiverEmailUsers: receiverEmailUsers ?? this.receiverEmailUsers,
       departments: departments ?? this.departments,
       loadAttachments: loadAttachments ?? this.loadAttachments,
       quantityUnits: quantityUnits ?? this.quantityUnits,
