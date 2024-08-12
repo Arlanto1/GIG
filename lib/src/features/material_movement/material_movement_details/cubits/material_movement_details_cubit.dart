@@ -182,6 +182,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           requestorEmailUsers: emailUsers,
           approver1Users: emailUsers,
           approver2Users: emailUsers,
+          receiverEmailUsers : emailUsers,
           returnReceiverEmailId: emailUsers,
           departments: departments.employeeDepartments,
           quantityUnits: quantityUnits,
@@ -237,6 +238,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           roleName: ConstantUserRoles.atomStaticUser,
           locationId: state.model.location?.id);
     }
+    state.model.receiverEmail = null;
     state.model.requestorEmail = null;
     state.model.approver1Email = null;
     state.model.approver2Email = null;
@@ -246,6 +248,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       requestorEmailUsers: emailUsers,
       approver1Users: emailUsers,
       approver2Users: emailUsers,
+      receiverEmailUsers: emailUsers,
       status: FormStatus.initial,
     ));
   }

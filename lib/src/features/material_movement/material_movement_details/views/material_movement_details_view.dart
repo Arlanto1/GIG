@@ -80,6 +80,8 @@ class _MaterialMovementDetailsViewState
 
   bool showSaveSubmitButtons = false;
   bool showLikeAndDislikeButton = false;
+  bool editByRequester = false;
+  bool editByCreatedByUser = false;
 
   @override
   Widget build(BuildContext context) {
@@ -141,6 +143,7 @@ class _MaterialMovementDetailsViewState
         }
 
         String? requesterEmailUser = state.model.requestorEmail;
+
         if ((state.model.status == ConstantsIntValue.businessUserReview ||
                 state.model.status == ConstantsIntValue.mmStatusLSMRejected) &&
             requesterEmailUser != null &&
@@ -148,40 +151,32 @@ class _MaterialMovementDetailsViewState
                 .contains('${state.loggedInUserDetails?.email}')) {
           isReadOnly = false;
         }
-        //
-        // if ((state.model.status == ConstantsIntValue.mmStatusLSMReview) &&
-        //     (state.model.approver1Email
-        //             .equalsIgnoreCase(state.loggedInUserDetails?.userName) ||
-        //         state.model.approver2Email
-        //             .equalsIgnoreCase(state.loggedInUserDetails?.userName))) {
-        //   isReadOnly = false;
-        // }
-        // if (widget.extraProperties != null &&
-        //     !widget.extraProperties!.hasWritePermission!) {
-        //   isReadOnly = true;
-        // }
-
-        String loggedInUser =
-            '${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} ${state.loggedInUserDetails?.email}'
-                .toLowerCase();
 
         showLikeAndDislikeButton =
             (state.model.status == ConstantsIntValue.mmStatusLSMReview) &&
                 (state.model.entrySecurity!.email
                     .equalsIgnoreCase(state.loggedInUserDetails?.email));
 
-        showSaveSubmitButtons = widget.model == null ||
-            state.model.status == 0 ||
-            state.model.status != ConstantsIntValue.mmStatusLSMApproved &&
-                state.model.status != ConstantsIntValue.mmStatusLSMReview &&
+        editByRequester =
+        ((state.model.status == ConstantsIntValue.businessUserReview || state.model.status == ConstantsIntValue.mmStatusLSMRejected )&&
                 (requesterEmailUser != null &&
                     requesterEmailUser
-                        .contains('${state.loggedInUserDetails?.email}')) ||
+                        .contains('${state.loggedInUserDetails?.email}')));
+
+        editByCreatedByUser =
             ((state.model.status == ConstantsIntValue.mmStatusApproved ||
                     state.model.status ==
                         ConstantsIntValue.mmStatusInwardWaiting) &&
                 (state.model.entrySecurity!.email
                     .equalsIgnoreCase(state.loggedInUserDetails?.email)));
+
+        log('showSaveButton ${showSaveSubmitButtons}');
+        showSaveSubmitButtons = widget.model == null ||
+            state.model.status == 0 ||
+            ( state.model.status != ConstantsIntValue.mmStatusLSMApproved &&
+                state.model.status != ConstantsIntValue.mmStatusLSMReview )&&
+                editByRequester ||
+            editByCreatedByUser;
 
         // showLikeAndDislikeButton =
         //     (state.model.status == ConstantsIntValue.mmStatusLSMReview) &&
@@ -390,7 +385,7 @@ class _MaterialMovementDetailsViewState
                             BaseDropDown().getDropDown(
                               isDisabled: state.model.status !=
                                       ConstantsIntValue.mmStatusDraft &&
-                                  state.model.status != null,
+                                  state.model.status != null || widget.isInward,
                               textController: returnableTextController,
                               onTap: () {
                                 if ((!isReadOnly && !widget.isInward) &&
@@ -704,7 +699,8 @@ class _MaterialMovementDetailsViewState
                                             state.model.status == 4 ||
                                             state.model.status ==
                                                 ConstantsIntValue
-                                                    .mmStatusInwardWaiting || !showSaveSubmitButtons||
+                                                    .mmStatusInwardWaiting ||
+                                            !showSaveSubmitButtons ||
                                             isReadOnly
                                         ? false
                                         : true,
@@ -1187,7 +1183,8 @@ class _MaterialMovementDetailsViewState
                                         state.model.status ==
                                             ConstantsIntValue
                                                 .mmStatusInwardWaiting ||
-                                        isReadOnly || !showSaveSubmitButtons
+                                        isReadOnly ||
+                                        !showSaveSubmitButtons
                                     ? false
                                     : true,
                                 isDisableColor: state.model.status == 10 ||
@@ -1241,7 +1238,8 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 4 ||
                                         state.model.status ==
                                             ConstantsIntValue
-                                                .mmStatusInwardWaiting || !showSaveSubmitButtons||
+                                                .mmStatusInwardWaiting ||
+                                        !showSaveSubmitButtons ||
                                         isReadOnly
                                     ? false
                                     : true,
@@ -1296,7 +1294,8 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 4 ||
                                         state.model.status ==
                                             ConstantsIntValue
-                                                .mmStatusInwardWaiting || !showSaveSubmitButtons ||
+                                                .mmStatusInwardWaiting ||
+                                        !showSaveSubmitButtons ||
                                         isReadOnly
                                     ? false
                                     : true,
@@ -2242,7 +2241,7 @@ class _MaterialMovementDetailsViewState
                                           if (!isReadOnly) {
                                             BaseOrganisationDialog().userDialog(
                                               context: context,
-                                              users: state.emailUsers!,
+                                              users: state.receiverEmailUsers!,
                                               onTap: (BaseUser user) {
                                                 BlocProvider.of<
                                                             MaterialMovementDetailsCubit>(
@@ -2370,7 +2369,7 @@ class _MaterialMovementDetailsViewState
                                     if (!isReadOnly) {
                                       BaseOrganisationDialog().userDialog(
                                         context: context,
-                                        users: state.emailUsers!,
+                                        users: state.receiverEmailUsers!,
                                         onTap: (BaseUser user) {
                                           BlocProvider.of<
                                                       MaterialMovementDetailsCubit>(
@@ -2577,7 +2576,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.materialNotCheckedComment,
                                   textFormKey: Keys.claimantEmpIdTextController,
                                   hintText: '',
-                                  isEnable: state.model.status == 0,
+                                  isEnable: state.model.status == 0 || state.model.status == null,
                                   isDisableColor: state.model.status != 0,
                                   onChange: (String value) {
                                     state.model.materialNotCheckedComment =
