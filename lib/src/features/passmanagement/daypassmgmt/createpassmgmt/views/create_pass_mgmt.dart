@@ -111,15 +111,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
         action: [
           if (((widget.model?.status == null ||
-                      widget.model?.status == 0 ||
-                      widget.model?.status == 1 ||
-                      widget.model?.status == 3) &&
-                  (widget.model != null && widget.model!.lock.isEmptyOrNull)) ||
-              widget.model == null
+                          widget.model?.status == 0 ||
+                          widget.model?.status == 1 ||
+                          widget.model?.status == 3) &&
+                      (widget.model != null &&
+                          widget.model!.lock.isEmptyOrNull)) ||
+                  widget.model == null
               // ||
               // (widget.extraProperties != null &&
               //     !widget.extraProperties!.hasWritePermission!)
-          ) ...[
+              ) ...[
             GestureDetector(
               onTap: () {
                 submitForm(false, widget.model?.id ?? 0, globalState);
@@ -254,16 +255,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               //   isDisabled = true;
               // }
               if (((widget.model?.status == null ||
-                          widget.model?.status == 0 ||
-                          widget.model?.status == 1 ||
-                          widget.model?.status == 3) &&
-                      (widget.model != null &&
-                          widget.model!.lock.isEmptyOrNull)) ||
-                  widget.model == null
+                              widget.model?.status == 0 ||
+                              widget.model?.status == 1 ||
+                              widget.model?.status == 3) &&
+                          (widget.model != null &&
+                              widget.model!.lock.isEmptyOrNull)) ||
+                      widget.model == null
                   // ||
                   // (widget.extraProperties != null &&
                   //     !widget.extraProperties!.hasWritePermission!)
-              ) {
+                  ) {
                 isShowSaveAndSubmitButton = true;
               }
               if (state.getSerialnumberResponse != null &&
@@ -3183,18 +3184,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       isDisableColor: widget.model?.status == 0 ||
               widget.model == null ||
               (widget.extraProperties != null &&
-                  !widget.extraProperties!.hasWritePermission!) && (state.selectedCompanyType?.name ??
-                  '')
-                  .toLowerCase() !=
-                  'fte'
+                      !widget.extraProperties!.hasWritePermission!) &&
+                  (state.selectedCompanyType?.name ?? '').toLowerCase() != 'fte'
           ? false
           : true,
       onTap: () {
-
-        if((state.selectedCompanyType?.name ??
-            '')
-            .toLowerCase() ==
-            'fte') {
+        if ((state.selectedCompanyType?.name ?? '').toLowerCase() == 'fte' &&
+            state.model.status ==
+                ConstantsIntValue.articleFoundStatusHandedOverOrClaimed) {
           return;
         }
 
