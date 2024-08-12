@@ -157,11 +157,12 @@ class _MaterialMovementDetailsViewState
                 (state.model.entrySecurity!.email
                     .equalsIgnoreCase(state.loggedInUserDetails?.email));
 
-        editByRequester =
-        ((state.model.status == ConstantsIntValue.businessUserReview || state.model.status == ConstantsIntValue.mmStatusLSMRejected )&&
-                (requesterEmailUser != null &&
-                    requesterEmailUser
-                        .contains('${state.loggedInUserDetails?.email}')));
+        editByRequester = ((state.model.status ==
+                    ConstantsIntValue.businessUserReview ||
+                state.model.status == ConstantsIntValue.mmStatusLSMRejected) &&
+            (requesterEmailUser != null &&
+                requesterEmailUser
+                    .contains('${state.loggedInUserDetails?.email}')));
 
         editByCreatedByUser =
             ((state.model.status == ConstantsIntValue.mmStatusApproved ||
@@ -170,11 +171,11 @@ class _MaterialMovementDetailsViewState
                 (state.model.entrySecurity!.email
                     .equalsIgnoreCase(state.loggedInUserDetails?.email)));
 
-        log('showSaveButton ${showSaveSubmitButtons}');
         showSaveSubmitButtons = widget.model == null ||
             state.model.status == 0 ||
-            ( state.model.status != ConstantsIntValue.mmStatusLSMApproved &&
-                state.model.status != ConstantsIntValue.mmStatusLSMReview )&&
+            (state.model.status != ConstantsIntValue.mmStatusLSMApproved &&
+                    state.model.status !=
+                        ConstantsIntValue.mmStatusLSMReview) &&
                 editByRequester ||
             editByCreatedByUser;
 
@@ -384,8 +385,9 @@ class _MaterialMovementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
                               isDisabled: state.model.status !=
-                                      ConstantsIntValue.mmStatusDraft &&
-                                  state.model.status != null || widget.isInward,
+                                          ConstantsIntValue.mmStatusDraft &&
+                                      state.model.status != null ||
+                                  widget.isInward,
                               textController: returnableTextController,
                               onTap: () {
                                 if ((!isReadOnly && !widget.isInward) &&
@@ -2576,7 +2578,8 @@ class _MaterialMovementDetailsViewState
                                       state.model.materialNotCheckedComment,
                                   textFormKey: Keys.claimantEmpIdTextController,
                                   hintText: '',
-                                  isEnable: state.model.status == 0 || state.model.status == null,
+                                  isEnable: state.model.status == 0 ||
+                                      state.model.status == null,
                                   isDisableColor: state.model.status != 0,
                                   onChange: (String value) {
                                     state.model.materialNotCheckedComment =
