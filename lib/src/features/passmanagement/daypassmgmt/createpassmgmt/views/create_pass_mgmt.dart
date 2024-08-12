@@ -2780,16 +2780,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? state.dayPasselementReason?.name ?? ''
               : state.vendorPasselementReason?.name ?? '',
           height: 60,
-          isDisableColor: widget.model?.status == 0 ||
-                  widget.model == null ||
-                  (widget.extraProperties != null &&
-                      !widget.extraProperties!.hasWritePermission!)
-              ? false
-              : true,
+          isDisableColor:
+              widget.model?.status == 0 || widget.model == null ? false : true,
           onTap: () {
-            if ((widget.model == null || widget.model?.status == 0) &&
-                !(widget.extraProperties != null &&
-                    !widget.extraProperties!.hasWritePermission!)) {
+            if ((widget.model == null || widget.model?.status == 0)) {
               log('--widget.passId---${widget.passId}---');
               if (widget.passId == ConstantsIntValue.passIdVendor) {
                 vendorPassReasonDialog(state);
@@ -3169,9 +3163,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     });
               }
             },
-            onTap: (Organisation list) {
+            onTap: (Organisation org) {
               //log(list.name);
-              createPassMgmtCubit.getVendorPassReasonResponseData(list);
+              createPassMgmtCubit.getVendorPassReasonResponseData(org);
             },
           );
         });
