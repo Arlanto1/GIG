@@ -204,7 +204,8 @@ class _MaterialMovementDetailsViewState
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: showSaveSubmitButtons,
+            showSaveButton: showSaveSubmitButtons &&
+                state.model.status != ConstantsIntValue.mmStatusClosed,
             pdfAPIName:
                 '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=$moduleCode',
             onTapSave: () {
@@ -217,7 +218,8 @@ class _MaterialMovementDetailsViewState
                 securitySignatureController: securitySignatureController,
               );
             },
-            showSubmitButton: showSaveSubmitButtons,
+            showSubmitButton: showSaveSubmitButtons &&
+                state.model.status != ConstantsIntValue.mmStatusClosed,
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -284,13 +286,17 @@ class _MaterialMovementDetailsViewState
           int.tryParse(state.model.expectedDateOfReturn ?? '0'),
           Constants.dateFormat);
     }
-    if (state.model.expectedDateOfReturn != null) {
+    if (state.model.actualDateOfReturn != null) {
       actualDateOfReturnController.text = Utils.timestampToDateConversion(
           int.tryParse(widget.model?.actualDateOfReturn ?? '0'),
           Constants.dateFormat);
     }
-    takenOutOnDateController.text = Utils.timestampToDateConversion(
-        int.tryParse(widget.model?.takenOutDate ?? '0'), Constants.dateFormat);
+
+    if (state.model.takenOutDate != null) {
+      takenOutOnDateController.text = Utils.timestampToDateConversion(
+          int.tryParse(widget.model?.takenOutDate ?? '0'),
+          Constants.dateFormat);
+    }
   }
 
   getBodybuilder(MaterialMovementDetailsState state, height) {
@@ -472,7 +478,9 @@ class _MaterialMovementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             // locationWidgetdislay(state),
                             BaseLocationDropdown().locationWidgetDisplay(
-                                isEnabled: !isReadOnly,
+                                isEnabled: state.model.status ==
+                                        ConstantsIntValue.mmStatusDraft ||
+                                    state.model.status == null,
                                 context: context,
                                 locations: state.locations ?? Locations(),
                                 selectedLocationName:
@@ -1874,6 +1882,11 @@ class _MaterialMovementDetailsViewState
                                   textController:
                                       expectedDateOfReturnController,
                                   onlyDate: true,
+                                  isDisabled: !showSaveSubmitButtons ||
+                                          state.model.status ==
+                                              ConstantsIntValue.mmStatusClosed
+                                      ? true
+                                      : false,
                                   onChange: (String value) {
                                     state.model.expectedDateOfReturn =
                                         Utils().formatTime(value);
@@ -1910,13 +1923,19 @@ class _MaterialMovementDetailsViewState
                                       height * 0.01),
 
                                   /// Approved Date
-                                  CommonWidgets.verticalTextHandling(
-                                      state.labels?.locale.approvedDate ??
-                                          state.labels?.defaultLocale
-                                              .approvedDate ??
-                                          Constants.approvedDate,
-                                      state.model.approvedDate ?? ''),
 
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.approvedDate ??
+                                        state.labels?.defaultLocale
+                                            .approvedDate ??
+                                        Constants.dateofcreation,
+                                    Styles.textStyleBlack14,
+                                    isMandatory: true,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+                                  datecreateWidgetdisplay(
+                                      state.model.approvedDate ?? ''),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
 
@@ -1936,9 +1955,10 @@ class _MaterialMovementDetailsViewState
                                     initialValue: state.model.takenOutEmail,
                                     textFormKey: Keys.takenOutByKey,
                                     hintText: '',
-                                    isEnable: state.model.status == 6,
-                                    isDisableColor:
-                                        showSaveSubmitButtons ? false : true,
+                                    isEnable: showSaveSubmitButtons &&
+                                        state.model.status !=
+                                            ConstantsIntValue.mmStatusClosed,
+                                    isDisableColor: !showSaveSubmitButtons,
                                     onChange: (String value) {
                                       state.model.takenOutEmail = value;
                                       context
@@ -1966,10 +1986,12 @@ class _MaterialMovementDetailsViewState
                                     initialValue: state.model.takenOutContactNo,
                                     textFormKey: Keys.takenOutContactKey,
                                     hintText: '',
+                                    textInputType: TextInputType.number,
                                     characterLimit:
                                         Constants.characterLimitContactNo,
-                                    isEnable: state.model.status == 6 &&
-                                        state.model.lock.isEmptyOrNull,
+                                    isEnable: showSaveSubmitButtons &&
+                                        state.model.status !=
+                                            ConstantsIntValue.mmStatusClosed,
                                     isDisableColor:
                                         showSaveSubmitButtons ? false : true,
                                     onChange: (String value) {
@@ -2000,8 +2022,9 @@ class _MaterialMovementDetailsViewState
                                     textFormKey: Keys.takenOutAddressKey,
                                     hintText: '',
                                     showBorder: false,
-                                    isEnable: state.model.status == 6 &&
-                                        state.model.lock.isEmptyOrNull,
+                                    isEnable: showSaveSubmitButtons &&
+                                        state.model.status !=
+                                            ConstantsIntValue.mmStatusClosed,
                                     isDisableColor:
                                         showSaveSubmitButtons ? false : true,
                                     onChange: (String value) {
@@ -2030,6 +2053,11 @@ class _MaterialMovementDetailsViewState
 
                                   BaseDate().datePickerWidgetLoading(
                                     textController: takenOutOnDateController,
+                                    isDisabled: showSaveSubmitButtons &&
+                                            state.model.status !=
+                                                ConstantsIntValue.mmStatusClosed
+                                        ? false
+                                        : true,
                                     onlyDate: true,
                                     showFutureDate: false,
                                     showPastDate: false,
@@ -2691,6 +2719,9 @@ class _MaterialMovementDetailsViewState
 
                               BaseDate().datePickerWidgetLoading(
                                 textController: actualDateOfReturnController,
+                                isDisabled: state.model.status ==
+                                        ConstantsIntValue.mmStatusClosed ||
+                                    !showSaveSubmitButtons,
                                 onlyDate: true,
                                 showFutureDate: true,
                                 showPastDate: false,
@@ -2722,16 +2753,9 @@ class _MaterialMovementDetailsViewState
                                 initialValue:
                                     state.model.materialReturnedChallanNo,
                                 hintText: '',
-                                isEnable: state.model.status ==
-                                        ConstantsIntValue.mmStatusInwardWaiting
-                                    ? true
-                                    : false,
-                                isDisableColor: state.model.status !=
-                                            ConstantsIntValue
-                                                .mmStatusInwardWaiting ||
-                                        !state.model.lock.isEmptyOrNull
-                                    ? true
-                                    : false,
+                                isEnable: showSaveSubmitButtons ? true : false,
+                                isDisableColor:
+                                    showSaveSubmitButtons ? false : true,
                                 onChange: (String value) {
                                   log('--value---$value');
 
@@ -2761,11 +2785,7 @@ class _MaterialMovementDetailsViewState
                                           title:
                                               state.model.returnReceiverMailId,
                                           height: 70,
-                                          isDisableColor: state.model.status !=
-                                                      ConstantsIntValue
-                                                          .mmStatusInwardWaiting ||
-                                                  !state
-                                                      .model.lock.isEmptyOrNull
+                                          isDisableColor: !showSaveSubmitButtons
                                               ? true
                                               : false,
                                           onTap: () {
@@ -2813,11 +2833,7 @@ class _MaterialMovementDetailsViewState
                                                       .mmStatusInwardWaiting
                                               ? true
                                               : false,
-                                          isDisableColor: state.model.status !=
-                                                      ConstantsIntValue
-                                                          .mmStatusInwardWaiting ||
-                                                  !state
-                                                      .model.lock.isEmptyOrNull
+                                          isDisableColor: !showSaveSubmitButtons
                                               ? true
                                               : false,
                                           onChange: (String username) {},
@@ -2840,16 +2856,9 @@ class _MaterialMovementDetailsViewState
                                 initialValue:
                                     '${state.model.returnQuantity ?? ''}',
                                 textFormKey: Keys.returnQuantityTextController,
-                                isEnable: state.model.status ==
-                                        ConstantsIntValue.mmStatusInwardWaiting
-                                    ? true
-                                    : false,
-                                isDisableColor: state.model.status !=
-                                            ConstantsIntValue
-                                                .mmStatusInwardWaiting ||
-                                        !state.model.lock.isEmptyOrNull
-                                    ? true
-                                    : false,
+                                isEnable: showSaveSubmitButtons ? true : false,
+                                isDisableColor:
+                                    !showSaveSubmitButtons ? true : false,
                                 hintText: '',
                                 onChange: (String? value) {
                                   if (value != null) {
@@ -2877,16 +2886,9 @@ class _MaterialMovementDetailsViewState
                                 initialValue: state.model.comment,
                                 textFormKey: Keys.claimantEmpIdTextController,
                                 hintText: '',
-                                isEnable: state.model.status ==
-                                        ConstantsIntValue.mmStatusInwardWaiting
-                                    ? true
-                                    : false,
-                                isDisableColor: state.model.status !=
-                                            ConstantsIntValue
-                                                .mmStatusInwardWaiting ||
-                                        !state.model.lock.isEmptyOrNull
-                                    ? true
-                                    : false,
+                                isEnable: showSaveSubmitButtons ? true : false,
+                                isDisableColor:
+                                    !showSaveSubmitButtons ? true : false,
                                 onChange: (String value) {
                                   state.model.comment = value;
                                   context

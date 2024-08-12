@@ -546,6 +546,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.inputDate = inputDate.toString();
     }
+
+    state.model.approvedDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     state.model.rejectedDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
@@ -580,7 +583,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         }
         response = await materialMovementServices.createMaterialMovement(
             body: request, flow: 1);
-      } else {
+      }
+      if(!isSaveOnly && !isRejectOnly && !isApprovedOnly ) {
         //Validating Fields
         if (!state.isValid.status) {
           emit(
