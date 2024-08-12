@@ -71,9 +71,6 @@ class _LoginState extends State<Login> {
               return;
             }
 
-            //_showCustomPop(context, );
-            //     alert_handler.alertDisplay(
-            // context,state.errorMsg);
             var dialog = CustomAlertDialog(
               title: Constants.appname,
               message: state.message,
@@ -228,9 +225,11 @@ class _LoginState extends State<Login> {
                                         passFocusNode: _passwordFocus,
                                         textInputAction: TextInputAction.done,
                                         validatePassword: (String? password) {
-                                          if (!Validator.isValidPassword(password)) {
+                                          if (!Validator.isValidPassword(
+                                              password)) {
                                             return 'Password does not meet the criteria.';
-                                          } else if (!Validator.passwordValidation(password)) {
+                                          } else if (!Validator
+                                              .passwordValidation(password)) {
                                             return 'Password must be at least 8 characters long.';
                                           }
                                           return null;
@@ -243,7 +242,6 @@ class _LoginState extends State<Login> {
                                           this.password = password;
                                         },
                                       ),
-
                                     ],
                                   ),
 

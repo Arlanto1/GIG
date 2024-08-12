@@ -115,9 +115,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                       widget.model?.status == 1 ||
                       widget.model?.status == 3) &&
                   (widget.model != null && widget.model!.lock.isEmptyOrNull)) ||
-              widget.model == null ||
-              (widget.extraProperties != null &&
-                  !widget.extraProperties!.hasWritePermission!)) ...[
+              widget.model == null
+              // ||
+              // (widget.extraProperties != null &&
+              //     !widget.extraProperties!.hasWritePermission!)
+          ) ...[
             GestureDetector(
               onTap: () {
                 submitForm(false, widget.model?.id ?? 0, globalState);
@@ -257,14 +259,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                           widget.model?.status == 3) &&
                       (widget.model != null &&
                           widget.model!.lock.isEmptyOrNull)) ||
-                  widget.model == null ||
-                  (widget.extraProperties != null &&
-                      !widget.extraProperties!.hasWritePermission!)) {
+                  widget.model == null
+                  // ||
+                  // (widget.extraProperties != null &&
+                  //     !widget.extraProperties!.hasWritePermission!)
+              ) {
                 isShowSaveAndSubmitButton = true;
               }
               if (state.getSerialnumberResponse != null &&
                   !state.getSerialnumberResponse!.serialNo.isEmptyOrNull) {
-                log('--state.getSerialnumberResponse----serialnumber----222-${state.getSerialnumberResponse?.serialNo}----');
                 serialnumber = state.getSerialnumberResponse?.serialNo ?? "";
               }
               globalState = state;
@@ -466,7 +469,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
-                                    /// date of creation
+                                    /// Date of creation
                                     CommonWidgets.textDisplay(
                                         state.labels?.locale.inputDate ??
                                             state.labels?.defaultLocale
@@ -481,7 +484,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         height * 0.01),
 
                                     /// slno
-
                                     CommonWidgets.horizentaltextHandling(
                                       state.labels?.locale.slNo ??
                                           state.labels?.defaultLocale.slNo ??
@@ -1706,123 +1708,116 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
-                                    if (widget.model?.status ==
-                                            ConstantsIntValue
-                                                .passStatusReturned ||
-                                        widget.model?.status ==
-                                            ConstantsIntValue
-                                                .passStatusReturnedDamaged) ...[
-                                      /// Pass Valid From
-                                      if (widget.passId !=
-                                          ConstantsIntValue.passIdSez) ...[
-                                        CommonWidgets.textDisplay(
-                                            state.labels?.locale.startTime ??
-                                                state.labels?.defaultLocale
-                                                    .startTime ??
-                                                Constants.passvlidfrom,
-                                            isMandatory: true,
-                                            Styles.textStyleBlack14),
-                                        CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001),
-                                        datepickerWidgetLoading(
-                                            passValidFromTextController),
-                                        CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01),
-                                      ],
-                                      if (widget.passId ==
-                                          ConstantsIntValue.passIdSez) ...[
-                                        CommonWidgets.textDisplay(
-                                            state.labels?.locale.passIssuedOn ??
-                                                state.labels?.defaultLocale
-                                                    .passIssuedOn ??
-                                                Constants.passIssuedOn,
-                                            isMandatory: true,
-                                            Styles.textStyleBlack14),
-                                        CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001),
-                                        // datepickerWidgetLoading(
-                                        //     passvalidfromTextController),
-                                        BaseDate().datePickerWidgetLoading(
-                                          isDisabled: (widget.model?.status ==
-                                                          0 ||
-                                                      widget.model?.status ==
-                                                          null) &&
-                                                  !(widget.extraProperties !=
-                                                          null &&
-                                                      !widget.extraProperties!
-                                                          .hasWritePermission!)
-                                              ? false
-                                              : true,
-                                          showFutureDate: false,
-                                          textController:
-                                              passValidFromTextController,
-                                          onlyDate: false,
-                                          onChange: (String value) {
-                                            passValidFromTextController.text =
-                                                Utils.timestampToDateConversion(
-                                                    int.parse(widget
-                                                            .model?.startTime ??
-                                                        '0'),
-                                                    Constants.fulldateFormat);
-                                          },
-                                          context: context,
-                                        ),
-                                        CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01),
-                                      ],
-
-                                      /// Pass Valid Until
+                                    /// Pass Valid From
+                                    if (widget.passId !=
+                                        ConstantsIntValue.passIdSez) ...[
                                       CommonWidgets.textDisplay(
-                                          state.labels?.locale.endTime ??
+                                          state.labels?.locale.startTime ??
                                               state.labels?.defaultLocale
-                                                  .endTime ??
-                                              Constants.passvliduntil,
+                                                  .startTime ??
+                                              Constants.passvlidfrom,
+                                          isMandatory: true,
+                                          Styles.textStyleBlack14),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      datepickerWidgetLoading(
+                                          passValidFromTextController),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+                                    ],
+                                    if (widget.passId ==
+                                        ConstantsIntValue.passIdSez) ...[
+                                      CommonWidgets.textDisplay(
+                                          state.labels?.locale.passIssuedOn ??
+                                              state.labels?.defaultLocale
+                                                  .passIssuedOn ??
+                                              Constants.passIssuedOn,
                                           isMandatory: true,
                                           Styles.textStyleBlack14),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
                                       // datepickerWidgetLoading(
-                                      //     passvaliduntilTextController),
-
+                                      //     passvalidfromTextController),
                                       BaseDate().datePickerWidgetLoading(
-                                        isDisabled: (state.selectedCompanyType
-                                                            ?.name ??
-                                                        '')
-                                                    .toLowerCase() !=
-                                                'exceptions' ||
-                                            (widget.model?.status != 0 &&
-                                                    widget.model?.status !=
+                                        isDisabled: (widget.model?.status ==
+                                                        0 ||
+                                                    widget.model?.status ==
                                                         null) &&
                                                 !(widget.extraProperties !=
                                                         null &&
                                                     !widget.extraProperties!
-                                                        .hasWritePermission!),
-                                        showPastDate: false,
-                                        textController:
-                                            passValidUntilTextController,
-                                        onlyDate: widget.passId !=
-                                                ConstantsIntValue.passIdSez
+                                                        .hasWritePermission!)
                                             ? false
                                             : true,
+                                        showFutureDate: false,
+                                        textController:
+                                            passValidFromTextController,
+                                        onlyDate: false,
                                         onChange: (String value) {
-                                          /// Make Pass Valid Date Editable if the Company Type is 'Exceptions'
-                                          if (widget.model != null &&
-                                              !widget.model!.companyType!.name!
-                                                  .contains('Exceptions')) {
-                                            passValidUntilTextController.text =
-                                                Utils.timestampToDateConversion(
-                                                    int.parse(
-                                                        widget.model?.endTime ??
-                                                            '0'),
-                                                    Constants.dateFormat);
-                                          }
+                                          passValidFromTextController.text =
+                                              Utils.timestampToDateConversion(
+                                                  int.parse(
+                                                      widget.model?.startTime ??
+                                                          '0'),
+                                                  Constants.fulldateFormat);
                                         },
                                         context: context,
                                       ),
-
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.01),
                                     ],
+
+                                    /// Pass Valid Until
+                                    CommonWidgets.textDisplay(
+                                        state.labels?.locale.endTime ??
+                                            state.labels?.defaultLocale
+                                                .endTime ??
+                                            Constants.passvliduntil,
+                                        isMandatory: true,
+                                        Styles.textStyleBlack14),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+                                    // datepickerWidgetLoading(
+                                    //     passvaliduntilTextController),
+
+                                    BaseDate().datePickerWidgetLoading(
+                                      isDisabled:
+                                          (state.selectedCompanyType?.name ??
+                                                          '')
+                                                      .toLowerCase() !=
+                                                  'exceptions' ||
+                                              (widget.model?.status != 0 &&
+                                                      widget.model?.status !=
+                                                          null) &&
+                                                  !(widget.extraProperties !=
+                                                          null &&
+                                                      !widget.extraProperties!
+                                                          .hasWritePermission!),
+                                      showPastDate: false,
+                                      textController:
+                                          passValidUntilTextController,
+                                      onlyDate: widget.passId !=
+                                              ConstantsIntValue.passIdSez
+                                          ? false
+                                          : true,
+                                      onChange: (String value) {
+                                        /// Make Pass Valid Date Editable if the Company Type is 'Exceptions'
+                                        if (widget.model != null &&
+                                            !widget.model!.companyType!.name!
+                                                .contains('Exceptions')) {
+                                          passValidUntilTextController.text =
+                                              Utils.timestampToDateConversion(
+                                                  int.parse(
+                                                      widget.model?.endTime ??
+                                                          '0'),
+                                                  Constants.dateFormat);
+                                        }
+                                      },
+                                      context: context,
+                                    ),
+
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
 
                                     /// Escorted by Host
                                     widget.passId ==
@@ -2114,9 +2109,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.02),
-                                    if (widget.model?.status == 2 ||
-                                        widget.model?.status == 8 ||
-                                        widget.model?.status == 9) ...[
+
+                                    if (widget.model?.status ==
+                                            ConstantsIntValue
+                                                .passStatusReturned ||
+                                        widget.model?.status ==
+                                            ConstantsIntValue
+                                                .passStatusReturnedDamaged ||
+                                        widget.model?.status ==
+                                            ConstantsIntValue
+                                                .passStatusReturnedDefaced) ...[
                                       /// Pass Collected By
                                       CommonWidgets.horizentaltextHandling(
                                         state.labels?.locale.handoverSecurity ??
@@ -4242,22 +4244,21 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter pass valid until",
       );
-    }
-    else if ((widget.passId == ConstantsIntValue.passIdVisitor || widget.passId == ConstantsIntValue.passIdVendor) &&
+    } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
+            widget.passId == ConstantsIntValue.passIdVendor) &&
         ((state.escortedbyhost ?? 0) == 0) &&
         (escortedByTextController.text.isEmpty)) {
       Validator().showToast(
         context,
-        "Please enter escorted by",
+        "Please enter Escorted By",
       );
-    }
-    else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
+    } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
             widget.passId == ConstantsIntValue.passIdVendor) &&
         ((state.escortedbyhost ?? 0) == 0) &&
         (escortedEmployeeIdByTextController.text.isEmpty)) {
       Validator().showToast(
         context,
-        "Please enter escort employee id",
+        "Please enter Escorted By Employee Id",
       );
     } else {
       submitForm(true, widget.model?.id ?? 0, globalState);
