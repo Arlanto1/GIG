@@ -109,5 +109,5 @@ class ConstantsIntValue {
   ///Key Issuance status
   static const int issuanceDraftStatus = 0;
   static const int issuanceHandedOverStatus = 1;
-
+  static const int issuanceNotReturnedStatus = 2;
 }
