@@ -107,7 +107,7 @@ class EventProtectionDetails extends StatelessWidget {
                           ConstantsArgument.editForm:
                               showEPGridsModel.editDuring,
                           ConstantsArgument.isEventProtection:
-                          isEventProtection,
+                              isEventProtection,
                         },
                       );
                     },
@@ -132,6 +132,8 @@ class EventProtectionDetails extends StatelessWidget {
                           'eventDuration': 2,
                           ConstantsArgument.editForm:
                               showEPGridsModel.editAfter,
+                          ConstantsArgument.isEventProtection:
+                              isEventProtection,
                         },
                       );
                     },

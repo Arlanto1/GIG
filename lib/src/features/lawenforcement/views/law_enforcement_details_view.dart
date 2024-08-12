@@ -678,33 +678,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           );
                                           // }
                                         },
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            SvgPicture.asset(
-                                              AppIcon.pluscircle,
-                                              colorFilter:
-                                                  const ColorFilter.mode(
-                                                AppColors
-                                                    .navigationSkyBlueColor,
-                                                BlendMode.srcIn,
-                                              ),
-                                              // color: AppColors
-                                              //     .navigationSkyBlueColor,
-                                            ),
-                                            const SizedBox(width: 10),
-                                            const Text(
-                                              'Add/View Visiting Official(s)',
-                                              style: TextStyle(
-                                                color: AppColors
-                                                    .navigationSkyBlueColor,
-                                                decoration:
-                                                    TextDecoration.underline,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                        child: const AddViewButton(label: 'Add/View Visiting Official(s)',),
                                       ),
 
                                       CommonWidgets.verticalSpacerWidget(

@@ -77,10 +77,10 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-
     //_loadMore();
     return Scaffold(
       backgroundColor: AppColors.cardBgColor,
+
       // floatingActionButton: Flutterfloatingbutton(
       //   backgroundColor: AppColors.navigationSkybluecolor,
       //   foregroundColor: AppColors.backgroundWhitecolor,

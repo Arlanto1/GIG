@@ -39,6 +39,14 @@ class DutyPostDetailsState extends Equatable {
 
     if (model.selectedGuards != null && model.replacements != null) {
       for (BaseUser guard in model.selectedGuards!) {
+        bool isReplacingAnyBody = model.replacements!
+            .any((replacement) => replacement.replacementBy?.id == guard.id);
+        log('-isReplacingAnyBody-11-$isReplacingAnyBody--');
+        if (isReplacingAnyBody) {
+          return ErrorResponse(status: false, message: '$msg${guard.name}');
+        }
+
+        log('-isReplacingAnyBody--$isReplacingAnyBody--');
         if (guard.description != null) {
           bool isReplaced = model.replacements!
               .any((replacement) => replacement.replacedFor == guard);
@@ -72,7 +80,6 @@ class DutyPostDetailsState extends Equatable {
   }
 
   ErrorResponse get isValid {
-
     if (model.selectedGuards != null && model.replacements != null) {
       for (BaseUser guard in model.selectedGuards!) {
         if (guard.description != null) {

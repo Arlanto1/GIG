@@ -759,8 +759,20 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       ),
     );
 
+    Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+    if (state.model.location == null) {
+      Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+      if (defaultLocation != null) {
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: defaultLocation.id.toString(),
+          moduleCode: Constants.passManagementModuleCode,
+        );
+        state.model.location = defaultLocation;
+        state.model.slNo = slNo.serialNo;
+      }
+    }
+
     try {
-      Organisation? defaultLocation;
       SerialNumberModel serialNumberResponse = SerialNumberModel();
       List<Organisation> passTypes = [];
       DayPassNumberLists companyTypes = DayPassNumberLists();
@@ -1070,7 +1082,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     // EmployeeDepartments departments =
     //     await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser> emailUsers =
-        await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
+        await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER', locationId: state.model.location?.id);
     emit(
       state.copyWith(
         // getEntitiesResponse: entities,

@@ -8,11 +8,13 @@ class AttendanceShiftsView extends StatefulWidget {
     required this.location,
     required this.locationRegion,
     required this.vendor,
+    required this.attInfoId,
   });
 
   final Organisation location;
   final Organisation locationRegion;
   final Organisation vendor;
+  final int attInfoId;
 
   @override
   AttendanceShiftsViewState createState() => AttendanceShiftsViewState();
@@ -79,10 +81,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           body: Padding(
             padding: const EdgeInsets.all(20),
             child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: getBody(state, height, state.model),
-              ),
+              child: getBody(state, height, state.model),
             ),
           ),
         );
@@ -93,49 +92,56 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
   void submitDutyPost(BuildContext context, {required bool isSaveOnly}) {
     FocusScope.of(context).unfocus();
     log('----onTap${isSaveOnly ? 'Save' : 'Submit'}--');
-    BlocProvider.of<AttendanceShiftsCubit>(context)
-        .submitForm(isSaveOnly: isSaveOnly);
+    BlocProvider.of<AttendanceShiftsCubit>(context).submitForm(
+        isSaveOnly: isSaveOnly, status: isSaveOnly ? FormStatus.initial : null);
   }
 
-  List<Widget> getBody(
+  Widget getBody(
     AttendanceShiftsState state,
     double height,
     DutyPostModel model,
   ) {
     log('--model.name-${model.name}-');
     log('--model.ranks-${model.ranks?.length}-');
-    return [
-      for (Rank rank in model.ranks ?? [])
-        IntrinsicHeight(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  'Rank: ${Utils().buildGuardRank(guardRank: rank.rank ?? 0, returnTextOnly: true)}',
-                  style: Styles.textStyleNavigator16,
+
+    if (state.status == FormStatus.loading) {
+      return const BaseLoader();
+    }
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (Rank rank in model.ranks ?? [])
+          IntrinsicHeight(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Rank: ${Utils().buildGuardRank(guardRank: rank.rank ?? 0, returnTextOnly: true)}',
+                    style: Styles.textStyleNavigator16,
+                  ),
                 ),
-              ),
-              CommonWidgets.verticalSpacerWidget(height * 0.01),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: buildDutyPostSelectionWidget(
-                      state,
-                      rank.attendanceShift ?? [],
-                      height,
+                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: buildDutyPostSelectionWidget(
+                        state,
+                        rank.attendanceShift ?? [],
+                        height,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-    ];
+      ],
+    );
   }
 
   List<Widget> buildDutyPostSelectionWidget(
@@ -244,8 +250,10 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         MultiSelectDropdown(
           briefingPoints: state.briefingPoints ?? [],
           selectedPoints: shift.briefingPoints?.split(',') ?? [],
-          updatedBriefingPoints: (List<String> points) {
+          onSelectedBriefingPointsChanged: (List<String> points) {
+            log('-points--$points--');
             shift.briefingPoints = Utils().joinListWithComma(points);
+            // Update the points in your Bloc or state management accordingly
             // BlocProvider.of<AttendanceShiftsCubit>(context).updateBriefingPoints();
           },
         ),
@@ -265,6 +273,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             shift: shift,
           )
         ],
+        CommonWidgets.verticalSpacerWidget(
+            MediaQuery.of(context).size.height * 0.02),
       ],
     ];
   }
@@ -342,8 +352,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               context,
               slaViolationPenaltyDetailsRoute,
               arguments: {
-                "title": Constants.slaViolationPenaltyTitle,
-                "attdInfoId": state.model.id.toString(),
+                ConstantsArgument.title: Constants.slaViolationPenaltyTitle,
+                ConstantsArgument.attdInfoId: widget.attInfoId.toString(),
                 ConstantsArgument.location: widget.location,
                 ConstantsArgument.locationRegion: widget.locationRegion,
                 ConstantsArgument.vendor: widget.vendor,
@@ -430,8 +440,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           onTap: () => showReplacementPopUp(
             context: context,
             model: Replacement(),
-            availableGuards: shift.availableGuards ?? [],
-            selectedGuards: shift.selectedGuards ?? [],
+            availableGuards: shift.availableGuards ?? {},
+            selectedGuards: shift.selectedGuards ?? {},
           ),
           child: Row(
             children: <Widget>[
@@ -477,8 +487,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           onTap: () => showReplacementPopUp(
             context: context,
             model: replacement,
-            availableGuards: shift.availableGuards ?? [],
-            selectedGuards: shift.selectedGuards ?? [],
+            availableGuards: shift.availableGuards ?? {},
+            selectedGuards: shift.selectedGuards ?? {},
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -565,7 +575,11 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   element.name ?? '',
-                  style: const TextStyle(fontSize: 15),
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: selectedGuard == element
+                          ? AppColors.white
+                          : AppColors.black),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -579,8 +593,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
   void showReplacementPopUp({
     required BuildContext context,
     required Replacement model,
-    required List<BaseUser> availableGuards,
-    required List<BaseUser> selectedGuards,
+    required Set<BaseUser> availableGuards,
+    required Set<BaseUser> selectedGuards,
   }) {
     showDialog(
       context: context,

@@ -41,24 +41,36 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     );
 
     var userId = await SharedPrefs.getUserId();
+    model ??= FoundListArticleDetails();
+    // Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+
+    SerialNumberModel? serialNumberResponse;
+    // log('---defaultLocation--${defaultLocation?.name}----');
+    // if (model.slNo.isEmptyOrNull) {
+    //   log('----model.slNo.isEmptyOrNull-----');
+    //   serialNumberResponse = await commonServices.getSlNo(
+    //     locationId: defaultLocation!.id.toString(),
+    //     moduleCode: Constants.articleFoundModuleCode,
+    //   );
+    //   model.slNo = serialNumberResponse.serialNo;
+    //   model.location = defaultLocation;
+    // }
+    if (model.location == null) {
+      Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+      if (defaultLocation != null) {
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: defaultLocation.id.toString(),
+          moduleCode: Constants.articleFoundModuleCode,
+        );
+        model.location = defaultLocation;
+        model.slNo = slNo.serialNo;
+      }
+    }
     try {
-      model ??= FoundListArticleDetails();
 
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
-      Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
 
-      SerialNumberModel? serialNumberResponse;
-      log('---defaultLocation--${defaultLocation?.name}----');
-      if (model.slNo.isEmptyOrNull) {
-        log('----model.slNo.isEmptyOrNull-----');
-        serialNumberResponse = await commonServices.getSlNo(
-          locationId: defaultLocation!.id.toString(),
-          moduleCode: Constants.articleFoundModuleCode,
-        );
-        model.slNo = serialNumberResponse.serialNo;
-        model.location = defaultLocation;
-      }
       emit(
         state.copyWith(
           model: model,
@@ -83,9 +95,9 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   Future<void> createNewFoundArticle(
     CreateFoundRequestBody bodyRequest,
     bool isSubmit,
-    BuildContext context,
     String username,
     String title,
+    int? eventId,
   ) async {
     emit(
       state.copyWith(
@@ -101,7 +113,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         body: bodyRequest,
         isSubmit: isSubmit,
         username: username,
-        context: context,
+        eventId: eventId,
       );
 
       log('--createFoundResponse--${createFoundResponse.message}--');
@@ -216,13 +228,14 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   }
 
   // get depositor user by role API call
-  Future<void> getUserByRoleDepositor(String userRole, int? locationId) async {
+  Future<void> getUserByRoleDepositor(String userRole) async {
     try {
       // GetDepositor getDepositorData =
       //     await createFoundServices.getUserByRoleDepositor(userRole, context);
+      // log('--getUserByRoleDepositor-locationId-${locationId}--');
 
       GetDepositor getDepositorData = await commonServices.getAtomStaticUsers(
-          roleName: userRole, locationId: locationId);
+          roleName: userRole, locationId: state.model.location?.id);
 
       emit(
         state.copyWith(
@@ -243,7 +256,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   }
 
   // Get locations api call
-  Future<void> getLocations(String locationsStr, BuildContext context) async {
+  Future<void> getLocations(String locationsStr) async {
     try {
       Locations getLocationsData =
           await commonServices.getRegionsWithLocations(name: locationsStr);
@@ -267,13 +280,12 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   }
 
   // Get employee departments
-  Future<void> getEmployeeDepartments(
-      String departmentStr, BuildContext context) async {
+  Future<void> getEmployeeDepartments(String departmentStr) async {
     try {
       // EmployeeDepartments getEmployeeDepartments = await createFoundServices
       //     .getEmployeeDepartments(departmentStr, context);
-      EmployeeDepartments getEmployeeDepartments = await commonServices
-          .getDepartments(name: departmentStr, context: context);
+      EmployeeDepartments getEmployeeDepartments =
+          await commonServices.getDepartments(name: departmentStr);
       emit(
         state.copyWith(
           model: model,
@@ -293,14 +305,14 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   }
 
   // Get Article type employee Api call
-  Future<void> getArticleType(
-      String articleTypeStr, BuildContext context) async {
+  Future<void> getArticleType(String articleTypeStr) async {
     try {
       // GetArticleType getArticleTypeData =
       //     await createFoundServices.getArticleType(articleTypeStr, context);
 
       GetArticleType getArticleTypeData = await commonServices.getArticleType(
-          name: articleTypeStr, context: context);
+        name: articleTypeStr,
+      );
       emit(
         state.copyWith(
           model: model,
@@ -338,7 +350,9 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
           status: FormStatus.initial,
         ),
       );
-      await createFoundArticleCubit.getArticleType('ARTICLE_LIST', context);
+      await createFoundArticleCubit.getArticleType(
+        'ARTICLE_LIST',
+      );
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(
@@ -386,12 +400,12 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
           status: FormStatus.initial,
         ),
       );
-      await createFoundArticleCubit.getEmployeeDepartments(
-          'EMPLOYEE_DEPARTMENTS', context);
+      await createFoundArticleCubit
+          .getEmployeeDepartments('EMPLOYEE_DEPARTMENTS');
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        Utils.dynamicAlert(
-            context, Constants.addedSuccessfully, Constants.addEmpDepartment, '');
+        Utils.dynamicAlert(context, Constants.addedSuccessfully,
+            Constants.addEmpDepartment, '');
       });
     } on GenericResponse catch (e) {
       emit(
@@ -454,10 +468,10 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       );
       dismissLoadingDialog(context);
       await createFoundArticleCubit.getUserByRoleDepositor(
-          ConstantUserRoles.atomStaticUser, state.location?.id);
+          ConstantUserRoles.atomStaticUser);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        Utils.dynamicAlert(
-            context, Constants.userAddedUpdatedSuccessfully, Constants.newuser, '');
+        Utils.dynamicAlert(context, Constants.userAddedUpdatedSuccessfully,
+            Constants.newuser, '');
       });
     } on GenericResponse catch (e) {
       emit(
@@ -483,12 +497,9 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
   }
 
   // Get user details call
-  Future<void> getUserDetails(String userId, BuildContext context) async {
+  Future<void> getUserDetails(String userId) async {
     try {
-      User user =
-          await commonServices.getUserDetails(userId: userId, context: context);
-      log('-----iffffff---useruser-----${user.userId}-');
-
+      User user = await commonServices.getUserDetails(userId: userId);
       emit(
         state.copyWith(
           model: model,
