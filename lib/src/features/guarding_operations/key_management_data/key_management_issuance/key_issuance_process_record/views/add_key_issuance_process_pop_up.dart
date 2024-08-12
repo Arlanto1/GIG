@@ -591,6 +591,12 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
       );
     }
 
+    if(widget.parentStatus == ConstantsIntValue.issuanceDraftStatus &&  widget.model.noKeysIssued ==0){
+      return const ErrorResponse(
+        status: false,
+        message: 'Please enter valid Number of Keys Issued',
+      );
+    }
     if (widget.parentStatus == ConstantsIntValue.issuanceHandedOverStatus &&
         widget.model.noKeysIssued !=
             (widget.model.returned! +

@@ -34,7 +34,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
       RefreshController(initialRefresh: false);
   bool hasPermission = false;
   bool lockEmpty = false;
-bool keyDamageHistoryScreen = false;
+  bool keyDamageHistoryScreen = false;
   bool keyLostHistoryScreen = false;
   bool keyDestroyHistoryScreen = false;
   bool keyLockChangeHistoryScreen = false;
@@ -72,7 +72,7 @@ bool keyDamageHistoryScreen = false;
   Widget build(BuildContext context) {
     log('--widget.type---${widget.type}---');
     log('--status.type---${widget.model?.status}---');
-    log('--id111--- ${(keyLostHistoryScreen && widget.id != 0 )}');
+    log('--id111--- ${(keyLostHistoryScreen && widget.id != 0)}');
     return BlocConsumer<KeyHistoryRecordBloc, KeyHistoryRecordState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -83,25 +83,17 @@ bool keyDamageHistoryScreen = false;
         if (widget.lock.isEmptyOrNull) {
           lockEmpty = true;
         }
-        if(widget.type ==
-            ConstantsIntValue
-                .keyLostHistoryInt ){
+        if (widget.type == ConstantsIntValue.keyLostHistoryInt) {
           keyLostHistoryScreen = true;
         }
-        if(widget.type ==
-            ConstantsIntValue
-                .keyDamageHistoryInt){
+        if (widget.type == ConstantsIntValue.keyDamageHistoryInt) {
           keyDamageHistoryScreen = true;
         }
 
-        if(widget.type ==
-            ConstantsIntValue
-                .keyDestroyHistoryInt){
+        if (widget.type == ConstantsIntValue.keyDestroyHistoryInt) {
           keyDestroyHistoryScreen = true;
         }
-        if(widget.type ==
-            ConstantsIntValue
-                .lockChangeHistoryInt){
+        if (widget.type == ConstantsIntValue.lockChangeHistoryInt) {
           keyLockChangeHistoryScreen = true;
         }
         return Scaffold(
@@ -109,7 +101,9 @@ bool keyDamageHistoryScreen = false;
             floatingActionButton: !hasPermission &&
                     lockEmpty &&
                     widget.model?.status != -1 &&
-                    widget.model?.status != 0 && !keyLostHistoryScreen && !keyDamageHistoryScreen
+                    widget.model?.status != 0 &&
+                    !keyLostHistoryScreen &&
+                    !keyDamageHistoryScreen
                 ? Flutterfloatingbutton(
                     backgroundColor: AppColors.navigationSkyBlueColor,
                     foregroundColor: AppColors.backgroundWhiteColor,
@@ -186,11 +180,20 @@ bool keyDamageHistoryScreen = false;
                                 'Created By',
                             value:
                                 '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
-                        // labels.add(Label(
-                        //     key: 'Date of Creation',
-                        //     value: DateFormat('dd-MM-yyyy').format(
-                        //         DateTime.fromMillisecondsSinceEpoch(
-                        //             state.list[index].createdDate ?? 0 * 1000))));
+                        labels.add(Label(
+                            key: state.labels?.locale.createdDate ??
+                                state.labels?.defaultLocale.createdDate ??
+                                'Create On',
+                            value: state.list[index].createdDate != null
+                                ? Utils.timestampToDateConversion(
+                                    int.parse(
+                                        state.list[index].createdDate ?? '0'),
+                                    Constants.twentyFourHourDateTimeFormat)
+                                : ''));
+                        labels.add(Label(
+                            key:
+                                'No.of.Keys',
+                            value: state.list[index].noOfKeys.toString()));
                         return index >= state.list.length
                             ? const BaseLoader()
                             : BaseListTileItem(

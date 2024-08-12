@@ -615,9 +615,9 @@ class _MaterialMovementDetailsViewState
                                       .materialDescription ??
                                   Constants.materialBriefDescription,
                               Styles.textStyleBlack14,
-                              isMandatory: state.model.status !=
+                              isMandatory: (state.model.status !=
                                           ConstantsIntValue.mmStatusDraft &&
-                                      widget.model != null
+                                      widget.model != null) ||(widget.isInward == true)
                                   ? true
                                   : false,
                             ),
@@ -670,9 +670,9 @@ class _MaterialMovementDetailsViewState
                                   state.labels?.defaultLocale.quantity ??
                                   Constants.quantity,
                               Styles.textStyleBlack14,
-                              isMandatory: state.model.status !=
+                              isMandatory: (state.model.status !=
                                           ConstantsIntValue.mmStatusDraft &&
-                                      widget.model != null
+                                      widget.model != null) || (widget.isInward == true)
                                   ? true
                                   : false,
                             ),

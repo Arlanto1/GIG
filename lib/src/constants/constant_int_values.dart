@@ -107,6 +107,7 @@ class ConstantsIntValue {
   static const int mmStatusClosed = 10;
 
   ///Key Issuance status
+  static const int issuanceDraftStatus = 0;
   static const int issuanceHandedOverStatus = 1;
 
 }

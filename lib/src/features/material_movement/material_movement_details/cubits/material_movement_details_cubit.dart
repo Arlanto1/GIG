@@ -48,7 +48,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.copyWith(
         status: FormStatus.initial,
         loadAttachments: state.model.images,
-        // emailUsers: emailUsers,
+        emailUsers: emailUsers,
         departments: departments.employeeDepartments,
         quantityUnits: quantityUnits,
       ),
