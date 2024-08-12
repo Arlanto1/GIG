@@ -163,7 +163,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               guards: shift.selectForAttendance ?? [],
               destinationList: shift.attended ?? [],
               isSourceList: true,
-              label: 'Select For \nAttendance: \n${shift.shift}',
+              label:
+                  'Select For \nAttendance: \n${shift.shift} (Planned: ${shift.allowed})',
             ),
 
             Column(
@@ -354,6 +355,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               arguments: {
                 ConstantsArgument.title: Constants.slaViolationPenaltyTitle,
                 ConstantsArgument.attdInfoId: widget.attInfoId.toString(),
+                // TODO: need to check the id
                 ConstantsArgument.location: widget.location,
                 ConstantsArgument.locationRegion: widget.locationRegion,
                 ConstantsArgument.vendor: widget.vendor,
@@ -553,13 +555,21 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
   Widget buildUserList({
     required List<BaseUser> availableGuards,
   }) {
+    log('--MediaQuery.of(context).size.width---${MediaQuery.of(context).size.width}-');
+    double width = MediaQuery.of(context).size.width;
+    double columnWidth;
+    if (width > Constants.tabletScreenWidth) {
+      columnWidth = width / 3.6;    /// TABLET
+    } else {
+      columnWidth = width / 4.67;   /// Mobile
+    }
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         color: AppColors.disableTextFieldBackground,
       ),
       height: MediaQuery.of(context).size.height / 3.3,
-      width: MediaQuery.of(context).size.width / 4.7,
+      width: columnWidth,
       child: ListView.builder(
         itemCount: availableGuards.length,
         shrinkWrap: true,
@@ -573,15 +583,19 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                   : null,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  element.name ?? '',
-                  style: TextStyle(
+                child: Tooltip(
+                  preferBelow: false,
+                  message: selectedGuard == element ? element.name ?? '' : '',
+                  child: Text(
+                    element.name ?? '',
+                    style: TextStyle(
                       fontSize: 15,
-                      color: selectedGuard == element
-                          ? AppColors.white
-                          : AppColors.black),
-                  overflow: TextOverflow.ellipsis,
-                ),
+                      color: selectedGuard == element ? AppColors.white : AppColors.black,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                )
+                ,
               ),
             ),
           );
