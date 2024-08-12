@@ -704,7 +704,7 @@ class _MaterialMovementDetailsViewState
                                             state.model.status == 4 ||
                                             state.model.status ==
                                                 ConstantsIntValue
-                                                    .mmStatusInwardWaiting ||
+                                                    .mmStatusInwardWaiting || !showSaveSubmitButtons||
                                             isReadOnly
                                         ? false
                                         : true,
@@ -1187,7 +1187,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status ==
                                             ConstantsIntValue
                                                 .mmStatusInwardWaiting ||
-                                        isReadOnly
+                                        isReadOnly || !showSaveSubmitButtons
                                     ? false
                                     : true,
                                 isDisableColor: state.model.status == 10 ||
@@ -1241,7 +1241,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 4 ||
                                         state.model.status ==
                                             ConstantsIntValue
-                                                .mmStatusInwardWaiting ||
+                                                .mmStatusInwardWaiting || !showSaveSubmitButtons||
                                         isReadOnly
                                     ? false
                                     : true,
@@ -1296,7 +1296,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 4 ||
                                         state.model.status ==
                                             ConstantsIntValue
-                                                .mmStatusInwardWaiting ||
+                                                .mmStatusInwardWaiting || !showSaveSubmitButtons ||
                                         isReadOnly
                                     ? false
                                     : true,
