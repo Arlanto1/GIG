@@ -36,8 +36,8 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     );
 
     ///
-    Organisation selectedRank;
     try {
+      Organisation selectedRank;
       List<Organisation> ranks = await services
           .getRanksListByAssignedDutyPostId(dutyPostId: parentModel.id!);
 

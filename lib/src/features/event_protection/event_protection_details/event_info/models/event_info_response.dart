@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:db_atom/src/models/image_content.dart';
+import 'package:db_atom/index.dart';
 
 class EventInfoResponse {
   EventInfoResponse({
@@ -10,6 +10,7 @@ class EventInfoResponse {
     this.emails,
     this.email,
     this.image,
+    this.location,
   });
 
   int? id;
@@ -21,6 +22,7 @@ class EventInfoResponse {
   String? lock;
   String? startDate;
   String? endDate;
+  Organisation? location;
 
   EventInfoResponse.fromJson(Map<String, dynamic> json) {
     log('-json id--${json['id']}-');
@@ -30,6 +32,9 @@ class EventInfoResponse {
     date = json['date'];
     emails = json['emails'];
     lock = json['lock'];
+    location= json["location"] == null
+        ? null
+        : Organisation.fromJson(json["location"]);
     startDate = json['startDate'];
     endDate = json['endDate'];
     email = json['email'];
@@ -43,6 +48,7 @@ class EventInfoResponse {
     data['status'] = status;
     data['lock'] = lock;
     data['date'] = date;
+    data['location'] = location;
     data['emails'] = emails;
     data['email'] = email;
     data['startDate'] = startDate;

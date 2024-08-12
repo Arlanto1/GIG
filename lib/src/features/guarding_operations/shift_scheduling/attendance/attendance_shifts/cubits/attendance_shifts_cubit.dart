@@ -21,13 +21,8 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     required this.slaServices,
   }) : super(
           AttendanceShiftsState.initial(
-            model: DutyPostModel(),
-            locations: Locations(),
-            loggedInUserDetails: User(),
-            users: const [],
-            emailUsers: const [],
+            model: Shift(),
             errorMessage: '',
-            departments: const [],
           ),
         );
 
@@ -39,77 +34,86 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       ),
     );
 
-    DutyPostModel model = DutyPostModel();
-    model = await services.getDutyPostById(
-      attInfoId: attInfoId,
-      dutyPostNameId: selectedDutyPostNameId,
-    );
+    // DutyPostModel model = DutyPostModel();
+    // model = await services.getDutyPostById(
+    //   attInfoId: attInfoId,
+    //   dutyPostNameId: 832,
+    //   // dutyPostNameId: selectedDutyPostNameId,
+    //   rankId: 1,
+    //   shiftId: 1,
+    // );
 
-    log('--model-@@@@---${model.name}--');
     // model = DutyPostModel.fromJson(json.decode(jsonStringold));
 
     var userId = await SharedPrefs.getUserId();
     try {
+      Organisation selectedRank;
+      List<Organisation> ranks = await services.getAttendanceRanksByDutyPostId(
+          dutyPostId: selectedDutyPostNameId, attendanceId: attInfoId);
+
+      selectedRank = state.selectedRank ?? ranks.first;
+
+      List<Organisation> shifts =
+          await services.getAttendanceShiftByByDutyPostIdAndRankId(
+              dutyPostId: selectedDutyPostNameId, attendanceId: attInfoId, rankId: selectedRank.id!);
+      Organisation selectedShift = state.selectedShift ?? shifts.first;
+
+      Shift model = await services.getDutyPostById(
+        shiftId: selectedShift.id!,
+        dutyPostNameId: selectedDutyPostNameId,
+        rankId: selectedRank.id!,
+        attInfoId: attInfoId,
+      );
+      // DutyPostModel model = DutyPostModel();
+      // model = await services.getDutyPostById(
+      //   attInfoId: attInfoId,
+      //   dutyPostNameId: 832,
+      //   // dutyPostNameId: selectedDutyPostNameId,
+      //   rankId: 1,
+      //   shiftId: 1,
+      // );
+
       // Use Future.wait to call API functions concurrently
-      final futures = await Future.wait([
-        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'), // 0
-        commonServices.getUserDetails(userId: userId), // 1
-        commonServices.getUsersByRole(roleName: 'T1_Analyst'), // 2
-        commonServices.getUsers(), // 3
-        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'), // 4
-        commonServices.getVendors(name: 'ATOM_VENDORS'), // 5
-        commonServices.getUiLabels(
-            language: await SharedPrefs.getLanguageCode(),
-            moduleCode: Constants.attendanceModule), // 6
-        SharedPrefs.getDefaultLocation(), // 7
-        services.getBriefingPoints(), // 8
-      ]);
+      // final futures = await Future.wait([
+      //   commonServices.getUiLabels(
+      //       language: await SharedPrefs.getLanguageCode(),
+      //       moduleCode: Constants.attendanceModule), // 6
+      //   services.getBriefingPoints(), // 8
+      // ]);
       List<SlaList> slaList = [];
 
-      for (Rank rank in model.ranks ?? []) {
-        for (Shift shift in rank.attendanceShift ?? []) {
-          SLAViolationPenaltyResponseModel list =
-              await SLAViolationPenaltyServices().getSvpList(
-            startPosition: '0',
-            maximumRecords: '100',
-            attInfoId: shift.attendanceShiftId!,
-          );
-          slaList.add(
-              SlaList(attInfoId: shift.attendanceShiftId!, items: list.items));
-        }
-      }
-      Locations getLocationsData = futures[0];
-      User loggedInUserDetails = futures[1];
-      Analyst users = futures[2];
-      List<User> entrySecurities = futures[3];
-      GetDepositor emailUsers = futures[4];
-      Vendors vendors = futures[5];
-      dynamic responseLabels = futures[6];
-      // Organisation? defaultLocation = futures[7];
-      List<String> briefingPoints = futures[8];
-      briefingPoints.add('');
+      SLAViolationPenaltyResponseModel list =
+      await SLAViolationPenaltyServices().getSvpList(
+        startPosition: '0',
+        maximumRecords: '100',
+        attInfoId: model.attendanceShiftId!,
+      );
 
-      // model.entrySecurity = loggedInUserDetails;
-      // Get Date of Creation
+      // for (Rank rank in model.ranks ?? []) {
+      //   for (Shift shift in rank.attendanceShift ?? []) {
+      //
+      //     slaList.add(
+      //         SlaList(attInfoId: shift.attendanceShiftId!, items: list.items));
+      //   }
+      // }
+      // dynamic responseLabels = futures[6];
+      // List<String> briefingPoints = futures[8];
+      // briefingPoints.add('');
 
-      // dynamic participationDates = Utils()
-      //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
-
-      GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+      // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
 
       emit(
         state.copyWith(
           model: model,
-          locations: getLocationsData,
-          loggedInUserDetails: loggedInUserDetails,
+          // loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
-          vendors: vendors.items,
-          users: users.t1Analyst,
-          entrySecurities: entrySecurities,
-          emailUsers: emailUsers.atomStaticUser,
-          briefingPoints: briefingPoints,
+          // vendors: vendors.items,
+          // users: users.t1Analyst,
+          // entrySecurities: entrySecurities,
+          // emailUsers: emailUsers.atomStaticUser,
+          briefingPoints: [],
           shiftSlaList: slaList,
-          labels: labels,
+          // labels: labels,
         ),
       );
     } catch (e) {
@@ -122,12 +126,12 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     }
   }
 
-  void onModelValueChange(DutyPostModel model) {
+  void onModelValueChange(Shift model) {
     log('-onModelValueChange---');
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void onCheckBoxChange(DutyPostModel model) {
+  void onCheckBoxChange(Shift model) {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
     emit(state.copyWith(model: model, status: FormStatus.initial));
@@ -142,7 +146,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
 
     // Create/Update API Call
     AttendanceShiftDutyPostRequest request =
-        AttendanceShiftDutyPostRequest(requestModel: DutyPostModel());
+        AttendanceShiftDutyPostRequest(requestModel: Shift());
 
     request.requestModel = state.model;
     GenericResponse response = GenericResponse();

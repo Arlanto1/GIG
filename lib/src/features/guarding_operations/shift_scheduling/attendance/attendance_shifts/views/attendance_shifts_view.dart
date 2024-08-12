@@ -9,12 +9,14 @@ class AttendanceShiftsView extends StatefulWidget {
     required this.locationRegion,
     required this.vendor,
     required this.attInfoId,
+    required this.title,
   });
 
   final Organisation location;
   final Organisation locationRegion;
   final Organisation vendor;
   final int attInfoId;
+  final String title;
 
   @override
   AttendanceShiftsViewState createState() => AttendanceShiftsViewState();
@@ -69,7 +71,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
-            title: state.model.name ?? '',
+            title: widget.title,
             showPopUp: false,
             showSaveButton: true,
             showSubmitButton: true,
@@ -99,10 +101,10 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
   Widget getBody(
     AttendanceShiftsState state,
     double height,
-    DutyPostModel model,
+      Shift model,
   ) {
-    log('--model.name-${model.name}-');
-    log('--model.ranks-${model.ranks?.length}-');
+    // log('--model.name-${model.name}-');
+    // log('--model.ranks-${model.ranks?.length}-');
 
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
@@ -110,19 +112,19 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        for (Rank rank in model.ranks ?? [])
+        // for (Rank rank in model.ranks ?? [])
           IntrinsicHeight(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Rank: ${Utils().buildGuardRank(guardRank: rank.rank ?? 0, returnTextOnly: true)}',
-                    style: Styles.textStyleNavigator16,
-                  ),
-                ),
+                // Container(
+                //   alignment: Alignment.topLeft,
+                //   child: Text(
+                //     'Rank: ${Utils().buildGuardRank(guardRank: rank.rank ?? 0, returnTextOnly: true)}',
+                //     style: Styles.textStyleNavigator16,
+                //   ),
+                // ),
                 CommonWidgets.verticalSpacerWidget(height * 0.01),
                 Expanded(
                   child: SingleChildScrollView(
@@ -130,9 +132,9 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: buildDutyPostSelectionWidget(
-                        state,
-                        rank.attendanceShift ?? [],
-                        height,
+                        state: state,
+                        shift: state.model,
+                        height: height,
                       ),
                     ),
                   ),
@@ -145,10 +147,10 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
   }
 
   List<Widget> buildDutyPostSelectionWidget(
-      AttendanceShiftsState state, List<Shift> shifts, double height) {
-    log('--shifts--length--${shifts.length}-');
+      {required AttendanceShiftsState state, required Shift shift, required double height}) {
+    // log('--shifts--length--${shifts.length}-');
     return [
-      for (Shift shift in shifts) ...[
+      // for (Shift shift in shifts) ...[
         CommonWidgets.verticalSpacerWidget(
             MediaQuery.of(context).size.height * 0.01),
         buildTextWithLabel(
@@ -276,7 +278,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         ],
         CommonWidgets.verticalSpacerWidget(
             MediaQuery.of(context).size.height * 0.02),
-      ],
+      // ],
     ];
   }
 
@@ -559,9 +561,13 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     double width = MediaQuery.of(context).size.width;
     double columnWidth;
     if (width > Constants.tabletScreenWidth) {
-      columnWidth = width / 3.6;    /// TABLET
+      columnWidth = width / 3.6;
+
+      /// TABLET
     } else {
-      columnWidth = width / 4.67;   /// Mobile
+      columnWidth = width / 4.67;
+
+      /// Mobile
     }
     return Container(
       decoration: BoxDecoration(
@@ -590,12 +596,13 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                     element.name ?? '',
                     style: TextStyle(
                       fontSize: 15,
-                      color: selectedGuard == element ? AppColors.white : AppColors.black,
+                      color: selectedGuard == element
+                          ? AppColors.white
+                          : AppColors.black,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
-                )
-                ,
+                ),
               ),
             ),
           );

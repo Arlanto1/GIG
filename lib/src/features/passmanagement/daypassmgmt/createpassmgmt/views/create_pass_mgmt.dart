@@ -91,6 +91,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   @override
   Widget build(BuildContext context) {
     log('--passId----${widget.passId}----');
+    log('--status----${widget.model?.status}----');
     final size = MediaQuery.of(context).size;
     final height = size.height;
     return Scaffold(
@@ -848,7 +849,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 (state.selectedCompanyType
                                                         ?.name ==
                                                     null)
-                                            ? nameAddButtonWidgetLoading(state)
+                                            ? buildNameAddButton(state)
                                             : textFieldWidgetLoad(
                                                 controller: nameTextController,
                                                 index: 0,
@@ -3171,55 +3172,46 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         });
   }
 
-  Widget nameAddButtonWidgetLoading(CreatePassMgmtState state) {
+  Widget buildNameAddButton(CreatePassMgmtState state) {
+    // 2.Extract the complex condition for readability
+    final isButtonDisabled = widget.model?.status == 0 ||
+        widget.model == null ||
+        (widget.extraProperties != null &&
+                !widget.extraProperties!.hasWritePermission!) &&
+            (state.selectedCompanyType?.name ?? '').toLowerCase() != 'fte';
+
     return TextFieldAddButton(
-      title: state.nameResponse?.name ?? '', //state.t1nameanalyst?.name ?? '',
+      title: state.nameResponse?.name ?? '',
       height: 60,
-      isDisableColor: widget.model?.status == 0 ||
-              widget.model == null ||
-              (widget.extraProperties != null &&
-                      !widget.extraProperties!.hasWritePermission!) &&
-                  (state.selectedCompanyType?.name ?? '').toLowerCase() != 'fte'
-          ? false
-          : true,
+      isDisableColor: isButtonDisabled,
       onTap: () {
-        if ((state.selectedCompanyType?.name ?? '').toLowerCase() == 'fte' &&
-            state.model.status ==
-                ConstantsIntValue.articleFoundStatusHandedOverOrClaimed) {
+        final isFteAndNotEditable =
+            (state.selectedCompanyType?.name ?? '').toLowerCase() == 'fte' &&
+                (state.model.status ==
+                        ConstantsIntValue
+                            .articleFoundStatusHandedOverOrClaimed ||
+                    (widget.extraProperties != null &&
+                        !widget.extraProperties!.hasWritePermission!));
+
+        // 6. Combine similar conditions
+        if (isButtonDisabled || isFteAndNotEditable) {
           return;
         }
 
-        if (widget.model?.status == 0 ||
-            widget.model == null ||
-            (widget.extraProperties != null &&
-                !widget.extraProperties!.hasWritePermission!)) {
-          BaseOrganisationDialog().userDialog(
-            context: context,
-            users: state.getDepositorResponse,
-            roleName: ConstantUserRoles.atomStaticUser,
-            locationId: 0,
-            functionToCall: () {
-              BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
-            },
-            onTap: (BaseUser user) {
-              // BlocProvider.of<CreatePassMgmtCubit>(context)
-              //     .updateDropdownValues(
-              //   locationSecurityManager1: state.getDepositorResponse?.atomStaticUser,
-              // );
-              createPassMgmtCubit.getNameUsersResponseData(user);
-            },
-          );
-        }
+        BaseOrganisationDialog().userDialog(
+          context: context,
+          users: state.getDepositorResponse,
+          roleName: ConstantUserRoles.atomStaticUser,
+          locationId: 0,
+          functionToCall: () {
+            BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
+          },
+          onTap: (BaseUser user) {
+            // 7. Directly call the cubit method
+            createPassMgmtCubit.getNameUsersResponseData(user);
+          },
+        );
       },
-      // onTap: () {
-      //   if (widget.model == null ||
-      //       (state.nameResponse != null &&
-      //           ((state.nameResponse?.name ?? '').isEmpty))) {
-      //     //   articleTypeDialog(state);
-      //     // leodepartmentsDialog(state, 0);
-      //     nameTypeDialog(state);
-      //   }
-      // },
     );
   }
 

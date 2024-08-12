@@ -213,12 +213,14 @@ class RouteGenerator {
           int? eventId = arguments[ConstantsArgument.eventId];
           String? eventProtectionId =
               arguments[ConstantsArgument.eventProtectionId];
+          Organisation? location = arguments[ConstantsArgument.location];
           return MaterialPageRoute(
             builder: (context) => CreateFound(
               model: model,
               eventId: eventId,
               eventProtectionId: eventProtectionId,
               extraProperties: extraProperties,
+              eventProtectionLocation: location,
             ),
           );
         } else {
@@ -1556,6 +1558,7 @@ class RouteGenerator {
         Organisation? location;
         Organisation? locationRegion;
         Organisation? vendor;
+        late String title;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
@@ -1565,6 +1568,7 @@ class RouteGenerator {
           location = arguments[ConstantsArgument.location];
           locationRegion = arguments[ConstantsArgument.locationRegion];
           vendor = arguments[ConstantsArgument.vendor];
+          title = arguments[ConstantsArgument.title];
         }
         AttendanceServices services = AttendanceServices();
         CommonServices commonServices = CommonServices();
@@ -1584,6 +1588,7 @@ class RouteGenerator {
               location: location!,
               locationRegion: locationRegion!,
               vendor: vendor!,
+              title: title,
             ),
           ),
         );

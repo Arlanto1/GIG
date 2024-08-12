@@ -8,6 +8,13 @@ class Apis {
 
   static final String _getDutyPostsById = '$baseUrl/getAttdDpList';
   static final String _getDutyPostById = '$baseUrl/getAttdDpById';
+
+  /// Rank List
+  static final String _getAttendanceRanksByDutyPostId =
+      '$baseUrl/getAttRanksListByAssignedDutyPostId/';
+  static final String _getAttendanceShiftByByDutyPostIdAndRankId =
+      '$baseUrl/getAttShiftListByAssignedDutyPostId/';
+
   static final String _getBriefingPoints = '$baseUrl/getBriefingPoints';
 
   static final String _create = '$baseUrl/updateAttendance?';
@@ -44,7 +51,6 @@ class AttendanceServices {
 
   Future<List<DutyPostModel>> getDutyPostsById({
     required int? id,
-    BuildContext? context,
   }) async {
     if (id == null) {
       return [];
@@ -58,9 +64,7 @@ class AttendanceServices {
         response.map((x) => DutyPostModel.fromJson(x)));
   }
 
-  Future<List<String>> getBriefingPoints({
-    BuildContext? context,
-  }) async {
+  Future<List<String>> getBriefingPoints() async {
     final String url = Apis._getBriefingPoints;
     final response = await BaseApiService().getRequest(
       url: url,
@@ -69,17 +73,19 @@ class AttendanceServices {
     return List<String>.from(response.map((x) => x));
   }
 
-  Future<DutyPostModel> getDutyPostById({
-    required int? attInfoId,
-    required int? dutyPostNameId,
+  Future<Shift> getDutyPostById({
+    required int attInfoId,
+    required int dutyPostNameId,
+    required int rankId,
+    required int shiftId,
   }) async {
     final String url =
-        '${Apis._getDutyPostById}?attInfoId=$attInfoId&dutyPostNameId=$dutyPostNameId';
+        '${Apis._getDutyPostById}?attInfoId=$attInfoId&dutyPostNameId=$dutyPostNameId&rankId=$rankId&shiftId=$shiftId';
     final response = await BaseApiService().getRequest(
       url: url,
     );
 
-    return DutyPostModel.fromJson(response);
+    return Shift.fromJson(response);
   }
 
   Future<GenericResponse> create({
@@ -104,5 +110,36 @@ class AttendanceServices {
       requestedData: body.toJson(),
     );
     return GenericResponse.fromJson(response);
+  }
+
+  /// Get Rank List
+  Future<List<Organisation>> getAttendanceRanksByDutyPostId({
+    required int attendanceId,
+    required int dutyPostId,
+  }) async {
+    String url =
+        '${Apis._getAttendanceRanksByDutyPostId}$attendanceId?shiftAssignedDutyPostId=$dutyPostId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return List<Organisation>.from(
+        response.map((x) => Organisation.fromJson(x)));
+  }
+
+  /// Get Shift List By Rank Id
+  Future<List<Organisation>> getAttendanceShiftByByDutyPostIdAndRankId({
+    required int attendanceId,
+    required int dutyPostId,
+    required int rankId,
+  }) async {
+    String url =
+        '${Apis._getAttendanceShiftByByDutyPostIdAndRankId}$attendanceId?shiftAssignedDutyPostId=$dutyPostId&rankId=$rankId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return List<Organisation>.from(
+        response.map((x) => Organisation.fromJson(x)));
   }
 }

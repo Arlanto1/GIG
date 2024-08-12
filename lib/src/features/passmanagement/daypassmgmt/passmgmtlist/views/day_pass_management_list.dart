@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/controllers/day_passlist_cubit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
@@ -55,36 +57,39 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
         pageNumber.toString(), '20', userid, '${widget.passId}', context);
   }
 
-  getpassFoundArticleListId(int articleid) async {
+  getById(int id) async {
     showLoadingDialog(context);
-    PassManagementModel? foundArticleDetailsResponse =
-        await dayPassListCubit.getpassArticleById(articleid, context);
+    PassManagementModel? model =
+        await dayPassListCubit.getpassArticleById(id, context);
 
-    editDataLoading(foundArticleDetailsResponse);
+    log('--model--${model?.id}---');
+
+    editDataLoading(model);
   }
 
-  void editDataLoading(PassManagementModel? foundArticleDetailsResponse) {
+  void editDataLoading(PassManagementModel? model) {
     dismissLoadingDialog(context);
-    if (foundArticleDetailsResponse != null) {
-      // Navigator.pushNamed(context, createpassmgmtRoute,
-      //     arguments: {"UserElement": foundArticleDetailsResponse});
-      String titleIdentify = '';
-      if (widget.passId == 0) {
-        titleIdentify = 'Edit Day Pass Management';
-      } else if (widget.passId == 1) {
-        titleIdentify = 'Edit Visitor Pass Management';
-      } else if (widget.passId == 2) {
-        titleIdentify = 'Edit Vendor Pass Management';
-      } else if (widget.passId == 3) {
-        titleIdentify = 'Edit SEZ Pass Management';
-      }
-
-      // DayPassListElement? listuser = foundArticleDetailsResponse;
-      Navigator.pushNamed(context, createpassmgmtRoute, arguments: {
-        "passMngCreateDetails": CreatePassMngArguments(
-            widget.passId, titleIdentify, true, foundArticleDetailsResponse)
-      });
+    if (model == null) {
+      return;
     }
+    // Navigator.pushNamed(context, createpassmgmtRoute,
+    //     arguments: {"UserElement": foundArticleDetailsResponse});
+    String titleIdentify = '';
+    if (widget.passId == 0) {
+      titleIdentify = 'Edit Day Pass Management';
+    } else if (widget.passId == 1) {
+      titleIdentify = 'Edit Visitor Pass Management';
+    } else if (widget.passId == 2) {
+      titleIdentify = 'Edit Vendor Pass Management';
+    } else if (widget.passId == 3) {
+      titleIdentify = 'Edit SEZ Pass Management';
+    }
+
+    // DayPassListElement? listuser = foundArticleDetailsResponse;
+    Navigator.pushNamed(context, createpassmgmtRoute, arguments: {
+      "passMngCreateDetails": CreatePassMngArguments(
+          widget.passId, titleIdentify, true, model)
+    });
   }
 
   @override
@@ -105,7 +110,6 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
         backgroundColor: AppColors.navigationSkyBlueColor,
         foregroundColor: AppColors.backgroundWhiteColor,
         onPressed: () {
-          // Navigator.pushNamed(context, createpassmgmtRoute);
           String titleIdentify = '';
           if (widget.passId == 0) {
             titleIdentify = 'Create Day Pass Management';
@@ -359,7 +363,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
                   //do the detail edit of user found
                 },
                 onEditTap: (selectedIndex) {
-                  getpassFoundArticleListId(userList[selectedIndex].id ?? 0);
+                  getById(userList[selectedIndex].id ?? 0);
                 },
                 onViewTap: (selectedIndex) {
                   showDialog(
