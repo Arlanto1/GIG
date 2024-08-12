@@ -36,7 +36,7 @@ class KeyManagementIssuanceDetailsCubit
     List<Organisation>? entities =
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
     List<BaseUser> emailUsers = await commonServices.getBaseUsers(
-        roleName: 'ATOM_STATIC_USER', locationId: state.model.location?.id);
+        roleName: 'ATOM_STATIC_USER', locationId: state.model.location!.id!);
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
@@ -88,7 +88,7 @@ class KeyManagementIssuanceDetailsCubit
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
         commonServices.getBaseUsers(
-            roleName: 'ATOM_STATIC_USER', locationId: state.model.location?.id),
+            roleName: 'ATOM_STATIC_USER', locationId: state.model.location!.id!),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
@@ -171,7 +171,7 @@ class KeyManagementIssuanceDetailsCubit
       state.model.slNo = slNo.serialNo;
 
       emailUsers = await commonServices.getBaseUsers(
-          roleName: 'ATOM_STATIC_USER', locationId: location.id);
+          roleName: 'ATOM_STATIC_USER', locationId: location.id!);
     }
     state.model.dbSponsorCwrT2 = null;
     state.model.handedOverTo = null;

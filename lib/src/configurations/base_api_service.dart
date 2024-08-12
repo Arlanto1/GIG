@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dart_extensions/dart_extensions.dart';
+import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/models/responseModels/generic_response.dart';
+import 'package:db_atom/src/models/responseModels/permission_error.dart';
 import 'package:db_atom/src/utils/location_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -40,6 +42,8 @@ class BaseApiService {
         position = await determinePosition();
         headers.addAll({"Latitude": position.latitude.toString()});
         headers.addAll({"Longitude": position.longitude.toString()});
+      } else {
+        throw PermissionError(message: Constants.locationPermissionError);
       }
     } else {
       PermissionStatus permissionStatus = await requestLocationPermission();
@@ -48,6 +52,8 @@ class BaseApiService {
         position = await determinePosition();
         headers.addAll({"Latitude": position.latitude.toString()});
         headers.addAll({"Longitude": position.longitude.toString()});
+      } else {
+        throw PermissionError(message: Constants.locationPermissionError);
       }
     }
 

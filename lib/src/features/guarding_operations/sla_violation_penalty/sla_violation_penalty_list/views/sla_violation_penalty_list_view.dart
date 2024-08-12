@@ -217,8 +217,6 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                                           state.items[index].inputDate ?? '0'),
                                       Constants.twentyFourHourDateTimeFormat)
                                   : ''));
-                          log('--Input DATE int parse--${Utils.timestampToDateConversion(int.parse(state.items[index].inputDate ?? '0'), Constants.twentyFourHourDateTimeFormat)}');
-                          log('--Input DATE int normal--${state.items[index].inputDate}');
                           labels.add(Label(
                               key: state.labels?.locale.entity ??
                                   state.labels?.defaultLocale.entity ??

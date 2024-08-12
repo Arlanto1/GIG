@@ -73,7 +73,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     List<BaseUser>? shiftTakenOverBy = await commonServices.getBaseUsersByRoles(
         roleNames: ConstantUserRoles.atomGuardingStaffUser,
-        locationId: model?.location?.id);
+        locationId: model!.location!.id!);
 
     emit(
       state.copyWith(
@@ -163,7 +163,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
             }
 
             model.powerFailures?.add(powerFailure);
-            log('--model.powerFailures--${model.powerFailures?.length}-');
           }
         }
       }
@@ -171,7 +170,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       List<BaseUser>? shiftTakenOverBy =
           await commonServices.getBaseUsersByRoles(
               roleNames: ConstantUserRoles.atomGuardingStaffUser,
-              locationId: model.location?.id);
+              locationId: model.location!.id!);
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
       model.status ?? 0;
@@ -229,7 +228,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       state.model.slNo = slNo.serialNo ?? '';
       shiftTakenOverBy = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomGuardingStaffUser,
-          locationId: location.id);
+          locationId: location.id!);
     }
     state.model.handoverSecurity = null;
 

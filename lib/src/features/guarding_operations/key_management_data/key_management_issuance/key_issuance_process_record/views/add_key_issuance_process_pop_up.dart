@@ -112,9 +112,10 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
         widget.model.returned == null ? '0' : widget.model.returned.toString();
     widget.model.returned = int.tryParse(returnedKeysController.text);
 
-    notReturnedKeysController.text = widget.model.returned == null
+    notReturnedKeysController.text = widget.model.notReturned == null
         ? '0'
         : widget.model.notReturned.toString();
+
     widget.model.notReturned = int.tryParse(notReturnedKeysController.text);
 
     lostKeysController.text =
@@ -590,7 +591,12 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
       );
     }
 
-    if(widget.parentStatus ==  ConstantsIntValue.issuanceHandedOverStatus && widget.model.noKeysIssued != (widget.model.returned! + widget.model.notReturned! + widget.model.lost! + widget.model.damaged!)){
+    if (widget.parentStatus == ConstantsIntValue.issuanceHandedOverStatus &&
+        widget.model.noKeysIssued !=
+            (widget.model.returned! +
+                widget.model.notReturned! +
+                widget.model.lost! +
+                widget.model.damaged!)) {
       return const ErrorResponse(
         status: false,
         message: 'Values not matching with no of keys issued',

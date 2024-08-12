@@ -57,10 +57,10 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         roleName: 'ATOM_STATIC_USER', locationId: state.model.location?.id);
     List<BaseUser> epm = await commonServices.getBaseUsersByRoles(
         roleNames: 'ATOM_Sub_Regional_Head',
-        locationId: state.model.location?.id);
+        locationId: state.model.location!.id!);
     List<BaseUser> lsm = await commonServices.getBaseUsersByRoles(
         roleNames: 'ATOM_Senior_Security_Manager',
-        locationId: state.model.location?.id);
+        locationId: state.model.location!.id!);
 
     emit(
       state.copyWith(
@@ -105,10 +105,10 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getBaseUsersByRoles(
             roleNames: 'ATOM_Sub_Regional_Head',
-            locationId: model.location?.id),
+            locationId: model.location!.id!),
         commonServices.getBaseUsersByRoles(
             roleNames: 'ATOM_Senior_Security_Manager',
-            locationId: model.location?.id),
+            locationId: model.location!.id!),
       ]);
 
       // Assign results to variables with explicit data types
@@ -203,13 +203,13 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
       emailUsers = await commonServices.getBaseUsers(
-          roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
+          roleName: ConstantUserRoles.atomStaticUser, locationId: location.id!);
       epm = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomSubRegionalHeadUser,
-          locationId: location.id);
+          locationId: location.id!);
       lsm = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomSeniorSecurityManagerUser,
-          locationId: location.id);
+          locationId: location.id!);
     }
 
     state.model.epManager1 = null;

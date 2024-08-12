@@ -17,7 +17,7 @@ class ProdConfig implements BaseConfig {
   bool get useHttps => false;
 
   @override
-  Duration get inactivityDuration => const Duration(minutes: 100);
+  Duration get inactivityDuration => const Duration(minutes: 30);
 
   @override
   String get keyClockApiHost => "https://websso.uat.dbatom.com";

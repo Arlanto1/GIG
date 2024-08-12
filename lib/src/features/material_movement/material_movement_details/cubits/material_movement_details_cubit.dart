@@ -42,13 +42,13 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser> emailUsers = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomStaticUser,
-        locationId: state.model.location?.id);
+        locationId: state.model.location!.id!);
 
     emit(
       state.copyWith(
         status: FormStatus.initial,
         loadAttachments: state.model.images,
-        emailUsers: emailUsers,
+        // emailUsers: emailUsers,
         departments: departments.employeeDepartments,
         quantityUnits: quantityUnits,
       ),
@@ -125,7 +125,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         SharedPrefs.getDefaultLocation(),
         commonServices.getBaseUsers(
             roleName: ConstantUserRoles.atomStaticUser,
-            locationId: state.model.location?.id),
+            locationId: state.model.location!.id!),
         commonServices.getOrganisations(name: 'ATOM_MATERIAL_MOVEMENT_UNIT'),
       ]);
 
@@ -138,6 +138,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       List<BaseUser> emailUsers = futures[6];
       List<Organisation> quantityUnits = futures[7];
 
+      log('--emailUsers--${emailUsers.length}---');
       // Get Date of Creation
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
@@ -224,7 +225,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
       emailUsers = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomStaticUser,
-          locationId: state.model.location?.id);
+          locationId: state.model.location!.id!);
     }
     if (location != null && isInward == false) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -236,7 +237,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.slNo = slNo.serialNo;
       emailUsers = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomStaticUser,
-          locationId: state.model.location?.id);
+          locationId: state.model.location!.id!);
     }
     state.model.receiverEmail = null;
     state.model.requestorEmail = null;

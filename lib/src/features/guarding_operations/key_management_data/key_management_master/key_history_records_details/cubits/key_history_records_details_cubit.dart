@@ -30,7 +30,7 @@ class KeyHistoryRecordsDetailsCubit
             model: model ?? KeyHistoryModel(),
             loggedInUserDetails: User(),
             users: const [],
-            securityManager: const [],
+            securityManagers: const [],
             errorMessage: '',
             departments: const [],
           ),
@@ -61,7 +61,6 @@ class KeyHistoryRecordsDetailsCubit
 
     log('---kipId--$kipId-');
 
-
     if (kipId != null) {
       keyIssuanceProcessModel =
           await keyIssuanceServices.getIssuanceProcessById(kipId!);
@@ -71,21 +70,24 @@ class KeyHistoryRecordsDetailsCubit
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
         commonServices.getUserDetails(userId: userId),
-        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Security_Manager'),
+        commonServices.getBaseUsersByRoles(
+            roleNames: 'ATOM_Security_Manager',
+            locationId: parentModel.location!.id!),
         commonServices.getOrganisations(
             name: 'KEY_MANAGEMENT_DESTRUCTION_REASON'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.keyManagementMasterModule),
         SharedPrefs.getDefaultLocation(),
-        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head'),
+        commonServices.getBaseUsersByRoles(
+            roleNames: 'ATOM_Sub_Regional_Head',
+            locationId: parentModel.location!.id!),
       ]);
 
       User loggedInUserDetails = futures[0];
-      List<BaseUser> securityManager = futures[1];
+      List<BaseUser> securityManagers = futures[1];
       List<Organisation> destructionReasons = futures[2];
       dynamic responseLabels = futures[3];
-      Organisation? defaultLocation = futures[4];
       List<BaseUser> srh = futures[5];
 
       if (parentModel.location != null && state.model.slNo == null) {
@@ -111,7 +113,8 @@ class KeyHistoryRecordsDetailsCubit
 
           state.model.noOfKeys = keyIssuanceProcessModel.lost;
         } else {
-          model?.noOfKeys = state.model.noOfKeys; // wrong: it will always be null
+          model?.noOfKeys =
+              state.model.noOfKeys; // wrong: it will always be null
         }
       }
       // Get Date of Creation
@@ -130,8 +133,8 @@ class KeyHistoryRecordsDetailsCubit
             loggedInUserDetails: loggedInUserDetails,
             status: FormStatus.initial,
             model: state.model,
-            securityManager: securityManager,
-            srh: srh,
+            securityManagers: securityManagers,
+            sRHs: srh,
             destructionReasons: destructionReasons,
             labels: labels,
             keyManagementMasterModel: parentModel,
@@ -156,16 +159,16 @@ class KeyHistoryRecordsDetailsCubit
     List<Organisation>? departments = await commonServices.getOrganisations(
         name: 'KEY_MANAGEMENT_DESTRUCTION_REASON');
     List<BaseUser> securityManager = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Security_Manager');
+        roleNames: 'ATOM_Security_Manager', locationId: state.keyManagementMasterModel!.location!.id!);
     List<BaseUser> srh = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Sub_Regional_Head');
+        roleNames: 'ATOM_Sub_Regional_Head', locationId: state.keyManagementMasterModel!.location!.id!);
 
     emit(
       state.copyWith(
         status: FormStatus.initial,
         users: users.t1Analyst,
-        securityManager: securityManager,
-        srh: srh,
+        securityManagers: securityManager,
+        sRHs: srh,
         departments: departments,
       ),
     );

@@ -50,7 +50,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
     }
 
     final Offset offset = renderBox.localToGlobal(Offset.zero);
-    const int itemCount = 4; // Define the number of items as a constant
+    const int itemCount = 6; // Define the number of items as a constant
     final double itemWidth = renderBox.size.width / itemCount;
     final double positionX = offset.dx + selectedIndex * itemWidth +itemWidth / 2;
 

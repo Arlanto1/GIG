@@ -83,7 +83,7 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;
@@ -203,7 +203,7 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;

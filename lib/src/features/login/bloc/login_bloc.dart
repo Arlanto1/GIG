@@ -45,6 +45,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       }
 
       loginData = await loginService.loginUser(event.requestModel);
+
+      log('--loginData---${loginData.toString()}----');
+
       var data = event.requestModel;
       userName = data.request?.userName?.trim() ?? '';
       password = data.request?.password ?? '';
@@ -64,7 +67,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         if (loginData.user?.displayMenu == null) {
           emit(LoginFailureState(
             message: 'Menu Roles are not defined',
-            status: FormStatus.error,
+            status: FormStatus.formError,
           ));
           return null;
         }
@@ -72,6 +75,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         /// Setting Menu Items according to User Role
         await SharedPrefs.setDisplayMenu(loginData.user!.displayMenu!);
 
+        if (loginData.user?.defaultLocation == null) {
+          emit(LoginFailureState(
+            message: 'Roles/Default Location is not defined!',
+            status: FormStatus.formError,
+          ));
+          return null;
+        }
         /// Setting Default Location
         await SharedPrefs.setDefaultLocation(loginData.user!.defaultLocation!);
 
@@ -90,6 +100,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       }
     } catch (e) {
       // Handle API errors here
+
+      log('--e-$e-------to-${e.toString()}-');
       if (e is GenericResponse) {
         emit(LoginFailureState(
           message: e.message ?? 'An unexpected error occurred.',
@@ -105,7 +117,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         // Handle other unexpected errors
         log('Server Might Be Restarting: $e');
         emit(LoginFailureState(
-          message: 'Please check your network connection and try again.',
+          message: 'Please check your network connection and try again. Reason: ${e.toString()}',
           status: FormStatus.error,
         ));
       }

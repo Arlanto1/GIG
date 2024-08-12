@@ -15,7 +15,7 @@ class QaConfig implements BaseConfig {
   bool get useHttps => false;
 
   @override
-  Duration get inactivityDuration => const Duration(minutes: 50);
+  Duration get inactivityDuration => const Duration(minutes: 100);
 
   @override
   String get keyClockApiHost => "https://qa.keycloak.arlanto.com";

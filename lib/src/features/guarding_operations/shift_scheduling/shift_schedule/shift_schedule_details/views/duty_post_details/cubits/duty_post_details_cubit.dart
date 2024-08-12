@@ -160,13 +160,13 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     ));
 
     /// Saving and Refresh the record
-    await submitAndRefreshScreen(checkValidations: true);
+    await submitAndRefreshScreen(checkValidations: false);
   }
 
   Future<void> submitAndRefreshScreen({required bool checkValidations}) async {
     /// Saving the record
     await submitForm(
-      isSaveOnly: false,
+      isSaveOnly: true,
       model: state.model,
       status: FormStatus.initial,
       newSelectedShift: state.selectedShift!,
@@ -174,7 +174,9 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     );
 
     /// refreshing the list so that we can refresh the validation for creating new replacements.
-    initializeValues();
+    if(state.status != FormStatus.formError) {
+      initializeValues();
+    }
   }
 
   Future<void> getNextAvailableReplacementDates({required int userId}) async {
@@ -211,6 +213,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
       ),
     );
     log('---state.selectedShift!.id-${state.selectedShift!.id}--');
+    log('---isSaveOnly---$isSaveOnly--');
 
     // Create/Update API Call
     ShiftRequest request = ShiftRequest(shifts: model);
@@ -218,8 +221,8 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     log('--checkValidations-$checkValidations-');
     GenericResponse response = GenericResponse();
     try {
-      if (isSaveOnly && checkValidations) {
-        if (!state.isValidDraft.status) {
+      if (isSaveOnly) {
+        if (checkValidations && !state.isValidDraft.status) {
           emit(
             state.copyWith(
               status: FormStatus.formError,
@@ -260,7 +263,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;
