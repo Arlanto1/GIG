@@ -849,7 +849,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 (state.selectedCompanyType
                                                         ?.name ==
                                                     null)
-                                            ? buildNameAddButton(state)
+                                            ? nameAddButtonWidgetLoading(state)
                                             : textFieldWidgetLoad(
                                                 controller: nameTextController,
                                                 index: 0,
@@ -3172,46 +3172,57 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         });
   }
 
-  Widget buildNameAddButton(CreatePassMgmtState state) {
-    // 2.Extract the complex condition for readability
-    final isButtonDisabled = widget.model?.status == 0 ||
-        widget.model == null ||
-        (widget.extraProperties != null &&
-                !widget.extraProperties!.hasWritePermission!) &&
-            (state.selectedCompanyType?.name ?? '').toLowerCase() != 'fte';
-
+  Widget nameAddButtonWidgetLoading(CreatePassMgmtState state) {
     return TextFieldAddButton(
-      title: state.nameResponse?.name ?? '',
+      title: state.nameResponse?.name ?? '', //state.t1nameanalyst?.name ?? '',
       height: 60,
-      isDisableColor: isButtonDisabled,
+      isDisableColor: widget.model?.status == 0 ||
+              widget.model == null ||
+              (widget.extraProperties != null &&
+                      !widget.extraProperties!.hasWritePermission!) &&
+                  (state.selectedCompanyType?.name ?? '').toLowerCase() != 'fte'
+          ? false
+          : true,
       onTap: () {
-        final isFteAndNotEditable =
-            (state.selectedCompanyType?.name ?? '').toLowerCase() == 'fte' &&
-                (state.model.status ==
-                        ConstantsIntValue
-                            .articleFoundStatusHandedOverOrClaimed ||
-                    (widget.extraProperties != null &&
-                        !widget.extraProperties!.hasWritePermission!));
-
-        // 6. Combine similar conditions
-        if (isButtonDisabled || isFteAndNotEditable) {
+        if ((state.selectedCompanyType?.name ?? '').toLowerCase() == 'fte' &&
+                state.model.status ==
+                    ConstantsIntValue.articleFoundStatusHandedOverOrClaimed ||
+            (widget.extraProperties != null &&
+                !widget.extraProperties!.hasWritePermission!)) {
           return;
         }
 
-        BaseOrganisationDialog().userDialog(
-          context: context,
-          users: state.getDepositorResponse,
-          roleName: ConstantUserRoles.atomStaticUser,
-          locationId: 0,
-          functionToCall: () {
-            BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
-          },
-          onTap: (BaseUser user) {
-            // 7. Directly call the cubit method
-            createPassMgmtCubit.getNameUsersResponseData(user);
-          },
-        );
+        if (widget.model?.status == 0 ||
+            widget.model == null ||
+            (widget.extraProperties != null &&
+                !widget.extraProperties!.hasWritePermission!)) {
+          BaseOrganisationDialog().userDialog(
+            context: context,
+            users: state.getDepositorResponse,
+            roleName: ConstantUserRoles.atomStaticUser,
+            locationId: 0,
+            functionToCall: () {
+              BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
+            },
+            onTap: (BaseUser user) {
+              // BlocProvider.of<CreatePassMgmtCubit>(context)
+              //     .updateDropdownValues(
+              //   locationSecurityManager1: state.getDepositorResponse?.atomStaticUser,
+              // );
+              createPassMgmtCubit.getNameUsersResponseData(user);
+            },
+          );
+        }
       },
+      // onTap: () {
+      //   if (widget.model == null ||
+      //       (state.nameResponse != null &&
+      //           ((state.nameResponse?.name ?? '').isEmpty))) {
+      //     //   articleTypeDialog(state);
+      //     // leodepartmentsDialog(state, 0);
+      //     nameTypeDialog(state);
+      //   }
+      // },
     );
   }
 
