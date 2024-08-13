@@ -30,7 +30,6 @@ class Constants {
   static const String occurrenceModule = 'OCC';
   static const String incidentManagementModule = 'IM';
   static const String contactDetailsModule = 'CD';
-  static const String slaViolationPenaltyDetailsModule = 'SVP';
   static const String keyManagementIssuanceModule = 'KMISS';
   static const String keyManagementMasterModule = 'KeyMM';
   static const String keyLossDestructionModule = 'KLD';
