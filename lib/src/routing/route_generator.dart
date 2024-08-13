@@ -607,7 +607,7 @@ class RouteGenerator {
         SLAViolationPenaltyServices services = SLAViolationPenaltyServices();
         CommonServices commonServices = CommonServices();
         String title;
-        String? attdInfoId = '';
+        late int? attdInfoId;
         Organisation? location;
         Organisation? locationRegion;
         Organisation? vendor;
@@ -616,7 +616,7 @@ class RouteGenerator {
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
-        attdInfoId = arguments[ConstantsArgument.attdInfoId] ?? '';
+        attdInfoId = arguments[ConstantsArgument.attdInfoId];
         SLAViolationPenaltyModel? model = arguments[ConstantsArgument.model];
         location = arguments[ConstantsArgument.location];
         locationRegion = arguments[ConstantsArgument.locationRegion];
@@ -630,7 +630,7 @@ class RouteGenerator {
               services: services,
               model: model,
               commonServices: commonServices,
-              attdInfoId: attdInfoId,
+              attdInfoId: attdInfoId.toString(),
               location: location,
               locationRegion: locationRegion,
               vendor: vendor,

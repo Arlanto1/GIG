@@ -98,9 +98,9 @@ class ShiftModel {
   Set<BaseUser>? availableGuards;
   Set<Replacement>? replacements;
 
-  List<BaseUser>? selectForAttendance;
-  List<BaseUser>? attended;
-  List<BaseUser>? previousShift;
+  Set<BaseUser>? selectForAttendance;
+  Set<BaseUser>? attended;
+  Set<BaseUser>? previousShift;
   String? briefingPoints;
 
   ShiftModel({
@@ -120,7 +120,7 @@ class ShiftModel {
 
   factory ShiftModel.fromJson(Map<String, dynamic> json) {
     try {
-      return _$ShiftFromJson(json);
+      return _$ShiftModelFromJson(json);
     } catch (e) {
       if (e is CheckedFromJsonException) {
         // Access the information about the error
@@ -135,7 +135,7 @@ class ShiftModel {
     }
   }
 
-  Map<String, dynamic> toJson() => _$ShiftToJson(this);
+  Map<String, dynamic> toJson() => _$ShiftModelToJson(this);
 
   @override
   String toString() {

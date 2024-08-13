@@ -188,7 +188,25 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void submitForm({bool isSaveOnly = false, FormStatus? status}) async {
+
+  Future<void> submitAndRefreshScreen({bool? checkValidations}) async {
+    /// Saving the record
+    await submitForm(
+      isSaveOnly: true,
+      // model: state.model,
+      status: FormStatus.initial,
+      // newSelectedShift: state.selectedShift!,
+      // checkValidations: checkValidations,
+    );
+
+    /// refreshing the list so that we can refresh the validation for creating new replacements.
+    if (state.status != FormStatus.formError) {
+      initializeValues();
+    }
+  }
+
+
+  Future<void> submitForm({bool isSaveOnly = false, FormStatus? status}) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,

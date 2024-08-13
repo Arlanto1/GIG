@@ -77,7 +77,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             showSubmitButton: true,
             showDisLikeButton: false,
             showLikeButton: false,
-            onTapSave: () => submitDutyPost(context, isSaveOnly: true),
+            onTapSave: () => BlocProvider.of<AttendanceShiftsCubit>(context)
+                .submitAndRefreshScreen(),
             onTapSubmit: () => submitDutyPost(context, isSaveOnly: false),
           ),
           body: Padding(
@@ -225,8 +226,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         children: [
           buildShiftColumn(
             shift: shift,
-            guards: shift.selectForAttendance ?? [],
-            destinationList: shift.attended ?? [],
+            guards: shift.selectForAttendance ?? {},
+            destinationList: shift.attended ?? {},
             isSourceList: true,
             label:
                 'Select For \nAttendance: \n${shift.shift} (Planned: ${shift.allowed})',
@@ -235,16 +236,18 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           Column(
             children: [
               buildArrowButton(
+                state: state,
                 icon: Icons.arrow_right,
-                destinationList: shift.attended ?? [],
+                destinationList: shift.attended ?? {},
                 onAdd: (BaseUser guard) {
                   shift.attended?.add(guard);
                   shift.selectForAttendance?.remove(guard);
                 },
               ),
               buildArrowButton(
+                state: state,
                 icon: Icons.arrow_left,
-                destinationList: shift.selectForAttendance ?? [],
+                destinationList: shift.selectForAttendance ?? {},
                 onAdd: (BaseUser guard) {
                   shift.selectForAttendance?.add(guard);
                   shift.attended?.remove(guard);
@@ -264,24 +267,26 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           // ),
           buildShiftColumn(
             shift: shift,
-            guards: shift.attended ?? [],
-            destinationList: shift.attended ?? [],
+            guards: shift.attended ?? {},
+            destinationList: shift.attended ?? {},
             isSourceList: false,
             label: 'Attended\n\n',
           ),
           Column(
             children: [
               buildArrowButton(
+                state: state,
                 icon: Icons.arrow_right,
-                destinationList: shift.previousShift ?? [],
+                destinationList: shift.previousShift ?? {},
                 onAdd: (BaseUser guard) {
                   shift.previousShift?.add(guard);
                   shift.attended?.remove(guard);
                 },
               ),
               buildArrowButton(
+                state: state,
                 icon: Icons.arrow_left,
-                destinationList: shift.attended ?? [],
+                destinationList: shift.attended ?? {},
                 onAdd: (BaseUser guard) {
                   shift.attended?.add(guard);
                   shift.previousShift?.remove(guard);
@@ -291,8 +296,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           ),
           buildShiftColumn(
             shift: shift,
-            destinationList: shift.attended ?? [],
-            guards: shift.previousShift ?? [],
+            destinationList: shift.attended ?? {},
+            guards: shift.previousShift ?? {},
             isSourceList: false,
             label: 'Select From\nPrevious Shift\n',
           ),
@@ -346,8 +351,9 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
   }
 
   Widget buildArrowButton({
+    required AttendanceShiftsState state,
     required IconData icon,
-    required List<BaseUser> destinationList,
+    required Set<BaseUser> destinationList,
     required void Function(BaseUser guard) onAdd,
     // required void Function(BaseUser guard) onRemove,
   }) {
@@ -356,7 +362,12 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
       onPressed: () {
         if (selectedGuard != null && !destinationList.contains(selectedGuard)) {
           log('--onPressed----');
-          onAdd(selectedGuard!);
+
+          BlocProvider.of<AttendanceShiftsCubit>(context)
+              .submitAndRefreshScreen();
+          if (state.status != FormStatus.formError) {
+            onAdd(selectedGuard!);
+          }
           setState(() {});
         }
       },
@@ -368,10 +379,10 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
 
   Widget buildShiftColumn({
     required ShiftModel shift,
-    required List<BaseUser> guards,
+    required Set<BaseUser> guards,
     required bool isSourceList,
     required String label,
-    required List<BaseUser> destinationList,
+    required Set<BaseUser> destinationList,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -412,15 +423,14 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        GestureDetector(
+        InkWell(
           onTap: () {
             Navigator.pushNamed(
               context,
               slaViolationPenaltyDetailsRoute,
               arguments: {
                 ConstantsArgument.title: Constants.slaViolationPenaltyTitle,
-                ConstantsArgument.attdInfoId: widget.attInfoId.toString(),
-                // TODO: need to check the id
+                ConstantsArgument.attdInfoId: state.model.attendanceShiftId,
                 ConstantsArgument.location: widget.location,
                 ConstantsArgument.locationRegion: widget.locationRegion,
                 ConstantsArgument.vendor: widget.vendor,
@@ -618,14 +628,13 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
   }
 
   Widget buildUserList({
-    required List<BaseUser> availableGuards,
+    required Set<BaseUser> availableGuards,
   }) {
     log('--MediaQuery.of(context).size.width---${MediaQuery.of(context).size.width}-');
     double width = MediaQuery.of(context).size.width;
     double columnWidth;
     if (width > Constants.tabletScreenWidth) {
       columnWidth = width / 3.6;
-
       /// TABLET
     } else {
       columnWidth = width / 4.67;
@@ -643,7 +652,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         itemCount: availableGuards.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
-          final element = availableGuards[index];
+          final element = availableGuards.toList()[index];
           return GestureDetector(
             onTap: () => handleUserTap(element),
             child: Card(
