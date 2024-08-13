@@ -83,6 +83,229 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   // int get index => 0;
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.model != null) {
+      populateData();
+      lawEnforcementCubit.initializeValuesForExistingRecord(
+          model: widget.model!);
+      lawEnforcementCubit.getDistributionGroupsDetails();
+    } else {
+      lawEnforcementCubit.initializeValuesForNewRecord();
+    }
+
+    getLawEnforcementList(context);
+    _getCurrentDate();
+  }
+
+  populateData() async {
+    if (widget.model != null) {
+      await SharedPrefs.setFoundId(widget.model?.id ?? 0);
+
+      additionalInformationTextController.text =
+          widget.model?.additionalInformation != null
+              ? widget.model?.additionalInformation.toString() ?? ""
+              : '';
+      dbOfficailWanttimeetTextController.text =
+          widget.model?.dbOfficialEmail != null
+              ? widget.model?.dbOfficialEmail.toString() ?? ""
+              : '';
+      actualDateTextController.text =
+          widget.model?.timeOfVisit != null && widget.model?.timeOfVisit != '0'
+              ? Utils.timestampToDateConversion(
+                  int.parse(widget.model?.timeOfVisit ?? ''),
+                  Constants.fulldateFormat)
+              : actualDateTextController.text;
+      dateofcreationTextController.text =
+          widget.model?.inputDate != null && widget.model?.inputDate != '0'
+              ? Utils.timestampToDateConversion(
+                  int.parse(widget.model?.inputDate ?? '0'),
+                  Constants.fulldateFormat)
+              : dateofcreationTextController.text;
+      // List<VisitingOfficial>? visitingOfficials = widget.listuser?.visitingOfficials != null ? widget.listuser?.visitingOfficials ?? [] : [];
+      statusTextController.text = widget.model?.status == 0
+          ? "Draft"
+          : widget.model?.status == 1
+              ? "Submitted"
+              : widget.model?.status == 2
+                  ? "Verification Under Process"
+                  : widget.model?.status == 3
+                      ? "Distributed"
+                      : widget.model?.status == -1
+                          ? 'Cancelled'
+                          : '';
+
+      if (widget.model?.status == 3 ||
+          statusTextController.text == 'Distributed') {
+        lawEnforcementCubit.getDistributed(true);
+        isReadOnly = true;
+        setState(() {});
+      }
+      //state.serialnumberResponse?.serialNo
+
+      //  state.getUserDetailsResponse  =  widget.listuser?.entrySecurity != null ? GetUserDetails(
+      //     userId: widget.listuser?.entrySecurity?.userId ?? 1,
+      //     lastName: widget.listuser?.entrySecurity?.lastName ?? "") : GetUserDetails() ;
+
+      //state.locationSelectedlist =
+      Organisation mumbai = widget.model?.location != null
+          ? Organisation(
+              id: widget.model?.location?.id ?? 0,
+              name: widget.model?.location?.name ?? "")
+          : Organisation();
+
+      log('--widget.model?.slNo----${widget.model?.slNo}---');
+      // serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
+
+      widget.model?.slNo ??
+          await lawEnforcementCubit.getSerialnumberDetails(
+            (widget.model?.location?.id ?? 0),
+            'LEO',
+          );
+
+      log('--widget.model?.slNo--22--${widget.model?.slNo}---');
+
+      lawEnforcementCubit.getlocationsResponseData(mumbai);
+      int isDocumentifanySelected1 =
+          ((widget.model?.documentVerified ?? false) == true) ? 1 : 0;
+      int isOfficialIdcardSelected1 =
+          ((widget.model?.officialCardVerified ?? false) == true) ? 1 : 0;
+      int isIncaseofpoliceSelected1 =
+          ((widget.model?.visitorInUniform ?? false) == true) ? 1 : 0;
+
+      lawEnforcementCubit.getRadioButtonSelected(
+          Constants.documentifanytoconfirmpurpose,
+          isDocumentifanySelected1,
+          isDocumentifanySelected1 == 1 ? "Yes" : "No");
+      lawEnforcementCubit.getRadioButtonSelected(
+          Constants.officialsidcardverified,
+          isOfficialIdcardSelected1,
+          isOfficialIdcardSelected1 == 1 ? "Yes" : "No");
+      lawEnforcementCubit.getRadioButtonSelected(
+          Constants.incaseofpolicewasofficialinuniform,
+          isIncaseofpoliceSelected1,
+          isIncaseofpoliceSelected1 == 1 ? "Yes" : "No");
+
+      if ((widget.model?.entities?.length ?? 0) > 0) {
+        List<Organisation> entities = [];
+        for (int i = 0; i < widget.model!.entities!.length; i++) {
+          Organisation entity = widget.model?.entities != null &&
+                  (widget.model?.entities?.length ?? 0) > 0
+              ? Organisation(
+                  id: widget.model?.entities![i].id ?? 0,
+                  name: widget.model?.entities![i].name ?? "")
+              : Organisation();
+          // AtomEntity entity = state.listOfEntities![i];
+          //   DbOfficialEmailDepartment addentiity =
+          // DbOfficialEmailDepartment(id: entity.id ?? 1);
+          entities.add(entity);
+        }
+        lawEnforcementCubit.getEntityData(entities);
+      }
+      Organisation visit = widget.model?.visitPurpose != null
+          ? Organisation(
+              id: widget.model?.visitPurpose?.id ?? 0,
+              name: widget.model?.visitPurpose?.name ?? "")
+          : Organisation();
+      lawEnforcementCubit.getleopurposeResponseData(visit);
+
+      log('-----dbOfficialAccompaniedEmail---${widget.model?.dbOfficialAccompaniedEmail}');
+      BaseUser staticUser =
+          !widget.model!.dbOfficialAccompaniedEmail.isEmptyOrNull
+              ? BaseUser(
+                  // id: widget.model?.dbOfficialAccompaniedEmail,
+                  email: widget.model?.dbOfficialAccompaniedEmail ?? "",
+                )
+              : BaseUser();
+
+      log('---staticUser--${staticUser.email}---');
+      lawEnforcementCubit
+          .getDBOfficialEmailIdAccompaniedLeoOfficial(staticUser);
+
+      List<LawVisitingOfficial>? visiting =
+          widget.model?.visitingOfficials ?? [];
+
+      List<VisitingOfficialsModel>? visitingOfficials = [];
+      if (visiting.isNotEmpty) {
+        for (int i = 0; i < visiting.length; i++) {
+          LawVisitingOfficial model = visiting[i];
+          Organisation dept = Organisation(
+              id: model.department?.id, name: model.department?.name ?? '');
+          VisitingOfficialsModel obj = VisitingOfficialsModel(
+              address: model.address ?? '',
+              name: model.name ?? '',
+              contactNo: model.contactNo ?? '',
+              designation: model.designation ?? '',
+              email: model.email ?? '',
+              department: dept,
+              id: model.id);
+          visitingOfficials.add(obj);
+        }
+      }
+      // lawEnforcementCubit.getleoDepartmentsResponseData(dept);
+
+      //AtomLeoDepartment dept = AtomLeoDepartment();
+
+      // if (widget.listuser != null && (state.getVisits?.length ?? 0) > 0) {
+      for (VisitingOfficialsModel model in visitingOfficials) {
+        for (int i = 0; i < visiting.length; i++) {
+          if (i == 0) {
+            nameTextController1.text = model.name ?? '';
+            officeaddressTextController1.text = model.address ?? '';
+            contactnoTextController1.text = model.contactNo ?? '';
+            emailidTextController1.text = model.email ?? '';
+            designationTextController1.text = model.designation ?? '';
+          } else if (i == 1) {
+            nameTextController2.text = model.name ?? '';
+            officeaddressTextController2.text = model.address ?? '';
+            contactnoTextController2.text = model.contactNo ?? '';
+            emailidTextController2.text = model.email ?? '';
+            designationTextController2.text = model.designation ?? '';
+          } else if (i == 2) {
+            nameTextController3.text = model.name ?? '';
+            officeaddressTextController3.text = model.address ?? '';
+            contactnoTextController3.text = model.contactNo ?? '';
+            emailidTextController3.text = model.email ?? '';
+            designationTextController3.text = model.designation ?? '';
+          } else if (i == 3) {
+            nameTextController4.text = model.name ?? '';
+            officeaddressTextController4.text = model.address ?? '';
+            contactnoTextController4.text = model.contactNo ?? '';
+            emailidTextController4.text = model.email ?? '';
+            designationTextController4.text = model.designation ?? '';
+          } else if (i == 4) {
+            nameTextController5.text = model.name ?? '';
+            officeaddressTextController5.text = model.address ?? '';
+            contactnoTextController5.text = model.contactNo ?? '';
+            emailidTextController5.text = model.email ?? '';
+            designationTextController5.text = model.designation ?? '';
+          }
+          // dept = model != null
+          //     ? AtomLeoDepartment(
+          //         id: model.department?.id ?? 1, name: model.department?.name ?? '')
+          //     : AtomLeoDepartment();
+          // lawenforcementCubit.getleoDepartmentsResponseData(dept);
+//}
+//         }
+        }
+      }
+
+      lawEnforcementCubit.addingVisits(
+          visitCount: visitingOfficials.length, getVisits: visitingOfficials);
+
+      // state.selectedemployeeDepartmentResponse
+      Organisation emp = widget.model?.dbOfficialEmailDepartment != null
+          ? Organisation(
+              id: widget.model?.dbOfficialEmailDepartment?.id ?? 0,
+              name: widget.model?.dbOfficialEmailDepartment?.name ?? '')
+          : Organisation();
+      lawEnforcementCubit.getemployeeDepartmentsResponseData(emp);
+      getAttachments =
+          widget.model?.images != null ? widget.model?.images ?? [] : [];
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
@@ -671,14 +894,18 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                                       ?.atomLeoDepartments ??
                                                   [],
                                               ConstantsArgument.showSaveButton:
-                                                  (widget.model?.status != 3) && !isReadOnly
+                                                  (widget.model?.status != 3) &&
+                                                          !isReadOnly
                                                       ? true
                                                       : false,
                                             },
                                           );
                                           // }
                                         },
-                                        child: const AddViewButton(label: 'Add/View Visiting Official(s)',),
+                                        child: const AddViewButton(
+                                          label:
+                                              'Add/View Visiting Official(s)',
+                                        ),
                                       ),
 
                                       CommonWidgets.verticalSpacerWidget(
@@ -827,11 +1054,14 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           all: state
                                                   .groups?.distributionGroups ??
                                               [],
-                                          enabled: ((widget.model?.status == 1 ||
-                                                  widget.model?.status == 2) &&
-                                              (widget.model != null &&
-                                                  widget.model!.lock
-                                                      .isEmptyOrNull)) && !isReadOnly ,
+                                          enabled: ((widget.model?.status ==
+                                                          1 ||
+                                                      widget.model?.status ==
+                                                          2) &&
+                                                  (widget.model != null &&
+                                                      widget.model!.lock
+                                                          .isEmptyOrNull)) &&
+                                              !isReadOnly,
                                           onTap: (List<Organisation>
                                               selectedEntities) {
                                             log('--selectedEntities----${selectedEntities.length}');
@@ -880,6 +1110,52 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         );
       },
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
+  }
+
+  @override
+  void dispose() {
+    statusTextController.dispose();
+    actualDateTextController.dispose();
+    dbOfficailWanttimeetTextController.dispose();
+    additionalInformationTextController.dispose();
+    nameTextController1.dispose();
+    nameVisitingOfficialTextController.dispose();
+    designationTextController1.dispose();
+    designationVisitingOfficialTextController.dispose();
+    officeaddressTextController1.dispose();
+    officeaddressVisitingOfficialTextController.dispose();
+    emailidTextController1.dispose();
+    emailidVisitingOfficialTextController.dispose();
+    contactnoTextController1.dispose();
+    contactnoVisitingOfficialTextController.dispose();
+    nameTextController2.dispose();
+    designationTextController2.dispose();
+    officeaddressTextController2.dispose();
+    emailidTextController2.dispose();
+    contactnoTextController2.dispose();
+    nameTextController3.dispose();
+    nameTextController4.dispose();
+    designationTextController3.dispose();
+    designationTextController4.dispose();
+    officeaddressTextController3.dispose();
+    emailidTextController3.dispose();
+    contactnoTextController3.dispose();
+    emailidTextController4.dispose();
+    contactnoTextController4.dispose();
+    distributiongroupsTextController.dispose();
+    dateofcreationTextController.dispose();
+    officeaddressTextController4.dispose();
+    nameTextController5.dispose();
+    designationTextController5.dispose();
+    officeaddressTextController5.dispose();
+    emailidTextController5.dispose();
+    contactnoTextController5.dispose();
+
+    dbOfficialWantToMeetFocusNode.dispose();
+    additionalInformationFocusNode.dispose();
+
+    lawEnforcementCubit.close();
+    super.dispose();
   }
 
   void manageAddVisitOfficialDetailWidget(LawEnforcementState state) {
@@ -1090,22 +1366,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    if (widget.model != null) {
-      populateData();
-      lawEnforcementCubit.initializeValuesForExistingRecord(
-          model: widget.model!);
-      lawEnforcementCubit.getDistributionGroupsDetails();
-    } else {
-      lawEnforcementCubit.initializeValuesForNewRecord();
-    }
-
-    getLawEnforcementList(context);
-    _getCurrentDate();
-  }
-
   // initiallyLocationandSerialnumberdataset(LawEnforcementState state) async {
   //   if (state.locationSelectedlist?.id == null &&
   //       state.getLocationsResponse != null &&
@@ -1116,213 +1376,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   //     await lawEnforcementCubit.getSerialnumberDetails('323', 'LEO', context);
   //   }
   // }
-
-  populateData() async {
-    if (widget.model != null) {
-      await SharedPrefs.setFoundId(widget.model?.id ?? 0);
-
-      additionalInformationTextController.text =
-          widget.model?.additionalInformation != null
-              ? widget.model?.additionalInformation.toString() ?? ""
-              : '';
-      dbOfficailWanttimeetTextController.text =
-          widget.model?.dbOfficialEmail != null
-              ? widget.model?.dbOfficialEmail.toString() ?? ""
-              : '';
-      actualDateTextController.text =
-          widget.model?.timeOfVisit != null && widget.model?.timeOfVisit != '0'
-              ? Utils.timestampToDateConversion(
-                  int.parse(widget.model?.timeOfVisit ?? ''),
-                  Constants.fulldateFormat)
-              : actualDateTextController.text;
-      dateofcreationTextController.text =
-          widget.model?.inputDate != null && widget.model?.inputDate != '0'
-              ? Utils.timestampToDateConversion(
-                  int.parse(widget.model?.inputDate ?? '0'),
-                  Constants.fulldateFormat)
-              : dateofcreationTextController.text;
-      // List<VisitingOfficial>? visitingOfficials = widget.listuser?.visitingOfficials != null ? widget.listuser?.visitingOfficials ?? [] : [];
-      statusTextController.text = widget.model?.status == 0
-          ? "Draft"
-          : widget.model?.status == 1
-              ? "Submitted"
-              : widget.model?.status == 2
-                  ? "Verification Under Process"
-                  : widget.model?.status == 3
-                      ? "Distributed"
-                      : widget.model?.status == -1
-                          ? 'Cancelled'
-                          : '';
-
-      if (widget.model?.status == 3 ||
-          statusTextController.text == 'Distributed') {
-        lawEnforcementCubit.getDistributed(true);
-        isReadOnly = true;
-        setState(() {});
-      }
-      //state.serialnumberResponse?.serialNo
-
-      //  state.getUserDetailsResponse  =  widget.listuser?.entrySecurity != null ? GetUserDetails(
-      //     userId: widget.listuser?.entrySecurity?.userId ?? 1,
-      //     lastName: widget.listuser?.entrySecurity?.lastName ?? "") : GetUserDetails() ;
-
-      //state.locationSelectedlist =
-      Organisation mumbai = widget.model?.location != null
-          ? Organisation(
-              id: widget.model?.location?.id ?? 0,
-              name: widget.model?.location?.name ?? "")
-          : Organisation();
-
-      log('--widget.model?.slNo----${widget.model?.slNo}---');
-      // serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
-
-      widget.model?.slNo ??
-          await lawEnforcementCubit.getSerialnumberDetails(
-            (widget.model?.location?.id ?? 0),
-            'LEO',
-          );
-
-      log('--widget.model?.slNo--22--${widget.model?.slNo}---');
-
-      lawEnforcementCubit.getlocationsResponseData(mumbai);
-      int isDocumentifanySelected1 =
-          ((widget.model?.documentVerified ?? false) == true) ? 1 : 0;
-      int isOfficialIdcardSelected1 =
-          ((widget.model?.officialCardVerified ?? false) == true) ? 1 : 0;
-      int isIncaseofpoliceSelected1 =
-          ((widget.model?.visitorInUniform ?? false) == true) ? 1 : 0;
-
-      lawEnforcementCubit.getRadioButtonSelected(
-          Constants.documentifanytoconfirmpurpose,
-          isDocumentifanySelected1,
-          isDocumentifanySelected1 == 1 ? "Yes" : "No");
-      lawEnforcementCubit.getRadioButtonSelected(
-          Constants.officialsidcardverified,
-          isOfficialIdcardSelected1,
-          isOfficialIdcardSelected1 == 1 ? "Yes" : "No");
-      lawEnforcementCubit.getRadioButtonSelected(
-          Constants.incaseofpolicewasofficialinuniform,
-          isIncaseofpoliceSelected1,
-          isIncaseofpoliceSelected1 == 1 ? "Yes" : "No");
-
-      if ((widget.model?.entities?.length ?? 0) > 0) {
-        List<Organisation> entities = [];
-        for (int i = 0; i < widget.model!.entities!.length; i++) {
-          Organisation entity = widget.model?.entities != null &&
-                  (widget.model?.entities?.length ?? 0) > 0
-              ? Organisation(
-                  id: widget.model?.entities![i].id ?? 0,
-                  name: widget.model?.entities![i].name ?? "")
-              : Organisation();
-          // AtomEntity entity = state.listOfEntities![i];
-          //   DbOfficialEmailDepartment addentiity =
-          // DbOfficialEmailDepartment(id: entity.id ?? 1);
-          entities.add(entity);
-        }
-        lawEnforcementCubit.getEntityData(entities);
-      }
-      Organisation visit = widget.model?.visitPurpose != null
-          ? Organisation(
-              id: widget.model?.visitPurpose?.id ?? 0,
-              name: widget.model?.visitPurpose?.name ?? "")
-          : Organisation();
-      lawEnforcementCubit.getleopurposeResponseData(visit);
-
-      log('-----dbOfficialAccompaniedEmail---${widget.model?.dbOfficialAccompaniedEmail}');
-      BaseUser staticUser =
-          !widget.model!.dbOfficialAccompaniedEmail.isEmptyOrNull
-              ? BaseUser(
-                  // id: widget.model?.dbOfficialAccompaniedEmail,
-                  email: widget.model?.dbOfficialAccompaniedEmail ?? "",
-                )
-              : BaseUser();
-
-      log('---staticUser--${staticUser.email}---');
-      lawEnforcementCubit
-          .getDBOfficialEmailIdAccompaniedLeoOfficial(staticUser);
-
-      List<LawVisitingOfficial>? visiting =
-          widget.model?.visitingOfficials ?? [];
-
-      List<VisitingOfficialsModel>? visitingOfficials = [];
-      if (visiting.isNotEmpty) {
-        for (int i = 0; i < visiting.length; i++) {
-          LawVisitingOfficial model = visiting[i];
-          Organisation dept = Organisation(
-              id: model.department?.id, name: model.department?.name ?? '');
-          VisitingOfficialsModel obj = VisitingOfficialsModel(
-              address: model.address ?? '',
-              name: model.name ?? '',
-              contactNo: model.contactNo ?? '',
-              designation: model.designation ?? '',
-              email: model.email ?? '',
-              department: dept,
-              id: model.id);
-          visitingOfficials.add(obj);
-        }
-      }
-      // lawEnforcementCubit.getleoDepartmentsResponseData(dept);
-
-      //AtomLeoDepartment dept = AtomLeoDepartment();
-
-      // if (widget.listuser != null && (state.getVisits?.length ?? 0) > 0) {
-      for (VisitingOfficialsModel model in visitingOfficials) {
-        for (int i = 0; i < visiting.length; i++) {
-          if (i == 0) {
-            nameTextController1.text = model.name ?? '';
-            officeaddressTextController1.text = model.address ?? '';
-            contactnoTextController1.text = model.contactNo ?? '';
-            emailidTextController1.text = model.email ?? '';
-            designationTextController1.text = model.designation ?? '';
-          } else if (i == 1) {
-            nameTextController2.text = model.name ?? '';
-            officeaddressTextController2.text = model.address ?? '';
-            contactnoTextController2.text = model.contactNo ?? '';
-            emailidTextController2.text = model.email ?? '';
-            designationTextController2.text = model.designation ?? '';
-          } else if (i == 2) {
-            nameTextController3.text = model.name ?? '';
-            officeaddressTextController3.text = model.address ?? '';
-            contactnoTextController3.text = model.contactNo ?? '';
-            emailidTextController3.text = model.email ?? '';
-            designationTextController3.text = model.designation ?? '';
-          } else if (i == 3) {
-            nameTextController4.text = model.name ?? '';
-            officeaddressTextController4.text = model.address ?? '';
-            contactnoTextController4.text = model.contactNo ?? '';
-            emailidTextController4.text = model.email ?? '';
-            designationTextController4.text = model.designation ?? '';
-          } else if (i == 4) {
-            nameTextController5.text = model.name ?? '';
-            officeaddressTextController5.text = model.address ?? '';
-            contactnoTextController5.text = model.contactNo ?? '';
-            emailidTextController5.text = model.email ?? '';
-            designationTextController5.text = model.designation ?? '';
-          }
-          // dept = model != null
-          //     ? AtomLeoDepartment(
-          //         id: model.department?.id ?? 1, name: model.department?.name ?? '')
-          //     : AtomLeoDepartment();
-          // lawenforcementCubit.getleoDepartmentsResponseData(dept);
-//}
-//         }
-        }
-      }
-
-      lawEnforcementCubit.addingVisits(
-          visitCount: visitingOfficials.length, getVisits: visitingOfficials);
-
-      // state.selectedemployeeDepartmentResponse
-      Organisation emp = widget.model?.dbOfficialEmailDepartment != null
-          ? Organisation(
-              id: widget.model?.dbOfficialEmailDepartment?.id ?? 0,
-              name: widget.model?.dbOfficialEmailDepartment?.name ?? '')
-          : Organisation();
-      lawEnforcementCubit.getemployeeDepartmentsResponseData(emp);
-      getAttachments =
-          widget.model?.images != null ? widget.model?.images ?? [] : [];
-    }
-  }
 
   getLawEnforcementList(context) async {
     var userid = await SharedPrefs.getUserId();
@@ -1556,61 +1609,66 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                 widget.model?.status == 1 ||
                 widget.model?.status == 2
             ? Opacity(
-              opacity: isReadOnly? 0.5:1 ,
-              child: AbsorbPointer(
-                absorbing: isReadOnly,
-                child: Container(
+                opacity: isReadOnly ? 0.5 : 1,
+                child: AbsorbPointer(
+                  absorbing: isReadOnly,
+                  child: Container(
                     height: 60,
                     decoration: BoxDecoration(
                         border: Border.all(
                           color: const Color(0xFFCACACA),
                           width: 1.0,
                         ),
-                        borderRadius: const BorderRadius.all(Radius.circular(8))),
-                    child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 5.0),
-                        child: ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                            fixedSize: const Size(140, 50),
-                            backgroundColor: AppColors.navigationSkyBlueColor,
-                          ),
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext dialogContext) {
-                                  return UploadAttachment(
-                                    userdetails:
-                                        state.getUserDetailsResponse ?? User(),
-                                    getFiles: getFiles,
-                                    lawstate: state,
-                                  );
-                                });
-                          },
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8))),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 5.0),
+                            child: ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                fixedSize: const Size(140, 50),
+                                backgroundColor:
+                                    AppColors.navigationSkyBlueColor,
+                              ),
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return UploadAttachment(
+                                        userdetails:
+                                            state.getUserDetailsResponse ??
+                                                User(),
+                                        getFiles: getFiles,
+                                        lawstate: state,
+                                      );
+                                    });
+                              },
 
-                          icon: SvgPicture.asset(
-                            //AppIcon.dropdownicon,
-                            AppIcon.uploadicon,
-                            //fit: BoxFit.,
-                            colorFilter: const ColorFilter.mode(
-                              AppColors.backgroundWhiteColor,
-                              BlendMode.srcIn,
+                              icon: SvgPicture.asset(
+                                //AppIcon.dropdownicon,
+                                AppIcon.uploadicon,
+                                //fit: BoxFit.,
+                                colorFilter: const ColorFilter.mode(
+                                  AppColors.backgroundWhiteColor,
+                                  BlendMode.srcIn,
+                                ),
+                                // color: AppColors.backgroundWhiteColor,
+                                width: 13,
+                                height: 13,
+                                key: const Key(Keys.userIcon),
+                              ),
+                              label: const Text(
+                                Constants.clicktoupload,
+                                style: Styles.textStyleRegularNormalWhite12,
+                              ), // <-- Text
                             ),
-                            // color: AppColors.backgroundWhiteColor,
-                            width: 13,
-                            height: 13,
-                            key: const Key(Keys.userIcon),
                           ),
-                          label: const Text(
-                            Constants.clicktoupload,
-                            style: Styles.textStyleRegularNormalWhite12,
-                          ), // <-- Text
-                        ),
-                      ),
-                    ]),
+                        ]),
                   ),
-              ),
-            )
+                ),
+              )
             : Container();
   }
 
