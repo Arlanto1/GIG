@@ -614,6 +614,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
         return AddReplacementPopUp(
+          viaAttendance: false,
           model: model,
           mainContext: context,
           availableGuards: availableGuards,

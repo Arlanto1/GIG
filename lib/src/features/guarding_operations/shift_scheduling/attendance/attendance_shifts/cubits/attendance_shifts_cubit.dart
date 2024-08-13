@@ -206,6 +206,38 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
   }
 
 
+  Future<void> updateReplacement(Replacement updatedReplacement) async {
+    emit(state.copyWith(status: FormStatus.loading));
+
+    if (updatedReplacement.id != null) {
+      log('Updating Existing Replacement');
+      state.model.replacements = state.model.replacements
+          ?.map((existing) => existing.id == updatedReplacement.id
+          ? updatedReplacement
+          : existing)
+          .toSet();
+    } else {
+      /// Handle new replacements
+      state.model.replacements ??= {};
+      if (updatedReplacement.tempId != null) {
+        log('Creating/Updating new Replacement with tempId: ${updatedReplacement.tempId}');
+        // Remove any existing replacement with the same tempId before adding
+        state.model.replacements!.removeWhere((existingReplacement) =>
+        existingReplacement.tempId == updatedReplacement.tempId);
+      }
+      state.model.replacements!.add(updatedReplacement);
+    }
+
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.initial,
+    ));
+
+    /// Saving and Refresh the record
+    await submitAndRefreshScreen(checkValidations: false);
+  }
+
+
   Future<void> submitForm({bool isSaveOnly = false, FormStatus? status}) async {
     emit(
       state.copyWith(

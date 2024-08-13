@@ -329,7 +329,7 @@ class SLAViolationPenaltyDetailsCubit
     }
 
     if (!attdInfoId.isEmptyOrNull) {
-      state.model.attdInfoId = attdInfoId;
+      state.model.attdShiftInfoId = attdInfoId;
     }
     log('-attdInfoId-111-$attdInfoId--');
     // Create/Update API Call

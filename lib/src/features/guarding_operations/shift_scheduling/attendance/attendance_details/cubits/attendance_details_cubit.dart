@@ -241,9 +241,10 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
     );
   }
 
-  Future<void> navigateToNextScreen(
-      {required int dutyPostNameId,
-      required DutyPostModel dutyPostModel}) async {
+  Future<void> navigateToNextScreen({
+    required int dutyPostNameId,
+    required DutyPostModel dutyPostModel,
+  }) async {
     log('-navigateToNextScreen----attInfoId----${state.model.id}----dutyPostNameId---$dutyPostNameId-----');
     emit(state.copyWith(status: FormStatus.loading));
     emit(state.copyWith(

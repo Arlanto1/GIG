@@ -324,6 +324,9 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         onSelectedBriefingPointsChanged: (List<String> points) {
           log('-points--$points--');
           shift.briefingPoints = Utils().joinListWithComma(points);
+
+          BlocProvider.of<AttendanceShiftsCubit>(context)
+              .submitAndRefreshScreen();
           // Update the points in your Bloc or state management accordingly
           // BlocProvider.of<AttendanceShiftsCubit>(context).updateBriefingPoints();
         },
@@ -338,12 +341,10 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
       //   Styles.textStyleBlack14,
       // ),
 
-      if (!state.shiftSlaList.isEmptyOrNull) ...[
-        buildSlaListColumn(
-          state: state,
-          shift: shift,
-        )
-      ],
+      buildSlaListColumn(
+        state: state,
+        shift: shift,
+      ),
       CommonWidgets.verticalSpacerWidget(
           MediaQuery.of(context).size.height * 0.02),
       // ],
@@ -363,11 +364,14 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         if (selectedGuard != null && !destinationList.contains(selectedGuard)) {
           log('--onPressed----');
 
+          log('----@@@--${state.status}-----');
+          // if (state.status != FormStatus.formError) {
+            log('------${state.status}-----');
+            onAdd(selectedGuard!);
+          // }
+
           BlocProvider.of<AttendanceShiftsCubit>(context)
               .submitAndRefreshScreen();
-          if (state.status != FormStatus.formError) {
-            onAdd(selectedGuard!);
-          }
           setState(() {});
         }
       },
@@ -435,7 +439,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                 ConstantsArgument.locationRegion: widget.locationRegion,
                 ConstantsArgument.vendor: widget.vendor,
               },
-            );
+            ).then((_) => BlocProvider.of<AttendanceShiftsCubit>(context)
+                .submitAndRefreshScreen());
           },
           child: Row(
             children: <Widget>[
@@ -517,8 +522,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           onTap: () => showReplacementPopUp(
             context: context,
             model: Replacement(),
+            selectedGuards: shift.selectForAttendance ?? {},
             availableGuards: shift.availableGuards ?? {},
-            selectedGuards: shift.selectedGuards ?? {},
           ),
           child: Row(
             children: <Widget>[
@@ -564,7 +569,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           onTap: () => showReplacementPopUp(
             context: context,
             model: replacement,
-            availableGuards: shift.availableGuards ?? {},
+            availableGuards: shift.selectForAttendance ?? {},
             selectedGuards: shift.selectedGuards ?? {},
           ),
           child: Column(
@@ -630,11 +635,11 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
   Widget buildUserList({
     required Set<BaseUser> availableGuards,
   }) {
-    log('--MediaQuery.of(context).size.width---${MediaQuery.of(context).size.width}-');
     double width = MediaQuery.of(context).size.width;
     double columnWidth;
     if (width > Constants.tabletScreenWidth) {
       columnWidth = width / 3.6;
+
       /// TABLET
     } else {
       columnWidth = width / 4.67;
@@ -693,6 +698,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
       context: context,
       builder: (BuildContext dialogContext) {
         return AddReplacementPopUp(
+          viaAttendance: true,
           model: model,
           mainContext: context,
           availableGuards: availableGuards,

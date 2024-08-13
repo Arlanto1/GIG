@@ -15,8 +15,10 @@ class AddReplacementPopUp extends StatefulWidget {
     this.dutyPostId,
     this.rankId,
     this.shiftId,
+    required this.viaAttendance,
   });
 
+  final bool viaAttendance;
   final BuildContext mainContext;
   final Replacement model;
   final Set<BaseUser> availableGuards;
@@ -103,8 +105,9 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
+        double divideBy = widget.viaAttendance ? 2.1 : 1.65;
         return SizedBox(
-          height: height / 1.65,
+          height: height / divideBy,
           width: width,
           child: Stack(
             clipBehavior: Clip.none,
@@ -142,6 +145,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                               //         widget.mainContext)
                               //     .updateReplacement(widget.model);
 
+                              // TODO: Not to call is widget.viaAttendance is false
                               if (widget.rankId != null) {
                                 showLoadingDialog(context);
 
@@ -223,43 +227,58 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                         isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
-                      LimitedDatePicker(
-                        textController: fromDateController,
-                        availableDates: dates?.availableDates ?? [],
-                        isDisabled: false,
-                        onChange: (String value) {
-                          widget.model.fromDate = Utils().formatTime(value);
-                          if (reasonConditions) {
-                            log('--iffffff-reasonConditions--');
-                            setState(() {
-                              widget.model.toDate = Utils().formatTime(value);
-                              toDateController.text = fromDateController.text;
-                            });
-                          }
-                        },
-                      ),
-
+                      if (!widget.viaAttendance) ...[
+                        LimitedDatePicker(
+                          textController: fromDateController,
+                          availableDates: dates?.availableDates ?? [],
+                          isDisabled: false,
+                          onChange: (String value) {
+                            widget.model.fromDate = Utils().formatTime(value);
+                            if (reasonConditions) {
+                              log('--iffffff-reasonConditions--');
+                              setState(() {
+                                widget.model.toDate = Utils().formatTime(value);
+                                toDateController.text = fromDateController.text;
+                              });
+                            }
+                          },
+                        ),
+                      ] else ...[
+                        BaseDate().datePickerWidgetLoading(
+                          textController: fromDateController,
+                          isDisabled: false,
+                          onlyDate: false,
+                          showPastDate: false,
+                          notFlagDate: true,
+                          // startDate: '1727677800',
+                          onChange: (String value) {
+                            widget.model.fromDate = Utils().formatTime(value);
+                          },
+                          context: context,
+                        )
+                      ],
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                       /// To Date
-                      CommonWidgets.textDisplay(
-                        // state.labels?.locale.dateOfBirth ??
-                        //   state.labels?.defaultLocale.dateOfBirth ??
-                        Constants.toDate,
-                        isMandatory: true,
-                        Styles.textStyleBlack14,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                      LimitedDatePicker(
-                        textController: toDateController,
-                        availableDates: dates?.availableDates ?? [],
-                        onChange: (String value) {
-                          widget.model.toDate = Utils().formatTime(value);
-                        },
-                        isDisabled: reasonConditions,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      if (!widget.viaAttendance) ...[
+                        CommonWidgets.textDisplay(
+                          // state.labels?.locale.dateOfBirth ??
+                          //   state.labels?.defaultLocale.dateOfBirth ??
+                          Constants.toDate,
+                          isMandatory: true,
+                          Styles.textStyleBlack14,
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.001),
+                        LimitedDatePicker(
+                          textController: toDateController,
+                          availableDates: dates?.availableDates ?? [],
+                          onChange: (String value) {
+                            widget.model.toDate = Utils().formatTime(value);
+                          },
+                          isDisabled: reasonConditions,
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      ],
 
                       /// Replacement By
                       CommonWidgets.textDisplay(
@@ -356,11 +375,14 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
         log('--Add/Update Replacement--- ${(widget.model.id)}--${widget.model.toString()}-');
         log('-widget.model.tempId---${widget.model.tempId}----');
         // widget.model?.dutyPostLocationName = dutyPostLocationNameController.text;
-        BlocProvider.of<DutyPostDetailsCubit>(widget.mainContext)
-            .updateReplacement(widget.model);
 
-
-
+        if (widget.viaAttendance) {
+          BlocProvider.of<AttendanceShiftsCubit>(widget.mainContext)
+              .updateReplacement(widget.model);
+        } else {
+          BlocProvider.of<DutyPostDetailsCubit>(widget.mainContext)
+              .updateReplacement(widget.model);
+        }
         // widget.refreshFunction; // this function is not being called
         Navigator.pop(context);
       },
@@ -389,16 +411,18 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
       return const ErrorResponse(
           status: false, message: 'Please enter From Date');
     }
-    if (toDateController.text.isEmptyOrNull) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter To Date');
+    if (!widget.viaAttendance) {
+      if (toDateController.text.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter To Date');
+      }
     }
 
     final fromDate = DateTime.tryParse(fromDateController.text);
     final toDate = DateTime.tryParse(toDateController.text);
 
     if (fromDate != null && toDate != null) {
-      if (fromDate!.isAfter(toDate!)) {
+      if (fromDate.isAfter(toDate)) {
         // Show an error dialog or handle the error as needed
         return const ErrorResponse(
             status: false,
