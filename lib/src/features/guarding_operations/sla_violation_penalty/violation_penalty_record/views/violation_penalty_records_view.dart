@@ -231,8 +231,8 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
                     onDeleteTap: (selectedIndex) async {
                       /// Delete Warning Dialog Box
                       var dialog = CustomAlertDialog(
-                          title: Constants.deleteAttachment,
-                          message: Constants.deleteAttachmentWarningMessage,
+                          title: Constants.deleteRecord,
+                          message: Constants.deleteRecordWarningMessage,
                           onPositivePressed: () {
                             Navigator.pop(context);
                             // Navigator.pop(context);
