@@ -640,8 +640,8 @@ class _KeyHistoryRecordsDetailsViewState
                           textFormKey: Keys.additionInitiativesKey,
                           hintText: Constants.informationhere,
                           showBorder: true,
-                          isEnable: ((securityManager || srh || initialStatus)||
-                              (lockChangeInitiatedAndUser)) &&
+                          isEnable: ((securityManager || srh || initialStatus||
+                              lockChangeInitiatedAndUser)) &&
                                   state.model.status !=
                                       ConstantsIntValue.closed,
                           isDisableColor: !((securityManager ||
