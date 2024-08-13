@@ -192,7 +192,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                     // if (state.status != FormStatus.formError) {
                                     BlocProvider.of<DutyPostDetailsCubit>(
                                             context)
-                                        .getShiftListByAssignedDutyPostId(
+                                        .getShifts(
                                             rank: value!);
                                     // }
                                   },
@@ -307,7 +307,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
   }
 
   Column buildShiftColumn({
-    required Shift shift,
+    required ShiftModel shift,
     required bool isSourceList,
     required DutyPostDetailsState state,
   }) {

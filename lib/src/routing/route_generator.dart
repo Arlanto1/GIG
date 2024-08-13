@@ -1558,7 +1558,7 @@ class RouteGenerator {
         Organisation? location;
         Organisation? locationRegion;
         Organisation? vendor;
-        late String title;
+        late DutyPostModel selectedDutyPostModel;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
@@ -1568,7 +1568,7 @@ class RouteGenerator {
           location = arguments[ConstantsArgument.location];
           locationRegion = arguments[ConstantsArgument.locationRegion];
           vendor = arguments[ConstantsArgument.vendor];
-          title = arguments[ConstantsArgument.title];
+          selectedDutyPostModel = arguments[ConstantsArgument.selectedDutyPostModel];
         }
         AttendanceServices services = AttendanceServices();
         CommonServices commonServices = CommonServices();
@@ -1588,7 +1588,7 @@ class RouteGenerator {
               location: location!,
               locationRegion: locationRegion!,
               vendor: vendor!,
-              title: title,
+              selectedDutyPostModel: selectedDutyPostModel,
             ),
           ),
         );

@@ -41,8 +41,8 @@ class DutyPostModel {
 @JsonSerializable()
 class Rank {
   int? rank;
-  List<Shift>? shifts;
-  List<Shift>? attendanceShift;
+  List<ShiftModel>? shifts;
+  List<ShiftModel>? attendanceShift;
 
   Rank({
     this.rank,
@@ -88,7 +88,7 @@ class Rank {
 }
 
 @JsonSerializable()
-class Shift {
+class ShiftModel {
   String? shift;
   int? attendanceShiftId;
   int? allowed;
@@ -103,7 +103,7 @@ class Shift {
   List<BaseUser>? previousShift;
   String? briefingPoints;
 
-  Shift({
+  ShiftModel({
     this.shift,
     this.allowed,
     this.attendanceShiftId,
@@ -118,7 +118,7 @@ class Shift {
     this.replacements,
   });
 
-  factory Shift.fromJson(Map<String, dynamic> json) {
+  factory ShiftModel.fromJson(Map<String, dynamic> json) {
     try {
       return _$ShiftFromJson(json);
     } catch (e) {
@@ -131,7 +131,7 @@ class Shift {
       }
 
       // Return a default instance or handle differently based on your needs.
-      return Shift();
+      return ShiftModel();
     }
   }
 

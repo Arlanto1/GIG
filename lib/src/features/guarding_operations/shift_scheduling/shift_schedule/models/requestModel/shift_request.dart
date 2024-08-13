@@ -1,7 +1,7 @@
 import 'package:db_atom/index.dart';
 
 class ShiftRequest {
-  final Shift? shifts;
+  final ShiftModel? shifts;
 
   ShiftRequest({
     this.shifts,
@@ -9,7 +9,7 @@ class ShiftRequest {
 
   ShiftRequest.fromJson(Map<String, dynamic> json)
       : shifts = (json['shifts'] as Map<String, dynamic>?) != null
-            ? Shift.fromJson(json['shifts'] as Map<String, dynamic>)
+            ? ShiftModel.fromJson(json['shifts'] as Map<String, dynamic>)
             : null;
 
   Map<String, dynamic> toJson() => {'shifts': shifts?.toJson()};

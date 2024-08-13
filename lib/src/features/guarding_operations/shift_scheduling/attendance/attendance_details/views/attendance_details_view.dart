@@ -82,7 +82,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
               ConstantsArgument.location: state.model.location,
               ConstantsArgument.locationRegion: state.model.locationRegion,
               ConstantsArgument.vendor: state.model.vendor,
-              ConstantsArgument.title:' state.model.,'
+              ConstantsArgument.selectedDutyPostModel: state.selectedDutyPostModel
             },
           );
         }
@@ -404,10 +404,11 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                     DutyPostListWidget(
                       dutyPosts: state.dutyPosts ?? [],
                       onTap: (int? thisVariableIsOfNoUseDoNotDeleteThis,
-                          int? dutyPostNameId) {
+                          int? dutyPostNameId, DutyPostModel dutyPostModel) {
                         BlocProvider.of<AttendanceDetailsCubit>(context)
                             .navigateToNextScreen(
                           dutyPostNameId: dutyPostNameId!,
+                          dutyPostModel: dutyPostModel,
                         );
                       },
                     ),

@@ -73,7 +73,7 @@ class AttendanceServices {
     return List<String>.from(response.map((x) => x));
   }
 
-  Future<Shift> getDutyPostById({
+  Future<ShiftModel> getDutyPostById({
     required int attInfoId,
     required int dutyPostNameId,
     required int rankId,
@@ -85,7 +85,7 @@ class AttendanceServices {
       url: url,
     );
 
-    return Shift.fromJson(response);
+    return ShiftModel.fromJson(response);
   }
 
   Future<GenericResponse> create({

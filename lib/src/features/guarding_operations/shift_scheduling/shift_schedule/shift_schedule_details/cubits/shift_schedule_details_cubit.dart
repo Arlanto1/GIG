@@ -43,7 +43,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     DutyPostModel dutyPostModel = await services.getDutyPostById(id: id);
     log('-dutyPostModel--${dutyPostModel.name}-');
     emit(state.copyWith(
-      seletedDutyPostModel: dutyPostModel,
+      selectedDutyPostModel: dutyPostModel,
       status: FormStatus.navigateToNextScreen,
     ));
   }
@@ -338,7 +338,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     log('----end----');
     emit(state.copyWith(
       model: state.model,
-      seletedDutyPostModel: state.selectedDutyPostModel,
+      selectedDutyPostModel: state.selectedDutyPostModel,
       status: FormStatus.initial,
     ));
   }
@@ -450,7 +450,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       state.copyWith(
         model: state.model,
         message: response.message,
-        seletedDutyPostModel: selectedDutyPostModel,
+        selectedDutyPostModel: selectedDutyPostModel,
         status: navigateToNextScreen
             ? FormStatus.navigateToNextScreen
             : FormStatus.success,

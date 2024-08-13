@@ -48,7 +48,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
               dutyPostId: parentModel.id!, rankId: selectedRank.id!);
       Organisation selectedShift = state.selectedShift ?? shifts.first;
 
-      Shift model = await services.getAvailableSelectedGuardsByShift(
+      ShiftModel model = await services.getAvailableSelectedGuardsByShift(
         shiftId: selectedShift.id!,
         dutyPostId: parentModel.id!,
         rankId: selectedRank.id!,
@@ -90,8 +90,10 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
         id: id, module: Constants.contactDetailsModule);
   }
 
-  Future<void> getShiftListByAssignedDutyPostId(
-      {required Organisation rank}) async {
+  /// Shift Dropdown Value
+  Future<void> getShifts({
+    required Organisation rank,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -120,7 +122,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
         status: FormStatus.loading,
       ),
     );
-    Shift model = await services.getAvailableSelectedGuardsByShift(
+    ShiftModel model = await services.getAvailableSelectedGuardsByShift(
       shiftId: shift.id!,
       dutyPostId: parentModel.id!,
       rankId: state.selectedRank!.id!,
@@ -174,7 +176,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     );
 
     /// refreshing the list so that we can refresh the validation for creating new replacements.
-    if(state.status != FormStatus.formError) {
+    if (state.status != FormStatus.formError) {
       initializeValues();
     }
   }
@@ -202,7 +204,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
 
   Future<void> submitForm({
     bool isSaveOnly = false,
-    required Shift model,
+    required ShiftModel model,
     FormStatus? status,
     required Organisation newSelectedShift,
     required bool checkValidations,

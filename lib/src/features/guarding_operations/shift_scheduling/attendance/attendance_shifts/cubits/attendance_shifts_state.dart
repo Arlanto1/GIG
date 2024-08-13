@@ -2,11 +2,11 @@ part of 'attendance_shifts_cubit.dart';
 
 class AttendanceShiftsState extends Equatable {
   final FormStatus status;
-  final Shift model;
+  final ShiftModel model;
   final String? message;
   final List<String>? locationNames;
   final List<String>? briefingPoints;
-  final GmUiLabels? labels;
+  final CdUiLabels? labels;
 
   final List<Organisation>? ranks;
   final List<Organisation>? shifts;
@@ -16,7 +16,7 @@ class AttendanceShiftsState extends Equatable {
   final List<SlaList>? shiftSlaList;
 
   factory AttendanceShiftsState.initial({
-    required Shift model,
+    required ShiftModel model,
     required String errorMessage,
     List<String>? dutyPostLocationNames,
   }) {
@@ -55,7 +55,7 @@ class AttendanceShiftsState extends Equatable {
 
   AttendanceShiftsState copyWith({
     FormStatus? status,
-    Shift? model,
+    ShiftModel? model,
     String? message,
     List<String>? briefingPoints,
     List<SlaList>? shiftSlaList,
@@ -64,7 +64,7 @@ class AttendanceShiftsState extends Equatable {
     List<Organisation>? shifts,
     Organisation? selectedRank,
     Organisation? selectedShift,
-    final GmUiLabels? labels,
+    final CdUiLabels? labels,
   }) {
     return AttendanceShiftsState(
       status: status ?? this.status,

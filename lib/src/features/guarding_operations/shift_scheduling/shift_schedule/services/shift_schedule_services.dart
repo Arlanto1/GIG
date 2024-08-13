@@ -179,7 +179,7 @@ class ShiftScheduleServices {
         response.map((x) => Organisation.fromJson(x)));
   }
 
-  Future<Shift> getAvailableSelectedGuardsByShift({
+  Future<ShiftModel> getAvailableSelectedGuardsByShift({
     required int dutyPostId,
     required int rankId,
     required int shiftId,
@@ -190,7 +190,7 @@ class ShiftScheduleServices {
       url: url,
     );
 
-    return Shift.fromJson(response);
+    return ShiftModel.fromJson(response);
   }
 
   Future<NextAvailableDateRange> getNextAvailableReplacementDates({

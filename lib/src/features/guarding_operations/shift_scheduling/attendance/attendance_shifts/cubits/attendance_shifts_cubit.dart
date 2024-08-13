@@ -21,7 +21,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     required this.slaServices,
   }) : super(
           AttendanceShiftsState.initial(
-            model: Shift(),
+            model: ShiftModel(),
             errorMessage: '',
           ),
         );
@@ -58,7 +58,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
               dutyPostId: selectedDutyPostNameId, attendanceId: attInfoId, rankId: selectedRank.id!);
       Organisation selectedShift = state.selectedShift ?? shifts.first;
 
-      Shift model = await services.getDutyPostById(
+      ShiftModel model = await services.getDutyPostById(
         shiftId: selectedShift.id!,
         dutyPostNameId: selectedDutyPostNameId,
         rankId: selectedRank.id!,
@@ -92,28 +92,29 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       // for (Rank rank in model.ranks ?? []) {
       //   for (Shift shift in rank.attendanceShift ?? []) {
       //
-      //     slaList.add(
-      //         SlaList(attInfoId: shift.attendanceShiftId!, items: list.items));
-      //   }
+          slaList.add(
+              SlaList(attInfoId: model.attendanceShiftId!, items: list.items));
+        // }
       // }
-      // dynamic responseLabels = futures[6];
-      // List<String> briefingPoints = futures[8];
+      // dynamic responseLabels = commonServices.getUiLabels(
+      //     language: await SharedPrefs.getLanguageCode(),
+      //     moduleCode: Constants.attendanceModule);
+      List<String> briefingPoints = await services.getBriefingPoints();
       // briefingPoints.add('');
 
-      // GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+      // CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
 
       emit(
         state.copyWith(
           model: model,
-          // loggedInUserDetails: loggedInUserDetails,
+          ranks: ranks,
+          selectedRank: state.selectedRank ?? selectedRank,
+          selectedShift: state.selectedShift ?? selectedShift,
+          shifts: shifts,
           status: FormStatus.initial,
-          // vendors: vendors.items,
-          // users: users.t1Analyst,
-          // entrySecurities: entrySecurities,
-          // emailUsers: emailUsers.atomStaticUser,
-          briefingPoints: [],
+          briefingPoints: briefingPoints,
           shiftSlaList: slaList,
-          // labels: labels,
+          // labels: CdUiLabels,
         ),
       );
     } catch (e) {
@@ -126,12 +127,62 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     }
   }
 
-  void onModelValueChange(Shift model) {
+  /// Shift Dropdown Value
+  Future<void> getShifts({
+    required Organisation rank,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    List<Organisation> shifts =
+    await services.getAttendanceShiftByByDutyPostIdAndRankId(
+        dutyPostId: selectedDutyPostNameId, attendanceId: attInfoId, rankId: rank.id!);
+
+    Organisation selectedShift = shifts.first;
+
+    emit(state.copyWith(
+      shifts: shifts,
+      selectedRank: rank,
+      status: FormStatus.initial,
+      selectedShift: selectedShift,
+    ));
+
+
+    // getAvailableSelectedGuardsByShift(shift: selectedShift);
+  }
+
+
+  Future<void> getAvailableSelectedGuardsByShift({
+    required Organisation shift,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    ShiftModel model = await services.getDutyPostById(
+      shiftId: shift.id!,
+      dutyPostNameId: selectedDutyPostNameId,
+      rankId: state.selectedRank!.id!,
+      attInfoId: attInfoId,
+    );
+    emit(state.copyWith(
+      model: model,
+      status: FormStatus.initial,
+      selectedShift: shift,
+    ));
+  }
+
+  void onModelValueChange(ShiftModel model) {
     log('-onModelValueChange---');
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void onCheckBoxChange(Shift model) {
+  void onCheckBoxChange(ShiftModel model) {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
     emit(state.copyWith(model: model, status: FormStatus.initial));
@@ -146,7 +197,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
 
     // Create/Update API Call
     AttendanceShiftDutyPostRequest request =
-        AttendanceShiftDutyPostRequest(requestModel: Shift());
+        AttendanceShiftDutyPostRequest(requestModel: ShiftModel());
 
     request.requestModel = state.model;
     GenericResponse response = GenericResponse();

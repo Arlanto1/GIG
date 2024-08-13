@@ -128,7 +128,7 @@ class ShiftScheduleDetailsState extends Equatable {
   ShiftScheduleDetailsState copyWith({
     FormStatus? status,
     ShiftScheduleModel? model,
-    DutyPostModel? seletedDutyPostModel,
+    DutyPostModel? selectedDutyPostModel,
     Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
@@ -144,7 +144,7 @@ class ShiftScheduleDetailsState extends Equatable {
     return ShiftScheduleDetailsState(
       status: status ?? this.status,
       model: model ?? this.model,
-      selectedDutyPostModel: seletedDutyPostModel ?? selectedDutyPostModel,
+      selectedDutyPostModel: selectedDutyPostModel ?? selectedDutyPostModel,
       locations: locations ?? this.locations,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
