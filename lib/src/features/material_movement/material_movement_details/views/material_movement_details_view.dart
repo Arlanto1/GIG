@@ -296,7 +296,7 @@ class _MaterialMovementDetailsViewState
     if (state.model.takenOutDate != null) {
       takenOutOnDateController.text = Utils.timestampToDateConversion(
           int.tryParse(widget.model?.takenOutDate ?? '0'),
-          Constants.dateFormat);
+          Constants.fulldateFormat);
     }
   }
 
