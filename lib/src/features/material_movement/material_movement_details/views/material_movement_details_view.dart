@@ -2887,7 +2887,7 @@ class _MaterialMovementDetailsViewState
                                         .materialNotCheckedComment ??
                                     Constants.comment,
                                 Styles.textStyleBlack14,
-                                isMandatory: false,
+                                isMandatory: true,
                               ),
                               FlutterInputField(
                                 initialValue: state.model.comment,
