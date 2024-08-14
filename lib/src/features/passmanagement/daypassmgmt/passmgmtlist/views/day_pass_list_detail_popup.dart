@@ -340,7 +340,7 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                         widget.userItem?.returnedTime != null
                             ? Utils.timestampToDateConversion(
                                 int.parse(widget.userItem?.returnedTime ?? '0'),
-                                Constants.dateFormat)
+                                Constants.twentyFourHourDateTimeFormat)
                             : ''),
                   ],
                 )
