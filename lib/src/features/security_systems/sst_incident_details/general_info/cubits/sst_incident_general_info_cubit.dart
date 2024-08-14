@@ -177,10 +177,11 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       if (isInternal == true) {
         state.model.staffType = 1;
         state.model.ticketType = 1;
-      } else {
-        state.model.staffType = 2;
-        state.model.ticketType = 1;
       }
+      // else {
+      //   state.model.staffType = 2;
+      //   state.model.ticketType = 1;
+      // }
       state.model.status = 1;
 
       emit(
@@ -491,9 +492,6 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
     if (isInternal == true) {
       state.model.staffType = 1;
-      state.model.ticketType = 1;
-    } else {
-      state.model.staffType = 2;
       state.model.ticketType = 1;
     }
     // Setting time in milliseconds

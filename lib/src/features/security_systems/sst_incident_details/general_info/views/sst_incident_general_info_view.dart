@@ -179,14 +179,14 @@ class _SstIncidentGeneralInfoViewState
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<SstIncidentGeneralInfoCubit>(context)
-                  .submitForm(isSaveOnly: true);
+                  .submitForm(isSaveOnly: true, isSubmitOnly: false, isReworkOnly: false);
             },
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
               if (state.model.status ==
                   ConstantsIntValue.ticketLifeCycleCreateStatus) {
                 BlocProvider.of<SstIncidentGeneralInfoCubit>(context)
-                    .submitForm(isSubmitOnly: true);
+                    .submitForm(isSaveOnly: false, isReworkOnly: false,isSubmitOnly: true);
               }
               if (state.model.status ==
                   ConstantsIntValue.ticketLifeCycleSolveProposedStatus) {
@@ -1303,6 +1303,7 @@ class _SstIncidentGeneralInfoViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
 
+                            if(state.model.status !=null && state.model.status != ConstantsIntValue.ticketLifeCycleCreateStatus)...[
                             ///Escalation 1
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.escalation1 ??
@@ -1353,7 +1354,7 @@ class _SstIncidentGeneralInfoViewState
                               context: context,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-
+],
                             if (state.model.status ==
                                     ConstantsIntValue
                                         .ticketLifeCycleSolveProposedStatus ||
@@ -1416,7 +1417,7 @@ class _SstIncidentGeneralInfoViewState
                               FocusScope.of(context).unfocus();
                               BlocProvider.of<SstIncidentGeneralInfoCubit>(
                                       context)
-                                  .submitForm(isSaveOnly: false);
+                                  .submitForm(isSaveOnly: false, isReworkOnly: false);
                             })
                           ],
                         ],
@@ -1542,8 +1543,8 @@ class _SstIncidentGeneralInfoViewState
       activityNotesController.text = activityNotes.activityNotes ?? '';
       dateController.text = activityNotes.submittedDate != null
           ? Utils.timestampToDateConversion(
-              int.tryParse(activityNotes.submittedDate ?? '0'),
-              Constants.fulldateFormat)
+          int.tryParse(activityNotes.submittedDate ?? '0'),
+          Constants.fulldateFormat)
           : '';
       widgets.add(
         Align(
@@ -1574,7 +1575,7 @@ class _SstIncidentGeneralInfoViewState
                 // ),
                 const SizedBox(height: 30),
                 Text(
-                  '${Constants.date} - ${activityNotes.submittedDate ?? ''}',
+                  '${Constants.date} - ${dateController.text}',
                   style: const TextStyle(
                     fontSize: 14,
                     color: Colors.grey,
