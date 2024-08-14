@@ -39,6 +39,8 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
   TextEditingController toDateController = TextEditingController();
   TextEditingController reasonController = TextEditingController();
 
+  late List<Label> reasonList;
+
   @override
   void initState() {
     super.initState();
@@ -63,12 +65,20 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
 
     log('widget.model.status--${widget.model.status}----');
     if (widget.model.status != null) {
-      Label matchingLabel = reasonDropDownValues
+      Label matchingLabel = shiftScheduleReasonDropDownValues
           .firstWhere((label) => label.value == widget.model.status.toString());
 
       reasonController.text = matchingLabel.key;
     }
     log('reasonController.text---${reasonController.text}----');
+
+    reasonList = widget.viaAttendance
+        ? attendanceReasonDropDownValues
+        : shiftScheduleReasonDropDownValues;
+
+    if (widget.viaAttendance) {
+      fromDateController.text = Utils().getCurrentDate();
+    }
   }
 
   @override
@@ -184,7 +194,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                       BaseDropDown().getDropDown(
                         isDisabled: false,
                         textController: reasonController,
-                        items: reasonDropDownValues,
+                        items: reasonList,
                         onTap: () {
                           if (!isReplacedForSelected.status) {
                             Validator().showToast(
@@ -195,11 +205,11 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                           }
                           BaseDropDown().assetTypeDialog(
                             context: context,
-                            dropDownValues: reasonDropDownValues
-                                .map((label) => label.key)
-                                .toList(),
+                            dropDownValues:
+                                reasonList.map((label) => label.key).toList(),
                             onTap: (String value) {
-                              selectedReason = reasonDropDownValues.firstWhere(
+                              selectedReason =
+                                  shiftScheduleReasonDropDownValues.firstWhere(
                                 (label) => label.key == value,
                                 orElse: () => const Label(key: '', value: ''),
                               );
@@ -246,7 +256,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                       ] else ...[
                         BaseDate().datePickerWidgetLoading(
                           textController: fromDateController,
-                          isDisabled: false,
+                          isDisabled: true,
                           onlyDate: false,
                           showPastDate: false,
                           notFlagDate: true,

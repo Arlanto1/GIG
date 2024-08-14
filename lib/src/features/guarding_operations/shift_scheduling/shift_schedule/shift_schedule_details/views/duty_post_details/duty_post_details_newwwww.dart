@@ -192,8 +192,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                     // if (state.status != FormStatus.formError) {
                                     BlocProvider.of<DutyPostDetailsCubit>(
                                             context)
-                                        .getShifts(
-                                            rank: value!);
+                                        .getShifts(rank: value!);
                                     // }
                                   },
                                 ),
@@ -545,6 +544,12 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                               )
                             : '',
                       ),
+                      buildTextWithLabel(
+                          'Reason:',
+                          Utils().getKeyFromValue(
+                            value: replacement.status!,
+                            dropdownValues: shiftScheduleReasonDropDownValues,
+                          )),
                       buildTextWithLabel(
                           'Replacement By:', replacement.replacementBy?.name),
                     ],

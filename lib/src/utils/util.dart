@@ -9,6 +9,21 @@ import 'package:permission_handler/permission_handler.dart';
 class Utils {
   static final math.Random _random = math.Random.secure();
 
+  String? getKeyFromValue({
+    required int value,
+    required List<Label> dropdownValues,
+  }) {
+    // Convert int value to string to match with Label value
+    String valueString = value.toString();
+
+    // Find the Label with the matching value
+    final label = dropdownValues.firstWhere(
+        (label) => label.value == valueString,
+        orElse: () => const Label(key: '', value: ''));
+
+    // Return the key, or null if not found
+    return label.key.isNotEmpty ? label.key : null;
+  }
 
   final List<String> imageExtensions = [
     'jpeg',

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/common_widgets/base_widget/opacity_absorb_widget.dart';
 
 class AttendanceShiftsView extends StatefulWidget {
   const AttendanceShiftsView({
@@ -10,6 +11,7 @@ class AttendanceShiftsView extends StatefulWidget {
     required this.vendor,
     required this.attInfoId,
     required this.selectedDutyPostModel,
+    required this.isReadOnly,
   });
 
   final Organisation location;
@@ -17,6 +19,7 @@ class AttendanceShiftsView extends StatefulWidget {
   final Organisation vendor;
   final int attInfoId;
   final DutyPostModel selectedDutyPostModel;
+  final bool isReadOnly;
 
   @override
   AttendanceShiftsViewState createState() => AttendanceShiftsViewState();
@@ -73,8 +76,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             context: context,
             title: widget.selectedDutyPostModel.name ?? '',
             showPopUp: false,
-            showSaveButton: true,
-            showSubmitButton: true,
+            showSaveButton: widget.isReadOnly ? false : true,
+            showSubmitButton: widget.isReadOnly ? false : true,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () => BlocProvider.of<AttendanceShiftsCubit>(context)
@@ -84,7 +87,11 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           body: Padding(
             padding: const EdgeInsets.all(20),
             child: SingleChildScrollView(
-              child: getBody(state, height, state.model),
+              child: getBody(
+                state,
+                height,
+                state.model,
+              ),
             ),
           ),
         );
@@ -135,7 +142,6 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: buildDutyPostSelectionWidget(
                         state: state,
-                        shift: state.model,
                         height: height,
                       ),
                     ),
@@ -152,10 +158,10 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
   Organisation? selectedRank;
   Organisation? selectedShift;
 
-  List<Widget> buildDutyPostSelectionWidget(
-      {required AttendanceShiftsState state,
-      required ShiftModel shift,
-      required double height}) {
+  List<Widget> buildDutyPostSelectionWidget({
+    required AttendanceShiftsState state,
+    required double height,
+  }) {
     // log('--shifts--length--${shifts.length}-');
     return [
       // for (Shift shift in shifts) ...[
@@ -220,133 +226,140 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
       buildTextWithLabel(
           'Attendance Status:',
           Utils().buildAttendanceStatusRow(
-              status: shift.attdStatus ?? 0, returnTextOnly: true)),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          buildShiftColumn(
-            shift: shift,
-            guards: shift.selectForAttendance ?? {},
-            destinationList: shift.attended ?? {},
-            isSourceList: true,
-            label:
-                'Select For \nAttendance: \n${shift.shift} (Planned: ${shift.allowed})',
-          ),
+              status: state.model.attdStatus ?? 0, returnTextOnly: true)),
+      OpacityAbsorbInkWellWidget(
+        absorbing: !state.model.activeShift,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                buildShiftColumn(
+                  shift: state.model,
+                  guards: state.model.selectForAttendance ?? {},
+                  destinationList: state.model.attended ?? {},
+                  isSourceList: true,
+                  label:
+                      'Select For \nAttendance: \n${state.model.shift} (Planned: ${state.model.allowed})',
+                ),
 
-          Column(
-            children: [
-              buildArrowButton(
-                state: state,
-                icon: Icons.arrow_right,
-                destinationList: shift.attended ?? {},
-                onAdd: (BaseUser guard) {
-                  shift.attended?.add(guard);
-                  shift.selectForAttendance?.remove(guard);
-                },
-              ),
-              buildArrowButton(
-                state: state,
-                icon: Icons.arrow_left,
-                destinationList: shift.selectForAttendance ?? {},
-                onAdd: (BaseUser guard) {
-                  shift.selectForAttendance?.add(guard);
-                  shift.attended?.remove(guard);
-                },
-              ),
+                Column(
+                  children: [
+                    buildArrowButton(
+                      state: state,
+                      icon: Icons.arrow_right,
+                      destinationList: state.model.attended ?? {},
+                      onAdd: (BaseUser guard) {
+                        state.model.attended?.add(guard);
+                        state.model.selectForAttendance?.remove(guard);
+                      },
+                    ),
+                    buildArrowButton(
+                      state: state,
+                      icon: Icons.arrow_left,
+                      destinationList: state.model.selectForAttendance ?? {},
+                      onAdd: (BaseUser guard) {
+                        state.model.selectForAttendance?.add(guard);
+                        state.model.attended?.remove(guard);
+                      },
+                    ),
+                  ],
+                ),
+                // buildArrowButtons(
+                //   sourceList: shift.selectForAttendance ?? [],
+                //   destinationList: shift.attended ?? [],
+                //   onAdd: (BaseUser guard) {
+                //     shift.attended?.add(guard);
+                //   },
+                //   onRemove: (BaseUser guard) {
+                //     shift.attended?.remove(guard);
+                //   },
+                // ),
+                buildShiftColumn(
+                  shift: state.model,
+                  guards: state.model.attended ?? {},
+                  destinationList: state.model.attended ?? {},
+                  isSourceList: false,
+                  label: 'Attended\n\n',
+                ),
+                Column(
+                  children: [
+                    buildArrowButton(
+                      state: state,
+                      icon: Icons.arrow_right,
+                      destinationList: state.model.previousShift ?? {},
+                      onAdd: (BaseUser guard) {
+                        state.model.previousShift?.add(guard);
+                        state.model.attended?.remove(guard);
+                      },
+                    ),
+                    buildArrowButton(
+                      state: state,
+                      icon: Icons.arrow_left,
+                      destinationList: state.model.attended ?? {},
+                      onAdd: (BaseUser guard) {
+                        state.model.attended?.add(guard);
+                        state.model.previousShift?.remove(guard);
+                      },
+                    ),
+                  ],
+                ),
+                buildShiftColumn(
+                  shift: state.model,
+                  destinationList: state.model.attended ?? {},
+                  guards: state.model.previousShift ?? {},
+                  isSourceList: false,
+                  label: 'Select From\nPrevious Shift\n',
+                ),
+              ],
+            ),
+            CommonWidgets.verticalSpacerWidget(
+                MediaQuery.of(context).size.height * 0.01),
+            if (!state.model.selectForAttendance.isEmptyOrNull) ...[
+              buildReplacementColumn(state),
             ],
-          ),
-          // buildArrowButtons(
-          //   sourceList: shift.selectForAttendance ?? [],
-          //   destinationList: shift.attended ?? [],
-          //   onAdd: (BaseUser guard) {
-          //     shift.attended?.add(guard);
-          //   },
-          //   onRemove: (BaseUser guard) {
-          //     shift.attended?.remove(guard);
-          //   },
-          // ),
-          buildShiftColumn(
-            shift: shift,
-            guards: shift.attended ?? {},
-            destinationList: shift.attended ?? {},
-            isSourceList: false,
-            label: 'Attended\n\n',
-          ),
-          Column(
-            children: [
-              buildArrowButton(
-                state: state,
-                icon: Icons.arrow_right,
-                destinationList: shift.previousShift ?? {},
-                onAdd: (BaseUser guard) {
-                  shift.previousShift?.add(guard);
-                  shift.attended?.remove(guard);
-                },
-              ),
-              buildArrowButton(
-                state: state,
-                icon: Icons.arrow_left,
-                destinationList: shift.attended ?? {},
-                onAdd: (BaseUser guard) {
-                  shift.attended?.add(guard);
-                  shift.previousShift?.remove(guard);
-                },
-              ),
-            ],
-          ),
-          buildShiftColumn(
-            shift: shift,
-            destinationList: shift.attended ?? {},
-            guards: shift.previousShift ?? {},
-            isSourceList: false,
-            label: 'Select From\nPrevious Shift\n',
-          ),
-        ],
+            CommonWidgets.verticalSpacerWidget(
+                MediaQuery.of(context).size.height * 0.01),
+
+            /// Briefing Points
+            CommonWidgets.textDisplay(
+              'Briefing Points:',
+              isMandatory: false,
+              Styles.textStyleBlack14,
+            ),
+            MultiSelectDropdown(
+              briefingPoints: state.briefingPoints ?? [],
+              selectedPoints: state.model.briefingPoints?.split(',') ?? [],
+              onSelectedBriefingPointsChanged: (List<String> points) {
+                log('-points--$points--');
+                state.model.briefingPoints = Utils().joinListWithComma(points);
+
+                BlocProvider.of<AttendanceShiftsCubit>(context)
+                    .submitAndRefreshScreen();
+                // Update the points in your Bloc or state management accordingly
+                // BlocProvider.of<AttendanceShiftsCubit>(context).updateBriefingPoints();
+              },
+            ),
+            CommonWidgets.verticalSpacerWidget(
+                MediaQuery.of(context).size.height * 0.01),
+
+            /// SLA Violation List
+            // CommonWidgets.textDisplay(
+            //   'SLA Violation List',
+            //   isMandatory: false,
+            //   Styles.textStyleBlack14,
+            // ),
+
+            buildSlaListColumn(
+              state: state,
+              shift: state.model,
+            ),
+            CommonWidgets.verticalSpacerWidget(
+                MediaQuery.of(context).size.height * 0.02),
+          ],
+        ),
       ),
-      CommonWidgets.verticalSpacerWidget(
-          MediaQuery.of(context).size.height * 0.01),
-      if (!shift.attended.isEmptyOrNull) ...[
-        buildReplacementColumn(shift),
-      ],
 
-      CommonWidgets.verticalSpacerWidget(
-          MediaQuery.of(context).size.height * 0.01),
-
-      /// Briefing Points
-      CommonWidgets.textDisplay(
-        'Briefing Points:',
-        isMandatory: false,
-        Styles.textStyleBlack14,
-      ),
-      MultiSelectDropdown(
-        briefingPoints: state.briefingPoints ?? [],
-        selectedPoints: shift.briefingPoints?.split(',') ?? [],
-        onSelectedBriefingPointsChanged: (List<String> points) {
-          log('-points--$points--');
-          shift.briefingPoints = Utils().joinListWithComma(points);
-
-          BlocProvider.of<AttendanceShiftsCubit>(context)
-              .submitAndRefreshScreen();
-          // Update the points in your Bloc or state management accordingly
-          // BlocProvider.of<AttendanceShiftsCubit>(context).updateBriefingPoints();
-        },
-      ),
-      CommonWidgets.verticalSpacerWidget(
-          MediaQuery.of(context).size.height * 0.01),
-
-      /// SLA Violation List
-      // CommonWidgets.textDisplay(
-      //   'SLA Violation List',
-      //   isMandatory: false,
-      //   Styles.textStyleBlack14,
-      // ),
-
-      buildSlaListColumn(
-        state: state,
-        shift: shift,
-      ),
-      CommonWidgets.verticalSpacerWidget(
-          MediaQuery.of(context).size.height * 0.02),
       // ],
     ];
   }
@@ -366,8 +379,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
 
           log('----@@@--${state.status}-----');
           // if (state.status != FormStatus.formError) {
-            log('------${state.status}-----');
-            onAdd(selectedGuard!);
+          log('------${state.status}-----');
+          onAdd(selectedGuard!);
           // }
 
           BlocProvider.of<AttendanceShiftsCubit>(context)
@@ -498,7 +511,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
       child: IntrinsicHeight(
         child: Card(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(5.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -514,7 +527,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     );
   }
 
-  Column buildReplacementColumn(ShiftModel shift) {
+  Column buildReplacementColumn(AttendanceShiftsState state) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -522,8 +535,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           onTap: () => showReplacementPopUp(
             context: context,
             model: Replacement(),
-            selectedGuards: shift.selectForAttendance ?? {},
-            availableGuards: shift.availableGuards ?? {},
+            selectedGuards: state.model.selectForAttendance ?? {},
+            availableGuards: state.model.availableGuards ?? {},
           ),
           child: Row(
             children: <Widget>[
@@ -544,13 +557,14 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             ],
           ),
         ),
-        if (shift.replacements != null && shift.replacements!.isNotEmpty) ...[
+        if (state.model.replacements != null &&
+            state.model.replacements!.isNotEmpty) ...[
           Card(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: buildReplacements(shift),
+                children: buildReplacements(state),
               ),
             ),
           ),
@@ -561,36 +575,74 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     );
   }
 
-  List<Widget> buildReplacements(ShiftModel shift) {
-    log('--shift---${shift.replacements?.length}-');
+  List<Widget> buildReplacements(AttendanceShiftsState state) {
+    log('--shift---${state.model.replacements?.length}-');
     return [
-      for (Replacement replacement in shift.replacements ?? [])
+      for (Replacement replacement in state.model.replacements ?? [])
         InkWell(
           onTap: () => showReplacementPopUp(
             context: context,
             model: replacement,
-            availableGuards: shift.selectForAttendance ?? {},
-            selectedGuards: shift.selectedGuards ?? {},
+            availableGuards: state.model.selectForAttendance ?? {},
+            selectedGuards: state.model.selectedGuards ?? {},
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Stack(
             children: [
-              buildTextWithLabel(
-                  'Replacement For:', replacement.replacedFor?.name),
-              buildTextWithLabel(
-                  'Replacement By:', replacement.replacementBy?.name),
-              buildTextWithLabel(
-                'From Date:',
-                Utils.timestampToDateConversion(
-                  int.parse(replacement.fromDate ?? '0'),
-                  Constants.dateFormat,
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      buildTextWithLabel(
+                          'Replacement For:', replacement.replacedFor?.name),
+                      buildTextWithLabel(
+                        'From Date:',
+                        replacement.fromDate != null
+                            ? Utils.timestampToDateConversion(
+                                int.tryParse(replacement.fromDate ?? '0'),
+                                Constants.dateFormat,
+                              )
+                            : '',
+                      ),
+                      // buildTextWithLabel(
+                      //   'To Date:',
+                      //   replacement.toDate != null
+                      //       ? Utils.timestampToDateConversion(
+                      //           int.parse(replacement.toDate ?? '0'),
+                      //           Constants.dateFormat,
+                      //         )
+                      //       : '',
+                      // ),
+
+                      buildTextWithLabel(
+                          'Reason:',
+                          Utils().getKeyFromValue(
+                            value: replacement.status!,
+                            dropdownValues: attendanceReasonDropDownValues,
+                          )),
+                      buildTextWithLabel(
+                          'Replacement By:', replacement.replacementBy?.name),
+                    ],
+                  ),
                 ),
               ),
-              buildTextWithLabel(
-                'To Date:',
-                Utils.timestampToDateConversion(
-                  int.parse(replacement.toDate ?? '0'),
-                  Constants.dateFormat,
+              Positioned(
+                right: 0,
+                top: 0,
+                child: InkWell(
+                  onTap: () {
+                    state.model.replacements?.remove(replacement);
+                    BlocProvider.of<AttendanceShiftsCubit>(context)
+                        .submitAndRefreshScreen(
+                      checkValidations: false,
+                    );
+                    setState(() {});
+                  },
+                  child: Card(
+                    elevation: 5,
+                    child: BaseIcons().closeIcon(),
+                  ),
                 ),
               ),
             ],

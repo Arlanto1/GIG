@@ -1559,6 +1559,7 @@ class RouteGenerator {
         Organisation? locationRegion;
         Organisation? vendor;
         late DutyPostModel selectedDutyPostModel;
+        late bool isReadOnly;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
@@ -1569,6 +1570,7 @@ class RouteGenerator {
           locationRegion = arguments[ConstantsArgument.locationRegion];
           vendor = arguments[ConstantsArgument.vendor];
           selectedDutyPostModel = arguments[ConstantsArgument.selectedDutyPostModel];
+          isReadOnly = arguments[ConstantsArgument.isReadOnly];
         }
         AttendanceServices services = AttendanceServices();
         CommonServices commonServices = CommonServices();
@@ -1589,6 +1591,7 @@ class RouteGenerator {
               locationRegion: locationRegion!,
               vendor: vendor!,
               selectedDutyPostModel: selectedDutyPostModel,
+              isReadOnly :isReadOnly,
             ),
           ),
         );
