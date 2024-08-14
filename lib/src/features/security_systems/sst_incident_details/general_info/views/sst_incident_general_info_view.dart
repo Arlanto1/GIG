@@ -313,6 +313,11 @@ class _SstIncidentGeneralInfoViewState
       uploadFiles = state.uploadAttachments ?? [];
     }
 
+    if (state.status == FormStatus.addAttachment ||
+        state.status == FormStatus.initial) {
+      // uploadFiles = state.uploadAttachments;
+      uploadDocuments = state.dataLossAttachments ?? [];
+    }
     return Container(
       color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
@@ -973,6 +978,8 @@ class _SstIncidentGeneralInfoViewState
                           isDisabled: disableForm,
                         ),
                       ),
+
+
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       if (showSystemIntegratorFields) ...[
                         CommonWidgets.textDisplay(
@@ -1024,9 +1031,7 @@ class _SstIncidentGeneralInfoViewState
                                 validateTextField: (String? user) {},
                               ),
                             ],
-                            if (state.model.status ==
-                                ConstantsIntValue
-                                    .ticketLifeCycleAcknowledgeStatus) ...[
+                            if (showSystemIntegratorFields && state.model.status != ConstantsIntValue.ticketLifeCycleSubmitStatus ) ...[
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.onsiteVisitDT ??
                                       state.labels?.defaultLocale
@@ -1168,7 +1173,7 @@ class _SstIncidentGeneralInfoViewState
                                   onChangedNo: null),
 
                               if (state.model.dataLoss == true) ...[
-                                ///Data Loss
+                                ///Data Loss Attachment
                                 CommonWidgets.textDisplay(
                                     // state.labels?.locale.dataLoss ??
                                     //     state.labels?.defaultLocale.dataLoss ??
@@ -1204,11 +1209,11 @@ class _SstIncidentGeneralInfoViewState
                                 /// Attachments
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 20.0),
+                                      horizontal: 5.0),
                                   child: BaseImageUpload().getAttachment(
                                     height: height,
                                     attachments: state.dataLossAttachments,
-                                    files: uploadFiles,
+                                    files: uploadDocuments,
                                     moduleCode: Constants.securitySystemModule,
                                     isDisabled: true,
                                   ),

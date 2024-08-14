@@ -478,7 +478,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     ));
   }
 
-  void submitForm({bool isSaveOnly = false,
+  void submitForm({
+    bool isSaveOnly = false,
     bool isReworkOnly = false,
     bool isSubmitOnly = false,
   }) async {
@@ -494,6 +495,11 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       state.model.staffType = 1;
       state.model.ticketType = 1;
     }
+
+    if (state.model.workFlowId != null) {
+      state.model.workFlowId = state.model.workFlowId;
+    }
+
     // Setting time in milliseconds
     // state.model.createdDate =
     //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
@@ -518,10 +524,11 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       if (isSaveOnly) {
         response = await services.createTicketLifeCycle(
           body: request,
-          isSubmit: false, isRework: 0,
+          isSubmit: false,
+          isRework: 0,
         );
-      } 
-      if(isSubmitOnly) {
+      }
+      if (isSubmitOnly) {
         if (!state.isValid.status) {
           log('--isSaveOnly--else--if$isSaveOnly--');
           emit(
@@ -534,10 +541,11 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         }
         response = await services.createTicketLifeCycle(
           body: request,
-          isSubmit: true, isRework: 0,
+          isSubmit: true,
+          isRework: 0,
         );
       }
-      if(isReworkOnly) {
+      if (isReworkOnly) {
         // if (!state.isValid.status) {
         //   log('--isSaveOnly--else--if$isSaveOnly--');
         //   emit(
@@ -550,7 +558,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         // }
         response = await services.createTicketLifeCycle(
           body: request,
-          isSubmit: true, isRework: 1,
+          isSubmit: true,
+          isRework: 1,
         );
       }
       state.model.createdDate = state.model.createdDate == null
@@ -613,7 +622,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     state.model.closedActivityNotes = activityNotes;
     emit(state.copyWith(
       model: state.model,
-      activityNotes :activityNotes,
+      activityNotes: activityNotes,
       status: FormStatus.initial,
     ));
   }
