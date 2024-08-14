@@ -136,10 +136,10 @@ class KeyManagementIssuanceModel {
   User? dbSponsorCwrT2;
   String? employeeID;
   dynamic department;
-  dynamic receiverSign;
+  ImageContent? receiverSign;
   dynamic keyReturnDateTime;
   String? returnedByName;
-  dynamic securitySign;
+  ImageContent? securitySign;
   String? createdDate;
   String? modifiedDate;
   String? modifiedBy;
@@ -210,10 +210,10 @@ class KeyManagementIssuanceModel {
         department = (json['department'] as Map<String, dynamic>?) != null
             ? Organisation.fromJson(json['department'] as Map<String, dynamic>)
             : null,
-        receiverSign = json['receiverSign'],
+        receiverSign = json['receiverSign'] as ImageContent?,
         keyReturnDateTime = json['keyReturnDateTime'] as String?,
         returnedByName = json['returnedByName'] as String?,
-        securitySign = json['securitySign'],
+        securitySign = json['securitySign'] as ImageContent?,
         createdDate = json['createdDate'] as String?,
         modifiedDate = json['modifiedDate'] as String?,
         modifiedBy = json['modifiedBy'] as String?,
