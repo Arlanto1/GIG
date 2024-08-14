@@ -2909,20 +2909,17 @@ class _MaterialMovementDetailsViewState
 
                             /// upload
                             widget.model?.status == null ||
-                                    widget.model?.status == 0 ||
-                                    widget.model?.status == 1
+                                    widget.model?.status == 0
                                 ? CommonWidgets.textDisplay(
                                     Constants.upload, Styles.textStyleBlack14)
                                 : Container(),
                             widget.model?.status == null ||
-                                    widget.model?.status == 0 ||
-                                    widget.model?.status == 1
+                                    widget.model?.status == 0
                                 ? CommonWidgets.verticalSpacerWidget(
                                     height * 0.001)
                                 : Container(),
                             (widget.model?.status == null ||
-                                        widget.model?.status == 0 ||
-                                        widget.model?.status == 1) &&
+                                        widget.model?.status == 0) &&
                                     state.model.lock.isEmptyOrNull
                                 ? uploadWidget(state)
                                 : Container(),
@@ -2938,6 +2935,7 @@ class _MaterialMovementDetailsViewState
                         files: getFiles,
                         moduleCode: moduleCode,
                         isDisabled: isReadOnly,
+                        showDeleteIcon: state.model.status == null || state.model.status == ConstantsIntValue.mmStatusDraft,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
