@@ -1577,12 +1577,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             isMandatory: true,
                                           ),
                                           radioButtonHandling(
-                                            state.exceptionalApproval ?? 0,
-                                            state.labels?.locale
-                                                    .exceptionalApproval ??
-                                                state.labels?.defaultLocale
-                                                    .exceptionalApproval ??
-                                                Constants.exceptionalApproval,
+                                            state.exceptionalApproval ?? 0
                                           ),
                                         ],
                                       ),
@@ -1837,13 +1832,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             ConstantsIntValue.passIdVisitor
                                         ? radioButtonHandling(
                                             state.escortedbyhost ?? 0,
-                                            state.labels?.locale
-                                                    .escortedByHost ??
-                                                state.labels?.defaultLocale
-                                                    .escortedByHost ??
-                                                'Escorted by Host')
+                                            )
                                         : Container(),
-
+                                    // Text('state.escortedbyhost--- ${widget.model?.escortedByHost}'),
+                                    // Text('state.email--- ${state.escorted}'),
                                     /// Escorted By
                                     (widget.passId ==
                                                     ConstantsIntValue
@@ -2197,7 +2189,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
-  Widget radioButtonHandling(int selectedValue, String name) {
+  Widget radioButtonHandling(int selectedValue) {
     bool isEditable =
         (widget.model?.status == null || widget.model?.status == 0) &&
             !(widget.extraProperties != null &&
@@ -2217,7 +2209,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? (val) {
                   selectedValue = 1;
                   createPassMgmtCubit.getRadioButtonSelected(
-                      name, selectedValue, "Yes");
+                       selectedValue);
                 }
               : null,
         ),
@@ -2230,10 +2222,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           groupValue: selectedValue,
           onChanged: isEditable
               ? (val) {
-                  log(name);
                   selectedValue = 0;
                   createPassMgmtCubit.getRadioButtonSelected(
-                      name, selectedValue, "No");
+                       selectedValue);
                 }
               : null,
         ),
@@ -2244,6 +2235,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   populateData() async {
     if (widget.model != null) {
+
+      int value = 0;
+      if(widget.model!.escortedByHost??false) {
+        value = 1;
+      }
+
+      createPassMgmtCubit.getRadioButtonSelected(value);
+
       if (widget.model?.companyType?.name?.toLowerCase() == 'fte') {
         isFTECompanyNameEditable = false;
       }

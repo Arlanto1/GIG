@@ -192,8 +192,8 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                     value: state.list[index].location?.name ??
                                         ''));
                                 labels.add(Label(
-                                    key: state.labels?.locale.createdBy ??
-                                        state.labels?.defaultLocale.createdBy ??
+                                    key: state.labels?.locale.entrySecurity ??
+                                        state.labels?.defaultLocale.entrySecurity ??
                                         'Created By',
                                     value:
                                         '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
