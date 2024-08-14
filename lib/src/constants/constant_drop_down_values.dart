@@ -314,3 +314,9 @@ const List<Label> shiftScheduleStatusDropDownValues = [
   Label(key: 'InActive', value: '2'),
   Label(key: 'Cancelled', value: '-1'),
 ];
+
+const List<Label> issueTypeDropDownValues = [
+  Label(key: 'Hardware', value: '1'),
+  Label(key: 'Software', value: '2'),
+  Label(key: 'Network Issue', value: '3'),
+];

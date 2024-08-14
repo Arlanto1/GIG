@@ -61,12 +61,13 @@ class SstIncidentServices {
     return GenericResponse.fromJson(response);
   }
 
-  Future<GenericResponse> create({
+  Future<GenericResponse> createTicketLifeCycle({
     required SecuritySystemTicketIncidentRequest body,
     required bool isSubmit,
+    required int isRework,
   }) async {
     var userId = await SharedPrefs.getUserId();
-    final String url = "${Apis._create}userEmail=$userId&isSubmit=$isSubmit";
+    final String url = "${Apis._create}userEmail=$userId&isSubmit=$isSubmit&isRework=$isRework";
 
     final response = await BaseApiService().postRequest(
       url: url,

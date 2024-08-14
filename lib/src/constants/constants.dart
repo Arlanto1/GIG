@@ -892,6 +892,31 @@ class Constants {
   /// Ticket Life Cycle
   static const String sentReminder = 'Reminder Sent';
   static const String sentRemindertoVendor = 'Sent reminder to Vendor.';
+  static const String systemIntegratorForVendorAction = 'System Integrator for Vendor Action';
+  static const String acknowledgeDateAndTime = 'Acknowledge Date and Time';
+  static const String vendorTicketNo = 'Vendor Ticket No';
+  static const String escalation1 = 'Escalation 1';
+  static const String escalation2 = 'Escalation 2';
+  static const String escalation3 = 'Escalation 3';
+  static const String onsiteVisitDateAndTime = 'Onsite Visit Date and Time';
+  static const String criticalSpareUsed = 'Critical Spare Used';
+  static const String rootCauseAnalysis = 'Root Cause Analysis';
+  static const String actionTakenMitigationAction = 'Action Taken/ Mitigation Action';
+  static const String issueType = 'Issue Type';
+  static const String dataLoss = 'Data Loss';
+  static const String attachTheLayout = 'Attach The Layout, work completion certificate, PO, Invoice, Approval Emails etc.documents';
+  static const String activityNotes = 'Activity Notes';
+  static const String selectStatus = 'Select Status';
+  static const String message = 'Please click on the respective Status button you like to submit';
+  static const String rework = 'Rework';
+  static const String closed = 'Closed';
+  static const String dataLossAttachment = 'Data Loss Attachment';
+  static const String slaOnSiteResponse = 'SLA Onsite Response';
+  static const String solvedProposedDate = 'Solved Proposed Date';
+  static const String reworkProposedDate = 'Rework Proposed Date';
+  static const String comments = 'Comments';
+
+
 
   ///Key issuance Process
   static const String valueNotAccepted = 'Value Not Accepted';

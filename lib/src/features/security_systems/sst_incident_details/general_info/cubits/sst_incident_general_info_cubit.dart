@@ -79,6 +79,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         listOfEntities: entities,
         status: FormStatus.initial,
         uploadAttachments: state.model.attachments,
+        additionalAttachments: state.model.additionalDocs,
+        dataLossAttachments: state.model.dataLossDocs,
         vendors: vendors.items,
         systemManagers: systemManagerUsers,
         securityLeads: securityLeads,
@@ -196,6 +198,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           listOfEntities: entities,
           getEntitiesResponse: entities,
           uploadAttachments: model.attachments,
+          additionalAttachments: model.additionalDocs,
+          dataLossAttachments: model.dataLossDocs,
         ),
       );
     } on Exception catch (e) {
@@ -322,6 +326,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     emit(state.copyWith(
       model: state.model,
       uploadAttachments: state.model.attachments,
+      additionalAttachments: state.model.additionalDocs,
       status: FormStatus.initial,
     ));
   }
@@ -472,7 +477,10 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     ));
   }
 
-  void submitForm({bool isSaveOnly = false}) async {
+  void submitForm({bool isSaveOnly = false,
+    bool isReworkOnly = false,
+    bool isSubmitOnly = false,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -510,11 +518,12 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
-        response = await services.create(
+        response = await services.createTicketLifeCycle(
           body: request,
-          isSubmit: false,
+          isSubmit: false, isRework: 0,
         );
-      } else {
+      } 
+      if(isSubmitOnly) {
         if (!state.isValid.status) {
           log('--isSaveOnly--else--if$isSaveOnly--');
           emit(
@@ -525,9 +534,25 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           );
           return;
         }
-        response = await services.create(
+        response = await services.createTicketLifeCycle(
           body: request,
-          isSubmit: true,
+          isSubmit: true, isRework: 0,
+        );
+      }
+      if(isReworkOnly) {
+        // if (!state.isValid.status) {
+        //   log('--isSaveOnly--else--if$isSaveOnly--');
+        //   emit(
+        //     state.copyWith(
+        //       status: FormStatus.formError,
+        //       message: state.isValid.message,
+        //     ),
+        //   );
+        //   return;
+        // }
+        response = await services.createTicketLifeCycle(
+          body: request,
+          isSubmit: true, isRework: 1,
         );
       }
       state.model.createdDate = state.model.createdDate == null
@@ -565,5 +590,33 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
         id: id, module: Constants.securitySystemModule);
+  }
+
+  void onAddComment(String comment) {
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.loading,
+    ));
+
+    state.model.rejectionComment = comment;
+    emit(state.copyWith(
+      model: state.model,
+      rejectionComment: comment,
+      status: FormStatus.initial,
+    ));
+  }
+
+  void onAddActivityNotes(String activityNotes) {
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.loading,
+    ));
+
+    state.model.closedActivityNotes = activityNotes;
+    emit(state.copyWith(
+      model: state.model,
+      activityNotes :activityNotes,
+      status: FormStatus.initial,
+    ));
   }
 }
