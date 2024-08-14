@@ -1561,16 +1561,22 @@ class Utils {
     }
   }
 
-  void errorAndLogout(dynamic state, BuildContext context) {
+  Future<void> errorAndLogout(dynamic state, BuildContext context) async {
+    /// If the Token is cleared and the user is still logged in
+    String token = await SharedPrefs.getToken();
+    if (token.isEmptyOrNull) {
+      InactivityFunctions().logoutUser(navigatorKey);
+    }
+
     log('STATUS: ${state.status}');
-    if (state.status == FormStatus.error) {
+    if (state.status == FormStatus.error && context.mounted) {
       InactivityFunctions().logoutUser(navigatorKey);
       Validator().showToast(
         context,
         state.message ?? 'Invalid Information',
       );
     }
-    if (state.status == FormStatus.permissionLocationError) {
+    if (state.status == FormStatus.permissionLocationError && context.mounted) {
       log('');
       var dialog = CustomAlertDialog(
           title: 'Location Permission',
