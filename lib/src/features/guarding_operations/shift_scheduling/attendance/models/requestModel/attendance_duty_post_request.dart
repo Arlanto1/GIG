@@ -5,15 +5,15 @@ class AttendanceShiftDutyPostRequest {
     required this.requestModel,
   });
 
-  DutyPostModel? requestModel;
+  ShiftModel? requestModel;
 
   AttendanceShiftDutyPostRequest.fromJson(Map<String, dynamic> json) {
-    requestModel = DutyPostModel.fromJson(json['shiftDutyPost']);
+    requestModel = ShiftModel.fromJson(json['shifts']);
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['shiftDutyPost'] = requestModel?.toJson();
+    data['shifts'] = requestModel?.toJson();
     return data;
   }
 }

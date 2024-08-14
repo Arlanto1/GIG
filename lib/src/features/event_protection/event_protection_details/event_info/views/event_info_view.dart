@@ -402,6 +402,8 @@ class _EventInfoViewState extends State<EventInfoView> {
                                                 ConstantsArgument
                                                         .eventProtectionId:
                                                     widget.eventProtectionId,
+                                                ConstantsArgument.location:
+                                                state.model.location,
                                               },
                                             );
                                           },
@@ -412,7 +414,9 @@ class _EventInfoViewState extends State<EventInfoView> {
 
                                         /// Show List Button
                                         if (!state
-                                            .foundArticles.isEmptyOrNull && state.model.status! >= 22) ...[
+                                            .foundArticles.isEmptyOrNull
+                                            // && state.model.status! >= 22
+                                        ) ...[
                                           submitButtonDisplay(
                                             label: Constants.showList,
                                             onTap: () {

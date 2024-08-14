@@ -257,13 +257,22 @@ const List<Label> sstIncidentsStatusItems = [
   Label(key: 'Closed', value: '14'),
 ];
 
-const List<Label> reasonDropDownValues = [
+const List<Label> shiftScheduleReasonDropDownValues = [
   Label(key: 'Leave', value: '0'),
   Label(key: 'Week Off', value: '1'),
   Label(key: 'Resigned', value: '2'),
   Label(key: 'Terminated', value: '3'),
   Label(key: 'Absent', value: '4'),
   Label(key: 'Already Assigned', value: '5'),
+];
+
+const List<Label> attendanceReasonDropDownValues = [
+  Label(key: 'Leave', value: '0'),
+  Label(key: 'Week Off', value: '1'),
+  Label(key: 'Resigned', value: '2'),
+  Label(key: 'Terminated', value: '3'),
+  Label(key: 'Shift Completed', value: '4'),
+  Label(key: 'Absent', value: '5'),
 ];
 const List<Label> dutyPostNameMasterStatusValues = [
   Label(key: 'Cancelled', value: '-1'),

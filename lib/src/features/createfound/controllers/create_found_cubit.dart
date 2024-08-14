@@ -30,7 +30,10 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
     ));
   }
 
-  Future<void> initializeValues(FoundListArticleDetails? model) async {
+  Future<void> initializeValues({
+    FoundListArticleDetails? model,
+    Organisation? eventProtectionLocation,
+  }) async {
     log('----initializeValues-----');
     //Show Loader and emit loading state
     emit(
@@ -45,9 +48,12 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       model ??= FoundListArticleDetails();
 
       User loggedInUserDetails =
-      await commonServices.getUserDetails(userId: userId);
+          await commonServices.getUserDetails(userId: userId);
       Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
 
+      if (eventProtectionLocation != null) {
+        defaultLocation = eventProtectionLocation;
+      }
       SerialNumberModel? serialNumberResponse;
       log('---defaultLocation--${defaultLocation?.name}----');
       if (model.slNo.isEmptyOrNull) {
@@ -59,6 +65,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         model.slNo = serialNumberResponse.serialNo;
         model.location = defaultLocation;
       }
+
       emit(
         state.copyWith(
           model: model,
@@ -455,8 +462,8 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         ),
       );
       dismissLoadingDialog(context);
-      await createFoundArticleCubit.getUserByRoleDepositor(
-          ConstantUserRoles.atomStaticUser);
+      await createFoundArticleCubit
+          .getUserByRoleDepositor(ConstantUserRoles.atomStaticUser);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(context, Constants.userAddedUpdatedSuccessfully,
             Constants.newuser, '');

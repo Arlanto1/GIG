@@ -88,7 +88,6 @@ class ShiftScheduleServices {
 
   Future<DutyPostModel> getDutyPostById({
     required int? id,
-    BuildContext? context,
   }) async {
     final String url = '${Apis._getDutyPostById}/$id';
     final response = await BaseApiService().getRequest(
@@ -152,6 +151,7 @@ class ShiftScheduleServices {
     return NextAvailableDateRange.fromJson(response);
   }
 
+  /// Get Rank List
   Future<List<Organisation>> getRanksListByAssignedDutyPostId({
     required int dutyPostId,
   }) async {
@@ -164,6 +164,7 @@ class ShiftScheduleServices {
         response.map((x) => Organisation.fromJson(x)));
   }
 
+  /// Get Shift List By Rank Id
   Future<List<Organisation>> getShiftListByAssignedDutyPostId({
     required int dutyPostId,
     required int rankId,
@@ -178,7 +179,7 @@ class ShiftScheduleServices {
         response.map((x) => Organisation.fromJson(x)));
   }
 
-  Future<Shift> getAvailableSelectedGuardsByShift({
+  Future<ShiftModel> getAvailableSelectedGuardsByShift({
     required int dutyPostId,
     required int rankId,
     required int shiftId,
@@ -189,7 +190,7 @@ class ShiftScheduleServices {
       url: url,
     );
 
-    return Shift.fromJson(response);
+    return ShiftModel.fromJson(response);
   }
 
   Future<NextAvailableDateRange> getNextAvailableReplacementDates({

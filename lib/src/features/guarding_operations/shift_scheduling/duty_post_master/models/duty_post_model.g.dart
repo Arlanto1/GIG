@@ -9,10 +9,10 @@ part of 'duty_post_model.dart';
 Rank _$RankFromJson(Map<String, dynamic> json) => Rank(
       rank: (json['rank'] as num?)?.toInt(),
       shifts: (json['shifts'] as List<dynamic>?)
-          ?.map((e) => Shift.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => ShiftModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       attendanceShift: (json['attendanceShift'] as List<dynamic>?)
-          ?.map((e) => Shift.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => ShiftModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -22,7 +22,7 @@ Map<String, dynamic> _$RankToJson(Rank instance) => <String, dynamic>{
       'attendanceShift': instance.attendanceShift,
     };
 
-Shift _$ShiftFromJson(Map<String, dynamic> json) => Shift(
+ShiftModel _$ShiftModelFromJson(Map<String, dynamic> json) => ShiftModel(
       shift: json['shift'] as String?,
       allowed: (json['allowed'] as num?)?.toInt(),
       attendanceShiftId: (json['attendanceShiftId'] as num?)?.toInt(),
@@ -36,20 +36,21 @@ Shift _$ShiftFromJson(Map<String, dynamic> json) => Shift(
           .toSet(),
       selectForAttendance: (json['selectForAttendance'] as List<dynamic>?)
           ?.map((e) => BaseUser.fromJson(e as Map<String, dynamic>))
-          .toList(),
+          .toSet(),
       attended: (json['attended'] as List<dynamic>?)
           ?.map((e) => BaseUser.fromJson(e as Map<String, dynamic>))
-          .toList(),
+          .toSet(),
       previousShift: (json['previousShift'] as List<dynamic>?)
           ?.map((e) => BaseUser.fromJson(e as Map<String, dynamic>))
-          .toList(),
+          .toSet(),
       briefingPoints: json['briefingPoints'] as String?,
       replacements: (json['replacements'] as List<dynamic>?)
           ?.map((e) => Replacement.fromJson(e as Map<String, dynamic>))
           .toSet(),
     );
 
-Map<String, dynamic> _$ShiftToJson(Shift instance) => <String, dynamic>{
+Map<String, dynamic> _$ShiftModelToJson(ShiftModel instance) =>
+    <String, dynamic>{
       'shift': instance.shift,
       'attendanceShiftId': instance.attendanceShiftId,
       'allowed': instance.allowed,
@@ -58,9 +59,9 @@ Map<String, dynamic> _$ShiftToJson(Shift instance) => <String, dynamic>{
       'selectedGuards': instance.selectedGuards?.toList(),
       'availableGuards': instance.availableGuards?.toList(),
       'replacements': instance.replacements?.toList(),
-      'selectForAttendance': instance.selectForAttendance,
-      'attended': instance.attended,
-      'previousShift': instance.previousShift,
+      'selectForAttendance': instance.selectForAttendance?.toList(),
+      'attended': instance.attended?.toList(),
+      'previousShift': instance.previousShift?.toList(),
       'briefingPoints': instance.briefingPoints,
     };
 

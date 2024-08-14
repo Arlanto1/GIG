@@ -543,7 +543,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                 !state.model.toDate.isEmptyOrNull) ...[
                               DutyPostListWidget(
                                   dutyPosts: state.dutyPosts ?? [],
-                                  onTap: (int? id, int? dustyPostNameId) {
+                                  onTap: (int? id, int? dustyPostNameId,
+                                      DutyPostModel? dutyPostModel) {
                                     log('--id---$id-dustyPostNameId--$dustyPostNameId--state.model.id---${state.model.id}');
 
                                     if (dustyPostNameId != null) {

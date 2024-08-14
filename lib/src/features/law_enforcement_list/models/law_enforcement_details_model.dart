@@ -1,14 +1,6 @@
-import 'dart:convert';
-
 import 'package:db_atom/index.dart';
 
-LawEnforcementDetailsModel lawEnforcementDetailsFromJson(String str) =>
-    LawEnforcementDetailsModel.fromJson(json.decode(str));
-
-String lawEnforcementDetailsToJson(LawEnforcementDetailsModel data) =>
-    json.encode(data.toJson());
-
-class LawEnforcementDetailsModel extends BaseObject {
+class LawEnforcementDetailsModel {
   int? id;
   String? slNo;
   String? inputDate;
@@ -36,6 +28,7 @@ class LawEnforcementDetailsModel extends BaseObject {
   String? entrySecurityName;
   bool? isEligibleToEdit;
   bool? isEligibleToCancel;
+  String? lock;
 
   LawEnforcementDetailsModel({
     this.id,
@@ -65,10 +58,12 @@ class LawEnforcementDetailsModel extends BaseObject {
     this.mailList,
     this.entityDesc,
     this.entrySecurityName,
+    this.lock,
   });
 
   factory LawEnforcementDetailsModel.fromJson(Map<String, dynamic> json) =>
       LawEnforcementDetailsModel(
+        lock: json['lock'],
         id: json["id"],
         slNo: json["slNo"],
         inputDate: json["inputDate"],
@@ -124,6 +119,7 @@ class LawEnforcementDetailsModel extends BaseObject {
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "lock": lock,
         "slNo": slNo,
         "inputDate": inputDate,
         "location": location?.toJson(),

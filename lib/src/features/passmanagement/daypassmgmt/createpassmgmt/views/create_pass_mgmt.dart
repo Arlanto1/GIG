@@ -91,6 +91,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   @override
   Widget build(BuildContext context) {
     log('--passId----${widget.passId}----');
+    log('--status----${widget.model?.status}----');
     final size = MediaQuery.of(context).size;
     final height = size.height;
     return Scaffold(
@@ -111,15 +112,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
         action: [
           if (((widget.model?.status == null ||
-                      widget.model?.status == 0 ||
-                      widget.model?.status == 1 ||
-                      widget.model?.status == 3) &&
-                  (widget.model != null && widget.model!.lock.isEmptyOrNull)) ||
-              widget.model == null
+                          widget.model?.status == 0 ||
+                          widget.model?.status == 1 ||
+                          widget.model?.status == 3) &&
+                      (widget.model != null &&
+                          widget.model!.lock.isEmptyOrNull)) ||
+                  widget.model == null
               // ||
               // (widget.extraProperties != null &&
               //     !widget.extraProperties!.hasWritePermission!)
-          ) ...[
+              ) ...[
             GestureDetector(
               onTap: () {
                 submitForm(false, widget.model?.id ?? 0, globalState);
@@ -254,16 +256,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               //   isDisabled = true;
               // }
               if (((widget.model?.status == null ||
-                          widget.model?.status == 0 ||
-                          widget.model?.status == 1 ||
-                          widget.model?.status == 3) &&
-                      (widget.model != null &&
-                          widget.model!.lock.isEmptyOrNull)) ||
-                  widget.model == null
+                              widget.model?.status == 0 ||
+                              widget.model?.status == 1 ||
+                              widget.model?.status == 3) &&
+                          (widget.model != null &&
+                              widget.model!.lock.isEmptyOrNull)) ||
+                      widget.model == null
                   // ||
                   // (widget.extraProperties != null &&
                   //     !widget.extraProperties!.hasWritePermission!)
-              ) {
+                  ) {
                 isShowSaveAndSubmitButton = true;
               }
               if (state.getSerialnumberResponse != null &&
@@ -2779,16 +2781,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? state.dayPasselementReason?.name ?? ''
               : state.vendorPasselementReason?.name ?? '',
           height: 60,
-          isDisableColor: widget.model?.status == 0 ||
-                  widget.model == null ||
-                  (widget.extraProperties != null &&
-                      !widget.extraProperties!.hasWritePermission!)
-              ? false
-              : true,
+          isDisableColor:
+              widget.model?.status == 0 || widget.model == null ? false : true,
           onTap: () {
-            if ((widget.model == null || widget.model?.status == 0) &&
-                !(widget.extraProperties != null &&
-                    !widget.extraProperties!.hasWritePermission!)) {
+            if ((widget.model == null || widget.model?.status == 0)) {
               log('--widget.passId---${widget.passId}---');
               if (widget.passId == ConstantsIntValue.passIdVendor) {
                 vendorPassReasonDialog(state);
@@ -3168,9 +3164,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     });
               }
             },
-            onTap: (Organisation list) {
+            onTap: (Organisation org) {
               //log(list.name);
-              createPassMgmtCubit.getVendorPassReasonResponseData(list);
+              createPassMgmtCubit.getVendorPassReasonResponseData(org);
             },
           );
         });
@@ -3183,18 +3179,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       isDisableColor: widget.model?.status == 0 ||
               widget.model == null ||
               (widget.extraProperties != null &&
-                  !widget.extraProperties!.hasWritePermission!) && (state.selectedCompanyType?.name ??
-                  '')
-                  .toLowerCase() !=
-                  'fte'
+                      !widget.extraProperties!.hasWritePermission!) &&
+                  (state.selectedCompanyType?.name ?? '').toLowerCase() != 'fte'
           ? false
           : true,
       onTap: () {
-
-        if((state.selectedCompanyType?.name ??
-            '')
-            .toLowerCase() ==
-            'fte') {
+        if ((state.selectedCompanyType?.name ?? '').toLowerCase() == 'fte' &&
+                state.model.status ==
+                    ConstantsIntValue.articleFoundStatusHandedOverOrClaimed ||
+            (widget.extraProperties != null &&
+                !widget.extraProperties!.hasWritePermission!)) {
           return;
         }
 

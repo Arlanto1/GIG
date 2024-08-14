@@ -9,6 +9,21 @@ import 'package:permission_handler/permission_handler.dart';
 class Utils {
   static final math.Random _random = math.Random.secure();
 
+  String? getKeyFromValue({
+    required int value,
+    required List<Label> dropdownValues,
+  }) {
+    // Convert int value to string to match with Label value
+    String valueString = value.toString();
+
+    // Find the Label with the matching value
+    final label = dropdownValues.firstWhere(
+        (label) => label.value == valueString,
+        orElse: () => const Label(key: '', value: ''));
+
+    // Return the key, or null if not found
+    return label.key.isNotEmpty ? label.key : null;
+  }
 
   final List<String> imageExtensions = [
     'jpeg',
@@ -442,23 +457,26 @@ class Utils {
     String guardRankText;
 
     switch (guardRank) {
+      case 0:
+        guardRankText = 'Guarding Agency';
+        break;
       case 1:
         guardRankText = 'Security Guard';
         break;
       case 2:
-        guardRankText = 'Security Officer';
+        guardRankText = 'Security Lady';
         break;
       case 3:
         guardRankText = 'Security Supervisor';
         break;
       case 4:
-        guardRankText = 'Security Facilitator';
+        guardRankText = 'Security Officer';
         break;
       case 5:
-        guardRankText = 'Gun Man';
+        guardRankText = 'Security Facilitator';
         break;
       case 6:
-        guardRankText = 'Lady Security Guard';
+        guardRankText = 'NA';
         break;
       default:
         guardRankText = ''; // Handle the default case if needed
@@ -1543,16 +1561,22 @@ class Utils {
     }
   }
 
-  void errorAndLogout(dynamic state, BuildContext context) {
+  Future<void> errorAndLogout(dynamic state, BuildContext context) async {
+    /// If the Token is cleared and the user is still logged in
+    String token = await SharedPrefs.getToken();
+    if (token.isEmptyOrNull) {
+      InactivityFunctions().logoutUser(navigatorKey);
+    }
+
     log('STATUS: ${state.status}');
-    if (state.status == FormStatus.error) {
+    if (state.status == FormStatus.error && context.mounted) {
       InactivityFunctions().logoutUser(navigatorKey);
       Validator().showToast(
         context,
         state.message ?? 'Invalid Information',
       );
     }
-    if (state.status == FormStatus.permissionLocationError) {
+    if (state.status == FormStatus.permissionLocationError && context.mounted) {
       log('');
       var dialog = CustomAlertDialog(
           title: 'Location Permission',

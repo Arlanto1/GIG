@@ -98,6 +98,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           isReadOnly = true;
         }
 
+        if (widget.model != null && !widget.model!.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
+
         if (widget.model?.status == 3) {
           isReadOnly = true;
         }
@@ -281,9 +285,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    if (!state.model!.lock.isEmptyOrNull) ...[
+                                    if (widget.model != null &&
+                                        !widget.model!.lock.isEmptyOrNull) ...[
                                       RecordLockedWidget(
-                                          text: '${state.model?.lock}'),
+                                          text: '${widget.model?.lock}'),
                                     ],
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -671,14 +676,18 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                                       ?.atomLeoDepartments ??
                                                   [],
                                               ConstantsArgument.showSaveButton:
-                                                  (widget.model?.status != 3) && !isReadOnly
+                                                  (widget.model?.status != 3) &&
+                                                          !isReadOnly
                                                       ? true
                                                       : false,
                                             },
                                           );
                                           // }
                                         },
-                                        child: const AddViewButton(label: 'Add/View Visiting Official(s)',),
+                                        child: const AddViewButton(
+                                          label:
+                                              'Add/View Visiting Official(s)',
+                                        ),
                                       ),
 
                                       CommonWidgets.verticalSpacerWidget(
@@ -827,11 +836,14 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           all: state
                                                   .groups?.distributionGroups ??
                                               [],
-                                          enabled: ((widget.model?.status == 1 ||
-                                                  widget.model?.status == 2) &&
-                                              (widget.model != null &&
-                                                  widget.model!.lock
-                                                      .isEmptyOrNull)) && !isReadOnly ,
+                                          enabled: ((widget.model?.status ==
+                                                          1 ||
+                                                      widget.model?.status ==
+                                                          2) &&
+                                                  (widget.model != null &&
+                                                      widget.model!.lock
+                                                          .isEmptyOrNull)) &&
+                                              !isReadOnly,
                                           onTap: (List<Organisation>
                                               selectedEntities) {
                                             log('--selectedEntities----${selectedEntities.length}');
@@ -1556,61 +1568,66 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                 widget.model?.status == 1 ||
                 widget.model?.status == 2
             ? Opacity(
-              opacity: isReadOnly? 0.5:1 ,
-              child: AbsorbPointer(
-                absorbing: isReadOnly,
-                child: Container(
+                opacity: isReadOnly ? 0.5 : 1,
+                child: AbsorbPointer(
+                  absorbing: isReadOnly,
+                  child: Container(
                     height: 60,
                     decoration: BoxDecoration(
                         border: Border.all(
                           color: const Color(0xFFCACACA),
                           width: 1.0,
                         ),
-                        borderRadius: const BorderRadius.all(Radius.circular(8))),
-                    child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 5.0),
-                        child: ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                            fixedSize: const Size(140, 50),
-                            backgroundColor: AppColors.navigationSkyBlueColor,
-                          ),
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext dialogContext) {
-                                  return UploadAttachment(
-                                    userdetails:
-                                        state.getUserDetailsResponse ?? User(),
-                                    getFiles: getFiles,
-                                    lawstate: state,
-                                  );
-                                });
-                          },
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8))),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 5.0),
+                            child: ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                fixedSize: const Size(140, 50),
+                                backgroundColor:
+                                    AppColors.navigationSkyBlueColor,
+                              ),
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return UploadAttachment(
+                                        userdetails:
+                                            state.getUserDetailsResponse ??
+                                                User(),
+                                        getFiles: getFiles,
+                                        lawstate: state,
+                                      );
+                                    });
+                              },
 
-                          icon: SvgPicture.asset(
-                            //AppIcon.dropdownicon,
-                            AppIcon.uploadicon,
-                            //fit: BoxFit.,
-                            colorFilter: const ColorFilter.mode(
-                              AppColors.backgroundWhiteColor,
-                              BlendMode.srcIn,
+                              icon: SvgPicture.asset(
+                                //AppIcon.dropdownicon,
+                                AppIcon.uploadicon,
+                                //fit: BoxFit.,
+                                colorFilter: const ColorFilter.mode(
+                                  AppColors.backgroundWhiteColor,
+                                  BlendMode.srcIn,
+                                ),
+                                // color: AppColors.backgroundWhiteColor,
+                                width: 13,
+                                height: 13,
+                                key: const Key(Keys.userIcon),
+                              ),
+                              label: const Text(
+                                Constants.clicktoupload,
+                                style: Styles.textStyleRegularNormalWhite12,
+                              ), // <-- Text
                             ),
-                            // color: AppColors.backgroundWhiteColor,
-                            width: 13,
-                            height: 13,
-                            key: const Key(Keys.userIcon),
                           ),
-                          label: const Text(
-                            Constants.clicktoupload,
-                            style: Styles.textStyleRegularNormalWhite12,
-                          ), // <-- Text
-                        ),
-                      ),
-                    ]),
+                        ]),
                   ),
-              ),
-            )
+                ),
+              )
             : Container();
   }
 

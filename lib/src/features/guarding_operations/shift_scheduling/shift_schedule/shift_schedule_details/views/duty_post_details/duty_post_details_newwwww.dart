@@ -192,8 +192,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                     // if (state.status != FormStatus.formError) {
                                     BlocProvider.of<DutyPostDetailsCubit>(
                                             context)
-                                        .getShiftListByAssignedDutyPostId(
-                                            rank: value!);
+                                        .getShifts(rank: value!);
                                     // }
                                   },
                                 ),
@@ -307,7 +306,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
   }
 
   Column buildShiftColumn({
-    required Shift shift,
+    required ShiftModel shift,
     required bool isSourceList,
     required DutyPostDetailsState state,
   }) {
@@ -546,6 +545,12 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                             : '',
                       ),
                       buildTextWithLabel(
+                          'Reason:',
+                          Utils().getKeyFromValue(
+                            value: replacement.status!,
+                            dropdownValues: shiftScheduleReasonDropDownValues,
+                          )),
+                      buildTextWithLabel(
                           'Replacement By:', replacement.replacementBy?.name),
                     ],
                   ),
@@ -614,6 +619,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
         return AddReplacementPopUp(
+          viaAttendance: false,
           model: model,
           mainContext: context,
           availableGuards: availableGuards,

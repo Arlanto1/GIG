@@ -11,6 +11,7 @@ class CreateFound extends StatefulWidget {
   final String?
       eventProtectionId; // For creating Article Found inside Event Protection
   final ExtraProperties? extraProperties;
+  final Organisation? eventProtectionLocation;
 
   const CreateFound({
     super.key,
@@ -18,6 +19,7 @@ class CreateFound extends StatefulWidget {
     this.eventId,
     this.eventProtectionId,
     this.extraProperties,
+    this.eventProtectionLocation,
   });
 
   @override
@@ -94,11 +96,16 @@ class _CreateFoundState extends State<CreateFound> {
       // createFoundArticleCubit.initializeValuesForExistingRecord(
       //     model: widget.model!);
       BlocProvider.of<CreateFoundArticleCubit>(context)
-          .initializeValues(widget.model);
+          .initializeValues(model: widget.model);
       BlocProvider.of<CreateFoundArticleCubit>(context)
           .initializeValuesForExistingRecord(model: widget.model!);
     } else {
-      createFoundArticleCubit.initializeValues(widget.model);
+      if (widget.eventId != null) {
+        widget.model?.location = widget.eventProtectionLocation;
+      }
+      createFoundArticleCubit.initializeValues(
+          model: widget.model,
+          eventProtectionLocation: widget.eventProtectionLocation);
     }
     _getCurrentDate();
   }
@@ -392,8 +399,8 @@ class _CreateFoundState extends State<CreateFound> {
     final bool isActive = await network_handler.networkChecking(context);
     log('-----_getFoundArticleList----');
     if (isActive) {
-      await createFoundArticleCubit.getUserByRoleDepositor(
-          ConstantUserRoles.atomStaticUser);
+      await createFoundArticleCubit
+          .getUserByRoleDepositor(ConstantUserRoles.atomStaticUser);
       await createFoundArticleCubit.getLocations('ATOM_LOCATIONS');
       await createFoundArticleCubit
           .getEmployeeDepartments('EMPLOYEE_DEPARTMENTS');

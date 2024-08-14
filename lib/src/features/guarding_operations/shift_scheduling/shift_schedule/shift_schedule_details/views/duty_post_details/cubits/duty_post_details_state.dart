@@ -2,7 +2,7 @@ part of 'duty_post_details_cubit.dart';
 
 class DutyPostDetailsState extends Equatable {
   final FormStatus status;
-  final Shift model;
+  final ShiftModel model;
   final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
@@ -23,7 +23,7 @@ class DutyPostDetailsState extends Equatable {
   }) {
     return DutyPostDetailsState(
       status: FormStatus.initial,
-      model: Shift(),
+      model: ShiftModel(),
       locations: locations,
       loggedInUserDetails: loggedInUserDetails,
       users: users,
@@ -118,7 +118,7 @@ class DutyPostDetailsState extends Equatable {
 
   DutyPostDetailsState copyWith({
     FormStatus? status,
-    Shift? model,
+    ShiftModel? model,
     Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
