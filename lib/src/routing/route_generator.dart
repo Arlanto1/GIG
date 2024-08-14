@@ -1400,6 +1400,7 @@ class RouteGenerator {
       case keyManagementIssuanceProcessRecordsRoute:
         String title = '';
         int parentId = 0;
+        late int? id;
         int parentStatus = 0;
         int locationId = 0;
         bool isMasterKey = false;
@@ -1409,6 +1410,7 @@ class RouteGenerator {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           title = arguments[ConstantsArgument.title];
+          id = arguments[ConstantsArgument.id];
           parentId = arguments[ConstantsArgument.parentId];
           parentStatus = arguments[ConstantsArgument.parentStatus];
           locationId = arguments[ConstantsArgument.locationId];
@@ -1417,6 +1419,8 @@ class RouteGenerator {
           lock = arguments[ConstantsArgument.isLocked];
         }
 
+        log('ID --$id');
+        log('parentId --$parentId');
         return MaterialPageRoute(
           builder: (context) => BlocProvider<kip.KeyIssuanceProcessRecordBloc>(
             create: (_) => kip.KeyIssuanceProcessRecordBloc(
@@ -1429,6 +1433,7 @@ class RouteGenerator {
                 maxPos: 100,
               )),
             child: KeyIssuanceProcessRecordsView(
+              id: id,
               parentId: parentId,
               parentStatus: parentStatus,
               locationId: locationId,
