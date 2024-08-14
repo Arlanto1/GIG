@@ -390,13 +390,15 @@ class SLAViolationPenaltyDetailsCubit
         state.copyWith(
           model: state.model,
           message: response.message,
-          status: !attdInfoId.isEmptyOrNull
+          status: attdInfoId.isEmptyOrNull
               ? FormStatus.popOnly
               : navigateToNextScreen
                   ? FormStatus.navigateToNextScreen
                   : FormStatus.success,
         ),
       );
+      log('status---- ${state.status}');
+      log('attdInfoId---- ${attdInfoId}');
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
