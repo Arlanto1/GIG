@@ -32,5 +32,6 @@ class ConstantsArgument {
   static const String attdInfoId = "attdInfoId";
   static const String eventId = "eventId";
   static const String eventProtectionId = "eventProtectionId";
+  static const String keyIssuanceId = "keyIssuanceId";
 
 }

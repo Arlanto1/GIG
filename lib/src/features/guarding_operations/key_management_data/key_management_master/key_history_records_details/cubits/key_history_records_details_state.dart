@@ -15,7 +15,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
   final User? createdBy;
   final KLDUiLabels? labels;
   final bool? isReadOnly;
-  final KeyManagementIssuanceModel? keyIssuanceModel;
+  final KeyManagementIssuanceModel? keyManagementIssuanceModel;
 
   factory KeyHistoryRecordsDetailsState.initial({
     required KeyHistoryModel model,
@@ -29,7 +29,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     List<String>? participationDate,
     KeyManagementMasterModel? keyManagementMasterModel,
     KeyIssuanceProcessRecord? keyIssuanceProcessRecord,
-    KeyManagementIssuanceModel? keyIssuanceModel,
+    KeyManagementIssuanceModel? keyManagementIssuanceModel,
   }) {
     return KeyHistoryRecordsDetailsState(
       status: FormStatus.initial,
@@ -142,7 +142,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     this.labels,
     this.isReadOnly,
     this.keyIssuanceProcessRecord,
-    this.keyIssuanceModel,
+    this.keyManagementIssuanceModel,
   });
 
   KeyHistoryRecordsDetailsState copyWith({
@@ -163,7 +163,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     bool? isReadOnly,
     keyManagementMasterModel,
     keyIssuanceProcessRecord,
-    keyIssuanceModel,
+    keyManagementIssuanceModel,
   }) {
     return KeyHistoryRecordsDetailsState(
       status: status ?? this.status,
@@ -182,7 +182,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
           keyManagementMasterModel ?? this.keyManagementMasterModel,
       keyIssuanceProcessRecord:
           keyIssuanceProcessRecord ?? this.keyIssuanceProcessRecord,
-      keyIssuanceModel: keyIssuanceModel ?? this.keyIssuanceModel,
+      keyManagementIssuanceModel: keyManagementIssuanceModel ?? this.keyManagementIssuanceModel,
     );
   }
 }
