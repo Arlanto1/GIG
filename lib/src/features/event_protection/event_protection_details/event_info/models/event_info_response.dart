@@ -22,6 +22,8 @@ class EventInfoResponse {
   String? lock;
   String? startDate;
   String? endDate;
+  String? eventStartedAt;
+  String? eventConcludedAt;
   Organisation? location;
 
   EventInfoResponse.fromJson(Map<String, dynamic> json) {
@@ -37,6 +39,8 @@ class EventInfoResponse {
         : Organisation.fromJson(json["location"]);
     startDate = json['startDate'];
     endDate = json['endDate'];
+    eventStartedAt = json['eventStartedAt'];
+    eventConcludedAt = json['eventConcludedAt'];
     email = json['email'];
     image =
         List.from(json['image']).map((e) => ImageContent.fromJson(e)).toList();
@@ -53,6 +57,8 @@ class EventInfoResponse {
     data['email'] = email;
     data['startDate'] = startDate;
     data['endDate'] = endDate;
+    data['eventStartedAt'] = eventStartedAt;
+    data['eventConcludedAt'] = eventConcludedAt;
     data['image'] = image?.map((e) => e.toJson()).toList();
     return data;
   }

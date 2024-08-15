@@ -222,7 +222,7 @@ class SLAViolationPenaltyDetailsCubit
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.securitySystemModule,
+        moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
       );
 
       state.model.location = location;
