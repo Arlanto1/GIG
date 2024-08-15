@@ -1026,13 +1026,12 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  getRadioButtonSelected(String name, int value, String radio) async {
+  getRadioButtonSelected(int value) async {
     try {
       emit(
         state.copyWith(
           escortedbyhost: value,
           exceptionalApproval: value,
-          radioButtonItem: radio,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
