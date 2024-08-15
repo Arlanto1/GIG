@@ -74,7 +74,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     emit(state.copyWith(model: model, status: FormStatus.loading));
     bool isReadOnly;
 
-    if (state.model.requestorEmail.equalsIgnoreCase(state.loggedInUserDetails?.userName)) {
+    if (state.model.requestorEmail
+        .equalsIgnoreCase(state.loggedInUserDetails?.userName)) {
       isReadOnly = false;
     } else {
       isReadOnly = true;
@@ -183,7 +184,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           requestorEmailUsers: emailUsers,
           approver1Users: emailUsers,
           approver2Users: emailUsers,
-          receiverEmailUsers : emailUsers,
+          receiverEmailUsers: emailUsers,
           returnReceiverEmailId: emailUsers,
           departments: departments.employeeDepartments,
           quantityUnits: quantityUnits,
@@ -358,7 +359,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     );
 
     if (requesterEmailUser != null) {
-      if( state.model.requestorEmail != null){
+      if (state.model.requestorEmail != null) {
         BaseUser preSelectedUser = BaseUser(
           name: state.model.requestorEmail,
           // email:state.model.requestorEmail,
@@ -366,7 +367,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         state.approver1Users?.add(preSelectedUser);
       }
       state.model.requestorEmail =
-      '${requesterEmailUser.name} ${requesterEmailUser.email != null ?'(${requesterEmailUser.email})' :''}';
+          '${requesterEmailUser.name} ${requesterEmailUser.email != null ? '(${requesterEmailUser.email})' : ''}';
       state.approver1Users?.remove(requesterEmailUser);
       state.approver2Users?.remove(requesterEmailUser);
       emit(
@@ -380,7 +381,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
 
     if (approver1EmailUser != null) {
-      if( state.model.approver1Email != null){
+      if (state.model.approver1Email != null) {
         BaseUser preSelectedUser = BaseUser(
           name: state.model.approver1Email,
           // email: state.model.approver1Email,
@@ -388,7 +389,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         state.approver2Users?.add(preSelectedUser);
       }
       state.model.approver1Email =
-      '${approver1EmailUser.name} ${approver1EmailUser.email != null ?'(${approver1EmailUser.email})' :''}';
+          '${approver1EmailUser.name} ${approver1EmailUser.email != null ? '(${approver1EmailUser.email})' : ''}';
       state.approver2Users?.remove(approver1EmailUser);
       state.requestorEmailUsers?.remove(approver1EmailUser);
 
@@ -403,16 +404,15 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
 
     if (approver2EmailUser != null) {
-
-      if( state.model.approver2Email != null){
+      if (state.model.approver2Email != null) {
         BaseUser preSelectedUser = BaseUser(
           name: state.model.approver2Email,
           // email:state.model.approver2Email,
         );
         state.approver1Users?.add(preSelectedUser);
-
       }
-      state.model.approver2Email = '${approver2EmailUser.name} ${approver2EmailUser.email != null ?'(${approver2EmailUser.email})':''}';
+      state.model.approver2Email =
+          '${approver2EmailUser.name} ${approver2EmailUser.email != null ? '(${approver2EmailUser.email})' : ''}';
       state.approver1Users?.remove(approver2EmailUser);
       state.requestorEmailUsers?.remove(approver2EmailUser);
 
@@ -588,7 +588,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         response = await materialMovementServices.createMaterialMovement(
             body: request, flow: 1);
       }
-      if(!isSaveOnly && !isRejectOnly && !isApprovedOnly ) {
+      if (!isSaveOnly && !isRejectOnly && !isApprovedOnly) {
         //Validating Fields
         if (!state.isValid.status) {
           emit(

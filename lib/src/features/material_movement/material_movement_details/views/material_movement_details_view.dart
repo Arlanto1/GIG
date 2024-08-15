@@ -1852,7 +1852,8 @@ class _MaterialMovementDetailsViewState
                                   onlyDate: true,
                                   isDisabled: !showSaveSubmitButtons ||
                                           state.model.status ==
-                                              ConstantsIntValue.mmStatusClosed
+                                              ConstantsIntValue.mmStatusClosed ||  state.model.status ==
+                                      ConstantsIntValue.mmStatusInwardWaiting
                                       ? true
                                       : false,
                                   onChange: (String value) {
@@ -1925,7 +1926,8 @@ class _MaterialMovementDetailsViewState
                                     hintText: '',
                                     isEnable: showSaveSubmitButtons &&
                                         state.model.status !=
-                                            ConstantsIntValue.mmStatusClosed,
+                                            ConstantsIntValue.mmStatusClosed && state.model.status !=
+                                        ConstantsIntValue.mmStatusInwardWaiting,
                                     isDisableColor: !showSaveSubmitButtons,
                                     onChange: (String value) {
                                       state.model.takenOutEmail = value;
@@ -1959,7 +1961,8 @@ class _MaterialMovementDetailsViewState
                                         Constants.characterLimitContactNo,
                                     isEnable: showSaveSubmitButtons &&
                                         state.model.status !=
-                                            ConstantsIntValue.mmStatusClosed,
+                                            ConstantsIntValue.mmStatusClosed &&  state.model.status !=
+                                        ConstantsIntValue.mmStatusInwardWaiting,
                                     isDisableColor:
                                         showSaveSubmitButtons ? false : true,
                                     onChange: (String value) {
@@ -1992,7 +1995,8 @@ class _MaterialMovementDetailsViewState
                                     showBorder: false,
                                     isEnable: showSaveSubmitButtons &&
                                         state.model.status !=
-                                            ConstantsIntValue.mmStatusClosed,
+                                            ConstantsIntValue.mmStatusClosed && state.model.status !=
+                                        ConstantsIntValue.mmStatusInwardWaiting,
                                     isDisableColor:
                                         showSaveSubmitButtons ? false : true,
                                     onChange: (String value) {
@@ -2023,10 +2027,11 @@ class _MaterialMovementDetailsViewState
                                     textController: takenOutOnDateController,
                                     isDisabled: showSaveSubmitButtons &&
                                             state.model.status !=
-                                                ConstantsIntValue.mmStatusClosed
+                                                ConstantsIntValue.mmStatusClosed &&  state.model.status !=
+                                        ConstantsIntValue.mmStatusInwardWaiting
                                         ? false
                                         : true,
-                                    onlyDate: true,
+                                    onlyDate: false,
                                     showFutureDate: false,
                                     showPastDate: false,
                                     onChange: (String value) {
@@ -2979,7 +2984,6 @@ class _MaterialMovementDetailsViewState
       isEditable = state.isEntrySecuritySignatureSignEditable;
     }
 
-    log('---------');
     return AbsorbPointer(
       absorbing: !state.model.lock.isEmptyOrNull ||
           state.model.status == -1 ||
