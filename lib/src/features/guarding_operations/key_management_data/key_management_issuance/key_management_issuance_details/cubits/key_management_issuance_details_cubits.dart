@@ -242,9 +242,57 @@ class KeyManagementIssuanceDetailsCubit
     ));
   }
 
+  void makeSignEditable(
+      {bool? receiverSign, bool? securitySignatureSignEditable}) {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    emit(
+      state.copyWith(
+        isReceiverSignEditable: receiverSign,
+        isSecuritySignatureSignEditable:
+        securitySignatureSignEditable,
+        status: FormStatus.initial,
+      ),
+    );
+  }
+  Future<void> pushSignature({
+    required SignatureController controller,
+    required bool isReceiverSignature,
+  }) async {
+    String imageBytes = await SignatureController().exportSignature(controller);
+
+    // Check for null explicitly
+    if (imageBytes.isEmpty) {
+      return;
+    }
+
+    ImageContent imageContent = ImageContent();
+    imageContent.imageContent = imageBytes;
+
+    log('--imageBytes--$imageBytes--');
+    if (isReceiverSignature) {
+      imageContent.type = null;
+      state.model.receiverSign = imageContent;
+      emit(state.copyWith(
+        model: state.model,
+      ));
+    } else {
+      imageContent.type = null;
+      state.model.securitySign = imageContent;
+      emit(state.copyWith(
+        model: state.model,
+      ));
+    }
+  }
+
   Future<bool> submitForm({
     bool isSaveOnly = false,
     bool navigateToNextScreen = false,
+    required SignatureController receiverSignatureController,
+    required SignatureController securitySignatureController,
   }) async {
     emit(
       state.copyWith(
@@ -276,6 +324,16 @@ class KeyManagementIssuanceDetailsCubit
     // Create/Update API Call
     KeyManagementIssuanceRequest request =
         KeyManagementIssuanceRequest(keyIssuanceGi: state.model);
+
+    /// Adding Signature to request Body
+    await pushSignature(
+      controller: receiverSignatureController,
+      isReceiverSignature: true,
+    );
+    await pushSignature(
+      controller: securitySignatureController,
+      isReceiverSignature: false,
+    );
 
     log('--@@@---}----');
     // TODO: Need to change from Backend- Status should be handled from backend

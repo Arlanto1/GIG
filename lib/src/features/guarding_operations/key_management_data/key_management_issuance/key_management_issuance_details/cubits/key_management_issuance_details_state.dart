@@ -11,6 +11,8 @@ class KeyManagementIssuanceDetailsState extends Equatable {
   final String? message;
   final List<BaseUser>? emailUsers;
   final KMUiLabels? labels;
+  final bool isReceiverSignEditable;
+  final bool isSecuritySignatureSignEditable;
 
   factory KeyManagementIssuanceDetailsState.initial({
     required KeyManagementIssuanceModel model,
@@ -198,6 +200,8 @@ class KeyManagementIssuanceDetailsState extends Equatable {
     this.message,
     this.labels,
     this.emailUsers,
+    this.isReceiverSignEditable = false,
+    this.isSecuritySignatureSignEditable = false,
   });
 
   KeyManagementIssuanceDetailsState copyWith({
@@ -211,6 +215,8 @@ class KeyManagementIssuanceDetailsState extends Equatable {
     String? message,
     List<BaseUser>? emailUsers,
     KMUiLabels? labels,
+    bool? isReceiverSignEditable,
+    bool? isSecuritySignatureSignEditable,
   }) {
     return KeyManagementIssuanceDetailsState(
       status: status ?? this.status,
@@ -223,6 +229,11 @@ class KeyManagementIssuanceDetailsState extends Equatable {
       message: message ?? this.message,
       emailUsers: emailUsers ?? this.emailUsers,
       labels: labels ?? this.labels,
+      isReceiverSignEditable:
+      isReceiverSignEditable ?? this.isReceiverSignEditable,
+      isSecuritySignatureSignEditable:
+      isSecuritySignatureSignEditable ??
+          this.isSecuritySignatureSignEditable,
     );
   }
 }

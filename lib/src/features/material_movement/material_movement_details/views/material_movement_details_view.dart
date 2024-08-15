@@ -82,6 +82,7 @@ class _MaterialMovementDetailsViewState
   bool showLikeAndDislikeButton = false;
   bool editByRequester = false;
   bool editByCreatedByUser = false;
+  bool lock = false;
 
   @override
   Widget build(BuildContext context) {
@@ -152,6 +153,10 @@ class _MaterialMovementDetailsViewState
           isReadOnly = false;
         }
 
+         if(!state.model.lock.isEmptyOrNull){
+         lock = true;
+        }
+
         showLikeAndDislikeButton =
             (state.model.status == ConstantsIntValue.mmStatusLSMReview) &&
                 (state.model.entrySecurity!.email
@@ -201,7 +206,7 @@ class _MaterialMovementDetailsViewState
             title: widget.title,
             showPopUp: false,
             showSaveButton: showSaveSubmitButtons &&
-                state.model.status != ConstantsIntValue.mmStatusClosed,
+                state.model.status != ConstantsIntValue.mmStatusClosed && !lock,
             pdfAPIName:
                 '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=$moduleCode',
             onTapSave: () {
@@ -215,7 +220,7 @@ class _MaterialMovementDetailsViewState
               );
             },
             showSubmitButton: showSaveSubmitButtons &&
-                state.model.status != ConstantsIntValue.mmStatusClosed,
+                state.model.status != ConstantsIntValue.mmStatusClosed && !lock,
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -226,7 +231,7 @@ class _MaterialMovementDetailsViewState
                 securitySignatureController: securitySignatureController,
               );
             },
-            showLikeButton: showLikeAndDislikeButton,
+            showLikeButton: showLikeAndDislikeButton && !lock,
             onTapLikeButton: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -237,7 +242,7 @@ class _MaterialMovementDetailsViewState
                 securitySignatureController: securitySignatureController,
               );
             },
-            showDisLikeButton: showLikeAndDislikeButton,
+            showDisLikeButton: showLikeAndDislikeButton && !lock,
             onTapDislikeButton: () {
               // FocusScope.of(context).unfocus();
               showDialog(
@@ -291,7 +296,7 @@ class _MaterialMovementDetailsViewState
     if (state.model.takenOutDate != null) {
       takenOutOnDateController.text = Utils.timestampToDateConversion(
           int.tryParse(widget.model?.takenOutDate ?? '0'),
-          Constants.dateFormat);
+          Constants.fulldateFormat);
     }
   }
 
@@ -387,7 +392,7 @@ class _MaterialMovementDetailsViewState
                               isDisabled: state.model.status !=
                                           ConstantsIntValue.mmStatusDraft &&
                                       state.model.status != null ||
-                                  widget.isInward,
+                                  widget.isInward || lock,
                               textController: returnableTextController,
                               onTap: () {
                                 if ((!isReadOnly && !widget.isInward) &&
@@ -475,9 +480,9 @@ class _MaterialMovementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             // locationWidgetdislay(state),
                             BaseLocationDropdown().locationWidgetDisplay(
-                                isEnabled: state.model.status ==
+                                isEnabled: (state.model.status ==
                                         ConstantsIntValue.mmStatusDraft ||
-                                    state.model.status == null,
+                                    state.model.status == null) && !lock,
                                 context: context,
                                 locations: state.locations ?? Locations(),
                                 selectedLocationName:
@@ -615,9 +620,9 @@ class _MaterialMovementDetailsViewState
                                       .materialDescription ??
                                   Constants.materialBriefDescription,
                               Styles.textStyleBlack14,
-                              isMandatory: state.model.status !=
+                              isMandatory: (state.model.status !=
                                           ConstantsIntValue.mmStatusDraft &&
-                                      widget.model != null
+                                      widget.model != null) ||(widget.isInward == true)
                                   ? true
                                   : false,
                             ),
@@ -670,9 +675,9 @@ class _MaterialMovementDetailsViewState
                                   state.labels?.defaultLocale.quantity ??
                                   Constants.quantity,
                               Styles.textStyleBlack14,
-                              isMandatory: state.model.status !=
+                              isMandatory: (state.model.status !=
                                           ConstantsIntValue.mmStatusDraft &&
-                                      widget.model != null
+                                      widget.model != null) || (widget.isInward == true)
                                   ? true
                                   : false,
                             ),
@@ -901,7 +906,7 @@ class _MaterialMovementDetailsViewState
                                       title: state.model.requestorEmail,
                                       height: 70,
                                       isDisableColor:
-                                          state.model.status == 10 ||
+                                      (state.model.status == 10 ||
                                               state.model.status == -1 ||
                                               state.model.status == 6 ||
                                               state.model.status == 2 ||
@@ -912,7 +917,7 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == 7 ||
                                               state.model.status ==
                                                   ConstantsIntValue
-                                                      .mmStatusInwardWaiting,
+                                                      .mmStatusInwardWaiting) || lock,
                                       onTap: () {
                                         if (state.model.status == 10 ||
                                                 state.model.status == -1 ||
@@ -926,7 +931,7 @@ class _MaterialMovementDetailsViewState
                                                 state.model.status ==
                                                     ConstantsIntValue
                                                         .mmStatusInwardWaiting ||
-                                                !state.model.lock.isEmptyOrNull
+                                                !lock
                                             ? false
                                             : true) {
                                           BaseOrganisationDialog().userDialog(
@@ -1460,7 +1465,7 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == 7 ||
                                               state.model.status ==
                                                   ConstantsIntValue
-                                                      .mmStatusInwardWaiting)
+                                                      .mmStatusInwardWaiting) || lock
                                           ? true
                                           : false,
                                       onTap: () {
@@ -1476,7 +1481,7 @@ class _MaterialMovementDetailsViewState
                                                 state.model.status ==
                                                     ConstantsIntValue
                                                         .mmStatusInwardWaiting ||
-                                                !state.model.lock.isEmptyOrNull)
+                                                !lock)
                                             ? false
                                             : true) {
                                           BaseOrganisationDialog().userDialog(
@@ -1556,7 +1561,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 7 ||
                                         state.model.status ==
                                             ConstantsIntValue
-                                                .mmStatusInwardWaiting)
+                                                .mmStatusInwardWaiting) || lock
                                     ? true
                                     : false,
                                 onTap: () {
@@ -1572,7 +1577,7 @@ class _MaterialMovementDetailsViewState
                                           state.model.status ==
                                               ConstantsIntValue
                                                   .mmStatusInwardWaiting ||
-                                          !state.model.lock.isEmptyOrNull)
+                                          !lock)
                                       ? false
                                       : true) {
                                     BaseOrganisationDialog().departmentDialog(
@@ -1631,7 +1636,7 @@ class _MaterialMovementDetailsViewState
                                               state.model.status == 7 ||
                                               state.model.status ==
                                                   ConstantsIntValue
-                                                      .mmStatusInwardWaiting)
+                                                      .mmStatusInwardWaiting) || lock
                                           ? true
                                           : false,
                                       onTap: () {
@@ -1647,7 +1652,7 @@ class _MaterialMovementDetailsViewState
                                                 state.model.status ==
                                                     ConstantsIntValue
                                                         .mmStatusInwardWaiting ||
-                                                !state.model.lock.isEmptyOrNull)
+                                                !lock)
                                             ? false
                                             : true) {
                                           BaseOrganisationDialog().userDialog(
@@ -1727,7 +1732,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status == 7 ||
                                         state.model.status ==
                                             ConstantsIntValue
-                                                .mmStatusInwardWaiting)
+                                                .mmStatusInwardWaiting) || lock
                                     ? true
                                     : false,
                                 onTap: () {
@@ -1743,7 +1748,7 @@ class _MaterialMovementDetailsViewState
                                           state.model.status ==
                                               ConstantsIntValue
                                                   .mmStatusInwardWaiting ||
-                                          !state.model.lock.isEmptyOrNull)
+                                          !lock)
                                       ? false
                                       : true) {
                                     BaseOrganisationDialog().departmentDialog(
@@ -2725,8 +2730,8 @@ class _MaterialMovementDetailsViewState
                                         ConstantsIntValue.mmStatusClosed ||
                                     !showSaveSubmitButtons,
                                 onlyDate: true,
-                                showFutureDate: true,
-                                showPastDate: false,
+                                showFutureDate: false,
+                                showPastDate: true,
                                 onChange: (String value) {
                                   state.model.actualDateOfReturn =
                                       Utils().formatTime(value);
@@ -2882,7 +2887,7 @@ class _MaterialMovementDetailsViewState
                                         .materialNotCheckedComment ??
                                     Constants.comment,
                                 Styles.textStyleBlack14,
-                                isMandatory: false,
+                                isMandatory: true,
                               ),
                               FlutterInputField(
                                 initialValue: state.model.comment,
@@ -2904,20 +2909,17 @@ class _MaterialMovementDetailsViewState
 
                             /// upload
                             widget.model?.status == null ||
-                                    widget.model?.status == 0 ||
-                                    widget.model?.status == 1
+                                    widget.model?.status == 0
                                 ? CommonWidgets.textDisplay(
                                     Constants.upload, Styles.textStyleBlack14)
                                 : Container(),
                             widget.model?.status == null ||
-                                    widget.model?.status == 0 ||
-                                    widget.model?.status == 1
+                                    widget.model?.status == 0
                                 ? CommonWidgets.verticalSpacerWidget(
                                     height * 0.001)
                                 : Container(),
                             (widget.model?.status == null ||
-                                        widget.model?.status == 0 ||
-                                        widget.model?.status == 1) &&
+                                        widget.model?.status == 0) &&
                                     state.model.lock.isEmptyOrNull
                                 ? uploadWidget(state)
                                 : Container(),
@@ -2933,18 +2935,19 @@ class _MaterialMovementDetailsViewState
                         files: getFiles,
                         moduleCode: moduleCode,
                         isDisabled: isReadOnly,
+                        showDeleteIcon: state.model.status == null || state.model.status == ConstantsIntValue.mmStatusDraft,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// SubmitButton
-                      if ((state.model.status == 0 ||
+                      if (((state.model.status == 0 ||
                               state.model.status == 8 ||
                               state.model.status == 1 ||
                               state.model.status == 6 ||
                               state.model.status == 7 ||
                               state.model.status == 5 ||
                               state.model.status == 9 ||
-                              state.model.status == null)
+                              state.model.status == null )&& !lock)
                           ? true
                           : false) ...[
                         Row(
@@ -2967,7 +2970,7 @@ class _MaterialMovementDetailsViewState
                 state.model.status == 3 ||
                 state.model.status == 4 ||
                 state.model.status == 10 ||
-                state.model.status == -1)) ...[
+                state.model.status == -1) || lock) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(

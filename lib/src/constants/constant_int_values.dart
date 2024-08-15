@@ -107,6 +107,25 @@ class ConstantsIntValue {
   static const int mmStatusClosed = 10;
 
   ///Key Issuance status
+  static const int issuanceDraftStatus = 0;
   static const int issuanceHandedOverStatus = 1;
+  static const int issuanceNotReturnedStatus = 2;
+
+
+  ///Ticket life cycle status
+  static const int ticketLifeCycleCreateStatus = 1;
+  static const int ticketLifeCycleSubmitStatus = 2;
+  static const int ticketLifeCycleAcknowledgeStatus = 3;
+  static const int ticketLifeCycleHoldStatus = 4;
+  static const int ticketLifeCycleReworkStatus = 5;
+  static const int ticketLifeCycleReviewStatus = 6;
+  static const int ticketLifeCycleSolveProposedStatus = 7;
+  static const int ticketLifeCycleQuotedRejectedStatus = 8;
+  static const int ticketLifeCycleQuotedApprovedStatus = 9;
+  static const int ticketLifeCyclePORaisedStatus = 10;
+  static const int ticketLifeCycleWorkCompletedStatus = 11;
+  static const int ticketLifeCycleInvoiceRequestStatus = 12;
+  static const int ticketLifeCycleInvoiceSubmittedStatus = 13;
+  static const int ticketLifeCycleClosedStatus = 14;
 
 }

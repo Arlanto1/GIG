@@ -212,6 +212,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                       noOfKeysController.clear();
                                       alreadyIssuedKeysController.clear();
                                       availableKeysController.clear();
+                                      numberOfKeysIssuedController.clear();
                                     });
                                   },
                                 );
@@ -409,7 +410,12 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.bu2ContactNOKey,
                         controller: returnedKeysController,
                         hintText: '',
-                        isEnable: widget.parentStatus == 1 &&
+                        isEnable: (widget.parentStatus ==
+                                    ConstantsIntValue
+                                        .issuanceHandedOverStatus ||
+                                widget.parentStatus ==
+                                    ConstantsIntValue
+                                        .issuanceNotReturnedStatus) &&
                             !(widget.extraProperties != null &&
                                 !widget.extraProperties!.hasWritePermission!),
                         isDisableColor: true,
@@ -434,7 +440,12 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.addressKey,
                         controller: notReturnedKeysController,
                         hintText: '',
-                        isEnable: widget.parentStatus == 1 &&
+                        isEnable: (widget.parentStatus ==
+                                    ConstantsIntValue
+                                        .issuanceHandedOverStatus ||
+                                widget.parentStatus ==
+                                    ConstantsIntValue
+                                        .issuanceNotReturnedStatus) &&
                             !(widget.extraProperties != null &&
                                 !widget.extraProperties!.hasWritePermission!),
                         isDisableColor: true,
@@ -460,7 +471,12 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.phoneNumberKey,
                         controller: lostKeysController,
                         hintText: '',
-                        isEnable: widget.parentStatus == 1 &&
+                        isEnable: (widget.parentStatus ==
+                                    ConstantsIntValue
+                                        .issuanceHandedOverStatus ||
+                                widget.parentStatus ==
+                                    ConstantsIntValue
+                                        .issuanceNotReturnedStatus) &&
                             !(widget.extraProperties != null &&
                                 !widget.extraProperties!.hasWritePermission!),
                         isDisableColor: true,
@@ -486,7 +502,12 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.phoneNumberKey,
                         controller: damagedKeysController,
                         hintText: '',
-                        isEnable: widget.parentStatus == 1 &&
+                        isEnable: (widget.parentStatus ==
+                                    ConstantsIntValue
+                                        .issuanceHandedOverStatus ||
+                                widget.parentStatus ==
+                                    ConstantsIntValue
+                                        .issuanceNotReturnedStatus) &&
                             !(widget.extraProperties != null &&
                                 !widget.extraProperties!.hasWritePermission!),
                         isDisableColor: true,
@@ -517,7 +538,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         cancelButton(width),
-        if ((widget.parentStatus == 0 || widget.parentStatus == 1) &&
+        if ((widget.parentStatus == ConstantsIntValue.issuanceDraftStatus || widget.parentStatus == ConstantsIntValue.issuanceHandedOverStatus ||widget.parentStatus == ConstantsIntValue.issuanceNotReturnedStatus ) &&
             !(widget.extraProperties != null &&
                 !widget.extraProperties!.hasWritePermission!))
           saveButton(width, widget.onSubmit)
@@ -591,6 +612,13 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
       );
     }
 
+    if (widget.parentStatus == ConstantsIntValue.issuanceDraftStatus &&
+        widget.model.noKeysIssued == 0) {
+      return const ErrorResponse(
+        status: false,
+        message: 'Please enter valid Number of Keys Issued',
+      );
+    }
     if (widget.parentStatus == ConstantsIntValue.issuanceHandedOverStatus &&
         widget.model.noKeysIssued !=
             (widget.model.returned! +

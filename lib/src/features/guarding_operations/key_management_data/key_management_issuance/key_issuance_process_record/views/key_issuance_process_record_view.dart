@@ -26,6 +26,7 @@ class KeyIssuanceProcessRecordsView extends StatefulWidget {
   final int parentStatus;
   final int locationId;
   final String title;
+
   // final KeyIssuanceProcessRecord? model;
   final bool isMasterKey;
   final int? id;
@@ -145,6 +146,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     //   });
     //   return const NoRecordFoundWidget();
     // }
+
     return Container(
       margin: allMargin16,
       decoration: const ShapeDecoration(
@@ -302,23 +304,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                             state.extraProperties?.hasWritePermission ?? false,
                             state.items[index].kmId,
                             widget.parentId,
-                            ConstantsIntValue.keyLostHistoryInt);
-                        // await KeyManagementIssuanceServices()
-                        //     .getIssuanceProcessById(
-                        //     state.items[index].id ?? 0);
-                        // int? kmId = state.items[selectedIndex].kmId;
-                        // int? kipId = state.items[selectedIndex].id;
-                        // Navigator.pushNamed(
-                        //   context,
-                        //   keyHistoryRecordsDetailsRoute,
-                        //   arguments: {
-                        //     ConstantsArgument.title: Constants.keyLostHistory,
-                        //     ConstantsArgument.id: kmId,
-                        //     ConstantsArgument.kipId: kipId,
-                        //     ConstantsArgument.type:
-                        //     ConstantsIntValue.keyLostHistoryInt,
-                        //   },
-                        // );
+                            state.items[selectedIndex].id,
+                            Constants.keyLostHistory,ConstantsIntValue.keyLostHistoryInt);
                       }
                     },
                     showDeleteButton: widget.lock.isEmptyOrNull &&
@@ -349,24 +336,12 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                           },
                         );
                       } else {
-                        await KeyManagementIssuanceServices()
-                            .getIssuanceProcessById(state.items[index].id ?? 0);
-                        int? kmId = state.items[selectedIndex].kmId;
-                        int? kipId = state.items[selectedIndex].id;
-                        // getKeyHistoryById(
-                        //     state.extraProperties?.hasWritePermission ?? false,
-                        //     state.items[index].kmId, widget.parentId, ConstantsIntValue.keyDamageHistoryInt);
-                        Navigator.pushNamed(
-                          context,
-                          keyHistoryRecordsDetailsRoute,
-                          arguments: {
-                            ConstantsArgument.title: Constants.keyDamageHistory,
-                            ConstantsArgument.id: kmId,
-                            ConstantsArgument.kipId: kipId,
-                            ConstantsArgument.type:
-                                ConstantsIntValue.keyDamageHistoryInt,
-                          },
-                        );
+                        getKeyHistoryById(
+                            state.extraProperties?.hasWritePermission ?? false,
+                            state.items[index].kmId,
+                            widget.parentId,
+                            state.items[selectedIndex].id,
+                            Constants.keyDamageHistory,ConstantsIntValue.keyDamageHistoryInt);
                       }
                     },
                     index: index,
@@ -402,26 +377,33 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     }
   }
 
-  getKeyHistoryById(bool hasWritePermission, int? kmId,
-      int? keyIssuanceId, int? type) async {
+  getKeyHistoryById(bool hasWritePermission, int? kmId, int? keyIssuanceId,
+       int? id, String? title,int? type) async {
     showLoadingDialog(context);
 
     KeyHistoryModel keyHistoryModel = await KeyManagementIssuanceServices()
         .getIssuanceKHById(kmId!, keyIssuanceId!, type!);
 
-    editKeyHistoryDataLoading(kmId, keyHistoryModel, hasWritePermission);
+    editKeyHistoryDataLoading(
+        kmId, keyHistoryModel, hasWritePermission, id, keyIssuanceId, title,type);
   }
 
-  Future<void> editKeyHistoryDataLoading(int kmId,
-      KeyHistoryModel? keyHistoryModel, bool hasWritePermission) async {
+  Future<void> editKeyHistoryDataLoading(
+      int kmId,
+      KeyHistoryModel? keyHistoryModel,
+      bool hasWritePermission,
+      int? id,
+      int? keyIssuanceId,
+      String? title, int? type) async {
     dismissLoadingDialog(context);
-    log('KMID $kmId');
     if (keyHistoryModel?.id != null) {
       Navigator.pushNamed(context, keyHistoryRecordsDetailsRoute, arguments: {
         "keyLossGi": KeyHistoryModel,
-        ConstantsArgument.title: Constants.keyLostHistory,
+        ConstantsArgument.title: title,
         ConstantsArgument.id: keyHistoryModel?.kmId,
-        ConstantsArgument.type: ConstantsIntValue.keyLostHistoryInt,
+        ConstantsArgument.model: keyHistoryModel,
+        ConstantsArgument.keyIssuanceId: keyIssuanceId,
+        ConstantsArgument.type: type,
         ConstantsArgument.extraProperties:
             ExtraProperties(hasWritePermission: hasWritePermission),
       });
@@ -430,10 +412,11 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
         context,
         keyHistoryRecordsDetailsRoute,
         arguments: {
-          ConstantsArgument.title: Constants.keyLostHistory,
+          ConstantsArgument.title: title,
           ConstantsArgument.id: kmId,
-          // ConstantsArgument.kipId: widget.model?.id,
-          ConstantsArgument.type: ConstantsIntValue.keyLostHistoryInt,
+          ConstantsArgument.kipId: id,
+          ConstantsArgument.keyIssuanceId: keyIssuanceId,
+          ConstantsArgument.type: type,
         },
       );
     }

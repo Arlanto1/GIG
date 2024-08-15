@@ -125,10 +125,14 @@ class KeyManagementMasterServices {
     required KeyHistoryRecordRequest body,
     required bool isSubmit,
     required String? kmId,
+    required String? keyIssuanceId,
   }) async {
     // var userId = await SharedPrefs.getUserId();
-    final String url =
+     String url =
         "${Apis._createKeyHistoryRecord}kmId=$kmId&isSubmit=$isSubmit";
+    if(keyIssuanceId !=null){
+    url  = '$url&kmiMasterId=$keyIssuanceId';
+    }
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),

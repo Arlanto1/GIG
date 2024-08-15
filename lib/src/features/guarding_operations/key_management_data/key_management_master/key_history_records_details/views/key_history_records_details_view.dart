@@ -54,7 +54,7 @@ class _KeyHistoryRecordsDetailsViewState
 
   get guardingMasterData => null;
   final FocusNode noOfKeysFocusNode = FocusNode();
-  final FocusNode detailsOfLostkeyFocusNode = FocusNode();
+  final FocusNode detailsOfLostKeyFocusNode = FocusNode();
 
   @override
   void initState() {
@@ -81,12 +81,16 @@ class _KeyHistoryRecordsDetailsViewState
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
-              Navigator.popAndPushNamed(context, keyHistoryRecordsViewRoute,
-                  arguments: {
-                    ConstantsArgument.id: widget.parentId,
-                    ConstantsArgument.type: widget.type,
-                    ConstantsArgument.title: widget.title,
-                  });
+              if (widget.type != ConstantsIntValue.keyLostHistoryInt && widget.type != ConstantsIntValue.keyDamageHistoryInt) {
+                Navigator.popAndPushNamed(context, keyHistoryRecordsViewRoute,
+                    arguments: {
+                      ConstantsArgument.id: widget.parentId,
+                      ConstantsArgument.type: widget.type,
+                      ConstantsArgument.title: widget.title,
+                    });
+              }
+                Navigator.pop(context);
+                return;
             },
           );
           showDialog(
@@ -362,7 +366,7 @@ class _KeyHistoryRecordsDetailsViewState
                           Styles.textStyleBlack14,
                         ),
                         BaseDropDown().getDropDown(
-                            isDisabled: false,
+                            isDisabled: !initialStatus,
                             textController: keyTypeController,
                             items: keyTypeDropDownValues,
                             initialValue: state.model.keyType.toString(),
@@ -640,8 +644,8 @@ class _KeyHistoryRecordsDetailsViewState
                           textFormKey: Keys.additionInitiativesKey,
                           hintText: Constants.informationhere,
                           showBorder: true,
-                          isEnable: (securityManager || srh || initialStatus) ||
-                              (lockChangeInitiatedAndUser) &&
+                          isEnable: ((securityManager || srh || initialStatus||
+                              lockChangeInitiatedAndUser)) &&
                                   state.model.status !=
                                       ConstantsIntValue.closed,
                           isDisableColor: !((securityManager ||
