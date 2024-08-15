@@ -49,6 +49,7 @@ class _SstIncidentGeneralInfoViewState
   bool disableForm = false;
   List<ImageContent>? uploadFiles;
   List<ImageContent>? uploadDocuments;
+  List<ImageContent>? attachDocuments;
   bool showSystemIntegratorFields = false;
   bool isShowSubmitButtonForSecurityManager = false;
   final FocusNode vendorPocFocusNode = FocusNode();
@@ -178,15 +179,18 @@ class _SstIncidentGeneralInfoViewState
                 '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.securitySystemModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<SstIncidentGeneralInfoCubit>(context)
-                  .submitForm(isSaveOnly: true, isSubmitOnly: false, isReworkOnly: false);
+              BlocProvider.of<SstIncidentGeneralInfoCubit>(context).submitForm(
+                  isSaveOnly: true, isSubmitOnly: false, isReworkOnly: false);
             },
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
               if (state.model.status ==
                   ConstantsIntValue.ticketLifeCycleCreateStatus) {
                 BlocProvider.of<SstIncidentGeneralInfoCubit>(context)
-                    .submitForm(isSaveOnly: false, isReworkOnly: false,isSubmitOnly: true);
+                    .submitForm(
+                        isSaveOnly: false,
+                        isReworkOnly: false,
+                        isSubmitOnly: true);
               }
               if (state.model.status ==
                   ConstantsIntValue.ticketLifeCycleSolveProposedStatus) {
@@ -317,6 +321,11 @@ class _SstIncidentGeneralInfoViewState
         state.status == FormStatus.initial) {
       // uploadFiles = state.uploadAttachments;
       uploadDocuments = state.dataLossAttachments ?? [];
+    }
+    if (state.status == FormStatus.addAttachment ||
+        state.status == FormStatus.initial) {
+      // uploadFiles = state.uploadAttachments;
+      attachDocuments = state.additionalAttachments ?? [];
     }
     return Container(
       color: AppColors.navigationSkyBlueColor,
@@ -979,7 +988,6 @@ class _SstIncidentGeneralInfoViewState
                         ),
                       ),
 
-
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       if (showSystemIntegratorFields) ...[
                         CommonWidgets.textDisplay(
@@ -1031,7 +1039,10 @@ class _SstIncidentGeneralInfoViewState
                                 validateTextField: (String? user) {},
                               ),
                             ],
-                            if (showSystemIntegratorFields && state.model.status != ConstantsIntValue.ticketLifeCycleSubmitStatus ) ...[
+                            if (showSystemIntegratorFields &&
+                                state.model.status !=
+                                    ConstantsIntValue
+                                        .ticketLifeCycleSubmitStatus) ...[
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.onsiteVisitDT ??
                                       state.labels?.defaultLocale
@@ -1257,14 +1268,13 @@ class _SstIncidentGeneralInfoViewState
                                 child: BaseImageUpload().getAttachment(
                                   height: height,
                                   attachments: state.additionalAttachments,
-                                  files: uploadFiles,
+                                  files: attachDocuments,
                                   moduleCode: Constants.securitySystemModule,
                                   isDisabled: true,
                                 ),
                               ),
                             ],
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-
                             if (state.model.status ==
                                 ConstantsIntValue
                                     .ticketLifeCycleSolveProposedStatus) ...[
@@ -1286,7 +1296,6 @@ class _SstIncidentGeneralInfoViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
-
                             if (state.model.status ==
                                 ConstantsIntValue
                                     .ticketLifeCycleSolveProposedStatus) ...[
@@ -1307,59 +1316,61 @@ class _SstIncidentGeneralInfoViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
+                            if (state.model.status != null &&
+                                state.model.status !=
+                                    ConstantsIntValue
+                                        .ticketLifeCycleCreateStatus) ...[
+                              ///Escalation 1
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.escalation1 ??
+                                      state.labels?.defaultLocale.escalation1 ??
+                                      Constants.escalation1,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              BaseDate().datePickerWidgetLoading(
+                                isDisabled: true,
+                                textController: escalation1Controller,
+                                onlyDate: false,
+                                showFutureDate: false,
+                                onChange: (String value) {},
+                                context: context,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            if(state.model.status !=null && state.model.status != ConstantsIntValue.ticketLifeCycleCreateStatus)...[
-                            ///Escalation 1
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.escalation1 ??
-                                    state.labels?.defaultLocale.escalation1 ??
-                                    Constants.escalation1,
-                                isMandatory: true,
-                                Styles.textStyleBlack14),
-                            BaseDate().datePickerWidgetLoading(
-                              isDisabled: true,
-                              textController: escalation1Controller,
-                              onlyDate: false,
-                              showFutureDate: false,
-                              onChange: (String value) {},
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              ///Escalation 2
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.escalation2 ??
+                                      state.labels?.defaultLocale.escalation2 ??
+                                      Constants.escalation2,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              BaseDate().datePickerWidgetLoading(
+                                isDisabled: true,
+                                textController: escalation2Controller,
+                                onlyDate: false,
+                                showFutureDate: false,
+                                onChange: (String value) {},
+                                context: context,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            ///Escalation 2
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.escalation2 ??
-                                    state.labels?.defaultLocale.escalation2 ??
-                                    Constants.escalation2,
-                                isMandatory: true,
-                                Styles.textStyleBlack14),
-                            BaseDate().datePickerWidgetLoading(
-                              isDisabled: true,
-                              textController: escalation2Controller,
-                              onlyDate: false,
-                              showFutureDate: false,
-                              onChange: (String value) {},
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            ///Escalation 3
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.escalation3 ??
-                                    state.labels?.defaultLocale.escalation3 ??
-                                    Constants.escalation3,
-                                isMandatory: true,
-                                Styles.textStyleBlack14),
-                            BaseDate().datePickerWidgetLoading(
-                              isDisabled: true,
-                              textController: escalation3Controller,
-                              onlyDate: false,
-                              showFutureDate: false,
-                              onChange: (String value) {},
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-],
+                              ///Escalation 3
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.escalation3 ??
+                                      state.labels?.defaultLocale.escalation3 ??
+                                      Constants.escalation3,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              BaseDate().datePickerWidgetLoading(
+                                isDisabled: true,
+                                textController: escalation3Controller,
+                                onlyDate: false,
+                                showFutureDate: false,
+                                onChange: (String value) {},
+                                context: context,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
                             if (state.model.status ==
                                     ConstantsIntValue
                                         .ticketLifeCycleSolveProposedStatus ||
@@ -1388,7 +1399,6 @@ class _SstIncidentGeneralInfoViewState
                                 validateTextField: (String? user) {},
                               ),
                             ],
-
                             if (showSystemIntegratorFields &&
                                 state.model.status !=
                                     ConstantsIntValue
@@ -1422,7 +1432,8 @@ class _SstIncidentGeneralInfoViewState
                               FocusScope.of(context).unfocus();
                               BlocProvider.of<SstIncidentGeneralInfoCubit>(
                                       context)
-                                  .submitForm(isSaveOnly: false, isReworkOnly: false);
+                                  .submitForm(
+                                      isSaveOnly: false, isReworkOnly: false);
                             })
                           ],
                         ],
@@ -1548,8 +1559,8 @@ class _SstIncidentGeneralInfoViewState
       activityNotesController.text = activityNotes.activityNotes ?? '';
       dateController.text = activityNotes.submittedDate != null
           ? Utils.timestampToDateConversion(
-          int.tryParse(activityNotes.submittedDate ?? '0'),
-          Constants.fulldateFormat)
+              int.tryParse(activityNotes.submittedDate ?? '0'),
+              Constants.fulldateFormat)
           : '';
       widgets.add(
         Align(
