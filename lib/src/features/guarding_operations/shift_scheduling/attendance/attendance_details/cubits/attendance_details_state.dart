@@ -15,6 +15,7 @@ class AttendanceDetailsState extends Equatable {
   final GmUiLabels? labels;
   final int? parentId;
   final int? selectedDutyPostNameId;
+  final DutyPostModel? selectedDutyPostModel;
 
   factory AttendanceDetailsState.initial({
     required AttendanceModel model,
@@ -86,6 +87,7 @@ class AttendanceDetailsState extends Equatable {
     required this.vendors,
     this.parentId,
     this.selectedDutyPostNameId,
+    this.selectedDutyPostModel,
   });
 
   AttendanceDetailsState copyWith({
@@ -103,6 +105,7 @@ class AttendanceDetailsState extends Equatable {
     final GmUiLabels? labels,
     int? parentId,
     int? selectedDutyPostNameId,
+    DutyPostModel? selectedDutyPostModel,
   }) {
     return AttendanceDetailsState(
       status: status ?? this.status,
@@ -120,6 +123,7 @@ class AttendanceDetailsState extends Equatable {
       parentId: parentId ?? this.parentId,
       selectedDutyPostNameId:
           selectedDutyPostNameId ?? this.selectedDutyPostNameId,
+      selectedDutyPostModel: selectedDutyPostModel ?? this.selectedDutyPostModel,
     );
   }
 }

@@ -209,7 +209,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                           ? Utils.timestampToDateConversion(
                               int.tryParse(
                                   state.items[index].createdDate ?? '0'),
-                              Constants.dateFormat)
+                              Constants.twentyFourHourDateTimeFormat)
                           : '',
                     ));
                     labels.add(Label(
@@ -283,15 +283,33 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                               );
                             },
                             showEmailButton: true,
-                            onEmailTap: (selectedIndex) async {
-                              FocusScope.of(context).unfocus();
-                              int? id = state.items[selectedIndex].id;
-                              context
-                                  .read<SstIncidentBloc>()
-                                  .add(SendReminderEmail(
-                                    id: id!,
-                                  ));
-                            },
+                      onEmailTap: (selectedIndex) async {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text(Constants.sentReminder),
+                              content:
+                              const Text(Constants.sentRemindertoVendor),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text(Constants.ok),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                        FocusScope.of(context).unfocus();
+                        int? id = state.items[selectedIndex].id;
+                        context
+                            .read<SstIncidentBloc>()
+                            .add(SendReminderEmail(
+                          id: id!,
+                        ));
+                      },
                             index: index,
                           );
                   }

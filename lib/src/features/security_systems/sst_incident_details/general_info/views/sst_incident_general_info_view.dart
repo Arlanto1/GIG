@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'comment_pop_up.dart';
 
 class SstIncidentGeneralInfoView extends StatefulWidget {
   final bool isInternal;
@@ -33,9 +34,24 @@ class _SstIncidentGeneralInfoViewState
   TextEditingController escalation1PocController = TextEditingController();
   TextEditingController escalation2PocController = TextEditingController();
   TextEditingController escalation3PocController = TextEditingController();
+  TextEditingController acknowledgeDateController = TextEditingController();
+  TextEditingController escalation1Controller = TextEditingController();
+  TextEditingController escalation2Controller = TextEditingController();
+  TextEditingController escalation3Controller = TextEditingController();
+  TextEditingController vendorTicketNoController = TextEditingController();
+  TextEditingController onsiteVisitDateController = TextEditingController();
+  TextEditingController issueTypeController = TextEditingController();
+  TextEditingController slaOnsiteResponseController = TextEditingController();
+  TextEditingController solvedProposedDateController = TextEditingController();
+  TextEditingController reworkProposedDateController = TextEditingController();
+
   bool isDisabled = true;
   bool disableForm = false;
   List<ImageContent>? uploadFiles;
+  List<ImageContent>? uploadDocuments;
+  List<ImageContent>? attachDocuments;
+  bool showSystemIntegratorFields = false;
+  bool isShowSubmitButtonForSecurityManager = false;
   final FocusNode vendorPocFocusNode = FocusNode();
   final FocusNode descriptionFocusNode = FocusNode();
 
@@ -105,7 +121,9 @@ class _SstIncidentGeneralInfoViewState
         escalation1PocController.text = state.model.escalation1Poc ?? '';
         escalation2PocController.text = state.model.escalation2Poc ?? '';
         escalation3PocController.text = state.model.escalation3Poc ?? '';
-
+        vendorTicketNoController.text = state.model.vendorTicketNo ?? '';
+        slaOnsiteResponseController.text =
+            state.model.slaOnsiteRes?.toString() ?? '0.0';
         state.model.status ??= 1;
         if (state.model.id != null && state.model.status! > 1) {
           log('--state.model.status----asd---${state.model.status}-');
@@ -118,6 +136,20 @@ class _SstIncidentGeneralInfoViewState
         if (!state.model.lock.isEmptyOrNull) {
           disableForm = true;
         }
+
+        if (state.model.status !=
+                ConstantsIntValue.ticketLifeCycleCreateStatus &&
+            state.model.status != null) {
+          showSystemIntegratorFields = true;
+        }
+
+        if (state.model.status ==
+                ConstantsIntValue.ticketLifeCycleSolveProposedStatus &&
+            state.model.systemManager!.email
+                .equalsIgnoreCase(state.loggedInUserDetails.email)) {
+          isShowSubmitButtonForSecurityManager = true;
+        }
+
         // if (widget.extraProperties != null &&
         //     !widget.extraProperties!.hasWritePermission!) {
         //   disableForm = true;
@@ -134,23 +166,104 @@ class _SstIncidentGeneralInfoViewState
             context: context,
             title: widget.isInternal
                 ? Constants.ticketLifeCycle
-                : Constants.externalVendor,
+                : Constants.ticketLifeCycle,
             showPopUp: false,
             showSaveButton: disableForm ? false : true,
-            showSubmitButton: disableForm ? false : true,
+            showSubmitButton:
+                !disableForm || isShowSubmitButtonForSecurityManager
+                    ? true
+                    : false,
             showDisLikeButton: false,
             showLikeButton: false,
             pdfAPIName:
                 '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.securitySystemModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<SstIncidentGeneralInfoCubit>(context)
-                  .submitForm(isSaveOnly: true);
+              BlocProvider.of<SstIncidentGeneralInfoCubit>(context).submitForm(
+                  isSaveOnly: true, isSubmitOnly: false, isReworkOnly: false);
             },
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<SstIncidentGeneralInfoCubit>(context)
-                  .submitForm(isSaveOnly: false);
+              if (state.model.status ==
+                  ConstantsIntValue.ticketLifeCycleCreateStatus) {
+                BlocProvider.of<SstIncidentGeneralInfoCubit>(context)
+                    .submitForm(
+                        isSaveOnly: false,
+                        isReworkOnly: false,
+                        isSubmitOnly: true);
+              }
+              if (state.model.status ==
+                  ConstantsIntValue.ticketLifeCycleSolveProposedStatus) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text(Constants.selectStatus),
+                      content: const Text(Constants.message),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text(Constants.rework),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return AddCommentPopUp(
+                                  mainContext: context,
+                                  onSubmit: (value) {
+                                    state.model.rejectionComment = value;
+                                    BlocProvider.of<
+                                                SstIncidentGeneralInfoCubit>(
+                                            this.context)
+                                        .onAddComment(value);
+                                    Navigator.pop(context);
+                                    BlocProvider.of<
+                                                SstIncidentGeneralInfoCubit>(
+                                            this.context)
+                                        .submitForm(isReworkOnly: true);
+                                    Navigator.pop(context);
+                                  },
+                                );
+                              },
+                            );
+                          },
+                        ),
+                        TextButton(
+                          child: const Text(Constants.closed),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext dialogContext) {
+                                return AddCommentPopUp(
+                                  mainContext: context,
+                                  onSubmit: (value) {
+                                    state.model.closedActivityNotes = value;
+                                    BlocProvider.of<
+                                                SstIncidentGeneralInfoCubit>(
+                                            this.context)
+                                        .onAddActivityNotes(value);
+                                    Navigator.pop(context);
+                                    BlocProvider.of<
+                                                SstIncidentGeneralInfoCubit>(
+                                            this.context)
+                                        .submitForm(isSubmitOnly: true);
+                                    Navigator.pop(context);
+                                  },
+                                );
+                              },
+                            );
+                          },
+                        ),
+                        TextButton(
+                          child: const Text(Constants.abort),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }
             },
           ),
           backgroundColor: AppColors.backgroundWhiteColor,
@@ -160,7 +273,41 @@ class _SstIncidentGeneralInfoViewState
     );
   }
 
+  void initializeDates(SstIncidentGeneralInfoState state) {
+    acknowledgeDateController.text = state.model.acknowledgeDate != null
+        ? Utils.timestampToDateConversion(
+            int.tryParse(state.model.acknowledgeDate ?? '0'),
+            Constants.fulldateFormat)
+        : '';
+    escalation1Controller.text = state.model.escalation1 != null
+        ? Utils.timestampToDateConversion(
+            int.tryParse(state.model.escalation1 ?? '0'),
+            Constants.fulldateFormat)
+        : '';
+    escalation2Controller.text = state.model.escalation2 != null
+        ? Utils.timestampToDateConversion(
+            int.tryParse(state.model.escalation2 ?? '0'),
+            Constants.fulldateFormat)
+        : '';
+    escalation3Controller.text = state.model.escalation3 != null
+        ? Utils.timestampToDateConversion(
+            int.tryParse(state.model.escalation3 ?? '0'),
+            Constants.fulldateFormat)
+        : '';
+    solvedProposedDateController.text = state.model.solvedProposed != null
+        ? Utils.timestampToDateConversion(
+            int.tryParse(state.model.solvedProposed ?? '0'),
+            Constants.fulldateFormat)
+        : '';
+    reworkProposedDateController.text = state.model.reworkDate != null
+        ? Utils.timestampToDateConversion(
+            int.tryParse(state.model.reworkDate ?? '0'),
+            Constants.fulldateFormat)
+        : '';
+  }
+
   getBodybuilder(SstIncidentGeneralInfoState state, height) {
+    initializeDates(state);
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
@@ -170,6 +317,16 @@ class _SstIncidentGeneralInfoViewState
       uploadFiles = state.uploadAttachments ?? [];
     }
 
+    if (state.status == FormStatus.addAttachment ||
+        state.status == FormStatus.initial) {
+      // uploadFiles = state.uploadAttachments;
+      uploadDocuments = state.dataLossAttachments ?? [];
+    }
+    if (state.status == FormStatus.addAttachment ||
+        state.status == FormStatus.initial) {
+      // uploadFiles = state.uploadAttachments;
+      attachDocuments = state.additionalAttachments ?? [];
+    }
     return Container(
       color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
@@ -830,6 +987,439 @@ class _SstIncidentGeneralInfoViewState
                           isDisabled: disableForm,
                         ),
                       ),
+
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      if (showSystemIntegratorFields) ...[
+                        CommonWidgets.textDisplay(
+                            Constants.systemIntegratorForVendorAction,
+                            Styles.textStyleBlack16),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      ],
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20),
+                        child: Column(
+                          children: [
+                            if (showSystemIntegratorFields) ...[
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.acknowledgeDateTime ??
+                                      state.labels?.defaultLocale
+                                          .acknowledgeDateTime ??
+                                      Constants.acknowledgeDateAndTime,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              BaseDate().datePickerWidgetLoading(
+                                isDisabled: true,
+                                textController: acknowledgeDateController,
+                                onlyDate: false,
+                                showFutureDate: false,
+                                onChange: (String value) {},
+                                context: context,
+                              ),
+
+                              /// Vendor Ticket No
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.vendorTicketNo ??
+                                      state.labels?.defaultLocale
+                                          .vendorTicketNo ??
+                                      Constants.vendorTicketNo,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                lineHeight: 1,
+                                controller: vendorTicketNoController,
+                                textFormKey: Keys.claimantTextController,
+                                hintText: Constants.informationhere,
+                                focusNode: vendorPocFocusNode,
+                                textCapitalization: false,
+                                isEnable: false,
+                                isDisableColor: true,
+                                onChange: (String value) {},
+                                validateTextField: (String? user) {},
+                              ),
+                            ],
+                            if (showSystemIntegratorFields &&
+                                state.model.status !=
+                                    ConstantsIntValue
+                                        .ticketLifeCycleSubmitStatus) ...[
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.onsiteVisitDT ??
+                                      state.labels?.defaultLocale
+                                          .onsiteVisitDT ??
+                                      Constants.onsiteVisitDateAndTime,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              BaseDate().datePickerWidgetLoading(
+                                isDisabled: true,
+                                textController: onsiteVisitDateController,
+                                onlyDate: false,
+                                showFutureDate: false,
+                                onChange: (String value) {},
+                                context: context,
+                              ),
+
+                              /// critical Spare Used
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.criticalSpareUsed ??
+                                      state.labels?.defaultLocale
+                                          .criticalSpareUsed ??
+                                      Constants.criticalSpareUsed,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              RadioButtonsYesNo(
+                                status: state.model.status ?? 0,
+                                selectedValue: state.model.criticalSpare == null
+                                    ? null
+                                    : state.model.criticalSpare == true
+                                        ? 1
+                                        : 0,
+                                onChangedYes: disableForm
+                                    ? null
+                                    : (val) {
+                                        state.model.criticalSpare = true;
+                                        BlocProvider.of<
+                                                    SstIncidentGeneralInfoCubit>(
+                                                context)
+                                            .onCheckBoxChange(state.model);
+                                      },
+                                onChangedNo: disableForm
+                                    ? null
+                                    : (val) {
+                                        state.model.criticalSpare = false;
+                                        BlocProvider.of<
+                                                    SstIncidentGeneralInfoCubit>(
+                                                context)
+                                            .onCheckBoxChange(state.model);
+                                      },
+                              ),
+
+                              /// Root Cause Analysis
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.rootCauseAnalysis ??
+                                      state.labels?.defaultLocale
+                                          .rootCauseAnalysis ??
+                                      Constants.rootCauseAnalysis,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                lineHeight: 6,
+                                initialValue: state.model.rootCauseAnalysis,
+                                showBorder: true,
+                                textFormKey: Keys.incidentDescription,
+                                hintText: Constants.informationhere,
+                                isEnable: false,
+                                isDisableColor: true,
+                                onChange: (String value) {
+                                  state.model.rootCauseAnalysis = value;
+                                  context
+                                      .read<SstIncidentGeneralInfoCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Action Taken Mitigation Action
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.actionTakenMA ??
+                                      state.labels?.defaultLocale
+                                          .actionTakenMA ??
+                                      Constants.actionTakenMitigationAction,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                lineHeight: 6,
+                                initialValue: state.model.actionTaken,
+                                showBorder: true,
+                                textFormKey: Keys.incidentDescription,
+                                hintText: Constants.informationhere,
+                                isEnable: false,
+                                isDisableColor: true,
+                                onChange: (String value) {
+                                  state.model.actionTaken = value;
+                                  context
+                                      .read<SstIncidentGeneralInfoCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Issue Type
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.issueType ??
+                                    state.labels?.defaultLocale.issueType ??
+                                    Constants.issueType,
+                                isMandatory: false,
+                                Styles.textStyleBlack14,
+                              ),
+                              BaseDropDown().getDropDown(
+                                  isDisabled: true,
+                                  textController: issueTypeController,
+                                  items: issueTypeDropDownValues,
+                                  initialValue:
+                                      state.model.issueType.toString(),
+                                  onTap: () {}),
+
+                              /// Data Loss
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.dataLoss ??
+                                      state.labels?.defaultLocale.dataLoss ??
+                                      Constants.dataLoss,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              RadioButtonsYesNo(
+                                  status: state.model.status ?? 0,
+                                  selectedValue: state.model.dataLoss == null
+                                      ? null
+                                      : state.model.dataLoss == true
+                                          ? 1
+                                          : 0,
+                                  onChangedYes: null,
+                                  onChangedNo: null),
+
+                              if (state.model.dataLoss == true) ...[
+                                ///Data Loss Attachment
+                                CommonWidgets.textDisplay(
+                                    // state.labels?.locale.dataLoss ??
+                                    //     state.labels?.defaultLocale.dataLoss ??
+                                    Constants.dataLossAttachment,
+                                    Styles.textStyleBlack14),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                                BaseImageUpload().uploadWidget(
+                                  context: context,
+                                  isDisabled: true,
+                                  loggedInUserDetails:
+                                      state.loggedInUserDetails,
+                                  getFiles: uploadFiles,
+                                  onImageSelected: (ImageContent data) {
+                                    List<ImageContent>? files = [];
+                                    files.add(data);
+                                    for (ImageContent image
+                                        in uploadFiles ?? []) {
+                                      files.add(image);
+                                    }
+                                    BlocProvider.of<
+                                                SstIncidentGeneralInfoCubit>(
+                                            context)
+                                        .addAttachment(
+                                      data: files,
+                                      images: files,
+                                    );
+                                  },
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                /// Attachments
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5.0),
+                                  child: BaseImageUpload().getAttachment(
+                                    height: height,
+                                    attachments: state.dataLossAttachments,
+                                    files: uploadDocuments,
+                                    moduleCode: Constants.securitySystemModule,
+                                    isDisabled: true,
+                                  ),
+                                ),
+                              ],
+
+                              ///Attach the layout
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.attachDocumentsDesc ??
+                                      state.labels?.defaultLocale
+                                          .attachDocumentsDesc ??
+                                      Constants.attachTheLayout,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              BaseImageUpload().uploadWidget(
+                                context: context,
+                                isDisabled: true,
+                                loggedInUserDetails: state.loggedInUserDetails,
+                                getFiles: uploadFiles,
+                                onImageSelected: (ImageContent data) {
+                                  List<ImageContent>? files = [];
+                                  files.add(data);
+                                  for (ImageContent image
+                                      in uploadFiles ?? []) {
+                                    files.add(image);
+                                  }
+                                  BlocProvider.of<SstIncidentGeneralInfoCubit>(
+                                          context)
+                                      .addAttachment(
+                                    data: files,
+                                    images: files,
+                                  );
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Attachments
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                child: BaseImageUpload().getAttachment(
+                                  height: height,
+                                  attachments: state.additionalAttachments,
+                                  files: attachDocuments,
+                                  moduleCode: Constants.securitySystemModule,
+                                  isDisabled: true,
+                                ),
+                              ),
+                            ],
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            if (state.model.status ==
+                                ConstantsIntValue
+                                    .ticketLifeCycleSolveProposedStatus) ...[
+                              ///Solved proposed Date
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.solvedProposed ??
+                                      state.labels?.defaultLocale
+                                          .solvedProposed ??
+                                      Constants.solvedProposedDate,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              BaseDate().datePickerWidgetLoading(
+                                isDisabled: true,
+                                textController: solvedProposedDateController,
+                                onlyDate: false,
+                                showFutureDate: false,
+                                onChange: (String value) {},
+                                context: context,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
+                            if (state.model.status ==
+                                ConstantsIntValue
+                                    .ticketLifeCycleSolveProposedStatus) ...[
+                              ///Rework proposed Date
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.reworkDate ??
+                                      state.labels?.defaultLocale.reworkDate ??
+                                      Constants.reworkProposedDate,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              BaseDate().datePickerWidgetLoading(
+                                isDisabled: true,
+                                textController: reworkProposedDateController,
+                                onlyDate: false,
+                                showFutureDate: false,
+                                onChange: (String value) {},
+                                context: context,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
+                            if (state.model.status != null &&
+                                state.model.status !=
+                                    ConstantsIntValue
+                                        .ticketLifeCycleCreateStatus) ...[
+                              ///Escalation 1
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.escalation1 ??
+                                      state.labels?.defaultLocale.escalation1 ??
+                                      Constants.escalation1,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              BaseDate().datePickerWidgetLoading(
+                                isDisabled: true,
+                                textController: escalation1Controller,
+                                onlyDate: false,
+                                showFutureDate: false,
+                                onChange: (String value) {},
+                                context: context,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              ///Escalation 2
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.escalation2 ??
+                                      state.labels?.defaultLocale.escalation2 ??
+                                      Constants.escalation2,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              BaseDate().datePickerWidgetLoading(
+                                isDisabled: true,
+                                textController: escalation2Controller,
+                                onlyDate: false,
+                                showFutureDate: false,
+                                onChange: (String value) {},
+                                context: context,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              ///Escalation 3
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.escalation3 ??
+                                      state.labels?.defaultLocale.escalation3 ??
+                                      Constants.escalation3,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              BaseDate().datePickerWidgetLoading(
+                                isDisabled: true,
+                                textController: escalation3Controller,
+                                onlyDate: false,
+                                showFutureDate: false,
+                                onChange: (String value) {},
+                                context: context,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
+                            if (state.model.status ==
+                                    ConstantsIntValue
+                                        .ticketLifeCycleSolveProposedStatus ||
+                                state.model.status ==
+                                    ConstantsIntValue
+                                        .ticketLifeCycleReworkStatus) ...[
+                              /// SLA Onsite Response
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.slaOnsiteResponse ??
+                                      state.labels?.defaultLocale
+                                          .slaOnsiteResponse ??
+                                      Constants.slaOnSiteResponse,
+                                  isMandatory: false,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                lineHeight: 1,
+                                controller: slaOnsiteResponseController,
+                                // initialValue: state.model.escalation3Poc,
+                                textFormKey: Keys.claimantTextController,
+                                hintText: '',
+                                isEnable: false,
+                                isDisableColor: true,
+                                onChange: (String value) {},
+                                validateTextField: (String? user) {},
+                              ),
+                            ],
+                            if (showSystemIntegratorFields &&
+                                state.model.status !=
+                                    ConstantsIntValue
+                                        .ticketLifeCycleSubmitStatus) ...[
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.activityNotes ??
+                                      state.labels?.defaultLocale
+                                          .activityNotes ??
+                                      Constants.activityNotes,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              Column(
+                                children: getActivityNotes(
+                                    state.model.activityNotes ?? [],
+                                    height,
+                                    state),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                       /// SubmitButton
@@ -842,7 +1432,8 @@ class _SstIncidentGeneralInfoViewState
                               FocusScope.of(context).unfocus();
                               BlocProvider.of<SstIncidentGeneralInfoCubit>(
                                       context)
-                                  .submitForm(isSaveOnly: false);
+                                  .submitForm(
+                                      isSaveOnly: false, isReworkOnly: false);
                             })
                           ],
                         ],
@@ -956,6 +1547,93 @@ class _SstIncidentGeneralInfoViewState
   //     Navigator.pop(context);
   //   }
   // }
+
+  List<Widget> getActivityNotes(List<ActivityNotes> list, double height,
+      SstIncidentGeneralInfoState state) {
+    log('-list--${list.length}--');
+    List<Widget> widgets = [];
+
+    for (ActivityNotes activityNotes in list) {
+      TextEditingController activityNotesController = TextEditingController();
+      TextEditingController dateController = TextEditingController();
+      activityNotesController.text = activityNotes.activityNotes ?? '';
+      dateController.text = activityNotes.submittedDate != null
+          ? Utils.timestampToDateConversion(
+              int.tryParse(activityNotes.submittedDate ?? '0'),
+              Constants.fulldateFormat)
+          : '';
+      widgets.add(
+        Align(
+          alignment: Alignment.centerLeft,
+          // Ensure content is aligned to the left
+          child: Container(
+            width: double.infinity,
+            // Ensure container takes up full width
+            decoration: BoxDecoration(
+              color: AppColors.lightGreyBackground,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            margin: const EdgeInsets.only(bottom: 10.0),
+            // Space between each note
+            padding: const EdgeInsets.all(10.0),
+            // Add padding for better spacing
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              // Align content to the start (left)
+              children: [
+                // Display the activity note
+                // Text(
+                //   activityNotes.activityNotes ?? '',
+                //   style: const TextStyle(
+                //     fontSize: 16,
+                //     color: Colors.grey,
+                //   ),
+                // ),
+                const SizedBox(height: 30),
+                Text(
+                  '${Constants.date} - ${dateController.text}',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                FlutterInputField(
+                  lineHeight: 6,
+                  characterLimit: 4000,
+                  initialValue: activityNotes.activityNotes ?? '',
+                  showBorder: true,
+                  textFormKey: Keys.incidentDescription,
+                  hintText: Constants.informationhere,
+                  isEnable: false,
+                  isDisableColor: true,
+                  onChange: (String value) {
+                    state.model.detailDescription = value;
+                    context
+                        .read<SstIncidentGeneralInfoCubit>()
+                        .onModelValueChange(state.model);
+                  },
+                  validateTextField: (String? user) {},
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (widgets.isNotEmpty) {
+      return [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          // Ensure left alignment of all notes
+          children: widgets,
+        ),
+      ];
+    } else {
+      return []; // Or provide a default list based on your requirements
+    }
+  }
 
   Widget submitButtonDisplay(
       {required Function onTap, String? label = Constants.submit}) {

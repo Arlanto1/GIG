@@ -5,25 +5,43 @@ class MultiSelectDropdown extends StatefulWidget {
     super.key,
     required this.briefingPoints,
     required this.selectedPoints,
-    required this.updatedBriefingPoints,
+    required this.onSelectedBriefingPointsChanged,
   });
 
   final List<String> briefingPoints;
   final List<String> selectedPoints;
-  final Function(List<String> id) updatedBriefingPoints;
+  final Function(List<String>) onSelectedBriefingPointsChanged;
 
   @override
-  MultiSelectDropdownState createState() => MultiSelectDropdownState();
+  State<MultiSelectDropdown> createState() => _MultiSelectDropdownState();
 }
 
-class MultiSelectDropdownState extends State<MultiSelectDropdown> {
-  // final List<String> widget.selectedPoints = [];
+class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
   final TextEditingController _customValueController = TextEditingController();
+  late List<String> _selectedPoints;
 
-  // final _items = List.generate(
-  //   10,
-  //   (index) => 'Item $index',
-  // );
+  @override
+  void initState() {
+    super.initState();
+    _selectedPoints = List.from(widget.selectedPoints); // Copy of selected points to preserve state
+  }
+
+  void _removePoint(String point) {
+    setState(() {
+      _selectedPoints.remove(point);
+      widget.onSelectedBriefingPointsChanged(_selectedPoints);
+    });
+  }
+
+  void _addPoint(String point) {
+    if (point.isNotEmpty && !_selectedPoints.contains(point)) {
+      setState(() {
+        _selectedPoints.add(point);
+        widget.onSelectedBriefingPointsChanged(_selectedPoints);
+        _customValueController.clear();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +49,7 @@ class MultiSelectDropdownState extends State<MultiSelectDropdown> {
       padding: const EdgeInsets.all(1.0),
       child: Column(
         children: [
-          if (!widget.selectedPoints.isEmptyOrNull) ...[
+          if (_selectedPoints.isNotEmpty) ...[
             Container(
               decoration: BoxDecoration(
                 border: Border.all(color: AppColors.geryLightBackground),
@@ -42,70 +60,32 @@ class MultiSelectDropdownState extends State<MultiSelectDropdown> {
                 child: Wrap(
                   spacing: 4.0,
                   runSpacing: 2.0,
-                  children: [
-                    ...widget.selectedPoints.map(
-                      (item) => InkWell(
-                        onTap: () {
-                          setState(() {
-                            widget.selectedPoints.remove(item);
-                            widget.updatedBriefingPoints(widget.selectedPoints);
-                          });
-                        },
-                        child: Chip(
-                          label: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 1.0, horizontal: 1.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(item),
-                                const Icon(
-                                  Icons.clear,
-                                  size: 15,
-                                  color: AppColors.navigationSkyBlueColor,
-                                ),
-                              ],
+                  children: _selectedPoints.map((point) => InkWell(
+                    onTap: () => _removePoint(point),
+                    child: Chip(
+                      label: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 1.0, horizontal: 1.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(point),
+                            const Icon(
+                              Icons.clear,
+                              size: 15,
+                              color: AppColors.navigationSkyBlueColor,
                             ),
-                          ),
+                          ],
                         ),
                       ),
                     ),
-                    // ...widget.selectedPoints.map(
-                    //   (customValue) => InkWell(
-                    //     onTap: () {
-                    //       log('----onTap----');
-                    //       log('----onTap-widget.selectedPoints-${widget.selectedPoints}--');
-                    //
-                    //       setState(() {
-                    //         widget.selectedPoints.remove(customValue);
-                    //       });
-                    //     },
-                    //     child: Chip(
-                    //       label: Padding(
-                    //         padding: const EdgeInsets.symmetric(
-                    //             vertical: 1.0, horizontal: 1.0),
-                    //         child: Row(
-                    //           mainAxisSize: MainAxisSize.min,
-                    //           children: [
-                    //             Text(customValue),
-                    //             const Icon(
-                    //               Icons.clear,
-                    //               size: 15,
-                    //               color: AppColors.navigationSkybluecolor,
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
+                  )).toList(),
                 ),
               ),
             ),
+            CommonWidgets.verticalSpacerWidget(
+                MediaQuery.of(context).size.height * 0.01),
           ],
-          CommonWidgets.verticalSpacerWidget(
-              MediaQuery.of(context).size.height * 0.01),
           DropdownButtonFormField<String>(
             isExpanded: true,
             decoration: const InputDecoration(
@@ -124,34 +104,19 @@ class MultiSelectDropdownState extends State<MultiSelectDropdown> {
             value: null,
             onChanged: (value) {
               if (value != null) {
-                setState(() {
-                  if (!widget.selectedPoints.contains(value) &&
-                      !widget.selectedPoints.contains(value)) {
-                    widget.selectedPoints.add(value);
-                    widget.updatedBriefingPoints(widget.selectedPoints);
-                  }
-                });
+                _addPoint(value);
               }
             },
-            items: widget.briefingPoints.map((item) {
+            items: widget.briefingPoints.map((point) {
               return DropdownMenuItem<String>(
-                value: item,
-                child: Text(item),
+                value: point,
+                child: Text(point),
               );
             }).toList(),
           ),
           const SizedBox(height: 20),
           Row(
             children: [
-              // FlutterInputField(
-              //   textFormKey: Keys.dateofcreationTextController,
-              //   initialValue: date,
-              //   hintText: '',
-              //   isEnable: false,
-              //   isDisableColor: true,
-              //   onChange: (String value) {},
-              //   validateTextField: (String? user) {},
-              // ),
               SizedBox(
                 width: 280,
                 child: TextField(
@@ -173,8 +138,7 @@ class MultiSelectDropdownState extends State<MultiSelectDropdown> {
                     hintText: 'Add Custom Briefing Point',
                     disabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(
-                          color: AppColors.geryLightBackground, width: 1.0),
-                      borderRadius: BorderRadius.circular(8.0),
+                          color: AppColors.geryLightBackground, width: 1.0),borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
                 ),
@@ -184,17 +148,7 @@ class MultiSelectDropdownState extends State<MultiSelectDropdown> {
                 width: 70,
                 buttonText: 'Add',
                 buttonTextKey: Keys.submitButton,
-                onTap: () {
-                  String customValue = _customValueController.text.trim();
-                  if (customValue.isNotEmpty &&
-                      !widget.selectedPoints.contains(customValue)) {
-                    widget.updatedBriefingPoints(widget.selectedPoints);
-                    setState(() {
-                      widget.selectedPoints.add(customValue);
-                      _customValueController.clear();
-                    });
-                  }
-                },
+                onTap: () => _addPoint(_customValueController.text.trim()),
               ),
             ],
           ),

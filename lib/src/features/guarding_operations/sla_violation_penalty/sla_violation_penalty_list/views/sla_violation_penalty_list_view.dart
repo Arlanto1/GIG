@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/index.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
@@ -213,8 +215,23 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                                   ? Utils.timestampToDateConversion(
                                       int.parse(
                                           state.items[index].inputDate ?? '0'),
-                                      Constants.dateFormat)
+                                      Constants.twentyFourHourDateTimeFormat)
                                   : ''));
+                          labels.add(Label(
+                              key: state.labels?.locale.entity ??
+                                  state.labels?.defaultLocale.entity ??
+                                  'Entity',
+                              value: state.items[index].entitiesInfo ?? ''));
+                          labels.add(Label(
+                              key: state.labels?.locale.typeOfService ??
+                                  state.labels?.defaultLocale.typeOfService ??
+                                  'Type of Services',
+                              value: state.items[index].typeOfServiceInfo ?? ''));
+                          labels.add(Label(
+                              key: state.labels?.locale.vendor ??
+                                  state.labels?.defaultLocale.vendor ??
+                                  'Vendor',
+                              value: state.items[index].vendorInfo ?? ''));
                           return index >= state.items.length
                               ? const BaseLoader()
                               : BaseListTileItem(

@@ -151,13 +151,13 @@ const List<Label> guardRankDropDownValues = [
 ];
 
 const List<Label> staffCategoryDropDownValues = [
-  Label(key: 'Guarding Agency', value: '1'),
-  Label(key: 'Security Guard', value: '2'),
-  Label(key: 'Security Lady', value: '3'),
-  Label(key: 'Security Supervisor', value: '4'),
-  Label(key: 'Security Officer', value: '5'),
-  Label(key: 'Security Facilitator', value: '6'),
-  Label(key: 'NA', value: '7'),
+  Label(key: 'Guarding Agency', value: '0'),
+  Label(key: 'Security Guard', value: '1'),
+  Label(key: 'Security Lady', value: '2'),
+  Label(key: 'Security Supervisor', value: '3'),
+  Label(key: 'Security Officer', value: '4'),
+  Label(key: 'Security Facilitator', value: '5'),
+  Label(key: 'NA', value: '6'),
 ];
 const List<Label> deploymentTypeDropDownValues = [
   Label(key: 'New Deployment', value: '1'),
@@ -257,13 +257,22 @@ const List<Label> sstIncidentsStatusItems = [
   Label(key: 'Closed', value: '14'),
 ];
 
-const List<Label> reasonDropDownValues = [
+const List<Label> shiftScheduleReasonDropDownValues = [
   Label(key: 'Leave', value: '0'),
   Label(key: 'Week Off', value: '1'),
   Label(key: 'Resigned', value: '2'),
   Label(key: 'Terminated', value: '3'),
   Label(key: 'Absent', value: '4'),
   Label(key: 'Already Assigned', value: '5'),
+];
+
+const List<Label> attendanceReasonDropDownValues = [
+  Label(key: 'Leave', value: '0'),
+  Label(key: 'Week Off', value: '1'),
+  Label(key: 'Resigned', value: '2'),
+  Label(key: 'Terminated', value: '3'),
+  Label(key: 'Shift Completed', value: '4'),
+  Label(key: 'Absent', value: '5'),
 ];
 const List<Label> dutyPostNameMasterStatusValues = [
   Label(key: 'Cancelled', value: '-1'),
@@ -313,4 +322,10 @@ const List<Label> shiftScheduleStatusDropDownValues = [
   Label(key: 'Active', value: '1'),
   Label(key: 'InActive', value: '2'),
   Label(key: 'Cancelled', value: '-1'),
+];
+
+const List<Label> issueTypeDropDownValues = [
+  Label(key: 'Hardware', value: '1'),
+  Label(key: 'Software', value: '2'),
+  Label(key: 'Network Issue', value: '3'),
 ];

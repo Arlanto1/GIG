@@ -48,6 +48,8 @@ class UtilsCommon {
       );
     }
     if (e is TokenExpiredException) {
+      log('---e is TokenExpiredException--');
+      InactivityFunctions().logoutUser(navigatorKey);
       copyWith = state.copyWith(
         message: e.message,
         status: FormStatus.sessionExpired,

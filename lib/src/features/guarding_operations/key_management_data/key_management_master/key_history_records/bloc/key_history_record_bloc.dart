@@ -42,7 +42,7 @@ class KeyHistoryRecordBloc
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;
@@ -112,7 +112,7 @@ class KeyHistoryRecordBloc
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;
@@ -147,7 +147,7 @@ class KeyHistoryRecordBloc
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;

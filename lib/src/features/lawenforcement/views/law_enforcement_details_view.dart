@@ -74,7 +74,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   late LawEnforcementState globalState;
 
   // String? serialnumber;
-  bool isDistrbuted = false;
+  bool isReadOnly = false;
 
   int isOfficialIdcardSelected = 0;
   int isDocumentifanySelected = 0;
@@ -95,12 +95,25 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         //   isDistrbuted = true;
         // }
         if (!state.model!.lock.isEmptyOrNull) {
-          isDistrbuted = true;
+          isReadOnly = true;
+        }
+
+        if (widget.model != null && !widget.model!.lock.isEmptyOrNull) {
+          isReadOnly = true;
         }
 
         if (widget.model?.status == 3) {
-          isDistrbuted = true;
+          isReadOnly = true;
         }
+
+        log('-widget.model?.isEligibleToEdit---${widget.model?.isEligibleToEdit}---');
+        if (widget.model?.isEligibleToEdit == false) {
+          isReadOnly = true;
+        }
+        // if (widget.model?.status == ConstantsIntValue.leoStatusSubmitted) {
+        //   isDistrbuted = true;
+        // }
+
         return Scaffold(
           appBar: AppHeader(
             isTitleCenter: false,
@@ -120,7 +133,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                 visible: widget.model?.status != -1,
                 child: GestureDetector(
                   onTap: () {
-                    if (!isDistrbuted) {
+                    if (!isReadOnly) {
                       submitForm(isSubmit: false, state: globalState);
                     }
                   },
@@ -129,7 +142,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        if (!isDistrbuted)
+                        if (!isReadOnly)
                           SvgPicture.asset(
                             AppIcon.createfoundsaveicon,
                           )
@@ -159,7 +172,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        if (!isDistrbuted)
+                        if (!isReadOnly)
                           const Icon(
                             Icons.send,
                             color: AppColors.white,
@@ -264,7 +277,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       top: Radius.circular(20.0)),
                                 )),
                             child: AbsorbPointer(
-                              absorbing: isDistrbuted,
+                              absorbing: isReadOnly,
                               child: Form(
                                 key: lawEnforcementFormKey,
                                 child: Column(
@@ -272,9 +285,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    if (!state.model!.lock.isEmptyOrNull) ...[
+                                    if (widget.model != null &&
+                                        !widget.model!.lock.isEmptyOrNull) ...[
                                       RecordLockedWidget(
-                                          text: '${state.model?.lock}'),
+                                          text: '${widget.model?.lock}'),
                                     ],
                                     Padding(
                                       padding: const EdgeInsets.only(
@@ -412,7 +426,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                               actualDateTextController,
                                           isDisabled:
                                               (widget.model?.status == -1) ||
-                                                  isDistrbuted
+                                                      isReadOnly
                                                   ? true
                                                   : false,
                                           //initialDate: DateTime.now().subtract(Duration(days: 1)),
@@ -491,8 +505,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           hintText: Constants.informationhere,
                                           focusNode:
                                               dbOfficialWantToMeetFocusNode,
-                                          isEnable: !isDistrbuted,
-                                          isDisableColor: isDistrbuted,
+                                          isEnable: !isReadOnly,
+                                          isDisableColor: isReadOnly,
                                           onChange: (String username) {
                                             //this.username = username;
                                             setState(() {});
@@ -662,39 +676,17 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                                       ?.atomLeoDepartments ??
                                                   [],
                                               ConstantsArgument.showSaveButton:
-                                                  (widget.model?.status != 3)
+                                                  (widget.model?.status != 3) &&
+                                                          !isReadOnly
                                                       ? true
                                                       : false,
                                             },
                                           );
                                           // }
                                         },
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            SvgPicture.asset(
-                                              AppIcon.pluscircle,
-                                              colorFilter:
-                                                  const ColorFilter.mode(
-                                                AppColors
-                                                    .navigationSkyBlueColor,
-                                                BlendMode.srcIn,
-                                              ),
-                                              // color: AppColors
-                                              //     .navigationSkyBlueColor,
-                                            ),
-                                            const SizedBox(width: 10),
-                                            const Text(
+                                        child: const AddViewButton(
+                                          label:
                                               'Add/View Visiting Official(s)',
-                                              style: TextStyle(
-                                                color: AppColors
-                                                    .navigationSkyBlueColor,
-                                                decoration:
-                                                    TextDecoration.underline,
-                                              ),
-                                            ),
-                                          ],
                                         ),
                                       ),
 
@@ -844,11 +836,14 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           all: state
                                                   .groups?.distributionGroups ??
                                               [],
-                                          enabled: (widget.model?.status == 1 ||
-                                                  widget.model?.status == 2) &&
-                                              (widget.model != null &&
-                                                  widget.model!.lock
-                                                      .isEmptyOrNull),
+                                          enabled: ((widget.model?.status ==
+                                                          1 ||
+                                                      widget.model?.status ==
+                                                          2) &&
+                                                  (widget.model != null &&
+                                                      widget.model!.lock
+                                                          .isEmptyOrNull)) &&
+                                              !isReadOnly,
                                           onTap: (List<Organisation>
                                               selectedEntities) {
                                             log('--selectedEntities----${selectedEntities.length}');
@@ -873,7 +868,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
                                           cancelButtonDisplay(),
-                                          if (!isDistrbuted) ...[
+                                          if (!isReadOnly) ...[
                                             submitButtonDisplay()
                                           ]
                                         ],
@@ -1174,7 +1169,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       if (widget.model?.status == 3 ||
           statusTextController.text == 'Distributed') {
         lawEnforcementCubit.getDistributed(true);
-        isDistrbuted = true;
+        isReadOnly = true;
         setState(() {});
       }
       //state.serialnumberResponse?.serialNo
@@ -1355,7 +1350,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       'EMPLOYEE_DEPARTMENTS',
     );
     await lawEnforcementCubit.getDBofficialByRoleDepositor(
-      ConstantUserRoles.atomStaticUser, widget.model?.location?.id);
+        ConstantUserRoles.atomStaticUser, widget.model?.location?.id);
     await lawEnforcementCubit.getUserDetails(
       userid,
     );
@@ -1572,55 +1567,66 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                 widget.model?.status == 0 ||
                 widget.model?.status == 1 ||
                 widget.model?.status == 2
-            ? Container(
-                height: 60,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: const Color(0xFFCACACA),
-                      width: 1.0,
-                    ),
-                    borderRadius: const BorderRadius.all(Radius.circular(8))),
-                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 5.0),
-                    child: ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: const Size(140, 50),
-                        backgroundColor: AppColors.navigationSkyBlueColor,
-                      ),
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext dialogContext) {
-                              return UploadAttachment(
-                                userdetails:
-                                    state.getUserDetailsResponse ?? User(),
-                                getFiles: getFiles,
-                                lawstate: state,
-                              );
-                            });
-                      },
-
-                      icon: SvgPicture.asset(
-                        //AppIcon.dropdownicon,
-                        AppIcon.uploadicon,
-                        //fit: BoxFit.,
-                        colorFilter: const ColorFilter.mode(
-                          AppColors.backgroundWhiteColor,
-                          BlendMode.srcIn,
+            ? Opacity(
+                opacity: isReadOnly ? 0.5 : 1,
+                child: AbsorbPointer(
+                  absorbing: isReadOnly,
+                  child: Container(
+                    height: 60,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: const Color(0xFFCACACA),
+                          width: 1.0,
                         ),
-                        // color: AppColors.backgroundWhiteColor,
-                        width: 13,
-                        height: 13,
-                        key: const Key(Keys.userIcon),
-                      ),
-                      label: const Text(
-                        Constants.clicktoupload,
-                        style: Styles.textStyleRegularNormalWhite12,
-                      ), // <-- Text
-                    ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8))),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 5.0),
+                            child: ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                fixedSize: const Size(140, 50),
+                                backgroundColor:
+                                    AppColors.navigationSkyBlueColor,
+                              ),
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return UploadAttachment(
+                                        userdetails:
+                                            state.getUserDetailsResponse ??
+                                                User(),
+                                        getFiles: getFiles,
+                                        lawstate: state,
+                                      );
+                                    });
+                              },
+
+                              icon: SvgPicture.asset(
+                                //AppIcon.dropdownicon,
+                                AppIcon.uploadicon,
+                                //fit: BoxFit.,
+                                colorFilter: const ColorFilter.mode(
+                                  AppColors.backgroundWhiteColor,
+                                  BlendMode.srcIn,
+                                ),
+                                // color: AppColors.backgroundWhiteColor,
+                                width: 13,
+                                height: 13,
+                                key: const Key(Keys.userIcon),
+                              ),
+                              label: const Text(
+                                Constants.clicktoupload,
+                                style: Styles.textStyleRegularNormalWhite12,
+                              ), // <-- Text
+                            ),
+                          ),
+                        ]),
                   ),
-                ]),
+                ),
               )
             : Container();
   }
@@ -1641,7 +1647,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         setState(() {});
         Navigator.pop(context);
       },
-      enabled: !isDistrbuted,
+      enabled: !isReadOnly,
       addTitle: Constants.addentitytype,
       orgName: 'ATOM_ENTITIES',
       createEntity: widget.model?.status == 0 ||
@@ -1742,7 +1748,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     return TextFieldAddButton(
       title: state.leoPurposeVisitResponse?.name ?? '',
       height: 60,
-      isDisableColor: !isDistrbuted ? false : true,
+      isDisableColor: !isReadOnly ? false : true,
       onTap: () {
         if (widget.model?.status == 0 ||
             widget.model?.status == 1 ||
@@ -1784,9 +1790,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     return TextFieldAddButton(
       title: state.selectedemployeeDepartmentResponse?.name ?? '',
       height: 60,
-      isDisableColor: isDistrbuted,
+      isDisableColor: isReadOnly,
       onTap: () {
-        if (!isDistrbuted) {
+        if (!isReadOnly) {
           leodepartmentsDialog(state);
         }
       },
@@ -1814,9 +1820,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           ? ('${state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? ''}${state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? ''}')
           : '',
       height: 90,
-      isDisableColor: isDistrbuted,
+      isDisableColor: isReadOnly,
       onTap: () {
-        if (!isDistrbuted) {
+        if (!isReadOnly) {
           dbOfficialDialog(state);
         }
       },

@@ -290,7 +290,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
     return PopButton(
       width: width / 3.5,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButtonText,
       foregroundColor: AppColors.textGreyThemeColor,
       textStyle: Styles.styleHeaderGreyText16,
@@ -350,22 +350,22 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
     //       status: false, message: 'Please enter Phone Number.');
     // }
 
-    if (!widget.model.email.isEmptyOrNull &&
-        !EmailValidator.validate(widget.model.email!)) {
-      return const ErrorResponse(
-        status: false,
-        message: 'Please enter a email.',
-      );
-    }
-    if ((!Utils().isNumeric(widget.model.contactNo!) ||
-            widget.model.contactNo!.length < 10 ||
-            widget.model.contactNo!.length > 17) &&
-        !widget.model.contactNo.isEmptyOrNull) {
-      return const ErrorResponse(
-        status: false,
-        message: 'Please enter a valid contact number.',
-      );
-    }
+    // if (!widget.model.email.isEmptyOrNull &&
+    //     !EmailValidator.validate(widget.model.email!)) {
+    //   return const ErrorResponse(
+    //     status: false,
+    //     message: 'Please enter a email.',
+    //   );
+    // }
+    // if ((!Utils().isNumeric(widget.model.contactNo!) ||
+    //         widget.model.contactNo!.length < 10 ||
+    //         widget.model.contactNo!.length > 17) &&
+    //     !widget.model.contactNo.isEmptyOrNull) {
+    //   return const ErrorResponse(
+    //     status: false,
+    //     message: 'Please enter a valid contact number.',
+    //   );
+    // }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }

@@ -11,6 +11,8 @@ class SstIncidentGeneralInfoState extends Equatable {
   final List<BaseUser>? securityManagers;
   final List<Organisation>? listOfEntities;
   final List<ImageContent>? uploadAttachments;
+  final List<ImageContent>? additionalAttachments;
+  final List<ImageContent>? dataLossAttachments;
 
   //final List<Organisation> departments;
   final List<Organisation> vendors;
@@ -20,6 +22,8 @@ class SstIncidentGeneralInfoState extends Equatable {
   final String? message;
   final List<User>? entrySecurities;
   final SSLAUiLabels? labels;
+  final String? rejectionComment;
+  final String? activityNotes;
 
   factory SstIncidentGeneralInfoState.initial({
     required SstIncident model,
@@ -39,6 +43,10 @@ class SstIncidentGeneralInfoState extends Equatable {
     List<User>? entrySecurities,
     required int? eventId,
     List<String>? participationDate,
+    List<ImageContent>? additionalAttachments,
+    List<ImageContent>? dataLossAttachments,
+    String? rejectionComment,
+    String? activityNotes,
   }) {
     return SstIncidentGeneralInfoState(
       status: FormStatus.initial,
@@ -52,11 +60,15 @@ class SstIncidentGeneralInfoState extends Equatable {
       vendors: vendors,
       getEntitiesResponse: getEntitiesResponse,
       uploadAttachments: uploadAttachments,
+      additionalAttachments: additionalAttachments,
+      dataLossAttachments: dataLossAttachments,
       message: errorMessage,
       eventId: eventId,
       participationDates: participationDate,
       entrySecurities: entrySecurities,
       loggedInUserDetails: loggedInUserDetails,
+      rejectionComment: rejectionComment,
+        activityNotes:activityNotes,
     );
   }
 
@@ -147,6 +159,8 @@ class SstIncidentGeneralInfoState extends Equatable {
     this.locations,
     this.listOfEntities,
     this.uploadAttachments,
+    this.additionalAttachments,
+    this.dataLossAttachments,
     required this.vendors,
     this.getEntitiesResponse,
     this.participationDates,
@@ -159,6 +173,8 @@ class SstIncidentGeneralInfoState extends Equatable {
     this.locationTeamUsers,
     this.securityManagers,
     this.labels,
+    this.rejectionComment,
+    this.activityNotes,
   });
 
   SstIncidentGeneralInfoState copyWith({
@@ -176,9 +192,14 @@ class SstIncidentGeneralInfoState extends Equatable {
     List<Organisation>? getEntitiesResponse,
     List<String>? participationDates,
     List<ImageContent>? uploadAttachments,
+    List<ImageContent>? additionalAttachments,
+    List<ImageContent>? dataLossAttachments,
     int? eventId,
     String? message,
     List<User>? entrySecurities,
+    String? rejectionComment,
+    String? activityNotes,
+
   }) {
     return SstIncidentGeneralInfoState(
       status: status ?? this.status,
@@ -190,6 +211,7 @@ class SstIncidentGeneralInfoState extends Equatable {
       securityManagers: securityManagers ?? this.securityManagers,
       systemManagers: systemManagers ?? this.systemManagers,
       uploadAttachments: uploadAttachments ?? this.uploadAttachments,
+      dataLossAttachments: dataLossAttachments ?? this.dataLossAttachments,
       securityLeads: securityLeads ?? this.securityLeads,
       vendors: vendors ?? this.vendors,
       getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
@@ -197,6 +219,10 @@ class SstIncidentGeneralInfoState extends Equatable {
       eventId: eventId ?? this.eventId,
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
+      additionalAttachments:
+          additionalAttachments ?? this.additionalAttachments,
+      rejectionComment: rejectionComment ?? this.rejectionComment,
+        activityNotes:activityNotes?? this.activityNotes,
     );
   }
 }

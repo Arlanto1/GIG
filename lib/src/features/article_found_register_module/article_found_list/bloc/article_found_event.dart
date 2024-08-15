@@ -12,12 +12,15 @@ class FetchData extends ArticleFoundStateEvent {
   final int maxPos;
   final bool newSearch;
   final BaseFilterModel filters;
+  final int? eventId;
 
-  const FetchData(
-      {required this.startPos,
-      required this.maxPos,
-      required this.newSearch,
-      required this.filters});
+  const FetchData({
+    required this.startPos,
+    required this.maxPos,
+    required this.newSearch,
+    required this.filters,
+    this.eventId,
+  });
 }
 
 class InitializeValuesAF extends ArticleFoundStateEvent {
@@ -25,5 +28,7 @@ class InitializeValuesAF extends ArticleFoundStateEvent {
 }
 
 class RefreshList extends ArticleFoundStateEvent {
-  const RefreshList();
+  final int? eventId;
+
+  const RefreshList({this.eventId});
 }

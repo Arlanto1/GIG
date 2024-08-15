@@ -87,9 +87,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
         if (state.model.status == 1) {
           isReadOnly = true;
         }
-        if (state.model.status == ConstantsIntValue.submitted) {
-          isReadOnly = state.isReadOnly ?? true;
-        }
+        // if (state.model.status == ConstantsIntValue.submitted) {
+        //   isReadOnly = state.isReadOnly ?? true;
+        // }
         if (!state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }

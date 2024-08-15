@@ -57,13 +57,13 @@ class AnnualPowerShutdownListDetailsCubit
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser>? emailUsers = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomStaticUser,
-        locationId: state.model.location?.id);
+        locationId: state.model.location!.id!);
     List<BaseUser> srh = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomSubRegionalHeadUser,
-        locationId: state.model.location?.id);
+        locationId: state.model.location!.id!);
     List<BaseUser> lsm = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomSeniorSecurityManagerUser,
-        locationId: state.model.location?.id);
+        locationId: state.model.location!.id!);
     emit(
       state.copyWith(
         getEntitiesResponse: entities,
@@ -115,17 +115,17 @@ class AnnualPowerShutdownListDetailsCubit
         commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getBaseUsers(
             roleName: ConstantUserRoles.atomStaticUser,
-            locationId: model.location?.id),
+            locationId: model.location!.id!),
         commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUsers(),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getBaseUsers(
             roleName: ConstantUserRoles.atomSubRegionalHeadUser,
-            locationId: model.location?.id),
+            locationId: model.location!.id!),
         commonServices.getBaseUsers(
             roleName: ConstantUserRoles.atomSeniorSecurityManagerUser,
-            locationId: model.location?.id),
+            locationId: model.location!.id!),
       ]);
 
       // Assign results to variables with explicit data types
@@ -207,13 +207,13 @@ class AnnualPowerShutdownListDetailsCubit
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
       emailUsers = await commonServices.getBaseUsers(
-          roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
+          roleName: ConstantUserRoles.atomStaticUser, locationId: location.id!);
       srh = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomSubRegionalHeadUser,
-          locationId: location.id);
+          locationId: location.id!);
       lsm = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomSeniorSecurityManagerUser,
-          locationId: location.id);
+          locationId: location.id!);
     }
 
     state.model.srh1 = null;

@@ -59,26 +59,28 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
     List<BaseUser> systemManagerUsers = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomSecuritySystemManagerUser,
-        locationId: state.model.location?.id);
+        locationId: state.model.location!.id!);
 
     List<BaseUser> locationTeamUsers = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomSecurityTeamUser,
-        locationId: state.model.location?.id);
+        locationId: state.model.location!.id!);
 
     List<BaseUser> securityLeads = await commonServices.getBaseUsersByRoles(
         roleNames:
             ConstantUserRoles.atomSecurityLeadAndAssistantSecurityLeadUser,
-        locationId: state.model.location?.id);
+        locationId: state.model.location!.id!);
 
     List<BaseUser> securityManagers = await commonServices.getBaseUsersByRoles(
         roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
-        locationId: state.model.location?.id);
+        locationId: state.model.location!.id!);
 
     emit(
       state.copyWith(
         listOfEntities: entities,
         status: FormStatus.initial,
         uploadAttachments: state.model.attachments,
+        additionalAttachments: state.model.additionalDocs,
+        dataLossAttachments: state.model.dataLossDocs,
         vendors: vendors.items,
         systemManagers: systemManagerUsers,
         securityLeads: securityLeads,
@@ -138,19 +140,19 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         commonServices.getBaseUsersByRoles(
           roleNames:
               ConstantUserRoles.atomSecurityLeadAndAssistantSecurityLeadUser,
-          locationId: model.location?.id,
+          locationId: model.location!.id!,
         ),
         commonServices.getBaseUsersByRoles(
           roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
-          locationId: model.location?.id,
+          locationId: model.location!.id!,
         ),
         commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomSecurityTeamUser,
-          locationId: model.location?.id,
+          locationId: model.location!.id!,
         ),
         commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomSecuritySystemManagerUser,
-          locationId: model.location?.id,
+          locationId: model.location!.id!,
         ),
       ]);
 
@@ -175,10 +177,11 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       if (isInternal == true) {
         state.model.staffType = 1;
         state.model.ticketType = 1;
-      } else {
-        state.model.staffType = 2;
-        state.model.ticketType = 1;
       }
+      // else {
+      //   state.model.staffType = 2;
+      //   state.model.ticketType = 1;
+      // }
       state.model.status = 1;
 
       emit(
@@ -196,6 +199,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           listOfEntities: entities,
           getEntitiesResponse: entities,
           uploadAttachments: model.attachments,
+          additionalAttachments: model.additionalDocs,
+          dataLossAttachments: model.dataLossDocs,
         ),
       );
     } on Exception catch (e) {
@@ -227,16 +232,16 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
       locationTeamUsers = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomSecurityTeamUser,
-          locationId: location.id);
+          locationId: location.id!);
 
       securityLeads = await commonServices.getBaseUsersByRoles(
           roleNames:
               ConstantUserRoles.atomSecurityLeadAndAssistantSecurityLeadUser,
-          locationId: location.id);
+          locationId: location.id!);
 
       securityManagers = await commonServices.getBaseUsersByRoles(
           roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
-          locationId: location.id);
+          locationId: location.id!);
     }
 
     state.model.asl = null;
@@ -322,6 +327,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     emit(state.copyWith(
       model: state.model,
       uploadAttachments: state.model.attachments,
+      additionalAttachments: state.model.additionalDocs,
       status: FormStatus.initial,
     ));
   }
@@ -472,7 +478,11 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     ));
   }
 
-  void submitForm({bool isSaveOnly = false}) async {
+  void submitForm({
+    bool isSaveOnly = false,
+    bool isReworkOnly = false,
+    bool isSubmitOnly = false,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -484,10 +494,12 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     if (isInternal == true) {
       state.model.staffType = 1;
       state.model.ticketType = 1;
-    } else {
-      state.model.staffType = 2;
-      state.model.ticketType = 1;
     }
+
+    if (state.model.workFlowId != null) {
+      state.model.workFlowId = state.model.workFlowId;
+    }
+
     // Setting time in milliseconds
     // state.model.createdDate =
     //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
@@ -510,11 +522,13 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
-        response = await services.create(
+        response = await services.createTicketLifeCycle(
           body: request,
           isSubmit: false,
+          isRework: 0,
         );
-      } else {
+      }
+      if (isSubmitOnly) {
         if (!state.isValid.status) {
           log('--isSaveOnly--else--if$isSaveOnly--');
           emit(
@@ -525,9 +539,27 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           );
           return;
         }
-        response = await services.create(
+        response = await services.createTicketLifeCycle(
           body: request,
           isSubmit: true,
+          isRework: 0,
+        );
+      }
+      if (isReworkOnly) {
+        // if (!state.isValid.status) {
+        //   log('--isSaveOnly--else--if$isSaveOnly--');
+        //   emit(
+        //     state.copyWith(
+        //       status: FormStatus.formError,
+        //       message: state.isValid.message,
+        //     ),
+        //   );
+        //   return;
+        // }
+        response = await services.createTicketLifeCycle(
+          body: request,
+          isSubmit: true,
+          isRework: 1,
         );
       }
       state.model.createdDate = state.model.createdDate == null
@@ -565,5 +597,33 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
         id: id, module: Constants.securitySystemModule);
+  }
+
+  void onAddComment(String comment) {
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.loading,
+    ));
+
+    state.model.rejectionComment = comment;
+    emit(state.copyWith(
+      model: state.model,
+      rejectionComment: comment,
+      status: FormStatus.initial,
+    ));
+  }
+
+  void onAddActivityNotes(String activityNotes) {
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.loading,
+    ));
+
+    state.model.closedActivityNotes = activityNotes;
+    emit(state.copyWith(
+      model: state.model,
+      activityNotes: activityNotes,
+      status: FormStatus.initial,
+    ));
   }
 }

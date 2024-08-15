@@ -8,9 +8,12 @@ class Apis {
   static final String _getDutyPostMaster = '$baseUrl/getDpmList?';
 
   static final String _getDutyPostMasterById = '$baseUrl/getDpmById';
+
   static final String _getDutyPostsByLocation = '$baseUrl/getDpnByLocId';
 
   static final String _createDutyPostMaster = '$baseUrl/createDpm?';
+
+  static final String _checkDpmExists = '$baseUrl/checkDpmExists?';
 }
 
 class DutyPostMasterServices {
@@ -69,5 +72,18 @@ class DutyPostMasterServices {
       requestedData: body.toJson(),
     );
     return GenericResponse.fromJson(response);
+  }
+
+  Future<MessageResponse> checkDpmExists({
+    required int locationId,
+    required int dutyPostLocationId,
+    required int rankId,
+  }) async {
+    final String url =
+        '${Apis._checkDpmExists}locationId=$locationId&dutyPostLocationId=$dutyPostLocationId&rankId=$rankId';
+    var response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return MessageResponse.fromJson(response);
   }
 }

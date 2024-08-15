@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/common_widgets/base_widget/date_widgets/available_dates_picker.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details/cubits/duty_post_details_cubit.dart';
 
@@ -14,12 +15,14 @@ class AddReplacementPopUp extends StatefulWidget {
     this.dutyPostId,
     this.rankId,
     this.shiftId,
+    required this.viaAttendance,
   });
 
+  final bool viaAttendance;
   final BuildContext mainContext;
   final Replacement model;
-  final List<BaseUser> availableGuards;
-  final List<BaseUser> selectedGuards;
+  final Set<BaseUser> availableGuards;
+  final Set<BaseUser> selectedGuards;
   final int? dutyPostId;
   final int? rankId;
   final int? shiftId;
@@ -36,31 +39,56 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
   TextEditingController toDateController = TextEditingController();
   TextEditingController reasonController = TextEditingController();
 
+  late List<Label> reasonList;
+
   @override
   void initState() {
     super.initState();
-    if (widget.model.id != null) {
-      log('--widget.model?.replacementBy?.name------${widget.model.replacementBy?.name}--');
-      if (widget.model.replacedFor != null) {
-        setDateRange(widget.model.replacedFor!);
-      }
-      replacementForController.text = widget.model.replacedFor?.name ?? '';
-      replacementByController.text = widget.model.replacementBy?.name ?? '';
+    log('--widget.model------${widget.model}--');
+
+    replacementForController.text = widget.model.replacedFor?.name ?? '';
+    replacementByController.text = widget.model.replacementBy?.name ?? '';
+
+    if (!widget.model.fromDate.isEmptyOrNull) {
       fromDateController.text = Utils.timestampToDateConversion(
           int.parse(widget.model.fromDate ?? '0'), Constants.dateFormat);
 
       toDateController.text = Utils.timestampToDateConversion(
           int.parse(widget.model.toDate ?? '0'), Constants.dateFormat);
     }
+    if (widget.model.id != null) {
+      log('--widget.model?.replacementBy?.name------${widget.model.replacementBy?.name}--');
+      if (widget.model.replacedFor != null) {
+        setDateRange(widget.model.replacedFor!);
+      }
+    }
 
     log('widget.model.status--${widget.model.status}----');
     if (widget.model.status != null) {
-      Label matchingLabel = reasonDropDownValues
+      Label matchingLabel = shiftScheduleReasonDropDownValues
           .firstWhere((label) => label.value == widget.model.status.toString());
 
       reasonController.text = matchingLabel.key;
     }
     log('reasonController.text---${reasonController.text}----');
+
+    reasonList = widget.viaAttendance
+        ? attendanceReasonDropDownValues
+        : shiftScheduleReasonDropDownValues;
+
+    if (widget.viaAttendance) {
+      fromDateController.text = Utils().getCurrentDate();
+    }
+  }
+
+  @override
+  void dispose() {
+    replacementForController.dispose();
+    replacementByController.dispose();
+    fromDateController.dispose();
+    toDateController.dispose();
+    reasonController.dispose();
+    super.dispose();
   }
 
   Future<void> setDateRange(BaseUser user) async {
@@ -87,8 +115,9 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
+        double divideBy = widget.viaAttendance ? 2.1 : 1.65;
         return SizedBox(
-          height: height / 1.65,
+          height: height / divideBy,
           width: width,
           child: Stack(
             clipBehavior: Clip.none,
@@ -114,7 +143,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                         onTap: () {
                           BaseOrganisationDialog().userDialog(
                             context: context,
-                            users: widget.selectedGuards,
+                            users: widget.selectedGuards.toList(),
                             onTap: (BaseUser user) async {
                               // BlocProvider.of<ShiftScheduleDetailsCubit>(context)
                               //     .updateDropdownValuesReplacement(
@@ -126,6 +155,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                               //         widget.mainContext)
                               //     .updateReplacement(widget.model);
 
+                              // TODO: Not to call is widget.viaAttendance is false
                               if (widget.rankId != null) {
                                 showLoadingDialog(context);
 
@@ -164,15 +194,22 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                       BaseDropDown().getDropDown(
                         isDisabled: false,
                         textController: reasonController,
-                        items: reasonDropDownValues,
+                        items: reasonList,
                         onTap: () {
+                          if (!isReplacedForSelected.status) {
+                            Validator().showToast(
+                              context,
+                              isReplacedForSelected.message,
+                            );
+                            return;
+                          }
                           BaseDropDown().assetTypeDialog(
                             context: context,
-                            dropDownValues: reasonDropDownValues
-                                .map((label) => label.key)
-                                .toList(),
+                            dropDownValues:
+                                reasonList.map((label) => label.key).toList(),
                             onTap: (String value) {
-                              selectedReason = reasonDropDownValues.firstWhere(
+                              selectedReason =
+                                  shiftScheduleReasonDropDownValues.firstWhere(
                                 (label) => label.key == value,
                                 orElse: () => const Label(key: '', value: ''),
                               );
@@ -200,57 +237,58 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                         isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.001),
-                      BaseDate().datePickerWidgetLoading(
-                        textController: fromDateController,
-                        onlyDate: true,
-                        showPastDate: false,
-                        fromDate: dates?.fromDate,
-                        toDate: dates?.toDate,
-                        onChange: (String value) {
-                          // state.model.fromDate = Utils().formatTime(value);
-                          // BlocProvider.of<ShiftScheduleDetailsCubit>(
-                          //     context)
-                          //     .onModelValueChange(state.model);
-
-                          widget.model.fromDate = Utils().formatTime(value);
-                          log('--widget.model.status-${widget.model.status}---');
-
-                          log('--selectedReason-${selectedReason?.value}---');
-
-                          if (widget.model.status == 2 || reasonConditions) {
-                            toDateController.text = fromDateController.text;
-                            widget.model.toDate = Utils().formatTime(value);
-                          }
-                        },
-                        context: context,
-                      ),
+                      if (!widget.viaAttendance) ...[
+                        LimitedDatePicker(
+                          textController: fromDateController,
+                          availableDates: dates?.availableDates ?? [],
+                          isDisabled: false,
+                          onChange: (String value) {
+                            widget.model.fromDate = Utils().formatTime(value);
+                            if (reasonConditions) {
+                              log('--iffffff-reasonConditions--');
+                              setState(() {
+                                widget.model.toDate = Utils().formatTime(value);
+                                toDateController.text = fromDateController.text;
+                              });
+                            }
+                          },
+                        ),
+                      ] else ...[
+                        BaseDate().datePickerWidgetLoading(
+                          textController: fromDateController,
+                          isDisabled: true,
+                          onlyDate: false,
+                          showPastDate: false,
+                          notFlagDate: true,
+                          // startDate: '1727677800',
+                          onChange: (String value) {
+                            widget.model.fromDate = Utils().formatTime(value);
+                          },
+                          context: context,
+                        )
+                      ],
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                       /// To Date
-                      CommonWidgets.textDisplay(
-                        // state.labels?.locale.dateOfBirth ??
-                        //   state.labels?.defaultLocale.dateOfBirth ??
-                        Constants.toDate,
-                        isMandatory: true,
-                        Styles.textStyleBlack14,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                      // Text('-reasonConditions--$reasonConditions-'),
-                      BaseDate().datePickerWidgetLoading(
-                        textController: toDateController,
-                        onlyDate: true,
-                        showPastDate: false,
-                        fromDate: dates?.fromDate,
-                        isDisabled: reasonConditions,
-                        toDate: dates?.toDate,
-                        onChange: (String value) {
-                          widget.model.toDate = Utils().formatTime(value);
-                        },
-                        context: context,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      if (!widget.viaAttendance) ...[
+                        CommonWidgets.textDisplay(
+                          // state.labels?.locale.dateOfBirth ??
+                          //   state.labels?.defaultLocale.dateOfBirth ??
+                          Constants.toDate,
+                          isMandatory: true,
+                          Styles.textStyleBlack14,
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.001),
+                        LimitedDatePicker(
+                          textController: toDateController,
+                          availableDates: dates?.availableDates ?? [],
+                          onChange: (String value) {
+                            widget.model.toDate = Utils().formatTime(value);
+                          },
+                          isDisabled: reasonConditions,
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      ],
 
                       /// Replacement By
                       CommonWidgets.textDisplay(
@@ -268,7 +306,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                         onTap: () {
                           BaseOrganisationDialog().userDialog(
                             context: context,
-                            users: widget.availableGuards,
+                            users: widget.availableGuards.toList(),
                             onTap: (BaseUser user) {
                               replacementByController.text = user.name ?? '';
                               widget.model.replacementBy = user;
@@ -332,7 +370,6 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
       buttonTextKey: Keys.saveButtonText,
       backgroundColor: AppColors.navigationSkyBlueColor,
       onTap: () {
-
         if (!isFormValid.status) {
           Validator().showToast(
             context,
@@ -341,36 +378,72 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
           return;
         }
 
+        /// Assigning temporary Id in order to update is properly
+        if (widget.model.id == null && widget.model.tempId.isEmptyOrNull) {
+          widget.model.tempId = Utils.createCryptoRandomString();
+        }
+        log('--Add/Update Replacement--- ${(widget.model.id)}--${widget.model.toString()}-');
+        log('-widget.model.tempId---${widget.model.tempId}----');
         // widget.model?.dutyPostLocationName = dutyPostLocationNameController.text;
-        BlocProvider.of<DutyPostDetailsCubit>(widget.mainContext)
-            .updateReplacement(widget.model);
+
+        if (widget.viaAttendance) {
+          BlocProvider.of<AttendanceShiftsCubit>(widget.mainContext)
+              .updateReplacement(widget.model);
+        } else {
+          BlocProvider.of<DutyPostDetailsCubit>(widget.mainContext)
+              .updateReplacement(widget.model);
+        }
+        // widget.refreshFunction; // this function is not being called
         Navigator.pop(context);
       },
     );
   }
 
-  ErrorResponse get isFormValid {
+  ErrorResponse get isReplacedForSelected {
     if (replacementForController.text.isEmptyOrNull) {
-      return const ErrorResponse(status: false, message: 'Please enter Replacement For');
-    }
-
-    if (reasonController.text.isEmptyOrNull) {
       return const ErrorResponse(
-          status: false, message: 'Please enter Reason');
-    }
-    if (fromDateController.text.isEmptyOrNull) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter From Date');
-    }
-    if (toDateController.text.isEmptyOrNull) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter To Date');
-    }
-    if (replacementByController.text.isEmptyOrNull) {
-      return const ErrorResponse(status: false, message: 'Please enter Replacement By');
+          status: false, message: 'Please enter Replacement For');
     }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
+  ErrorResponse get isFormValid {
+    if (replacementForController.text.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Replacement For');
+    }
+
+    if (reasonController.text.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Reason');
+    }
+    if (fromDateController.text.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter From Date');
+    }
+    if (!widget.viaAttendance) {
+      if (toDateController.text.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter To Date');
+      }
+    }
+
+    final fromDate = DateTime.tryParse(fromDateController.text);
+    final toDate = DateTime.tryParse(toDateController.text);
+
+    if (fromDate != null && toDate != null) {
+      if (fromDate.isAfter(toDate)) {
+        // Show an error dialog or handle the error as needed
+        return const ErrorResponse(
+            status: false,
+            message: 'From Date cannot be later than the To Date');
+      }
+    }
+    if (replacementByController.text.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Replacement By');
+    }
+
+    return const ErrorResponse(status: true, message: 'Form is Valid');
+  }
 }

@@ -21,13 +21,8 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     required this.slaServices,
   }) : super(
           AttendanceShiftsState.initial(
-            model: DutyPostModel(),
-            locations: Locations(),
-            loggedInUserDetails: User(),
-            users: const [],
-            emailUsers: const [],
+            model: ShiftModel(),
             errorMessage: '',
-            departments: const [],
           ),
         );
 
@@ -39,77 +34,87 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       ),
     );
 
-    DutyPostModel model = DutyPostModel();
-    model = await services.getDutyPostById(
-      attInfoId: attInfoId,
-      dutyPostNameId: selectedDutyPostNameId,
-    );
+    // DutyPostModel model = DutyPostModel();
+    // model = await services.getDutyPostById(
+    //   attInfoId: attInfoId,
+    //   dutyPostNameId: 832,
+    //   // dutyPostNameId: selectedDutyPostNameId,
+    //   rankId: 1,
+    //   shiftId: 1,
+    // );
 
-    log('--model-@@@@---${model.name}--');
     // model = DutyPostModel.fromJson(json.decode(jsonStringold));
 
     var userId = await SharedPrefs.getUserId();
     try {
+      Organisation selectedRank;
+      List<Organisation> ranks = await services.getAttendanceRanksByDutyPostId(
+          dutyPostId: selectedDutyPostNameId, attendanceId: attInfoId);
+
+      selectedRank = state.selectedRank ?? ranks.first;
+
+      List<Organisation> shifts =
+          await services.getAttendanceShiftByByDutyPostIdAndRankId(
+              dutyPostId: selectedDutyPostNameId, attendanceId: attInfoId, rankId: selectedRank.id!);
+      Organisation selectedShift = state.selectedShift ?? shifts.first;
+
+      ShiftModel model = await services.getDutyPostById(
+        shiftId: selectedShift.id!,
+        dutyPostNameId: selectedDutyPostNameId,
+        rankId: selectedRank.id!,
+        attInfoId: attInfoId,
+      );
+      // DutyPostModel model = DutyPostModel();
+      // model = await services.getDutyPostById(
+      //   attInfoId: attInfoId,
+      //   dutyPostNameId: 832,
+      //   // dutyPostNameId: selectedDutyPostNameId,
+      //   rankId: 1,
+      //   shiftId: 1,
+      // );
+
       // Use Future.wait to call API functions concurrently
-      final futures = await Future.wait([
-        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'), // 0
-        commonServices.getUserDetails(userId: userId), // 1
-        commonServices.getUsersByRole(roleName: 'T1_Analyst'), // 2
-        commonServices.getUsers(), // 3
-        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'), // 4
-        commonServices.getVendors(name: 'ATOM_VENDORS'), // 5
-        commonServices.getUiLabels(
-            language: await SharedPrefs.getLanguageCode(),
-            moduleCode: Constants.attendanceModule), // 6
-        SharedPrefs.getDefaultLocation(), // 7
-        services.getBriefingPoints(), // 8
-      ]);
+      // final futures = await Future.wait([
+      //   commonServices.getUiLabels(
+      //       language: await SharedPrefs.getLanguageCode(),
+      //       moduleCode: Constants.attendanceModule), // 6
+      //   services.getBriefingPoints(), // 8
+      // ]);
       List<SlaList> slaList = [];
 
-      for (Rank rank in model.ranks ?? []) {
-        for (Shift shift in rank.attendanceShift ?? []) {
-          SLAViolationPenaltyResponseModel list =
-              await SLAViolationPenaltyServices().getSvpList(
-            startPosition: '0',
-            maximumRecords: '100',
-            attInfoId: shift.attendanceShiftId!,
-          );
+      SLAViolationPenaltyResponseModel list =
+      await SLAViolationPenaltyServices().getSvpList(
+        startPosition: '0',
+        maximumRecords: '100',
+        attInfoId: model.attendanceShiftId!,
+      );
+
+      // for (Rank rank in model.ranks ?? []) {
+      //   for (Shift shift in rank.attendanceShift ?? []) {
+      //
           slaList.add(
-              SlaList(attInfoId: shift.attendanceShiftId!, items: list.items));
-        }
-      }
-      Locations getLocationsData = futures[0];
-      User loggedInUserDetails = futures[1];
-      Analyst users = futures[2];
-      List<User> entrySecurities = futures[3];
-      GetDepositor emailUsers = futures[4];
-      Vendors vendors = futures[5];
-      dynamic responseLabels = futures[6];
-      // Organisation? defaultLocation = futures[7];
-      List<String> briefingPoints = futures[8];
-      briefingPoints.add('');
+              SlaList(attInfoId: model.attendanceShiftId!, items: list.items));
+        // }
+      // }
+      // dynamic responseLabels = commonServices.getUiLabels(
+      //     language: await SharedPrefs.getLanguageCode(),
+      //     moduleCode: Constants.attendanceModule);
+      List<String> briefingPoints = await services.getBriefingPoints();
+      // briefingPoints.add('');
 
-      // model.entrySecurity = loggedInUserDetails;
-      // Get Date of Creation
-
-      // dynamic participationDates = Utils()
-      //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
-
-      GmUiLabels labels = GmUiLabels.fromJson(responseLabels);
+      // CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
 
       emit(
         state.copyWith(
           model: model,
-          locations: getLocationsData,
-          loggedInUserDetails: loggedInUserDetails,
+          ranks: ranks,
+          selectedRank: state.selectedRank ?? selectedRank,
+          selectedShift: state.selectedShift ?? selectedShift,
+          shifts: shifts,
           status: FormStatus.initial,
-          vendors: vendors.items,
-          users: users.t1Analyst,
-          entrySecurities: entrySecurities,
-          emailUsers: emailUsers.atomStaticUser,
           briefingPoints: briefingPoints,
           shiftSlaList: slaList,
-          labels: labels,
+          // labels: CdUiLabels,
         ),
       );
     } catch (e) {
@@ -122,18 +127,118 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     }
   }
 
-  void onModelValueChange(DutyPostModel model) {
+  /// Shift Dropdown Value
+  Future<void> getShifts({
+    required Organisation rank,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    List<Organisation> shifts =
+    await services.getAttendanceShiftByByDutyPostIdAndRankId(
+        dutyPostId: selectedDutyPostNameId, attendanceId: attInfoId, rankId: rank.id!);
+
+    Organisation selectedShift = shifts.first;
+
+    emit(state.copyWith(
+      shifts: shifts,
+      selectedRank: rank,
+      status: FormStatus.initial,
+      selectedShift: selectedShift,
+    ));
+
+
+    // getAvailableSelectedGuardsByShift(shift: selectedShift);
+  }
+
+
+  Future<void> getAvailableSelectedGuardsByShift({
+    required Organisation shift,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    ShiftModel model = await services.getDutyPostById(
+      shiftId: shift.id!,
+      dutyPostNameId: selectedDutyPostNameId,
+      rankId: state.selectedRank!.id!,
+      attInfoId: attInfoId,
+    );
+    emit(state.copyWith(
+      model: model,
+      status: FormStatus.initial,
+      selectedShift: shift,
+    ));
+  }
+
+  void onModelValueChange(ShiftModel model) {
     log('-onModelValueChange---');
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void onCheckBoxChange(DutyPostModel model) {
+  void onCheckBoxChange(ShiftModel model) {
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void submitForm({bool isSaveOnly = false}) async {
+
+  Future<void> submitAndRefreshScreen({bool? checkValidations}) async {
+    /// Saving the record
+    await submitForm(
+      isSaveOnly: true,
+      // model: state.model,
+      status: FormStatus.initial,
+      // newSelectedShift: state.selectedShift!,
+      // checkValidations: checkValidations,
+    );
+
+    /// refreshing the list so that we can refresh the validation for creating new replacements.
+    if (state.status != FormStatus.formError) {
+      initializeValues();
+    }
+  }
+
+
+  Future<void> updateReplacement(Replacement updatedReplacement) async {
+    emit(state.copyWith(status: FormStatus.loading));
+
+    if (updatedReplacement.id != null) {
+      log('Updating Existing Replacement');
+      state.model.replacements = state.model.replacements
+          ?.map((existing) => existing.id == updatedReplacement.id
+          ? updatedReplacement
+          : existing)
+          .toSet();
+    } else {
+      /// Handle new replacements
+      state.model.replacements ??= {};
+      if (updatedReplacement.tempId != null) {
+        log('Creating/Updating new Replacement with tempId: ${updatedReplacement.tempId}');
+        // Remove any existing replacement with the same tempId before adding
+        state.model.replacements!.removeWhere((existingReplacement) =>
+        existingReplacement.tempId == updatedReplacement.tempId);
+      }
+      state.model.replacements!.add(updatedReplacement);
+    }
+
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.initial,
+    ));
+
+    /// Saving and Refresh the record
+    await submitAndRefreshScreen(checkValidations: false);
+  }
+
+
+  Future<void> submitForm({bool isSaveOnly = false, FormStatus? status}) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -142,7 +247,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
 
     // Create/Update API Call
     AttendanceShiftDutyPostRequest request =
-        AttendanceShiftDutyPostRequest(requestModel: DutyPostModel());
+        AttendanceShiftDutyPostRequest(requestModel: ShiftModel());
 
     request.requestModel = state.model;
     GenericResponse response = GenericResponse();
@@ -190,7 +295,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     emit(
       state.copyWith(
         message: response.message,
-        status: FormStatus.success,
+        status: status == null ? FormStatus.success : FormStatus.initial,
       ),
     );
   }

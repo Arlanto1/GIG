@@ -4,29 +4,28 @@ import 'dart:math' as math;
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:intl/intl.dart';
 
 part 'event_info_state.dart';
 
 class EventInfoCubit extends Cubit<EventInfoState> {
   final EventProtectionServices services;
-  final String id;
-  final int eventDuration;
+  final String eventProtectionId;
+  final int eventDurationType;    /// Before, During, After the event
   final CommonServices commonServices;
 
   EventInfoCubit({
     required this.services,
     required this.commonServices,
-    required this.id,
-    required this.eventDuration,
+    required this.eventProtectionId,
+    required this.eventDurationType,
   }) : super(
           EventInfoState.initial(
               model: EventInfoResponse(),
               locations: Locations(),
               loggedInUserDetails: User(),
               users: const [],
-              eventDuration: eventDuration,
+              eventDuration: eventDurationType,
               emailUsers: const [],
               errorMessage: '',
               loadAttachments: const [],
@@ -48,11 +47,13 @@ class EventInfoCubit extends Cubit<EventInfoState> {
     );
     try {
       EventInfoResponse model = EventInfoResponse();
-      if (id.isNotEmpty) {
-        model = await services.getEventInfo(id, eventDuration);
+
+      log('--id----$eventProtectionId--');
+      if (eventProtectionId.isNotEmpty) {
+        model = await services.getEventInfo(eventProtectionId, eventDurationType);
       }
       FoundListModel foundArticles = await services.getFoundArticleList(
-          startPosition: '0', maximumRecords: '50', eventId: id.toString());
+          startPosition: '0', maximumRecords: '50', eventId: eventProtectionId.toString());
       List<String> emails = Utils().splitStringAfterComma(model.emails ?? '');
 
       emit(
@@ -68,7 +69,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
     } catch (e) {
@@ -84,6 +85,11 @@ class EventInfoCubit extends Cubit<EventInfoState> {
   }
 
   void onModelValueChange(EventInfoResponse model) {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
     log('-onModelValueChange--${model.email}-');
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
@@ -120,12 +126,19 @@ class EventInfoCubit extends Cubit<EventInfoState> {
   void submitForm({
     bool isSaveOnly = false,
     bool addArticleFound = false,
+    required String updatedEmailText,
   }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
+
+    log('-state.email####--${state.model.email}-----');
+
+    if(!updatedEmailText.isEmptyOrNull) {
+      state.model.email = updatedEmailText;
+    }
 
     DateTime dateTime;
     if (state.model.date != null && !Utils().isTimestamp(state.model.date!)) {
@@ -143,7 +156,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
     try {
       if (isSaveOnly) {
         response = (await services.createEventEi(
-            body: request, isSubmit: false, eventDuration: eventDuration));
+            body: request, isSubmit: false, eventDuration: eventDurationType));
       } else {
         //Validating Fields
         if (!state.isValid.status) {
@@ -156,7 +169,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
           return;
         }
         response = (await services.createEventEi(
-            body: request, isSubmit: true, eventDuration: eventDuration));
+            body: request, isSubmit: true, eventDuration: eventDurationType));
       }
     } on GenericResponse catch (e) {
       emit(

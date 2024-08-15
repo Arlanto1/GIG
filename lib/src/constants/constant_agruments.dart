@@ -21,11 +21,17 @@ class ConstantsArgument {
   static const String showSaveButton = "showSaveButton";
   static const String kldId = "kldId";
   static const String selectedDutyPostNameId = "selectedDutyPostNameId";
+  static const String selectedDutyPostModel = "selectedDutyPostModel";
   static const String isMasterKey = "isMasterKey";
   static const String viaAttendance = "viaAttendance";
   static const String extraProperties = "extraParameters";
   static const String isLocked = "isLocked";
   static const String kipId = "kipId";
   static const String isEventProtection = "isEventProtection";
+  static const String keyMasterId = "keyMasterId";
+  static const String attdInfoId = "attdInfoId";
+  static const String eventId = "eventId";
+  static const String eventProtectionId = "eventProtectionId";
+  static const String keyIssuanceId = "keyIssuanceId";
 
 }

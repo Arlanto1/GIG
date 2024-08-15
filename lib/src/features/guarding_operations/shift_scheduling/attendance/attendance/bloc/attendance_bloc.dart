@@ -91,7 +91,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;

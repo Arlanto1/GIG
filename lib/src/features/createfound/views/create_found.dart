@@ -7,14 +7,19 @@ import 'package:intl/intl.dart';
 
 class CreateFound extends StatefulWidget {
   final FoundListArticleDetails? model;
-  final int? eventId;
+  final int? eventId; // For creating Article Found inside Event Protection
+  final String?
+      eventProtectionId; // For creating Article Found inside Event Protection
   final ExtraProperties? extraProperties;
+  final Organisation? eventProtectionLocation;
 
   const CreateFound({
     super.key,
     this.model,
     this.eventId,
+    this.eventProtectionId,
     this.extraProperties,
+    this.eventProtectionLocation,
   });
 
   @override
@@ -25,24 +30,23 @@ class _CreateFoundState extends State<CreateFound> {
   // Default Radio Button Selected Item When App Starts.
   String radioButtonItem = '';
 
-  // String serialNumber = '';
   int pageNumber = 0;
 
   // Group Value for Radio Button.
   int isDepositorDBEmployeeSelected = 0;
   int isClaimantDBEmployeeSelected = 0;
-  int isClaimantAcceptedtoSignSelected = 1;
-  int isClaimantAcceptedByemail = 0;
-  final GlobalKey<FormState> createfoundFormKey = GlobalKey<FormState>();
+  int isClaimantAcceptedToSignSelected = 1;
+  int isClaimantAcceptedByEmail = 0;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController quantityTextController = TextEditingController();
   TextEditingController colorTextController = TextEditingController();
   TextEditingController foundLocationTextController = TextEditingController();
   TextEditingController depositorEmpIdTextController = TextEditingController();
   TextEditingController claimantEmpIdTextController = TextEditingController();
-  TextEditingController additionalinformationTextController =
+  TextEditingController additionalInformationTextController =
       TextEditingController();
   TextEditingController foundDateTextController = TextEditingController();
-  TextEditingController handedoverdatedateTextController =
+  TextEditingController handedOverDateDateTextController =
       TextEditingController();
   TextEditingController dateOfCreationTextController = TextEditingController();
   TextEditingController assetTypeTextController = TextEditingController();
@@ -60,13 +64,13 @@ class _CreateFoundState extends State<CreateFound> {
   // String slnoValue = "dfwe";
   String createdByValue = "";
   String handOverByValue = "";
-  String locationselectedText = "";
-  Organisation? selectedEmployeedepartment;
-  Organisation? selectedClaimdepartment;
+  String selectedLocationName = "";
+  Organisation? selectedEmployeeDepartment;
+  Organisation? selectedClaimDepartment;
   String claimantDepartmentName = '';
   String claimant = '';
   Organisation? selectedArtclelist;
-  BaseUser? selecteddepositorList;
+  BaseUser? selectedDepositorUser;
   BaseUser? selectedClaimList;
   User? userDetails;
   User? handOverSecurity;
@@ -92,11 +96,16 @@ class _CreateFoundState extends State<CreateFound> {
       // createFoundArticleCubit.initializeValuesForExistingRecord(
       //     model: widget.model!);
       BlocProvider.of<CreateFoundArticleCubit>(context)
-          .initializeValues(widget.model);
+          .initializeValues(model: widget.model);
       BlocProvider.of<CreateFoundArticleCubit>(context)
           .initializeValuesForExistingRecord(model: widget.model!);
     } else {
-      createFoundArticleCubit.initializeValues(widget.model);
+      if (widget.eventId != null) {
+        widget.model?.location = widget.eventProtectionLocation;
+      }
+      createFoundArticleCubit.initializeValues(
+          model: widget.model,
+          eventProtectionLocation: widget.eventProtectionLocation);
     }
     _getCurrentDate();
   }
@@ -113,7 +122,7 @@ class _CreateFoundState extends State<CreateFound> {
     widget.model?.typeOfAsset == 0;
     if (widget.model != null) {
       await SharedPrefs.setFoundId(widget.model?.id ?? 0);
-      selecteddepositorList = widget.model?.depositor != null
+      selectedDepositorUser = widget.model?.depositor != null
           ? BaseUser(
               email: widget.model?.depositor?.email ?? "",
               id: widget.model?.depositor?.userId ?? 0,
@@ -139,13 +148,12 @@ class _CreateFoundState extends State<CreateFound> {
       handOverByValue = handOverSecurity?.userInfo != null
           ? handOverSecurity?.userInfo ?? ''
           : '';
-      // serialNumber = widget.model?.slNo != null ? widget.model?.slNo ?? "" : '';
       selectedLocation = widget.model?.location != null
           ? Organisation(
               id: widget.model?.location?.id ?? 0,
               name: widget.model?.location?.name ?? "")
           : Organisation();
-      locationselectedText =
+      selectedLocationName =
           selectedLocation?.name != null ? selectedLocation?.name ?? "" : '';
       quantityTextController.text = widget.model?.quantity != null
           ? widget.model?.quantity.toString() ?? ""
@@ -156,7 +164,7 @@ class _CreateFoundState extends State<CreateFound> {
       foundLocationTextController.text = widget.model?.foundLocation != null
           ? widget.model?.foundLocation.toString() ?? ""
           : '';
-      additionalinformationTextController.text =
+      additionalInformationTextController.text =
           widget.model?.additionalInformation != null
               ? widget.model?.additionalInformation.toString() ?? ""
               : '';
@@ -187,16 +195,16 @@ class _CreateFoundState extends State<CreateFound> {
           : '';
       isDepositorDBEmployeeSelected =
           ((widget.model?.depositorDbEmp ?? false) == true) ? 1 : 0;
-      isClaimantAcceptedtoSignSelected =
+      isClaimantAcceptedToSignSelected =
           ((widget.model?.claimantNoSign ?? false) == true) ? 1 : 0;
-      isClaimantAcceptedByemail =
+      isClaimantAcceptedByEmail =
           ((widget.model?.claimantConfirmByEmail ?? false) == true) ? 1 : 0;
       isClaimantDBEmployeeSelected =
           ((widget.model?.claimantDbEmp ?? false) == true) ? 1 : 0;
       depositorEmpIdTextController.text = widget.model?.employeeId != null
           ? widget.model?.employeeId ?? ''
           : '';
-      selectedEmployeedepartment = widget.model?.depositorDepartment != null
+      selectedEmployeeDepartment = widget.model?.depositorDepartment != null
           ? Organisation(
               id: widget.model?.depositorDepartment?.id ?? 0,
               name: widget.model?.depositorDepartment?.name ?? '')
@@ -206,13 +214,13 @@ class _CreateFoundState extends State<CreateFound> {
       claimantDepartmentName = widget.model?.claimantDepartmentName != null
           ? widget.model?.claimantDepartmentName ?? ''
           : '';
-      handedoverdatedateTextController.text = widget.model?.handoverDate != null
+      handedOverDateDateTextController.text = widget.model?.handoverDate != null
           ? Utils.timestampToDateConversion(
               int.parse(widget.model?.handoverDate ?? '0'),
               Constants.fulldateFormat)
-          : handedoverdatedateTextController.text.isEmpty
+          : handedOverDateDateTextController.text.isEmpty
               ? ''
-              : handedoverdatedateTextController.text;
+              : handedOverDateDateTextController.text;
       claimantEmpIdTextController.text = widget.model?.claimantEmployeeId ?? '';
       claimant = widget.model?.claimant?.lastName != null
           ? widget.model?.claimant?.lastName ?? ''
@@ -224,7 +232,7 @@ class _CreateFoundState extends State<CreateFound> {
       claimantTextController.text = widget.model?.claimantName != null
           ? widget.model?.claimantName ?? ""
           : '';
-      selectedClaimdepartment = widget.model?.claimantDepartment != null
+      selectedClaimDepartment = widget.model?.claimantDepartment != null
           ? Organisation(
               id: widget.model?.claimantDepartment?.id ?? 0,
               name: widget.model?.claimantDepartment?.name ?? '')
@@ -237,98 +245,6 @@ class _CreateFoundState extends State<CreateFound> {
           : BaseUser();
     }
   }
-
-  // createFoundBody(bool isSubmit, int isFoundId) async {
-  //   log('-createFoundBody-----');
-  //
-  //   bool isDepositorDBEmployeeSelectedValue =
-  //       isDepositorDBEmployeeSelected == 1 ? true : false;
-  //   // int statusValue = 0;
-  //   // if (statusTextController.text.toLowerCase() == "found") {
-  //   //   statusValue = 0;
-  //   // } else if (statusTextController.text.toLowerCase() ==
-  //   //     "under security custody") {
-  //   //   statusValue = 0;
-  //   // } else {
-  //   //   statusValue = 2;
-  //   // }
-  //
-  //   int foundDate = Utils.dateToTimestampConversion(
-  //       foundDateTextController.text, Constants.fulldateFormat);
-  //   // int inputDate = Utils.dateToTimestampConversion(
-  //   //     dateofcreationTextController.text, Constants.fulldateFormat);
-  //   int inputdate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
-  //   Map<String, dynamic> entrySecurityBody = {
-  //     "userId": userDetails?.userId ?? 0,
-  //   };
-  //   Map<String, dynamic> handOverSecurityBody = {
-  //     "userId": handOverSecurity?.userId ?? 0,
-  //   };
-  //   Map<String, dynamic> locationBody = {
-  //     "id": selectedLocation?.id ?? 0,
-  //     "name": selectedLocation?.name ?? ''
-  //   };
-  //   Map<String, dynamic> depositorBody = {
-  //     "userId": selecteddepositorList?.id ?? 1,
-  //     "userName": selecteddepositorList?.name ?? '',
-  //     "email": selecteddepositorList?.email ?? '',
-  //   };
-  //   Map<String, dynamic> articleBody = {
-  //     "id": selectedArtclelist?.id ?? 0,
-  //   };
-  //   Map<String, dynamic> depositorDeptBody = {
-  //     "id": selectedEmployeedepartment?.id ?? 1,
-  //   };
-  //   Map<String, dynamic> foundBody = {
-  //     "status": widget.model?.status ?? 0,
-  //     "typeOfAsset": assetTypeTextController.text.isEmptyOrNull
-  //         ? ((assetTypeTextController.text.toLowerCase()) == 'company' ? 1 : 0)
-  //         : null,
-  //     "color":
-  //         colorTextController.text.isNotEmpty ? colorTextController.text : '',
-  //     // "slNo": serialNumber,
-  //     "typeOfArticle": articleBody,
-  //     "entrySecurity": entrySecurityBody,
-  //     "handoverSecurity": handOverSecurityBody,
-  //     "foundLocation": foundLocationTextController.text,
-  //     "quantity": quantityTextController.text.isNotEmpty
-  //         ? int.parse(quantityTextController.text)
-  //         : 0,
-  //     "additionalInformation": additionalinformationTextController.text,
-  //     "depositorDbEmp": isDepositorDBEmployeeSelectedValue,
-  //     "inputDate": inputdate,
-  //     "foundDate": foundDate,
-  //     "location": locationBody,
-  //     "depositorName": isDepositorDBEmployeeSelected == 1
-  //         ? selecteddepositorList?.name ?? ''
-  //         : depositorTextController.text.isNotEmpty
-  //             ? depositorTextController.text
-  //             : '',
-  //     "claimantName": isClaimantDBEmployeeSelected == 1
-  //         ? selectedClaimList?.name ?? ''
-  //         : claimantTextController.text.isNotEmpty
-  //             ? claimantTextController.text
-  //             : '',
-  //     "employeeId": depositorEmpIdTextController.text.isNotEmpty
-  //         ? depositorEmpIdTextController.text
-  //         : '',
-  //     "depositorDepartment": depositorDeptBody,
-  //     "depositor": depositorBody,
-  //     "eventProtection": widget.eventId,
-  //     "images": getFiles
-  //   };
-  //   Map<String, dynamic> requestBody = {
-  //     "found": foundBody,
-  //   };
-  //   var username = await SharedPrefs.getUsername();
-  //   showLoadingDialog(context);
-  //   await createFoundArticleCubit.createFoundArticleHandle(
-  //       requestBody,
-  //       isSubmit,
-  //       context,
-  //       username,
-  //       widget.model != null ? Constants.editFound : Constants.createFound);
-  // }
 
   /// Submit Form
   Future submitForm(
@@ -364,9 +280,9 @@ class _CreateFoundState extends State<CreateFound> {
     bool isClaimDBEmployeeSelectedValue =
         isClaimantDBEmployeeSelected == 1 ? true : false;
     bool isClaimSignSelectedValue =
-        isClaimantAcceptedtoSignSelected == 1 ? true : false;
+        isClaimantAcceptedToSignSelected == 1 ? true : false;
     bool isClaimantSelectedByEmail =
-        isClaimantAcceptedByemail == 1 ? true : false;
+        isClaimantAcceptedByEmail == 1 ? true : false;
     Organisation? articleType = Organisation(
         id: selectedArtclelist?.id ?? widget.model?.typeOfArticle?.id);
     User? entrySecurity = User(
@@ -380,15 +296,15 @@ class _CreateFoundState extends State<CreateFound> {
     // return;
 
     User? depositor = User(
-        userId: selecteddepositorList?.id ?? widget.model?.depositor?.userId);
+        userId: selectedDepositorUser?.id ?? widget.model?.depositor?.userId);
     // Organisation? location =
     //     Organisation(id: selectedLocation?.id ?? widget.model?.location?.id);
     Organisation? depositorDepartment =
-        selectedEmployeedepartment ?? widget.model?.depositorDepartment;
+        selectedEmployeeDepartment ?? widget.model?.depositorDepartment;
     List<ImageContent>? images =
         getFiles.isEmpty ? widget.model?.images : getFiles;
     Organisation? claimantDepartment =
-        selectedClaimdepartment ?? widget.model?.claimantDepartment;
+        selectedClaimDepartment ?? widget.model?.claimantDepartment;
 
     await pushSignature(controller: claimantSignatureController);
 
@@ -426,8 +342,8 @@ class _CreateFoundState extends State<CreateFound> {
             ? foundLocationTextController.text
             : '',
         additionalInformation:
-            additionalinformationTextController.text.isNotEmpty
-                ? additionalinformationTextController.text
+            additionalInformationTextController.text.isNotEmpty
+                ? additionalInformationTextController.text
                 : '',
         quantity: quantityTextController.text.isNotEmpty
             ? int.parse(quantityTextController.text)
@@ -442,7 +358,7 @@ class _CreateFoundState extends State<CreateFound> {
         handoverSecurity: handoverSecurity,
         location: state.location,
         depositorName: isDepositorDBEmployeeSelected == 1
-            ? selecteddepositorList?.name ?? ''
+            ? selectedDepositorUser?.name ?? ''
             : depositorTextController.text.isNotEmpty
                 ? depositorTextController.text
                 : '',
@@ -457,18 +373,25 @@ class _CreateFoundState extends State<CreateFound> {
             ? depositorEmpIdTextController.text
             : '');
     found.eventProtection = widget.eventId;
+
+    log('--${widget.eventId}-found.eventProtection--${found.eventProtection}-');
+    // return;
     CreateFoundRequestBody requestBody = CreateFoundRequestBody(found: found);
     // showLoadingDialog(context);
     await createFoundArticleCubit.createNewFoundArticle(
       requestBody,
       isSubmit,
-      context,
       username,
       widget.model != null ? Constants.editFound : Constants.createFound,
+      widget.eventId,
     );
     var userid = await SharedPrefs.getUserId();
     await foundListArticleCubit.getFoundList(
-        pageNumber.toString(), '20', userid, context);
+      pageNumber.toString(),
+      '20',
+      userid,
+      widget.eventId,
+    );
   }
 
   void getFoundArticleList() async {
@@ -476,14 +399,14 @@ class _CreateFoundState extends State<CreateFound> {
     final bool isActive = await network_handler.networkChecking(context);
     log('-----_getFoundArticleList----');
     if (isActive) {
-      await createFoundArticleCubit.getUserByRoleDepositor(
-          ConstantUserRoles.atomStaticUser, selectedLocation?.id);
-      await createFoundArticleCubit.getLocations('ATOM_LOCATIONS', context);
-      await createFoundArticleCubit.getEmployeeDepartments(
-          'EMPLOYEE_DEPARTMENTS', context);
-      await createFoundArticleCubit.getArticleType('ARTICLE_LIST', context);
+      await createFoundArticleCubit
+          .getUserByRoleDepositor(ConstantUserRoles.atomStaticUser);
+      await createFoundArticleCubit.getLocations('ATOM_LOCATIONS');
+      await createFoundArticleCubit
+          .getEmployeeDepartments('EMPLOYEE_DEPARTMENTS');
+      await createFoundArticleCubit.getArticleType('ARTICLE_LIST');
       // if (widget.model == null) {
-      await createFoundArticleCubit.getUserDetails(userid, context);
+      await createFoundArticleCubit.getUserDetails(userid);
       // }
 
       log('-----iffffff----');
@@ -510,17 +433,16 @@ class _CreateFoundState extends State<CreateFound> {
         createdByValue.isEmpty &&
         (selectedLocation?.name ?? "").isEmpty &&
         dateOfCreationTextController.text.isEmpty &&
-        // serialNumber.isEmpty &&
         assetTypeTextController.text.isEmpty &&
         (selectedArtclelist?.name ?? "").isEmpty &&
         foundDateTextController.text.isEmpty &&
         foundLocationTextController.text.isEmpty &&
-        additionalinformationTextController.text.isEmpty &&
+        additionalInformationTextController.text.isEmpty &&
         // quantityTextController.text.isEmpty &&
         (((isDepositorDBEmployeeSelected == 1 &&
-                    (selecteddepositorList?.name ?? "").isEmpty) &&
+                    (selectedDepositorUser?.name ?? "").isEmpty) &&
                 depositorEmpIdTextController.text.isEmpty &&
-                (selectedEmployeedepartment?.name ?? "").isEmpty) ||
+                (selectedEmployeeDepartment?.name ?? "").isEmpty) ||
             (isDepositorDBEmployeeSelected == 0 &&
                 depositorTextController.text.isEmpty))) {
       Validator().showToast(
@@ -537,14 +459,7 @@ class _CreateFoundState extends State<CreateFound> {
         context,
         "Please enter creator date",
       );
-    }
-    /*else if (serialNumber.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter serial number",
-      );
-    }*/
-    else if (assetTypeTextController.text.isEmpty) {
+    } else if (assetTypeTextController.text.isEmpty) {
       Validator().showToast(
         context,
         "Please enter asset type",
@@ -578,15 +493,15 @@ class _CreateFoundState extends State<CreateFound> {
         depositorTextController.text.isEmpty) {
       Validator().showToast(context, "Please enter depositor");
     } else if (isDepositorDBEmployeeSelected == 1 &&
-        (((selecteddepositorList?.name ?? "").isEmpty) ||
+        (((selectedDepositorUser?.name ?? "").isEmpty) ||
             (depositorEmpIdTextController.text.isEmpty) ||
-            ((selectedEmployeedepartment?.name ?? "").isEmpty))) {
-      if ((selecteddepositorList?.name ?? "").isEmpty) {
+            ((selectedEmployeeDepartment?.name ?? "").isEmpty))) {
+      if ((selectedDepositorUser?.name ?? "").isEmpty) {
         Validator().showToast(
           context,
           "Please enter depositor",
         );
-      } else if (isClaimantAcceptedtoSignSelected == 0) {
+      } else if (isClaimantAcceptedToSignSelected == 0) {
         Validator().showToast(context,
             "Please Save instead of initiate Claimant confirmation process");
       } else if (depositorEmpIdTextController.text.isEmpty) {
@@ -594,7 +509,7 @@ class _CreateFoundState extends State<CreateFound> {
           context,
           "Please enter depositor employee id",
         );
-      } else if ((selectedEmployeedepartment?.name ?? "").isEmpty) {
+      } else if ((selectedEmployeeDepartment?.name ?? "").isEmpty) {
         Validator().showToast(
           context,
           "Please enter employee department",
@@ -617,7 +532,7 @@ class _CreateFoundState extends State<CreateFound> {
               context,
               "Please enter claimant employee id",
             );
-          } else if ((selectedClaimdepartment?.name ?? '').isEmpty) {
+          } else if ((selectedClaimDepartment?.name ?? '').isEmpty) {
             Validator().showToast(
               context,
               "Please enter claimant department",
@@ -693,8 +608,8 @@ class _CreateFoundState extends State<CreateFound> {
     );
 
     //you can implement different kind of Date Format here according to your requirement
-    if (textfield == handedoverdatedateTextController) {
-      handedoverdatedateTextController.text =
+    if (textfield == handedOverDateDateTextController) {
+      handedOverDateDateTextController.text =
           DateFormat(Constants.fulldateFormat).format(DateTime.now());
     }
     setState(() {
@@ -726,11 +641,11 @@ class _CreateFoundState extends State<CreateFound> {
                     );
                   });
             },
-            onTap: (BaseUser list) {
+            onTap: (BaseUser user) {
               if (name.toLowerCase() == 'depositor') {
-                selecteddepositorList = list;
+                selectedDepositorUser = user;
               } else {
-                selectedClaimList = list;
+                selectedClaimList = user;
               }
               setState(() {});
             },
@@ -761,11 +676,11 @@ class _CreateFoundState extends State<CreateFound> {
             onTap: (Organisation department) {
               if (name == Constants.employeedepartment) {
                 log('--department--${department.name}--');
-                selectedEmployeedepartment = department;
+                selectedEmployeeDepartment = department;
 
-                log('--selectedEmployeedepartment--${selectedEmployeedepartment?.name}--');
+                log('--selectedEmployeedepartment--${selectedEmployeeDepartment?.name}--');
               } else {
-                selectedClaimdepartment = department;
+                selectedClaimDepartment = department;
               }
               setState(() {});
             },
@@ -778,7 +693,7 @@ class _CreateFoundState extends State<CreateFound> {
         state.location != null &&
         widget.model == null) {
       selectedLocation = state.location;
-      locationselectedText = selectedLocation!.name.toString();
+      selectedLocationName = selectedLocation!.name.toString();
     }
   }
 
@@ -796,6 +711,24 @@ class _CreateFoundState extends State<CreateFound> {
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
+        log('-state.status----${state.status}----widget.eventId---${widget.eventId}-');
+        if (widget.eventId != null && state.status == FormStatus.success) {
+          // Navigator.pop(context);
+          Navigator.popAndPushNamed(
+            context,
+            eventInfoRoute,
+            arguments: {
+              ConstantsArgument.title: Constants.afterEventInformation,
+              ConstantsArgument.id: widget.eventProtectionId.toString(),
+              'eventDuration': 2,
+
+              /// 2 is for After the Event
+              ConstantsArgument.editForm: true,
+              ConstantsArgument.isEventProtection: true,
+            },
+          );
+          return;
+        }
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: Constants.generalInformation,
@@ -966,17 +899,10 @@ class _CreateFoundState extends State<CreateFound> {
                         '${handOverSecurity?.firstName ?? ''} ${handOverSecurity?.lastName ?? ''}';
                   }
                 } else {
-                  claimantDepartmentName = selectedClaimdepartment?.name ?? '';
+                  claimantDepartmentName = selectedClaimDepartment?.name ?? '';
                   claimant = selectedClaimList?.name ?? '';
                 }
 
-                // if (widget.model == null || widget.model!.slNo.isEmptyOrNull) {
-                //   serialnumberResponse = state.slno;
-                //   log('---serialnumberResponse---${serialnumberResponse?.serialNo}----');
-                //   if (serialnumberResponse != null) {
-                //     serialNumber = serialnumberResponse?.serialNo ?? "";
-                //   }
-                // }
                 return Container(
                   color: AppColors.navigationSkyBlueColor,
                   child: SingleChildScrollView(
@@ -997,7 +923,7 @@ class _CreateFoundState extends State<CreateFound> {
                           child: AbsorbPointer(
                             absorbing: isDisabled,
                             child: Form(
-                              key: createfoundFormKey,
+                              key: formKey,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -1102,7 +1028,7 @@ class _CreateFoundState extends State<CreateFound> {
                                                 Constants
                                                     .articleFoundModuleCode,
                                                 location);
-                                        locationselectedText =
+                                        selectedLocationName =
                                             location.name ?? '';
                                         state.model.location?.name =
                                             location.name ?? '';
@@ -1290,7 +1216,7 @@ class _CreateFoundState extends State<CreateFound> {
                                     characterLimit: Constants
                                         .characterLimitDescTextFormField,
                                     controller:
-                                        additionalinformationTextController,
+                                        additionalInformationTextController,
                                     textFormKey: Keys
                                         .additionalinformationTextController,
                                     hintText: Constants.informationhere,
@@ -1311,13 +1237,13 @@ class _CreateFoundState extends State<CreateFound> {
                                     },
                                     validateTextField: (String? user) {},
                                     onFieldSubmitted: (String value) {
-                                      additionalinformationTextController
+                                      additionalInformationTextController
                                           .value = TextEditingValue(
                                         text:
-                                            '${additionalinformationTextController.text}\n',
+                                            '${additionalInformationTextController.text}\n',
                                         selection: TextSelection.collapsed(
                                           offset:
-                                              additionalinformationTextController
+                                              additionalInformationTextController
                                                       .text.length +
                                                   1,
                                         ),
@@ -1430,11 +1356,12 @@ class _CreateFoundState extends State<CreateFound> {
                                       isMandatory: true),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
+
                                   isDepositorDBEmployeeSelected == 1
                                       ? TextFieldAddButton(
-                                          title: selecteddepositorList?.name !=
+                                          title: selectedDepositorUser?.name !=
                                                   null
-                                              ? ('${selecteddepositorList?.name ?? ''}(${selecteddepositorList?.email ?? ''})')
+                                              ? ('${selectedDepositorUser?.name ?? ''}(${selectedDepositorUser?.email ?? ''})')
                                               : '',
                                           height: 70,
                                           isDisableColor: widget
@@ -1544,7 +1471,7 @@ class _CreateFoundState extends State<CreateFound> {
                                       : Container(),
                                   isDepositorDBEmployeeSelected == 1
                                       ? TextFieldAddButton(
-                                          title: selectedEmployeedepartment
+                                          title: selectedEmployeeDepartment
                                                   ?.name ??
                                               '',
                                           height: 60,
@@ -1601,7 +1528,7 @@ class _CreateFoundState extends State<CreateFound> {
                                             isDisableColor: (widget
                                                             .model?.status ==
                                                         2 ||
-                                                    isClaimantAcceptedByemail !=
+                                                    isClaimantAcceptedByEmail !=
                                                         0 ||
                                                     !state.model.lock
                                                         .isEmptyOrNull)
@@ -1631,7 +1558,7 @@ class _CreateFoundState extends State<CreateFound> {
                                             isDisableColor: (widget.model
                                                                 ?.status !=
                                                             2 &&
-                                                        isClaimantAcceptedByemail ==
+                                                        isClaimantAcceptedByEmail ==
                                                             0) &&
                                                     state.model.lock
                                                         .isEmptyOrNull
@@ -1639,7 +1566,7 @@ class _CreateFoundState extends State<CreateFound> {
                                                 : true,
                                             onTap: () {
                                               if (widget.model?.status != 2 &&
-                                                  isClaimantAcceptedByemail ==
+                                                  isClaimantAcceptedByEmail ==
                                                       0) {
                                                 depositorDialog(
                                                     state,
@@ -1708,7 +1635,7 @@ class _CreateFoundState extends State<CreateFound> {
                                                 .claimantEmpIdTextController,
                                             isEnable: widget.model?.status !=
                                                         2 &&
-                                                    isClaimantAcceptedByemail ==
+                                                    isClaimantAcceptedByEmail ==
                                                         0
                                                 ? true
                                                 : (widget.model != null &&
@@ -1758,14 +1685,14 @@ class _CreateFoundState extends State<CreateFound> {
                                     widget.model != null &&
                                             isClaimantDBEmployeeSelected == 1
                                         ? TextFieldAddButton(
-                                            title: (selectedClaimdepartment
+                                            title: (selectedClaimDepartment
                                                     ?.name ??
                                                 ''),
                                             height: 60,
                                             isDisableColor: (widget.model
                                                                 ?.status !=
                                                             2 &&
-                                                        isClaimantAcceptedByemail ==
+                                                        isClaimantAcceptedByEmail ==
                                                             0) &&
                                                     state.model.lock
                                                         .isEmptyOrNull
@@ -1775,7 +1702,7 @@ class _CreateFoundState extends State<CreateFound> {
                                               FocusManager.instance.primaryFocus
                                                   ?.unfocus();
                                               if (widget.model?.status != 2 &&
-                                                  isClaimantAcceptedByemail ==
+                                                  isClaimantAcceptedByEmail ==
                                                       0) {
                                                 employeeDepartmentDialog(
                                                     state,
@@ -1811,7 +1738,7 @@ class _CreateFoundState extends State<CreateFound> {
                                           : Container(),
                                       widget.model != null
                                           ? radioButtonHandling(
-                                              isClaimantAcceptedtoSignSelected,
+                                              isClaimantAcceptedToSignSelected,
                                               state.labels?.locale
                                                       .foundClaimantNoSign ??
                                                   state.labels?.defaultLocale
@@ -1822,7 +1749,7 @@ class _CreateFoundState extends State<CreateFound> {
                                               isDisableColor: (widget.model
                                                                   ?.status ==
                                                               2 ||
-                                                          isClaimantAcceptedByemail !=
+                                                          isClaimantAcceptedByEmail !=
                                                               0) ||
                                                       !state.model.lock
                                                           .isEmptyOrNull
@@ -1834,7 +1761,7 @@ class _CreateFoundState extends State<CreateFound> {
                                       /// is claimant confirmed by email
 
                                       widget.model != null &&
-                                              isClaimantAcceptedtoSignSelected ==
+                                              isClaimantAcceptedToSignSelected ==
                                                   0
                                           ? CommonWidgets.textDisplay(
                                               state.labels?.locale
@@ -1847,10 +1774,10 @@ class _CreateFoundState extends State<CreateFound> {
                                               isMandatory: true)
                                           : Container(),
                                       widget.model != null &&
-                                              isClaimantAcceptedtoSignSelected ==
+                                              isClaimantAcceptedToSignSelected ==
                                                   0
                                           ? radioButtonHandling(
-                                              isClaimantAcceptedByemail,
+                                              isClaimantAcceptedByEmail,
                                               state.labels?.locale
                                                       .foundClaimantConfirmByEmail ??
                                                   state.labels?.defaultLocale
@@ -1870,7 +1797,7 @@ class _CreateFoundState extends State<CreateFound> {
                                     ],
 
                                     if ((isClaimantDBEmployeeSelected == 1 &&
-                                            isClaimantAcceptedtoSignSelected ==
+                                            isClaimantAcceptedToSignSelected ==
                                                 1) ||
                                         isClaimantDBEmployeeSelected == 0) ...[
                                       /// Claimant Signature
@@ -1886,7 +1813,7 @@ class _CreateFoundState extends State<CreateFound> {
 
                                   if (widget.model?.status == 2 ||
                                       widget.model?.status == 1) ...[
-                                    if (!handedoverdatedateTextController
+                                    if (!handedOverDateDateTextController
                                             .text.isEmptyOrNull &&
                                         widget.model != null &&
                                         widget.model!.status! >
@@ -1918,7 +1845,7 @@ class _CreateFoundState extends State<CreateFound> {
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
                                       datepickerWidgetLoading(
-                                          handedoverdatedateTextController),
+                                          handedOverDateDateTextController),
                                     ],
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
@@ -2229,7 +2156,7 @@ class _CreateFoundState extends State<CreateFound> {
                       location.id.toString() ?? '',
                       Constants.articleFoundModuleCode,
                       location);
-                  locationselectedText = location.name ?? '';
+                  selectedLocationName = location.name ?? '';
                   selectedLocation = location;
                   setState(() {});
                 },
@@ -2246,7 +2173,7 @@ class _CreateFoundState extends State<CreateFound> {
                 width: 1.0,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(8))),
-          child: locationselectedText.isEmpty
+          child: selectedLocationName.isEmpty
               ? Container()
               : Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                   SizedBox(
@@ -2261,7 +2188,7 @@ class _CreateFoundState extends State<CreateFound> {
                         ),
                         onPressed: () {},
                         child: Text(
-                          locationselectedText,
+                          selectedLocationName,
                           style: Styles.textStyleBlack14,
                         ),
                       ),
@@ -2310,17 +2237,17 @@ class _CreateFoundState extends State<CreateFound> {
             selectedValue = 1;
             if (name == Constants.isclaimantacceptedtosign &&
                 widget.model?.status != 2 &&
-                isClaimantAcceptedByemail == 0) {
-              isClaimantAcceptedtoSignSelected = selectedValue;
+                isClaimantAcceptedByEmail == 0) {
+              isClaimantAcceptedToSignSelected = selectedValue;
             } else if ((name == Constants.isclaimantacceptedbyemail) &&
                 widget.model?.status != 2 &&
                 widget.model?.status != 1 &&
                 widget.model?.status != -1) {
-              isClaimantAcceptedByemail = selectedValue;
+              isClaimantAcceptedByEmail = selectedValue;
             } else if (name == Constants.isclaimantdbemployee &&
                 widget.model?.status == 1 &&
                 widget.model?.status != 2 &&
-                isClaimantAcceptedByemail == 0) {
+                isClaimantAcceptedByEmail == 0) {
               isClaimantDBEmployeeSelected = selectedValue;
             } else if (name == Constants.isdepositordbemployee &&
                 widget.model?.status != 1 &&
@@ -2343,17 +2270,17 @@ class _CreateFoundState extends State<CreateFound> {
               selectedValue = 0;
               if (name == Constants.isclaimantacceptedtosign &&
                   widget.model?.status != 2 &&
-                  isClaimantAcceptedByemail == 0) {
-                isClaimantAcceptedtoSignSelected = selectedValue;
+                  isClaimantAcceptedByEmail == 0) {
+                isClaimantAcceptedToSignSelected = selectedValue;
               } else if ((name == Constants.isclaimantacceptedbyemail) &&
                   widget.model?.status != 2 &&
                   widget.model?.status != 1 &&
                   widget.model?.status != -1) {
-                isClaimantAcceptedByemail = selectedValue;
+                isClaimantAcceptedByEmail = selectedValue;
               } else if (name == Constants.isclaimantdbemployee &&
                   widget.model?.status == 1 &&
                   widget.model?.status != 2 &&
-                  isClaimantAcceptedByemail == 0) {
+                  isClaimantAcceptedByEmail == 0) {
                 isClaimantDBEmployeeSelected = selectedValue;
               } else if (name == Constants.isdepositordbemployee &&
                   widget.model?.status != 1 &&

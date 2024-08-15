@@ -5,10 +5,12 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_
 
 class DutyPostDetailsNewwwww extends StatefulWidget {
   final DutyPostModel? model;
+  final int shiftScheduleId;
 
   const DutyPostDetailsNewwwww({
     super.key,
     this.model,
+    required this.shiftScheduleId,
   });
 
   @override
@@ -85,15 +87,20 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<DutyPostDetailsCubit>(context).submitForm(
-                  isSaveOnly: true,
-                  model: state.model,
-                  status: FormStatus.initial);
+                isSaveOnly: true,
+                model: state.model,
+                status: FormStatus.initial,
+                newSelectedShift: state.selectedShift!,
+                checkValidations: true,
+              );
             },
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<DutyPostDetailsCubit>(context).submitForm(
                 isSaveOnly: false,
                 model: state.model,
+                newSelectedShift: state.selectedShift!,
+                checkValidations: true,
               );
             },
           ),
@@ -174,19 +181,19 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                     });
                                     log('---onChange-region-----');
 
+                                    // BlocProvider.of<DutyPostDetailsCubit>(
+                                    //         context)
+                                    //     .submitForm(
+                                    //   isSaveOnly: true,
+                                    //   model: state.model,
+                                    //   status: FormStatus.initial,
+                                    //   newSelectedShift: state.selectedShift!,
+                                    // );
+                                    // if (state.status != FormStatus.formError) {
                                     BlocProvider.of<DutyPostDetailsCubit>(
                                             context)
-                                        .submitForm(
-                                      isSaveOnly: true,
-                                      model: state.model,
-                                      status: FormStatus.initial,
-                                    );
-                                    if (state.status != FormStatus.formError) {
-                                      BlocProvider.of<DutyPostDetailsCubit>(
-                                              context)
-                                          .getShiftListByAssignedDutyPostId(
-                                              rank: value?.id);
-                                    }
+                                        .getShifts(rank: value!);
+                                    // }
                                   },
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
@@ -200,6 +207,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
+
                                 DropdownWidget(
                                   label: 'Select Shift',
                                   items: state.shifts ?? [],
@@ -210,22 +218,23 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                     setState(() {
                                       selectedShift = value;
                                     });
+                                    // BlocProvider.of<DutyPostDetailsCubit>(
+                                    //         context)
+                                    //     .submitForm(
+                                    //   isSaveOnly: true,
+                                    //   model: state.model,
+                                    //   status: FormStatus.initial,
+                                    //   newSelectedShift: value!,
+                                    // );
+
+                                    // if (state.status != FormStatus.formError) {
                                     BlocProvider.of<DutyPostDetailsCubit>(
                                             context)
-                                        .submitForm(
-                                      isSaveOnly: true,
-                                      model: state.model,
-                                      status: FormStatus.initial,
+                                        .getAvailableSelectedGuardsByShift(
+                                      // rank: state.selectedRank,
+                                      shift: value!,
                                     );
-
-                                    if (state.status != FormStatus.formError) {
-                                      BlocProvider.of<DutyPostDetailsCubit>(
-                                              context)
-                                          .getAvailableSelectedGuardsByShift(
-                                        // rank: state.selectedRank,
-                                        shift: value!,
-                                      );
-                                    }
+                                    // }
                                   },
                                 ),
 
@@ -235,10 +244,12 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     buildShiftColumn(
+                                      state: state,
                                       shift: state.model,
                                       isSourceList: true,
                                     ),
                                     buildShiftColumn(
+                                      state: state,
                                       shift: state.model,
                                       isSourceList: false,
                                     ),
@@ -250,6 +261,12 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                     .model.selectedGuards.isEmptyOrNull) ...[
                                   buildReplacementColumn(state),
                                 ],
+
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
+
+                                /// Save Button
+                                Center(child: submitButtonDisplay(state)),
                               ],
                             ),
                           ),
@@ -268,14 +285,38 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
     );
   }
 
-  Column buildShiftColumn({required Shift shift, required bool isSourceList}) {
+  Widget submitButtonDisplay(DutyPostDetailsState state) {
+    log('-state.selectedShift--${state.selectedShift}----');
+    return AppButton(
+      width: 150,
+      key: const Key(Keys.submitButton),
+      buttonText: Constants.save,
+      buttonTextKey: Keys.submitButton,
+      onTap: () async {
+        FocusScope.of(context).unfocus();
+        BlocProvider.of<DutyPostDetailsCubit>(context).submitForm(
+          isSaveOnly: true,
+          model: state.model,
+          status: FormStatus.initial,
+          newSelectedShift: state.selectedShift!,
+          checkValidations: true,
+        );
+      },
+    );
+  }
+
+  Column buildShiftColumn({
+    required ShiftModel shift,
+    required bool isSourceList,
+    required DutyPostDetailsState state,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         CommonWidgets.textDisplay(
           isSourceList
-              ? 'Select For Shift: ${shift.shift}'
+              ? 'Select For Shift: ${state.selectedShift?.name ?? shift.shift}'
               : 'Selected (Max Allowed: ${shift.allowed})',
           isMandatory: false,
           Styles.textStyleBlack14,
@@ -284,10 +325,10 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
             MediaQuery.of(context).size.height * 0.01),
         buildUserList(
           availableGuards: isSourceList
-              ? shift.availableGuards ?? []
-              : shift.selectedGuards ?? [],
+              ? shift.availableGuards ?? {}
+              : shift.selectedGuards ?? {},
           isSourceList: isSourceList,
-          selectedGuards: shift.selectedGuards ?? [],
+          selectedGuards: shift.selectedGuards ?? {},
           maxAllowed: shift.allowed ?? 0,
           onAdd: (BaseUser user) {
             if (!user.description.isEmptyOrNull) {
@@ -304,29 +345,41 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
             }
 
             setState(() {
-              shift.availableGuards = List.from(shift.availableGuards!)
+              shift.availableGuards = Set.from(shift.availableGuards!)
                 ..remove(user);
-              shift.selectedGuards = List.from(shift.selectedGuards!)
-                ..add(user);
+              shift.selectedGuards = Set.from(shift.selectedGuards!)..add(user);
             });
+
+            /// Save Record
+            BlocProvider.of<DutyPostDetailsCubit>(context)
+                .submitAndRefreshScreen(
+              checkValidations: false,
+            );
           },
           onRemove: (BaseUser guard) {
             setState(() {
-              shift.selectedGuards = List.from(shift.selectedGuards!)
+              shift.selectedGuards = Set.from(shift.selectedGuards!)
                 ..remove(guard);
-              shift.availableGuards = List.from(shift.availableGuards!)
+              shift.availableGuards = Set.from(shift.availableGuards!)
                 ..add(guard);
 
               log('---shift.selectedGuards.isEmptyOrNull-11---${shift.selectedGuards.isEmptyOrNull}--');
 
               shift.replacements
-                  ?.removeWhere((u) => u.replacementBy?.id == guard.id);
+                  ?.removeWhere((u) => u.replacedFor?.id == guard.id);
+
               /// To remove all the replacements
               // if (guard.id = shift.selectedGuards.isEmptyOrNull) {
               //   log('---shift.selectedGuards.isEmptyOrNull------');
               //   shift.replacements?.clear();
               // }
             });
+
+            /// Save Record
+            BlocProvider.of<DutyPostDetailsCubit>(context)
+                .submitAndRefreshScreen(
+              checkValidations: false,
+            );
           },
         ),
       ],
@@ -334,8 +387,8 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
   }
 
   Widget buildUserList({
-    required List<BaseUser> availableGuards,
-    required List<BaseUser> selectedGuards,
+    required Set<BaseUser> availableGuards,
+    required Set<BaseUser> selectedGuards,
     required bool isSourceList,
     required int maxAllowed,
     required void Function(BaseUser guard) onAdd,
@@ -346,7 +399,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
         borderRadius: BorderRadius.circular(10.0),
         color: AppColors.disableTextFieldBackground,
       ),
-      height: MediaQuery.of(context).size.height / 3.3,
+      height: MediaQuery.of(context).size.height / 2.5,
       width: MediaQuery.of(context).size.width / 2.3,
       child: availableGuards.isEmptyOrNull
           ? const Center(child: Text('No Guards Found.'))
@@ -354,7 +407,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
               itemCount: availableGuards.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                final element = availableGuards[index];
+                final element = availableGuards.toList()[index];
                 return GestureDetector(
                   onTap: () => handleUserListTap(isSourceList, element,
                       selectedGuards, maxAllowed, onAdd, onRemove),
@@ -377,7 +430,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
   void handleUserListTap(
     bool isSourceList,
     BaseUser element,
-    List<BaseUser> selectedGuards,
+    Set<BaseUser> selectedGuards,
     int maxAllowed,
     void Function(BaseUser guard) onAdd,
     void Function(BaseUser guard) onRemove,
@@ -409,8 +462,8 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
           onTap: () => showReplacementPopUp(
             context: context,
             model: Replacement(),
-            availableGuards: state.model.availableGuards ?? [],
-            selectedGuards: state.model.selectedGuards ?? [],
+            availableGuards: state.model.availableGuards ?? {},
+            selectedGuards: state.model.selectedGuards ?? {},
             rankId: state.selectedRank!.id!,
             dutyPostId: widget.model!.id!,
             shiftId: state.selectedShift!.id!,
@@ -457,8 +510,8 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
           onTap: () => showReplacementPopUp(
             context: context,
             model: replacement,
-            availableGuards: state.model.availableGuards ?? [],
-            selectedGuards: state.model.selectedGuards ?? [],
+            availableGuards: state.model.availableGuards ?? {},
+            selectedGuards: state.model.selectedGuards ?? {},
             rankId: state.selectedRank!.id!,
             dutyPostId: widget.model!.id!,
             shiftId: state.selectedShift!.id!,
@@ -492,6 +545,12 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                             : '',
                       ),
                       buildTextWithLabel(
+                          'Reason:',
+                          Utils().getKeyFromValue(
+                            value: replacement.status!,
+                            dropdownValues: shiftScheduleReasonDropDownValues,
+                          )),
+                      buildTextWithLabel(
                           'Replacement By:', replacement.replacementBy?.name),
                     ],
                   ),
@@ -503,6 +562,10 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                 child: InkWell(
                   onTap: () {
                     state.model.replacements?.remove(replacement);
+                    BlocProvider.of<DutyPostDetailsCubit>(context)
+                        .submitAndRefreshScreen(
+                      checkValidations: false,
+                    );
                     setState(() {});
                   },
                   child: Card(
@@ -545,8 +608,8 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
   void showReplacementPopUp({
     required BuildContext context,
     required Replacement model,
-    required List<BaseUser> availableGuards,
-    required List<BaseUser> selectedGuards,
+    required Set<BaseUser> availableGuards,
+    required Set<BaseUser> selectedGuards,
     required int dutyPostId,
     required int rankId,
     required int shiftId,
@@ -556,6 +619,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
         return AddReplacementPopUp(
+          viaAttendance: false,
           model: model,
           mainContext: context,
           availableGuards: availableGuards,

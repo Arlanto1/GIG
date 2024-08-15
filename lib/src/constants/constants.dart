@@ -4,6 +4,7 @@ import 'package:quill_html_editor/quill_html_editor.dart';
 class Constants {
   // static const inactivityDuration = Duration(minutes: 5);
 
+  static double tabletScreenWidth = 800;
   /// Pagination
   static const int maxResults = 20;
 
@@ -29,7 +30,6 @@ class Constants {
   static const String occurrenceModule = 'OCC';
   static const String incidentManagementModule = 'IM';
   static const String contactDetailsModule = 'CD';
-  static const String slaViolationPenaltyDetailsModule = 'SVP';
   static const String keyManagementIssuanceModule = 'KMISS';
   static const String keyManagementMasterModule = 'KeyMM';
   static const String keyLossDestructionModule = 'KLD';
@@ -154,6 +154,8 @@ class Constants {
   static const String copyrightText = "Copyright © 2024 Arlanto.";
   static const String submit = "Submit";
 
+  static const String locationPermissionError = 'Please enable location services!';
+
   //Dashboard
   static const String home = 'Home';
   static const String dashboard = 'Dashboard';
@@ -271,8 +273,11 @@ class Constants {
       'Are you sure, do you want to cancel the record?';
 
   static const String deleteAttachment = 'Delete Attachment';
+  static const String deleteRecord = 'Delete Record';
   static const String deleteAttachmentWarningMessage =
       'Are you sure, do you want delete the attachment?';
+  static const String deleteRecordWarningMessage =
+      'Are you sure, do you want delete the record?';
   static const String close = 'Close';
   static const String closeRecordWarningMessage =
       'Are you sure, do you want to close the record?';
@@ -301,7 +306,7 @@ class Constants {
   static const String isclaimantacceptedtosign = 'Claimant accepted to sign';
   static const String isclaimantacceptedbyemail = 'Claimant Confirmed by Email';
   static const String addedSuccessfully = 'Added Successfully.';
-  static const String userAddedUpdatedSuccessfully = 'User Added/Updated Successfully.';
+  static const String userAddedUpdatedSuccessfully = 'List is Updated(Search with the email).';
 
   // Law enforcement
   static const String createlawenforcement =
@@ -889,7 +894,36 @@ class Constants {
 
   /// Ticket Life Cycle
   static const String sentReminder = 'Reminder Sent';
+  static const String sentRemindertoVendor = 'Sent reminder to Vendor.';
+  static const String systemIntegratorForVendorAction = 'System Integrator for Vendor Action';
+  static const String acknowledgeDateAndTime = 'Acknowledge Date and Time';
+  static const String vendorTicketNo = 'Vendor Ticket No';
+  static const String escalation1 = 'Escalation 1';
+  static const String escalation2 = 'Escalation 2';
+  static const String escalation3 = 'Escalation 3';
+  static const String onsiteVisitDateAndTime = 'Onsite Visit Date and Time';
+  static const String criticalSpareUsed = 'Critical Spare Used';
+  static const String rootCauseAnalysis = 'Root Cause Analysis';
+  static const String actionTakenMitigationAction = 'Action Taken/ Mitigation Action';
+  static const String issueType = 'Issue Type';
+  static const String dataLoss = 'Data Loss';
+  static const String attachTheLayout = 'Attach The Layout, work completion certificate, PO, Invoice, Approval Emails etc.documents';
+  static const String activityNotes = 'Activity Notes';
+  static const String selectStatus = 'Select Status';
+  static const String message = 'Please click on the respective Status button you like to submit';
+  static const String rework = 'Rework';
+  static const String closed = 'Closed';
+  static const String dataLossAttachment = 'Data Loss Attachment';
+  static const String slaOnSiteResponse = 'SLA Onsite Response';
+  static const String solvedProposedDate = 'Solved Proposed Date';
+  static const String reworkProposedDate = 'Rework Proposed Date';
+  static const String comments = 'Comments';
 
+
+
+  ///Key issuance Process
+  static const String valueNotAccepted = 'Value Not Accepted';
+  static const String enteredValueNotAccepted = 'Entered Value not accepted';
   /// Module Code for roles
   static const String passManagementRolesModuleCode = 'PM';
 }

@@ -44,7 +44,7 @@ class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;
@@ -137,7 +137,7 @@ class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;
@@ -172,7 +172,7 @@ class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;

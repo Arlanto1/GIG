@@ -23,7 +23,6 @@ class KeyHistoryRecordsView extends StatefulWidget {
   final String? lock;
   final int? kipId;
 
-
   @override
   State<KeyHistoryRecordsView> createState() => _KeyHistoryRecordsViewState();
 }
@@ -33,6 +32,12 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
   int pageNumber = 0;
   RefreshController refreshController =
       RefreshController(initialRefresh: false);
+  bool hasPermission = false;
+  bool lockEmpty = false;
+  bool keyDamageHistoryScreen = false;
+  bool keyLostHistoryScreen = false;
+  bool keyDestroyHistoryScreen = false;
+  bool keyLockChangeHistoryScreen = false;
 
   @override
   void initState() {
@@ -67,18 +72,38 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
   Widget build(BuildContext context) {
     log('--widget.type---${widget.type}---');
     log('--status.type---${widget.model?.status}---');
+    log('--id111--- ${(keyLostHistoryScreen && widget.id != 0)}');
     return BlocConsumer<KeyHistoryRecordBloc, KeyHistoryRecordState>(
       listener: (context, state) {},
       builder: (context, state) {
+        if ((widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!)) {
+          hasPermission = true;
+        }
+        if (widget.lock.isEmptyOrNull) {
+          lockEmpty = true;
+        }
+        if (widget.type == ConstantsIntValue.keyLostHistoryInt) {
+          keyLostHistoryScreen = true;
+        }
+        if (widget.type == ConstantsIntValue.keyDamageHistoryInt) {
+          keyDamageHistoryScreen = true;
+        }
+
+        if (widget.type == ConstantsIntValue.keyDestroyHistoryInt) {
+          keyDestroyHistoryScreen = true;
+        }
+        if (widget.type == ConstantsIntValue.lockChangeHistoryInt) {
+          keyLockChangeHistoryScreen = true;
+        }
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,
-            floatingActionButton: !(widget.extraProperties != null &&
-                        !widget.extraProperties!.hasWritePermission!) &&
-                    (widget.lock.isEmptyOrNull) &&
+            floatingActionButton: !hasPermission &&
+                    lockEmpty &&
                     widget.model?.status != -1 &&
-                    widget.type != ConstantsIntValue.keyLostHistoryInt &&
-                    widget.type != ConstantsIntValue.keyDamageHistoryInt &&
-                    widget.model?.status != 0
+                    widget.model?.status != 0 &&
+                    !keyLostHistoryScreen &&
+                    !keyDamageHistoryScreen
                 ? Flutterfloatingbutton(
                     backgroundColor: AppColors.navigationSkyBlueColor,
                     foregroundColor: AppColors.backgroundWhiteColor,
@@ -86,19 +111,13 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                       Navigator.pushNamed(
                           context, keyHistoryRecordsDetailsRoute,
                           arguments: {
-                            ConstantsArgument.title: widget.type ==
-                                    ConstantsIntValue.lockChangeHistoryInt
+                            ConstantsArgument.title: keyLockChangeHistoryScreen
                                 ? Constants.createLockChangeHistory
-                                : widget.type ==
-                                        ConstantsIntValue.keyLostHistoryInt
+                                : keyLostHistoryScreen
                                     ? Constants.createKeyLostHistory
-                                    : widget.type ==
-                                            ConstantsIntValue
-                                                .keyDamageHistoryInt
+                                    : keyDamageHistoryScreen
                                         ? Constants.createKeyDamageHistory
-                                        : widget.type ==
-                                                ConstantsIntValue
-                                                    .keyDestroyHistoryInt
+                                        : keyDestroyHistoryScreen
                                             ? Constants.createKeyDestroyHistory
                                             : Constants
                                                 .createkeyManagementMaster,
@@ -110,14 +129,13 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                 : const SizedBox(),
             appBar: BaseAppBar().buildAppHeader(
               context: context,
-              title: widget.type == ConstantsIntValue.lockChangeHistoryInt
+              title: keyLockChangeHistoryScreen
                   ? Constants.lockChangeHistory
-                  : widget.type == ConstantsIntValue.keyLostHistoryInt
+                  : keyLostHistoryScreen
                       ? Constants.keyLostHistory
-                      : widget.type == ConstantsIntValue.keyDamageHistoryInt
+                      : keyDamageHistoryScreen
                           ? Constants.keyDamageHistory
-                          : widget.type ==
-                                  ConstantsIntValue.keyDestroyHistoryInt
+                          : keyDestroyHistoryScreen
                               ? Constants.keyDestroyHistory
                               : 'Default Title',
               showPopUp: false,
@@ -162,11 +180,20 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                                 'Created By',
                             value:
                                 '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
-                        // labels.add(Label(
-                        //     key: 'Date of Creation',
-                        //     value: DateFormat('dd-MM-yyyy').format(
-                        //         DateTime.fromMillisecondsSinceEpoch(
-                        //             state.list[index].createdDate ?? 0 * 1000))));
+                        labels.add(Label(
+                            key: state.labels?.locale.createdDate ??
+                                state.labels?.defaultLocale.createdDate ??
+                                'Create On',
+                            value: state.list[index].createdDate != null
+                                ? Utils.timestampToDateConversion(
+                                    int.parse(
+                                        state.list[index].createdDate ?? '0'),
+                                    Constants.twentyFourHourDateTimeFormat)
+                                : ''));
+                        labels.add(Label(
+                            key:
+                                'No.of.Keys',
+                            value: state.list[index].noOfKeys.toString()));
                         return index >= state.list.length
                             ? const BaseLoader()
                             : BaseListTileItem(

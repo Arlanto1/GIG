@@ -76,8 +76,8 @@ class SLAViolationPenaltyDetailsCubit
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
 
     Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
-    List<BaseUser> emailUsers =
-        await commonServices.getBaseUsersByRoles(roleNames: ConstantUserRoles.atomStaticUser,locationId: location?.id);
+    List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
+        roleNames: ConstantUserRoles.atomStaticUser, locationId: location?.id);
 
     Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
 
@@ -106,6 +106,19 @@ class SLAViolationPenaltyDetailsCubit
       ),
     );
     var userId = await SharedPrefs.getUserId();
+
+    if (state.model.location == null) {
+      Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+      if (defaultLocation != null) {
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: defaultLocation.id.toString(),
+          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
+        );
+        state.model.location = defaultLocation;
+        state.model.slNo = slNo.serialNo;
+      }
+    }
+
     try {
       Locations getLocationsData =
           await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
@@ -122,7 +135,8 @@ class SLAViolationPenaltyDetailsCubit
           await commonServices.getUserDetails(userId: userId);
 
       List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
-          roleNames: ConstantUserRoles.atomStaticUser,locationId: location?.id);
+          roleNames: ConstantUserRoles.atomStaticUser,
+          locationId: state.model.location?.id);
 
       if (location != null) {
         state.model.location = location;
@@ -156,22 +170,10 @@ class SLAViolationPenaltyDetailsCubit
       if (location != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: location!.id.toString(),
-          moduleCode: Constants.slaViolationPenaltyDetailsModule,
+          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
         );
         state.model.location = location;
         state.model.slNo = slNo.serialNo;
-      }
-
-      if (state.model.location == null) {
-        Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
-        if (defaultLocation != null) {
-          SerialNumberModel slNo = await commonServices.getSlNo(
-            locationId: defaultLocation.id.toString(),
-            moduleCode: Constants.slaViolationPenaltyDetailsModule,
-          );
-          state.model.location = defaultLocation;
-          state.model.slNo = slNo.serialNo;
-        }
       }
 
       List<String> pocs = Utils().splitStringAfterComma(state.model.poc ?? '');
@@ -220,7 +222,7 @@ class SLAViolationPenaltyDetailsCubit
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.securitySystemModule,
+        moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
       );
 
       state.model.location = location;
@@ -228,20 +230,17 @@ class SLAViolationPenaltyDetailsCubit
 
       approver = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
-
-
     }
 
     state.model.approver = null;
 
-
     emit(state.copyWith(
       model: state.model,
       emailUsers: approver,
-
       status: FormStatus.initial,
     ));
   }
+
   Future<void> updateDropdownValues({
     List<Organisation>? entities,
     List<Organisation>? vendors,
@@ -263,7 +262,7 @@ class SLAViolationPenaltyDetailsCubit
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.slaViolationPenaltyDetailsModule,
+        moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
       );
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
@@ -277,7 +276,7 @@ class SLAViolationPenaltyDetailsCubit
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: location.id.toString(),
-          moduleCode: Constants.slaViolationPenaltyDetailsModule);
+          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
@@ -330,8 +329,9 @@ class SLAViolationPenaltyDetailsCubit
     }
 
     if (!attdInfoId.isEmptyOrNull) {
-      state.model.attdInfoId = attdInfoId;
+      state.model.attdShiftInfoId = attdInfoId;
     }
+    log('-attdInfoId-111-$attdInfoId--');
     // Create/Update API Call
     SLAViolationPenaltyRequest request =
         SLAViolationPenaltyRequest(svpGi: state.model);
@@ -390,13 +390,15 @@ class SLAViolationPenaltyDetailsCubit
         state.copyWith(
           model: state.model,
           message: response.message,
-          status: !attdInfoId.isEmptyOrNull
+          status: attdInfoId.isEmptyOrNull
               ? FormStatus.popOnly
               : navigateToNextScreen
                   ? FormStatus.navigateToNextScreen
                   : FormStatus.success,
         ),
       );
+      log('status---- ${state.status}');
+      log('attdInfoId---- ${attdInfoId}');
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
@@ -429,6 +431,8 @@ class SLAViolationPenaltyDetailsCubit
 
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
-        id: id, module: Constants.slaViolationPenaltyDetailsModule);
+      id: id,
+      module: Constants.slaViolationPenaltyDetailsModuleCode,
+    );
   }
 }

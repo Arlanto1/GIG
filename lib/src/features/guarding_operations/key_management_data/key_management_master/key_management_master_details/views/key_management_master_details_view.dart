@@ -373,8 +373,9 @@ class _KeyManagementMasterDetailsViewState
                                       FocusScope.of(context).requestFocus(
                                           keyDescriptionFocusNode);
                                     },
+                                    leftImage: true,
                                     orgName: 'KEY_MANAGEMENT_DOOR_TYPE',
-                                    createEntity: false,
+                                    createEntity: true,
                                     title: 'Add Key Type',
                                     functionToCall: () {
                                       // refresh the list
@@ -907,7 +908,7 @@ class _KeyManagementMasterDetailsViewState
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
-                                    'Add/View Key Lost History(S)',
+                                    'View Key Lost History(S)',
                                     style: TextStyle(
                                       color: AppColors.navigationSkyBlueColor,
                                       decoration: TextDecoration.underline,
@@ -971,7 +972,7 @@ class _KeyManagementMasterDetailsViewState
                                   ),
                                   const SizedBox(width: 10),
                                   const Text(
-                                    'Add/View Key Damage History(S)',
+                                    'View Key Damage History(S)',
                                     style: TextStyle(
                                       color: AppColors.navigationSkyBlueColor,
                                       decoration: TextDecoration.underline,

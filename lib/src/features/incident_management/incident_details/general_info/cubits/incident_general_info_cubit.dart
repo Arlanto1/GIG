@@ -61,13 +61,13 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
     List<BaseUser> emailUsers = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomStaticUser,
-        locationId: state.model.location?.id);
+        locationId: state.model.location!.id!);
     List<BaseUser> incidentManager = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomSeniorSecurityManagerUser,
-        locationId: state.model.location?.id);
+        locationId: state.model.location!.id!);
     List<BaseUser> incidentOwner = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomSubRegionalHeadUser,
-        locationId: state.model.location?.id);
+        locationId: state.model.location!.id!);
     emit(
       state.copyWith(
         status: FormStatus.initial,
@@ -84,6 +84,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
 
   Future<void> initializeValues() async {
     log('initializeValues---incidentGeneralCubit-occId---$occId--');
+    log('initializeValues---incidentGeneralCubit-kldId---$kldId--');
 
     //Show Loader and emit loading state
     emit(
@@ -132,12 +133,12 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         commonServices.getUserDetails(userId: userId),
         commonServices.getBaseUsers(
             roleName: ConstantUserRoles.atomStaticUser,
-            locationId: model.location?.id),
+            locationId: model.location!.id!),
         commonServices.getBaseUsers(
             roleName: ConstantUserRoles.atomSeniorSecurityManagerUser,
-            locationId: model.location?.id),
+            locationId: model.location!.id!),
         commonServices.getBaseUsers(
-            roleName: ConstantUserRoles.atomSubRegionalHeadUser, locationId: model.location?.id),
+            roleName: ConstantUserRoles.atomSubRegionalHeadUser, locationId: model.location!.id!),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getArticleType(name: 'ARTICLE_LIST'),
         commonServices.getUsers(),
@@ -212,13 +213,13 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
 
       emailUsers = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomStaticUser,
-          locationId: state.model.location?.id);
+          locationId: state.model.location!.id!);
       incidentManager = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomSeniorSecurityManagerUser,
-          locationId: state.model.location?.id);
+          locationId: state.model.location!.id!);
       incidentOwner = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomSubRegionalHeadUser,
-          locationId: state.model.location?.id);
+          locationId: state.model.location!.id!);
     }
 
     state.model.incidentManager = null;
