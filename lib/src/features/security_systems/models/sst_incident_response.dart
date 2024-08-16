@@ -83,6 +83,10 @@ class SstIncident {
   String? reworkDate;
   String? closedActivityNotes;
   num? workFlowId;
+  String? onsiteVisitDate;
+  String? solvedComplete;
+  double? downTime;
+  double? slaResolutionDate;
 
   SstIncident({
     this.id,
@@ -137,6 +141,8 @@ class SstIncident {
     this.reworkDate,
     this.closedActivityNotes,
     this.workFlowId,
+    this.onsiteVisitDate,
+    this.solvedComplete,
   });
 
   SstIncident.fromJson(Map<String, dynamic> json)
@@ -222,6 +228,10 @@ class SstIncident {
         reworkDate = json['reworkDate'] as String?,
         closedActivityNotes = json['closedActivityNotes'] as String?,
         workFlowId = json['workFlowId'] as num?,
+        onsiteVisitDate = json['onsiteVisitDate'] as String?,
+        solvedComplete = json['solvedComplete'] as String?,
+        downTime = json['downTime'] as double?,
+        slaResolutionDate = json['slaResolutionDate'] as double?,
         lock = json['lock'] as String?;
 
   Map<String, dynamic> toJson() => {
@@ -276,6 +286,10 @@ class SstIncident {
         'reworkDate': reworkDate,
         'closedActivityNotes': closedActivityNotes,
         'workFlowId': workFlowId,
+        'onsiteVisitDate': onsiteVisitDate,
+        'solvedComplete': solvedComplete,
+        'downTime': downTime,
+        'slaResolutionDate': slaResolutionDate,
         'lock': lock,
       };
 }
