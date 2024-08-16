@@ -74,8 +74,6 @@ class SLAViolationPenaltyDetailsCubit
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation>? entities =
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
-
-    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
         roleNames: ConstantUserRoles.atomStaticUser, locationId: location?.id);
 
@@ -89,7 +87,6 @@ class SLAViolationPenaltyDetailsCubit
         getEntitiesResponse: entities,
         listOfEntities: entities,
         status: FormStatus.initial,
-        users: users.t1Analyst,
         emailUsers: emailUsers,
         vendors: vendors.items,
         typeOfServices: typeOfService.items,
@@ -256,7 +253,6 @@ class SLAViolationPenaltyDetailsCubit
         status: FormStatus.loading,
       ),
     );
-    List<BaseUser> users = [];
     List<BaseUser> emailUsers = [];
     // Get Sl No from API
     if (location != null) {
@@ -266,9 +262,6 @@ class SLAViolationPenaltyDetailsCubit
       );
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
-
-      users = await commonServices.getBaseUsers(
-          roleName: 'T1_Analyst', locationId: location.id);
       emailUsers = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
     }
@@ -300,8 +293,7 @@ class SLAViolationPenaltyDetailsCubit
     }
     emit(state.copyWith(
       model: state.model,
-      users: users,
-      emailUsers: state.emailUsers,
+      emailUsers: emailUsers,
       status: FormStatus.initial,
     ));
   }
@@ -398,7 +390,7 @@ class SLAViolationPenaltyDetailsCubit
         ),
       );
       log('status---- ${state.status}');
-      log('attdInfoId---- ${attdInfoId}');
+      log('attdInfoId---- $attdInfoId');
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(

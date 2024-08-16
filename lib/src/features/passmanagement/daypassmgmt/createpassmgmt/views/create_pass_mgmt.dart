@@ -2879,9 +2879,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         DateFormat(Constants.fulldateFormat).format(currentDate);
     dateofcreationTextController.text = currentFormattedDate;
     log('--------currentFormattedDate--$currentFormattedDate-');
+    log('-------passReturnedTextControllere--${passReturnedTextController.text}-');
 
     passReturnedTextController.text =
         widget.model?.status == 1 ? currentFormattedDate : '';
+    log('-------passReturned1111--${passReturnedTextController.text}-');
+
     if (widget.passId != ConstantsIntValue.passIdSez) {
       passValidFromTextController.text = currentFormattedDate;
 
@@ -3597,7 +3600,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
     passInfo.mifareNo = mtpApplicationNoTextController.text;
 
-    int passValidFromDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    int passValidFromDate = widget.model?.startTime != null
+        ? int.tryParse(widget.model!.startTime!)!
+        : (DateTime.now().millisecondsSinceEpoch ~/ 1000);
     int? passReturnedOn;
 
     log('state.model.updatedStatus--${state.model.updatedStatus}--');

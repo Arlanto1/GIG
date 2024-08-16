@@ -78,7 +78,7 @@ class KeyHistoryRecordsDetailsCubit
       final futures = await Future.wait([
         commonServices.getUserDetails(userId: userId),
         commonServices.getBaseUsersByRoles(
-            roleNames: 'ATOM_Security_Manager',
+            roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
             locationId: parentModel.location!.id!),
         commonServices.getOrganisations(
             name: 'KEY_MANAGEMENT_DESTRUCTION_REASON'),
@@ -87,7 +87,7 @@ class KeyHistoryRecordsDetailsCubit
             moduleCode: Constants.keyManagementMasterModule),
         SharedPrefs.getDefaultLocation(),
         commonServices.getBaseUsersByRoles(
-            roleNames: 'ATOM_Sub_Regional_Head',
+            roleNames: ConstantUserRoles.atomSubRegionalHeadUser,
             locationId: parentModel.location!.id!),
       ]);
 
@@ -163,20 +163,16 @@ class KeyHistoryRecordsDetailsCubit
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
 
-    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     List<Organisation>? departments = await commonServices.getOrganisations(
         name: 'KEY_MANAGEMENT_DESTRUCTION_REASON');
     List<BaseUser> securityManager = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Security_Manager',
-        locationId: state.keyManagementMasterModel!.location!.id!);
+        roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser, locationId: state.keyManagementMasterModel!.location!.id!);
     List<BaseUser> srh = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Sub_Regional_Head',
-        locationId: state.keyManagementMasterModel!.location!.id!);
+        roleNames: ConstantUserRoles.atomSubRegionalHeadUser, locationId: state.keyManagementMasterModel!.location!.id!);
 
     emit(
       state.copyWith(
         status: FormStatus.initial,
-        users: users.t1Analyst,
         securityManagers: securityManager,
         sRHs: srh,
         departments: departments,
