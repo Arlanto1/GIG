@@ -665,7 +665,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                             arguments: {
                                               ConstantsArgument.title:
                                                   Constants.visitingOfficials,
-                                              ConstantsArgument.type: 0,
+                                              ConstantsArgument.keyLostType: 0,
                                               ConstantsArgument.id:
                                                   state.model?.id,
                                               // ConstantsArgument.models:

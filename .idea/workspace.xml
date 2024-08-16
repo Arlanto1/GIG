@@ -4,20 +4,32 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="lock">
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="logout if the token is already cleared">
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/app/QA/release/output-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/QA/release/output-metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/configurations/base_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/base_api_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/constants/constant_agruments.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constant_agruments.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/constants/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_shifts/cubits/attendance_shifts_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_shifts/cubits/attendance_shifts_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_shifts/views/attendance_shifts_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_shifts/views/attendance_shifts_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/models/duty_post_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/models/duty_post_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/models/duty_post_model.g.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/cubits/sla_violation_penalty_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/cubits/sla_violation_penalty_details_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/views/sla_violation_penalty_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/views/sla_violation_penalty_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/violation_penalty_record/views/add_violation_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/violation_penalty_record/views/add_violation_pop_up.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details/views/contact_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details/views/contact_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_loss_destruction_list/services/key_loss_destruction_list_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_loss_destruction_list/services/key_loss_destruction_list_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/views/add_key_issuance_process_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/views/add_key_issuance_process_pop_up.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/views/key_issuance_process_record_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/views/key_issuance_process_record_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/views/key_management_issuance_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/views/key_management_issuance_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_history_records/views/key_history_records_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_history_records/views/key_history_records_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_history_records_details/cubits/key_history_records_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_history_records_details/cubits/key_history_records_details_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_history_records_details/views/key_history_records_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_history_records_details/views/key_history_records_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/incident_management/incident_details/general_info/views/incident_general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/incident_management/incident_details/general_info/views/incident_general_info_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/utils/shared_preferences.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/utils/shared_preferences.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,11 +49,10 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="keyIssuanceBugs" />
+        <entry key="$PROJECT_DIR$" value="firebase-crashlytics" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -311,38 +322,87 @@
     },
     {
       &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs538WZf&quot;,
-        &quot;number&quot;: 618
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51lr5g&quot;,
+        &quot;number&quot;: 528
       },
-      &quot;lastSeen&quot;: 1723216511033
+      &quot;lastSeen&quot;: 1721191066294
     },
     {
       &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs54AgwT&quot;,
-        &quot;number&quot;: 619
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51l1s6&quot;,
+        &quot;number&quot;: 529
       },
-      &quot;lastSeen&quot;: 1723293312492
+      &quot;lastSeen&quot;: 1721193389963
     },
     {
       &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs54Cauu&quot;,
-        &quot;number&quot;: 621
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51mixx&quot;,
+        &quot;number&quot;: 532
       },
-      &quot;lastSeen&quot;: 1723397812873
+      &quot;lastSeen&quot;: 1721201136556
     },
     {
       &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs54FRAl&quot;,
-        &quot;number&quot;: 622
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51mVTs&quot;,
+        &quot;number&quot;: 531
       },
-      &quot;lastSeen&quot;: 1723457794839
+      &quot;lastSeen&quot;: 1721201139145
     },
     {
       &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs54Gi2y&quot;,
-        &quot;number&quot;: 623
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51mlqJ&quot;,
+        &quot;number&quot;: 533
       },
-      &quot;lastSeen&quot;: 1723470453846
+      &quot;lastSeen&quot;: 1721201629012
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51nh_l&quot;,
+        &quot;number&quot;: 535
+      },
+      &quot;lastSeen&quot;: 1721210050680
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51oK9C&quot;,
+        &quot;number&quot;: 536
+      },
+      &quot;lastSeen&quot;: 1721215315840
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51omVr&quot;,
+        &quot;number&quot;: 538
+      },
+      &quot;lastSeen&quot;: 1721218699652
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51oN9l&quot;,
+        &quot;number&quot;: 537
+      },
+      &quot;lastSeen&quot;: 1721218823196
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51pfuA&quot;,
+        &quot;number&quot;: 539
+      },
+      &quot;lastSeen&quot;: 1721225311636
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51q-aH&quot;,
+        &quot;number&quot;: 541
+      },
+      &quot;lastSeen&quot;: 1721237480837
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs513wKy&quot;,
+        &quot;number&quot;: 546
+      },
+      &quot;lastSeen&quot;: 1721378746424
     }
   ]
 }</component>
@@ -387,7 +447,7 @@
   "keyToString": {
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "Flutter.main.dart.executor": "Run",
-    "Flutter.qa.executor": "Debug",
+    "Flutter.qa.executor": "Run",
     "Flutter.test_msal.dart.executor": "Debug",
     "Flutter.uat.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -405,7 +465,7 @@
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/common_widgets",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.keymap",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
@@ -459,9 +519,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="Flutter.test_msal.dart" />
-        <item itemvalue="Flutter.test.dart" />
-        <item itemvalue="Flutter.test.dart" />
-        <item itemvalue="Flutter.test.dart" />
         <item itemvalue="Flutter.test.dart" />
       </list>
     </recent_temporary>
@@ -822,7 +879,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="396" />
+    <option name="localTasksCounter" value="375" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -876,7 +933,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/dev" />
+                        <option value="origin/shift-schedule" />
                       </list>
                     </value>
                   </entry>
@@ -913,48 +970,32 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="event protection scroller issue" />
-    <MESSAGE value="minor change" />
-    <MESSAGE value="password eye icon" />
-    <MESSAGE value="location permission error" />
-    <MESSAGE value="error handling" />
-    <MESSAGE value="submit flag" />
-    <MESSAGE value="added location to user role api in key master" />
-    <MESSAGE value="location id passed." />
-    <MESSAGE value="event protection article found list button" />
-    <MESSAGE value="pass mgmt and mm dropdown" />
-    <MESSAGE value="found slno issue" />
-    <MESSAGE value="version change app release 12 Aug" />
-    <MESSAGE value="roles and default login message handled on login" />
-    <MESSAGE value="env" />
-    <MESSAGE value="pass management" />
-    <MESSAGE value="inactivity duration" />
-    <MESSAGE value="leo lock&#10;and tool tip for attendance user" />
-    <MESSAGE value="create pass fte name disable in handover status fixed" />
-    <MESSAGE value="vendor pass reason issue fixed" />
-    <MESSAGE value="pass - name click" />
-    <MESSAGE value="versions 13 aug 2024 app release" />
-    <MESSAGE value="leo lock issue fixed" />
-    <MESSAGE value="minor fix" />
-    <MESSAGE value="wip: base attendance ui setup done" />
-    <MESSAGE value="lock" />
-    <option name="LAST_COMMIT_MESSAGE" value="lock" />
+    <MESSAGE value="View Image issue fixed for Android" />
+    <MESSAGE value="minor improvement" />
+    <MESSAGE value="removed unwanted parameter" />
+    <MESSAGE value="button hidden" />
+    <MESSAGE value="+ icon removed for Departments and Entity Dialog Boxes" />
+    <MESSAGE value="+ icon removed from Incident Management and Ticket Life Cycle via navigating through Shift Occurrence." />
+    <MESSAGE value="MM cancel Record Button" />
+    <MESSAGE value="improvements and bug fixes" />
+    <MESSAGE value="new bug fixes" />
+    <MESSAGE value="leo image upload improvements" />
+    <MESSAGE value="api and other" />
+    <MESSAGE value="pull down to refresh" />
+    <MESSAGE value="bug fixed" />
+    <MESSAGE value="signature issue fixed" />
+    <MESSAGE value="slno update issue fixed" />
+    <MESSAGE value="pdf icon" />
+    <MESSAGE value="scroll issue" />
+    <MESSAGE value="leo slno" />
+    <MESSAGE value="leo issues" />
+    <MESSAGE value="found issues" />
+    <MESSAGE value="power failure issues" />
+    <MESSAGE value="article found handover date" />
+    <MESSAGE value="date issue shift schedule" />
+    <MESSAGE value="Invalid configuration: openAiApiKey cannot be null or empty. API keys can be generated here: https://platform.openai.com/account/api-keys." />
+    <MESSAGE value="release version changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="release version changes" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/src/features/createfound/views/create_found.dart</url>
-          <line>723</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/src/features/createfound/views/create_found.dart</url>
-          <line>731</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

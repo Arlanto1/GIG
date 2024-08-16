@@ -439,6 +439,9 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       int closureTargetDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.closureTargetDate = closureTargetDate.toString();
     }
+
+    log('-kldId---submit-$kldId-');
+
     state.model.incidentType ??= 0;
     state.model.occurrence ??= OccurrenceModel();
     state.model.occurrence?.id = occId.toIntOrNull();
@@ -509,6 +512,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
 
     emit(
       state.copyWith(
+        model: state.model,
         message: response.message,
         status: FormStatus.success,
       ),

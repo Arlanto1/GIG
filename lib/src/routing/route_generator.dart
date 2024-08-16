@@ -452,7 +452,7 @@ class RouteGenerator {
           location = arguments[ConstantsArgument.location];
           extraProperties = arguments[ConstantsArgument.extraProperties];
         }
-        log('--occId-router--$occId--');
+        log('--kldId-router--$kldId--');
         return MaterialPageRoute(
           builder: (context) => BlocProvider<IncidentGeneralInfoCubit>(
             create: (_) => IncidentGeneralInfoCubit(
@@ -762,7 +762,7 @@ class RouteGenerator {
               settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id];
           title = arguments[ConstantsArgument.title];
-          type = arguments[ConstantsArgument.type] ?? 0;
+          type = arguments[ConstantsArgument.keyLostType] ?? 0;
           rankType = arguments[ConstantsArgument.rankType] ?? '';
           ranks = arguments[ConstantsArgument.ranks] ?? [];
           parentStatus = arguments[ConstantsArgument.parentStatus];
@@ -1239,7 +1239,7 @@ class RouteGenerator {
               settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id];
           // title = arguments[ConstantsArgument.title];
-          type = arguments[ConstantsArgument.type];
+          type = arguments[ConstantsArgument.keyLostType];
           extraProperties = arguments[ConstantsArgument.extraProperties];
           lock = arguments[ConstantsArgument.isLocked];
 
@@ -1270,7 +1270,7 @@ class RouteGenerator {
         // int? parentId;
         int? id;
         String title;
-        int type = 0;
+        late int keyLostType;
         String? lock;
         int? kipId;
         int? keyIssuanceId;
@@ -1281,7 +1281,7 @@ class RouteGenerator {
         id = arguments[ConstantsArgument.id];
         kipId = arguments[ConstantsArgument.kipId];
         keyIssuanceId= arguments[ConstantsArgument.keyIssuanceId];
-        type = arguments[ConstantsArgument.type];
+        keyLostType = arguments[ConstantsArgument.keyLostType];
         KeyHistoryModel? model = arguments[ConstantsArgument.model];
         extraProperties = arguments[ConstantsArgument.extraProperties];
         lock = arguments[ConstantsArgument.isLocked];
@@ -1296,14 +1296,14 @@ class RouteGenerator {
               kipId: kipId,
               keyIssuanceId:keyIssuanceId,
               commonServices: commonServices,
-              type: type,
+              lostType: keyLostType,
               keyIssuanceServices: keyIssuanceServices,
             ),
             child: KeyHistoryRecordsDetailsView(
                 model: model,
                 title: title,
                 parentId: id!,
-                type: type,
+                keyLostType: keyLostType,
                 extraProperties: extraProperties,
                 lock: lock),
           ),
@@ -1342,7 +1342,7 @@ class RouteGenerator {
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
-        type = arguments[ConstantsArgument.type] ?? 0;
+        type = arguments[ConstantsArgument.keyLostType] ?? 0;
         KeyLossDestructionListModel? keyLossDestructionListModel =
             arguments["keyLossGi"];
         extraProperties = arguments[ConstantsArgument.extraProperties];

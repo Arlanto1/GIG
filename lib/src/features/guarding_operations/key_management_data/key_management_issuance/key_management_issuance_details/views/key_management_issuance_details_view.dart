@@ -534,6 +534,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                       ? false
                                       : true,
                                   onlyDate: false,
+                                  showPastDate: false,
                                   onChange: (String value) {
                                     state.model.keyHandOverDue =
                                         Utils().formatTime(value);
@@ -821,7 +822,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                         state.model.status != 2) ||
                                         isReadOnly,
                                     onlyDate: false,
-                                    showPastDate: false,
+                                    showFutureDate: false,
+                                    showPastDate: true,
                                     onChange: (String value) {
                                       state.model.keyReturnDateTime =
                                           Utils().formatTime(value);

@@ -4,6 +4,8 @@ import 'package:quill_html_editor/quill_html_editor.dart';
 class Constants {
   // static const inactivityDuration = Duration(minutes: 5);
 
+  static const String logsToggle = 'logsToggle';
+
   static double tabletScreenWidth = 800;
   /// Pagination
   static const int maxResults = 20;

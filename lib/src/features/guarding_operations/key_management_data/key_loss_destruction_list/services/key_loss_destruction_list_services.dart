@@ -49,7 +49,7 @@ class KeyLossDestructionListServices {
     required String? kmId,
   }) async {
     final String url =
-        "${Apis._createKeyLossDes}&kmId=$kmId&isSubmit=$isSubmit";
+        "${Apis._createKeyLossDes}&kmId=$kmId&isSubmit=$isSubmit&isKeyManagementMaster=false";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),

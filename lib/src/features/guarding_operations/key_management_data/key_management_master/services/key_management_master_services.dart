@@ -129,7 +129,7 @@ class KeyManagementMasterServices {
   }) async {
     // var userId = await SharedPrefs.getUserId();
      String url =
-        "${Apis._createKeyHistoryRecord}kmId=$kmId&isSubmit=$isSubmit";
+        "${Apis._createKeyHistoryRecord}kmId=$kmId&isSubmit=$isSubmit&isKeyManagementMaster=true";
     if(keyIssuanceId !=null){
     url  = '$url&kmiMasterId=$keyIssuanceId';
     }

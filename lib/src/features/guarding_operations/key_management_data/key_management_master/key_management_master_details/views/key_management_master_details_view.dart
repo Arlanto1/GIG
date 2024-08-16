@@ -825,7 +825,7 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.title:
                                         Constants.lockChangeHistory,
                                     ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.type:
+                                    ConstantsArgument.keyLostType:
                                         ConstantsIntValue.lockChangeHistoryInt,
                                     ConstantsArgument.isLocked:
                                         state.model.lock,
@@ -857,7 +857,7 @@ class _KeyManagementMasterDetailsViewState
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            ///Key Lost History
+                            /// Key Lost History
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -889,25 +889,25 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.title:
                                         Constants.keyLostHistory,
                                     ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.type:
+                                    ConstantsArgument.keyLostType:
                                         ConstantsIntValue.keyLostHistoryInt,
                                     ConstantsArgument.isLocked:
                                         state.model.lock,
                                   },
                                 );
                               },
-                              child: Row(
+                              child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                    colorFilter: const ColorFilter.mode(
-                                      AppColors.navigationSkyBlueColor,
-                                      BlendMode.srcIn,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Text(
+                                  // SvgPicture.asset(
+                                  //   AppIcon.pluscircle,
+                                  //   colorFilter: const ColorFilter.mode(
+                                  //     AppColors.navigationSkyBlueColor,
+                                  //     BlendMode.srcIn,
+                                  //   ),
+                                  // ),
+                                  // SizedBox(width: 35),
+                                  Text(
                                     'View Key Lost History(S)',
                                     style: TextStyle(
                                       color: AppColors.navigationSkyBlueColor,
@@ -919,7 +919,7 @@ class _KeyManagementMasterDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            ///Key Damage History
+                            /// Key Damage History
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -953,25 +953,25 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.title:
                                         Constants.keyDamageHistory,
                                     ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.type:
+                                    ConstantsArgument.keyLostType:
                                         ConstantsIntValue.keyDamageHistoryInt,
                                     ConstantsArgument.isLocked:
                                         state.model.lock,
                                   },
                                 );
                               },
-                              child: Row(
+                              child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                    colorFilter: const ColorFilter.mode(
-                                      AppColors.navigationSkyBlueColor,
-                                      BlendMode.srcIn,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Text(
+                                  // SvgPicture.asset(
+                                  //   AppIcon.pluscircle,
+                                  //   colorFilter: const ColorFilter.mode(
+                                  //     AppColors.navigationSkyBlueColor,
+                                  //     BlendMode.srcIn,
+                                  //   ),
+                                  // ),
+                                  // SizedBox(width: 35),
+                                  Text(
                                     'View Key Damage History(S)',
                                     style: TextStyle(
                                       color: AppColors.navigationSkyBlueColor,
@@ -1014,7 +1014,7 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.title:
                                         Constants.keyDestroyHistory,
                                     ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.type:
+                                    ConstantsArgument.keyLostType:
                                         ConstantsIntValue.keyDestroyHistoryInt,
                                     ConstantsArgument.isLocked:
                                         state.model.lock,

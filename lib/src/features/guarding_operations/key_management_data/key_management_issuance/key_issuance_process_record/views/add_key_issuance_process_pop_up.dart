@@ -591,45 +591,47 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
   }
 
   ErrorResponse get isFormValid {
-    if (widget.model.kmId == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter No. of Keys Description.');
-    }
-    if (widget.model.keyType == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Key Type');
-    }
-    if (widget.model.noKeysIssued == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter No. of Keys Issued.');
-    }
 
-    if (widget.model.noKeysIssued != null &&
-        widget.model.noKeysIssued! > int.parse(noOfKeysController.text)) {
-      return const ErrorResponse(
-        status: false,
-        message: 'Please enter valid Number of Keys Issued',
-      );
-    }
-
-    if (widget.parentStatus == ConstantsIntValue.issuanceDraftStatus &&
-        widget.model.noKeysIssued == 0) {
-      return const ErrorResponse(
-        status: false,
-        message: 'Please enter valid Number of Keys Issued',
-      );
-    }
-    if (widget.parentStatus == ConstantsIntValue.issuanceHandedOverStatus &&
-        widget.model.noKeysIssued !=
-            (widget.model.returned! +
-                widget.model.notReturned! +
-                widget.model.lost! +
-                widget.model.damaged!)) {
-      return const ErrorResponse(
-        status: false,
-        message: 'Values not matching with no of keys issued',
-      );
-    }
+    // TODO: Uncomment this after testing
+    // if (widget.model.kmId == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter No. of Keys Description.');
+    // }
+    // if (widget.model.keyType == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Key Type');
+    // }
+    // if (widget.model.noKeysIssued == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter No. of Keys Issued.');
+    // }
+    //
+    // if (widget.model.noKeysIssued != null &&
+    //     widget.model.noKeysIssued! > int.parse(noOfKeysController.text)) {
+    //   return const ErrorResponse(
+    //     status: false,
+    //     message: 'Please enter valid Number of Keys Issued',
+    //   );
+    // }
+    //
+    // if (widget.parentStatus == ConstantsIntValue.issuanceDraftStatus &&
+    //     widget.model.noKeysIssued == 0) {
+    //   return const ErrorResponse(
+    //     status: false,
+    //     message: 'Please enter valid Number of Keys Issued',
+    //   );
+    // }
+    // if (widget.parentStatus == ConstantsIntValue.issuanceHandedOverStatus &&
+    //     widget.model.noKeysIssued !=
+    //         (widget.model.returned! +
+    //             widget.model.notReturned! +
+    //             widget.model.lost! +
+    //             widget.model.damaged!)) {
+    //   return const ErrorResponse(
+    //     status: false,
+    //     message: 'Values not matching with no of keys issued',
+    //   );
+    // }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }
