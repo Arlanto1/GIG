@@ -310,6 +310,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                             : 'Default Title',
         ConstantsArgument.id: widget.id,
         ConstantsArgument.keyLostType: widget.type,
+        ConstantsArgument.keyType: keyHistoryModel.keyType,
         ConstantsArgument.extraProperties:
             ExtraProperties(hasWritePermission: hasWritePermission),
       },

@@ -16,6 +16,7 @@ class KeyHistoryRecordsDetailsCubit
   final int? kipId;
   final int? keyIssuanceId;
   final KeyManagementIssuanceServices keyIssuanceServices;
+  final int? keyType;
 
   KeyHistoryRecordsDetailsCubit({
     required this.services,
@@ -27,6 +28,7 @@ class KeyHistoryRecordsDetailsCubit
     this.kipId,
     this.keyIssuanceId,
     required this.keyIssuanceServices,
+    this.keyType,
   }) : super(
           KeyHistoryRecordsDetailsState.initial(
             model: model ?? KeyHistoryModel(),
@@ -57,12 +59,12 @@ class KeyHistoryRecordsDetailsCubit
     );
     log('---model.nokeyss--${model?.noKeys}---${model?.noOfKeys}-----');
     log('---srhh--${model?.srh}-');
+    log('---kipId--$kipId-');
     KeyManagementMasterModel parentModel = await services.getById(parentId);
     KeyIssuanceProcessRecord keyIssuanceProcessModel =
         KeyIssuanceProcessRecord();
     KeyManagementIssuanceModel keyManagementIssuanceModel =
         KeyManagementIssuanceModel();
-    log('---kipId--$kipId-');
 
     if (keyIssuanceId != null) {
       keyManagementIssuanceModel =
@@ -78,7 +80,8 @@ class KeyHistoryRecordsDetailsCubit
       final futures = await Future.wait([
         commonServices.getUserDetails(userId: userId),
         commonServices.getBaseUsersByRoles(
-            roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+            roleNames:
+                ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
             locationId: parentModel.location!.id!),
         commonServices.getOrganisations(
             name: 'KEY_MANAGEMENT_DESTRUCTION_REASON'),
@@ -110,7 +113,8 @@ class KeyHistoryRecordsDetailsCubit
       state.model.modifiedBy ??= loggedInUserDetails.email;
       state.model.type = lostType;
 
-      log('---before--');
+      log('---before---${model?.id}-');
+      log('---before-ss--${state.model?.id}-');
       //setting lost value to the noOfKeys
       if (state.model.type == ConstantsIntValue.keyLostHistoryInt ||
           state.model.type == ConstantsIntValue.keyDamageHistoryInt) {
@@ -135,6 +139,7 @@ class KeyHistoryRecordsDetailsCubit
           : Utils().formatUnixTimestamp(state.model.modifiedDate ?? '');
       KLDUiLabels labels = KLDUiLabels.fromJson(responseLabels);
 
+      state.model.keyType = keyType;
       emit(
         state.copyWith(
             loggedInUserDetails: loggedInUserDetails,
@@ -166,9 +171,11 @@ class KeyHistoryRecordsDetailsCubit
     List<Organisation>? departments = await commonServices.getOrganisations(
         name: 'KEY_MANAGEMENT_DESTRUCTION_REASON');
     List<BaseUser> securityManager = await commonServices.getBaseUsersByRoles(
-        roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser, locationId: state.keyManagementMasterModel!.location!.id!);
+        roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+        locationId: state.keyManagementMasterModel!.location!.id!);
     List<BaseUser> srh = await commonServices.getBaseUsersByRoles(
-        roleNames: ConstantUserRoles.atomSubRegionalHeadUser, locationId: state.keyManagementMasterModel!.location!.id!);
+        roleNames: ConstantUserRoles.atomSubRegionalHeadUser,
+        locationId: state.keyManagementMasterModel!.location!.id!);
 
     emit(
       state.copyWith(
@@ -277,6 +284,7 @@ class KeyHistoryRecordsDetailsCubit
     log('---state.keyManagementMasterModel?.noKeys----${state.keyManagementMasterModel?.noKeys}------');
 
     GenericResponse response = GenericResponse();
+    log('--isSaveOnly--$isSaveOnly-');
     try {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {
@@ -294,6 +302,7 @@ class KeyHistoryRecordsDetailsCubit
           isSubmit: false,
           kmId: parentId.toString(),
           keyIssuanceId: keyIssuanceId,
+          isKeyManagementMaster: keyIssuanceId != null? false: true,
         ));
       } else {
         //Validating Fields
@@ -322,6 +331,7 @@ class KeyHistoryRecordsDetailsCubit
             isSubmit: true,
             kmId: parentId.toString(),
             keyIssuanceId: keyIssuanceId,
+            isKeyManagementMaster: keyIssuanceId != null? false: true,
           );
         }
         if (isApprovedOnly) {
@@ -340,6 +350,7 @@ class KeyHistoryRecordsDetailsCubit
             isSubmit: true,
             kmId: parentId.toString(),
             keyIssuanceId: keyIssuanceId,
+            isKeyManagementMaster: keyIssuanceId != null? false: true,
           );
         }
         response = (await services.createKeyHistoryRecord(
@@ -347,6 +358,7 @@ class KeyHistoryRecordsDetailsCubit
           isSubmit: true,
           kmId: parentId.toString(),
           keyIssuanceId: keyIssuanceId,
+          isKeyManagementMaster: keyIssuanceId != null? false: true,
         ));
       }
       state.model.createdDate = state.model.createdDate == null
@@ -374,6 +386,7 @@ class KeyHistoryRecordsDetailsCubit
     }
     log('---response--msg--${response.message}---');
 
+    state.model.id = int.tryParse(response.id ?? '');
     emit(
       state.copyWith(
         message: response.message,

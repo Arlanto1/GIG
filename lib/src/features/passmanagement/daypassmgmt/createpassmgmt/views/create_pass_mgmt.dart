@@ -3197,7 +3197,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             users: state.getDepositorResponse,
             roleName: ConstantUserRoles.atomStaticUser,
             locationId: state.location!.id!,
-            functionToCall: () {
+            functionToCall: (BaseUser user) {
+              createPassMgmtCubit.getNameUsersResponseData(user);
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },
             onTap: (BaseUser user) {
@@ -3271,7 +3272,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             users: state.getDepositorResponse!,
             roleName: ConstantUserRoles.atomStaticUser,
             locationId: state.location!.id!,
-            functionToCall: () {
+            functionToCall: (BaseUser user) {
+              createPassMgmtCubit.gethostUsersResponseData(
+                  User(userId: user.id, name: user.name));
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },
             onTap: (BaseUser user) {
@@ -3350,7 +3353,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             users: state.getDepositorResponse,
             roleName: ConstantUserRoles.atomStaticUser,
             locationId: state.location!.id!,
-            functionToCall: () {
+            functionToCall: (BaseUser user) {
+              createPassMgmtCubit.getdbsponsorUsersResponseData(
+                  User(userId: user.id, name: user.name));
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },
             onTap: (BaseUser user) {

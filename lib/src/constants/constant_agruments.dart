@@ -33,6 +33,8 @@ class ConstantsArgument {
   static const String eventId = "eventId";
   static const String eventProtectionId = "eventProtectionId";
   static const String keyIssuanceId = "keyIssuanceId";
+  static const String kmId = "kmId";
   static const String returnable = "returnable";
+  static const String keyType = "keyType";
 
 }

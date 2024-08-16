@@ -126,9 +126,10 @@ class KeyManagementMasterServices {
     required bool isSubmit,
     required String? kmId,
     required int? keyIssuanceId,
+    required bool isKeyManagementMaster,
   }) async {
     String url =
-        "${Apis._createKeyHistoryRecord}kmId=$kmId&isSubmit=$isSubmit&isKeyManagementMaster=true";
+        "${Apis._createKeyHistoryRecord}kmId=$kmId&isSubmit=$isSubmit&isKeyManagementMaster=$isKeyManagementMaster";
     if (keyIssuanceId != null) {
       url = '$url&kmiMasterId=$keyIssuanceId';
     }

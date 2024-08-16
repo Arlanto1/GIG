@@ -291,7 +291,12 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                         roleName: ConstantUserRoles
                                             .atomGuardingStaffUser,
                                         locationId: state.model.location!.id!,
-                                        functionToCall: () {
+                                        functionToCall: (BaseUser user) {
+                                          BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit>(
+                                              context)
+                                              .updateDropdownValues(
+                                              shiftTakenOverBy: user);
                                           // refresh the list
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(

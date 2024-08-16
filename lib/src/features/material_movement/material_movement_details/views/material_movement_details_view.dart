@@ -952,7 +952,15 @@ class _MaterialMovementDetailsViewState
                                                 .atomStaticUser,
                                             locationId:
                                                 state.model.location!.id!,
-                                            functionToCall: () {
+                                            functionToCall: (BaseUser user) {
+                                              BlocProvider.of<
+                                                          MaterialMovementDetailsCubit>(
+                                                      context)
+                                                  .updateApproverEmailsValue(
+                                                      requesterEmailUser: user);
+                                              FocusScope.of(context).requestFocus(
+                                                  requestorEmployeeIdFocusNode);
+
                                               // refresh the list
                                               BlocProvider.of<
                                                           MaterialMovementDetailsCubit>(
@@ -1490,7 +1498,12 @@ class _MaterialMovementDetailsViewState
                                                 .atomStaticUser,
                                             locationId:
                                                 state.model.location!.id!,
-                                            functionToCall: () {
+                                            functionToCall: (BaseUser user) {
+                                              BlocProvider.of<
+                                                          MaterialMovementDetailsCubit>(
+                                                      context)
+                                                  .updateApproverEmailsValue(
+                                                      approver1EmailUser: user);
                                               // refresh the list
                                               BlocProvider.of<
                                                           MaterialMovementDetailsCubit>(
@@ -1641,7 +1654,12 @@ class _MaterialMovementDetailsViewState
                                                 .atomStaticUser,
                                             locationId:
                                                 state.model.location!.id!,
-                                            functionToCall: () {
+                                            functionToCall: (BaseUser user) {
+                                              BlocProvider.of<
+                                                          MaterialMovementDetailsCubit>(
+                                                      context)
+                                                  .updateApproverEmailsValue(
+                                                      approver2EmailUser: user);
                                               // refresh the list
                                               BlocProvider.of<
                                                           MaterialMovementDetailsCubit>(
@@ -1852,8 +1870,11 @@ class _MaterialMovementDetailsViewState
                                   onlyDate: true,
                                   isDisabled: !showSaveSubmitButtons ||
                                           state.model.status ==
-                                              ConstantsIntValue.mmStatusClosed ||  state.model.status ==
-                                      ConstantsIntValue.mmStatusInwardWaiting
+                                              ConstantsIntValue
+                                                  .mmStatusClosed ||
+                                          state.model.status ==
+                                              ConstantsIntValue
+                                                  .mmStatusInwardWaiting
                                       ? true
                                       : false,
                                   onChange: (String value) {
@@ -1926,8 +1947,10 @@ class _MaterialMovementDetailsViewState
                                     hintText: '',
                                     isEnable: showSaveSubmitButtons &&
                                         state.model.status !=
-                                            ConstantsIntValue.mmStatusClosed && state.model.status !=
-                                        ConstantsIntValue.mmStatusInwardWaiting,
+                                            ConstantsIntValue.mmStatusClosed &&
+                                        state.model.status !=
+                                            ConstantsIntValue
+                                                .mmStatusInwardWaiting,
                                     isDisableColor: !showSaveSubmitButtons,
                                     onChange: (String value) {
                                       state.model.takenOutEmail = value;
@@ -1961,8 +1984,10 @@ class _MaterialMovementDetailsViewState
                                         Constants.characterLimitContactNo,
                                     isEnable: showSaveSubmitButtons &&
                                         state.model.status !=
-                                            ConstantsIntValue.mmStatusClosed &&  state.model.status !=
-                                        ConstantsIntValue.mmStatusInwardWaiting,
+                                            ConstantsIntValue.mmStatusClosed &&
+                                        state.model.status !=
+                                            ConstantsIntValue
+                                                .mmStatusInwardWaiting,
                                     isDisableColor:
                                         showSaveSubmitButtons ? false : true,
                                     onChange: (String value) {
@@ -1995,8 +2020,10 @@ class _MaterialMovementDetailsViewState
                                     showBorder: false,
                                     isEnable: showSaveSubmitButtons &&
                                         state.model.status !=
-                                            ConstantsIntValue.mmStatusClosed && state.model.status !=
-                                        ConstantsIntValue.mmStatusInwardWaiting,
+                                            ConstantsIntValue.mmStatusClosed &&
+                                        state.model.status !=
+                                            ConstantsIntValue
+                                                .mmStatusInwardWaiting,
                                     isDisableColor:
                                         showSaveSubmitButtons ? false : true,
                                     onChange: (String value) {
@@ -2027,8 +2054,11 @@ class _MaterialMovementDetailsViewState
                                     textController: takenOutOnDateController,
                                     isDisabled: showSaveSubmitButtons &&
                                             state.model.status !=
-                                                ConstantsIntValue.mmStatusClosed &&  state.model.status !=
-                                        ConstantsIntValue.mmStatusInwardWaiting
+                                                ConstantsIntValue
+                                                    .mmStatusClosed &&
+                                            state.model.status !=
+                                                ConstantsIntValue
+                                                    .mmStatusInwardWaiting
                                         ? false
                                         : true,
                                     onlyDate: false,
@@ -2230,7 +2260,15 @@ class _MaterialMovementDetailsViewState
                                                   .atomStaticUser,
                                               locationId:
                                                   state.model.location!.id!,
-                                              functionToCall: () {
+                                              functionToCall: (BaseUser user) {
+                                                BlocProvider.of<
+                                                            MaterialMovementDetailsCubit>(
+                                                        context)
+                                                    .updateDropdownValues(
+                                                        receiverEmailUser:
+                                                            user);
+                                                FocusScope.of(context).requestFocus(
+                                                    receivedForEmployeeIdFocusNode);
                                                 // refresh the list
                                                 BlocProvider.of<
                                                             MaterialMovementDetailsCubit>(
@@ -2354,7 +2392,12 @@ class _MaterialMovementDetailsViewState
                                         locationId: state.model.location!.id!,
                                         roleName:
                                             ConstantUserRoles.atomStaticUser,
-                                        functionToCall: () {
+                                        functionToCall: (BaseUser user) {
+                                          BlocProvider.of<
+                                              MaterialMovementDetailsCubit>(
+                                              context)
+                                              .updateDropdownValues(
+                                              receiverEmail: user);
                                           // refresh the list
                                           BlocProvider.of<
                                                       MaterialMovementDetailsCubit>(
@@ -2785,7 +2828,13 @@ class _MaterialMovementDetailsViewState
                                                     .atomStaticUser,
                                                 locationId:
                                                     state.model.location!.id!,
-                                                functionToCall: () {
+                                                functionToCall: (BaseUser user) {
+                                                  BlocProvider.of<
+                                                      MaterialMovementDetailsCubit>(
+                                                      context)
+                                                      .updateDropdownValues(
+                                                      returnReceiverMailId:
+                                                      user);
                                                   // refresh the list
                                                   BlocProvider.of<
                                                               MaterialMovementDetailsCubit>(
