@@ -298,7 +298,7 @@ class _MaterialMovementDetailsViewState
     if (state.model.actualDateOfReturn != null) {
       actualDateOfReturnController.text = Utils.timestampToDateConversion(
           int.tryParse(widget.model?.actualDateOfReturn ?? '0'),
-          Constants.dateFormat);
+          Constants.fulldateFormat);
     }
 
     if (state.model.takenOutDate != null) {
