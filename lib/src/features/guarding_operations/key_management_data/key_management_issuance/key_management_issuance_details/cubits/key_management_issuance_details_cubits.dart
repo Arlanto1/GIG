@@ -84,7 +84,6 @@ class KeyManagementIssuanceDetailsCubit
       final futures = await Future.wait([
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
-        commonServices.getUsersByRole(roleName: 'T1_Analyst'), // todo  remove
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
         commonServices.getBaseUsers(
@@ -97,12 +96,11 @@ class KeyManagementIssuanceDetailsCubit
 
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
-      Analyst users = futures[2];
-      AddEntities entities = futures[3];
-      // List<User> entrySecurities = futures[4];
-      List<BaseUser> emailUsers = futures[5];
-      EmployeeDepartments departments = futures[6];
-      // dynamic responseLabels = futures[7];
+      AddEntities entities = futures[2];
+      // List<User> entrySecurities = futures[3];
+      List<BaseUser> emailUsers = futures[4];
+      EmployeeDepartments departments = futures[5];
+      // dynamic responseLabels = futures[6];
 
       state.model.createdBy ??= loggedInUserDetails;
       // Get Date of Creation

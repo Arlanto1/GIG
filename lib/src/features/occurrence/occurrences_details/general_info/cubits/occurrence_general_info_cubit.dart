@@ -70,7 +70,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
 
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
-    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     List<BaseUser>? shiftTakenOverBy = await commonServices.getBaseUsersByRoles(
         roleNames: ConstantUserRoles.atomGuardingStaffUser,
         locationId: model!.location!.id!);
@@ -78,7 +77,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     emit(
       state.copyWith(
         status: FormStatus.initial,
-        users: users.t1Analyst,
         shiftTakenOverBy: shiftTakenOverBy,
       ),
     );
@@ -106,9 +104,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
 
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
-
-      Analyst users =
-          await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
       // Get Date of Creation
       // model.inputDate = Utils().getCurrentDate();
@@ -141,11 +136,10 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
               await services.getOccPowerFailure(
                   locationId: model.location?.id.toString() ?? '');
 
-          StringResponse followUp =
-          await services.getOccFollowUp(
+          StringResponse followUp = await services.getOccFollowUp(
               locationId: model.location?.id.toString() ?? '');
 
-          if(!followUp.comments.isEmptyOrNull) {
+          if (!followUp.comments.isEmptyOrNull) {
             model.comments = followUp.comments;
           }
           log('-powerFailureModel.powerFailureStartDate--${powerFailureModel.powerFailureStartDate}-');
@@ -183,7 +177,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
-          users: users.t1Analyst,
           shiftTakenOverBy: shiftTakenOverBy,
           departments: departments.employeeDepartments,
           entrySecurities: entrySecurities,

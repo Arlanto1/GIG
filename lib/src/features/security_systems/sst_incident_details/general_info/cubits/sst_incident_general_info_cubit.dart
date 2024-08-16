@@ -175,8 +175,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       model.createdBy ??= loggedInUserDetails;
 
       // if (isInternal == true) {
-        state.model.staffType = 1;
-        state.model.ticketType = 1;
+      state.model.staffType = 1;
+      state.model.ticketType = 1;
       // }
       // else {
       //   state.model.staffType = 2;
@@ -492,8 +492,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     state.model.status ??= 1;
 
     // if (isInternal == true) {
-      state.model.staffType = 1;
-      state.model.ticketType = 1;
+    state.model.staffType = 1;
+    state.model.ticketType = 1;
     // }
 
     if (state.model.workFlowId != null) {

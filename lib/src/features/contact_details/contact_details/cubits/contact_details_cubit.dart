@@ -44,7 +44,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
       final futures = [
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
-        commonServices.getUsersByRole(roleName: 'T1_Analyst'),
+        // commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.contactDetailsModule),
@@ -55,9 +55,9 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
 
       Locations getLocationsData = results[0];
       User loggedInUserDetails = results[1];
-      Analyst users = results[2];
-      dynamic responseLabels = results[3];
-      Organisation? defaultLocation = results[4];
+      // Analyst users = results[2];
+      dynamic responseLabels = results[2];
+      Organisation? defaultLocation = results[3];
 
       // Get Date of Creation
       // state.model.inputDate = Utils().getCurrentDate();
@@ -94,7 +94,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
-          users: users.t1Analyst,
+          // users: users.t1Analyst,
           labels: labels,
         ),
       );
