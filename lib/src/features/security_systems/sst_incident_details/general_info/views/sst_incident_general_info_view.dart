@@ -328,9 +328,9 @@ class _SstIncidentGeneralInfoViewState
             Constants.fulldateFormat)
         : '';
 
-    onsiteVisitDateController.text = state.model.onsiteVisitDate != null
+    onsiteVisitDateController.text = state.model.siteVisitDate != null
         ? Utils.timestampToDateConversion(
-        int.tryParse(state.model.onsiteVisitDate ?? '0'),
+        int.tryParse(state.model.siteVisitDate ?? '0'),
         Constants.fulldateFormat)
         : '';
 

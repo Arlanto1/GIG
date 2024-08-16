@@ -83,7 +83,7 @@ class SstIncident {
   String? reworkDate;
   String? closedActivityNotes;
   num? workFlowId;
-  String? onsiteVisitDate;
+  String? siteVisitDate;
   String? solvedComplete;
   double? downTime;
   double? slaResolutionDate;
@@ -141,7 +141,7 @@ class SstIncident {
     this.reworkDate,
     this.closedActivityNotes,
     this.workFlowId,
-    this.onsiteVisitDate,
+    this.siteVisitDate,
     this.solvedComplete,
   });
 
@@ -228,7 +228,7 @@ class SstIncident {
         reworkDate = json['reworkDate'] as String?,
         closedActivityNotes = json['closedActivityNotes'] as String?,
         workFlowId = json['workFlowId'] as num?,
-        onsiteVisitDate = json['onsiteVisitDate'] as String?,
+        siteVisitDate = json['siteVisitDate'] as String?,
         solvedComplete = json['solvedComplete'] as String?,
         downTime = json['downTime'] as double?,
         slaResolutionDate = json['slaResolutionDate'] as double?,
@@ -286,7 +286,7 @@ class SstIncident {
         'reworkDate': reworkDate,
         'closedActivityNotes': closedActivityNotes,
         'workFlowId': workFlowId,
-        'onsiteVisitDate': onsiteVisitDate,
+        'siteVisitDate': siteVisitDate,
         'solvedComplete': solvedComplete,
         'downTime': downTime,
         'slaResolutionDate': slaResolutionDate,
