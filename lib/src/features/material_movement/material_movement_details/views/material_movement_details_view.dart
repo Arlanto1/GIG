@@ -2696,7 +2696,7 @@ class _MaterialMovementDetailsViewState
                                 isDisabled: state.model.status ==
                                         ConstantsIntValue.mmStatusClosed ||
                                     !showSaveSubmitButtons,
-                                onlyDate: true,
+                                onlyDate: false,
                                 showFutureDate: false,
                                 showPastDate: true,
                                 onChange: (String value) {

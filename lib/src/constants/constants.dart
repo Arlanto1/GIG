@@ -920,8 +920,11 @@ class Constants {
   static const String dataLossAttachment = 'Data Loss Attachment';
   static const String slaOnSiteResponse = 'SLA Onsite Response';
   static const String solvedProposedDate = 'Solved Proposed Date';
+  static const String solvedCompleteDate = 'Solved Complete';
   static const String reworkProposedDate = 'Rework Proposed Date';
   static const String comments = 'Comments';
+  static const String downTime = 'DownTime(Hours)';
+  static const String slaResolutionDate = 'SLA Resolution Date';
 
 
 

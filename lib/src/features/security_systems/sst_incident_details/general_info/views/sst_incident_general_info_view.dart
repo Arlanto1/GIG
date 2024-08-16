@@ -44,6 +44,9 @@ class _SstIncidentGeneralInfoViewState
   TextEditingController slaOnsiteResponseController = TextEditingController();
   TextEditingController solvedProposedDateController = TextEditingController();
   TextEditingController reworkProposedDateController = TextEditingController();
+  TextEditingController solvedCompleteDateController = TextEditingController();
+  TextEditingController downTimeController = TextEditingController();
+  TextEditingController slaResolutionDateController = TextEditingController();
 
   bool isDisabled = true;
   bool disableForm = false;
@@ -54,6 +57,8 @@ class _SstIncidentGeneralInfoViewState
   bool isShowSubmitButtonForSecurityManager = false;
   final FocusNode vendorPocFocusNode = FocusNode();
   final FocusNode descriptionFocusNode = FocusNode();
+  bool showSolvedProposed = false;
+  bool showSLAOnsiteResponse = false;
 
   @override
   void initState() {
@@ -124,6 +129,8 @@ class _SstIncidentGeneralInfoViewState
         vendorTicketNoController.text = state.model.vendorTicketNo ?? '';
         slaOnsiteResponseController.text =
             state.model.slaOnsiteRes?.toString() ?? '0.0';
+        downTimeController.text = state.model.downTime?.toString() ?? '0.0';
+        slaResolutionDateController.text= state.model.slaResolutionDate?.toString() ?? '0.0';
         state.model.status ??= 1;
         if (state.model.id != null && state.model.status! > 1) {
           log('--state.model.status----asd---${state.model.status}-');
@@ -136,6 +143,22 @@ class _SstIncidentGeneralInfoViewState
         if (!state.model.lock.isEmptyOrNull) {
           disableForm = true;
         }
+
+        if(state.model.status ==
+            ConstantsIntValue
+                .ticketLifeCycleSolveProposedStatus || state.model.status ==
+            ConstantsIntValue
+                .ticketLifeCycleClosedStatus){
+          showSolvedProposed = true;
+        }
+
+
+       if(showSolvedProposed ||
+            state.model.status ==
+                ConstantsIntValue
+                    .ticketLifeCycleReworkStatus){
+         showSLAOnsiteResponse = true;
+       }
 
         if (state.model.status !=
                 ConstantsIntValue.ticketLifeCycleCreateStatus &&
@@ -303,6 +326,18 @@ class _SstIncidentGeneralInfoViewState
         ? Utils.timestampToDateConversion(
             int.tryParse(state.model.reworkDate ?? '0'),
             Constants.fulldateFormat)
+        : '';
+
+    onsiteVisitDateController.text = state.model.onsiteVisitDate != null
+        ? Utils.timestampToDateConversion(
+        int.tryParse(state.model.onsiteVisitDate ?? '0'),
+        Constants.fulldateFormat)
+        : '';
+
+    solvedCompleteDateController.text = state.model.solvedComplete != null
+        ? Utils.timestampToDateConversion(
+        int.tryParse(state.model.solvedComplete ?? '0'),
+        Constants.fulldateFormat)
         : '';
   }
 
@@ -1000,6 +1035,7 @@ class _SstIncidentGeneralInfoViewState
                         child: Column(
                           children: [
                             if (showSystemIntegratorFields) ...[
+                              ///Acknowledge Integrator for Vendor Action
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.acknowledgeDateTime ??
                                       state.labels?.defaultLocale
@@ -1039,6 +1075,9 @@ class _SstIncidentGeneralInfoViewState
                                 validateTextField: (String? user) {},
                               ),
                             ],
+
+
+                            ///Onsite Visit Date and Time
                             if (showSystemIntegratorFields &&
                                 state.model.status !=
                                     ConstantsIntValue
@@ -1275,9 +1314,7 @@ class _SstIncidentGeneralInfoViewState
                               ),
                             ],
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            if (state.model.status ==
-                                ConstantsIntValue
-                                    .ticketLifeCycleSolveProposedStatus) ...[
+                            if (showSolvedProposed) ...[
                               ///Solved proposed Date
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.solvedProposed ??
@@ -1296,9 +1333,31 @@ class _SstIncidentGeneralInfoViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
+
+                            if(state.model.status ==ConstantsIntValue.ticketLifeCycleClosedStatus )...[
+                              ///Solved Complete
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.solvedComplete ??
+                                      state.labels?.defaultLocale
+                                          .solvedComplete ??
+                                      Constants.solvedCompleteDate,
+                                  isMandatory: false,
+                                  Styles.textStyleBlack14),
+                              BaseDate().datePickerWidgetLoading(
+                                isDisabled: true,
+                                textController: solvedProposedDateController,
+                                onlyDate: false,
+                                showFutureDate: false,
+                                onChange: (String value) {},
+                                context: context,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
+
+
                             if (state.model.status ==
                                 ConstantsIntValue
-                                    .ticketLifeCycleSolveProposedStatus) ...[
+                                    .ticketLifeCycleReworkStatus) ...[
                               ///Rework proposed Date
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.reworkDate ??
@@ -1316,6 +1375,8 @@ class _SstIncidentGeneralInfoViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
+
+
                             if (state.model.status != null &&
                                 state.model.status !=
                                     ConstantsIntValue
@@ -1371,12 +1432,7 @@ class _SstIncidentGeneralInfoViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
-                            if (state.model.status ==
-                                    ConstantsIntValue
-                                        .ticketLifeCycleSolveProposedStatus ||
-                                state.model.status ==
-                                    ConstantsIntValue
-                                        .ticketLifeCycleReworkStatus) ...[
+                            if (showSLAOnsiteResponse) ...[
                               /// SLA Onsite Response
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.slaOnsiteResponse ??
@@ -1399,6 +1455,54 @@ class _SstIncidentGeneralInfoViewState
                                 validateTextField: (String? user) {},
                               ),
                             ],
+
+                            if (state.model.status == ConstantsIntValue.ticketLifeCycleClosedStatus) ...[
+                              /// Downtime(Hours)
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.downtime ??
+                                      state.labels?.defaultLocale
+                                          .downtime ??
+                                      Constants.downTime,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                lineHeight: 1,
+                                controller: downTimeController,
+                                // initialValue: state.model.escalation3Poc,
+                                textFormKey: Keys.claimantTextController,
+                                hintText: '',
+                                isEnable: false,
+                                isDisableColor: true,
+                                onChange: (String value) {},
+                                validateTextField: (String? user) {},
+                              ),
+
+                              ///SLA Resolution Date
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.slaResolutionDate ??
+                                      state.labels?.defaultLocale
+                                          .slaResolutionDate ??
+                                      Constants.slaResolutionDate,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                lineHeight: 1,
+                                controller: slaResolutionDateController,
+                                // initialValue: state.model.escalation3Poc,
+                                textFormKey: Keys.claimantTextController,
+                                hintText: '',
+                                isEnable: false,
+                                isDisableColor: true,
+                                onChange: (String value) {},
+                                validateTextField: (String? user) {},
+                              ),
+                            ],
+
+                            ///Activity notes
                             if (showSystemIntegratorFields &&
                                 state.model.status !=
                                     ConstantsIntValue
