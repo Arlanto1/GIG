@@ -60,11 +60,13 @@ class KeyHistoryRecordsDetailsCubit
     KeyManagementMasterModel parentModel = await services.getById(parentId);
     KeyIssuanceProcessRecord keyIssuanceProcessModel =
         KeyIssuanceProcessRecord();
-    KeyManagementIssuanceModel keyManagementIssuanceModel = KeyManagementIssuanceModel();
+    KeyManagementIssuanceModel keyManagementIssuanceModel =
+        KeyManagementIssuanceModel();
     log('---kipId--$kipId-');
 
-    if(keyIssuanceId !=null){
-      keyManagementIssuanceModel = await keyIssuanceServices.getById(keyIssuanceId!);
+    if (keyIssuanceId != null) {
+      keyManagementIssuanceModel =
+          await keyIssuanceServices.getById(keyIssuanceId!);
     }
     if (kipId != null) {
       keyIssuanceProcessModel =
@@ -144,8 +146,7 @@ class KeyHistoryRecordsDetailsCubit
             labels: labels,
             keyManagementMasterModel: parentModel,
             keyIssuanceProcessRecord: keyIssuanceProcessModel,
-            keyManagementIssuanceModel:keyManagementIssuanceModel
-        ),
+            keyManagementIssuanceModel: keyManagementIssuanceModel),
       );
     } catch (e) {
       log('Initialization issue',
@@ -292,7 +293,7 @@ class KeyHistoryRecordsDetailsCubit
           body: request,
           isSubmit: false,
           kmId: parentId.toString(),
-            keyIssuanceId:keyIssuanceId.toString(),
+          keyIssuanceId: keyIssuanceId,
         ));
       } else {
         //Validating Fields
@@ -320,8 +321,7 @@ class KeyHistoryRecordsDetailsCubit
             body: request,
             isSubmit: true,
             kmId: parentId.toString(),
-            keyIssuanceId:keyIssuanceId.toString(),
-
+            keyIssuanceId: keyIssuanceId,
           );
         }
         if (isApprovedOnly) {
@@ -339,15 +339,14 @@ class KeyHistoryRecordsDetailsCubit
             body: request,
             isSubmit: true,
             kmId: parentId.toString(),
-            keyIssuanceId:keyIssuanceId.toString(),
-
+            keyIssuanceId: keyIssuanceId,
           );
         }
         response = (await services.createKeyHistoryRecord(
           body: request,
           isSubmit: true,
           kmId: parentId.toString(),
-          keyIssuanceId:keyIssuanceId.toString(),
+          keyIssuanceId: keyIssuanceId,
         ));
       }
       state.model.createdDate = state.model.createdDate == null

@@ -96,8 +96,10 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                       keyIssuanceProcessModel.kmId == 1 ? true : false;
                   List<Organisation> keyDescriptions =
                       await KeyManagementIssuanceServices().getKeyDescriptions(
-                          locationId: widget.locationId,
-                          isMasterKey: isMasterKey);
+                    locationId: widget.locationId,
+                    isMasterKey: isMasterKey,
+                    kmIssuanceId: widget.parentId,
+                  );
 
                   showAddKeyIssuanceProcessPopUp(
                     context: context,
@@ -247,8 +249,10 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                       List<Organisation> keyDescriptions =
                           await KeyManagementIssuanceServices()
                               .getKeyDescriptions(
-                                  locationId: widget.locationId,
-                                  isMasterKey: isMasterKey);
+                        locationId: widget.locationId,
+                        isMasterKey: isMasterKey,
+                        kmIssuanceId: widget.parentId,
+                      );
 
                       log('--state.keyDescriptions--onEditTap--${state.keyDescriptions?.length}---');
 
