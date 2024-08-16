@@ -1577,8 +1577,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             isMandatory: true,
                                           ),
                                           radioButtonHandling(
-                                            state.exceptionalApproval ?? 0
-                                          ),
+                                              state.exceptionalApproval ?? 0),
                                         ],
                                       ),
                                     ],
@@ -1832,7 +1831,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             ConstantsIntValue.passIdVisitor
                                         ? radioButtonHandling(
                                             state.escortedbyhost ?? 0,
-                                            )
+                                          )
                                         : Container(),
                                     // Text('state.escortedbyhost--- ${widget.model?.escortedByHost}'),
                                     // Text('state.email--- ${state.escorted}'),
@@ -2208,8 +2207,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           onChanged: isEditable
               ? (val) {
                   selectedValue = 1;
-                  createPassMgmtCubit.getRadioButtonSelected(
-                       selectedValue);
+                  createPassMgmtCubit.getRadioButtonSelected(selectedValue);
                 }
               : null,
         ),
@@ -2223,8 +2221,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           onChanged: isEditable
               ? (val) {
                   selectedValue = 0;
-                  createPassMgmtCubit.getRadioButtonSelected(
-                       selectedValue);
+                  createPassMgmtCubit.getRadioButtonSelected(selectedValue);
                 }
               : null,
         ),
@@ -2235,9 +2232,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   populateData() async {
     if (widget.model != null) {
-
       int value = 0;
-      if(widget.model!.escortedByHost??false) {
+      if (widget.model!.escortedByHost ?? false) {
         value = 1;
       }
 
@@ -2885,9 +2881,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         DateFormat(Constants.fulldateFormat).format(currentDate);
     dateofcreationTextController.text = currentFormattedDate;
     log('--------currentFormattedDate--$currentFormattedDate-');
+    log('-------passReturnedTextControllere--${passReturnedTextController.text}-');
 
     passReturnedTextController.text =
         widget.model?.status == 1 ? currentFormattedDate : '';
+    log('-------passReturned1111--${passReturnedTextController.text}-');
+
     if (widget.passId != ConstantsIntValue.passIdSez) {
       passValidFromTextController.text = currentFormattedDate;
 
@@ -3603,7 +3602,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
     passInfo.mifareNo = mtpApplicationNoTextController.text;
 
-    int passValidFromDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+    int passValidFromDate = widget.model?.startTime != null
+        ? int.tryParse(widget.model!.startTime!)!
+        : (DateTime.now().millisecondsSinceEpoch ~/ 1000);
     int? passReturnedOn;
 
     log('state.model.updatedStatus--${state.model.updatedStatus}--');
