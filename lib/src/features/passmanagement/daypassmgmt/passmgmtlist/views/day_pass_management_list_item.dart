@@ -1,3 +1,4 @@
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/constants/ui_geometry_constants.dart';
@@ -111,6 +112,26 @@ class _DayPassManagementListItemState extends State<DayPassManagementListItem> {
                                         widget.userItem.inputDate ?? '0'),
                                     Constants.dateFormat)
                                 : ''),
+                      ],
+                    ),
+                  ],
+                  if (widget.userItem.passInfo != null) ...[
+                    CommonWidgets.horizontalSpacerWidget(5),
+                    Row(
+                      children: [
+                        Utils().textHandling(
+                            widget.userItem.passType == ConstantsIntValue.passIdDayPass
+                                ? (state.labels?.locale.dayPassInfo ??
+                                state.labels?.defaultLocale.dayPassInfo ??
+                                'Day Pass No: ')
+                                : widget.userItem.passType == ConstantsIntValue.passIdVendor
+                                ? (state.labels?.locale.vendorPassInfo ??
+                                state.labels?.defaultLocale.vendorPassInfo ??
+                                'Vendor Pass No: ')
+                                : (state.labels?.locale.visitorPassInfo ??
+                                state.labels?.defaultLocale.visitorPassInfo ??
+                                'Visitor Pass No: '),
+                            widget.userItem.passInfo?.passNo?.toString() ?? " "),
                       ],
                     ),
                   ],
