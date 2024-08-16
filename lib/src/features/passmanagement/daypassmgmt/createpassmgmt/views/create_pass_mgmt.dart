@@ -1577,8 +1577,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             isMandatory: true,
                                           ),
                                           radioButtonHandling(
-                                            state.exceptionalApproval ?? 0
-                                          ),
+                                              state.exceptionalApproval ?? 0),
                                         ],
                                       ),
                                     ],
@@ -1832,7 +1831,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             ConstantsIntValue.passIdVisitor
                                         ? radioButtonHandling(
                                             state.escortedbyhost ?? 0,
-                                            )
+                                          )
                                         : Container(),
                                     // Text('state.escortedbyhost--- ${widget.model?.escortedByHost}'),
                                     // Text('state.email--- ${state.escorted}'),
@@ -2208,8 +2207,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           onChanged: isEditable
               ? (val) {
                   selectedValue = 1;
-                  createPassMgmtCubit.getRadioButtonSelected(
-                       selectedValue);
+                  createPassMgmtCubit.getRadioButtonSelected(selectedValue);
                 }
               : null,
         ),
@@ -2223,8 +2221,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           onChanged: isEditable
               ? (val) {
                   selectedValue = 0;
-                  createPassMgmtCubit.getRadioButtonSelected(
-                       selectedValue);
+                  createPassMgmtCubit.getRadioButtonSelected(selectedValue);
                 }
               : null,
         ),
@@ -2235,9 +2232,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   populateData() async {
     if (widget.model != null) {
-
       int value = 0;
-      if(widget.model!.escortedByHost??false) {
+      if (widget.model!.escortedByHost ?? false) {
         value = 1;
       }
 
@@ -2517,9 +2513,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       'VENDOR_PASS_REASON',
     );
     //await createpassmgmtCubit.getAnalysts('T1_Analyst');
-    await createPassMgmtCubit.getUserByRoleDepositor(
-      ConstantUserRoles.atomStaticUser,
-    );
+    await createPassMgmtCubit.getUserByRoleDepositor();
   }
 
   Widget submitButtonDisplay() {
@@ -3199,7 +3193,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             context: context,
             users: state.getDepositorResponse,
             roleName: ConstantUserRoles.atomStaticUser,
-            locationId: 0,
+            locationId: state.location!.id!,
             functionToCall: () {
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },
@@ -3273,7 +3267,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             context: context,
             users: state.getDepositorResponse!,
             roleName: ConstantUserRoles.atomStaticUser,
-            locationId: 0,
+            locationId: state.location!.id!,
             functionToCall: () {
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },
@@ -3352,7 +3346,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             context: context,
             users: state.getDepositorResponse,
             roleName: ConstantUserRoles.atomStaticUser,
-            locationId: 0,
+            locationId: state.location!.id!,
             functionToCall: () {
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },
