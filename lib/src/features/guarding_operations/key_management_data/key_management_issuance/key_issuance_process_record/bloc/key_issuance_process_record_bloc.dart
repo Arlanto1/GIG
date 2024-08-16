@@ -49,7 +49,7 @@ class KeyIssuanceProcessRecordBloc
       );
 
       List<Organisation> keyDescriptions = await KeyManagementIssuanceServices()
-          .getKeyDescriptions(locationId: locationId, isMasterKey: isMasterKey);
+          .getKeyDescriptions(locationId: locationId, isMasterKey: isMasterKey, kmIssuanceId: parentId);
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),

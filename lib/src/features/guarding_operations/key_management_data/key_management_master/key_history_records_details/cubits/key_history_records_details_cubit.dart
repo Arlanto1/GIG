@@ -60,11 +60,13 @@ class KeyHistoryRecordsDetailsCubit
     KeyManagementMasterModel parentModel = await services.getById(parentId);
     KeyIssuanceProcessRecord keyIssuanceProcessModel =
         KeyIssuanceProcessRecord();
-    KeyManagementIssuanceModel keyManagementIssuanceModel = KeyManagementIssuanceModel();
+    KeyManagementIssuanceModel keyManagementIssuanceModel =
+        KeyManagementIssuanceModel();
     log('---kipId--$kipId-');
 
-    if(keyIssuanceId !=null){
-      keyManagementIssuanceModel = await keyIssuanceServices.getById(keyIssuanceId!);
+    if (keyIssuanceId != null) {
+      keyManagementIssuanceModel =
+          await keyIssuanceServices.getById(keyIssuanceId!);
     }
     if (kipId != null) {
       keyIssuanceProcessModel =
@@ -144,8 +146,7 @@ class KeyHistoryRecordsDetailsCubit
             labels: labels,
             keyManagementMasterModel: parentModel,
             keyIssuanceProcessRecord: keyIssuanceProcessModel,
-            keyManagementIssuanceModel:keyManagementIssuanceModel
-        ),
+            keyManagementIssuanceModel: keyManagementIssuanceModel),
       );
     } catch (e) {
       log('Initialization issue',
@@ -166,9 +167,11 @@ class KeyHistoryRecordsDetailsCubit
     List<Organisation>? departments = await commonServices.getOrganisations(
         name: 'KEY_MANAGEMENT_DESTRUCTION_REASON');
     List<BaseUser> securityManager = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Security_Manager', locationId: state.keyManagementMasterModel!.location!.id!);
+        roleNames: 'ATOM_Security_Manager',
+        locationId: state.keyManagementMasterModel!.location!.id!);
     List<BaseUser> srh = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Sub_Regional_Head', locationId: state.keyManagementMasterModel!.location!.id!);
+        roleNames: 'ATOM_Sub_Regional_Head',
+        locationId: state.keyManagementMasterModel!.location!.id!);
 
     emit(
       state.copyWith(
@@ -294,7 +297,7 @@ class KeyHistoryRecordsDetailsCubit
           body: request,
           isSubmit: false,
           kmId: parentId.toString(),
-            keyIssuanceId:keyIssuanceId.toString(),
+          keyIssuanceId: keyIssuanceId,
         ));
       } else {
         //Validating Fields
@@ -322,8 +325,7 @@ class KeyHistoryRecordsDetailsCubit
             body: request,
             isSubmit: true,
             kmId: parentId.toString(),
-            keyIssuanceId:keyIssuanceId.toString(),
-
+            keyIssuanceId: keyIssuanceId,
           );
         }
         if (isApprovedOnly) {
@@ -341,15 +343,14 @@ class KeyHistoryRecordsDetailsCubit
             body: request,
             isSubmit: true,
             kmId: parentId.toString(),
-            keyIssuanceId:keyIssuanceId.toString(),
-
+            keyIssuanceId: keyIssuanceId,
           );
         }
         response = (await services.createKeyHistoryRecord(
           body: request,
           isSubmit: true,
           kmId: parentId.toString(),
-          keyIssuanceId:keyIssuanceId.toString(),
+          keyIssuanceId: keyIssuanceId,
         ));
       }
       state.model.createdDate = state.model.createdDate == null
