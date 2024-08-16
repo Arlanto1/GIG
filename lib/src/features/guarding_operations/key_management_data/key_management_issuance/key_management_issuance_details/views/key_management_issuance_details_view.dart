@@ -662,7 +662,13 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           roleName:
                                           ConstantUserRoles.atomStaticUser,
                                           locationId: state.model.location!.id!,
-                                          functionToCall: () {
+                                          functionToCall: (BaseUser user) {
+                                            BlocProvider.of<
+                                                KeyManagementIssuanceDetailsCubit>(
+                                                context)
+                                                .updateDropdownValues(
+                                              handedOverTo: user,
+                                            );
                                             // refresh the list
                                             BlocProvider.of<
                                                 KeyManagementIssuanceDetailsCubit>(
@@ -739,7 +745,13 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           roleName:
                                           ConstantUserRoles.atomStaticUser,
                                           locationId: state.model.location!.id!,
-                                          functionToCall: () {
+                                          functionToCall: (BaseUser user) {
+                                            BlocProvider.of<
+                                                KeyManagementIssuanceDetailsCubit>(
+                                                context)
+                                                .updateDropdownValues(
+                                              dbSponsorCwrT2: user,
+                                            );
                                             // refresh the list
                                             BlocProvider.of<
                                                 KeyManagementIssuanceDetailsCubit>(

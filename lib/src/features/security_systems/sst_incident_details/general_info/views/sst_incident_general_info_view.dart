@@ -711,7 +711,13 @@ class _SstIncidentGeneralInfoViewState
                                       roleName: ConstantUserRoles
                                           .atomSeniorSecurityManagerUser,
                                       locationId: state.model.location!.id!,
-                                      functionToCall: () {
+                                      functionToCall: (BaseUser user) {
+                                        BlocProvider.of<
+                                            SstIncidentGeneralInfoCubit>(
+                                            context)
+                                            .updateEmailsValue(
+                                          systemManager: user,
+                                        );
                                         // refresh the list
                                         BlocProvider.of<
                                                     SstIncidentGeneralInfoCubit>(
@@ -751,7 +757,13 @@ class _SstIncidentGeneralInfoViewState
                                       roleName: ConstantUserRoles
                                           .atomSecurityAndSeniorSecurityManagerUser,
                                       locationId: state.model.location!.id!,
-                                      functionToCall: () {
+                                      functionToCall: (BaseUser user) {
+                                        BlocProvider.of<
+                                            SstIncidentGeneralInfoCubit>(
+                                            context)
+                                            .updateEmailsValue(
+                                          securityManager: user,
+                                        );
                                         // refresh the list
                                         BlocProvider.of<
                                                     SstIncidentGeneralInfoCubit>(
@@ -791,7 +803,13 @@ class _SstIncidentGeneralInfoViewState
                                       roleName: ConstantUserRoles
                                           .atomSecurityLeadAndAssistantSecurityLeadUser,
                                       locationId: state.model.location!.id!,
-                                      functionToCall: () {
+                                      functionToCall: (BaseUser user) {
+                                        BlocProvider.of<
+                                            SstIncidentGeneralInfoCubit>(
+                                            context)
+                                            .updateEmailsValue(
+                                          securityLead: user,
+                                        );
                                         // refresh the list
                                         BlocProvider.of<
                                                     SstIncidentGeneralInfoCubit>(
@@ -833,7 +851,15 @@ class _SstIncidentGeneralInfoViewState
                                       roleName: ConstantUserRoles
                                           .atomSecurityTeamUser,
                                       locationId: state.model.location!.id!,
-                                      functionToCall: () {
+                                      functionToCall: (BaseUser user) {
+                                        BlocProvider.of<
+                                            SstIncidentGeneralInfoCubit>(
+                                            context)
+                                            .updateEmailsValue(
+                                          locationTeam: user,
+                                        );
+                                        FocusScope.of(context)
+                                            .requestFocus(descriptionFocusNode);
                                         // refresh the list
                                         BlocProvider.of<
                                                     SstIncidentGeneralInfoCubit>(

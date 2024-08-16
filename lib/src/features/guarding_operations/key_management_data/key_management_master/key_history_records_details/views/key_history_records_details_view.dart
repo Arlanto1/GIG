@@ -13,6 +13,7 @@ class KeyHistoryRecordsDetailsView extends StatefulWidget {
   final int? id;
   final ExtraProperties? extraProperties;
   final String? lock;
+  final int? keyType;
 
   const KeyHistoryRecordsDetailsView({
     super.key,
@@ -23,6 +24,7 @@ class KeyHistoryRecordsDetailsView extends StatefulWidget {
     this.id,
     this.extraProperties,
     this.lock,
+    this.keyType,
   });
 
   @override
@@ -64,12 +66,18 @@ class _KeyHistoryRecordsDetailsViewState
 
   @override
   Widget build(BuildContext context) {
+    if(widget.keyType != null) {
+      keyTypeController.text = Utils().getKeyFromValue(
+          value: widget.keyType!, dropdownValues: keyTypeDropDownValues) ??
+          '';
+    }
     final size = MediaQuery.of(context).size;
     final height = size.height;
     return BlocConsumer<KeyHistoryRecordsDetailsCubit,
         KeyHistoryRecordsDetailsState>(
       listener: (context, state) {
         log('--widget.type--${widget.keyLostType}--');
+        log('--widget.keyType--${widget.keyType}--');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
@@ -81,7 +89,8 @@ class _KeyHistoryRecordsDetailsViewState
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
-              if (widget.keyLostType != ConstantsIntValue.keyLostHistoryInt && widget.keyLostType != ConstantsIntValue.keyDamageHistoryInt) {
+              if (widget.keyLostType != ConstantsIntValue.keyLostHistoryInt &&
+                  widget.keyLostType != ConstantsIntValue.keyDamageHistoryInt) {
                 Navigator.popAndPushNamed(context, keyHistoryRecordsViewRoute,
                     arguments: {
                       ConstantsArgument.id: widget.parentId,
@@ -89,8 +98,8 @@ class _KeyHistoryRecordsDetailsViewState
                       ConstantsArgument.title: widget.title,
                     });
               }
-                Navigator.pop(context);
-                return;
+              Navigator.pop(context);
+              return;
             },
           );
           showDialog(
@@ -369,7 +378,7 @@ class _KeyHistoryRecordsDetailsViewState
                             isDisabled: !initialStatus,
                             textController: keyTypeController,
                             items: keyTypeDropDownValues,
-                            initialValue: state.model.keyType.toString(),
+                            // initialValue: state.model.keyType.toString(),
                             onTap: () {
                               if (initialStatus) {
                                 BaseDropDown().assetTypeDialog(
@@ -466,7 +475,13 @@ class _KeyHistoryRecordsDetailsViewState
                                   roleName:
                                       ConstantUserRoles.atomSubRegionalHeadUser,
                                   locationId: 0,
-                                  functionToCall: () {
+                                  functionToCall: (BaseUser user) {
+                                    BlocProvider.of<
+                                        KeyHistoryRecordsDetailsCubit>(
+                                        context)
+                                        .updateDropdownValues(
+                                      srh: user,
+                                    );
                                     // refresh the list
                                     BlocProvider.of<
                                                 KeyHistoryRecordsDetailsCubit>(
@@ -511,7 +526,13 @@ class _KeyHistoryRecordsDetailsViewState
                                   roleName:
                                       ConstantUserRoles.atomSecurityManagerUser,
                                   locationId: 0,
-                                  functionToCall: () {
+                                  functionToCall: (BaseUser user) {
+                                    BlocProvider.of<
+                                        KeyHistoryRecordsDetailsCubit>(
+                                        context)
+                                        .updateDropdownValues(
+                                      securityManager: user,
+                                    );
                                     // refresh the list
                                     BlocProvider.of<
                                                 KeyHistoryRecordsDetailsCubit>(
@@ -614,7 +635,7 @@ class _KeyHistoryRecordsDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             textInputType: TextInputType.number,
-                            initialValue: '${state.model.noOfKeys  ?? ''}',
+                            initialValue: '${state.model.noOfKeys ?? ''}',
                             textFormKey: Keys.guardingPOCKey,
                             hintText: '',
                             focusNode: noOfKeysFocusNode,
@@ -644,10 +665,11 @@ class _KeyHistoryRecordsDetailsViewState
                           textFormKey: Keys.additionInitiativesKey,
                           hintText: Constants.informationhere,
                           showBorder: true,
-                          isEnable: ((securityManager || srh || initialStatus||
-                              lockChangeInitiatedAndUser)) &&
-                                  state.model.status !=
-                                      ConstantsIntValue.closed,
+                          isEnable: ((securityManager ||
+                                  srh ||
+                                  initialStatus ||
+                                  lockChangeInitiatedAndUser)) &&
+                              state.model.status != ConstantsIntValue.closed,
                           isDisableColor: !((securityManager ||
                                       srh ||
                                       initialStatus) ||
@@ -963,7 +985,13 @@ class _KeyHistoryRecordsDetailsViewState
     }
     log('--state.model.id-----keyLossGi-------${state.model.id.toString()}-----');
 
-    var map = {'kldId': state.model.id.toString()};
+    var map = {
+      ConstantsArgument.kldId: state.model.id.toString(),
+      ConstantsArgument.keyType: state.model.keyType,
+      ConstantsArgument.keyLostType: state.model.type,
+      ConstantsArgument.keyIssuanceId: widget.parentId,
+      ConstantsArgument.kmId: widget.parentId,
+    };
     nav.pushNamed(
       incidentManagementDetailsRoute,
       arguments: map,

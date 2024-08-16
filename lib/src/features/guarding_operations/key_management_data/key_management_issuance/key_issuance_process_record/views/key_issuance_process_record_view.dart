@@ -306,12 +306,14 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         );
                       } else {
                         getKeyHistoryById(
-                            state.extraProperties?.hasWritePermission ?? false,
-                            state.items[index].kmId,
-                            widget.parentId,
-                            state.items[selectedIndex].id,
-                            Constants.keyLostHistory,
-                            ConstantsIntValue.keyLostHistoryInt);
+                          state.extraProperties?.hasWritePermission ?? false,
+                          state.items[index].kmId,
+                          widget.parentId,
+                          state.items[selectedIndex].id,
+                          Constants.keyLostHistory,
+                          ConstantsIntValue.keyLostHistoryInt,
+                          keyIssuanceProcessModel: state.items[index],
+                        );
                       }
                     },
                     showDeleteButton: widget.lock.isEmptyOrNull &&
@@ -343,12 +345,14 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         );
                       } else {
                         getKeyHistoryById(
-                            state.extraProperties?.hasWritePermission ?? false,
-                            state.items[index].kmId,
-                            widget.parentId,
-                            state.items[selectedIndex].id,
-                            Constants.keyDamageHistory,
-                            ConstantsIntValue.keyDamageHistoryInt);
+                          state.extraProperties?.hasWritePermission ?? false,
+                          state.items[index].kmId,
+                          widget.parentId,
+                          state.items[selectedIndex].id,
+                          Constants.keyDamageHistory,
+                          ConstantsIntValue.keyDamageHistoryInt,
+                          keyIssuanceProcessModel: state.items[index],
+                        );
                       }
                     },
                     index: index,
@@ -384,38 +388,67 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     }
   }
 
-  getKeyHistoryById(bool hasWritePermission, int? kmId, int? keyIssuanceId,
-      int? id, String? title, int? type) async {
+  getKeyHistoryById(
+    bool hasWritePermission,
+    int? kmId,
+    int? keyIssuanceId,
+    int? id,
+    String? title,
+    int? type, {
+    required KeyIssuanceProcessRecord keyIssuanceProcessModel,
+  }) async {
     showLoadingDialog(context);
 
-    KeyHistoryModel keyHistoryModel = await KeyManagementIssuanceServices()
-        .getIssuanceKHById(kmId!, keyIssuanceId!, type!);
+    KeyHistoryModel keyHistoryModel =
+        await KeyManagementIssuanceServices().getIssuanceKHById(
+      kmId!,
+      keyIssuanceId!,
+      type!,
+    );
 
-    editKeyHistoryDataLoading(kmId, keyHistoryModel, hasWritePermission, id,
-        keyIssuanceId, title, type);
+    editKeyHistoryDataLoading(
+      kmId,
+      keyHistoryModel,
+      hasWritePermission,
+      id,
+      keyIssuanceId,
+      title,
+      type,
+      keyIssuanceProcessModel: keyIssuanceProcessModel,
+    );
   }
 
   Future<void> editKeyHistoryDataLoading(
-      int kmId,
-      KeyHistoryModel? keyHistoryModel,
-      bool hasWritePermission,
-      int? id,
-      int? keyIssuanceId,
-      String? title,
-      int? type) async {
+    int kmId,
+    KeyHistoryModel? keyHistoryModel,
+    bool hasWritePermission,
+    int? id,
+    int? keyIssuanceId,
+    String? title,
+    int? type, {
+    required KeyIssuanceProcessRecord keyIssuanceProcessModel,
+  }) async {
     dismissLoadingDialog(context);
+
     if (keyHistoryModel?.id != null) {
-      Navigator.pushNamed(context, keyHistoryRecordsDetailsRoute, arguments: {
-        "keyLossGi": KeyHistoryModel,
-        ConstantsArgument.title: title,
-        ConstantsArgument.id: keyHistoryModel?.kmId,
-        ConstantsArgument.model: keyHistoryModel,
-        ConstantsArgument.keyIssuanceId: keyIssuanceId,
-        ConstantsArgument.keyLostType: type,
-        ConstantsArgument.extraProperties:
-            ExtraProperties(hasWritePermission: hasWritePermission),
-      });
+      Navigator.pushNamed(
+        context,
+        keyHistoryRecordsDetailsRoute,
+        arguments: {
+          "keyLossGi": KeyHistoryModel,
+          ConstantsArgument.title: title,
+          ConstantsArgument.id: keyHistoryModel?.kmId,
+          ConstantsArgument.model: keyHistoryModel,
+          ConstantsArgument.keyIssuanceId: keyIssuanceId,
+          ConstantsArgument.keyLostType: type,
+          ConstantsArgument.keyType: keyIssuanceProcessModel.keyType,
+          ConstantsArgument.extraProperties: ExtraProperties(
+            hasWritePermission: hasWritePermission,
+          ),
+        },
+      );
     } else {
+      /// For creating the record for the first time
       Navigator.pushNamed(
         context,
         keyHistoryRecordsDetailsRoute,
@@ -425,6 +458,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           ConstantsArgument.kipId: id,
           ConstantsArgument.keyIssuanceId: keyIssuanceId,
           ConstantsArgument.keyLostType: type,
+          ConstantsArgument.keyType: keyIssuanceProcessModel.keyType,
         },
       );
     }

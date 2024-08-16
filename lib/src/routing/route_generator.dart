@@ -439,6 +439,10 @@ class RouteGenerator {
         String id = '';
         String occId = '';
         int occType = 0;
+        late int? keyType;
+        late int? keyLostType;
+        late int? keyIssuanceId;
+        late int? kmId;
         String kldId = '';
         Organisation? location;
         ExtraProperties? extraProperties;
@@ -448,9 +452,13 @@ class RouteGenerator {
           id = arguments['id'] ?? '';
           occId = arguments['occId'] ?? '';
           occType = arguments['occType'] ?? 0;
-          kldId = arguments['kldId'] ?? '';
+          kldId = arguments[ConstantsArgument.kldId] ?? '';
+          keyType = arguments[ConstantsArgument.keyType];
+          keyLostType = arguments[ConstantsArgument.keyLostType];
           location = arguments[ConstantsArgument.location];
+          keyIssuanceId = arguments[ConstantsArgument.keyIssuanceId];
           extraProperties = arguments[ConstantsArgument.extraProperties];
+          kmId = arguments[ConstantsArgument.kmId];
         }
         log('--kldId-router--$kldId--');
         return MaterialPageRoute(
@@ -468,6 +476,10 @@ class RouteGenerator {
               viaOccurrence: !occId.isEmptyOrNull ? true : false,
               viaKeyIssuance: !kldId.isEmptyOrNull ? true : false,
               extraProperties: extraProperties,
+              keyType: keyType,
+              keyLostType: keyLostType,
+              keyIssuanceId: keyIssuanceId,
+              kmId: kmId,
             ),
           ),
         );
@@ -1274,6 +1286,7 @@ class RouteGenerator {
         int? id;
         String title;
         late int keyLostType;
+        late int? keyType;
         String? lock;
         int? kipId;
         int? keyIssuanceId;
@@ -1288,8 +1301,9 @@ class RouteGenerator {
         KeyHistoryModel? model = arguments[ConstantsArgument.model];
         extraProperties = arguments[ConstantsArgument.extraProperties];
         lock = arguments[ConstantsArgument.isLocked];
+        keyType = arguments[ConstantsArgument.keyType];
 
-        log('srh--${model?.srh?.name}--');
+        log('--keyType--$keyType--');
         return MaterialPageRoute(
           builder: (context) => BlocProvider<KeyHistoryRecordsDetailsCubit>(
             create: (_) => KeyHistoryRecordsDetailsCubit(
@@ -1300,15 +1314,18 @@ class RouteGenerator {
               keyIssuanceId: keyIssuanceId,
               commonServices: commonServices,
               lostType: keyLostType,
+              keyType: keyType,
               keyIssuanceServices: keyIssuanceServices,
             ),
             child: KeyHistoryRecordsDetailsView(
-                model: model,
-                title: title,
-                parentId: id!,
-                keyLostType: keyLostType,
-                extraProperties: extraProperties,
-                lock: lock),
+              model: model,
+              title: title,
+              parentId: id!,
+              keyLostType: keyLostType,
+              extraProperties: extraProperties,
+              lock: lock,
+              keyType: keyType,
+            ),
           ),
         );
       case keyReconciliationListRoute:

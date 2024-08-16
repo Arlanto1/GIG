@@ -191,7 +191,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                     selectedKeyDescription = org;
                                     keyDescriptionController.text =
                                         org.keyDescription ?? '';
-                                    // widget.model.kmId = org.id;
+                                    widget.model.kmId = org.id;
 
                                     //TODO: need to set key description in model
                                     // widget.model.

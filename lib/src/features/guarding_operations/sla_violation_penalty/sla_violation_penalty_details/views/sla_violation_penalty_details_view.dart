@@ -391,7 +391,11 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                   },
                                   roleName: ConstantUserRoles.atomStaticUser,
                                   locationId: state.model.location!.id!,
-                                  functionToCall: () {
+                                  functionToCall: (BaseUser user) {
+                                    BlocProvider.of<
+                                        SLAViolationPenaltyDetailsCubit>(
+                                        context)
+                                        .updateDropdownValues(user: user);
                                     BlocProvider.of<
                                                 SLAViolationPenaltyDetailsCubit>(
                                             context)
