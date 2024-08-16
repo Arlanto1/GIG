@@ -534,7 +534,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                   //     state.labels?.defaultLocale.entrySecurity ??
                                   Constants.modifiedBy,
                                   isMandatory: true,
-                                  '${state.model.modifiedBy}'),
+                                  state.model.modifiedBy ?? ''),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
 

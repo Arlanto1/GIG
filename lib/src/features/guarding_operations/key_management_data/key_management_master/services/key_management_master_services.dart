@@ -125,7 +125,7 @@ class KeyManagementMasterServices {
     required KeyHistoryRecordRequest body,
     required bool isSubmit,
     required String? kmId,
-    required String? keyIssuanceId,
+    required String keyIssuanceId,
   }) async {
     // var userId = await SharedPrefs.getUserId();
      String url =

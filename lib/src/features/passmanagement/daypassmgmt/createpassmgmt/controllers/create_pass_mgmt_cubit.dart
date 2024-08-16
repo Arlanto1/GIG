@@ -81,11 +81,11 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   // get depositor user by role API call
-  Future<void> getUserByRoleDepositor(String userRole) async {
+  Future<void> getUserByRoleDepositor() async {
     try {
       GetDepositor getDepositorData =
           await createpassmgmtServices.getUserByRoleDepositor(
-              roleName: userRole, locationId: state.model.location?.id);
+              roleName: ConstantUserRoles.atomStaticUser, locationId: state.model.location?.id);
 
       emit(
         state.copyWith(
@@ -1085,7 +1085,9 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     // EmployeeDepartments departments =
     //     await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_STATIC_USER', locationId: state.model.location?.id);
+        roleNames: ConstantUserRoles.atomStaticUser, locationId: state.model.location?.id);
+
+    getUserByRoleDepositor();
     emit(
       state.copyWith(
         // getEntitiesResponse: entities,
