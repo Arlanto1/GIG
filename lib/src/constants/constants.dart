@@ -206,6 +206,8 @@ class Constants {
       'Edit Inward Material Movement';
 
   static const String materialMovementOutward = 'Material Movement Outward';
+  static const String materialMovementOutwardReturnable = 'Material Movement Outward - Returnable';
+  static const String materialMovementOutwardNonReturnable = 'Material Movement Outward - Non-Returnable';
   static const String materialMovementOutwardCreate =
       'Create Outward Material Movement';
   static const String materialMovementOutwardEdit =

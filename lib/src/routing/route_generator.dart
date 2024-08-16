@@ -935,21 +935,25 @@ class RouteGenerator {
 
       case materialMovementInwardsOutwardsRoute:
         bool isInward = true;
+        bool? returnable = true;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           if (arguments.isNotEmpty) {
             isInward = arguments['isInward'];
+            returnable = arguments[ConstantsArgument.returnable];
           }
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<mm.MaterialMovementBloc>(
-            create: (_) => mm.MaterialMovementBloc(isInward: isInward)
-              ..add(mm.FetchData(
-                  startPos: 0,
-                  maxPos: Constants.maxResults,
-                  newSearch: true,
-                  filters: BaseFilterModel())),
+            create: (_) => mm.MaterialMovementBloc(
+              isInward: isInward,
+              returnable: returnable,
+            )..add(mm.FetchData(
+                startPos: 0,
+                maxPos: Constants.maxResults,
+                newSearch: true,
+                filters: BaseFilterModel())),
             child: MaterialMovementsView(
               isInward: isInward,
             ),
@@ -1242,7 +1246,6 @@ class RouteGenerator {
           type = arguments[ConstantsArgument.keyLostType];
           extraProperties = arguments[ConstantsArgument.extraProperties];
           lock = arguments[ConstantsArgument.isLocked];
-
         }
         log('route----type--$type--');
         return MaterialPageRoute(
@@ -1280,7 +1283,7 @@ class RouteGenerator {
         title = arguments[ConstantsArgument.title];
         id = arguments[ConstantsArgument.id];
         kipId = arguments[ConstantsArgument.kipId];
-        keyIssuanceId= arguments[ConstantsArgument.keyIssuanceId];
+        keyIssuanceId = arguments[ConstantsArgument.keyIssuanceId];
         keyLostType = arguments[ConstantsArgument.keyLostType];
         KeyHistoryModel? model = arguments[ConstantsArgument.model];
         extraProperties = arguments[ConstantsArgument.extraProperties];
@@ -1294,7 +1297,7 @@ class RouteGenerator {
               model: model,
               parentId: id!,
               kipId: kipId,
-              keyIssuanceId:keyIssuanceId,
+              keyIssuanceId: keyIssuanceId,
               commonServices: commonServices,
               lostType: keyLostType,
               keyIssuanceServices: keyIssuanceServices,
@@ -1578,7 +1581,8 @@ class RouteGenerator {
           location = arguments[ConstantsArgument.location];
           locationRegion = arguments[ConstantsArgument.locationRegion];
           vendor = arguments[ConstantsArgument.vendor];
-          selectedDutyPostModel = arguments[ConstantsArgument.selectedDutyPostModel];
+          selectedDutyPostModel =
+              arguments[ConstantsArgument.selectedDutyPostModel];
           isReadOnly = arguments[ConstantsArgument.isReadOnly];
         }
         AttendanceServices services = AttendanceServices();
@@ -1600,7 +1604,7 @@ class RouteGenerator {
               locationRegion: locationRegion!,
               vendor: vendor!,
               selectedDutyPostModel: selectedDutyPostModel,
-              isReadOnly :isReadOnly,
+              isReadOnly: isReadOnly,
             ),
           ),
         );

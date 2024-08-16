@@ -100,7 +100,7 @@ class BottomMenuHandler {
     openSubMenu(
       context: context,
       positionX: positionX,
-      menuItems: materialMovementDrawerItems,
+      menuItems: materialMovementDrawerItemsWithReturnable,
       onOptionSelected: _onMaterialMovementSubMenu,
     );
   }
@@ -115,7 +115,11 @@ class BottomMenuHandler {
         break;
       case 1:
         Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
-            arguments: {"isInward": false});
+            arguments: {"isInward": false, "returnable": true});
+        break;
+      case 2:
+        Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
+            arguments: {"isInward": false, "returnable": false});
         break;
       default:
         log('Invalid option selected');
@@ -125,7 +129,8 @@ class BottomMenuHandler {
   /// PassManagement
   void openPassManagementSubMenu() {
     List<MenuItem> menuItems = [];
-    MenuPermissions().checkMenuPermissionsPassManagement(displayMenu, menuItems);
+    MenuPermissions()
+        .checkMenuPermissionsPassManagement(displayMenu, menuItems);
     openSubMenu(
       context: context,
       positionX: positionX,
@@ -133,6 +138,7 @@ class BottomMenuHandler {
       onOptionSelected: _onPassManagementSubMenu,
     );
   }
+
   void _onPassManagementSubMenu(BuildContext context, int optionIndex) {
     log('Selected option: $optionIndex');
     // Navigate to the respective screen based on optionIndex
@@ -159,7 +165,7 @@ class BottomMenuHandler {
         log('visitor pass management index2');
         Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
           "passMngDetails":
-          PassMngArguments(1, 'Visitor Pass Management', false)
+              PassMngArguments(1, 'Visitor Pass Management', false)
         });
         break;
       default:
