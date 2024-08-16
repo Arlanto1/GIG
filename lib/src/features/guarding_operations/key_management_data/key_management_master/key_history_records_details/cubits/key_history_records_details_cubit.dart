@@ -12,7 +12,7 @@ class KeyHistoryRecordsDetailsCubit
   final KeyHistoryModel? model;
   final CommonServices commonServices;
   final int parentId;
-  final int type;
+  final int? lostType;
   final int? kipId;
   final int? keyIssuanceId;
   final KeyManagementIssuanceServices keyIssuanceServices;
@@ -21,7 +21,7 @@ class KeyHistoryRecordsDetailsCubit
     required this.services,
     // required this.keyIssuanceServices,
     required this.parentId,
-    required this.type,
+    required this.lostType,
     required this.commonServices,
     required this.model,
     this.kipId,
@@ -99,14 +99,14 @@ class KeyHistoryRecordsDetailsCubit
         SerialNumberModel slNo = await commonServices.getKLDSlNo(
           locationId: parentModel.location!.id.toString(),
           moduleCode: Constants.keyLossDestructionModule,
-          type: type,
+          type: lostType,
           kmId: parentId,
         );
         state.model.slNo = slNo.serialNo;
       }
       state.model.createdBy ??= loggedInUserDetails;
       state.model.modifiedBy ??= loggedInUserDetails.email;
-      state.model.type = type;
+      state.model.type = lostType;
 
       log('---before--');
       //setting lost value to the noOfKeys

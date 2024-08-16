@@ -8,7 +8,7 @@ import '../cubits/key_history_records_details_cubit.dart';
 class KeyHistoryRecordsDetailsView extends StatefulWidget {
   final KeyHistoryModel? model;
   final String title;
-  final int type;
+  final int keyLostType;
   final int parentId;
   final int? id;
   final ExtraProperties? extraProperties;
@@ -18,7 +18,7 @@ class KeyHistoryRecordsDetailsView extends StatefulWidget {
     super.key,
     this.model,
     required this.title,
-    required this.type,
+    required this.keyLostType,
     required this.parentId,
     this.id,
     this.extraProperties,
@@ -69,7 +69,7 @@ class _KeyHistoryRecordsDetailsViewState
     return BlocConsumer<KeyHistoryRecordsDetailsCubit,
         KeyHistoryRecordsDetailsState>(
       listener: (context, state) {
-        log('--widget.type--${widget.type}--');
+        log('--widget.type--${widget.keyLostType}--');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
@@ -81,11 +81,11 @@ class _KeyHistoryRecordsDetailsViewState
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
-              if (widget.type != ConstantsIntValue.keyLostHistoryInt && widget.type != ConstantsIntValue.keyDamageHistoryInt) {
+              if (widget.keyLostType != ConstantsIntValue.keyLostHistoryInt && widget.keyLostType != ConstantsIntValue.keyDamageHistoryInt) {
                 Navigator.popAndPushNamed(context, keyHistoryRecordsViewRoute,
                     arguments: {
                       ConstantsArgument.id: widget.parentId,
-                      ConstantsArgument.type: widget.type,
+                      ConstantsArgument.keyLostType: widget.keyLostType,
                       ConstantsArgument.title: widget.title,
                     });
               }
@@ -143,8 +143,8 @@ class _KeyHistoryRecordsDetailsViewState
         }
 
         if (initialStatus &&
-            (widget.type == ConstantsIntValue.lockChangeHistoryInt ||
-                widget.type == ConstantsIntValue.keyDestroyHistoryInt)) {
+            (widget.keyLostType == ConstantsIntValue.lockChangeHistoryInt ||
+                widget.keyLostType == ConstantsIntValue.keyDestroyHistoryInt)) {
           editNumOfKeys = true;
         }
 
@@ -154,13 +154,13 @@ class _KeyHistoryRecordsDetailsViewState
         }
 
         if ((state.model.status == ConstantsIntValue.destroyInitiated &&
-                widget.type == ConstantsIntValue.keyDestroyHistoryInt) &&
+                widget.keyLostType == ConstantsIntValue.keyDestroyHistoryInt) &&
             securityManager) {
           showLikeDisLikeButtons = true;
         }
 
-        if (widget.type == ConstantsIntValue.keyLostHistoryInt ||
-            widget.type == ConstantsIntValue.keyDamageHistoryInt) {
+        if (widget.keyLostType == ConstantsIntValue.keyLostHistoryInt ||
+            widget.keyLostType == ConstantsIntValue.keyDamageHistoryInt) {
           keyLostOrDamageScreen = true;
         }
         if (initialStatus ||
@@ -409,7 +409,7 @@ class _KeyHistoryRecordsDetailsViewState
                             textController: typeController,
                             items: typesDropDownValues,
                             initialValue:
-                                '${widget.type == ConstantsIntValue.lockChangeHistoryInt ? state.model.type ?? 0 : widget.type == ConstantsIntValue.keyLostHistoryInt ? state.model.type ?? 1 : widget.type == ConstantsIntValue.keyDamageHistoryInt ? state.model.type ?? 2 : widget.type == ConstantsIntValue.keyDestroyHistoryInt ? state.model.type ?? 3 : state.model.type.toString()}',
+                                '${widget.keyLostType == ConstantsIntValue.lockChangeHistoryInt ? state.model.type ?? 0 : widget.keyLostType == ConstantsIntValue.keyLostHistoryInt ? state.model.type ?? 1 : widget.keyLostType == ConstantsIntValue.keyDamageHistoryInt ? state.model.type ?? 2 : widget.keyLostType == ConstantsIntValue.keyDestroyHistoryInt ? state.model.type ?? 3 : state.model.type.toString()}',
                             onTap: () {
                               if (!isDisabled) {
                                 BaseDropDown().assetTypeDialog(
@@ -480,7 +480,7 @@ class _KeyHistoryRecordsDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
 
-                        if (widget.type ==
+                        if (widget.keyLostType ==
                             ConstantsIntValue.keyDestroyHistoryInt) ...[
                           /// Security Manager
                           CommonWidgets.textDisplay(
@@ -596,13 +596,13 @@ class _KeyHistoryRecordsDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
 
-                        if (widget.type ==
+                        if (widget.keyLostType ==
                                 ConstantsIntValue.lockChangeHistoryInt ||
-                            widget.type ==
+                            widget.keyLostType ==
                                 ConstantsIntValue.keyDestroyHistoryInt ||
-                            widget.type ==
+                            widget.keyLostType ==
                                 ConstantsIntValue.keyDamageHistoryInt ||
-                            widget.type ==
+                            widget.keyLostType ==
                                 ConstantsIntValue.keyLostHistoryInt) ...[
                           /// No Of Keys
                           CommonWidgets.textDisplay(
@@ -963,7 +963,7 @@ class _KeyHistoryRecordsDetailsViewState
     }
     log('--state.model.id-----keyLossGi-------${state.model.id.toString()}-----');
 
-    var map = {'kldId': state.model.id};
+    var map = {'kldId': state.model.id.toString()};
     nav.pushNamed(
       incidentManagementDetailsRoute,
       arguments: map,

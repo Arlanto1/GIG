@@ -1,13 +1,16 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:dart_extensions/dart_extensions.dart';
+import 'package:db_atom/main.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/models/responseModels/permission_error.dart';
 import 'package:db_atom/src/utils/location_handler.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
@@ -182,12 +185,21 @@ class BaseApiService {
       log("API URL: $url");
       log("requestedData - ${jsonEncode(requestedData)}");
 
+      log("handleQaEnv");
+
+      // Call the handleQaEnv method to display and pause the program
+      if (await SharedPrefs.getLogsToggle() && url.contains('api.qa.')) {
+        await handleQaEnv(
+          true, // isQaEnv
+          url, // url
+          jsonEncode(requestedData), // body
+        );
+      }
       var response = await http.post(
         Uri.parse(url),
         headers: await getHeaders(isAuthenticated: isAuthenticated ?? true),
         body: json.encode(requestedData),
       );
-
 
       // throw GenericResponse(message: 'TEST');
       log("HTTP Status Code: ${response.statusCode}");
@@ -346,5 +358,85 @@ class BaseApiService {
       log('$e');
       rethrow;
     }
+  }
+}
+
+Future<void> handleQaEnv(bool isQaEnv, String url, String body) async {
+  if (isQaEnv) {
+    log("QA Environment");
+    log("URL: $url");
+    log("Body: $body");
+
+    // Copy URL and body to clipboard
+    await Clipboard.setData(ClipboardData(text: url));
+    await Clipboard.setData(ClipboardData(text: body));
+
+    // Using Completer to pause execution
+    Completer<void> completer = Completer<void>();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // Show your dialog or UI that should pause execution here
+      await showDialog<void>(
+        context: navigatorKey.currentContext!,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('QA Environment'),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('URL: $url'),
+                  SizedBox(height: 8),
+                  Text('Body:'),
+                  SizedBox(height: 4),
+                  Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Text(body),
+                    ),
+                    height: 200, // Limit the height for the scrollable area
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Clipboard.setData(ClipboardData(text: url));
+                        },
+                        child: Text('Copy URL'),
+                      ),
+                      SizedBox(width: 8),
+                      ElevatedButton(
+                        onPressed: () {
+                          Clipboard.setData(ClipboardData(text: body));
+                        },
+                        child: Text('Copy Body'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  completer.complete(); // Continue execution
+                },
+                child: Text('Dismiss'),
+              ),
+            ],
+          );
+        },
+      );
+    });
+
+    await completer.future; // This will pause the code until dismiss is clicked
   }
 }

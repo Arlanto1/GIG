@@ -75,7 +75,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
   Widget build(BuildContext context) {
     return BlocConsumer<KeyIssuanceProcessRecordBloc,
         KeyIssuanceProcessRecordState>(listener: (context, state) {
-      // TODO: implement listener
+      Utils().formError(state, context);
+      Utils().errorAndLogout(state, context);
     }, builder: (context, state) {
       log('-k desc--${state.keyDescriptions?.length}---');
 
@@ -305,7 +306,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                             state.items[index].kmId,
                             widget.parentId,
                             state.items[selectedIndex].id,
-                            Constants.keyLostHistory,ConstantsIntValue.keyLostHistoryInt);
+                            Constants.keyLostHistory,
+                            ConstantsIntValue.keyLostHistoryInt);
                       }
                     },
                     showDeleteButton: widget.lock.isEmptyOrNull &&
@@ -341,7 +343,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                             state.items[index].kmId,
                             widget.parentId,
                             state.items[selectedIndex].id,
-                            Constants.keyDamageHistory,ConstantsIntValue.keyDamageHistoryInt);
+                            Constants.keyDamageHistory,
+                            ConstantsIntValue.keyDamageHistoryInt);
                       }
                     },
                     index: index,
@@ -378,14 +381,14 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
   }
 
   getKeyHistoryById(bool hasWritePermission, int? kmId, int? keyIssuanceId,
-       int? id, String? title,int? type) async {
+      int? id, String? title, int? type) async {
     showLoadingDialog(context);
 
     KeyHistoryModel keyHistoryModel = await KeyManagementIssuanceServices()
         .getIssuanceKHById(kmId!, keyIssuanceId!, type!);
 
-    editKeyHistoryDataLoading(
-        kmId, keyHistoryModel, hasWritePermission, id, keyIssuanceId, title,type);
+    editKeyHistoryDataLoading(kmId, keyHistoryModel, hasWritePermission, id,
+        keyIssuanceId, title, type);
   }
 
   Future<void> editKeyHistoryDataLoading(
@@ -394,7 +397,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
       bool hasWritePermission,
       int? id,
       int? keyIssuanceId,
-      String? title, int? type) async {
+      String? title,
+      int? type) async {
     dismissLoadingDialog(context);
     if (keyHistoryModel?.id != null) {
       Navigator.pushNamed(context, keyHistoryRecordsDetailsRoute, arguments: {
@@ -403,7 +407,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
         ConstantsArgument.id: keyHistoryModel?.kmId,
         ConstantsArgument.model: keyHistoryModel,
         ConstantsArgument.keyIssuanceId: keyIssuanceId,
-        ConstantsArgument.type: type,
+        ConstantsArgument.keyLostType: type,
         ConstantsArgument.extraProperties:
             ExtraProperties(hasWritePermission: hasWritePermission),
       });
@@ -416,7 +420,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           ConstantsArgument.id: kmId,
           ConstantsArgument.kipId: id,
           ConstantsArgument.keyIssuanceId: keyIssuanceId,
-          ConstantsArgument.type: type,
+          ConstantsArgument.keyLostType: type,
         },
       );
     }

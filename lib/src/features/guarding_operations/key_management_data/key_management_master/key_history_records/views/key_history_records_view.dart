@@ -122,7 +122,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                                             : Constants
                                                 .createkeyManagementMaster,
                             ConstantsArgument.id: widget.id,
-                            ConstantsArgument.type: widget.type,
+                            ConstantsArgument.keyLostType: widget.type,
                           }),
                     },
                   )
@@ -309,7 +309,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                             ? Constants.editKeyDestroyHistory
                             : 'Default Title',
         ConstantsArgument.id: widget.id,
-        ConstantsArgument.type: widget.type,
+        ConstantsArgument.keyLostType: widget.type,
         ConstantsArgument.extraProperties:
             ExtraProperties(hasWritePermission: hasWritePermission),
       },

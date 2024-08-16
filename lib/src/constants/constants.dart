@@ -4,6 +4,8 @@ import 'package:quill_html_editor/quill_html_editor.dart';
 class Constants {
   // static const inactivityDuration = Duration(minutes: 5);
 
+  static const String logsToggle = 'logsToggle';
+
   static double tabletScreenWidth = 800;
   /// Pagination
   static const int maxResults = 20;
@@ -204,6 +206,8 @@ class Constants {
       'Edit Inward Material Movement';
 
   static const String materialMovementOutward = 'Material Movement Outward';
+  static const String materialMovementOutwardReturnable = 'Material Movement Outward - Returnable';
+  static const String materialMovementOutwardNonReturnable = 'Material Movement Outward - Non-Returnable';
   static const String materialMovementOutwardCreate =
       'Create Outward Material Movement';
   static const String materialMovementOutwardEdit =

@@ -77,13 +77,16 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                 );
                 return;
               }
+
+              log('--widget.viaKeyIssuance-${state.model.keyLossGi?.id}--');
               if (widget.viaKeyIssuance) {
+                log('--widget.viaKeyIssuance-if--');
                 Navigator.pushNamed(
                   context,
                   keyHistoryRecordsDetailsRoute,
                   arguments: {
-                    'id': state.model.keyLossGi?.id.toString(),
-                    "title": Constants.editKeyLostHistory,
+                    ConstantsArgument.id: state.model.keyLossGi?.id,
+                    ConstantsArgument.title: Constants.editKeyLostHistory,
                   },
                 );
                 return;
