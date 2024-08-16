@@ -51,6 +51,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         emailUsers: emailUsers,
         departments: departments.employeeDepartments,
         quantityUnits: quantityUnits,
+        receiverEmailUsers: emailUsers,
       ),
     );
   }

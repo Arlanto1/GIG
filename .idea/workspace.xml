@@ -4,15 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="WIP: Key Mangement">
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="MM Outward returnable and non &#10;menu added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/constants/constant_agruments.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constant_agruments.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/constants/constant_menu_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constant_menu_item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/constants/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/bottom_menu_handler.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/bottom_menu_handler.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/bloc/material_movement_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/bloc/material_movement_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/services/material_movement_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/services/material_movement_services.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/routing/route_generator.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/shift_schedule_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/shift_schedule_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -862,7 +857,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="376" />
+    <option name="localTasksCounter" value="377" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -953,7 +948,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="minor improvement" />
     <MESSAGE value="removed unwanted parameter" />
     <MESSAGE value="button hidden" />
     <MESSAGE value="+ icon removed for Departments and Entity Dialog Boxes" />
@@ -978,7 +972,8 @@
     <MESSAGE value="Invalid configuration: openAiApiKey cannot be null or empty. API keys can be generated here: https://platform.openai.com/account/api-keys." />
     <MESSAGE value="release version changes" />
     <MESSAGE value="WIP: Key Mangement" />
-    <option name="LAST_COMMIT_MESSAGE" value="WIP: Key Mangement" />
+    <MESSAGE value="MM Outward returnable and non &#10;menu added" />
+    <option name="LAST_COMMIT_MESSAGE" value="MM Outward returnable and non &#10;menu added" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>
