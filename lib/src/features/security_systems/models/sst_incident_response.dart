@@ -87,6 +87,7 @@ class SstIncident {
   String? solvedComplete;
   double? downTime;
   double? slaResolutionDate;
+  String? modifiedDate;
 
   SstIncident({
     this.id,
@@ -143,6 +144,7 @@ class SstIncident {
     this.workFlowId,
     this.siteVisitDate,
     this.solvedComplete,
+    this.modifiedDate,
   });
 
   SstIncident.fromJson(Map<String, dynamic> json)
@@ -232,6 +234,7 @@ class SstIncident {
         solvedComplete = json['solvedComplete'] as String?,
         downTime = json['downTime'] as double?,
         slaResolutionDate = json['slaResolutionDate'] as double?,
+        modifiedDate = json['modifiedDate'] as String?,
         lock = json['lock'] as String?;
 
   Map<String, dynamic> toJson() => {
@@ -290,6 +293,7 @@ class SstIncident {
         'solvedComplete': solvedComplete,
         'downTime': downTime,
         'slaResolutionDate': slaResolutionDate,
+        'modifiedDate': modifiedDate,
         'lock': lock,
       };
 }

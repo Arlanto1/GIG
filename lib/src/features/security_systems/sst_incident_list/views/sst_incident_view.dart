@@ -230,6 +230,18 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                             'Created By',
                         value:
                             '${state.items[index].createdBy?.firstName ?? ''} ${state.items[index].createdBy?.lastName ?? ''}'));
+                    labels.add(Label(
+                      key:
+                      // state.labels?.locale.createDate ??
+                      //     state.labels?.defaultLocale.createDate ??
+                          'Modified Date',
+                      value: state.items[index].modifiedDate != null
+                          ? Utils.timestampToDateConversion(
+                          int.tryParse(
+                              state.items[index].modifiedDate ?? '0'),
+                          Constants.twentyFourHourDateTimeFormat)
+                          : '',
+                    ));
                     return index >= state.items.length
                         ? const BaseLoader()
                         : BaseListTileItem(
