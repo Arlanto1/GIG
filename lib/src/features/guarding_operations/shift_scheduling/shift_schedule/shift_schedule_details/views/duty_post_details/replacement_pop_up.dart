@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/date_widgets/available_dates_picker.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/services/attendance_service.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details/cubits/duty_post_details_cubit.dart';
 
@@ -16,6 +17,7 @@ class AddReplacementPopUp extends StatefulWidget {
     this.rankId,
     this.shiftId,
     required this.viaAttendance,
+    required this.shiftModel,
   });
 
   final bool viaAttendance;
@@ -26,6 +28,7 @@ class AddReplacementPopUp extends StatefulWidget {
   final int? dutyPostId;
   final int? rankId;
   final int? shiftId;
+  final ShiftModel? shiftModel;
 
   @override
   State<AddReplacementPopUp> createState() => AddReplacementPopUpState();
@@ -103,6 +106,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
 
   NextAvailableDateRange? dates;
   bool reasonConditions = false;
+  late List<BaseUser> replacementByUsers = [];
 
   @override
   Widget build(BuildContext context) {
@@ -156,17 +160,19 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                               //     .updateReplacement(widget.model);
 
                               // TODO: Not to call is widget.viaAttendance is false
-                              if (widget.rankId != null) {
-                                showLoadingDialog(context);
+                              if(!widget.viaAttendance) {
+                                if (widget.rankId != null) {
+                                  showLoadingDialog(context);
 
-                                dates = await ShiftScheduleServices()
-                                    .getNextAvailableReplacementDates(
-                                  rankId: widget.rankId!,
-                                  userId: user.id!,
-                                  dutyPostId: widget.dutyPostId!,
-                                  shiftId: widget.shiftId!,
-                                );
-                                dismissLoadingDialog(context);
+                                  dates = await ShiftScheduleServices()
+                                      .getNextAvailableReplacementDates(
+                                    rankId: widget.rankId!,
+                                    userId: user.id!,
+                                    dutyPostId: widget.dutyPostId!,
+                                    shiftId: widget.shiftId!,
+                                  );
+                                  dismissLoadingDialog(context);
+                                }
                               }
 
                               // BlocProvider.of<DutyPostDetailsCubit>(
@@ -213,6 +219,10 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                                 (label) => label.key == value,
                                 orElse: () => const Label(key: '', value: ''),
                               );
+
+                              if(widget.viaAttendance) {
+                                getReplacementByUserListForAttendance();
+                              }
                               setState(() {
                                 reasonConditions = (selectedReason != null &&
                                     (selectedReason!.value == '1' ||
@@ -229,7 +239,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
 
-                      /// From Date
+                      /// From Date - Shift Schedule
                       CommonWidgets.textDisplay(
                         // state.labels?.locale.dateOfBirth ??
                         //  state.labels?.defaultLocale.dateOfBirth ??
@@ -242,10 +252,13 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                           textController: fromDateController,
                           availableDates: dates?.availableDates ?? [],
                           isDisabled: false,
-                          onChange: (String value) {
+                          onChange: (String value) async {
                             widget.model.fromDate = Utils().formatTime(value);
                             if (reasonConditions) {
                               log('--iffffff-reasonConditions--');
+                              toDateController.text = fromDateController.text;
+                              await getReplacementByUserList();
+
                               setState(() {
                                 widget.model.toDate = Utils().formatTime(value);
                                 toDateController.text = fromDateController.text;
@@ -254,6 +267,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                           },
                         ),
                       ] else ...[
+                        /// From Date - Attendance
                         BaseDate().datePickerWidgetLoading(
                           textController: fromDateController,
                           isDisabled: true,
@@ -282,8 +296,9 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                         LimitedDatePicker(
                           textController: toDateController,
                           availableDates: dates?.availableDates ?? [],
-                          onChange: (String value) {
+                          onChange: (String value) async {
                             widget.model.toDate = Utils().formatTime(value);
+                            await getReplacementByUserList();
                           },
                           isDisabled: reasonConditions,
                         ),
@@ -306,7 +321,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                         onTap: () {
                           BaseOrganisationDialog().userDialog(
                             context: context,
-                            users: widget.availableGuards.toList(),
+                            users: replacementByUsers,
                             onTap: (BaseUser user) {
                               replacementByController.text = user.name ?? '';
                               widget.model.replacementBy = user;
@@ -336,6 +351,36 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
         );
       }),
     );
+  }
+
+  Future<void> getReplacementByUserListForAttendance() async {
+    if (fromDateController.text.isEmptyOrNull) {
+      return;
+    }
+    replacementByUsers = await AttendanceServices().getAttAvailableGuardsByDate(
+      dutyPostId: widget.shiftModel!.attendanceShiftId!,
+      rankId: widget.rankId!,
+      shiftId: widget.shiftId!,
+      fromDate: Utils().convertToDateFormat(fromDateController.text),
+    );
+
+    replacementByController.clear();
+  }
+
+  Future<void> getReplacementByUserList() async {
+    if (fromDateController.text.isEmptyOrNull ||
+        toDateController.text.isEmptyOrNull) {
+      return;
+    }
+    replacementByUsers = await ShiftScheduleServices().getAvailableGuardsByDate(
+      dutyPostId: widget.dutyPostId!,
+      rankId: widget.rankId!,
+      shiftId: widget.shiftId!,
+      fromDate: fromDateController.text,
+      toDate: toDateController.text,
+    );
+
+    replacementByController.clear();
   }
 
   Widget buttonViews(BuildContext context, double width) {

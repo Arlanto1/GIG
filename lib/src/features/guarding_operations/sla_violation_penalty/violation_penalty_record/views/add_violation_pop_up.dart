@@ -123,7 +123,10 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                     organisations: widget.users,
                                     onTap: (Organisation org) {
                                       violationController.text = org.name ?? '';
-
+                                      staffCategoryController.clear();
+                                      penaltyAmountController.clear();
+                                      totalPenaltyAmountController.clear();
+                                      totalNoOfViolationsController.clear();
                                       log('-org.keyName----${org.keyName}-');
 
                                       penaltyAmountController.text =

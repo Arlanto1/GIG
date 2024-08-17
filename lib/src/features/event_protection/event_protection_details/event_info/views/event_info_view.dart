@@ -84,6 +84,7 @@ class _EventInfoViewState extends State<EventInfoView> {
               int.tryParse(state.model.date ?? '0'), Constants.fulldateFormat);
         }
 
+        log('--widget.editForm---${widget.editForm}--');
         if (state.model.status != 4 && widget.editForm) {
           showSaveButtons = true;
         }

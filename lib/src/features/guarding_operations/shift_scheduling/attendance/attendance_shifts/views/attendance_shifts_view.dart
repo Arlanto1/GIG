@@ -431,11 +431,15 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
 
     log('----state.shiftSlaList--${state.shiftSlaList?.length}-');
 
-    if (!state.shiftSlaList.isEmptyOrNull) {
-      SlaList? sla = state.shiftSlaList?.firstWhere(
-          (element) => element.attInfoId == shift.attendanceShiftId);
-      slaList = sla?.items ?? [];
-    }
+    // if (!state.shiftSlaList.isEmptyOrNull) {
+    //   SlaList? sla = state.shiftSlaList?.firstWhere(
+    //     (element) => element.attInfoId == shift.attendanceShiftId,
+    //     orElse: () => SlaList(),
+    //   );
+    //
+    //   slaList = sla?.items ?? [];
+    // }
+    slaList = state.shiftSlaList?.first.items ?? [];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -537,6 +541,9 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             model: Replacement(),
             selectedGuards: state.model.selectForAttendance ?? {},
             availableGuards: state.model.availableGuards ?? {},
+            state: state,
+            rankId: state.selectedRank!.id!,
+            shiftId: state.selectedShift!.id!,
           ),
           child: Row(
             children: <Widget>[
@@ -585,6 +592,9 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             model: replacement,
             availableGuards: state.model.selectForAttendance ?? {},
             selectedGuards: state.model.selectedGuards ?? {},
+            state: state,
+            rankId: state.selectedRank!.id!,
+            shiftId: state.selectedShift!.id!,
           ),
           child: Stack(
             children: [
@@ -745,6 +755,9 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     required Replacement model,
     required Set<BaseUser> availableGuards,
     required Set<BaseUser> selectedGuards,
+    required AttendanceShiftsState state,
+    required int rankId,
+    required int shiftId,
   }) {
     showDialog(
       context: context,
@@ -755,6 +768,9 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           mainContext: context,
           availableGuards: availableGuards,
           selectedGuards: selectedGuards,
+          shiftModel: state.model,
+          shiftId: shiftId,
+          rankId: rankId,
         );
       },
     );

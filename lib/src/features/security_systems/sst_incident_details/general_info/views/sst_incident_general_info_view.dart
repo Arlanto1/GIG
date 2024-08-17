@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+
 import 'comment_pop_up.dart';
 
 class SstIncidentGeneralInfoView extends StatefulWidget {
@@ -130,7 +131,8 @@ class _SstIncidentGeneralInfoViewState
         slaOnsiteResponseController.text =
             state.model.slaOnsiteRes?.toString() ?? '0.0';
         downTimeController.text = state.model.downTime?.toString() ?? '0.0';
-        slaResolutionDateController.text= state.model.slaResolutionDate?.toString() ?? '0.0';
+        slaResolutionDateController.text =
+            state.model.slaResolutionDate?.toString() ?? '0.0';
         state.model.status ??= 1;
         if (state.model.id != null && state.model.status! > 1) {
           log('--state.model.status----asd---${state.model.status}-');
@@ -144,21 +146,18 @@ class _SstIncidentGeneralInfoViewState
           disableForm = true;
         }
 
-        if(state.model.status ==
-            ConstantsIntValue
-                .ticketLifeCycleSolveProposedStatus || state.model.status ==
-            ConstantsIntValue
-                .ticketLifeCycleClosedStatus){
+        if (state.model.status ==
+                ConstantsIntValue.ticketLifeCycleSolveProposedStatus ||
+            state.model.status ==
+                ConstantsIntValue.ticketLifeCycleClosedStatus) {
           showSolvedProposed = true;
         }
 
-
-       if(showSolvedProposed ||
+        if (showSolvedProposed ||
             state.model.status ==
-                ConstantsIntValue
-                    .ticketLifeCycleReworkStatus){
-         showSLAOnsiteResponse = true;
-       }
+                ConstantsIntValue.ticketLifeCycleReworkStatus) {
+          showSLAOnsiteResponse = true;
+        }
 
         if (state.model.status !=
                 ConstantsIntValue.ticketLifeCycleCreateStatus &&
@@ -242,7 +241,11 @@ class _SstIncidentGeneralInfoViewState
                                     BlocProvider.of<
                                                 SstIncidentGeneralInfoCubit>(
                                             this.context)
-                                        .submitForm(isReworkOnly: true);
+                                        .submitForm(
+                                      isReworkOnly: true,
+                                      isSaveOnly: false,
+                                      isSubmitOnly: false,
+                                    );
                                     Navigator.pop(context);
                                   },
                                 );
@@ -268,7 +271,11 @@ class _SstIncidentGeneralInfoViewState
                                     BlocProvider.of<
                                                 SstIncidentGeneralInfoCubit>(
                                             this.context)
-                                        .submitForm(isSubmitOnly: true);
+                                        .submitForm(
+                                      isSubmitOnly: true,
+                                      isSaveOnly: false,
+                                      isReworkOnly: false,
+                                    );
                                     Navigator.pop(context);
                                   },
                                 );
@@ -330,14 +337,14 @@ class _SstIncidentGeneralInfoViewState
 
     onsiteVisitDateController.text = state.model.siteVisitDate != null
         ? Utils.timestampToDateConversion(
-        int.tryParse(state.model.siteVisitDate ?? '0'),
-        Constants.fulldateFormat)
+            int.tryParse(state.model.siteVisitDate ?? '0'),
+            Constants.fulldateFormat)
         : '';
 
     solvedCompleteDateController.text = state.model.solvedComplete != null
         ? Utils.timestampToDateConversion(
-        int.tryParse(state.model.solvedComplete ?? '0'),
-        Constants.fulldateFormat)
+            int.tryParse(state.model.solvedComplete ?? '0'),
+            Constants.fulldateFormat)
         : '';
   }
 
@@ -748,8 +755,8 @@ class _SstIncidentGeneralInfoViewState
                                       locationId: state.model.location!.id!,
                                       functionToCall: (BaseUser user) {
                                         BlocProvider.of<
-                                            SstIncidentGeneralInfoCubit>(
-                                            context)
+                                                    SstIncidentGeneralInfoCubit>(
+                                                context)
                                             .updateEmailsValue(
                                           systemManager: user,
                                         );
@@ -794,8 +801,8 @@ class _SstIncidentGeneralInfoViewState
                                       locationId: state.model.location!.id!,
                                       functionToCall: (BaseUser user) {
                                         BlocProvider.of<
-                                            SstIncidentGeneralInfoCubit>(
-                                            context)
+                                                    SstIncidentGeneralInfoCubit>(
+                                                context)
                                             .updateEmailsValue(
                                           securityManager: user,
                                         );
@@ -840,8 +847,8 @@ class _SstIncidentGeneralInfoViewState
                                       locationId: state.model.location!.id!,
                                       functionToCall: (BaseUser user) {
                                         BlocProvider.of<
-                                            SstIncidentGeneralInfoCubit>(
-                                            context)
+                                                    SstIncidentGeneralInfoCubit>(
+                                                context)
                                             .updateEmailsValue(
                                           securityLead: user,
                                         );
@@ -888,8 +895,8 @@ class _SstIncidentGeneralInfoViewState
                                       locationId: state.model.location!.id!,
                                       functionToCall: (BaseUser user) {
                                         BlocProvider.of<
-                                            SstIncidentGeneralInfoCubit>(
-                                            context)
+                                                    SstIncidentGeneralInfoCubit>(
+                                                context)
                                             .updateEmailsValue(
                                           locationTeam: user,
                                         );
@@ -1050,18 +1057,24 @@ class _SstIncidentGeneralInfoViewState
                       ),
 
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      if (showSystemIntegratorFields) ...[
-                        CommonWidgets.textDisplay(
-                            Constants.systemIntegratorForVendorAction,
-                            Styles.textStyleBlack16),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      ],
+                      // if (showSystemIntegratorFields) ...[
+                      //   CommonWidgets.textDisplay(
+                      //       Constants.systemIntegratorForVendorAction,
+                      //       Styles.textStyleBlack16),
+                      //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      // ],
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0, right: 20),
                         child: Column(
                           children: [
                             if (showSystemIntegratorFields) ...[
-                              ///Acknowledge Integrator for Vendor Action
+
+                              CommonWidgets.textDisplay(
+                                  Constants.systemIntegratorForVendorAction,
+                                  Styles.textStyleBlack16),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Acknowledge Integrator for Vendor Action
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.acknowledgeDateTime ??
                                       state.labels?.defaultLocale
@@ -1102,8 +1115,7 @@ class _SstIncidentGeneralInfoViewState
                               ),
                             ],
 
-
-                            ///Onsite Visit Date and Time
+                            /// Onsite Visit Date and Time
                             if (showSystemIntegratorFields &&
                                 state.model.status !=
                                     ConstantsIntValue
@@ -1360,7 +1372,9 @@ class _SstIncidentGeneralInfoViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
 
-                            if(state.model.status ==ConstantsIntValue.ticketLifeCycleClosedStatus )...[
+                            if (state.model.status ==
+                                ConstantsIntValue
+                                    .ticketLifeCycleClosedStatus) ...[
                               ///Solved Complete
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.solvedComplete ??
@@ -1380,11 +1394,11 @@ class _SstIncidentGeneralInfoViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
 
-
-                            if (state.model.reworkDate !=null && state.model.status! >=
-                                ConstantsIntValue
-                                    .ticketLifeCycleReworkStatus) ...[
-                              ///Rework proposed Date
+                            if (state.model.reworkDate != null &&
+                                state.model.status! >=
+                                    ConstantsIntValue
+                                        .ticketLifeCycleReworkStatus) ...[
+                              /// Rework proposed Date
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.reworkDate ??
                                       state.labels?.defaultLocale.reworkDate ??
@@ -1401,7 +1415,6 @@ class _SstIncidentGeneralInfoViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
-
 
                             if (state.model.status != null &&
                                 state.model.status !=
@@ -1482,12 +1495,13 @@ class _SstIncidentGeneralInfoViewState
                               ),
                             ],
 
-                            if (state.model.status == ConstantsIntValue.ticketLifeCycleClosedStatus) ...[
+                            if (state.model.status ==
+                                ConstantsIntValue
+                                    .ticketLifeCycleClosedStatus) ...[
                               /// Downtime(Hours)
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.downtime ??
-                                      state.labels?.defaultLocale
-                                          .downtime ??
+                                      state.labels?.defaultLocale.downtime ??
                                       Constants.downTime,
                                   isMandatory: true,
                                   Styles.textStyleBlack14),
@@ -1528,7 +1542,7 @@ class _SstIncidentGeneralInfoViewState
                               ),
                             ],
 
-                            ///Activity notes
+                            /// Activity notes
                             if (showSystemIntegratorFields &&
                                 state.model.status !=
                                     ConstantsIntValue
@@ -1563,7 +1577,10 @@ class _SstIncidentGeneralInfoViewState
                               BlocProvider.of<SstIncidentGeneralInfoCubit>(
                                       context)
                                   .submitForm(
-                                      isSaveOnly: false, isReworkOnly: false);
+                                isSubmitOnly: true,
+                                isSaveOnly: false,
+                                isReworkOnly: false,
+                              );
                             })
                           ],
                         ],

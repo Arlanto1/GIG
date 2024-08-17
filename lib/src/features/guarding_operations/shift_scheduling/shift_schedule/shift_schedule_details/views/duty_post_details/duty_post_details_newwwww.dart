@@ -467,6 +467,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
             rankId: state.selectedRank!.id!,
             dutyPostId: widget.model!.id!,
             shiftId: state.selectedShift!.id!,
+            state: state,
           ),
           child: Row(
             children: <Widget>[
@@ -515,6 +516,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
             rankId: state.selectedRank!.id!,
             dutyPostId: widget.model!.id!,
             shiftId: state.selectedShift!.id!,
+            state: state,
           ),
           child: Stack(
             children: [
@@ -613,6 +615,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
     required int dutyPostId,
     required int rankId,
     required int shiftId,
+    required DutyPostDetailsState state,
   }) {
     showDialog(
       context: context,
@@ -627,6 +630,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
           shiftId: shiftId,
           dutyPostId: dutyPostId,
           rankId: rankId,
+          shiftModel: state.model,
         );
       },
     );

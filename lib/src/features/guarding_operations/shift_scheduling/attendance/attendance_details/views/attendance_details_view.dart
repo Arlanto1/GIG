@@ -106,6 +106,9 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
         if (state.model.status == ConstantsIntValue.cancelledStatus) {
           isReadOnly = true;
         }
+        if (state.model.isEligibleToEdit) {
+          isReadOnly = false;
+        }
         initializeDates();
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(

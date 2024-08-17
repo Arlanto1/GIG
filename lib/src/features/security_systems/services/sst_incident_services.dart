@@ -68,10 +68,12 @@ class SstIncidentServices {
     required int isRework,
   }) async {
     var userId = await SharedPrefs.getUserId();
-     String url = "${Apis._create}userEmail=$userId&isSubmit=$isSubmit";
+    String url = "${Apis._create}userEmail=$userId&isSubmit=$isSubmit";
 
-    if(body.sstIncident?.status != null && body.sstIncident?.status == ConstantsIntValue.ticketLifeCycleSolveProposedStatus){
-      url  = '$url&isRework=$isRework';
+    if (body.sstIncident?.status != null &&
+        body.sstIncident?.status ==
+            ConstantsIntValue.ticketLifeCycleSolveProposedStatus) {
+      url = '$url&isRework=$isRework';
     }
     final response = await BaseApiService().postRequest(
       url: url,

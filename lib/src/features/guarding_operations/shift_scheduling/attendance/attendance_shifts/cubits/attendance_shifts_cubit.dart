@@ -82,6 +82,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       // ]);
       List<SlaList> slaList = [];
 
+
       SLAViolationPenaltyResponseModel list =
       await SLAViolationPenaltyServices().getSvpList(
         startPosition: '0',
@@ -170,10 +171,26 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       rankId: state.selectedRank!.id!,
       attInfoId: attInfoId,
     );
+
+    List<SlaList> slaList = [];
+
+    SLAViolationPenaltyResponseModel list =
+    await SLAViolationPenaltyServices().getSvpList(
+      startPosition: '0',
+      maximumRecords: '100',
+      attInfoId: model.attendanceShiftId!,
+    );
+    log('---list.items-${list.items?.length}--');
+    slaList.add(SlaList(attInfoId: attInfoId, items: list.items));
+
+    log('---slaList-${slaList.length}--');
+
+
     emit(state.copyWith(
       model: model,
       status: FormStatus.initial,
       selectedShift: shift,
+      shiftSlaList: slaList,
     ));
   }
 
@@ -302,8 +319,8 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
 }
 
 class SlaList {
-  final int attInfoId;
+  final int? attInfoId;
   final List<SLAViolationPenaltyModel>? items;
 
-  SlaList({required this.attInfoId, required this.items});
+  SlaList({ this.attInfoId,  this.items});
 }

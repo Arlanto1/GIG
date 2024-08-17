@@ -213,9 +213,9 @@ class SLAViolationPenaltyDetailsCubit
       ),
     );
 
-    List<BaseUser> approver = [];
+    List<BaseUser> emailUsers = [];
 
-    ////Get Sl No from API
+    /// Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
@@ -225,7 +225,7 @@ class SLAViolationPenaltyDetailsCubit
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
 
-      approver = await commonServices.getBaseUsers(
+      emailUsers = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
     }
 
@@ -233,7 +233,7 @@ class SLAViolationPenaltyDetailsCubit
 
     emit(state.copyWith(
       model: state.model,
-      emailUsers: approver,
+      emailUsers: emailUsers,
       status: FormStatus.initial,
     ));
   }
@@ -242,7 +242,7 @@ class SLAViolationPenaltyDetailsCubit
     List<Organisation>? entities,
     List<Organisation>? vendors,
     List<Organisation>? typeOfServices,
-    Organisation? location,
+    // Organisation? location,
     BaseUser? user,
     BaseUser? approver,
     int? status,
@@ -253,26 +253,26 @@ class SLAViolationPenaltyDetailsCubit
         status: FormStatus.loading,
       ),
     );
-    List<BaseUser> emailUsers = [];
-    // Get Sl No from API
-    if (location != null) {
-      SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: location.id.toString(),
-        moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
-      );
-      state.model.location = location;
-      state.model.slNo = slNo.serialNo;
-      emailUsers = await commonServices.getBaseUsers(
-          roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
-    }
+    // List<BaseUser> emailUsers = [];
+    // // Get Sl No from API
+    // if (location != null) {
+    //   SerialNumberModel slNo = await commonServices.getSlNo(
+    //     locationId: location.id.toString(),
+    //     moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
+    //   );
+    //   state.model.location = location;
+    //   state.model.slNo = slNo.serialNo;
+    //   emailUsers = await commonServices.getBaseUsers(
+    //       roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
+    // }
     state.model.status = status ?? state.model.status;
-    if (location != null) {
-      SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: location.id.toString(),
-          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
-      state.model.location = location;
-      state.model.slNo = slNo.serialNo;
-    }
+    // if (location != null) {
+    //   SerialNumberModel slNo = await commonServices.getSlNo(
+    //       locationId: location.id.toString(),
+    //       moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
+    //   state.model.location = location;
+    //   state.model.slNo = slNo.serialNo;
+    // }
     if (entities != null) {
       state.model.entity = entities;
     }
@@ -293,7 +293,7 @@ class SLAViolationPenaltyDetailsCubit
     }
     emit(state.copyWith(
       model: state.model,
-      emailUsers: emailUsers,
+      // emailUsers: emailUsers,
       status: FormStatus.initial,
     ));
   }
@@ -378,17 +378,32 @@ class SLAViolationPenaltyDetailsCubit
           state.model.id = id;
         }
       }
-      emit(
-        state.copyWith(
-          model: state.model,
-          message: response.message,
-          status: attdInfoId.isEmptyOrNull
-              ? FormStatus.popOnly
-              : navigateToNextScreen
-                  ? FormStatus.navigateToNextScreen
-                  : FormStatus.success,
-        ),
-      );
+
+      if(!attdInfoId.isEmptyOrNull) {
+        emit(
+          state.copyWith(
+            model: state.model,
+            message: response.message,
+            status: !attdInfoId.isEmptyOrNull
+                ? FormStatus.popOnly
+                : navigateToNextScreen
+                ? FormStatus.navigateToNextScreen
+                : FormStatus.success,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            model: state.model,
+            message: response.message,
+            status: attdInfoId.isEmptyOrNull
+                ? FormStatus.popOnly
+                : navigateToNextScreen
+                ? FormStatus.navigateToNextScreen
+                : FormStatus.success,
+          ),
+        );
+      }
       log('status---- ${state.status}');
       log('attdInfoId---- $attdInfoId');
       state.model.inputDate = state.model.inputDate == null

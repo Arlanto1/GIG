@@ -479,9 +479,9 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
   }
 
   void submitForm({
-    bool isSaveOnly = false,
-    bool isReworkOnly = false,
-    bool isSubmitOnly = false,
+    required bool isSaveOnly,
+    required bool isReworkOnly,
+    required bool isSubmitOnly,
   }) async {
     emit(
       state.copyWith(
