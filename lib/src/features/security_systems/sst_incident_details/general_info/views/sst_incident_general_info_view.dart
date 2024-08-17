@@ -1381,7 +1381,7 @@ class _SstIncidentGeneralInfoViewState
                             ],
 
 
-                            if (state.model.status ==
+                            if (state.model.reworkDate !=null && state.model.status! >=
                                 ConstantsIntValue
                                     .ticketLifeCycleReworkStatus) ...[
                               ///Rework proposed Date
