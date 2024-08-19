@@ -98,8 +98,8 @@ class _KeyHistoryRecordsDetailsViewState
                       ConstantsArgument.title: widget.title,
                     });
               }
-              Navigator.pop(context);
-              return;
+              // Navigator.pop(context);
+              // return;
             },
           );
           showDialog(
@@ -394,6 +394,7 @@ class _KeyHistoryRecordsDetailsViewState
                                         orElse: () =>
                                             const Label(key: '', value: ''),
                                       );
+                                      keyTypeController.text= value;
                                       BlocProvider.of<
                                                   KeyHistoryRecordsDetailsCubit>(
                                               context)
