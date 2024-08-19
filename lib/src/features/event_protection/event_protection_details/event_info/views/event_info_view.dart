@@ -35,6 +35,10 @@ class _EventInfoViewState extends State<EventInfoView> {
 
   bool showSaveButtons = false;
 
+  String? initialisedFromDate;
+  String? initialisedToDate;
+  String? initialisedStartDate;
+
   @override
   void initState() {
     super.initState();
@@ -79,9 +83,42 @@ class _EventInfoViewState extends State<EventInfoView> {
         }
       },
       builder: (context, state) {
-        if (state.model.date != null && state.model.date != '') {
-          dateController.text = Utils.timestampToDateConversion(
-              int.tryParse(state.model.date ?? '0'), Constants.fulldateFormat);
+        if (state.eventDuration == ConstantsIntValue.eventDurationBefore) {
+          if(!state.model.eventStartedAt.isEmptyOrNull && dateController.text.isEmpty) {
+            log('state.model.eventStartedAt--- ${state.model.eventStartedAt}');
+            dateController.text = Utils.timestampToDateConversion(
+                int.tryParse(state.model.eventStartedAt ?? '0'),
+                Constants.fulldateFormat);
+          }
+          initialisedFromDate = DateTime.fromMillisecondsSinceEpoch(
+              (int.tryParse('${state.model.startDate}')??0) * 1000).toString();
+          initialisedStartDate = DateTime.fromMillisecondsSinceEpoch(
+        (int.tryParse('${state.model.startDate}')??0) * 1000).toString();
+          initialisedToDate = DateTime.fromMillisecondsSinceEpoch(
+              (int.tryParse('${state.model.endDate}')??0) * 1000).toString();
+          log('initialisedToDate--- ${initialisedToDate}');
+          log('initialisedStartDate--- ${initialisedStartDate}');
+          log('initialisedFromDate--- ${initialisedFromDate}');
+        }
+
+
+        if (state.eventDuration == ConstantsIntValue.eventDurationAfter) {
+          if (!state.model.eventConcludedAt.isEmptyOrNull && dateController.text.isEmpty) {
+            log('state.model.eventConcludedAt--- ${state.model.eventConcludedAt}');
+            dateController.text = Utils.timestampToDateConversion(
+                int.tryParse(state.model.eventConcludedAt ?? 'null'),
+                Constants.fulldateFormat);
+          }
+          initialisedFromDate = DateTime.fromMillisecondsSinceEpoch(
+              (int.tryParse('${state.model.eventStartedAt}') ??0)* 1000).toString();
+          initialisedStartDate = DateTime.fromMillisecondsSinceEpoch(
+              (int.tryParse('${state.model.eventStartedAt}') ??0) * 1000).toString();
+          DateTime currentDate = DateTime.now();
+          DateTime newDateTime = currentDate.add(const Duration(days: 1));
+          initialisedToDate = newDateTime.toString();
+          log('initialisedToDate--- ${initialisedToDate}');
+          log('initialisedStartDate--- ${initialisedStartDate}');
+          log('initialisedFromDate--- ${initialisedFromDate}');
         }
 
         log('--widget.editForm---${widget.editForm}--');
@@ -186,22 +223,26 @@ class _EventInfoViewState extends State<EventInfoView> {
                                   textController: dateController,
                                   isDisabled: !showSaveButtons,
                                   onlyDate: false,
-                                  startDate: DateTime
-                                          .fromMillisecondsSinceEpoch(int.parse(
-                                                  '${state.model.startDate}') *
-                                              1000)
-                                      .toString(),
-                                  fromDate: DateTime.fromMillisecondsSinceEpoch(
-                                          int.parse(
-                                                  '${state.model.startDate}') *
-                                              1000)
-                                      .toString(),
-                                  toDate: DateTime.fromMillisecondsSinceEpoch(
-                                          int.parse('${state.model.endDate}') *
-                                              1000)
-                                      .toString(),
+                                  // startDate: DateTime
+                                  //         .fromMillisecondsSinceEpoch(int.parse(
+                                  //                 '${state.model.startDate}') *
+                                  //             1000)
+                                  //     .toString(),
+                                  // fromDate: DateTime.fromMillisecondsSinceEpoch(
+                                  //         int.parse(
+                                  //                 '${state.model.startDate}') *
+                                  //             1000)
+                                  //     .toString(),
+                                  // toDate: DateTime.fromMillisecondsSinceEpoch(
+                                  //         int.parse('${state.model.endDate}') *
+                                  //             1000)
+                                  //     .toString(),
+                                  startDate: initialisedStartDate,
+                                  fromDate: initialisedFromDate,
+                                  toDate: initialisedToDate,
                                   onChange: (String value) {
                                     dateController.text = value;
+                                    log('dateControllerValue --- ${value}');
                                     state.model.date = value;
                                     BlocProvider.of<EventInfoCubit>(context)
                                         .onModelValueChange(state.model);
