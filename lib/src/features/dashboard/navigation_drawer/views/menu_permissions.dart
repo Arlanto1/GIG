@@ -2,7 +2,9 @@ import 'package:db_atom/index.dart';
 
 class MenuPermissions {
   void checkMenuPermissionsGuardingOperations(
-      DisplayMenu? displayMenu, List<MenuItem> menuItems) {
+    DisplayMenu? displayMenu,
+    List<MenuItem> menuItems,
+  ) {
     if (displayMenu?.cD ?? false) {
       menuItems.add(const MenuItem(
           Constants.escalationMatrix, AppIcon.escalationMatrixIcon, 0));
@@ -30,7 +32,9 @@ class MenuPermissions {
 
   /// ShiftSchedule
   void checkMenuPermissionsShiftSchedule(
-      DisplayMenu? displayMenu, List<MenuItem> menuItems) {
+    DisplayMenu? displayMenu,
+    List<MenuItem> menuItems,
+  ) {
     if (displayMenu?.aTD ?? false) {
       menuItems
           .add(const MenuItem(Constants.attendance, AppIcon.attendanceIcon, 0));
@@ -51,12 +55,15 @@ class MenuPermissions {
           Constants.shiftSchedule, AppIcon.shiftScheduleIcon, 0));
     }
   }
+
   /// PassManagement
   void checkMenuPermissionsPassManagement(
-      DisplayMenu? displayMenu, List<MenuItem> menuItems) {
+    DisplayMenu? displayMenu,
+    List<MenuItem> menuItems,
+  ) {
     if (displayMenu?.aTD ?? false) {
-      menuItems
-          .add(const MenuItem(Constants.dayPassManagement, AppIcon.dayPassManagementRegisterIcon, 0));
+      menuItems.add(const MenuItem(Constants.dayPassManagement,
+          AppIcon.dayPassManagementRegisterIcon, 0));
     }
 
     if (displayMenu?.ssDPM ?? false) {
@@ -65,13 +72,31 @@ class MenuPermissions {
     }
 
     if (displayMenu?.sSDP ?? false) {
-      menuItems.add(const MenuItem(
-          Constants.vendorpassmgmt, AppIcon.vendorPassManagementRegisterIcon, 0));
+      menuItems.add(const MenuItem(Constants.vendorpassmgmt,
+          AppIcon.vendorPassManagementRegisterIcon, 0));
     }
 
     if (displayMenu?.sS ?? false) {
+      menuItems.add(const MenuItem(Constants.visitorpassmgmt,
+          AppIcon.visitorPassManagementRegisterIcon, 0));
+    }
+  }
+
+  void checkMenuPermissionsKeyManagementData(
+      DisplayMenu? displayMenu,
+      List<MenuItem> menuItems) {
+    if (displayMenu?.keyMM ?? false) {
       menuItems.add(const MenuItem(
-          Constants.visitorpassmgmt, AppIcon.visitorPassManagementRegisterIcon, 0));
+          Constants.keyManagementMaster, AppIcon.keyManagementDataIcon, 0));
+    }
+
+    if (displayMenu?.kMISS ?? false) {
+      menuItems.add(const MenuItem(Constants.keyManagementIssuance,
+          AppIcon.keyManagementIssuanceIcon, 0));
+    }
+    if (displayMenu?.kLD ?? false) {
+      menuItems.add(const MenuItem(Constants.keyLossDestructionList,
+          AppIcon.keyLossDestructionListIcon, 0));
     }
   }
 }
