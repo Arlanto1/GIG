@@ -91,8 +91,6 @@ class _SstIncidentViewState extends State<SstIncidentView> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    double height = size.height;
     return BlocConsumer<SstIncidentBloc, SstIncidentState>(
         listener: (context, state) {
       Utils().formError(state, context);
