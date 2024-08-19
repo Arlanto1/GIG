@@ -168,7 +168,8 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                             int.parse(
                                                 state.items[index].inputDate ??
                                                     '0'),
-                                            Constants.twentyFourHourDateTimeFormat)
+                                            Constants
+                                                .twentyFourHourDateTimeFormat)
                                         : ''));
                                 labels.add(Label(
                                     key: state.labels?.locale.entrySecurity ??
@@ -183,7 +184,7 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                     key: state.labels?.locale.locationRegion ??
                                         state.labels?.defaultLocale
                                             .locationRegion ??
-                                        'Regionasdasd',
+                                        'Region',
                                     value: state.items[index].entrySecurityName
                                             .toString() ??
                                         ''));
@@ -201,6 +202,31 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                         'Location',
                                     value: state.items[index].location?.name ??
                                         ''));
+
+                                labels.add(Label(
+                                    key: state.labels?.locale.fromDate ??
+                                        state.labels?.defaultLocale.fromDate ??
+                                        'From Date',
+                                    value: state.items[index].fromDate != null
+                                        ? Utils.timestampToDateConversion(
+                                            int.parse(
+                                                state.items[index].fromDate ??
+                                                    '0'),
+                                            Constants
+                                                .twentyFourHourDateTimeFormat)
+                                        : ''));
+                                labels.add(Label(
+                                    key: state.labels?.locale.toDate ??
+                                        state.labels?.defaultLocale.toDate ??
+                                        'To Date',
+                                    value: state.items[index].toDate != null
+                                        ? Utils.timestampToDateConversion(
+                                            int.parse(
+                                                state.items[index].toDate ??
+                                                    '0'),
+                                            Constants
+                                                .twentyFourHourDateTimeFormat)
+                                        : ''));
 
                                 return index >= state.items.length
                                     ? null

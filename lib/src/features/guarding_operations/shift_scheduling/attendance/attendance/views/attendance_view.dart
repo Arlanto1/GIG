@@ -150,26 +150,25 @@ class _AttendanceViewState extends State<AttendanceView> {
                           List<Label> labels = [];
                           if (index < state.items.length) {
                             labels.add(Label(
-                                key:
-                                    // state.labels?.locale.locationRegion ??
-                                    //  state.labels?.defaultLocale.locationRegion ??
+                                key: state.labels?.locale.locationRegion ??
+                                    state
+                                        .labels?.defaultLocale.locationRegion ??
                                     'Region',
                                 value:
                                     state.items[index].locationRegion?.name ??
                                         ''));
                             labels.add(Label(
-                                key:
-                                    // state.labels?.locale.location ??
-                                    //     state.labels?.defaultLocale.location ??
+                                key: state.labels?.locale.location ??
+                                    state.labels?.defaultLocale.location ??
                                     'Location ',
                                 value:
                                     state.items[index].location?.name ?? ''));
                             labels.add(Label(
-                                key:
-                                    // state.labels?.locale.locationRegion ??
-                                    //  state.labels?.defaultLocale.locationRegion ??
+                                key: state.labels?.locale.slNo ??
+                                    state.labels?.defaultLocale.slNo ??
                                     'SlNo',
                                 value: state.items[index].slNo ?? ''));
+
                             return index >= state.items.length
                                 ? null
                                 : BaseListTileItem(
