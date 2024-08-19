@@ -538,40 +538,40 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
 
-                            /// List of Duty Posts
-                            if (!state.model.fromDate.isEmptyOrNull &&
-                                !state.model.toDate.isEmptyOrNull) ...[
-                              DutyPostListWidget(
-                                  dutyPosts: state.dutyPosts ?? [],
-                                  onTap: (int? id, int? dustyPostNameId,
-                                      DutyPostModel? dutyPostModel) {
-                                    log('--id---$id-dustyPostNameId--$dustyPostNameId--state.model.id---${state.model.id}');
-
-                                    if (dustyPostNameId != null) {
-                                      BlocProvider.of<
-                                                  ShiftScheduleDetailsCubit>(
-                                              context)
-                                          .submitForm(
-                                        isSaveOnly: true,
-                                        navigateToNextScreen: true,
-                                        dutyPostNameId: dustyPostNameId,
-                                      );
-                                    }
-
-                                    if (id != null) {
-                                      BlocProvider.of<
-                                                  ShiftScheduleDetailsCubit>(
-                                              context)
-                                          .getDutyPostById(id);
-                                    }
-                                  }),
-                            ],
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
                           ],
                         ),
                       ),
                     ),
 
+                    /// List of Duty Posts
+                    if (!state.model.fromDate.isEmptyOrNull &&
+                        !state.model.toDate.isEmptyOrNull) ...[
+                      DutyPostListWidget(
+                          dutyPosts: state.dutyPosts ?? [],
+                          onTap: (int? id, int? dustyPostNameId,
+                              DutyPostModel? dutyPostModel) {
+                            log('--id---$id-dustyPostNameId--$dustyPostNameId--state.model.id---${state.model.id}');
+
+                            if (dustyPostNameId != null) {
+                              BlocProvider.of<
+                                  ShiftScheduleDetailsCubit>(
+                                  context)
+                                  .submitForm(
+                                isSaveOnly: true,
+                                navigateToNextScreen: true,
+                                dutyPostNameId: dustyPostNameId,
+                              );
+                            }
+
+                            if (id != null) {
+                              BlocProvider.of<
+                                  ShiftScheduleDetailsCubit>(
+                                  context)
+                                  .getDutyPostById(id);
+                            }
+                          }),
+                    ],
+                    CommonWidgets.verticalSpacerWidget(height * 0.02),
                     /// SubmitButton
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
