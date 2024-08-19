@@ -13,7 +13,6 @@ class ConstantsIntValue {
   static const int keyDamageHistoryInt = 2;
   static const int keyDestroyHistoryInt = 3;
 
-
   /// Event Protection
   static const int eventDurationBefore = 0;
   static const int eventDurationDuring = 1;
@@ -96,23 +95,22 @@ class ConstantsIntValue {
   static const int slaStatusActive = 1;
   static const int slaStatusFinalized = 2;
 
-  ///Material Movement status
+  /// Material Movement status
   static const int businessUserReview = 1;
   static const int mmStatusDraft = 0;
   static const int mmStatusLSMReview = 3;
   static const int mmStatusLSMApproved = 4;
   static const int mmStatusLSMRejected = 5;
   static const int mmStatusApproved = 6;
-  static const int mmStatusInwardWaiting =9;
+  static const int mmStatusInwardWaiting = 9;
   static const int mmStatusClosed = 10;
 
-  ///Key Issuance status
+  /// Key Issuance status
   static const int issuanceDraftStatus = 0;
   static const int issuanceHandedOverStatus = 1;
   static const int issuanceNotReturnedStatus = 2;
 
-
-  ///Ticket life cycle status
+  /// Ticket life cycle status
   static const int ticketLifeCycleCreateStatus = 1;
   static const int ticketLifeCycleSubmitStatus = 2;
   static const int ticketLifeCycleAcknowledgeStatus = 3;
@@ -128,4 +126,7 @@ class ConstantsIntValue {
   static const int ticketLifeCycleInvoiceSubmittedStatus = 13;
   static const int ticketLifeCycleClosedStatus = 14;
 
+  /// Key Management Issuance Image Content Type
+  static const int keyIssuanceReceiverSignImageContentType = 1;
+  static const int keyIssuanceSecuritySignImageContentType = 2;
 }

@@ -289,10 +289,10 @@ class _CreateFoundState extends State<CreateFound> {
         userId: userDetails?.userId ?? widget.model?.entrySecurity?.userId);
     User? handoverSecurity = widget.model?.status ==
             ConstantsIntValue.articleFoundStatusUnderSecurityCustody
-        ? User(userId: state?.loggedInUser?.userId ?? handOverSecurity?.userId)
+        ? User(userId: state.loggedInUser?.userId ?? handOverSecurity?.userId)
         : null;
 
-    log('-=state?.loggedInUser?.userId====${state?.loggedInUser?.userId}==');
+    log('-=state?.loggedInUser?.userId====${state.loggedInUser?.userId}==');
     // return;
 
     User? depositor = User(
