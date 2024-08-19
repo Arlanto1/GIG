@@ -40,13 +40,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
             title: Constants.passManagement,
           ),
           FloatingNavbarItem(
-            icon: Icons.calendar_month,
-            title: Constants.shiftScheduling,
-          ),
-
-          FloatingNavbarItem(
             icon: Icons.key,
             title: Constants.keyManagementData,
+          ),
+          FloatingNavbarItem(
+            icon: Icons.calendar_month,
+            title: Constants.shiftScheduling,
           ),
           // Additional items can be added here...
         ],
@@ -70,7 +69,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
         offset.dx + selectedIndex * itemWidth + itemWidth / 2;
 
     final bottomMenuHandler = BottomMenuHandler(
-        context: context, displayMenu: displayMenu, positionX: positionX);
+      context: context,
+      displayMenu: displayMenu,
+      positionX: positionX,
+    );
 
     switch (selectedIndex) {
       case 0:
@@ -83,10 +85,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
         bottomMenuHandler.openPassManagementSubMenu();
         break;
       case 3:
-        bottomMenuHandler.openShiftScheduleSubMenu();
+        bottomMenuHandler.openKeyManagementDataSubMenu();
         break;
       case 4:
-        bottomMenuHandler.openKeyManagementDataSubMenu();
+        bottomMenuHandler.openShiftScheduleSubMenu();
         break;
       default:
         log('Invalid tab index: $selectedIndex');

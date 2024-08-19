@@ -158,7 +158,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                               //     .updateReplacement(widget.model);
 
                               // TODO: Not to call is widget.viaAttendance is false
-                              if(!widget.viaAttendance) {
+                              if (!widget.viaAttendance) {
                                 if (widget.rankId != null) {
                                   showLoadingDialog(context);
 
@@ -218,7 +218,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                                 orElse: () => const Label(key: '', value: ''),
                               );
 
-                              if(widget.viaAttendance) {
+                              if (widget.viaAttendance) {
                                 getReplacementByUserListForAttendance();
                               }
                               setState(() {
@@ -370,6 +370,14 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
         toDateController.text.isEmptyOrNull) {
       return;
     }
+
+    if (!areValidDates.status) {
+      Validator().showToast(
+        context,
+        areValidDates.message,
+      );
+      return;
+    }
     replacementByUsers = await ShiftScheduleServices().getAvailableGuardsByDate(
       dutyPostId: widget.dutyPostId!,
       rankId: widget.rankId!,
@@ -431,13 +439,14 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
 
         if (widget.viaAttendance) {
           BlocProvider.of<AttendanceShiftsCubit>(widget.mainContext)
-              .updateReplacement(widget.model);
+              .updateReplacement(context, widget.model);
         } else {
           BlocProvider.of<DutyPostDetailsCubit>(widget.mainContext)
-              .updateReplacement(widget.model);
+              .updateReplacement(context, widget.model);
         }
         // widget.refreshFunction; // this function is not being called
-        Navigator.pop(context);
+
+        // Navigator.pop(context);
       },
     );
   }
@@ -448,6 +457,23 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
           status: false, message: 'Please enter Replacement For');
     }
 
+    return const ErrorResponse(status: true, message: 'Form is Valid');
+  }
+
+  ErrorResponse get areValidDates {
+    final fromDate = DateTime.tryParse(fromDateController.text);
+    final toDate = DateTime.tryParse(toDateController.text);
+
+    log('--fromDate-$fromDate-');
+
+    if (fromDate != null && toDate != null) {
+      if (fromDate.isAfter(toDate)) {
+        // Show an error dialog or handle the error as needed
+        return const ErrorResponse(
+            status: false,
+            message: 'From Date cannot be later than the To Date');
+      }
+    }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -474,6 +500,8 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
     final fromDate = DateTime.tryParse(fromDateController.text);
     final toDate = DateTime.tryParse(toDateController.text);
 
+    log('--fromDate-$fromDate-');
+
     if (fromDate != null && toDate != null) {
       if (fromDate.isAfter(toDate)) {
         // Show an error dialog or handle the error as needed
@@ -482,10 +510,11 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
             message: 'From Date cannot be later than the To Date');
       }
     }
-    if (replacementByController.text.isEmptyOrNull) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Replacement By');
-    }
+
+    // if (replacementByController.text.isEmptyOrNull) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Replacement By');
+    // }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }

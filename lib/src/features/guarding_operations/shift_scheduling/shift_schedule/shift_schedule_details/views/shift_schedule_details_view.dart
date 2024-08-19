@@ -26,10 +26,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
   TextEditingController statusController = TextEditingController();
   TextEditingController rankController = TextEditingController();
 
-  bool isDisabled = true;
+  // bool isDisabled = true;
   bool isReadOnly = false;
-
-  get guardingMasterData => null;
 
   get model => null;
 
@@ -102,6 +100,10 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
         if (state.model.status == null) {
           isReadOnly = false;
         }
+        if (!state.model.isEligibleToEdit) {
+          isReadOnly = true;
+        }
+
         // if (widget.extraProperties != null &&
         //     !widget.extraProperties!.hasWritePermission!) {
         //   isReadOnly = true;
@@ -219,7 +221,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               items: shiftScheduleStatusDropDownValues,
                               initialValue: '${state.model.status ?? 0}',
                               onTap: () {
-                                if (!isDisabled) {
+                                if (!isReadOnly) {
                                   BaseDropDown().assetTypeDialog(
                                     context: context,
                                     dropDownValues:
@@ -537,7 +539,6 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                   state.model.modifiedBy ?? ''),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
-
                           ],
                         ),
                       ),
@@ -553,9 +554,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             log('--id---$id-dustyPostNameId--$dustyPostNameId--state.model.id---${state.model.id}');
 
                             if (dustyPostNameId != null) {
-                              BlocProvider.of<
-                                  ShiftScheduleDetailsCubit>(
-                                  context)
+                              BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                      context)
                                   .submitForm(
                                 isSaveOnly: true,
                                 navigateToNextScreen: true,
@@ -564,14 +564,14 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             }
 
                             if (id != null) {
-                              BlocProvider.of<
-                                  ShiftScheduleDetailsCubit>(
-                                  context)
+                              BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                      context)
                                   .getDutyPostById(id);
                             }
                           }),
                     ],
                     CommonWidgets.verticalSpacerWidget(height * 0.02),
+
                     /// SubmitButton
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

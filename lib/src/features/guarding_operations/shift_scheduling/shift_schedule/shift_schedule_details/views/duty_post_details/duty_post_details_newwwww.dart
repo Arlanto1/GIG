@@ -73,6 +73,14 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
           isReadOnly = true;
         }
 
+        log('-state.model.activeShift----${state.model.activeShift}---');
+        // TODO: uncomment after backend deployment
+        // if (!state.model.activeShift) {
+        //   isReadOnly = true;
+        // }
+
+        isReadOnly = !state.model.activeShift;
+
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
