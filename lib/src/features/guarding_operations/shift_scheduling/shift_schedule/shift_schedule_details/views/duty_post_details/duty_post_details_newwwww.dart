@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/common_widgets/base_widget/opacity_absorb_widget.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/duty_post_details/cubits/duty_post_details_cubit.dart';
 
 class DutyPostDetailsNewwwww extends StatefulWidget {
@@ -19,6 +20,8 @@ class DutyPostDetailsNewwwww extends StatefulWidget {
 
 class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  bool isReadOnly = false;
 
   @override
   void initState() {
@@ -66,13 +69,17 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
         }
       },
       builder: (context, state) {
+        if (!state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
+
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.model?.name ?? '',
             showPopUp: false,
-            showSaveButton: true,
-            showSubmitButton: true,
+            showSaveButton: isReadOnly ? false : true,
+            showSubmitButton: isReadOnly ? false : true,
             showDisLikeButton: false,
             showLikeButton: false,
             popAndReplace: () {
@@ -150,9 +157,9 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                       padding: const EdgeInsets.only(left: 20.0, right: 20),
                       child: Column(
                         children: [
-                          // if (!state.model.lock.isEmptyOrNull) ...[
-                          //   RecordLockedWidget(text: '${state.model.lock}'),
-                          // ],
+                          if (!state.model.lock.isEmptyOrNull) ...[
+                            RecordLockedWidget(text: '${state.model.lock}'),
+                          ],
                           IntrinsicHeight(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -239,34 +246,46 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                 ),
 
                                 /// Guard Lists (Drag Drop)
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    buildShiftColumn(
-                                      state: state,
-                                      shift: state.model,
-                                      isSourceList: true,
-                                    ),
-                                    buildShiftColumn(
-                                      state: state,
-                                      shift: state.model,
-                                      isSourceList: false,
-                                    ),
-                                  ],
+
+                                OpacityAbsorbInkWellWidget(
+                                  absorbing: isReadOnly,
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          buildShiftColumn(
+                                            state: state,
+                                            shift: state.model,
+                                            isSourceList: true,
+                                          ),
+                                          buildShiftColumn(
+                                            state: state,
+                                            shift: state.model,
+                                            isSourceList: false,
+                                          ),
+                                        ],
+                                      ),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          MediaQuery.of(context).size.height * 0.01),
+                                      if (!state
+                                          .model.selectedGuards.isEmptyOrNull) ...[
+                                        buildReplacementColumn(state),
+                                      ],
+
+                                    ],
+                                  ),
                                 ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    MediaQuery.of(context).size.height * 0.01),
-                                if (!state
-                                    .model.selectedGuards.isEmptyOrNull) ...[
-                                  buildReplacementColumn(state),
-                                ],
+
 
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.02),
 
                                 /// Save Button
-                                Center(child: submitButtonDisplay(state)),
+                                if (!isReadOnly) ...[
+                                  Center(child: submitButtonDisplay(state)),
+                                ],
                               ],
                             ),
                           ),
@@ -462,7 +481,6 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
           onTap: () => showReplacementPopUp(
             context: context,
             model: Replacement(),
-            availableGuards: state.model.availableGuards ?? {},
             selectedGuards: state.model.selectedGuards ?? {},
             rankId: state.selectedRank!.id!,
             dutyPostId: widget.model!.id!,
@@ -511,7 +529,6 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
           onTap: () => showReplacementPopUp(
             context: context,
             model: replacement,
-            availableGuards: state.model.availableGuards ?? {},
             selectedGuards: state.model.selectedGuards ?? {},
             rankId: state.selectedRank!.id!,
             dutyPostId: widget.model!.id!,
@@ -610,7 +627,6 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
   void showReplacementPopUp({
     required BuildContext context,
     required Replacement model,
-    required Set<BaseUser> availableGuards,
     required Set<BaseUser> selectedGuards,
     required int dutyPostId,
     required int rankId,
@@ -625,7 +641,6 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
           viaAttendance: false,
           model: model,
           mainContext: context,
-          availableGuards: availableGuards,
           selectedGuards: selectedGuards,
           shiftId: shiftId,
           dutyPostId: dutyPostId,

@@ -4,10 +4,16 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="MM Outward returnable and non &#10;menu added">
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="lock added shift and attencdance &#10;code clean">
+      <change afterPath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/menu_navigation.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/shift_schedule_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/shift_schedule_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/bottom_menu_handler.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/bottom_menu_handler.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/widgets/custom_bottom_navigation_bar_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/widgets/custom_bottom_navigation_bar_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/menu_permissions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/menu_permissions.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,353 +43,409 @@
     &quot;state&quot;: &quot;OPEN&quot;
   }
 }</component>
-  <component name="GitHubPullRequestState">{
-  &quot;prStates&quot;: [
+  <component name="GitHubPullRequestState"><![CDATA[{
+  "prStates": [
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs50yoTY&quot;,
-        &quot;number&quot;: 480
+      "id": {
+        "id": "PR_kwDOJ23nvs50yoTY",
+        "number": 480
       },
-      &quot;lastSeen&quot;: 1720523381749
+      "lastSeen": 1720523381749
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs500XJC&quot;,
-        &quot;number&quot;: 482
+      "id": {
+        "id": "PR_kwDOJ23nvs500XJC",
+        "number": 482
       },
-      &quot;lastSeen&quot;: 1720584235667
+      "lastSeen": 1720584235667
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs500WmH&quot;,
-        &quot;number&quot;: 481
+      "id": {
+        "id": "PR_kwDOJ23nvs500WmH",
+        "number": 481
       },
-      &quot;lastSeen&quot;: 1720596605363
+      "lastSeen": 1720596605363
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs5063bS&quot;,
-        &quot;number&quot;: 483
+      "id": {
+        "id": "PR_kwDOJ23nvs5063bS",
+        "number": 483
       },
-      &quot;lastSeen&quot;: 1720596675360
+      "lastSeen": 1720596675360
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs5067t6&quot;,
-        &quot;number&quot;: 484
+      "id": {
+        "id": "PR_kwDOJ23nvs5067t6",
+        "number": 484
       },
-      &quot;lastSeen&quot;: 1720597523320
+      "lastSeen": 1720597523320
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs507GAD&quot;,
-        &quot;number&quot;: 486
+      "id": {
+        "id": "PR_kwDOJ23nvs507GAD",
+        "number": 486
       },
-      &quot;lastSeen&quot;: 1720597756300
+      "lastSeen": 1720597756300
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs507_Iy&quot;,
-        &quot;number&quot;: 488
+      "id": {
+        "id": "PR_kwDOJ23nvs507_Iy",
+        "number": 488
       },
-      &quot;lastSeen&quot;: 1720604473366
+      "lastSeen": 1720604473366
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs508RC1&quot;,
-        &quot;number&quot;: 490
+      "id": {
+        "id": "PR_kwDOJ23nvs508RC1",
+        "number": 490
       },
-      &quot;lastSeen&quot;: 1720608022601
+      "lastSeen": 1720608022601
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs508VTe&quot;,
-        &quot;number&quot;: 491
+      "id": {
+        "id": "PR_kwDOJ23nvs508VTe",
+        "number": 491
       },
-      &quot;lastSeen&quot;: 1720608914061
+      "lastSeen": 1720608914061
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs507MXC&quot;,
-        &quot;number&quot;: 487
+      "id": {
+        "id": "PR_kwDOJ23nvs507MXC",
+        "number": 487
       },
-      &quot;lastSeen&quot;: 1720610643508
+      "lastSeen": 1720610643508
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs506-6C&quot;,
-        &quot;number&quot;: 485
+      "id": {
+        "id": "PR_kwDOJ23nvs506-6C",
+        "number": 485
       },
-      &quot;lastSeen&quot;: 1720611318144
+      "lastSeen": 1720611318144
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs509A0K&quot;,
-        &quot;number&quot;: 493
+      "id": {
+        "id": "PR_kwDOJ23nvs509A0K",
+        "number": 493
       },
-      &quot;lastSeen&quot;: 1720611337609
+      "lastSeen": 1720611337609
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs509J0_&quot;,
-        &quot;number&quot;: 494
+      "id": {
+        "id": "PR_kwDOJ23nvs509J0_",
+        "number": 494
       },
-      &quot;lastSeen&quot;: 1720611543610
+      "lastSeen": 1720611543610
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51DbVt&quot;,
-        &quot;number&quot;: 496
+      "id": {
+        "id": "PR_kwDOJ23nvs51DbVt",
+        "number": 496
       },
-      &quot;lastSeen&quot;: 1720680083246
+      "lastSeen": 1720680083246
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Db-8&quot;,
-        &quot;number&quot;: 497
+      "id": {
+        "id": "PR_kwDOJ23nvs51Db-8",
+        "number": 497
       },
-      &quot;lastSeen&quot;: 1720680288678
+      "lastSeen": 1720680288678
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51DDrX&quot;,
-        &quot;number&quot;: 495
+      "id": {
+        "id": "PR_kwDOJ23nvs51DDrX",
+        "number": 495
       },
-      &quot;lastSeen&quot;: 1720680400876
+      "lastSeen": 1720680400876
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51DdHn&quot;,
-        &quot;number&quot;: 498
+      "id": {
+        "id": "PR_kwDOJ23nvs51DdHn",
+        "number": 498
       },
-      &quot;lastSeen&quot;: 1720680414675
+      "lastSeen": 1720680414675
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Dyix&quot;,
-        &quot;number&quot;: 500
+      "id": {
+        "id": "PR_kwDOJ23nvs51Dyix",
+        "number": 500
       },
-      &quot;lastSeen&quot;: 1720690090478
+      "lastSeen": 1720690090478
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51ER1a&quot;,
-        &quot;number&quot;: 501
+      "id": {
+        "id": "PR_kwDOJ23nvs51ER1a",
+        "number": 501
       },
-      &quot;lastSeen&quot;: 1720690207017
+      "lastSeen": 1720690207017
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51FUD7&quot;,
-        &quot;number&quot;: 502
+      "id": {
+        "id": "PR_kwDOJ23nvs51FUD7",
+        "number": 502
       },
-      &quot;lastSeen&quot;: 1720697288494
+      "lastSeen": 1720697288494
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51LtWW&quot;,
-        &quot;number&quot;: 506
+      "id": {
+        "id": "PR_kwDOJ23nvs51LtWW",
+        "number": 506
       },
-      &quot;lastSeen&quot;: 1720768248643
+      "lastSeen": 1720768248643
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51LxHC&quot;,
-        &quot;number&quot;: 507
+      "id": {
+        "id": "PR_kwDOJ23nvs51LxHC",
+        "number": 507
       },
-      &quot;lastSeen&quot;: 1720768987360
+      "lastSeen": 1720768987360
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51L60A&quot;,
-        &quot;number&quot;: 508
+      "id": {
+        "id": "PR_kwDOJ23nvs51L60A",
+        "number": 508
       },
-      &quot;lastSeen&quot;: 1720769037111
+      "lastSeen": 1720769037111
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Le56&quot;,
-        &quot;number&quot;: 504
+      "id": {
+        "id": "PR_kwDOJ23nvs51Le56",
+        "number": 504
       },
-      &quot;lastSeen&quot;: 1720769084165
+      "lastSeen": 1720769084165
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51L8os&quot;,
-        &quot;number&quot;: 509
+      "id": {
+        "id": "PR_kwDOJ23nvs51L8os",
+        "number": 509
       },
-      &quot;lastSeen&quot;: 1720771990787
+      "lastSeen": 1720771990787
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51MNQH&quot;,
-        &quot;number&quot;: 510
+      "id": {
+        "id": "PR_kwDOJ23nvs51MNQH",
+        "number": 510
       },
-      &quot;lastSeen&quot;: 1720772607267
+      "lastSeen": 1720772607267
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51MwsW&quot;,
-        &quot;number&quot;: 511
+      "id": {
+        "id": "PR_kwDOJ23nvs51MwsW",
+        "number": 511
       },
-      &quot;lastSeen&quot;: 1720777982079
+      "lastSeen": 1720777982079
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Vh_s&quot;,
-        &quot;number&quot;: 513
+      "id": {
+        "id": "PR_kwDOJ23nvs51Vh_s",
+        "number": 513
       },
-      &quot;lastSeen&quot;: 1721016502512
+      "lastSeen": 1721016502512
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51WBl6&quot;,
-        &quot;number&quot;: 516
+      "id": {
+        "id": "PR_kwDOJ23nvs51WBl6",
+        "number": 516
       },
-      &quot;lastSeen&quot;: 1721024514492
+      "lastSeen": 1721024514492
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51VpxB&quot;,
-        &quot;number&quot;: 514
+      "id": {
+        "id": "PR_kwDOJ23nvs51VpxB",
+        "number": 514
       },
-      &quot;lastSeen&quot;: 1721024634721
+      "lastSeen": 1721024634721
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Vsss&quot;,
-        &quot;number&quot;: 515
+      "id": {
+        "id": "PR_kwDOJ23nvs51Vsss",
+        "number": 515
       },
-      &quot;lastSeen&quot;: 1721024638394
+      "lastSeen": 1721024638394
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51W4Ku&quot;,
-        &quot;number&quot;: 517
+      "id": {
+        "id": "PR_kwDOJ23nvs51W4Ku",
+        "number": 517
       },
-      &quot;lastSeen&quot;: 1721043463006
+      "lastSeen": 1721043463006
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51dq8H&quot;,
-        &quot;number&quot;: 520
+      "id": {
+        "id": "PR_kwDOJ23nvs51dq8H",
+        "number": 520
       },
-      &quot;lastSeen&quot;: 1721109902356
+      "lastSeen": 1721109902356
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51elv9&quot;,
-        &quot;number&quot;: 521
+      "id": {
+        "id": "PR_kwDOJ23nvs51elv9",
+        "number": 521
       },
-      &quot;lastSeen&quot;: 1721117759138
+      "lastSeen": 1721117759138
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51exr6&quot;,
-        &quot;number&quot;: 522
+      "id": {
+        "id": "PR_kwDOJ23nvs51exr6",
+        "number": 522
       },
-      &quot;lastSeen&quot;: 1721118357799
+      "lastSeen": 1721118357799
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51fHtK&quot;,
-        &quot;number&quot;: 523
+      "id": {
+        "id": "PR_kwDOJ23nvs51fHtK",
+        "number": 523
       },
-      &quot;lastSeen&quot;: 1721122217948
+      "lastSeen": 1721122217948
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51f1As&quot;,
-        &quot;number&quot;: 524
+      "id": {
+        "id": "PR_kwDOJ23nvs51f1As",
+        "number": 524
       },
-      &quot;lastSeen&quot;: 1721127158471
+      "lastSeen": 1721127158471
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51lr5g&quot;,
-        &quot;number&quot;: 528
+      "id": {
+        "id": "PR_kwDOJ23nvs51lr5g",
+        "number": 528
       },
-      &quot;lastSeen&quot;: 1721191066294
+      "lastSeen": 1721191066294
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51l1s6&quot;,
-        &quot;number&quot;: 529
+      "id": {
+        "id": "PR_kwDOJ23nvs51l1s6",
+        "number": 529
       },
-      &quot;lastSeen&quot;: 1721193389963
+      "lastSeen": 1721193389963
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51mixx&quot;,
-        &quot;number&quot;: 532
+      "id": {
+        "id": "PR_kwDOJ23nvs51mixx",
+        "number": 532
       },
-      &quot;lastSeen&quot;: 1721201136556
+      "lastSeen": 1721201136556
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51mVTs&quot;,
-        &quot;number&quot;: 531
+      "id": {
+        "id": "PR_kwDOJ23nvs51mVTs",
+        "number": 531
       },
-      &quot;lastSeen&quot;: 1721201139145
+      "lastSeen": 1721201139145
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51mlqJ&quot;,
-        &quot;number&quot;: 533
+      "id": {
+        "id": "PR_kwDOJ23nvs51mlqJ",
+        "number": 533
       },
-      &quot;lastSeen&quot;: 1721201629012
+      "lastSeen": 1721201629012
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51nh_l&quot;,
-        &quot;number&quot;: 535
+      "id": {
+        "id": "PR_kwDOJ23nvs51nh_l",
+        "number": 535
       },
-      &quot;lastSeen&quot;: 1721210050680
+      "lastSeen": 1721210050680
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51oK9C&quot;,
-        &quot;number&quot;: 536
+      "id": {
+        "id": "PR_kwDOJ23nvs51oK9C",
+        "number": 536
       },
-      &quot;lastSeen&quot;: 1721215315840
+      "lastSeen": 1721215315840
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51omVr&quot;,
-        &quot;number&quot;: 538
+      "id": {
+        "id": "PR_kwDOJ23nvs51omVr",
+        "number": 538
       },
-      &quot;lastSeen&quot;: 1721218699652
+      "lastSeen": 1721218699652
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51oN9l&quot;,
-        &quot;number&quot;: 537
+      "id": {
+        "id": "PR_kwDOJ23nvs51oN9l",
+        "number": 537
       },
-      &quot;lastSeen&quot;: 1721218823196
+      "lastSeen": 1721218823196
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51pfuA&quot;,
-        &quot;number&quot;: 539
+      "id": {
+        "id": "PR_kwDOJ23nvs51pfuA",
+        "number": 539
       },
-      &quot;lastSeen&quot;: 1721225311636
+      "lastSeen": 1721225311636
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51q-aH&quot;,
-        &quot;number&quot;: 541
+      "id": {
+        "id": "PR_kwDOJ23nvs51q-aH",
+        "number": 541
       },
-      &quot;lastSeen&quot;: 1721237480837
+      "lastSeen": 1721237480837
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs513wKy&quot;,
-        &quot;number&quot;: 546
+      "id": {
+        "id": "PR_kwDOJ23nvs513wKy",
+        "number": 546
       },
-      &quot;lastSeen&quot;: 1721378746424
+      "lastSeen": 1721378746424
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs54iULI",
+        "number": 630
+      },
+      "lastSeen": 1723790404883
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs54jMhQ",
+        "number": 631
+      },
+      "lastSeen": 1723795217816
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs54jdML",
+        "number": 632
+      },
+      "lastSeen": 1723805960990
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs54kZeQ",
+        "number": 633
+      },
+      "lastSeen": 1723807731349
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs52E4VK",
+        "number": 550
+      },
+      "lastSeen": 1723809312939
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs54omiS",
+        "number": 634
+      },
+      "lastSeen": 1723881808711
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs54o9-V",
+        "number": 635
+      },
+      "lastSeen": 1723903171495
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs54sMo2",
+        "number": 636
+      },
+      "lastSeen": 1724049088408
     }
   ]
-}</component>
+}]]></component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;git@github.com:Arlanto1/Arlanto-App-Codebase.git&quot;,
@@ -425,7 +487,7 @@
   "keyToString": {
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "Flutter.main.dart.executor": "Run",
-    "Flutter.qa.executor": "Run",
+    "Flutter.qa.executor": "Debug",
     "Flutter.test_msal.dart.executor": "Debug",
     "Flutter.uat.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -857,7 +919,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="377" />
+    <option name="localTasksCounter" value="386" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -948,14 +1010,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed unwanted parameter" />
-    <MESSAGE value="button hidden" />
-    <MESSAGE value="+ icon removed for Departments and Entity Dialog Boxes" />
-    <MESSAGE value="+ icon removed from Incident Management and Ticket Life Cycle via navigating through Shift Occurrence." />
-    <MESSAGE value="MM cancel Record Button" />
-    <MESSAGE value="improvements and bug fixes" />
-    <MESSAGE value="new bug fixes" />
-    <MESSAGE value="leo image upload improvements" />
     <MESSAGE value="api and other" />
     <MESSAGE value="pull down to refresh" />
     <MESSAGE value="bug fixed" />
@@ -973,7 +1027,15 @@
     <MESSAGE value="release version changes" />
     <MESSAGE value="WIP: Key Mangement" />
     <MESSAGE value="MM Outward returnable and non &#10;menu added" />
-    <option name="LAST_COMMIT_MESSAGE" value="MM Outward returnable and non &#10;menu added" />
+    <MESSAGE value="mm user refresh" />
+    <MESSAGE value="user list refresh issue in MM, Pass" />
+    <MESSAGE value="WIP: key mangment" />
+    <MESSAGE value="auto select added user" />
+    <MESSAGE value="version changes 16 aug" />
+    <MESSAGE value="Attendance and other bug fixes" />
+    <MESSAGE value="version changes 18 aug" />
+    <MESSAGE value="lock added shift and attencdance &#10;code clean" />
+    <option name="LAST_COMMIT_MESSAGE" value="lock added shift and attencdance &#10;code clean" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>
