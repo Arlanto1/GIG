@@ -11,7 +11,7 @@ class AddReplacementPopUp extends StatefulWidget {
     super.key,
     required this.mainContext,
     required this.model,
-    required this.availableGuards,
+    required this.availableGuards,    // TODO: Can be removed
     required this.selectedGuards,
     this.dutyPostId,
     this.rankId,

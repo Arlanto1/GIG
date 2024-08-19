@@ -272,13 +272,13 @@ class KeyManagementIssuanceDetailsCubit
 
     log('--imageBytes--$imageBytes--');
     if (isReceiverSignature) {
-      imageContent.type = null;
+      imageContent.type = ConstantsIntValue.keyIssuanceReceiverSignImageContentType;
       state.model.receiverSign = imageContent;
       emit(state.copyWith(
         model: state.model,
       ));
     } else {
-      imageContent.type = null;
+      imageContent.type =ConstantsIntValue.keyIssuanceSecuritySignImageContentType;
       state.model.securitySign = imageContent;
       emit(state.copyWith(
         model: state.model,
