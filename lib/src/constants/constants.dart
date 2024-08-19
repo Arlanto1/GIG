@@ -836,7 +836,7 @@ class Constants {
   static const String keyIssuanceProcess = 'Key Issuance Process';
   static const String keys = 'Keys';
   static const String keysAvailable = 'Keys Available';
-  static const String alreadyIssuedKeys = 'Already Issued Keys';
+  static const String alreadyIssuedKeys = 'Issued/In Progress';
   static const String keysReturned = 'Keys Returned';
   static const String keysNotReturned = 'Keys Not Returned';
   static const String keysLost = 'Keys Lost';
