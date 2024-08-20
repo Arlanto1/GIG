@@ -78,7 +78,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
       Utils().formError(state, context);
       Utils().errorAndLogout(state, context);
 
-      if(state.status == FormStatus.popOnly) {
+      if (state.status == FormStatus.popOnly) {
         Navigator.pop(context);
       }
     }, builder: (context, state) {
@@ -168,13 +168,6 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
             state.hasReachedMax ? state.items.length : state.items.length + 1,
         itemBuilder: (context, index) {
           List<Label> labels = [];
-
-          labels.add(
-            Label(
-              key: 'state.status',
-              value: state.status.toString(),
-            ),
-          );
           if (index < state.items.length) {
             labels.add(
               Label(
@@ -269,14 +262,13 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                       log('--state.keyDescriptions--onEditTap--${state.keyDescriptions?.length}---');
 
                       showAddKeyIssuanceProcessPopUp(
-                        context: context,
-                        keyIssuanceProcessRecord: keyIssuanceProcessModel,
-                        keyDescriptions: keyDescriptions,
-                        selectedKeyDescription: selectedKeyDescription,
-                        parentStatus: widget.parentStatus,
-                        lock: widget.lock,
-                        state: state
-                      );
+                          context: context,
+                          keyIssuanceProcessRecord: keyIssuanceProcessModel,
+                          keyDescriptions: keyDescriptions,
+                          selectedKeyDescription: selectedKeyDescription,
+                          parentStatus: widget.parentStatus,
+                          lock: widget.lock,
+                          state: state);
                     },
                     showViewButton: (widget.parentStatus == 1 ||
                                 widget.parentStatus == 2) &&
@@ -519,8 +511,6 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
             );
 
             log('-state.status-NAV-${state.status}----');
-
-
           },
         );
       },
