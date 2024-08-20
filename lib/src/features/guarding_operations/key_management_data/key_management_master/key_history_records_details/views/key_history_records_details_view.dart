@@ -66,9 +66,9 @@ class _KeyHistoryRecordsDetailsViewState
 
   @override
   Widget build(BuildContext context) {
-    if(widget.keyType != null) {
+    if (widget.keyType != null) {
       keyTypeController.text = Utils().getKeyFromValue(
-          value: widget.keyType!, dropdownValues: keyTypeDropDownValues) ??
+              value: widget.keyType!, dropdownValues: keyTypeDropDownValues) ??
           '';
     }
     final size = MediaQuery.of(context).size;
@@ -133,11 +133,15 @@ class _KeyHistoryRecordsDetailsViewState
           loginAndCreatedByUser = true;
         }
         if (state.loggedInUserDetails!.userName
-            .equalsIgnoreCase(state.model.srh?.userName)) {
+                .equalsIgnoreCase(state.model.srh?.userName) &&
+            (widget.model?.type == ConstantsIntValue.keyLostHistoryInt ||
+                widget.model?.type == ConstantsIntValue.keyDestroyHistoryInt)) {
           srh = true;
         }
         if (state.loggedInUserDetails!.userName
-            .equalsIgnoreCase(state.model.securityManager?.userName)) {
+                .equalsIgnoreCase(state.model.securityManager?.userName) &&
+            (widget.model?.type == ConstantsIntValue.lockChangeHistoryInt ||
+                widget.model?.type == ConstantsIntValue.keyDamageHistoryInt)) {
           securityManager = true;
         }
 
@@ -394,7 +398,7 @@ class _KeyHistoryRecordsDetailsViewState
                                         orElse: () =>
                                             const Label(key: '', value: ''),
                                       );
-                                      keyTypeController.text= value;
+                                      keyTypeController.text = value;
                                       BlocProvider.of<
                                                   KeyHistoryRecordsDetailsCubit>(
                                               context)
@@ -478,8 +482,8 @@ class _KeyHistoryRecordsDetailsViewState
                                   locationId: 0,
                                   functionToCall: (BaseUser user) {
                                     BlocProvider.of<
-                                        KeyHistoryRecordsDetailsCubit>(
-                                        context)
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
                                         .updateDropdownValues(
                                       srh: user,
                                     );
@@ -529,8 +533,8 @@ class _KeyHistoryRecordsDetailsViewState
                                   locationId: 0,
                                   functionToCall: (BaseUser user) {
                                     BlocProvider.of<
-                                        KeyHistoryRecordsDetailsCubit>(
-                                        context)
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
                                         .updateDropdownValues(
                                       securityManager: user,
                                     );
@@ -701,28 +705,35 @@ class _KeyHistoryRecordsDetailsViewState
                                   state.model.investigationRequired ?? false
                                       ? 1
                                       : 0,
-                              onChangedYes: !((initialStatus ||
-                                              state.model.status ==
-                                                  ConstantsIntValue
-                                                      .lostInitiated) &&
-                                          keyLostOrDamageScreen &&
-                                          loginAndCreatedByUser) &&
-                                      hasPermission
-                                  ? null
-                                  : (val) {
-                                      state.model.investigationRequired = true;
-                                      BlocProvider.of<
-                                                  KeyHistoryRecordsDetailsCubit>(
-                                              context)
-                                          .onCheckBoxChange(state.model);
-                                    },
-                              onChangedNo: !((initialStatus ||
-                                              state.model.status ==
-                                                  ConstantsIntValue
-                                                      .lostInitiated) &&
-                                          keyLostOrDamageScreen &&
-                                          loginAndCreatedByUser) &&
-                                      hasPermission
+                              onChangedYes:
+                                  // !((initialStatus ||
+                                  //                 state.model.status ==
+                                  //                     ConstantsIntValue
+                                  //                         .lostInitiated) &&
+                                  //             keyLostOrDamageScreen &&
+                                  //             loginAndCreatedByUser) &&
+                                  //         hasPermission
+                                  !(((securityManager ||
+                                              srh ||
+                                              initialStatus ||
+                                              lockChangeInitiatedAndUser)) &&
+                                          state.model.status !=
+                                              ConstantsIntValue.closed)
+                                      ? null
+                                      : (val) {
+                                          state.model.investigationRequired =
+                                              true;
+                                          BlocProvider.of<
+                                                      KeyHistoryRecordsDetailsCubit>(
+                                                  context)
+                                              .onCheckBoxChange(state.model);
+                                        },
+                              onChangedNo: !(((securityManager ||
+                                          srh ||
+                                          initialStatus ||
+                                          lockChangeInitiatedAndUser)) &&
+                                      state.model.status !=
+                                          ConstantsIntValue.closed)
                                   ? null
                                   : (val) {
                                       state.model.investigationRequired = false;

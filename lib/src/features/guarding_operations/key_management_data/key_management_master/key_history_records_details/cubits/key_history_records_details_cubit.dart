@@ -114,19 +114,19 @@ class KeyHistoryRecordsDetailsCubit
       state.model.type = lostType;
 
       log('---before---${model?.id}-');
-      log('---before-ss--${state.model?.id}-');
-      //setting lost value to the noOfKeys
-      if (state.model.type == ConstantsIntValue.keyLostHistoryInt ||
-          state.model.type == ConstantsIntValue.keyDamageHistoryInt) {
-        log('---1111--');
-        if (state.model.noOfKeys == null || state.model.noOfKeys == 0) {
-          log('--22222--${keyIssuanceProcessModel.lost}-');
 
-          state.model.noOfKeys = keyIssuanceProcessModel.lost;
-        } else {
-          model?.noOfKeys =
-              state.model.noOfKeys; // wrong: it will always be null
-        }
+      /// setting lost value to the noOfKeys
+      if ((state.model.noOfKeys == null || state.model.noOfKeys == 0) &&
+          state.model.type == ConstantsIntValue.keyLostHistoryInt) {
+        state.model.noOfKeys = keyIssuanceProcessModel.lost;
+      }
+
+      ///setting damage value to the noOfKeys
+      else if ((state.model.noOfKeys == null || state.model.noOfKeys == 0) &&
+          state.model.type == ConstantsIntValue.keyDamageHistoryInt) {
+        state.model.noOfKeys = keyIssuanceProcessModel.damaged;
+      } else {
+        model?.noOfKeys = state.model.noOfKeys; // wrong: it will always be null
       }
       // Get Date of Creation
       // state.model.createdDate = Utils().getCurrentDate();
@@ -302,7 +302,7 @@ class KeyHistoryRecordsDetailsCubit
           isSubmit: false,
           kmId: parentId.toString(),
           keyIssuanceId: keyIssuanceId,
-          isKeyManagementMaster: keyIssuanceId != null? false: true,
+          isKeyManagementMaster: keyIssuanceId != null ? false : true,
         ));
       } else {
         //Validating Fields
@@ -331,7 +331,7 @@ class KeyHistoryRecordsDetailsCubit
             isSubmit: true,
             kmId: parentId.toString(),
             keyIssuanceId: keyIssuanceId,
-            isKeyManagementMaster: keyIssuanceId != null? false: true,
+            isKeyManagementMaster: keyIssuanceId != null ? false : true,
           );
         }
         if (isApprovedOnly) {
@@ -350,7 +350,7 @@ class KeyHistoryRecordsDetailsCubit
             isSubmit: true,
             kmId: parentId.toString(),
             keyIssuanceId: keyIssuanceId,
-            isKeyManagementMaster: keyIssuanceId != null? false: true,
+            isKeyManagementMaster: keyIssuanceId != null ? false : true,
           );
         }
         response = (await services.createKeyHistoryRecord(
@@ -358,7 +358,7 @@ class KeyHistoryRecordsDetailsCubit
           isSubmit: true,
           kmId: parentId.toString(),
           keyIssuanceId: keyIssuanceId,
-          isKeyManagementMaster: keyIssuanceId != null? false: true,
+          isKeyManagementMaster: keyIssuanceId != null ? false : true,
         ));
       }
       state.model.createdDate = state.model.createdDate == null

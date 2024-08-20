@@ -530,7 +530,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 BaseDate().datePickerWidgetLoading(
                                   textController: keyReturnDueDateController,
                                   isDisabled:
-                                  state.model.keyHandingOverDuration == 2
+                                  state.model.keyHandingOverDuration == 2 && (state.model.status == null || state.model.status == ConstantsIntValue.issuanceDraftStatus)
                                       ? false
                                       : true,
                                   onlyDate: false,
@@ -538,7 +538,6 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   onChange: (String value) {
                                     state.model.keyHandOverDue =
                                         Utils().formatTime(value);
-
                                     BlocProvider.of<
                                         KeyManagementIssuanceDetailsCubit>(
                                         context)
