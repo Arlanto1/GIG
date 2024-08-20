@@ -272,7 +272,7 @@ class AttachmentListViewState extends State<AttachmentListView> {
 }
 
 class ImageFromBytes extends StatelessWidget {
-  ImageFromBytes({
+  const ImageFromBytes({
     super.key,
     required this.imageData,
   });

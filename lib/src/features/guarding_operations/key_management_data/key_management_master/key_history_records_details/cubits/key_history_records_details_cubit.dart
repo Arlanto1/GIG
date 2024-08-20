@@ -114,7 +114,7 @@ class KeyHistoryRecordsDetailsCubit
       state.model.type = lostType;
 
       log('---before---${model?.id}-');
-      log('---before-ss--${state.model?.id}-');
+      log('---before-ss--${state.model.id}-');
       //setting lost value to the noOfKeys
       if (state.model.type == ConstantsIntValue.keyLostHistoryInt ||
           state.model.type == ConstantsIntValue.keyDamageHistoryInt) {

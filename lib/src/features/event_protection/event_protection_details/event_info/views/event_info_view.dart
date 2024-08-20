@@ -96,9 +96,9 @@ class _EventInfoViewState extends State<EventInfoView> {
         (int.tryParse('${state.model.startDate}')??0) * 1000).toString();
           initialisedToDate = DateTime.fromMillisecondsSinceEpoch(
               (int.tryParse('${state.model.endDate}')??0) * 1000).toString();
-          log('initialisedToDate--- ${initialisedToDate}');
-          log('initialisedStartDate--- ${initialisedStartDate}');
-          log('initialisedFromDate--- ${initialisedFromDate}');
+          log('initialisedToDate--- $initialisedToDate');
+          log('initialisedStartDate--- $initialisedStartDate');
+          log('initialisedFromDate--- $initialisedFromDate');
         }
 
 
@@ -116,9 +116,9 @@ class _EventInfoViewState extends State<EventInfoView> {
           DateTime currentDate = DateTime.now();
           DateTime newDateTime = currentDate.add(const Duration(days: 1));
           initialisedToDate = newDateTime.toString();
-          log('initialisedToDate--- ${initialisedToDate}');
-          log('initialisedStartDate--- ${initialisedStartDate}');
-          log('initialisedFromDate--- ${initialisedFromDate}');
+          log('initialisedToDate--- $initialisedToDate');
+          log('initialisedStartDate--- $initialisedStartDate');
+          log('initialisedFromDate--- $initialisedFromDate');
         }
 
         log('--widget.editForm---${widget.editForm}--');
@@ -242,7 +242,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                   toDate: initialisedToDate,
                                   onChange: (String value) {
                                     dateController.text = value;
-                                    log('dateControllerValue --- ${value}');
+                                    log('dateControllerValue --- $value');
                                     state.model.date = value;
                                     BlocProvider.of<EventInfoCubit>(context)
                                         .onModelValueChange(state.model);

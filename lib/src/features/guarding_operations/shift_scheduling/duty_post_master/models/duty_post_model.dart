@@ -135,6 +135,7 @@ class ShiftModel  extends BaseObject {
     }
   }
 
+  @override
   Map<String, dynamic> toJson() => _$ShiftModelToJson(this);
 
   @override
