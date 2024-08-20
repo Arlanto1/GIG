@@ -173,11 +173,11 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                           TextFieldAddButton(
                             title: keyDescriptionController.text,
                             height: 70,
-                            isDisableColor: widget.parentStatus != 0 &&
-                                (widget.extraProperties != null &&
+                            isDisableColor: !(widget.parentStatus == 0 &&
+                                !(widget.extraProperties != null &&
                                     !widget.extraProperties!
-                                        .hasWritePermission!) &&
-                                !widget.lock.isEmptyOrNull,
+                                        .hasWritePermission! &&
+                                    widget.lock.isEmptyOrNull)),
                             onTap: () {
                               if (widget.parentStatus == 0 &&
                                   !(widget.extraProperties != null &&
@@ -233,7 +233,10 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                       BaseDropDown().getDropDown(
-                        isDisabled: false,
+                        isDisabled: !(widget.parentStatus == 0 &&
+                            !(widget.extraProperties != null &&
+                                !widget
+                                    .extraProperties!.hasWritePermission!)),
                         textController: keyTypeController,
                         items: keyTypeDropDownValues,
                         onTap: () {
