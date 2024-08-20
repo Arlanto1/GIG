@@ -77,6 +77,10 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
         KeyIssuanceProcessRecordState>(listener: (context, state) {
       Utils().formError(state, context);
       Utils().errorAndLogout(state, context);
+
+      if(state.status == FormStatus.popOnly) {
+        Navigator.pop(context);
+      }
     }, builder: (context, state) {
       log('-k desc--${state.keyDescriptions?.length}---');
 
@@ -164,6 +168,13 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
             state.hasReachedMax ? state.items.length : state.items.length + 1,
         itemBuilder: (context, index) {
           List<Label> labels = [];
+
+          labels.add(
+            Label(
+              key: 'state.status',
+              value: state.status.toString(),
+            ),
+          );
           if (index < state.items.length) {
             labels.add(
               Label(
@@ -500,16 +511,16 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
 
             log('-widget.title---${widget.title}----');
 
-            BlocProvider.of<KeyIssuanceProcessRecordBloc>(context).add(
+            BlocProvider.of<KeyIssuanceProcessRecordBloc>(this.context).add(
               SaveRecord(
                 model,
                 widget.parentId,
               ),
             );
 
-            if(state.status == FormStatus.success) {
-              Navigator.pop(context);
-            }
+            log('-state.status-NAV-${state.status}----');
+
+
           },
         );
       },

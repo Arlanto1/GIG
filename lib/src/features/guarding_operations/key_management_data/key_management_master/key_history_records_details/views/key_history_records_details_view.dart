@@ -992,6 +992,7 @@ class _KeyHistoryRecordsDetailsViewState
       ConstantsArgument.keyLostType: state.model.type,
       ConstantsArgument.keyIssuanceId: widget.parentId,
       ConstantsArgument.kmId: widget.parentId,
+      ConstantsArgument.location: state.keyManagementMasterModel?.location,
     };
     nav.pushNamed(
       incidentManagementDetailsRoute,

@@ -176,7 +176,7 @@ class KeyIssuanceProcessRecordBloc
       return emit(state.copyWith(
         items: response,
         hasReachedMax: false,
-        status: FormStatus.success,
+        status: FormStatus.popOnly, /// Close the pop-up only when record is saved successfully
       ));
     } on GenericResponse catch (e) {
       emit(
