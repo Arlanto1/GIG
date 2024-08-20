@@ -107,6 +107,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                     keyDescriptions: keyDescriptions,
                     selectedKeyDescription: null,
                     parentStatus: widget.parentStatus,
+                    state: state,
                   );
                 },
               )
@@ -263,6 +264,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         selectedKeyDescription: selectedKeyDescription,
                         parentStatus: widget.parentStatus,
                         lock: widget.lock,
+                        state: state
                       );
                     },
                     showViewButton: (widget.parentStatus == 1 ||
@@ -471,6 +473,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     required Organisation? selectedKeyDescription,
     required final int parentStatus,
     final String? lock,
+    required KeyIssuanceProcessRecordState state,
   }) {
     log('---showAddKeyIssuanceProcessPopUp-----k desc-333-${keyDescriptions.length}---');
 
@@ -503,6 +506,10 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                 widget.parentId,
               ),
             );
+
+            if(state.status == FormStatus.success) {
+              Navigator.pop(context);
+            }
           },
         );
       },
