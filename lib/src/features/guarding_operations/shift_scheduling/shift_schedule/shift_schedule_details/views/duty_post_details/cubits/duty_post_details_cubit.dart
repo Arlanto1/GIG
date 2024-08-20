@@ -134,7 +134,10 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     ));
   }
 
-  Future<void> updateReplacement(Replacement updatedReplacement) async {
+  Future<void> updateReplacement(
+    BuildContext context,
+    Replacement updatedReplacement,
+  ) async {
     emit(state.copyWith(status: FormStatus.loading));
 
     if (updatedReplacement.id != null) {
@@ -162,10 +165,13 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     ));
 
     /// Saving and Refresh the record
-    await submitAndRefreshScreen(checkValidations: false);
+    await submitAndRefreshScreen(context: context, checkValidations: false);
   }
 
-  Future<void> submitAndRefreshScreen({required bool checkValidations}) async {
+  Future<void> submitAndRefreshScreen({
+    BuildContext? context,
+    required bool checkValidations,
+  }) async {
     /// Saving the record
     await submitForm(
       isSaveOnly: true,
@@ -175,10 +181,16 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
       checkValidations: checkValidations,
     );
 
-    /// refreshing the list so that we can refresh the validation for creating new replacements.
-    if (state.status != FormStatus.formError) {
-      initializeValues();
+    /// For Adding Replacement
+    log('--state.status--context-${state.status}--');
+    if (state.status != FormStatus.formError &&
+        context != null &&
+        context.mounted) {
+      Navigator.pop(context);
     }
+
+    /// refreshing the list so that we can refresh the validation for creating new replacements.
+    initializeValues();
   }
 
   Future<void> getNextAvailableReplacementDates({required int userId}) async {
