@@ -302,7 +302,7 @@ class KeyHistoryRecordsDetailsCubit
           isSubmit: false,
           kmId: parentId.toString(),
           keyIssuanceId: keyIssuanceId,
-          isKeyManagementMaster: keyIssuanceId != null ? false : true,
+          isKeyManagementMaster: keyIssuanceId != null? false: true,
         ));
       } else {
         //Validating Fields
@@ -331,7 +331,7 @@ class KeyHistoryRecordsDetailsCubit
             isSubmit: true,
             kmId: parentId.toString(),
             keyIssuanceId: keyIssuanceId,
-            isKeyManagementMaster: keyIssuanceId != null ? false : true,
+            isKeyManagementMaster: keyIssuanceId != null? false: true,
           );
         }
         if (isApprovedOnly) {
@@ -350,7 +350,7 @@ class KeyHistoryRecordsDetailsCubit
             isSubmit: true,
             kmId: parentId.toString(),
             keyIssuanceId: keyIssuanceId,
-            isKeyManagementMaster: keyIssuanceId != null ? false : true,
+            isKeyManagementMaster: keyIssuanceId != null? false: true,
           );
         }
         response = (await services.createKeyHistoryRecord(
@@ -358,7 +358,7 @@ class KeyHistoryRecordsDetailsCubit
           isSubmit: true,
           kmId: parentId.toString(),
           keyIssuanceId: keyIssuanceId,
-          isKeyManagementMaster: keyIssuanceId != null ? false : true,
+          isKeyManagementMaster: keyIssuanceId != null? false: true,
         ));
       }
       state.model.createdDate = state.model.createdDate == null

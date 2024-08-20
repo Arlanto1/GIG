@@ -812,7 +812,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         // await getPassTypes(passId: passId, locationId: defaultLocation.id!);
 
         passTypes = await createpassmgmtServices.getPassTypes(
-            passId: passId, locationId: defaultLocation!.id!);
+            passId: passId, locationId: defaultLocation.id!);
         companyTypes = await createpassmgmtServices.getPassNo(
             passType: passId, locationId: defaultLocation.id!);
       }

@@ -380,28 +380,28 @@ Future<void> handleQaEnv(bool isQaEnv, String url, String body) async {
         context: navigatorKey.currentContext!,
         builder: (context) {
           return AlertDialog(
-            title: Text('QA Environment'),
+            title: const Text('QA Environment'),
             content: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text('URL: $url'),
-                  SizedBox(height: 8),
-                  Text('Body:'),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 8),
+                  const Text('Body:'),
+                  const SizedBox(height: 4),
                   Container(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey),
                       borderRadius: BorderRadius.circular(4),
                     ),
+                    height: 200,
                     child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       child: Text(body),
-                    ),
-                    height: 200, // Limit the height for the scrollable area
+                    ), // Limit the height for the scrollable area
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -409,14 +409,14 @@ Future<void> handleQaEnv(bool isQaEnv, String url, String body) async {
                         onPressed: () {
                           Clipboard.setData(ClipboardData(text: url));
                         },
-                        child: Text('Copy URL'),
+                        child: const Text('Copy URL'),
                       ),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       ElevatedButton(
                         onPressed: () {
                           Clipboard.setData(ClipboardData(text: body));
                         },
-                        child: Text('Copy Body'),
+                        child: const Text('Copy Body'),
                       ),
                     ],
                   ),
@@ -429,7 +429,7 @@ Future<void> handleQaEnv(bool isQaEnv, String url, String body) async {
                   Navigator.of(context).pop();
                   completer.complete(); // Continue execution
                 },
-                child: Text('Dismiss'),
+                child: const Text('Dismiss'),
               ),
             ],
           );
