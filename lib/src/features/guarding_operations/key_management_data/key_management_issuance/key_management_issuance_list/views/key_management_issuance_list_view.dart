@@ -185,6 +185,26 @@ class _KeyManagementIssuanceListViewState
                                         'Location ',
                                     value: state.list[index].location?.name ??
                                         ''));
+                                labels.add(Label(
+                                    key: state.labels?.locale.createdDate ??
+                                        state.labels?.defaultLocale
+                                            .createdDate ??
+                                        'Created Date',
+                                    value: state.list[index].createdDate != null
+                                        ? Utils.timestampToDateConversion(
+                                            int.parse(
+                                                state.list[index].createdDate ??
+                                                    '0'),
+                                            Constants
+                                                .twentyFourHourDateTimeFormat)
+                                        : ''));
+                                labels.add(Label(
+                                    key: state.labels?.locale.handedOverTo ??
+                                        state.labels?.defaultLocale
+                                            .handedOverTo ??
+                                        'Handed Over To',
+                                    value:
+                                        '${state.list[index].handedOverTo?.firstName ?? ''} ${state.list[index].handedOverTo?.lastName ?? ''}'));
                               }
                               return index >= state.list.length
                                   ? null

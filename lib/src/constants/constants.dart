@@ -930,9 +930,14 @@ class Constants {
 
   ///Key issuance Process
   static const String valueNotAccepted = 'Value Not Accepted';
-  static const String enteredValueNotAccepted = 'Entered Value not accepted';
+  static const String enteredKeyLostValueNotAccepted = 'Entered Key Lost Value not accepted';
+  static const String enteredKeyDamageValueNotAccepted = 'Entered Key Damage Value not accepted';
   /// Module Code for roles
   static const String passManagementRolesModuleCode = 'PM';
+
+  static const String attendanceMessage = 'Confirm';
+  static const String attendanceSubmissionMessage = 'Please confirm the submission of attendance starts the shift and ends the previous shift.';
+
 }
 
 //static const String height = 'Height(cm)';

@@ -91,6 +91,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
         }
       },
       builder: (context, state) {
+        log('(state.model.status != -1 || !isReadOnly ${isReadOnly}');
         if (state.model.status == ConstantsIntValue.cancelledStatus) {
           isReadOnly = true;
         }
@@ -108,7 +109,6 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
         //     !widget.extraProperties!.hasWritePermission!) {
         //   isReadOnly = true;
         // }
-
         initializeDates(state);
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
@@ -116,14 +116,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
               title: Constants.shiftSchedule,
               // title: widget.title,
               showPopUp: false,
-              showSaveButton: (state.model.status != -1 || !isReadOnly) &&
-                      state.model.lock.isEmptyOrNull
-                  ? true
-                  : false,
-              showSubmitButton: (state.model.status != -1 || !isReadOnly) &&
-                      state.model.lock.isEmptyOrNull
-                  ? true
-                  : false,
+              showSaveButton: !isReadOnly,
+              showSubmitButton: !isReadOnly,
               showDisLikeButton: false,
               showLikeButton: false,
               pdfAPIName:
@@ -322,17 +316,9 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             TextFieldAddButton(
                               title: state.model.vendor?.name,
                               height: 60,
-                              isDisableColor: (state.model.status == null ||
-                                          state.model.status ==
-                                              ConstantsIntValue
-                                                  .shiftScheduleDraft) &&
-                                      state.model.lock.isEmptyOrNull
-                                  ? false
-                                  : true,
+                              isDisableColor: isReadOnly,
                               onTap: () {
-                                if (state.model.status == null ||
-                                    state.model.status ==
-                                        ConstantsIntValue.shiftScheduleDraft) {
+                                if (!isReadOnly) {
                                   BaseOrganisationDialog().departmentDialog(
                                       context: context,
                                       organisations: state.vendors,
@@ -369,12 +355,12 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled: state.model.status == -1,
+                                isDisabled: isReadOnly,
                                 textController: rankController,
                                 items: shiftDutyTypeDropDownValues,
                                 initialValue: state.model.dutyType.toString(),
                                 onTap: () {
-                                  if (state.model.status != -1) {
+                                  if (!isReadOnly) {
                                     BaseDropDown().assetTypeDialog(
                                         context: context,
                                         dropDownValues:
@@ -409,16 +395,11 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            if (state.model.status == null ||
-                                state.model.status ==
-                                    ConstantsIntValue.shiftScheduleDraft) ...[
+                            if (!isReadOnly) ...[
                               GestureDetector(
                                 onTap: () {
                                   log('--onTap------');
-                                  if (state.model.status == null ||
-                                      state.model.status ==
-                                          ConstantsIntValue
-                                              .shiftScheduleDraft) {
+                                  if (!isReadOnly) {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext dialogContext) {
@@ -474,9 +455,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               onlyDate: true,
                               showPastDate: false,
                               startDate: state.availableDate?.fromDate,
-                              isDisabled: state.model.status != null &&
-                                  state.model.status !=
-                                      ConstantsIntValue.shiftScheduleDraft,
+                              isDisabled: isReadOnly,
                               onChange: (String value) {
                                 state.model.fromDate =
                                     Utils().formatTime(value);
@@ -503,9 +482,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               onlyDate: true,
                               showPastDate: false,
                               startDate: state.model.fromDate,
-                              isDisabled: state.model.status != null &&
-                                  state.model.status !=
-                                      ConstantsIntValue.shiftScheduleDraft,
+                              isDisabled: isReadOnly,
                               onChange: (String value) {
                                 state.model.toDate = Utils().formatTime(value);
                                 BlocProvider.of<ShiftScheduleDetailsCubit>(
@@ -577,8 +554,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         cancelButtonDisplay(),
-                        if ((state.model.status != -1 || !isReadOnly) &&
-                            state.model.lock.isEmptyOrNull) ...[
+                        if (!isReadOnly) ...[
                           submitButtonDisplay()
                         ],
                       ],

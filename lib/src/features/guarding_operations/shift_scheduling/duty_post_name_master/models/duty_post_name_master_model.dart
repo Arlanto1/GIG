@@ -44,6 +44,7 @@ class DutyPostNameMasterModel extends BaseObject {
   String? modifiedBy;
   int? status;
   List<DpName>? dpName;
+  bool isEligibleToEdit;
 
   DutyPostNameMasterModel(
       {this.id,
@@ -55,7 +56,8 @@ class DutyPostNameMasterModel extends BaseObject {
       this.modifiedDate,
       this.modifiedBy,
       this.status,
-      this.dpName});
+      this.dpName,
+      this.isEligibleToEdit = false});
 
   factory DutyPostNameMasterModel.fromJson(Map<String, dynamic> json) =>
       _$DutyPostNameMasterModelFromJson(json);

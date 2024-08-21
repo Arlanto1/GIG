@@ -28,6 +28,7 @@ DutyPostNameMasterModel _$DutyPostNameMasterModelFromJson(
       dpName: (json['dpName'] as List<dynamic>?)
           ?.map((e) => DpName.fromJson(e as Map<String, dynamic>))
           .toList(),
+      isEligibleToEdit: json['isEligibleToEdit'] as bool? ?? false,
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$DutyPostNameMasterModelToJson(
@@ -44,4 +45,5 @@ Map<String, dynamic> _$DutyPostNameMasterModelToJson(
       'modifiedBy': instance.modifiedBy,
       'status': instance.status,
       'dpName': instance.dpName,
+      'isEligibleToEdit': instance.isEligibleToEdit,
     };

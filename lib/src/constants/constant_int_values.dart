@@ -109,6 +109,16 @@ class ConstantsIntValue {
   static const int issuanceDraftStatus = 0;
   static const int issuanceHandedOverStatus = 1;
   static const int issuanceNotReturnedStatus = 2;
+  static const int issuanceClosedDamagedStatus = 3;
+  static const int issuanceClosedLostStatus = 4;
+  static const int issuanceLostNotReturnedStatus = 5;
+  static const int issuanceClosedLostNotReturnedStatus = 6;
+  static const int issuanceClosedLostDamagedStatus = 7;
+  static const int issuanceLostDamagedStatus = 8;
+  static const int issuanceLostDamagedNotReturnedStatus = 9;
+  static const int issuanceClosedLostDamagedNotReturnedStatus = 10;
+  static const int issuanceDamagedNotReturnedStatus = 11;
+  static const int issuanceClosedStatus = 12;
 
   /// Ticket life cycle status
   static const int ticketLifeCycleCreateStatus = 1;

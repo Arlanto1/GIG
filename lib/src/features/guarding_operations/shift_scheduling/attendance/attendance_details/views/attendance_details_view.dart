@@ -96,9 +96,10 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
         if (state.model.status == null) {
           isReadOnly = false;
         }
-        if (state.model.status == 0) {
-          isReadOnly = true;
-        }
+
+        // if (state.model.status == 0) {
+        //   isReadOnly = true;
+        // }
         // if (widget.extraProperties != null &&
         //     !widget.extraProperties!.hasWritePermission!) {
         //   isReadOnly = true;
@@ -106,8 +107,13 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
         if (state.model.status == ConstantsIntValue.cancelledStatus) {
           isReadOnly = true;
         }
-        if (state.model.isEligibleToEdit) {
-          isReadOnly = false;
+        if (!state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
+
+        log('isEligible -----  ${!state.model.isEligibleToEdit}');
+        if (!state.model.isEligibleToEdit) {
+          isReadOnly = true;
         }
         initializeDates();
         return Scaffold(
@@ -115,8 +121,8 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
             context: context,
             title: Constants.attendanceDetails,
             showPopUp: false,
-            showSubmitButton: isReadOnly ? false : true,
-            showSaveButton: isReadOnly ? false : true,
+            showSubmitButton: !isReadOnly,
+            showSaveButton: !isReadOnly,
             showDisLikeButton: false,
             showLikeButton: false,
             pdfAPIName:
@@ -368,7 +374,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled: state.model.status == -1,
+                                isDisabled: state.model.status != null,
                                 textController: attendanceTypeController,
                                 items: attendanceTypeDropDownValues,
                                 initialValue:

@@ -49,6 +49,7 @@ class DutyPostMasterModel extends BaseObject {
   User? createdBy;
   String? modifiedDate;
   String? modifiedBy;
+  bool isEligibleToEdit;
 
   @override
   DutyPostMasterModel({
@@ -67,6 +68,7 @@ class DutyPostMasterModel extends BaseObject {
     this.createdBy,
     this.modifiedDate,
     this.modifiedBy,
+    this.isEligibleToEdit = false,
   });
 
   factory DutyPostMasterModel.fromJson(Map<String, dynamic> json) =>
