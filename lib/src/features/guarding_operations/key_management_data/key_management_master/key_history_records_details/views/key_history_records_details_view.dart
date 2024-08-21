@@ -135,13 +135,13 @@ class _KeyHistoryRecordsDetailsViewState
         if (state.loggedInUserDetails!.userName
                 .equalsIgnoreCase(state.model.srh?.userName) &&
             (widget.model?.type == ConstantsIntValue.keyLostHistoryInt ||
-                widget.model?.type == ConstantsIntValue.keyDestroyHistoryInt)) {
+                widget.model?.type == ConstantsIntValue.keyDamageHistoryInt)) {
           srh = true;
         }
         if (state.loggedInUserDetails!.userName
                 .equalsIgnoreCase(state.model.securityManager?.userName) &&
             (widget.model?.type == ConstantsIntValue.lockChangeHistoryInt ||
-                widget.model?.type == ConstantsIntValue.keyDamageHistoryInt)) {
+                widget.model?.type == ConstantsIntValue.keyDestroyHistoryInt)) {
           securityManager = true;
         }
 
@@ -379,12 +379,12 @@ class _KeyHistoryRecordsDetailsViewState
                           Styles.textStyleBlack14,
                         ),
                         BaseDropDown().getDropDown(
-                            isDisabled: !initialStatus,
+                            isDisabled: !initialStatus || keyLostOrDamageScreen,
                             textController: keyTypeController,
                             items: keyTypeDropDownValues,
                             // initialValue: state.model.keyType.toString(),
                             onTap: () {
-                              if (initialStatus) {
+                              if (initialStatus && !keyLostOrDamageScreen) {
                                 BaseDropDown().assetTypeDialog(
                                     context: context,
                                     dropDownValues: keyTypeDropDownValues

@@ -32,6 +32,7 @@ DutyPostMasterModel _$DutyPostMasterModelFromJson(Map<String, dynamic> json) =>
           : User.fromJson(json['createdBy'] as Map<String, dynamic>),
       modifiedDate: json['modifiedDate'] as String?,
       modifiedBy: json['modifiedBy'] as String?,
+      isEligibleToEdit: json['isEligibleToEdit'] as bool? ?? false,
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$DutyPostMasterModelToJson(
@@ -53,4 +54,5 @@ Map<String, dynamic> _$DutyPostMasterModelToJson(
       'createdBy': instance.createdBy,
       'modifiedDate': instance.modifiedDate,
       'modifiedBy': instance.modifiedBy,
+      'isEligibleToEdit': instance.isEligibleToEdit,
     };

@@ -87,7 +87,8 @@ class KeyManagementIssuanceDetailsCubit
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
         commonServices.getBaseUsers(
-            roleName: 'ATOM_STATIC_USER', locationId: state.model.location!.id!),
+            roleName: 'ATOM_STATIC_USER',
+            locationId: state.model.location!.id!),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
@@ -250,12 +251,12 @@ class KeyManagementIssuanceDetailsCubit
     emit(
       state.copyWith(
         isReceiverSignEditable: receiverSign,
-        isSecuritySignatureSignEditable:
-        securitySignatureSignEditable,
+        isSecuritySignatureSignEditable: securitySignatureSignEditable,
         status: FormStatus.initial,
       ),
     );
   }
+
   Future<void> pushSignature({
     required SignatureController controller,
     required bool isReceiverSignature,
@@ -272,13 +273,15 @@ class KeyManagementIssuanceDetailsCubit
 
     log('--imageBytes--$imageBytes--');
     if (isReceiverSignature) {
-      imageContent.type = ConstantsIntValue.keyIssuanceReceiverSignImageContentType;
+      imageContent.type =
+          ConstantsIntValue.keyIssuanceReceiverSignImageContentType;
       state.model.receiverSign = imageContent;
       emit(state.copyWith(
         model: state.model,
       ));
     } else {
-      imageContent.type =ConstantsIntValue.keyIssuanceSecuritySignImageContentType;
+      imageContent.type =
+          ConstantsIntValue.keyIssuanceSecuritySignImageContentType;
       state.model.securitySign = imageContent;
       emit(state.copyWith(
         model: state.model,
@@ -309,10 +312,21 @@ class KeyManagementIssuanceDetailsCubit
       int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.createdDate = inputDate.toString();
     }
-    if (state.model.status == 1) {
+    //
+    // if (state.model.status != 0 && state.model.status != null) {
+    //   if (!Utils().isTimestamp(state.model.keyHandOverDate!)) {
+    //     dateTime =
+    //         DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.keyHandOverDate!);
+    //     int inputDate = dateTime
+    //         .toUtc()
+    //         .millisecondsSinceEpoch ~/ 1000;
+    //     state.model.keyHandOverDate = inputDate.toString();
+    //   }
+    // }
+    // if (state.model.status != 0 && state.model.status != null) {
       state.model.keyHandOverDate =
           (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-    }
+    // }
     // if (state.model.status == 1) {
     //   state.model.keyReturnDateTime =
     //       (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();

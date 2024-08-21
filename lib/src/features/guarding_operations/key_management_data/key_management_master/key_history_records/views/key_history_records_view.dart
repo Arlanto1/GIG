@@ -191,8 +191,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                                     Constants.twentyFourHourDateTimeFormat)
                                 : ''));
                         labels.add(Label(
-                            key:
-                                'No.of.Keys',
+                            key: 'No.of.Keys',
                             value: state.list[index].noOfKeys.toString()));
                         return index >= state.list.length
                             ? const BaseLoader()

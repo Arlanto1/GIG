@@ -132,6 +132,20 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
     KeyIssuanceProcessRecordState state = const KeyIssuanceProcessRecordState();
     log('no of keys issued ${widget.model.noKeysIssued}---');
     log('--keyDescriptions----${widget.keyDescriptions.length}--');
+    log('no of keys not returned ${widget.model.notReturned}---');
+
+    bool editableFieldsHandOverStatus;
+    editableFieldsHandOverStatus = widget.parentStatus !=
+            ConstantsIntValue.issuanceDraftStatus &&
+        widget.parentStatus != ConstantsIntValue.issuanceClosedDamagedStatus &&
+        widget.parentStatus != ConstantsIntValue.issuanceClosedLostStatus &&
+        widget.parentStatus !=
+            ConstantsIntValue.issuanceClosedLostDamagedStatus &&
+        widget.parentStatus != ConstantsIntValue.issuanceLostDamagedStatus &&
+        widget.parentStatus != ConstantsIntValue.issuanceClosedStatus &&
+        !(widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!);
+
     return AlertDialog(
       title: Align(
         alignment: Alignment.center,
@@ -175,8 +189,8 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                             height: 70,
                             isDisableColor: !(widget.parentStatus == 0 &&
                                 !(widget.extraProperties != null &&
-                                    !widget.extraProperties!
-                                        .hasWritePermission! &&
+                                    !widget
+                                        .extraProperties!.hasWritePermission! &&
                                     widget.lock.isEmptyOrNull)),
                             onTap: () {
                               if (widget.parentStatus == 0 &&
@@ -235,8 +249,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                       BaseDropDown().getDropDown(
                         isDisabled: !(widget.parentStatus == 0 &&
                             !(widget.extraProperties != null &&
-                                !widget
-                                    .extraProperties!.hasWritePermission!)),
+                                !widget.extraProperties!.hasWritePermission!)),
                         textController: keyTypeController,
                         items: keyTypeDropDownValues,
                         onTap: () {
@@ -275,8 +288,8 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                               isMasterKey: isMasterKey);
 
                                   setState(() {
-                                    widget.model.notReturned =
-                                        keyDescription.notReturned;
+                                    widget.model.available =
+                                        keyDescription.available;
 
                                     noOfKeysController.text =
                                         keyDescription.noKeys.toString();
@@ -286,18 +299,18 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                     alreadyIssuedKeysController.text =
                                         keyDescription.noKeysIssued.toString();
 
-                                    widget.model.available =
-                                        keyDescription.noKeys! -
-                                            keyDescription.noKeysIssued!;
+                                    // widget.model.available =
+                                    //     keyDescription.noKeys! -
+                                    //         keyDescription.noKeysIssued!;
 
+                                    // availableKeysController.text =
+                                    //     (keyDescription.noKeys! -
+                                    //             keyDescription.noKeysIssued!)
+                                    //         .toString();
+                                    widget.model.available =
+                                        keyDescription.available;
                                     availableKeysController.text =
-                                        (keyDescription.noKeys! -
-                                                keyDescription.noKeysIssued!)
-                                            .toString();
-                                    widget.model.notReturned =
-                                        keyDescription.notReturned;
-                                    notReturnedKeysController.text =
-                                        keyDescription.notReturned.toString();
+                                        keyDescription.available.toString();
                                   });
                                 }
                               },
@@ -413,14 +426,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.bu2ContactNOKey,
                         controller: returnedKeysController,
                         hintText: '',
-                        isEnable: (widget.parentStatus ==
-                                    ConstantsIntValue
-                                        .issuanceHandedOverStatus ||
-                                widget.parentStatus ==
-                                    ConstantsIntValue
-                                        .issuanceNotReturnedStatus) &&
-                            !(widget.extraProperties != null &&
-                                !widget.extraProperties!.hasWritePermission!),
+                        isEnable: editableFieldsHandOverStatus,
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.returned = int.tryParse(value);
@@ -443,14 +449,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.addressKey,
                         controller: notReturnedKeysController,
                         hintText: '',
-                        isEnable: (widget.parentStatus ==
-                                    ConstantsIntValue
-                                        .issuanceHandedOverStatus ||
-                                widget.parentStatus ==
-                                    ConstantsIntValue
-                                        .issuanceNotReturnedStatus) &&
-                            !(widget.extraProperties != null &&
-                                !widget.extraProperties!.hasWritePermission!),
+                        isEnable: editableFieldsHandOverStatus,
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.notReturned = int.tryParse(value);
@@ -474,14 +473,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.phoneNumberKey,
                         controller: lostKeysController,
                         hintText: '',
-                        isEnable: (widget.parentStatus ==
-                                    ConstantsIntValue
-                                        .issuanceHandedOverStatus ||
-                                widget.parentStatus ==
-                                    ConstantsIntValue
-                                        .issuanceNotReturnedStatus) &&
-                            !(widget.extraProperties != null &&
-                                !widget.extraProperties!.hasWritePermission!),
+                        isEnable: editableFieldsHandOverStatus,
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.lost = int.tryParse(value);
@@ -505,14 +497,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.phoneNumberKey,
                         controller: damagedKeysController,
                         hintText: '',
-                        isEnable: (widget.parentStatus ==
-                                    ConstantsIntValue
-                                        .issuanceHandedOverStatus ||
-                                widget.parentStatus ==
-                                    ConstantsIntValue
-                                        .issuanceNotReturnedStatus) &&
-                            !(widget.extraProperties != null &&
-                                !widget.extraProperties!.hasWritePermission!),
+                        isEnable: editableFieldsHandOverStatus,
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.damaged = int.tryParse(value);
@@ -541,10 +526,19 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         cancelButton(width),
-        if ((widget.parentStatus == ConstantsIntValue.issuanceDraftStatus || widget.parentStatus == ConstantsIntValue.issuanceHandedOverStatus ||widget.parentStatus == ConstantsIntValue.issuanceNotReturnedStatus ) &&
+        if (widget.parentStatus != ConstantsIntValue.issuanceDraftStatus &&
+            widget.parentStatus !=
+                ConstantsIntValue.issuanceClosedDamagedStatus &&
+            widget.parentStatus != ConstantsIntValue.issuanceClosedLostStatus &&
+            widget.parentStatus !=
+                ConstantsIntValue.issuanceClosedLostDamagedStatus &&
+            widget.parentStatus !=
+                ConstantsIntValue.issuanceLostDamagedStatus &&
+            widget.parentStatus != ConstantsIntValue.issuanceClosedStatus &&
             !(widget.extraProperties != null &&
-                !widget.extraProperties!.hasWritePermission!))
+                !widget.extraProperties!.hasWritePermission!)) ...[
           saveButton(width, widget.onSubmit)
+        ],
       ],
     );
   }
@@ -594,7 +588,6 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
   }
 
   ErrorResponse get isFormValid {
-
     // TODO: Uncomment this after testing
     // if (widget.model.kmId == null) {
     //   return const ErrorResponse(

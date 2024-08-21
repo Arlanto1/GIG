@@ -14,7 +14,7 @@ class Organisation {
   String? keyDescription;
   int? noKeys;
   int? noKeysIssued;
-  int? notReturned;
+  int? available;
 
   /// Duty Post Name
   String? dutyPostName;
@@ -31,7 +31,7 @@ class Organisation {
     this.keyDescription,
     this.noKeys,
     this.noKeysIssued,
-    this.notReturned,
+    this.available,
     this.dutyPostName,
     this.transportShift,
     this.isSelected = false,
@@ -50,7 +50,7 @@ class Organisation {
         keyDescription = json['keyDescription'] as String?,
         noKeys = json['noKeys'] as int?,
         noKeysIssued = json['noKeysIssued'] as int?,
-        notReturned = json['notReturned'] as int?,
+        available = json['available'] as int?,
         dutyPostName = json['dutyPostName'] ?? json['dutyPostName'] as String?,
         transportShift =
             json['transportShift'] ?? json['transportShift'] as bool?,
@@ -80,7 +80,7 @@ class Organisation {
           keyDescription == other.keyDescription &&
           noKeys == other.noKeys &&
           noKeysIssued == other.noKeysIssued &&
-          notReturned == other.notReturned &&
+          available == other.available &&
           dutyPostName == other.dutyPostName &&
           transportShift == other.transportShift &&
           isSelected == other.isSelected;
@@ -94,7 +94,7 @@ class Organisation {
       keyDescription.hashCode ^
       noKeys.hashCode ^
       noKeysIssued.hashCode ^
-      notReturned.hashCode ^
+      available.hashCode ^
       dutyPostName.hashCode ^
       transportShift.hashCode ^
       isSelected.hashCode;

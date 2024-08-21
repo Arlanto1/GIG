@@ -168,7 +168,17 @@ class _AttendanceViewState extends State<AttendanceView> {
                                     state.labels?.defaultLocale.slNo ??
                                     'SlNo',
                                 value: state.items[index].slNo ?? ''));
-
+                            labels.add(Label(
+                                key: state.labels?.locale.inputDate ??
+                                    state.labels?.defaultLocale.inputDate ??
+                                    'Date of Creation',
+                                value: state.items[index].inputDate != null
+                                    ? Utils.timestampToDateConversion(
+                                    int.parse(
+                                        state.items[index].inputDate ??
+                                            '0'),
+                                    Constants.twentyFourHourDateTimeFormat)
+                                    : ''));
                             return index >= state.items.length
                                 ? null
                                 : BaseListTileItem(

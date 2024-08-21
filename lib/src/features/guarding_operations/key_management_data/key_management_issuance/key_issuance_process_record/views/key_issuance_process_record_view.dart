@@ -141,6 +141,28 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     if (state.items.isEmptyOrNull) {
       return const NoRecordFoundWidget();
     }
+    bool showIcons;
+    bool editableStatus;
+
+    editableStatus = (widget.parentStatus ==
+            ConstantsIntValue.issuanceDraftStatus ||
+        widget.parentStatus == ConstantsIntValue.issuanceHandedOverStatus ||
+        widget.parentStatus == ConstantsIntValue.issuanceNotReturnedStatus ||
+        widget.parentStatus ==
+            ConstantsIntValue.issuanceLostNotReturnedStatus ||
+        widget.parentStatus ==
+            ConstantsIntValue.issuanceClosedLostNotReturnedStatus ||
+        widget.parentStatus ==
+            ConstantsIntValue.issuanceLostDamagedNotReturnedStatus ||
+        widget.parentStatus ==
+            ConstantsIntValue.issuanceClosedLostDamagedNotReturnedStatus ||
+        widget.parentStatus ==
+            ConstantsIntValue.issuanceDamagedNotReturnedStatus);
+
+    showIcons = editableStatus &&
+        !(widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) &&
+        widget.lock.isEmptyOrNull;
     //  if (state.items.isEmptyOrNull && !isPopUpShown) {
     //   WidgetsBinding.instance.addPostFrameCallback((_) {
     //     isPopUpShown = true;
@@ -210,6 +232,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                 : BaseListTileItem(
                     id: state.items[index].id,
                     labels: labels,
+                    isKeyManagementIssuanceStatus: true,
                     onTap: (selectedIndex) {
                       showDialog(
                         context: context,
@@ -221,20 +244,12 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         },
                       );
                     },
-                    showDutyPostEditButton: (widget.parentStatus == 0 ||
-                                widget.parentStatus == 1 ||
-                                widget.parentStatus == 2) &&
-                            !(widget.extraProperties != null &&
-                                !widget.extraProperties!.hasWritePermission!) &&
-                            widget.lock.isEmptyOrNull
-                        ? true
-                        : false,
-                    showEditButton: widget.parentStatus != 0 &&
-                            widget.parentStatus != 1 &&
-                            widget.parentStatus != 2 &&
-                            (widget.extraProperties != null &&
-                                !widget.extraProperties!.hasWritePermission!) &&
-                            !widget.lock.isEmptyOrNull
+                    showDutyPostEditButton: showIcons ? true : false,
+                    showEditButton: widget.parentStatus == 12 ||
+                            widget.parentStatus == 4 ||
+                            widget.parentStatus == 3 ||
+                            widget.parentStatus == 7 ||
+                            widget.parentStatus == 8
                         ? true
                         : false,
                     onEditTap: (selectedIndex) async {
@@ -270,25 +285,13 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                           lock: widget.lock,
                           state: state);
                     },
-                    showViewButton: (widget.parentStatus == 1 ||
-                                widget.parentStatus == 2) &&
-                            !(widget.extraProperties != null &&
-                                !widget.extraProperties!.hasWritePermission!) &&
-                            widget.lock.isEmptyOrNull
-                        ? true
-                        : false,
+                    showViewButton: showIcons ? true : false,
                     onViewTap: (selectedIndex) {
                       getById(
                           state.extraProperties?.hasWritePermission ?? false,
                           state.items[index].kmId);
                     },
-                    showLinkOffButton: widget.lock.isEmptyOrNull &&
-                            (widget.parentStatus == 1 ||
-                                widget.parentStatus == 2) &&
-                            !(widget.extraProperties != null &&
-                                !widget.extraProperties!.hasWritePermission!)
-                        ? true
-                        : false,
+                    showLinkOffButton: showIcons ? true : false,
                     onLinkOffTap: (selectedIndex) async {
                       if (state.items[selectedIndex].lost == 0) {
                         showDialog(
@@ -296,8 +299,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: const Text(Constants.valueNotAccepted),
-                              content:
-                                  const Text(Constants.enteredValueNotAccepted),
+                              content: const Text(
+                                  Constants.enteredKeyLostValueNotAccepted),
                               actions: <Widget>[
                                 TextButton(
                                   child: const Text(Constants.ok),
@@ -321,13 +324,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         );
                       }
                     },
-                    showDeleteButton: widget.lock.isEmptyOrNull &&
-                            (widget.parentStatus == 1 ||
-                                widget.parentStatus == 2) &&
-                            !(widget.extraProperties != null &&
-                                !widget.extraProperties!.hasWritePermission!)
-                        ? true
-                        : false,
+                    showDeleteButton: showIcons ? true : false,
                     onDeleteTap: (selectedIndex) async {
                       if (state.items[selectedIndex].damaged == 0) {
                         showDialog(
@@ -335,8 +332,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: const Text(Constants.valueNotAccepted),
-                              content:
-                                  const Text(Constants.enteredValueNotAccepted),
+                              content: const Text(
+                                  Constants.enteredKeyDamageValueNotAccepted),
                               actions: <Widget>[
                                 TextButton(
                                   child: const Text(Constants.ok),

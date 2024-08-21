@@ -76,22 +76,54 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         if (!state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
-        if (!state.model.activeShift) {
+
+        log('11111${state.model.attdStatus}');
+        if (state.model.attdStatus != 1) {
           isReadOnly = true;
         }
+
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
-            context: context,
-            title: widget.selectedDutyPostModel.name ?? '',
-            showPopUp: false,
-            showSaveButton: widget.isReadOnly ? false : true,
-            showSubmitButton: widget.isReadOnly ? false : true,
-            showDisLikeButton: false,
-            showLikeButton: false,
-            onTapSave: () => BlocProvider.of<AttendanceShiftsCubit>(context)
-                .submitAndRefreshScreen(),
-            onTapSubmit: () => submitDutyPost(context, isSaveOnly: false),
-          ),
+              context: context,
+              title: widget.selectedDutyPostModel.name ?? '',
+              showPopUp: false,
+              showSaveButton: widget.isReadOnly ? false : true,
+              showSubmitButton: widget.isReadOnly ? false : true,
+              showDisLikeButton: false,
+              showLikeButton: false,
+              onTapSave: () => BlocProvider.of<AttendanceShiftsCubit>(context)
+                  .submitAndRefreshScreen(),
+              // onTapSubmit: () => submitDutyPost(context, isSaveOnly: false),
+
+              /// On Click on Submit it will show the confirmation dialogue box
+              onTapSubmit: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text(Constants.attendanceMessage),
+                      content:
+                          const Text(Constants.attendanceSubmissionMessage),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text(Constants.cancel),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+
+                        /// on click ok, it will submit the record
+                        TextButton(
+                            child: const Text(Constants.ok),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              submitDutyPost(this.context, isSaveOnly: false);
+                            }),
+                      ],
+                    );
+                  },
+                );
+              }),
           body: Padding(
             padding: const EdgeInsets.all(20),
             child: SingleChildScrollView(
@@ -188,6 +220,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         onChange: (Organisation? value) async {
           setState(() {
             selectedRank = value;
+            selectedShift =
+                null; // set selectedShift to null, when we select the rank
           });
           log('---onChange-region-----');
 
@@ -205,11 +239,11 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         Styles.textStyleBlack14,
         isMandatory: true,
       ),
-
       DropdownWidget(
         label: 'Select Shift',
         items: state.shifts ?? [],
-        isInitial: false,
+        isInitial: selectedRank != null && selectedShift == null ? true : false,
+        //remove the previous data when we select rank
         initialValue: selectedShift,
         onChange: (Organisation? value) {
           // selectedShift = value;
@@ -230,7 +264,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           Utils().buildAttendanceStatusRow(
               status: state.model.attdStatus ?? 0, returnTextOnly: true)),
       OpacityAbsorbInkWellWidget(
-        absorbing: isReadOnly,
+        absorbing: state.model.attdStatus != 1,
         child: Column(
           children: [
             Row(
