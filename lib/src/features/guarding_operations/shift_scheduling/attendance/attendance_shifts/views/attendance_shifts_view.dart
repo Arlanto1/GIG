@@ -238,11 +238,10 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         Styles.textStyleBlack14,
         isMandatory: true,
       ),
-
       DropdownWidget(
         label: 'Select Shift',
         items: state.shifts ?? [],
-        isInitial: false,
+        isInitial: selectedRank != null && selectedShift == null ? true : false,
         initialValue: selectedShift,
         onChange: (Organisation? value) {
           // selectedShift = value;

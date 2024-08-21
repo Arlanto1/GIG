@@ -133,19 +133,22 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
   Future<void> getShifts({
     required Organisation rank,
   }) async {
+    // Set selectedShift to null while loading new shifts
     emit(
       state.copyWith(
         status: FormStatus.loading,
+        shifts: null,
+        selectedShift: null, // Set selectedShift to null
       ),
     );
 
     List<Organisation> shifts =
-        await services.getAttendanceShiftByByDutyPostIdAndRankId(
-            dutyPostId: selectedDutyPostNameId,
-            attendanceId: attInfoId,
-            rankId: rank.id!);
+    await services.getAttendanceShiftByByDutyPostIdAndRankId(
+        dutyPostId: selectedDutyPostNameId,
+        attendanceId: attInfoId,
+        rankId: rank.id!);
 
-    Organisation selectedShift = shifts.first;
+    Organisation? selectedShift;
 
     emit(state.copyWith(
       shifts: shifts,
@@ -156,6 +159,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
 
     // getAvailableSelectedGuardsByShift(shift: selectedShift);
   }
+
 
   Future<void> getAvailableSelectedGuardsByShift({
     required Organisation shift,
