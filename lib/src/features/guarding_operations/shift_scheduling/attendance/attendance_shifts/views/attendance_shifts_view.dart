@@ -220,7 +220,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         onChange: (Organisation? value) async {
           setState(() {
             selectedRank = value;
-            selectedShift = null;
+            selectedShift =
+                null; // set selectedShift to null, when we select the rank
           });
           log('---onChange-region-----');
 
@@ -242,6 +243,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         label: 'Select Shift',
         items: state.shifts ?? [],
         isInitial: selectedRank != null && selectedShift == null ? true : false,
+        //remove the previous data when we select rank
         initialValue: selectedShift,
         onChange: (Organisation? value) {
           // selectedShift = value;
