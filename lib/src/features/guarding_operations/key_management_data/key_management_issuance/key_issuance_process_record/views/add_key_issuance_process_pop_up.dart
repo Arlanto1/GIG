@@ -526,7 +526,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         cancelButton(width),
-        if (widget.parentStatus != ConstantsIntValue.issuanceDraftStatus &&
+        if (
             widget.parentStatus !=
                 ConstantsIntValue.issuanceClosedDamagedStatus &&
             widget.parentStatus != ConstantsIntValue.issuanceClosedLostStatus &&

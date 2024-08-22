@@ -145,8 +145,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     bool editableStatus;
 
     editableStatus = (widget.parentStatus ==
-            ConstantsIntValue.issuanceDraftStatus ||
-        widget.parentStatus == ConstantsIntValue.issuanceHandedOverStatus ||
+            ConstantsIntValue.issuanceHandedOverStatus ||
         widget.parentStatus == ConstantsIntValue.issuanceNotReturnedStatus ||
         widget.parentStatus ==
             ConstantsIntValue.issuanceLostNotReturnedStatus ||
@@ -244,7 +243,11 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         },
                       );
                     },
-                    showDutyPostEditButton: showIcons ? true : false,
+                    showDutyPostEditButton: showIcons ||
+                            widget.parentStatus ==
+                                ConstantsIntValue.issuanceDraftStatus
+                        ? true
+                        : false,
                     showEditButton: widget.parentStatus == 12 ||
                             widget.parentStatus == 4 ||
                             widget.parentStatus == 3 ||

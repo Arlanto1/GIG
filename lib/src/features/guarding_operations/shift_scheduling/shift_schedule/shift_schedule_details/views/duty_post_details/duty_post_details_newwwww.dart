@@ -193,6 +193,10 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                   onChange: (Organisation? value) async {
                                     setState(() {
                                       selectedRank = value;
+                                      selectedShift =
+                                          null; //It will be removing the previous selected shift
+                                      state.model.selectForAttendance = null;
+                                      state.model.shift = null;
                                     });
                                     log('---onChange-region-----');
 
@@ -226,7 +230,10 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                 DropdownWidget(
                                   label: 'Select Shift',
                                   items: state.shifts ?? [],
-                                  isInitial: false,
+                                  isInitial: selectedRank != null &&
+                                          selectedShift == null
+                                      ? true
+                                      : false,
                                   initialValue: selectedShift,
                                   onChange: (Organisation? value) {
                                     // selectedShift = value;
@@ -276,16 +283,15 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                         ],
                                       ),
                                       CommonWidgets.verticalSpacerWidget(
-                                          MediaQuery.of(context).size.height * 0.01),
-                                      if (!state
-                                          .model.selectedGuards.isEmptyOrNull) ...[
+                                          MediaQuery.of(context).size.height *
+                                              0.01),
+                                      if (!state.model.selectedGuards
+                                          .isEmptyOrNull) ...[
                                         buildReplacementColumn(state),
                                       ],
-
                                     ],
                                   ),
                                 ),
-
 
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.02),

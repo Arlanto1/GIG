@@ -129,7 +129,7 @@ class KeyManagementIssuanceModel {
   User? createdBy;
   int? keyHandingOverDuration;
   String? keyHandOverDate;
-  dynamic keyHandOverDue;
+  String? keyHandOverDue;
   int? employeeType;
   dynamic handedOverTo;
   dynamic handedOverToCwrT2;

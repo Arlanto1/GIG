@@ -1589,6 +1589,7 @@ class RouteGenerator {
         Organisation? vendor;
         late DutyPostModel selectedDutyPostModel;
         late bool isReadOnly;
+        late bool isEligibleToEdit;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
@@ -1601,6 +1602,7 @@ class RouteGenerator {
           selectedDutyPostModel =
               arguments[ConstantsArgument.selectedDutyPostModel];
           isReadOnly = arguments[ConstantsArgument.isReadOnly];
+          isEligibleToEdit = arguments[ConstantsArgument.isEligibleToEdit];
         }
         AttendanceServices services = AttendanceServices();
         CommonServices commonServices = CommonServices();
@@ -1616,13 +1618,13 @@ class RouteGenerator {
               slaServices: slaServices,
             ),
             child: AttendanceShiftsView(
-              attInfoId: attInfoId!,
-              location: location!,
-              locationRegion: locationRegion!,
-              vendor: vendor!,
-              selectedDutyPostModel: selectedDutyPostModel,
-              isReadOnly: isReadOnly,
-            ),
+                attInfoId: attInfoId!,
+                location: location!,
+                locationRegion: locationRegion!,
+                vendor: vendor!,
+                selectedDutyPostModel: selectedDutyPostModel,
+                isReadOnly: isReadOnly,
+                isEligibleToEdit: isEligibleToEdit),
           ),
         );
 
