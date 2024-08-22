@@ -204,29 +204,50 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
+  bool isDateSelectedByUser = false;
+
   void initializeDates(KeyManagementIssuanceDetailsState state) {
     DateTime dateTime;
 
-    if (state.model.keyHandingOverDuration == 2 && DateTime.now().month < 6) {
-      // Set to July 1st of the current year
-      dateTime = DateTime(DateTime.now().year, 6, 30);
-      keyReturnDueDateController.text = Utils.timestampToDateConversion(
-          dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
-    } else if (state.model.keyHandingOverDuration == 2 &&
-        DateTime.now().month > 6) {
-      // Set to December 31st of the current year
-      dateTime = DateTime(DateTime.now().year, 12, 31);
-      keyReturnDueDateController.text = Utils.timestampToDateConversion(
-          dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+    if (state.model.keyHandOverDue.isEmptyOrNull && !isDateSelectedByUser) {
+      if (state.model.keyHandingOverDuration == 1) {
+        dateTime = DateTime.fromMillisecondsSinceEpoch(
+            DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+        keyReturnDueDateController.text = Utils.timestampToDateConversion(
+            dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+      }
+      if (state.model.keyHandingOverDuration == 2 && DateTime.now().month < 6) {
+        // Set to June 30th of the current year
+        dateTime = DateTime(DateTime.now().year, 6, 30);
+        keyReturnDueDateController.text = Utils.timestampToDateConversion(
+            dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+      } else if (state.model.keyHandingOverDuration == 2 &&
+          DateTime.now().month > 6) {
+        // Set to December 31st of the current year
+        dateTime = DateTime(DateTime.now().year, 12, 31);
+        keyReturnDueDateController.text = Utils.timestampToDateConversion(
+            dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+      }
+      // else if (state.model.keyHandingOverDuration == 1 && !isDateSelectedByUser) {
+      //   dateTime = DateTime.fromMillisecondsSinceEpoch(
+      //       DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+      //   keyReturnDueDateController.text = Utils.timestampToDateConversion(
+      //       dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+      // }
+      else {
+        dateTime = DateTime.fromMillisecondsSinceEpoch(
+            DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+        keyReturnDueDateController.text = Utils.timestampToDateConversion(
+            dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+      }
+      //
+      // state.model.keyHandOverDue =
+      //     Utils().formatTime(keyReturnDueDateController.text);
     } else {
-      dateTime = DateTime.fromMillisecondsSinceEpoch(
-          DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
       keyReturnDueDateController.text = Utils.timestampToDateConversion(
-          dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+          int.tryParse(state.model.keyHandOverDue ?? '0'),
+          Constants.fulldateFormat);
     }
-
-    state.model.keyHandOverDue =
-        Utils().formatTime(keyReturnDueDateController.text);
 
     if (state.model.keyReturnDateTime != null) {
       keyReturnDateAndTimeController.text = Utils.timestampToDateConversion(
@@ -481,52 +502,64 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                                 /// Key Handing Over Duration
                                 CommonWidgets.textDisplay(
-                                    state.labels?.locale
-                                            .keyHandingOverDuration ??
-                                        state.labels?.defaultLocale
-                                            .keyHandingOverDuration ??
-                                        Constants.keyHandingOverDuration,
-                                    isMandatory: true,
-                                    Styles.textStyleBlack14),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
+                                  state.labels?.locale.keyHandingOverDuration ??
+                                      state.labels?.defaultLocale
+                                          .keyHandingOverDuration ??
+                                      Constants.keyHandingOverDuration,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14,
+                                ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 BaseDropDown().getDropDown(
-                                    isDisabled: !isEnabled,
-                                    textController:
-                                        keyHandlingOverDurationController,
-                                    items: keyHandingOverDurationValues,
-                                    initialValue:
-                                        '${state.model.keyHandingOverDuration ?? 1}',
-                                    onTap: () {
-                                      if (isEnabled) {
-                                        BaseDropDown().assetTypeDialog(
-                                            context: context,
-                                            dropDownValues:
-                                                keyHandingOverDurationValues
-                                                    .map((label) => label.key)
-                                                    .toList(),
-                                            onTap: (String value) {
-                                              Label? selectedLabel;
-                                              selectedLabel =
-                                                  keyHandingOverDurationValues
-                                                      .firstWhere(
-                                                (label) => label.key == value,
-                                                orElse: () => const Label(
-                                                    key: '', value: ''),
-                                              );
-                                              BlocProvider.of<
-                                                          KeyManagementIssuanceDetailsCubit>(
-                                                      context)
-                                                  .updateDropdownValues(
-                                                      keyHandingOverDuration:
-                                                          int.tryParse(
-                                                              selectedLabel
-                                                                  .value));
-                                            });
-                                      }
-                                    }),
+                                  isDisabled: !isEnabled,
+                                  textController:
+                                      keyHandlingOverDurationController,
+                                  items: keyHandingOverDurationValues,
+                                  initialValue:
+                                      '${state.model.keyHandingOverDuration ?? 1}',
+                                  onTap: () {
+                                    if (isEnabled) {
+                                      BaseDropDown().assetTypeDialog(
+                                        context: context,
+                                        dropDownValues:
+                                            keyHandingOverDurationValues
+                                                .map((label) => label.key)
+                                                .toList(),
+                                        onTap: (String value) {
+                                          Label? selectedLabel;
+                                          selectedLabel =
+                                              keyHandingOverDurationValues
+                                                  .firstWhere(
+                                            (label) => label.key == value,
+                                            orElse: () =>
+                                                const Label(key: '', value: ''),
+                                          );
+
+                                          int newDuration = int.tryParse(
+                                                  selectedLabel.value) ??
+                                              1;
+
+                                          // Update the duration in the state
+                                          BlocProvider.of<
+                                                      KeyManagementIssuanceDetailsCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  keyHandingOverDuration:
+                                                      newDuration);
+
+                                          // Reset the isDateSelectedByUser flag and reinitialize dates
+                                          isDateSelectedByUser = false;
+                                          state.model.keyHandingOverDuration =
+                                              newDuration;
+                                          initializeDates(state);
+
+                                          log('Key Duration----${state.model.keyHandingOverDuration}');
+                                        },
+                                      );
+                                    }
+                                  },
+                                ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
@@ -555,6 +588,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   onlyDate: false,
                                   showPastDate: false,
                                   onChange: (String value) {
+                                    isDateSelectedByUser = true;
+                                    keyReturnDueDateController.text = value;
+                                    log('keyReturnDueDateControllerValue --- $value');
                                     state.model.keyHandOverDue =
                                         Utils().formatTime(value);
                                     BlocProvider.of<
