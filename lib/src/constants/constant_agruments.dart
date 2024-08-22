@@ -36,5 +36,6 @@ class ConstantsArgument {
   static const String kmId = "kmId";
   static const String returnable = "returnable";
   static const String keyType = "keyType";
+  static const String isEligibleToEdit = "isEligibleToEdit";
 
 }

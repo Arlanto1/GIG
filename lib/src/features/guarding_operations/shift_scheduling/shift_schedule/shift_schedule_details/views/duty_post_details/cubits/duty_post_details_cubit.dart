@@ -108,7 +108,6 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
       shifts: shifts,
       selectedRank: rank,
       status: FormStatus.initial,
-      selectedShift: selectedShift,
     ));
     getAvailableSelectedGuardsByShift(shift: selectedShift);
   }

@@ -12,6 +12,7 @@ class AttendanceShiftsView extends StatefulWidget {
     required this.attInfoId,
     required this.selectedDutyPostModel,
     required this.isReadOnly,
+    required this.isEligibleToEdit,
   });
 
   final Organisation location;
@@ -20,6 +21,7 @@ class AttendanceShiftsView extends StatefulWidget {
   final int attInfoId;
   final DutyPostModel selectedDutyPostModel;
   final bool isReadOnly;
+  final bool isEligibleToEdit;
 
   @override
   AttendanceShiftsViewState createState() => AttendanceShiftsViewState();
@@ -80,6 +82,16 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         log('11111${state.model.attdStatus}');
         if (state.model.attdStatus != 1) {
           isReadOnly = true;
+        }
+        if (widget.isEligibleToEdit == false) {
+          isReadOnly = true;
+        }
+        // if (widget.isEligibleToEdit == false) {
+        //   isReadOnly = true;
+        // }
+
+        if (state.model.attdStatus == 1 && widget.isEligibleToEdit == true) {
+          isReadOnly = false;
         }
 
         return Scaffold(
@@ -222,6 +234,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             selectedRank = value;
             selectedShift =
                 null; // set selectedShift to null, when we select the rank
+            state.model.selectForAttendance = null;
+            state.model.shift = null;
           });
           log('---onChange-region-----');
 
@@ -264,7 +278,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           Utils().buildAttendanceStatusRow(
               status: state.model.attdStatus ?? 0, returnTextOnly: true)),
       OpacityAbsorbInkWellWidget(
-        absorbing: state.model.attdStatus != 1,
+        absorbing: isReadOnly,
         child: Column(
           children: [
             Row(
