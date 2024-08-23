@@ -137,7 +137,7 @@ class KeyManagementIssuanceModel {
   String? employeeID;
   dynamic department;
   ImageContent? receiverSign;
-  dynamic keyReturnDateTime;
+  String? keyReturnDateTime;
   String? returnedByName;
   ImageContent? securitySign;
   String? createdDate;
