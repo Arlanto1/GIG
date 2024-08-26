@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_cubits.dart';
+import 'package:intl/intl.dart';
 
 class KeyManagementIssuanceDetailsView extends StatefulWidget {
   final KeyManagementIssuanceModel? model;
@@ -48,6 +49,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
   final FocusNode employeeIdFocusNode = FocusNode();
 
   get model => null;
+  String? initialisedFromDate;
+  String? initialisedToDate;
+  String? initialisedStartDate;
 
   @override
   void initState() {
@@ -205,14 +209,20 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
   }
 
   bool isDateSelectedByUser = false;
-  bool isDateFromAPI = false;
 
   void initializeDates(KeyManagementIssuanceDetailsState state) {
     DateTime dateTime;
-
+    DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
+    DateTime keyHandOverDateTime =
+        dateFormat.parse(state.model.keyHandOverDate.toString());
+    int keyHandOverTimestamp = keyHandOverDateTime.millisecondsSinceEpoch;
+    initialisedFromDate =
+        DateTime.fromMillisecondsSinceEpoch(keyHandOverTimestamp).toString();
+    // Logging the results
+    log('initialisedFromDate--- $initialisedFromDate');
+    log('keyHandOverTimestamp--- $keyHandOverTimestamp');
     if (state.model.keyHandOverDue.isEmptyOrNull) {
-      isDateFromAPI = true;
-      if (!isDateSelectedByUser && !isDateFromAPI) {
+      if (!isDateSelectedByUser) {
         log('state.model.keyHandOverDue----${state.model.keyHandOverDue}');
         if (state.model.keyHandingOverDuration == 1 && !isDateSelectedByUser) {
           dateTime = DateTime.fromMillisecondsSinceEpoch(
@@ -889,7 +899,6 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
-
                                   BaseDate().datePickerWidgetLoading(
                                     textController:
                                         keyReturnDateAndTimeController,
@@ -898,8 +907,12 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                             !isNotReturnableStatus) ||
                                         isReadOnly,
                                     onlyDate: false,
-                                    showFutureDate: false,
-                                    showPastDate: true,
+                                    // showFutureDate: false,
+                                    // showPastDate: false,
+                                    // startDate: initialisedFromDate,
+                                    fromDate: initialisedFromDate,
+                                    toDate: DateTime.now().toString(),
+
                                     onChange: (String value) {
                                       state.model.keyReturnDateTime =
                                           Utils().formatTime(value);
