@@ -641,6 +641,8 @@ class _MaterialMovementDetailsViewState
                             FlutterInputField(
                               showBorder: true,
                               lineHeight: 6,
+                              characterLimit:
+                              Constants.characterLimitDescTextFormField,
                               initialValue: state.model.materialDescription,
                               textFormKey: Keys.materialBreifDescKey,
                               hintText: Constants.informationhere,
