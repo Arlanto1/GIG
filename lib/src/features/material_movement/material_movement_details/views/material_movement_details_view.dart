@@ -642,7 +642,7 @@ class _MaterialMovementDetailsViewState
                               showBorder: true,
                               lineHeight: 6,
                               characterLimit:
-                              Constants.characterLimitDescTextFormField,
+                                  Constants.characterLimitDescTextFormField,
                               initialValue: state.model.materialDescription,
                               textFormKey: Keys.materialBreifDescKey,
                               hintText: Constants.informationhere,
@@ -808,6 +808,8 @@ class _MaterialMovementDetailsViewState
                                 lineHeight: 6,
                                 initialValue: state.model.modelInfo,
                                 showBorder: true,
+                                characterLimit:
+                                    Constants.characterLimitDescTextFormField,
                                 textFormKey: Keys.equipmentNoKey,
                                 hintText: '',
                                 isEnable: state.model.status == 10 ||
@@ -2396,10 +2398,10 @@ class _MaterialMovementDetailsViewState
                                             ConstantUserRoles.atomStaticUser,
                                         functionToCall: (BaseUser user) {
                                           BlocProvider.of<
-                                              MaterialMovementDetailsCubit>(
-                                              context)
+                                                      MaterialMovementDetailsCubit>(
+                                                  context)
                                               .updateDropdownValues(
-                                              receiverEmail: user);
+                                                  receiverEmail: user);
                                           // refresh the list
                                           BlocProvider.of<
                                                       MaterialMovementDetailsCubit>(
@@ -2830,13 +2832,14 @@ class _MaterialMovementDetailsViewState
                                                     .atomStaticUser,
                                                 locationId:
                                                     state.model.location!.id!,
-                                                functionToCall: (BaseUser user) {
+                                                functionToCall:
+                                                    (BaseUser user) {
                                                   BlocProvider.of<
-                                                      MaterialMovementDetailsCubit>(
-                                                      context)
+                                                              MaterialMovementDetailsCubit>(
+                                                          context)
                                                       .updateDropdownValues(
-                                                      returnReceiverMailId:
-                                                      user);
+                                                          returnReceiverMailId:
+                                                              user);
                                                   // refresh the list
                                                   BlocProvider.of<
                                                               MaterialMovementDetailsCubit>(
