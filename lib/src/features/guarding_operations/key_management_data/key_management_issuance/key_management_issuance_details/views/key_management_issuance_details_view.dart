@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_cubits.dart';
+import 'package:intl/intl.dart';
 
 class KeyManagementIssuanceDetailsView extends StatefulWidget {
   final KeyManagementIssuanceModel? model;
@@ -48,6 +49,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
   final FocusNode employeeIdFocusNode = FocusNode();
 
   get model => null;
+  String? initialisedFromDate;
+  String? initialisedToDate;
+  String? initialisedStartDate;
 
   @override
   void initState() {
@@ -208,41 +212,56 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
   void initializeDates(KeyManagementIssuanceDetailsState state) {
     DateTime dateTime;
-
-    if (state.model.keyHandOverDue.isEmptyOrNull && !isDateSelectedByUser) {
-      if (state.model.keyHandingOverDuration == 1) {
-        dateTime = DateTime.fromMillisecondsSinceEpoch(
-            DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
-        keyReturnDueDateController.text = Utils.timestampToDateConversion(
-            dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+    DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
+    DateTime keyHandOverDateTime =
+        dateFormat.parse(state.model.keyHandOverDate.toString());
+    int keyHandOverTimestamp = keyHandOverDateTime.millisecondsSinceEpoch;
+    initialisedFromDate =
+        DateTime.fromMillisecondsSinceEpoch(keyHandOverTimestamp).toString();
+    // Logging the results
+    log('initialisedFromDate--- $initialisedFromDate');
+    log('keyHandOverTimestamp--- $keyHandOverTimestamp');
+    if (state.model.keyHandOverDue.isEmptyOrNull) {
+      if (!isDateSelectedByUser) {
+        log('state.model.keyHandOverDue----${state.model.keyHandOverDue}');
+        if (state.model.keyHandingOverDuration == 1 && !isDateSelectedByUser) {
+          dateTime = DateTime.fromMillisecondsSinceEpoch(
+              DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+          keyReturnDueDateController.text = Utils.timestampToDateConversion(
+              dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+        } else if (state.model.keyHandingOverDuration == 2 &&
+            !isDateSelectedByUser) {
+          if (DateTime.now().month < 6) {
+            // Set to June 30th of the current year
+            dateTime = DateTime(DateTime.now().year, 6, 30);
+          } else {
+            // Set to December 31st of the current year
+            dateTime = DateTime(DateTime.now().year, 12, 31);
+          }
+          keyReturnDueDateController.text = Utils.timestampToDateConversion(
+              dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+        } else if (state.model.keyHandingOverDuration == 1 &&
+            !isDateSelectedByUser) {
+          dateTime = DateTime.fromMillisecondsSinceEpoch(
+              DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+          keyReturnDueDateController.text = Utils.timestampToDateConversion(
+              dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+        } else {
+          dateTime = DateTime.fromMillisecondsSinceEpoch(
+              DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+          keyReturnDueDateController.text = Utils.timestampToDateConversion(
+              dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+        }
+        //
+        // state.model.keyHandOverDue =
+        //     Utils().formatTime(keyReturnDueDateController.text);
       }
-      if (state.model.keyHandingOverDuration == 2 && DateTime.now().month < 6) {
-        // Set to June 30th of the current year
-        dateTime = DateTime(DateTime.now().year, 6, 30);
-        keyReturnDueDateController.text = Utils.timestampToDateConversion(
-            dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
-      } else if (state.model.keyHandingOverDuration == 2 &&
-          DateTime.now().month > 6) {
-        // Set to December 31st of the current year
-        dateTime = DateTime(DateTime.now().year, 12, 31);
-        keyReturnDueDateController.text = Utils.timestampToDateConversion(
-            dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
-      }
-      // else if (state.model.keyHandingOverDuration == 1 && !isDateSelectedByUser) {
-      //   dateTime = DateTime.fromMillisecondsSinceEpoch(
-      //       DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
-      //   keyReturnDueDateController.text = Utils.timestampToDateConversion(
-      //       dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
-      // }
-      else {
-        dateTime = DateTime.fromMillisecondsSinceEpoch(
-            DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
-        keyReturnDueDateController.text = Utils.timestampToDateConversion(
-            dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
-      }
-      //
-      // state.model.keyHandOverDue =
-      //     Utils().formatTime(keyReturnDueDateController.text);
+    } else if (state.model.keyHandingOverDuration == 1 &&
+        !isDateSelectedByUser) {
+      dateTime = DateTime.fromMillisecondsSinceEpoch(
+          DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+      keyReturnDueDateController.text = Utils.timestampToDateConversion(
+          dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
     } else {
       keyReturnDueDateController.text = Utils.timestampToDateConversion(
           int.tryParse(state.model.keyHandOverDue ?? '0'),
@@ -880,7 +899,6 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
-
                                   BaseDate().datePickerWidgetLoading(
                                     textController:
                                         keyReturnDateAndTimeController,
@@ -889,8 +907,12 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                             !isNotReturnableStatus) ||
                                         isReadOnly,
                                     onlyDate: false,
-                                    showFutureDate: false,
-                                    showPastDate: true,
+                                    // showFutureDate: false,
+                                    // showPastDate: false,
+                                    // startDate: initialisedFromDate,
+                                    fromDate: initialisedFromDate,
+                                    toDate: DateTime.now().toString(),
+
                                     onChange: (String value) {
                                       state.model.keyReturnDateTime =
                                           Utils().formatTime(value);

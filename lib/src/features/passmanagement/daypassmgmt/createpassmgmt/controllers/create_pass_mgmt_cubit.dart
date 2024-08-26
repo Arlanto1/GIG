@@ -818,7 +818,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       }
 
       List<Organisation> updateStatuses = [];
-      if (model.status != null && (model.status == 0 || model.status == 1)) {
+      if (model.status != null && (model.status == 0 || model.status == 1 || model.status == 3)) {
         updateStatuses = await commonServices.getStatusesByModuleId(
             module: Constants.passManagementModuleCode, filter: model.status);
       }

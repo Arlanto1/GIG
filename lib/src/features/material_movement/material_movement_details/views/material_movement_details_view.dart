@@ -84,6 +84,7 @@ class _MaterialMovementDetailsViewState
   bool editByCreatedByUser = false;
   bool lock = false;
   bool isApproverRequesterEmailDepartment = false;
+  bool isEligibleToEdit = false;
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +149,9 @@ class _MaterialMovementDetailsViewState
         if (state.model.status == null) {
           isReadOnly = false;
         }
-
+        if (state.model.isEligibleToEdit) {
+          isEligibleToEdit = true;
+        }
         String? requesterEmailUser = state.model.requestorEmail;
 
         if ((state.model.status == ConstantsIntValue.businessUserReview ||
@@ -179,8 +182,9 @@ class _MaterialMovementDetailsViewState
             ((state.model.status == ConstantsIntValue.mmStatusApproved ||
                     state.model.status ==
                         ConstantsIntValue.mmStatusInwardWaiting) &&
-                (state.model.entrySecurity!.email
-                    .equalsIgnoreCase(state.loggedInUserDetails?.email)));
+                ((state.model.entrySecurity!.email
+                        .equalsIgnoreCase(state.loggedInUserDetails?.email)) ||
+                    isEligibleToEdit));
 
         showSaveSubmitButtons = widget.model == null ||
             state.model.status == 0 ||
@@ -641,6 +645,8 @@ class _MaterialMovementDetailsViewState
                             FlutterInputField(
                               showBorder: true,
                               lineHeight: 6,
+                              characterLimit:
+                                  Constants.characterLimitDescTextFormField,
                               initialValue: state.model.materialDescription,
                               textFormKey: Keys.materialBreifDescKey,
                               hintText: Constants.informationhere,
@@ -701,7 +707,7 @@ class _MaterialMovementDetailsViewState
                                 SizedBox(
                                   width: 100,
                                   child: FlutterInputField(
-                                    characterLimit: 3,
+                                    characterLimit: 5,
                                     textInputType:
                                         const TextInputType.numberWithOptions(
                                       decimal: true,
@@ -806,6 +812,8 @@ class _MaterialMovementDetailsViewState
                                 lineHeight: 6,
                                 initialValue: state.model.modelInfo,
                                 showBorder: true,
+                                characterLimit:
+                                    Constants.characterLimitDescTextFormField,
                                 textFormKey: Keys.equipmentNoKey,
                                 hintText: '',
                                 isEnable: state.model.status == 10 ||
@@ -2394,10 +2402,10 @@ class _MaterialMovementDetailsViewState
                                             ConstantUserRoles.atomStaticUser,
                                         functionToCall: (BaseUser user) {
                                           BlocProvider.of<
-                                              MaterialMovementDetailsCubit>(
-                                              context)
+                                                      MaterialMovementDetailsCubit>(
+                                                  context)
                                               .updateDropdownValues(
-                                              receiverEmail: user);
+                                                  receiverEmail: user);
                                           // refresh the list
                                           BlocProvider.of<
                                                       MaterialMovementDetailsCubit>(
@@ -2828,13 +2836,14 @@ class _MaterialMovementDetailsViewState
                                                     .atomStaticUser,
                                                 locationId:
                                                     state.model.location!.id!,
-                                                functionToCall: (BaseUser user) {
+                                                functionToCall:
+                                                    (BaseUser user) {
                                                   BlocProvider.of<
-                                                      MaterialMovementDetailsCubit>(
-                                                      context)
+                                                              MaterialMovementDetailsCubit>(
+                                                          context)
                                                       .updateDropdownValues(
-                                                      returnReceiverMailId:
-                                                      user);
+                                                          returnReceiverMailId:
+                                                              user);
                                                   // refresh the list
                                                   BlocProvider.of<
                                                               MaterialMovementDetailsCubit>(

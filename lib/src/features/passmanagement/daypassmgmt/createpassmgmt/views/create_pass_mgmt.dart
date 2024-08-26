@@ -383,7 +383,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             "created" ||
                                             statusTextController.text
                                                 .toLowerCase() ==
-                                                "handed over")) ...[
+                                                "handed over" || statusTextController.text
+                                            .toLowerCase() ==
+                                            "non returned")) ...[
                                       CommonWidgets.textDisplay(
                                           isMandatory: true,
                                           state.labels?.locale.updateStatus ??

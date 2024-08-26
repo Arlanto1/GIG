@@ -72,6 +72,7 @@ class MaterialMovementModel extends BaseObject {
   final Organisation? takenOutDepartment;
   List<ImageContent>? gatePassSecuritySign;
   String? comment;
+  bool isEligibleToEdit;
 
   MaterialMovementModel({
     this.takenOutDepartment,
@@ -136,6 +137,7 @@ class MaterialMovementModel extends BaseObject {
     this.expectedDateOfReturn,
     this.actualDateOfReturn,
     this.comment,
+    this.isEligibleToEdit = false,
   });
 
   factory MaterialMovementModel.fromJson(Map<String, dynamic> json) =>
