@@ -703,7 +703,7 @@ class _MaterialMovementDetailsViewState
                                 SizedBox(
                                   width: 100,
                                   child: FlutterInputField(
-                                    characterLimit: 3,
+                                    characterLimit: 5,
                                     textInputType:
                                         const TextInputType.numberWithOptions(
                                       decimal: true,
