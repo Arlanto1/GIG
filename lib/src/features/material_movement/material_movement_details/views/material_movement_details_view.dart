@@ -84,6 +84,7 @@ class _MaterialMovementDetailsViewState
   bool editByCreatedByUser = false;
   bool lock = false;
   bool isApproverRequesterEmailDepartment = false;
+  bool isEligibleToEdit = false;
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +149,9 @@ class _MaterialMovementDetailsViewState
         if (state.model.status == null) {
           isReadOnly = false;
         }
-
+        if (state.model.isEligibleToEdit) {
+          isEligibleToEdit = true;
+        }
         String? requesterEmailUser = state.model.requestorEmail;
 
         if ((state.model.status == ConstantsIntValue.businessUserReview ||
@@ -179,8 +182,9 @@ class _MaterialMovementDetailsViewState
             ((state.model.status == ConstantsIntValue.mmStatusApproved ||
                     state.model.status ==
                         ConstantsIntValue.mmStatusInwardWaiting) &&
-                (state.model.entrySecurity!.email
-                    .equalsIgnoreCase(state.loggedInUserDetails?.email)));
+                ((state.model.entrySecurity!.email
+                        .equalsIgnoreCase(state.loggedInUserDetails?.email)) ||
+                    isEligibleToEdit));
 
         showSaveSubmitButtons = widget.model == null ||
             state.model.status == 0 ||
