@@ -240,9 +240,6 @@ class _KeyManagementIssuanceListViewState
                                               department: state
                                                   .list[selectedIndex]
                                                   .department,
-                                              handedOver: state
-                                                  .list[selectedIndex]
-                                                  .handedOverTo,
                                               returnedByName: state
                                                   .list[selectedIndex]
                                                   .returnedByName,
@@ -280,9 +277,6 @@ class _KeyManagementIssuanceListViewState
                                               department: state
                                                   .list[selectedIndex]
                                                   .department,
-                                              handedOver: state
-                                                  .list[selectedIndex]
-                                                  .handedOverTo,
                                               returnedByName: state
                                                   .list[selectedIndex]
                                                   .returnedByName,
