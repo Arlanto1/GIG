@@ -104,6 +104,17 @@ class SLAViolationPenaltyDetailsCubit
     );
     var userId = await SharedPrefs.getUserId();
 
+    if(attdInfoId != null) {
+      SLAViolationPenaltyModel model =
+      await services.preCreateSvp(attdInfoId: attdInfoId!);
+      emit(
+        state.copyWith(
+          status: FormStatus.loading,
+          model: model,
+        ),
+      );
+    }
+
     if (state.model.location == null) {
       Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
       if (defaultLocation != null) {
@@ -320,9 +331,9 @@ class SLAViolationPenaltyDetailsCubit
       state.model.inputDate = inputDate.toString();
     }
 
-    if (attdInfoId != null) {
-      state.model.attdShiftInfoId = attdInfoId.toString();
-    }
+    // if (attdInfoId != null) {
+    //   state.model.attdShiftInfoId = attdInfoId.toString();
+    // }
     log('-attdInfoId-111-$attdInfoId--');
     // Create/Update API Call
     SLAViolationPenaltyRequest request =
