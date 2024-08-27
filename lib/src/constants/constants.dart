@@ -6,7 +6,7 @@ class Constants {
 
   static const String logsToggle = 'logsToggle';
 
-  static double tabletScreenWidth = 800;
+  static const double tabletScreenWidth = 800;
   /// Pagination
   static const int maxResults = 20;
 
