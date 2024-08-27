@@ -111,7 +111,7 @@ MaterialMovementModel _$MaterialMovementModelFromJson(
       expectedDateOfReturn: json['expectedDateOfReturn'] as String?,
       actualDateOfReturn: json['actualDateOfReturn'] as String?,
       comment: json['comment'] as String?,
-      isEligibleToEdit: json['isEligibleToEdit'] as bool,
+      isEligibleToEdit: json['isEligibleToEdit'] as bool? ?? false,
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$MaterialMovementModelToJson(

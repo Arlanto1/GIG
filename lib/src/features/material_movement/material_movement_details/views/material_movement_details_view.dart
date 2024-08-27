@@ -872,6 +872,8 @@ class _MaterialMovementDetailsViewState
                                 initialValue: state.model.address,
                                 showBorder: true,
                                 textFormKey: Keys.addressKey,
+                                characterLimit:
+                                Constants.characterLimitDescTextFormField,
                                 hintText: '',
                                 isEnable: state.model.status == 10 ||
                                         state.model.status == -1 ||
