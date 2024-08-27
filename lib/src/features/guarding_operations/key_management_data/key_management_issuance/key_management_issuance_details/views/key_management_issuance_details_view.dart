@@ -210,17 +210,95 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
   bool isDateSelectedByUser = false;
 
+  // void initializeDates(KeyManagementIssuanceDetailsState state) {
+  //   DateTime dateTime;
+  //   DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
+  //   DateTime keyHandOverDateTime =
+  //       dateFormat.parse(state.model.keyHandOverDate.toString());
+  //   int keyHandOverTimestamp = keyHandOverDateTime.millisecondsSinceEpoch;
+  //   initialisedFromDate =
+  //       DateTime.fromMillisecondsSinceEpoch(keyHandOverTimestamp).toString();
+  //   // Logging the results
+  //   log('initialisedFromDate--- $initialisedFromDate');
+  //   log('keyHandOverTimestamp--- $keyHandOverTimestamp');
+  //
+  //   if (state.model.keyHandOverDue.isEmptyOrNull) {
+  //     if (!isDateSelectedByUser) {
+  //       log('state.model.keyHandOverDue----${state.model.keyHandOverDue}');
+  //       if (state.model.keyHandingOverDuration == 1 && !isDateSelectedByUser) {
+  //         dateTime = DateTime.fromMillisecondsSinceEpoch(
+  //             DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+  //         keyReturnDueDateController.text = Utils.timestampToDateConversion(
+  //             dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+  //       } else if (state.model.keyHandingOverDuration == 2 &&
+  //           !isDateSelectedByUser) {
+  //         if (DateTime.now().month < 6) {
+  //           // Set to June 30th of the current year
+  //           dateTime = DateTime(DateTime.now().year, 6, 30);
+  //         } else {
+  //           // Set to December 31st of the current year
+  //           dateTime = DateTime(DateTime.now().year, 12, 31);
+  //         }
+  //         keyReturnDueDateController.text = Utils.timestampToDateConversion(
+  //             dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+  //       } else if (state.model.keyHandingOverDuration == 1 &&
+  //           !isDateSelectedByUser) {
+  //         dateTime = DateTime.fromMillisecondsSinceEpoch(
+  //             DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+  //         keyReturnDueDateController.text = Utils.timestampToDateConversion(
+  //             dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+  //       } else {
+  //         dateTime = DateTime.fromMillisecondsSinceEpoch(
+  //             DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+  //         keyReturnDueDateController.text = Utils.timestampToDateConversion(
+  //             dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+  //       }
+  //       //
+  //       // state.model.keyHandOverDue =
+  //       //     Utils().formatTime(keyReturnDueDateController.text);
+  //     }
+  //   } else if (state.model.keyHandingOverDuration == 1 &&
+  //       !isDateSelectedByUser) {
+  //     dateTime = DateTime.fromMillisecondsSinceEpoch(
+  //         DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+  //     keyReturnDueDateController.text = Utils.timestampToDateConversion(
+  //         dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+  //   } else {
+  //     keyReturnDueDateController.text = Utils.timestampToDateConversion(
+  //         int.tryParse(state.model.keyHandOverDue ?? '0'),
+  //         Constants.fulldateFormat);
+  //   }
+  //
+  //   if (state.model.keyReturnDateTime != null) {
+  //     keyReturnDateAndTimeController.text = Utils.timestampToDateConversion(
+  //         int.tryParse(state.model.keyReturnDateTime ?? '0'),
+  //         Constants.fulldateFormat);
+  //   }
+  // }
   void initializeDates(KeyManagementIssuanceDetailsState state) {
     DateTime dateTime;
-    DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
-    DateTime keyHandOverDateTime =
-        dateFormat.parse(state.model.keyHandOverDate.toString());
-    int keyHandOverTimestamp = keyHandOverDateTime.millisecondsSinceEpoch;
-    initialisedFromDate =
-        DateTime.fromMillisecondsSinceEpoch(keyHandOverTimestamp).toString();
-    // Logging the results
-    log('initialisedFromDate--- $initialisedFromDate');
-    log('keyHandOverTimestamp--- $keyHandOverTimestamp');
+
+
+    String keyHandOverDateString = state.model.keyHandOverDate.toString();
+
+// Check if the input is a timestamp (numeric) or a formatted date string
+    if (RegExp(r'^\d+$').hasMatch(keyHandOverDateString)) {
+      int keyHandOverTimestamp = int.parse(keyHandOverDateString);
+      DateTime keyHandOverDateTime = DateTime.fromMillisecondsSinceEpoch(keyHandOverTimestamp * 1000);
+
+      DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
+      initialisedFromDate = dateFormat.format(keyHandOverDateTime);
+    } else {
+      DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
+      DateTime keyHandOverDateTime = dateFormat.parse(keyHandOverDateString);
+
+      int keyHandOverTimestamp = keyHandOverDateTime.millisecondsSinceEpoch;
+      initialisedFromDate = keyHandOverDateTime.toString();  // Or format to a string if needed
+      // Logging the results
+      log('initialisedFromDate--- $initialisedFromDate');
+      log('keyHandOverTimestamp--- $keyHandOverTimestamp');
+    }
+
     if (state.model.keyHandOverDue.isEmptyOrNull) {
       if (!isDateSelectedByUser) {
         log('state.model.keyHandOverDue----${state.model.keyHandOverDue}');
@@ -274,7 +352,6 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
           Constants.fulldateFormat);
     }
   }
-
   getBodybuilder(KeyManagementIssuanceDetailsState state, height) {
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
