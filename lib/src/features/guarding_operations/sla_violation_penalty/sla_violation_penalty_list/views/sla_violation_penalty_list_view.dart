@@ -1,7 +1,4 @@
-
 import 'package:db_atom/index.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
-
 import '../../services/sla_violation_penalty_services.dart';
 import '../bloc/sla_violation_penalty_list_bloc.dart';
 
@@ -19,8 +16,6 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -33,7 +28,6 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
 
   @override
   void dispose() {
-    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -54,19 +48,17 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
     }
   }
 
-  void _onRefresh() async {
+  Future<void> _onRefresh() async {
     context.read<SLAViolationPenaltyListBloc>().add(
           const RefreshList(),
         );
     await Future.delayed(const Duration(milliseconds: 2000));
-    refreshController.refreshCompleted();
   }
 
-  void _onLoading() async {
+  Future<void> _onLoading() async {
     if (mounted) {
       setState(() {});
     }
-    refreshController.loadComplete();
   }
 
   @override
@@ -163,19 +155,15 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                     state: state, height: height, items: state.items),
 
                 Expanded(
-                  child: SmartRefresher(
-                    controller: refreshController,
-                    enablePullDown: true,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    header: WaterDropHeader(
-                      waterDropColor: AppColors.navigationSkyBlueColor,
-                      refresh: state.status != FormStatus.loading
-                          ? const BaseLoader()
-                          : null,
-                    ),
-                    key: const Key(Keys.refreshKey),
-                    onRefresh: _onRefresh,
-                    onLoading: _onLoading,
+                  child: CustomMaterialIndicator(
+                    onRefresh: () => _onRefresh(),
+                    backgroundColor: Colors.white,
+                    indicatorBuilder: (context, controller) {
+                      return const Padding(
+                        padding: EdgeInsets.all(6.0),
+                        child: BaseLoader(),
+                      );
+                    },
                     child: ListView.builder(
                       controller: _scrollController,
                       itemCount: state.hasReachedMax
@@ -225,7 +213,8 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                               key: state.labels?.locale.typeOfService ??
                                   state.labels?.defaultLocale.typeOfService ??
                                   'Type of Services',
-                              value: state.items[index].typeOfServiceInfo ?? ''));
+                              value:
+                                  state.items[index].typeOfServiceInfo ?? ''));
                           labels.add(Label(
                               key: state.labels?.locale.vendor ??
                                   state.labels?.defaultLocale.vendor ??

@@ -143,10 +143,10 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     );
 
     List<Organisation> shifts =
-    await services.getAttendanceShiftByByDutyPostIdAndRankId(
-        dutyPostId: selectedDutyPostNameId,
-        attendanceId: attInfoId,
-        rankId: rank.id!);
+        await services.getAttendanceShiftByByDutyPostIdAndRankId(
+            dutyPostId: selectedDutyPostNameId,
+            attendanceId: attInfoId,
+            rankId: rank.id!);
 
     Organisation? selectedShift;
 
@@ -159,7 +159,6 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
 
     // getAvailableSelectedGuardsByShift(shift: selectedShift);
   }
-
 
   Future<void> getAvailableSelectedGuardsByShift({
     required Organisation shift,

@@ -362,9 +362,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 eventEndDateController.clear();
                                 BlocProvider.of<GeneralInfoCubit>(context)
                                     .onCheckBoxChange(state.model);
-                                setState(() {
-
-                                });
+                                setState(() {});
                               },
                               context: context,
                             ),
@@ -1710,12 +1708,12 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                       /// SubmitButton
                       // if (state.model.status != 0) ...[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            cancelButtonDisplay(),
-                          ],
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          cancelButtonDisplay(),
+                        ],
+                      ),
                       // ],
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ]),

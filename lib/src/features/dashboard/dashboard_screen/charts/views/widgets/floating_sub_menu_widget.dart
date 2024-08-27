@@ -13,7 +13,6 @@ class FloatingSubMenuWidget extends StatelessWidget {
     required this.positionX,
   });
 
-
   @override
   Widget build(BuildContext context) {
     // Use a more descriptive name for the constant
@@ -25,7 +24,10 @@ class FloatingSubMenuWidget extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: Container(
-          width:  DeviceInformation().detectDeviceType(context) == DeviceType.tablet? 270: 180,
+          width:
+              DeviceInformation().detectDeviceType(context) == DeviceType.tablet
+                  ? 270
+                  : 180,
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: Colors.white,

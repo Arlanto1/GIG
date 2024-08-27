@@ -6,7 +6,6 @@ import '../models/guarding_master_report_model.dart';
 import '../services/guarding_master_report_services.dart';
 
 part 'guarding_master_report_event.dart';
-
 part 'guarding_master_report_state.dart';
 
 class GuardingMasterReportBloc
@@ -146,7 +145,7 @@ class GuardingMasterReportBloc
           status: FormStatus.success,
         ),
       );
-    }  on TokenExpiredException catch (e) {
+    } on TokenExpiredException catch (e) {
       emit(
         state.copyWith(
           message: e.message,
@@ -154,7 +153,7 @@ class GuardingMasterReportBloc
         ),
       );
       return;
-    }catch (e) {
+    } catch (e) {
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }

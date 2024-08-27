@@ -173,20 +173,20 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                 )
               : Container(),
 
-                  // if(widget.userItem?.passType == ConstantsIntValue.passIdVisitor)...[
-                  //   CommonWidgets.verticalSpacerWidget(5),
-                  //   widget.userItem?.passInfo != null
-                  //       ? Row(
-                  //     children: [
-                  //       textHandling(
-                  //           state.labels?.locale.visitorPassInfo ??
-                  //               state.labels?.defaultLocale.visitorPassInfo ??
-                  //               'Visitor Pass Info : ',
-                  //           widget.userItem?.passInfo?.toString() ?? " "),
-                  //     ],
-                  //   )
-                  //       : Container(),
-                  // ],
+          // if(widget.userItem?.passType == ConstantsIntValue.passIdVisitor)...[
+          //   CommonWidgets.verticalSpacerWidget(5),
+          //   widget.userItem?.passInfo != null
+          //       ? Row(
+          //     children: [
+          //       textHandling(
+          //           state.labels?.locale.visitorPassInfo ??
+          //               state.labels?.defaultLocale.visitorPassInfo ??
+          //               'Visitor Pass Info : ',
+          //           widget.userItem?.passInfo?.toString() ?? " "),
+          //     ],
+          //   )
+          //       : Container(),
+          // ],
           CommonWidgets.verticalSpacerWidget(5),
           widget.userItem?.passInfo?.passNo != null &&
                   (widget.userItem?.passInfo?.passNo ?? '').isNotEmpty

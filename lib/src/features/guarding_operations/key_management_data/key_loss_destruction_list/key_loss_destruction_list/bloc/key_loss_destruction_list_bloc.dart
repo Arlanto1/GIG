@@ -5,7 +5,6 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/services/key_loss_destruction_list_services.dart';
 
 part 'key_loss_destruction_list_event.dart';
-
 part 'key_loss_destruction_list_state.dart';
 
 class KeyLossDestructionListBloc

@@ -33,8 +33,7 @@ class Keys {
   static const String handedoverdateTextController =
       'external_createfound_handedoverdate_textfield';
 
-  static const String availableDateKey =
-      'availableDateKey';
+  static const String availableDateKey = 'availableDateKey';
   static const String additionalinformationTextController =
       'external_createfound_additionalinformation_textfield';
   static const String claimantsignatureTextController =

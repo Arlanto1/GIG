@@ -1068,7 +1068,6 @@ class _SstIncidentGeneralInfoViewState
                         child: Column(
                           children: [
                             if (showSystemIntegratorFields) ...[
-
                               CommonWidgets.textDisplay(
                                   Constants.systemIntegratorForVendorAction,
                                   Styles.textStyleBlack16),

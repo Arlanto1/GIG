@@ -220,7 +220,6 @@ class BaseDate {
           if (pickedDate != null) {
             if (!onlyDate) {
               showTimePicker(
-                
                 context: context,
                 pickedDate: pickedDate!,
                 onlyDate: onlyDate,
@@ -292,7 +291,7 @@ class BaseDate {
     required BuildContext context,
     required DateTime pickedDate,
     required bool onlyDate,
-  required TextEditingController textController,
+    required TextEditingController textController,
     onChange,
   }) {
     DatePicker.showTimePicker(

@@ -60,7 +60,6 @@ class KeyManagementMasterDetailsCubit
       ),
     );
 
-
     Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
     if (state.model.location == null && defaultLocation != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -79,7 +78,8 @@ class KeyManagementMasterDetailsCubit
         commonServices.getUserDetails(userId: userId),
         commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
-        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER', locationId: state.model.location?.id),
+        commonServices.getAtomStaticUsers(
+            roleName: 'ATOM_STATIC_USER', locationId: state.model.location?.id),
         commonServices.getKeyType(name: 'KEY_MANAGEMENT_DOOR_TYPE'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUiLabels(

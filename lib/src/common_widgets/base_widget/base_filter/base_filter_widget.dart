@@ -443,7 +443,7 @@ class DropdownWidget extends StatefulWidget {
     required this.items,
     required this.onChange,
     required this.label,
-     this.shouldUpdate, // Required parameter
+    this.shouldUpdate, // Required parameter
     this.isInitial,
     this.initialValue,
   });
@@ -477,7 +477,7 @@ class DropdownWidgetState extends State<DropdownWidget> {
         hint: Text(widget.label),
         // onChanged: widget.onChange,
         onChanged: (Organisation? newValue) {
-          if (widget.shouldUpdate?? false) {
+          if (widget.shouldUpdate ?? false) {
             setState(() {
               selectedElement = newValue;
             });

@@ -87,8 +87,8 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
 
     // DayPassListElement? listuser = foundArticleDetailsResponse;
     Navigator.pushNamed(context, createpassmgmtRoute, arguments: {
-      "passMngCreateDetails": CreatePassMngArguments(
-          widget.passId, titleIdentify, true, model)
+      "passMngCreateDetails":
+          CreatePassMngArguments(widget.passId, titleIdentify, true, model)
     });
   }
 

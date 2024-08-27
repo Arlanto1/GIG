@@ -84,35 +84,41 @@ class _EventInfoViewState extends State<EventInfoView> {
       },
       builder: (context, state) {
         if (state.eventDuration == ConstantsIntValue.eventDurationBefore) {
-          if(!state.model.eventStartedAt.isEmptyOrNull && dateController.text.isEmpty) {
+          if (!state.model.eventStartedAt.isEmptyOrNull &&
+              dateController.text.isEmpty) {
             log('state.model.eventStartedAt--- ${state.model.eventStartedAt}');
             dateController.text = Utils.timestampToDateConversion(
                 int.tryParse(state.model.eventStartedAt ?? '0'),
                 Constants.fulldateFormat);
           }
           initialisedFromDate = DateTime.fromMillisecondsSinceEpoch(
-              (int.tryParse('${state.model.startDate}')??0) * 1000).toString();
+                  (int.tryParse('${state.model.startDate}') ?? 0) * 1000)
+              .toString();
           initialisedStartDate = DateTime.fromMillisecondsSinceEpoch(
-        (int.tryParse('${state.model.startDate}')??0) * 1000).toString();
+                  (int.tryParse('${state.model.startDate}') ?? 0) * 1000)
+              .toString();
           initialisedToDate = DateTime.fromMillisecondsSinceEpoch(
-              (int.tryParse('${state.model.endDate}')??0) * 1000).toString();
+                  (int.tryParse('${state.model.endDate}') ?? 0) * 1000)
+              .toString();
           log('initialisedToDate--- $initialisedToDate');
           log('initialisedStartDate--- $initialisedStartDate');
           log('initialisedFromDate--- $initialisedFromDate');
         }
 
-
         if (state.eventDuration == ConstantsIntValue.eventDurationAfter) {
-          if (!state.model.eventConcludedAt.isEmptyOrNull && dateController.text.isEmpty) {
+          if (!state.model.eventConcludedAt.isEmptyOrNull &&
+              dateController.text.isEmpty) {
             log('state.model.eventConcludedAt--- ${state.model.eventConcludedAt}');
             dateController.text = Utils.timestampToDateConversion(
                 int.tryParse(state.model.eventConcludedAt ?? 'null'),
                 Constants.fulldateFormat);
           }
           initialisedFromDate = DateTime.fromMillisecondsSinceEpoch(
-              (int.tryParse('${state.model.eventStartedAt}') ??0)* 1000).toString();
+                  (int.tryParse('${state.model.eventStartedAt}') ?? 0) * 1000)
+              .toString();
           initialisedStartDate = DateTime.fromMillisecondsSinceEpoch(
-              (int.tryParse('${state.model.eventStartedAt}') ??0) * 1000).toString();
+                  (int.tryParse('${state.model.eventStartedAt}') ?? 0) * 1000)
+              .toString();
           DateTime currentDate = DateTime.now();
           DateTime newDateTime = currentDate.add(const Duration(days: 1));
           initialisedToDate = newDateTime.toString();
@@ -424,8 +430,8 @@ class _EventInfoViewState extends State<EventInfoView> {
 
                               /// Will show for only Event Protection
                               if (widget.isEventProtection) ...[
-
-                                if (state.eventDuration == ConstantsIntValue.eventDurationAfter) ...[
+                                if (state.eventDuration ==
+                                    ConstantsIntValue.eventDurationAfter) ...[
                                   Center(
                                     child: Row(
                                       mainAxisAlignment:
@@ -445,7 +451,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                                         .eventProtectionId:
                                                     widget.eventProtectionId,
                                                 ConstantsArgument.location:
-                                                state.model.location,
+                                                    state.model.location,
                                               },
                                             );
                                           },
@@ -455,10 +461,9 @@ class _EventInfoViewState extends State<EventInfoView> {
                                         ),
 
                                         /// Show List Button
-                                        if (!state
-                                            .foundArticles.isEmptyOrNull
+                                        if (!state.foundArticles.isEmptyOrNull
                                             // && state.model.status! >= 22
-                                        ) ...[
+                                            ) ...[
                                           submitButtonDisplay(
                                             label: Constants.showList,
                                             onTap: () {

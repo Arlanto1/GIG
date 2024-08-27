@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 
 class LimitedDatePicker extends StatefulWidget {
-  final List<String> availableDates;      /// Format: ["2024-08-01", "2024-08-05"]
+  final List<String> availableDates;
+
+  /// Format: ["2024-08-01", "2024-08-05"]
   final bool isDisabled;
   final Function(String) onChange;
   final TextEditingController textController;

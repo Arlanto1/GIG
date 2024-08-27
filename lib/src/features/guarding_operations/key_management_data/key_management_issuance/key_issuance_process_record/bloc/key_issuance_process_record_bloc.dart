@@ -5,7 +5,6 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 
 part 'key_issuance_process_record_event.dart';
-
 part 'key_issuance_process_record_state.dart';
 
 class KeyIssuanceProcessRecordBloc
@@ -41,7 +40,6 @@ class KeyIssuanceProcessRecordBloc
       // List<Organisation> items =
       //     await commonServices.getOrganisations(name: violationDescription);
 
-
       ExtraProperties extraProperties =
           await UtilsCommon().checkWritePermission(
         moduleCode: Constants.keyManagementIssuanceModule,
@@ -49,7 +47,10 @@ class KeyIssuanceProcessRecordBloc
       );
 
       List<Organisation> keyDescriptions = await KeyManagementIssuanceServices()
-          .getKeyDescriptions(locationId: locationId, isMasterKey: isMasterKey, kmIssuanceId: parentId);
+          .getKeyDescriptions(
+              locationId: locationId,
+              isMasterKey: isMasterKey,
+              kmIssuanceId: parentId);
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
@@ -176,7 +177,9 @@ class KeyIssuanceProcessRecordBloc
       return emit(state.copyWith(
         items: response,
         hasReachedMax: false,
-        status: FormStatus.popOnly, /// Close the pop-up only when record is saved successfully
+        status: FormStatus.popOnly,
+
+        /// Close the pop-up only when record is saved successfully
       ));
     } on GenericResponse catch (e) {
       emit(

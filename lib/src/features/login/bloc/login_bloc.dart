@@ -82,6 +82,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           ));
           return null;
         }
+
         /// Setting Default Location
         await SharedPrefs.setDefaultLocation(loginData.user!.defaultLocation!);
 
@@ -117,7 +118,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         // Handle other unexpected errors
         log('Server Might Be Restarting: $e');
         emit(LoginFailureState(
-          message: 'Please check your network connection and try again. Reason: ${e.toString()}',
+          message:
+              'Please check your network connection and try again. Reason: ${e.toString()}',
           status: FormStatus.error,
         ));
       }

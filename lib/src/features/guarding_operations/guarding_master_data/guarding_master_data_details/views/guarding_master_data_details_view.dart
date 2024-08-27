@@ -338,30 +338,30 @@ class _GuardingMasterDataDetailsViewState
                                   items: statusDropDownValues,
                                   initialValue: '${state.model.status ?? 1}',
                                   onTap: () {
-                                  //   if (widget.guardingMasterData != null) {
-                                  //     BaseDropDown().assetTypeDialog(
-                                  //       context: context,
-                                  //       dropDownValues: statusDropDownValues
-                                  //           .map((label) => label.key)
-                                  //           .toList(),
-                                  //       onTap: (String value) {
-                                  //         Label? selectedLabel;
-                                  //         selectedLabel =
-                                  //             statusDropDownValues.firstWhere(
-                                  //           (label) => label.key == value,
-                                  //           orElse: () =>
-                                  //               const Label(key: '', value: ''),
-                                  //         );
-                                  //         BlocProvider.of<
-                                  //                     GuardingMasterDataDetailsCubit>(
-                                  //                 context)
-                                  //             .updateDropdownValues(
-                                  //                 status: int.tryParse(
-                                  //                     selectedLabel.value));
-                                  //       },
-                                  //     );
-                                  //   }
-                                   },
+                                    //   if (widget.guardingMasterData != null) {
+                                    //     BaseDropDown().assetTypeDialog(
+                                    //       context: context,
+                                    //       dropDownValues: statusDropDownValues
+                                    //           .map((label) => label.key)
+                                    //           .toList(),
+                                    //       onTap: (String value) {
+                                    //         Label? selectedLabel;
+                                    //         selectedLabel =
+                                    //             statusDropDownValues.firstWhere(
+                                    //           (label) => label.key == value,
+                                    //           orElse: () =>
+                                    //               const Label(key: '', value: ''),
+                                    //         );
+                                    //         BlocProvider.of<
+                                    //                     GuardingMasterDataDetailsCubit>(
+                                    //                 context)
+                                    //             .updateDropdownValues(
+                                    //                 status: int.tryParse(
+                                    //                     selectedLabel.value));
+                                    //       },
+                                    //     );
+                                    //   }
+                                  },
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),

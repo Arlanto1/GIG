@@ -1,7 +1,6 @@
 import 'package:db_atom/index.dart';
 
 class MenuNavigation {
-
   // TODO: Need to use in drawer_reusable
   void onPassManagementItemSelected({
     required BuildContext context,

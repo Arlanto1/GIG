@@ -1,6 +1,5 @@
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/security_systems/sst_incident_list/bloc/sst_incident_bloc.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class SstIncidentView extends StatefulWidget {
   final bool isInternal;
@@ -22,8 +21,6 @@ class _SstIncidentViewState extends State<SstIncidentView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -36,7 +33,6 @@ class _SstIncidentViewState extends State<SstIncidentView> {
 
   @override
   void dispose() {
-    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -74,19 +70,11 @@ class _SstIncidentViewState extends State<SstIncidentView> {
     }
   }
 
-  void _onRefresh() async {
+  Future<void> _onRefresh() async {
     context.read<SstIncidentBloc>().add(
           const RefreshList(),
         );
     await Future.delayed(const Duration(milliseconds: 2000));
-    refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    if (mounted) {
-      setState(() {});
-    }
-    refreshController.loadComplete();
   }
 
   @override
@@ -177,19 +165,15 @@ class _SstIncidentViewState extends State<SstIncidentView> {
           UtilsCommon().showNoRecordWidget(
               state: state, height: height, items: state.items),
           Expanded(
-            child: SmartRefresher(
-              controller: refreshController,
-              enablePullDown: true,
-              physics: const AlwaysScrollableScrollPhysics(),
-              header: WaterDropHeader(
-                waterDropColor: AppColors.navigationSkyBlueColor,
-                refresh: state.status != FormStatus.loading
-                    ? const BaseLoader()
-                    : null,
-              ),
-              key: const Key(Keys.refreshKey),
-              onRefresh: _onRefresh,
-              onLoading: _onLoading,
+            child: CustomMaterialIndicator(
+              onRefresh: () => _onRefresh(),
+              backgroundColor: Colors.white,
+              indicatorBuilder: (context, controller) {
+                return const Padding(
+                  padding: EdgeInsets.all(6.0),
+                  child: BaseLoader(),
+                );
+              },
               child: ListView.builder(
                 controller: _scrollController,
                 itemCount: state.hasReachedMax
@@ -230,14 +214,14 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                             '${state.items[index].createdBy?.firstName ?? ''} ${state.items[index].createdBy?.lastName ?? ''}'));
                     labels.add(Label(
                       key:
-                      // state.labels?.locale.createDate ??
-                      //     state.labels?.defaultLocale.createDate ??
+                          // state.labels?.locale.createDate ??
+                          //     state.labels?.defaultLocale.createDate ??
                           'Modified Date',
                       value: state.items[index].modifiedDate != null
                           ? Utils.timestampToDateConversion(
-                          int.tryParse(
-                              state.items[index].modifiedDate ?? '0'),
-                          Constants.twentyFourHourDateTimeFormat)
+                              int.tryParse(
+                                  state.items[index].modifiedDate ?? '0'),
+                              Constants.twentyFourHourDateTimeFormat)
                           : '',
                     ));
                     return index >= state.items.length
@@ -293,33 +277,33 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                               );
                             },
                             showEmailButton: true,
-                      onEmailTap: (selectedIndex) async {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text(Constants.sentReminder),
-                              content:
-                              const Text(Constants.sentRemindertoVendor),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: const Text(Constants.ok),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                        FocusScope.of(context).unfocus();
-                        int? id = state.items[selectedIndex].id;
-                        context
-                            .read<SstIncidentBloc>()
-                            .add(SendReminderEmail(
-                          id: id!,
-                        ));
-                      },
+                            onEmailTap: (selectedIndex) async {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text(Constants.sentReminder),
+                                    content: const Text(
+                                        Constants.sentRemindertoVendor),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: const Text(Constants.ok),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                              FocusScope.of(context).unfocus();
+                              int? id = state.items[selectedIndex].id;
+                              context
+                                  .read<SstIncidentBloc>()
+                                  .add(SendReminderEmail(
+                                    id: id!,
+                                  ));
+                            },
                             index: index,
                           );
                   }

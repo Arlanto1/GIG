@@ -85,8 +85,10 @@ class DashboardViewState extends State<DashboardView>
             title: Constants.dashboard,
             action: [
               if (Environment().config.apiHost.contains('api.qa.')) ...[
-
-                const Text('Logs', style: TextStyle(color: AppColors.white),),
+                const Text(
+                  'Logs',
+                  style: TextStyle(color: AppColors.white),
+                ),
                 Switch(
                   value: isToggled,
                   onChanged: _onToggleChanged,

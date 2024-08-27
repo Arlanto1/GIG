@@ -204,13 +204,16 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
             context,
             "Please enter all the required fields",
           );
-        }  else if (!emailTextController.text.isEmptyOrNull && !Validator.isValidEmail(emailTextController.text)) {
-          Validator().showToast(
-              context, Constants.enterValidEmail);
-        }else {
+        } else if (!emailTextController.text.isEmptyOrNull &&
+            !Validator.isValidEmail(emailTextController.text)) {
+          Validator().showToast(context, Constants.enterValidEmail);
+        } else {
           try {
-            _getFoundNewuser(firstnameTextController.text,
-                lastnameTextController.text, emailTextController.text, widget.locationId);
+            _getFoundNewuser(
+                firstnameTextController.text,
+                lastnameTextController.text,
+                emailTextController.text,
+                widget.locationId);
           } catch (e) {
             // present userwith error message
           }

@@ -123,7 +123,8 @@ class AttendanceDetailsState extends Equatable {
       parentId: parentId ?? this.parentId,
       selectedDutyPostNameId:
           selectedDutyPostNameId ?? this.selectedDutyPostNameId,
-      selectedDutyPostModel: selectedDutyPostModel ?? this.selectedDutyPostModel,
+      selectedDutyPostModel:
+          selectedDutyPostModel ?? this.selectedDutyPostModel,
     );
   }
 }

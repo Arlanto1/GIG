@@ -195,7 +195,8 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
           );
           return;
         }
-        response = (await services.createAttendanceGi(body: request, isSubmit: false));
+        response =
+            (await services.createAttendanceGi(body: request, isSubmit: false));
       } else {
         //Validating Fields
         if (!state.isValid.status) {
@@ -207,7 +208,8 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
           );
           return;
         }
-        response = (await services.createAttendanceGi(body: request, isSubmit: true));
+        response =
+            (await services.createAttendanceGi(body: request, isSubmit: true));
       }
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()

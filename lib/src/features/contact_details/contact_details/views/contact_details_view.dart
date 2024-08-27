@@ -708,7 +708,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
       onTap: () {
         Navigator.pop(context);
         CommonServices().unlock();
-        },
+      },
     );
   }
 

@@ -99,8 +99,7 @@ class CreateFoundState extends Equatable {
       loggedInUser: loggedInUser ?? this.loggedInUser,
       handedOverUser: handedOverUser ?? this.handedOverUser,
       createFoundResponse: createFoundResponse ?? this.createFoundResponse,
-      slno:
-          slno ?? this.slno,
+      slno: slno ?? this.slno,
       message: message ?? this.message,
       status: status ?? this.status,
       loadAttachments: loadAttachments ?? this.loadAttachments,

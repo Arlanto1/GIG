@@ -10,7 +10,6 @@ import '../../../../enums/form_status.dart';
 import '../../guarding_rate/services/guarding_services.dart';
 
 part 'female_drop_pick_up_event.dart';
-
 part 'female_drop_pick_up_state.dart';
 
 class FemaleDropPickUpBloc

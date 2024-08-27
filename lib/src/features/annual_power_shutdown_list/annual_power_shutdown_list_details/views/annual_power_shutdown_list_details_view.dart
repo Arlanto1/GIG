@@ -388,8 +388,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                     locationId: state.model.location!.id!,
                                     functionToCall: (BaseUser user) {
                                       BlocProvider.of<
-                                          AnnualPowerShutdownListDetailsCubit>(
-                                          context)
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
                                           .updateDropdownValues(
                                         subRegionalHead1: user,
                                       );
@@ -433,8 +433,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                     locationId: state.model.location!.id!,
                                     functionToCall: (BaseUser user) {
                                       BlocProvider.of<
-                                          AnnualPowerShutdownListDetailsCubit>(
-                                          context)
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
                                           .updateDropdownValues(
                                         subRegionalHead2: user,
                                       );
@@ -480,8 +480,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                     locationId: state.model.location!.id!,
                                     functionToCall: (BaseUser user) {
                                       BlocProvider.of<
-                                          AnnualPowerShutdownListDetailsCubit>(
-                                          context)
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
                                           .updateDropdownValues(
                                         locationSecurityManager1: user,
                                       );
@@ -560,8 +560,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                     locationId: state.model.location!.id!,
                                     functionToCall: (BaseUser user) {
                                       BlocProvider.of<
-                                          AnnualPowerShutdownListDetailsCubit>(
-                                          context)
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
                                           .updateDropdownValues(
                                         locationSecurityManager2: user,
                                       );
@@ -640,8 +640,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                     locationId: state.model.location!.id!,
                                     functionToCall: (BaseUser user) {
                                       BlocProvider.of<
-                                          AnnualPowerShutdownListDetailsCubit>(
-                                          context)
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
                                           .updateDropdownValues(
                                         bu1: user,
                                       );
@@ -719,8 +719,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                     locationId: state.model.location!.id!,
                                     functionToCall: (BaseUser user) {
                                       BlocProvider.of<
-                                          AnnualPowerShutdownListDetailsCubit>(
-                                          context)
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
                                           .updateDropdownValues(
                                         bu2: user,
                                       );
@@ -1069,7 +1069,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   isMandatory: true),
                               //if (!disableForm) ...[
                               Opacity(
-                                opacity: disableForm? 0.5:1,
+                                opacity: disableForm ? 0.5 : 1,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -1154,14 +1154,16 @@ class _AnnualPowerShutdownListDetailsViewState
                                         );
                                       },
                                       child: Opacity(
-                                        opacity: disableForm? 0.5:1,
+                                        opacity: disableForm ? 0.5 : 1,
                                         child: Row(
                                           children: <Widget>[
                                             const SizedBox(width: 14),
                                             SvgPicture.asset(
                                               AppIcon.pluscircle,
-                                              colorFilter: const ColorFilter.mode(
-                                                AppColors.navigationSkyBlueColor,
+                                              colorFilter:
+                                                  const ColorFilter.mode(
+                                                AppColors
+                                                    .navigationSkyBlueColor,
                                                 BlendMode.srcIn,
                                               ),
                                               // color:
@@ -1197,7 +1199,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   Styles.textStyleBlack14,
                                 ),
                                 Opacity(
-                                  opacity: disableForm? 0.5:1,
+                                  opacity: disableForm ? 0.5 : 1,
                                   child: Checkbox(
                                       activeColor:
                                           AppColors.navigationSkyBlueColor,
@@ -1677,7 +1679,7 @@ class _AnnualPowerShutdownListDetailsViewState
       onTap: () {
         Navigator.pop(context);
         CommonServices().unlock();
-        },
+      },
     );
   }
 

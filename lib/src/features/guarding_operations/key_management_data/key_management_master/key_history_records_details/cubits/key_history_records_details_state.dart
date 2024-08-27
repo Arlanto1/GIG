@@ -182,7 +182,8 @@ class KeyHistoryRecordsDetailsState extends Equatable {
           keyManagementMasterModel ?? this.keyManagementMasterModel,
       keyIssuanceProcessRecord:
           keyIssuanceProcessRecord ?? this.keyIssuanceProcessRecord,
-      keyManagementIssuanceModel: keyManagementIssuanceModel ?? this.keyManagementIssuanceModel,
+      keyManagementIssuanceModel:
+          keyManagementIssuanceModel ?? this.keyManagementIssuanceModel,
     );
   }
 }

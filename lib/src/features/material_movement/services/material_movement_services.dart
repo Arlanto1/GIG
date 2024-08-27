@@ -42,7 +42,7 @@ class MaterialMovementServices {
     String url =
         '${Apis._getMaterialMovements}mmType=$mmType&startPos=$startPosition&maxResults=$maximumRecords';
 
-    if(returnable != null){
+    if (returnable != null) {
       url = '$url&returnable=$returnable';
     }
     var response = await BaseApiService().postRequest(

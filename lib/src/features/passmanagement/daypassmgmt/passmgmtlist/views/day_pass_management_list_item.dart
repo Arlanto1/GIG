@@ -113,18 +113,23 @@ class _DayPassManagementListItemState extends State<DayPassManagementListItem> {
                     Row(
                       children: [
                         Utils().textHandling(
-                            widget.userItem.passType == ConstantsIntValue.passIdDayPass
+                            widget.userItem.passType ==
+                                    ConstantsIntValue.passIdDayPass
                                 ? (state.labels?.locale.dayPassInfo ??
-                                state.labels?.defaultLocale.dayPassInfo ??
-                                'Day Pass No: ')
-                                : widget.userItem.passType == ConstantsIntValue.passIdVendor
-                                ? (state.labels?.locale.vendorPassInfo ??
-                                state.labels?.defaultLocale.vendorPassInfo ??
-                                'Vendor Pass No: ')
-                                : (state.labels?.locale.visitorPassInfo ??
-                                state.labels?.defaultLocale.visitorPassInfo ??
-                                'Visitor Pass No: '),
-                            widget.userItem.passInfo?.passNo?.toString() ?? " "),
+                                    state.labels?.defaultLocale.dayPassInfo ??
+                                    'Day Pass No: ')
+                                : widget.userItem.passType ==
+                                        ConstantsIntValue.passIdVendor
+                                    ? (state.labels?.locale.vendorPassInfo ??
+                                        state.labels?.defaultLocale
+                                            .vendorPassInfo ??
+                                        'Vendor Pass No: ')
+                                    : (state.labels?.locale.visitorPassInfo ??
+                                        state.labels?.defaultLocale
+                                            .visitorPassInfo ??
+                                        'Visitor Pass No: '),
+                            widget.userItem.passInfo?.passNo?.toString() ??
+                                " "),
                       ],
                     ),
                   ],

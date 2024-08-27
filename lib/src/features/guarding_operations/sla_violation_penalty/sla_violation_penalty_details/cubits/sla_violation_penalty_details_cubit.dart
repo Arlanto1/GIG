@@ -383,7 +383,7 @@ class SLAViolationPenaltyDetailsCubit
       log('--!attdInfoId.isEmptyOrNull-111-$attdInfoId-');
       // log('--!attdInfoId.isEmptyOrNull--${!attdInfoId.isEmptyOrNull}-');
       FormStatus status;
-      if (attdInfoId != null ) {
+      if (attdInfoId != null) {
         log('--!attdInfoId.isEmptyOrNull--$attdInfoId-');
         status = FormStatus.popOnly;
       } else if (navigateToNextScreen) {

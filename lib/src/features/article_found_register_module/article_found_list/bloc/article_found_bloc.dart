@@ -27,7 +27,6 @@ class ArticleFoundBloc extends Bloc<ArticleFoundStateEvent, ArticleFoundState> {
 
   FutureOr<void> _initializeValues(
       InitializeValuesAF event, Emitter<ArticleFoundState> emit) async {
-
     try {
       emit(state.copyWith(status: FormStatus.loading));
 

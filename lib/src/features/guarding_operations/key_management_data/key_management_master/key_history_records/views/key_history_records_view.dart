@@ -2,8 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
-
 import '../bloc/key_history_record_bloc.dart';
 
 class KeyHistoryRecordsView extends StatefulWidget {
@@ -30,8 +28,7 @@ class KeyHistoryRecordsView extends StatefulWidget {
 class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
+
   bool hasPermission = false;
   bool lockEmpty = false;
   bool keyDamageHistoryScreen = false;
@@ -47,7 +44,6 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
 
   @override
   void dispose() {
-    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();

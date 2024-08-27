@@ -5,7 +5,6 @@ import 'package:db_atom/src/features/article_found_register_module/article_found
 import 'package:db_atom/src/features/article_found_register_module/article_found_list/views/found_list_item.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/services/foundlist_services.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class ArticleFoundListView extends StatefulWidget {
   const ArticleFoundListView({
@@ -37,7 +36,6 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
 
   @override
   void dispose() {
-    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -55,27 +53,16 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
             maxPos: Constants.maxResults,
             newSearch: false,
             filters: filters,
-        eventId: widget.eventId,
+            eventId: widget.eventId,
           ));
     }
   }
 
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
-
-  void _onRefresh() async {
+  Future<void> _onRefresh() async {
     context.read<ArticleFoundBloc>().add(
           RefreshList(eventId: widget.eventId),
         );
     await Future.delayed(const Duration(milliseconds: 2000));
-    refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    if (mounted) {
-      setState(() {});
-    }
-    refreshController.loadComplete();
   }
 
   @override
@@ -168,19 +155,15 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
                         state: state, height: height, items: state.items),
 
                     Expanded(
-                      child: SmartRefresher(
-                        controller: refreshController,
-                        enablePullDown: true,
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        header: WaterDropHeader(
-                          waterDropColor: AppColors.navigationSkyBlueColor,
-                          refresh: state.status != FormStatus.loading
-                              ? const BaseLoader()
-                              : null,
-                        ),
-                        key: const Key(Keys.refreshKey),
-                        onRefresh: _onRefresh,
-                        onLoading: _onLoading,
+                      child: CustomMaterialIndicator(
+                        onRefresh: () => _onRefresh(),
+                        backgroundColor: Colors.white,
+                        indicatorBuilder: (context, controller) {
+                          return const Padding(
+                            padding: EdgeInsets.all(6.0),
+                            child: BaseLoader(),
+                          );
+                        },
                         child: ListView.builder(
                           controller: _scrollController,
                           itemCount: state.hasReachedMax
