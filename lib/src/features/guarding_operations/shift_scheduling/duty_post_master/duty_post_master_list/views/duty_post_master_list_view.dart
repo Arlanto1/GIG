@@ -1,7 +1,6 @@
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_list/bloc/duty_post_master_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/services/duty_post_master_services.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class DutyPostMasterListView extends StatefulWidget {
   const DutyPostMasterListView({
@@ -16,8 +15,6 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -30,7 +27,6 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
 
   @override
   void dispose() {
-    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -52,19 +48,11 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
     }
   }
 
-  void _onRefresh() async {
+  Future<void> _onRefresh() async {
     context.read<DutyPostMasterListBloc>().add(
           const RefreshList(),
         );
     await Future.delayed(const Duration(milliseconds: 2000));
-    refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    if (mounted) {
-      setState(() {});
-    }
-    refreshController.loadComplete();
   }
 
   @override
@@ -145,19 +133,15 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                       ],
 
                       Expanded(
-                        child: SmartRefresher(
-                          controller: refreshController,
-                          enablePullDown: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          header: WaterDropHeader(
-                            waterDropColor: AppColors.navigationSkyBlueColor,
-                            refresh: state.status != FormStatus.loading
-                                ? const BaseLoader()
-                                : null,
-                          ),
-                          key: const Key(Keys.refreshKey),
-                          onRefresh: _onRefresh,
-                          onLoading: _onLoading,
+                        child: CustomMaterialIndicator(
+                          onRefresh: () => _onRefresh(),
+                          backgroundColor: Colors.white,
+                          indicatorBuilder: (context, controller) {
+                            return const Padding(
+                              padding: EdgeInsets.all(6.0),
+                              child: BaseLoader(),
+                            );
+                          },
                           child: ListView.builder(
                             controller: _scrollController,
                             itemCount: state.hasReachedMax
@@ -176,7 +160,8 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                             int.parse(
                                                 state.list[index].createdDate ??
                                                     '0'),
-                                            Constants.twentyFourHourDateTimeFormat)
+                                            Constants
+                                                .twentyFourHourDateTimeFormat)
                                         : ''));
                                 labels.add(Label(
                                     key: state.labels?.locale.locationRegion ??
@@ -193,7 +178,8 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                         ''));
                                 labels.add(Label(
                                     key: state.labels?.locale.entrySecurity ??
-                                        state.labels?.defaultLocale.entrySecurity ??
+                                        state.labels?.defaultLocale
+                                            .entrySecurity ??
                                         'Created By',
                                     value:
                                         '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));

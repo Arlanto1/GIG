@@ -59,9 +59,9 @@ class DutyPostNameMasterServices {
     return GenericResponse.fromJson(response);
   }
 
-  Future<MessageResponse> checkDutyPostNameExists({required int locationId}) async {
-    final String url =
-        '${Apis._checkDutyPostNameExists}locationId=$locationId';
+  Future<MessageResponse> checkDutyPostNameExists(
+      {required int locationId}) async {
+    final String url = '${Apis._checkDutyPostNameExists}locationId=$locationId';
     var response = await BaseApiService().getRequest(
       url: url,
     );

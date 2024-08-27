@@ -1,4 +1,3 @@
-
 import '../../../../../../index.dart';
 
 class AddCommentPopUp extends StatefulWidget {
@@ -12,8 +11,7 @@ class AddCommentPopUp extends StatefulWidget {
   final Function(String)? onSubmit;
 
   @override
-  State<AddCommentPopUp> createState() =>
-      AddCommentPopUpState();
+  State<AddCommentPopUp> createState() => AddCommentPopUpState();
 }
 
 class AddCommentPopUpState extends State<AddCommentPopUp> {
@@ -83,7 +81,7 @@ class AddCommentPopUpState extends State<AddCommentPopUp> {
     return Row(
       //mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[cancelButton(width), saveButton(width,context)],
+      children: <Widget>[cancelButton(width), saveButton(width, context)],
     );
   }
 

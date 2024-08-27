@@ -230,8 +230,8 @@ class Utils {
     throw FormatException('Unable to parse date-time: $dateTimeString');
   }
 
-
-  String convertToDateFormat(String dateString) { // input : dd/MM/yyyy HH:mm:ss
+  String convertToDateFormat(String dateString) {
+    // input : dd/MM/yyyy HH:mm:ss
     // Define the input format
     final DateFormat inputFormat = DateFormat('dd/MM/yyyy HH:mm:ss');
 
@@ -244,6 +244,7 @@ class Utils {
     // Format the DateTime object to the desired output format
     return outputFormat.format(dateTime);
   }
+
   Widget buildFoundStatusRow(int status) {
     String statusText;
 

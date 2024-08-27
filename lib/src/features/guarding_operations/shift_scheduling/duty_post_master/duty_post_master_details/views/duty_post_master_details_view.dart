@@ -222,7 +222,8 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                         orElse: () =>
                                             const Label(key: '', value: ''),
                                       );
-                                      BlocProvider.of<DutyPostMasterDetailsCubit>(
+                                      BlocProvider.of<
+                                                  DutyPostMasterDetailsCubit>(
                                               context)
                                           .updateDropdownValues(
                                               status: int.tryParse(

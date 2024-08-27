@@ -278,13 +278,13 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
   void initializeDates(KeyManagementIssuanceDetailsState state) {
     DateTime dateTime;
 
-
     String keyHandOverDateString = state.model.keyHandOverDate.toString();
 
 // Check if the input is a timestamp (numeric) or a formatted date string
     if (RegExp(r'^\d+$').hasMatch(keyHandOverDateString)) {
       int keyHandOverTimestamp = int.parse(keyHandOverDateString);
-      DateTime keyHandOverDateTime = DateTime.fromMillisecondsSinceEpoch(keyHandOverTimestamp * 1000);
+      DateTime keyHandOverDateTime =
+          DateTime.fromMillisecondsSinceEpoch(keyHandOverTimestamp * 1000);
 
       DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
       initialisedFromDate = dateFormat.format(keyHandOverDateTime);
@@ -293,7 +293,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       DateTime keyHandOverDateTime = dateFormat.parse(keyHandOverDateString);
 
       int keyHandOverTimestamp = keyHandOverDateTime.millisecondsSinceEpoch;
-      initialisedFromDate = keyHandOverDateTime.toString();  // Or format to a string if needed
+      initialisedFromDate =
+          keyHandOverDateTime.toString(); // Or format to a string if needed
       // Logging the results
       log('initialisedFromDate--- $initialisedFromDate');
       log('keyHandOverTimestamp--- $keyHandOverTimestamp');
@@ -352,6 +353,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
           Constants.fulldateFormat);
     }
   }
+
   getBodybuilder(KeyManagementIssuanceDetailsState state, height) {
     if (state.status == FormStatus.loading) {
       return const BaseLoader();

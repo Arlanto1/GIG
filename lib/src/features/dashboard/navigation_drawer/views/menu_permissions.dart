@@ -83,8 +83,7 @@ class MenuPermissions {
   }
 
   void checkMenuPermissionsKeyManagementData(
-      DisplayMenu? displayMenu,
-      List<MenuItem> menuItems) {
+      DisplayMenu? displayMenu, List<MenuItem> menuItems) {
     if (displayMenu?.keyMM ?? false) {
       menuItems.add(const MenuItem(
           Constants.keyManagementMaster, AppIcon.keyManagementDataIcon, 0));

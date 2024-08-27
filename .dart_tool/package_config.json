@@ -194,6 +194,12 @@
       "languageVersion": "3.1"
     },
     {
+      "name": "custom_refresh_indicator",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/custom_refresh_indicator-4.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "dart_extensions",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/dart_extensions-2.2.3",
       "packageUri": "lib/",
@@ -789,13 +795,13 @@
     },
     {
       "name": "package_info_plus",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/package_info_plus-8.0.0",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/package_info_plus-8.0.2",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "package_info_plus_platform_interface",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/package_info_plus_platform_interface-3.0.0",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/package_info_plus_platform_interface-3.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -958,12 +964,6 @@
     {
       "name": "pubspec_parse",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/pubspec_parse-1.3.0",
-      "packageUri": "lib/",
-      "languageVersion": "3.0"
-    },
-    {
-      "name": "pull_to_refresh_flutter3",
-      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/pull_to_refresh_flutter3-2.0.2",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -1370,7 +1370,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2024-08-20T11:17:25.429142Z",
+  "generated": "2024-08-27T06:43:15.992132Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///Users/anurag/Downloads/flutter",

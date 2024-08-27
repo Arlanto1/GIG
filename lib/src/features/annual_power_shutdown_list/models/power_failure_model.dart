@@ -29,10 +29,9 @@ class StringResponse {
   });
 
   StringResponse.fromJson(Map<String, dynamic> json)
-      :
-        comments = json['comments'] as String?;
+      : comments = json['comments'] as String?;
 
   Map<String, dynamic> toJson() => {
-    'comments': comments,
-  };
+        'comments': comments,
+      };
 }

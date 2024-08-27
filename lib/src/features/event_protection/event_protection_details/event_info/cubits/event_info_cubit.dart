@@ -11,7 +11,9 @@ part 'event_info_state.dart';
 class EventInfoCubit extends Cubit<EventInfoState> {
   final EventProtectionServices services;
   final String eventProtectionId;
-  final int eventDurationType;    /// Before, During, After the event
+  final int eventDurationType;
+
+  /// Before, During, After the event
   final CommonServices commonServices;
 
   EventInfoCubit({
@@ -50,10 +52,13 @@ class EventInfoCubit extends Cubit<EventInfoState> {
 
       log('--id----$eventProtectionId--');
       if (eventProtectionId.isNotEmpty) {
-        model = await services.getEventInfo(eventProtectionId, eventDurationType);
+        model =
+            await services.getEventInfo(eventProtectionId, eventDurationType);
       }
       FoundListModel foundArticles = await services.getFoundArticleList(
-          startPosition: '0', maximumRecords: '50', eventId: eventProtectionId.toString());
+          startPosition: '0',
+          maximumRecords: '50',
+          eventId: eventProtectionId.toString());
       List<String> emails = Utils().splitStringAfterComma(model.emails ?? '');
 
       emit(
@@ -136,7 +141,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
 
     log('-state.email####--${state.model.email}-----');
 
-    if(!updatedEmailText.isEmptyOrNull) {
+    if (!updatedEmailText.isEmptyOrNull) {
       state.model.email = updatedEmailText;
     }
 

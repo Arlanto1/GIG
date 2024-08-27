@@ -23,7 +23,8 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
   @override
   void initState() {
     super.initState();
-    _selectedPoints = List.from(widget.selectedPoints); // Copy of selected points to preserve state
+    _selectedPoints = List.from(
+        widget.selectedPoints); // Copy of selected points to preserve state
   }
 
   void _removePoint(String point) {
@@ -60,26 +61,28 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
                 child: Wrap(
                   spacing: 4.0,
                   runSpacing: 2.0,
-                  children: _selectedPoints.map((point) => InkWell(
-                    onTap: () => _removePoint(point),
-                    child: Chip(
-                      label: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 1.0, horizontal: 1.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(point),
-                            const Icon(
-                              Icons.clear,
-                              size: 15,
-                              color: AppColors.navigationSkyBlueColor,
+                  children: _selectedPoints
+                      .map((point) => InkWell(
+                            onTap: () => _removePoint(point),
+                            child: Chip(
+                              label: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 1.0, horizontal: 1.0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(point),
+                                    const Icon(
+                                      Icons.clear,
+                                      size: 15,
+                                      color: AppColors.navigationSkyBlueColor,
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )).toList(),
+                          ))
+                      .toList(),
                 ),
               ),
             ),
@@ -138,7 +141,8 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
                     hintText: 'Add Custom Briefing Point',
                     disabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(
-                          color: AppColors.geryLightBackground, width: 1.0),borderRadius: BorderRadius.circular(8.0),
+                          color: AppColors.geryLightBackground, width: 1.0),
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
                 ),

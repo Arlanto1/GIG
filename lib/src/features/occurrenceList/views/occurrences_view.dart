@@ -1,6 +1,4 @@
 import 'package:db_atom/index.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
-
 import '../bloc/occurrences_bloc.dart';
 
 class OccurrencesView extends StatefulWidget {
@@ -16,8 +14,6 @@ class _OccurrencesViewState extends State<OccurrencesView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -30,7 +26,6 @@ class _OccurrencesViewState extends State<OccurrencesView> {
 
   @override
   void dispose() {
-    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -52,19 +47,11 @@ class _OccurrencesViewState extends State<OccurrencesView> {
     }
   }
 
-  void _onRefresh() async {
+  Future<void> _onRefresh() async {
     context.read<OccurrencesBloc>().add(
           const RefreshList(),
         );
     await Future.delayed(const Duration(milliseconds: 2000));
-    refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    if (mounted) {
-      setState(() {});
-    }
-    refreshController.loadComplete();
   }
 
   @override
@@ -76,19 +63,19 @@ class _OccurrencesViewState extends State<OccurrencesView> {
       builder: (context, state) {
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,
-            floatingActionButton:
-                state.extraProperties?.hasWritePermission ?? false
-                    ? Flutterfloatingbutton(
-                        backgroundColor: AppColors.navigationSkyBlueColor,
-                        foregroundColor: AppColors.backgroundWhiteColor,
-                        onPressed: () => {
-                          Navigator.pushNamed(context, shiftOccurrenceDetailsRoute,
-                              arguments: {
-                                "title": Constants.createOccurrence,
-                              }),
-                        },
-                      )
-                    : const SizedBox(),
+            floatingActionButton: state.extraProperties?.hasWritePermission ??
+                    false
+                ? Flutterfloatingbutton(
+                    backgroundColor: AppColors.navigationSkyBlueColor,
+                    foregroundColor: AppColors.backgroundWhiteColor,
+                    onPressed: () => {
+                      Navigator.pushNamed(context, shiftOccurrenceDetailsRoute,
+                          arguments: {
+                            "title": Constants.createOccurrence,
+                          }),
+                    },
+                  )
+                : const SizedBox(),
             appBar: BaseAppBar().buildAppHeader(
               context: context,
               title: Constants.occurrenceListTitle,
@@ -139,19 +126,15 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                     UtilsCommon().showNoRecordWidget(
                         state: state, height: height, items: state.list),
                     Expanded(
-                      child: SmartRefresher(
-                        controller: refreshController,
-                        enablePullDown: true,
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        header: WaterDropHeader(
-                          waterDropColor: AppColors.navigationSkyBlueColor,
-                          refresh: state.status != FormStatus.loading
-                              ? const BaseLoader()
-                              : null,
-                        ),
-                        key: const Key(Keys.refreshKey),
-                        onRefresh: _onRefresh,
-                        onLoading: _onLoading,
+                      child: CustomMaterialIndicator(
+                        onRefresh: () => _onRefresh(),
+                        backgroundColor: Colors.white,
+                        indicatorBuilder: (context, controller) {
+                          return const Padding(
+                            padding: EdgeInsets.all(6.0),
+                            child: BaseLoader(),
+                          );
+                        },
                         child: ListView.builder(
                           controller: _scrollController,
                           itemCount: state.hasReachedMax
@@ -170,7 +153,8 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                                             int.parse(
                                                 state.list[index].inputDate ??
                                                     '0'),
-                                            Constants.twentyFourHourDateTimeFormat)
+                                            Constants
+                                                .twentyFourHourDateTimeFormat)
                                         : ''),
                               );
                               labels.add(Label(

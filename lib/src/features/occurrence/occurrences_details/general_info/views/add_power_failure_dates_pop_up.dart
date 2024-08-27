@@ -60,10 +60,9 @@ class AddDatePopUpState extends State<AddDatePopUp> {
                         onChange: (String value) {
                           log('--value----$value------');
                           powerFailureStartDateController.text = value;
-                          selectedStartDate =
-                              DateFormat('dd/MM/yyyy HH:mm:ss')
-                                  .parse(value)
-                                  .toString();
+                          selectedStartDate = DateFormat('dd/MM/yyyy HH:mm:ss')
+                              .parse(value)
+                              .toString();
                           DateTime parsedDate =
                               DateFormat('dd/MM/yyyy HH:mm:ss').parse(value);
 

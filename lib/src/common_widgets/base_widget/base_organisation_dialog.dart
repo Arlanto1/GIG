@@ -77,7 +77,8 @@ class BaseOrganisationDialog {
                     title: Constants.createnewuser,
                     roleName: roleName ?? '',
                     locationId: locationId,
-                    functionToCall: functionToCall ?? (BaseUser newCreatedUser) {},
+                    functionToCall:
+                        functionToCall ?? (BaseUser newCreatedUser) {},
                   );
                 });
           },

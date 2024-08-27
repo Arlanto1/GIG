@@ -6,10 +6,195 @@
   <component name="ChangeListManager">
     <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="shift schedule">
       <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/app.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/firebase_options.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/firebase_options.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/index.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/index.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/app_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/app_bar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_add_organisation_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_add_organisation_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_add_user_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_add_user_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_app_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_app_bar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_circular_loader.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_circular_loader.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_drop_down.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_drop_down.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_duty_post_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_duty_post_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_entities_dropdown.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_entities_dropdown.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_filter/base_filter_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_filter/base_filter_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_icon_buttons/add_view_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_icon_buttons/add_view_button.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_image_upload.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_image_upload.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_list_tile_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_list_tile_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_location_dropdown.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_location_dropdown.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_multiselect.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_multiselect.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_organisation_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_organisation_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_pop_up_items.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_pop_up_items.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/basic_widget_functions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/basic_widget_functions.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/date_widgets/available_dates_picker.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/date_widgets/available_dates_picker.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/date_widgets/date_picker_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/date_widgets/date_picker_dialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/multiple_selection_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/multiple_selection_pop_up.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/notification_bell.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/notification_bell.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/record_locked_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/record_locked_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/selected_tile_value_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/selected_tile_value_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/basic_reusable_widgets.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/basic_reusable_widgets.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/create_fields.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/create_fields.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/cubits.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/cubits.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/custom_list_expansion_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/custom_list_expansion_pop_up.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/custom_list_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/custom_list_pop_up.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/custom_multiple_selection_popup.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/custom_multiple_selection_popup.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/custom_pop_list_texts.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/custom_pop_list_texts.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/custom_pop_menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/custom_pop_menu.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/custom_simple_list_texts.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/custom_simple_list_texts.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/cutom_internatilization.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/cutom_internatilization.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/date_time_picker.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/date_time_picker.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/image_download.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/image_download.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/new_search_textfield.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/new_search_textfield.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/pop_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/pop_button.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/show_image.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/show_image.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/show_pdf.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/show_pdf.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/signature/review_signature_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/signature/review_signature_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/signature/signature_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/signature/signature_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/signature/signature_func.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/signature/signature_func.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/signature/signature_homepage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/signature/signature_homepage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/spinnerdialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/spinnerdialog.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/configurations/base_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/base_api_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/configurations/main_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/main_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/configurations/qa_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/qa_config.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/constants/constant_agruments.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constant_agruments.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/constants/constant_app_versions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constant_app_versions.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/constants/constant_user_roles.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constant_user_roles.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/constants/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/constants/ui_geometry_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/ui_geometry_constants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list/bloc/annual_power_shutdown_list_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list/bloc/annual_power_shutdown_list_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list/views/annual_power_shutdown_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list/views/annual_power_shutdown_list_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/views/annual_power_shutdown_list_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/views/annual_power_shutdown_list_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/models/power_failure_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/models/power_failure_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/article_found_register_module/article_found_list/bloc/article_found_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/article_found_register_module/article_found_list/bloc/article_found_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/article_found_register_module/article_found_list/views/article_found_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/article_found_register_module/article_found_list/views/article_found_list_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/article_found_register_module/article_found_list/views/found_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/article_found_register_module/article_found_list/views/found_list_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/controllers/foundlist_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/controllers/foundlist_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/controllers/foundlist_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/controllers/foundlist_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/models/af_ui_labels.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/models/af_ui_labels.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/models/af_ui_labels.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/models/af_ui_labels.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/models/foundlist_article_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/models/foundlist_article_details.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/models/foundlist_article_details.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/models/foundlist_article_details.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/models/foundlist_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/models/foundlist_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/services/foundlist_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/article_found_register_module/foundlist/services/foundlist_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details/views/contact_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details/views/contact_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details_list/bloc/contact_details_list_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details_list/bloc/contact_details_list_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details_list/views/contact_details_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/contact_details/contact_details_list/views/contact_details_list_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/contact_details/contact_records/bloc/contact_record_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/contact_details/contact_records/bloc/contact_record_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/controllers/create_found_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/controllers/create_found_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/services/create_found_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/services/create_found_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/views/create_found_newuser.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/views/create_found_newuser.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/widgets/floating_sub_menu_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/widgets/floating_sub_menu_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/menu_navigation.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/menu_navigation.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/menu_permissions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/menu_permissions.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/notification_list/views/notifications_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/notifications/notification_list/views/notifications_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/event_info/cubits/event_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/event_info/cubits/event_info_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/event_info/models/event_info_response.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/event_info/models/event_info_response.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/event_info/views/event_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/event_info/views/event_info_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/views/general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/views/general_info_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protections/bloc/event_protections_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protections/bloc/event_protections_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protections/views/event_protections_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protections/views/event_protections_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/drop_pick_up/bloc/female_drop_pick_up_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/drop_pick_up/bloc/female_drop_pick_up_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data/bloc/guarding_master_data_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data/bloc/guarding_master_data_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data/views/guarding_master_data_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data/views/guarding_master_data_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/views/guarding_master_data_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/views/guarding_master_data_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_reports/bloc/guarding_master_report_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_reports/bloc/guarding_master_report_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_reports/views/guarding_master_reports.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_reports/views/guarding_master_reports.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rates_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_rate/guarding_rates/bloc/guarding_rates_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_rate/guarding_rates/views/gaurading_rates_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_rate/guarding_rates/views/gaurading_rates_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_details/cubits/key_loss_destruction_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_details/cubits/key_loss_destruction_details_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_details/views/key_loss_destruction_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_details/views/key_loss_destruction_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/views/key_loss_destruction_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/views/key_loss_destruction_list_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/views/add_key_issuance_process_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/views/add_key_issuance_process_pop_up.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_cubits.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_cubits.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/views/key_management_issuance_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/views/key_management_issuance_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_list/bloc/key_management_issuance_list_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_list/bloc/key_management_issuance_list_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_list/views/key_management_issuance_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_list/views/key_management_issuance_list_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_history_records/bloc/key_history_record_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_history_records/bloc/key_history_record_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_history_records/views/key_history_records_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_history_records/views/key_history_records_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_history_records_details/cubits/key_history_records_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_history_records_details/cubits/key_history_records_details_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_history_records_details/cubits/key_history_records_details_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_history_records_details/cubits/key_history_records_details_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/cubits/key_management_master_details_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/views/key_management_master_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/views/key_management_master_list_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/models/key_history_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/models/key_history_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_reconciliation_list/key_reconciliation_list/bloc/key_reconciliation_list_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_reconciliation_list/key_reconciliation_list/bloc/key_reconciliation_list_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_reconciliation_list/key_reconciliation_list/views/key_reconciliation_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_reconciliation_list/key_reconciliation_list/views/key_reconciliation_list_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance/bloc/attendance_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance/bloc/attendance_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance/views/attendance_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance/views/attendance_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/cubits/attendance_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/cubits/attendance_details_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/cubits/attendance_details_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/cubits/attendance_details_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/views/attendance_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/views/attendance_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_shifts/cubits/attendance_shifts_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_shifts/cubits/attendance_shifts_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance_report_billing/bloc/attendance_report_billing_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance_report_billing/bloc/attendance_report_billing_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance_report_billing/views/attendance_report_billing_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance_report_billing/views/attendance_report_billing_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/views/duty_post_master_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/views/duty_post_master_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_list/bloc/duty_post_master_list_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_list/bloc/duty_post_master_list_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_list/views/duty_post_master_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_list/views/duty_post_master_list_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/models/duty_post_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_master/models/duty_post_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/cubits/duty_post_name_master_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/cubits/duty_post_name_master_details_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_list/bloc/duty_post_name_master_list_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_list/bloc/duty_post_name_master_list_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_list/views/duty_post_name_master_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_list/views/duty_post_name_master_list_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/cubits/shift_schedule_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/cubits/shift_schedule_details_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/shift_schedule_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_details/views/shift_schedule_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_list/bloc/shift_schedule_list_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_list/bloc/shift_schedule_list_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_list/views/shift_schedule_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_list/views/shift_schedule_list_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/cubits/sla_violation_penalty_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/cubits/sla_violation_penalty_details_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/views/sla_violation_penalty_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/views/sla_violation_penalty_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_list/views/sla_violation_penalty_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_list/views/sla_violation_penalty_list_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/violation_penalty_record/bloc/violation_penalty_record_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/violation_penalty_record/bloc/violation_penalty_record_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/violation_penalty_record/views/violation_penalty_records_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/violation_penalty_record/views/violation_penalty_records_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/vvip_visitor/vvip_visitors/bloc/vvip_visitors_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/vvip_visitor/vvip_visitors/bloc/vvip_visitors_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/vvip_visitor/vvip_visitors/views/vvip_visitors_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/vvip_visitor/vvip_visitors/views/vvip_visitors_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/vvip_visitor/vvip_visitors_record/bloc/vvip_visitors_record_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/vvip_visitor/vvip_visitors_record/bloc/vvip_visitors_record_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/incident_management/incident_details/general_info/views/incident_general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/incident_management/incident_details/general_info/views/incident_general_info_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/incident_management/incident_managements/bloc/incident_management_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/incident_management/incident_managements/bloc/incident_management_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/incident_management/incident_managements/views/incident_managements_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/incident_management/incident_managements/views/incident_managements_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/views/law_enforcement_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/views/law_enforcement_list_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/views/law_enforcements_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/law_enforcement_list/views/law_enforcements_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/views/add_visiting_official_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/visiting_officials_list/views/add_visiting_official_pop_up.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/login/bloc/login_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/login/bloc/login_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/login/views/widgets/login_password_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/login/views/widgets/login_password_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/views/material_movements_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movements/views/material_movements_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/services/material_movement_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/services/material_movement_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/cubits/occurrence_general_info_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/cubits/occurrence_general_info_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/views/add_power_failure_dates_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/views/add_power_failure_dates_pop_up.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/views/occurrence_general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/views/occurrence_general_info_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/occurrenceList/views/occurrences_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/occurrenceList/views/occurrences_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_list_detail_popup.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_list_detail_popup.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_management_list_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/pass_management_list/bloc/pass_management_list_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/pass_management_list/bloc/pass_management_list_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/pass_management_list/views/pass_manangement_list_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/pass_management_list/views/pass_manangement_list_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/cubits/sst_incident_general_info_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/cubits/sst_incident_general_info_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/views/comment_pop_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/views/comment_pop_up.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/views/sst_incident_general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/views/sst_incident_general_info_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_list/bloc/sst_incident_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_list/bloc/sst_incident_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_list/views/sst_incident_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_list/views/sst_incident_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/models/base_object.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/models/base_object.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/models/responseModels/MessageResponse.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/models/responseModels/MessageResponse.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/services/common_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/services/common_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/utils/helpers/keys/keys.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/utils/helpers/keys/keys.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/utils/shared_preferences.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/utils/shared_preferences.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/utils/util.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/utils/util.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -30,7 +215,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="firebase-crashlytics" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -40,430 +225,430 @@
     &quot;state&quot;: &quot;OPEN&quot;
   }
 }</component>
-  <component name="GitHubPullRequestState"><![CDATA[{
-  "prStates": [
+  <component name="GitHubPullRequestState">{
+  &quot;prStates&quot;: [
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs50yoTY",
-        "number": 480
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs50yoTY&quot;,
+        &quot;number&quot;: 480
       },
-      "lastSeen": 1720523381749
+      &quot;lastSeen&quot;: 1720523381749
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs500XJC",
-        "number": 482
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs500XJC&quot;,
+        &quot;number&quot;: 482
       },
-      "lastSeen": 1720584235667
+      &quot;lastSeen&quot;: 1720584235667
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs500WmH",
-        "number": 481
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs500WmH&quot;,
+        &quot;number&quot;: 481
       },
-      "lastSeen": 1720596605363
+      &quot;lastSeen&quot;: 1720596605363
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs5063bS",
-        "number": 483
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs5063bS&quot;,
+        &quot;number&quot;: 483
       },
-      "lastSeen": 1720596675360
+      &quot;lastSeen&quot;: 1720596675360
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs5067t6",
-        "number": 484
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs5067t6&quot;,
+        &quot;number&quot;: 484
       },
-      "lastSeen": 1720597523320
+      &quot;lastSeen&quot;: 1720597523320
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs507GAD",
-        "number": 486
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs507GAD&quot;,
+        &quot;number&quot;: 486
       },
-      "lastSeen": 1720597756300
+      &quot;lastSeen&quot;: 1720597756300
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs507_Iy",
-        "number": 488
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs507_Iy&quot;,
+        &quot;number&quot;: 488
       },
-      "lastSeen": 1720604473366
+      &quot;lastSeen&quot;: 1720604473366
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs508RC1",
-        "number": 490
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs508RC1&quot;,
+        &quot;number&quot;: 490
       },
-      "lastSeen": 1720608022601
+      &quot;lastSeen&quot;: 1720608022601
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs508VTe",
-        "number": 491
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs508VTe&quot;,
+        &quot;number&quot;: 491
       },
-      "lastSeen": 1720608914061
+      &quot;lastSeen&quot;: 1720608914061
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs507MXC",
-        "number": 487
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs507MXC&quot;,
+        &quot;number&quot;: 487
       },
-      "lastSeen": 1720610643508
+      &quot;lastSeen&quot;: 1720610643508
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs506-6C",
-        "number": 485
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs506-6C&quot;,
+        &quot;number&quot;: 485
       },
-      "lastSeen": 1720611318144
+      &quot;lastSeen&quot;: 1720611318144
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs509A0K",
-        "number": 493
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs509A0K&quot;,
+        &quot;number&quot;: 493
       },
-      "lastSeen": 1720611337609
+      &quot;lastSeen&quot;: 1720611337609
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs509J0_",
-        "number": 494
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs509J0_&quot;,
+        &quot;number&quot;: 494
       },
-      "lastSeen": 1720611543610
+      &quot;lastSeen&quot;: 1720611543610
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51DbVt",
-        "number": 496
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51DbVt&quot;,
+        &quot;number&quot;: 496
       },
-      "lastSeen": 1720680083246
+      &quot;lastSeen&quot;: 1720680083246
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51Db-8",
-        "number": 497
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Db-8&quot;,
+        &quot;number&quot;: 497
       },
-      "lastSeen": 1720680288678
+      &quot;lastSeen&quot;: 1720680288678
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51DDrX",
-        "number": 495
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51DDrX&quot;,
+        &quot;number&quot;: 495
       },
-      "lastSeen": 1720680400876
+      &quot;lastSeen&quot;: 1720680400876
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51DdHn",
-        "number": 498
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51DdHn&quot;,
+        &quot;number&quot;: 498
       },
-      "lastSeen": 1720680414675
+      &quot;lastSeen&quot;: 1720680414675
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51Dyix",
-        "number": 500
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Dyix&quot;,
+        &quot;number&quot;: 500
       },
-      "lastSeen": 1720690090478
+      &quot;lastSeen&quot;: 1720690090478
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51ER1a",
-        "number": 501
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51ER1a&quot;,
+        &quot;number&quot;: 501
       },
-      "lastSeen": 1720690207017
+      &quot;lastSeen&quot;: 1720690207017
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51FUD7",
-        "number": 502
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51FUD7&quot;,
+        &quot;number&quot;: 502
       },
-      "lastSeen": 1720697288494
+      &quot;lastSeen&quot;: 1720697288494
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51LtWW",
-        "number": 506
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51LtWW&quot;,
+        &quot;number&quot;: 506
       },
-      "lastSeen": 1720768248643
+      &quot;lastSeen&quot;: 1720768248643
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51LxHC",
-        "number": 507
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51LxHC&quot;,
+        &quot;number&quot;: 507
       },
-      "lastSeen": 1720768987360
+      &quot;lastSeen&quot;: 1720768987360
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51L60A",
-        "number": 508
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51L60A&quot;,
+        &quot;number&quot;: 508
       },
-      "lastSeen": 1720769037111
+      &quot;lastSeen&quot;: 1720769037111
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51Le56",
-        "number": 504
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Le56&quot;,
+        &quot;number&quot;: 504
       },
-      "lastSeen": 1720769084165
+      &quot;lastSeen&quot;: 1720769084165
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51L8os",
-        "number": 509
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51L8os&quot;,
+        &quot;number&quot;: 509
       },
-      "lastSeen": 1720771990787
+      &quot;lastSeen&quot;: 1720771990787
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51MNQH",
-        "number": 510
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51MNQH&quot;,
+        &quot;number&quot;: 510
       },
-      "lastSeen": 1720772607267
+      &quot;lastSeen&quot;: 1720772607267
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51MwsW",
-        "number": 511
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51MwsW&quot;,
+        &quot;number&quot;: 511
       },
-      "lastSeen": 1720777982079
+      &quot;lastSeen&quot;: 1720777982079
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51Vh_s",
-        "number": 513
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Vh_s&quot;,
+        &quot;number&quot;: 513
       },
-      "lastSeen": 1721016502512
+      &quot;lastSeen&quot;: 1721016502512
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51WBl6",
-        "number": 516
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51WBl6&quot;,
+        &quot;number&quot;: 516
       },
-      "lastSeen": 1721024514492
+      &quot;lastSeen&quot;: 1721024514492
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51VpxB",
-        "number": 514
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51VpxB&quot;,
+        &quot;number&quot;: 514
       },
-      "lastSeen": 1721024634721
+      &quot;lastSeen&quot;: 1721024634721
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51Vsss",
-        "number": 515
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Vsss&quot;,
+        &quot;number&quot;: 515
       },
-      "lastSeen": 1721024638394
+      &quot;lastSeen&quot;: 1721024638394
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51W4Ku",
-        "number": 517
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51W4Ku&quot;,
+        &quot;number&quot;: 517
       },
-      "lastSeen": 1721043463006
+      &quot;lastSeen&quot;: 1721043463006
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51dq8H",
-        "number": 520
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51dq8H&quot;,
+        &quot;number&quot;: 520
       },
-      "lastSeen": 1721109902356
+      &quot;lastSeen&quot;: 1721109902356
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51elv9",
-        "number": 521
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51elv9&quot;,
+        &quot;number&quot;: 521
       },
-      "lastSeen": 1721117759138
+      &quot;lastSeen&quot;: 1721117759138
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51exr6",
-        "number": 522
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51exr6&quot;,
+        &quot;number&quot;: 522
       },
-      "lastSeen": 1721118357799
+      &quot;lastSeen&quot;: 1721118357799
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51fHtK",
-        "number": 523
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51fHtK&quot;,
+        &quot;number&quot;: 523
       },
-      "lastSeen": 1721122217948
+      &quot;lastSeen&quot;: 1721122217948
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51f1As",
-        "number": 524
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51f1As&quot;,
+        &quot;number&quot;: 524
       },
-      "lastSeen": 1721127158471
+      &quot;lastSeen&quot;: 1721127158471
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51lr5g",
-        "number": 528
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51lr5g&quot;,
+        &quot;number&quot;: 528
       },
-      "lastSeen": 1721191066294
+      &quot;lastSeen&quot;: 1721191066294
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51l1s6",
-        "number": 529
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51l1s6&quot;,
+        &quot;number&quot;: 529
       },
-      "lastSeen": 1721193389963
+      &quot;lastSeen&quot;: 1721193389963
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51mixx",
-        "number": 532
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51mixx&quot;,
+        &quot;number&quot;: 532
       },
-      "lastSeen": 1721201136556
+      &quot;lastSeen&quot;: 1721201136556
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51mVTs",
-        "number": 531
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51mVTs&quot;,
+        &quot;number&quot;: 531
       },
-      "lastSeen": 1721201139145
+      &quot;lastSeen&quot;: 1721201139145
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51mlqJ",
-        "number": 533
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51mlqJ&quot;,
+        &quot;number&quot;: 533
       },
-      "lastSeen": 1721201629012
+      &quot;lastSeen&quot;: 1721201629012
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51nh_l",
-        "number": 535
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51nh_l&quot;,
+        &quot;number&quot;: 535
       },
-      "lastSeen": 1721210050680
+      &quot;lastSeen&quot;: 1721210050680
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51oK9C",
-        "number": 536
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51oK9C&quot;,
+        &quot;number&quot;: 536
       },
-      "lastSeen": 1721215315840
+      &quot;lastSeen&quot;: 1721215315840
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51omVr",
-        "number": 538
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51omVr&quot;,
+        &quot;number&quot;: 538
       },
-      "lastSeen": 1721218699652
+      &quot;lastSeen&quot;: 1721218699652
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51oN9l",
-        "number": 537
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51oN9l&quot;,
+        &quot;number&quot;: 537
       },
-      "lastSeen": 1721218823196
+      &quot;lastSeen&quot;: 1721218823196
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51pfuA",
-        "number": 539
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51pfuA&quot;,
+        &quot;number&quot;: 539
       },
-      "lastSeen": 1721225311636
+      &quot;lastSeen&quot;: 1721225311636
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs51q-aH",
-        "number": 541
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs51q-aH&quot;,
+        &quot;number&quot;: 541
       },
-      "lastSeen": 1721237480837
+      &quot;lastSeen&quot;: 1721237480837
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs513wKy",
-        "number": 546
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs513wKy&quot;,
+        &quot;number&quot;: 546
       },
-      "lastSeen": 1721378746424
+      &quot;lastSeen&quot;: 1721378746424
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs54iULI",
-        "number": 630
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs54iULI&quot;,
+        &quot;number&quot;: 630
       },
-      "lastSeen": 1723790404883
+      &quot;lastSeen&quot;: 1723790404883
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs54jMhQ",
-        "number": 631
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs54jMhQ&quot;,
+        &quot;number&quot;: 631
       },
-      "lastSeen": 1723795217816
+      &quot;lastSeen&quot;: 1723795217816
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs54jdML",
-        "number": 632
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs54jdML&quot;,
+        &quot;number&quot;: 632
       },
-      "lastSeen": 1723805960990
+      &quot;lastSeen&quot;: 1723805960990
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs54kZeQ",
-        "number": 633
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs54kZeQ&quot;,
+        &quot;number&quot;: 633
       },
-      "lastSeen": 1723807731349
+      &quot;lastSeen&quot;: 1723807731349
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs52E4VK",
-        "number": 550
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs52E4VK&quot;,
+        &quot;number&quot;: 550
       },
-      "lastSeen": 1723809312939
+      &quot;lastSeen&quot;: 1723809312939
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs54omiS",
-        "number": 634
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs54omiS&quot;,
+        &quot;number&quot;: 634
       },
-      "lastSeen": 1723881808711
+      &quot;lastSeen&quot;: 1723881808711
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs54o9-V",
-        "number": 635
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs54o9-V&quot;,
+        &quot;number&quot;: 635
       },
-      "lastSeen": 1723903171495
+      &quot;lastSeen&quot;: 1723903171495
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs54sMo2",
-        "number": 636
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs54sMo2&quot;,
+        &quot;number&quot;: 636
       },
-      "lastSeen": 1724049088408
+      &quot;lastSeen&quot;: 1724049088408
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs54svJ7",
-        "number": 637
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs54svJ7&quot;,
+        &quot;number&quot;: 637
       },
-      "lastSeen": 1724053295248
+      &quot;lastSeen&quot;: 1724053295248
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs54tqk3",
-        "number": 638
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs54tqk3&quot;,
+        &quot;number&quot;: 638
       },
-      "lastSeen": 1724061271584
+      &quot;lastSeen&quot;: 1724061271584
     },
     {
-      "id": {
-        "id": "PR_kwDOJ23nvs54t5cT",
-        "number": 639
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs54t5cT&quot;,
+        &quot;number&quot;: 639
       },
-      "lastSeen": 1724067746664
+      &quot;lastSeen&quot;: 1724067746664
     }
   ]
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;git@github.com:Arlanto1/Arlanto-App-Codebase.git&quot;,
@@ -518,7 +703,7 @@
     "com.android.tools.idea.streaming.emulator.zoom.toolbar.visible": "false",
     "com.android.tools.idea.streaming.zoom.toolbar.visible": "false",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "dev",
+    "git-widget-placeholder": "pull-to-refresh-plugin",
     "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/common_widgets",
@@ -576,6 +761,8 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Flutter.test.dart" />
+        <item itemvalue="Flutter.test_msal.dart" />
         <item itemvalue="Flutter.test_msal.dart" />
         <item itemvalue="Flutter.test.dart" />
       </list>

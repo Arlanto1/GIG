@@ -34,7 +34,7 @@ class EventInfoResponse {
     date = json['date'];
     emails = json['emails'];
     lock = json['lock'];
-    location= json["location"] == null
+    location = json["location"] == null
         ? null
         : Organisation.fromJson(json["location"]);
     startDate = json['startDate'];

@@ -30,7 +30,6 @@ class KeyLossDestructionDetailsCubit
               listOfEntities: const [],
               getEntitiesResponse: null,
               departments: const [],
-
               getQualificationsResponse: null),
         );
 
@@ -86,7 +85,9 @@ class KeyLossDestructionDetailsCubit
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.keyManagementMasterModule),
         SharedPrefs.getDefaultLocation(),
-        commonServices.getBaseUsersByRoles(roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser),
+        commonServices.getBaseUsersByRoles(
+            roleNames:
+                ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser),
         commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head'),
       ]);
 

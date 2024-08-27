@@ -83,7 +83,8 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
             widget.parentStatus != ConstantsIntValue.slaStatusFinalized &&
                     widget.parentStatus != ConstantsIntValue.cancelledStatus &&
                     !(widget.extraProperties != null &&
-                        !widget.extraProperties!.hasWritePermission!) && !widget.isLocked
+                        !widget.extraProperties!.hasWritePermission!) &&
+                    !widget.isLocked
                 ? Flutterfloatingbutton(
                     backgroundColor: AppColors.navigationSkyBlueColor,
                     foregroundColor: AppColors.backgroundWhiteColor,
@@ -227,7 +228,8 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
                     showDeleteButton: widget.parentStatus !=
                             ConstantsIntValue.slaStatusFinalized &&
                         widget.parentStatus !=
-                            ConstantsIntValue.cancelledStatus && !widget.isLocked,
+                            ConstantsIntValue.cancelledStatus &&
+                        !widget.isLocked,
                     onDeleteTap: (selectedIndex) async {
                       /// Delete Warning Dialog Box
                       var dialog = CustomAlertDialog(

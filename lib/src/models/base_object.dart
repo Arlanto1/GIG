@@ -1,5 +1,6 @@
 class BaseObject {
   String? lock;
+
   // bool isEligibleToEdit;
 
   // bool? isEligibleToCancel;
@@ -13,7 +14,7 @@ class BaseObject {
   BaseObject.fromJson(Map<String, dynamic> json)
       : lock = json['lock'] as String?
   // ,
-        // isEligibleToEdit = json['isEligibleToEdit'] ?? false as bool?
+  // isEligibleToEdit = json['isEligibleToEdit'] ?? false as bool?
   // ,
   //       isEligibleToCancel = json['isEligibleToCancel'] as bool?
   ;

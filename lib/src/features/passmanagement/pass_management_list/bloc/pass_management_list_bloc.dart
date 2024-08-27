@@ -22,7 +22,6 @@ import 'package:equatable/equatable.dart';
 import '../../daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 
 part 'pass_management_list_event.dart';
-
 part 'pass_management_list_state.dart';
 
 class PassManagementListBloc

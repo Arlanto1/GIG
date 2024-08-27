@@ -94,7 +94,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
                 KeyHistoryModel keyHistoryModel =
                     await KeyManagementIssuanceServices().getIssuanceKHById(
-                      widget.kmId!,
+                  widget.kmId!,
                   widget.keyIssuanceId!,
                   widget.keyLostType!,
                 );
@@ -575,7 +575,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     locationId: state.model.location!.id!,
                                     functionToCall: (BaseUser user) {
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
-                                          context)
+                                              context)
                                           .updateEmailsValue(
                                         complainant: user,
                                       );
@@ -721,7 +721,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   locationId: state.model.location!.id!,
                                   functionToCall: (BaseUser user) {
                                     BlocProvider.of<IncidentGeneralInfoCubit>(
-                                        context)
+                                            context)
                                         .updateEmailsValue(
                                       complainantHr: user,
                                     );
@@ -834,7 +834,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     locationId: state.model.location!.id!,
                                     functionToCall: (BaseUser user) {
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
-                                          context)
+                                              context)
                                           .updateDropdownValues(
                                         incidentManager: user,
                                       );
@@ -882,7 +882,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     locationId: state.model.location!.id!,
                                     functionToCall: (BaseUser user) {
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
-                                          context)
+                                              context)
                                           .updateDropdownValues(
                                         incidentOwner: user,
                                       );

@@ -324,8 +324,8 @@ class KeyManagementIssuanceDetailsCubit
     //   }
     // }
     // if (state.model.status != 0 && state.model.status != null) {
-      state.model.keyHandOverDate =
-          (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    state.model.keyHandOverDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     // }
     // if (state.model.status == 1) {
     //   state.model.keyReturnDateTime =

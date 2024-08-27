@@ -86,7 +86,6 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                   state.selectedDutyPostModel,
               ConstantsArgument.isReadOnly: isReadOnly,
               ConstantsArgument.isEligibleToEdit: state.model.isEligibleToEdit
-
             },
           );
         }

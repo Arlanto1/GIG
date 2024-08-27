@@ -2,8 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
-
 import '../bloc/event_protections_bloc.dart';
 
 class EventProtectionsView extends StatefulWidget {
@@ -19,8 +17,6 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -33,7 +29,6 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
 
   @override
   void dispose() {
-    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -71,19 +66,11 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
     }
   }
 
-  void _onRefresh() async {
+  Future<void> _onRefresh() async {
     context.read<EventProtectionsBloc>().add(
           const RefreshList(),
         );
     await Future.delayed(const Duration(milliseconds: 2000));
-    refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    if (mounted) {
-      setState(() {});
-    }
-    refreshController.loadComplete();
   }
 
   @override
@@ -157,19 +144,15 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                     UtilsCommon().showNoRecordWidget(
                         state: state, height: height, items: state.items),
                     Expanded(
-                      child: SmartRefresher(
-                        controller: refreshController,
-                        enablePullDown: true,
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        header: WaterDropHeader(
-                          waterDropColor: AppColors.navigationSkyBlueColor,
-                          refresh: state.status != FormStatus.loading
-                              ? const BaseLoader()
-                              : null,
-                        ),
-                        key: const Key(Keys.refreshKey),
-                        onRefresh: _onRefresh,
-                        onLoading: _onLoading,
+                      child: CustomMaterialIndicator(
+                        onRefresh: () => _onRefresh(),
+                        backgroundColor: Colors.white,
+                        indicatorBuilder: (context, controller) {
+                          return const Padding(
+                            padding: EdgeInsets.all(6.0),
+                            child: BaseLoader(),
+                          );
+                        },
                         child: ListView.builder(
                           controller: _scrollController,
                           itemCount: state.hasReachedMax
@@ -187,7 +170,8 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                           int.parse(
                                               state.items[index].inputDate ??
                                                   '0'),
-                                          Constants.twentyFourHourDateTimeFormat)
+                                          Constants
+                                              .twentyFourHourDateTimeFormat)
                                       : ''));
                               labels.add(Label(
                                   key: state.labels?.locale.locationRegion ??
@@ -214,7 +198,8 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                         int.tryParse(
                                             state.items[index].eventStartDate ??
                                                 '0'),
-                                        Constants.twentyFourHourDateTimeFormat)));
+                                        Constants
+                                            .twentyFourHourDateTimeFormat)));
                               }
                               if (!(state
                                   .items[index].eventEndDate.isEmptyOrNull)) {
@@ -227,7 +212,8 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                         int.tryParse(
                                             state.items[index].eventEndDate ??
                                                 '0'),
-                                        Constants.twentyFourHourDateTimeFormat)));
+                                        Constants
+                                            .twentyFourHourDateTimeFormat)));
                               }
                               return index >= state.items.length
                                   ? const BaseLoader()

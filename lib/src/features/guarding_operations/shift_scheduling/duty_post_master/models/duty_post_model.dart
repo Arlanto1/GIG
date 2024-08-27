@@ -88,7 +88,7 @@ class Rank {
 }
 
 @JsonSerializable()
-class ShiftModel  extends BaseObject {
+class ShiftModel extends BaseObject {
   String? shift;
   int? attendanceShiftId;
   int? allowed;

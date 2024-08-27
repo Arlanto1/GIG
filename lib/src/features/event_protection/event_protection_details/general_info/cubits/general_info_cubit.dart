@@ -107,7 +107,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
             roleNames: 'ATOM_Sub_Regional_Head',
             locationId: model.location!.id!),
         commonServices.getBaseUsersByRoles(
-            roleNames:  ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+            roleNames:
+                ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
             locationId: model.location!.id!),
       ]);
 

@@ -385,8 +385,8 @@ class _KeyLossDestructionDetailsViewState
                                     locationId: 0,
                                     functionToCall: (BaseUser user) {
                                       BlocProvider.of<
-                                          KeyLossDestructionDetailsCubit>(
-                                          context)
+                                                  KeyLossDestructionDetailsCubit>(
+                                              context)
                                           .updateDropdownValues(
                                         srh: user,
                                       );
@@ -462,8 +462,8 @@ class _KeyLossDestructionDetailsViewState
                                       locationId: 0,
                                       functionToCall: (BaseUser user) {
                                         BlocProvider.of<
-                                            KeyLossDestructionDetailsCubit>(
-                                            context)
+                                                    KeyLossDestructionDetailsCubit>(
+                                                context)
                                             .updateDropdownValues(
                                           securityManager: user,
                                         );

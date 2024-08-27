@@ -274,7 +274,8 @@ class MaterialMovementDetailsState extends Equatable {
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       emailUsers: emailUsers ?? this.emailUsers,
       requestorEmailUsers: requestorEmailUsers ?? this.requestorEmailUsers,
-      returnReceiverEmailId: returnReceiverEmailId ?? this.returnReceiverEmailId,
+      returnReceiverEmailId:
+          returnReceiverEmailId ?? this.returnReceiverEmailId,
       approver1Users: approver1Users ?? this.approver1Users,
       approver2Users: approver2Users ?? this.approver2Users,
       receiverEmailUsers: receiverEmailUsers ?? this.receiverEmailUsers,

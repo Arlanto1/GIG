@@ -85,7 +85,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     try {
       GetDepositor getDepositorData =
           await createpassmgmtServices.getUserByRoleDepositor(
-              roleName: ConstantUserRoles.atomStaticUser, locationId: state.model.location?.id);
+              roleName: ConstantUserRoles.atomStaticUser,
+              locationId: state.model.location?.id);
 
       emit(
         state.copyWith(
@@ -818,7 +819,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       }
 
       List<Organisation> updateStatuses = [];
-      if (model.status != null && (model.status == 0 || model.status == 1 || model.status == 3)) {
+      if (model.status != null &&
+          (model.status == 0 || model.status == 1 || model.status == 3)) {
         updateStatuses = await commonServices.getStatusesByModuleId(
             module: Constants.passManagementModuleCode, filter: model.status);
       }
@@ -1085,7 +1087,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     // EmployeeDepartments departments =
     //     await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
-        roleNames: ConstantUserRoles.atomStaticUser, locationId: state.model.location?.id);
+        roleNames: ConstantUserRoles.atomStaticUser,
+        locationId: state.model.location?.id);
 
     getUserByRoleDepositor();
     emit(

@@ -121,7 +121,8 @@ class AnnualPowerShutdownListDetailsCubit
             roleName: ConstantUserRoles.atomSubRegionalHeadUser,
             locationId: model.location!.id!),
         commonServices.getBaseUsers(
-            roleName: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+            roleName:
+                ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
             locationId: model.location!.id!),
       ]);
 

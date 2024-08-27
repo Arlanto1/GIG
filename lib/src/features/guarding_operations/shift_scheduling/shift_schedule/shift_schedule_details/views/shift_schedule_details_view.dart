@@ -554,9 +554,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         cancelButtonDisplay(),
-                        if (!isReadOnly) ...[
-                          submitButtonDisplay()
-                        ],
+                        if (!isReadOnly) ...[submitButtonDisplay()],
                       ],
                     ),
 

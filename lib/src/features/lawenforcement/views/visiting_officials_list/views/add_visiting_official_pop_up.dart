@@ -49,7 +49,6 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
 
     /// updated department list after adding new department
     updatedDepartmentList = widget.departments;
-
   }
 
   @override

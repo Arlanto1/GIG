@@ -195,7 +195,6 @@ class SharedPrefs {
     return instance.getString(Constants.deviceToken) ?? '';
   }
 
-
   static Future<void> setLogsToggle(bool value) async {
     instance.setBool(Constants.logsToggle, value);
   }

@@ -6,7 +6,6 @@ import 'package:db_atom/src/features/event_protection/models/ep_ui_labels.dart';
 import '../../services/event_protection_services.dart';
 
 part 'event_protections_event.dart';
-
 part 'event_protections_state.dart';
 
 class EventProtectionsBloc

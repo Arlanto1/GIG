@@ -5,7 +5,6 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_p
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
 
 part 'duty_post_name_master_list_event.dart';
-
 part 'duty_post_name_master_list_state.dart';
 
 class DutyPostNameMasterListBloc
