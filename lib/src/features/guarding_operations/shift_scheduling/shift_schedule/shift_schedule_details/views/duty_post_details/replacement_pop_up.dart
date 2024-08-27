@@ -79,6 +79,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
 
     if (widget.viaAttendance) {
       fromDateController.text = Utils().getCurrentDate();
+      widget.model.fromDate = Utils().formatTime(fromDateController.text);
     }
   }
 

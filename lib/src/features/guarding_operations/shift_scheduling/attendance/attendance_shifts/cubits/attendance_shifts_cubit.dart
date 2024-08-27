@@ -88,7 +88,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
           await SLAViolationPenaltyServices().getSvpList(
         startPosition: '0',
         maximumRecords: '100',
-        attInfoId: model.attendanceShiftId!,
+        attdInfoId: model.attendanceShiftId!,
       );
 
       // for (Rank rank in model.ranks ?? []) {
@@ -182,7 +182,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
         await SLAViolationPenaltyServices().getSvpList(
       startPosition: '0',
       maximumRecords: '100',
-      attInfoId: model.attendanceShiftId!,
+      attdInfoId: model.attendanceShiftId!,
     );
     log('---list.items-${list.items?.length}--');
     slaList.add(SlaList(attInfoId: attInfoId, items: list.items));
