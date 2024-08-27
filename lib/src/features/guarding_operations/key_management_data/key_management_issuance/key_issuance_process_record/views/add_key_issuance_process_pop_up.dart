@@ -48,9 +48,12 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
   TextEditingController damagedKeysController = TextEditingController();
   Organisation? selectedKeyDescription;
 
+  late bool isReadOnly;
   @override
   void initState() {
     super.initState();
+
+    isReadOnly = widget.lock.isEmptyOrNull? false: true;
     log('--widget.model.available--111-${widget.model.available}-----');
 
     selectedKeyDescription = widget.selectedKeyDescription;
@@ -193,6 +196,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                         .extraProperties!.hasWritePermission! &&
                                     widget.lock.isEmptyOrNull)),
                             onTap: () {
+                              if(isReadOnly) {
+                                return;
+                              }
                               if (widget.parentStatus == 0 &&
                                   !(widget.extraProperties != null &&
                                       !widget.extraProperties!
@@ -201,6 +207,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                 BaseOrganisationDialog().departmentDialog(
                                   context: context,
                                   organisations: widget.keyDescriptions,
+
                                   onTap: (Organisation org) {
                                     selectedKeyDescription = org;
                                     keyDescriptionController.text =
@@ -253,6 +260,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textController: keyTypeController,
                         items: keyTypeDropDownValues,
                         onTap: () {
+                          if(isReadOnly) {
+                            return;
+                          }
                           if (widget.parentStatus == 0 &&
                               !(widget.extraProperties != null &&
                                   !widget
@@ -535,7 +545,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                 ConstantsIntValue.issuanceLostDamagedStatus &&
             widget.parentStatus != ConstantsIntValue.issuanceClosedStatus &&
             !(widget.extraProperties != null &&
-                !widget.extraProperties!.hasWritePermission!)) ...[
+                !widget.extraProperties!.hasWritePermission!) && !isReadOnly) ...[
           saveButton(width, widget.onSubmit)
         ],
       ],
@@ -546,7 +556,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
     return PopButton(
       width: width / 3.5,
       key: const Key(Keys.cancelButton),
-      buttonText: Constants.cancel,
+      buttonText: Constants.close,
       buttonTextKey: Keys.cancelButtonText,
       foregroundColor: AppColors.textGreyThemeColor,
       textStyle: Styles.styleHeaderGreyText16,
