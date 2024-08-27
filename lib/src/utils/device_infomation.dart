@@ -1,10 +1,37 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:db_atom/index.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 
+enum DeviceType { phone, tablet, web }
+
 class DeviceInformation {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+
+  DeviceType detectDeviceType(BuildContext context) {
+    double shortestSide = MediaQuery.of(context).size.shortestSide;
+    bool isWeb = kIsWeb;
+
+    if (isWeb) {
+      return DeviceType.web;
+    } else if (Platform.isIOS) {
+      if (shortestSide >= 600) {
+        return DeviceType.tablet;
+      } else {
+        return DeviceType.phone;
+      }
+    } else if (Platform.isAndroid) {
+      if (shortestSide >= 600) {
+        return DeviceType.tablet;
+      } else {
+        return DeviceType.phone;
+      }
+    } else {
+      // For any other platform (like macOS, Windows, etc.)
+      return DeviceType.web;
+    }
+  }
 
   Future<void> initPlatformState() async {
     var deviceData = <String, dynamic>{};

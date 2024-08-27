@@ -17,6 +17,11 @@ class LoginResponseModel {
     this.requirePasswordChange,
   });
 
+  @override
+  String toString() {
+    return 'LoginResponseModel{message: $message, token: $token, user: $user, refreshToken: $refreshToken, requirePasswordChange: $requirePasswordChange}';
+  }
+
   LoginResponseModel.fromJson(Map<String, dynamic> json) {
     try {
       message = json['message'] as String?;
@@ -73,6 +78,11 @@ class LoginUserResponseModel {
   Organisation? defaultLocation;
   DisplayMenu? displayMenu;
   String? timezone;
+
+  @override
+  String toString() {
+    return 'LoginUserResponseModel{userId: $userId, userName: $userName, email: $email, firstName: $firstName, lastName: $lastName, phone: $phone, defaultLocation: $defaultLocation, displayMenu: $displayMenu, timezone: $timezone}';
+  }
 
   LoginUserResponseModel({
     this.userId,
@@ -141,6 +151,11 @@ class DisplayMenu {
   bool? ssDPM;
   bool? gMR;
   bool? sSDP;
+
+  @override
+  String toString() {
+    return 'DisplayMenu{mM: $mM, sSSLA: $sSSLA, cD: $cD, iM: $iM, aF: $aF, gM: $gM, lEO: $lEO, gR: $gR, eP: $eP, aps: $aps, dP: $dP, pM: $pM, oCC: $oCC, vIP: $vIP, sS: $sS, kLD: $kLD, kMISS: $kMISS, kR: $kR, sVP: $sVP, keyMM: $keyMM, aTD: $aTD, ssDPM: $ssDPM, gMR: $gMR, sSDP: $sSDP}';
+  }
 
   DisplayMenu({
     this.mM,

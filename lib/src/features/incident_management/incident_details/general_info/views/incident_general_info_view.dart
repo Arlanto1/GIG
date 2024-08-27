@@ -3,17 +3,27 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
+
 class IncidentGeneralInfoView extends StatefulWidget {
   const IncidentGeneralInfoView({
     super.key,
     required this.viaOccurrence,
     required this.viaKeyIssuance,
     this.extraProperties,
+    this.keyType,
+    this.keyLostType,
+    this.keyIssuanceId,
+    this.kmId,
   });
 
   final bool viaOccurrence;
   final bool viaKeyIssuance;
   final ExtraProperties? extraProperties;
+  final int? keyType;
+  final int? keyLostType;
+  final int? keyIssuanceId;
+  final int? kmId;
 
   @override
   State<IncidentGeneralInfoView> createState() =>
@@ -43,6 +53,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
   @override
   Widget build(BuildContext context) {
     log('---viaOccurrence-----${widget.viaOccurrence}-----');
+    log('---viaKeyIssuance-----${widget.viaKeyIssuance}-----');
 
     final size = MediaQuery.of(context).size;
     final height = size.height;
@@ -55,14 +66,16 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
             title: Constants.incidentManagementTitle,
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
-            onPositivePressed: () {
+            onPositivePressed: () async {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
-              Navigator.popAndPushNamed(
-                context,
-                incidentManagementsRoute,
-              );
+              if (!widget.viaOccurrence && !widget.viaKeyIssuance) {
+                Navigator.popAndPushNamed(
+                  context,
+                  incidentManagementsRoute,
+                );
+              }
               if (widget.viaOccurrence) {
                 Navigator.pushNamed(
                   context,
@@ -74,13 +87,28 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                 );
                 return;
               }
+
+              log('--widget.viaKeyIssuance-${state.model.keyLossGi?.id}--');
               if (widget.viaKeyIssuance) {
-                Navigator.pushNamed(
+                log('--widget.viaKeyIssuance-ifwidget.keyIssuanceId---${widget.keyIssuanceId}--');
+
+                KeyHistoryModel keyHistoryModel =
+                    await KeyManagementIssuanceServices().getIssuanceKHById(
+                      widget.kmId!,
+                  widget.keyIssuanceId!,
+                  widget.keyLostType!,
+                );
+
+                Navigator.pushReplacementNamed(
                   context,
                   keyHistoryRecordsDetailsRoute,
                   arguments: {
-                    'id': state.model.keyLossGi?.id.toString(),
-                    "title": Constants.editKeyLostHistory,
+                    ConstantsArgument.model: keyHistoryModel,
+                    ConstantsArgument.id: widget.keyIssuanceId,
+                    ConstantsArgument.title: Constants.editKeyLostHistory,
+                    ConstantsArgument.keyType: widget.keyType,
+                    ConstantsArgument.keyLostType: widget.keyLostType,
+                    // ConstantsArgument.parentId: widget.keyIssuanceId,
                   },
                 );
                 return;
@@ -545,7 +573,14 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     },
                                     roleName: ConstantUserRoles.atomStaticUser,
                                     locationId: state.model.location!.id!,
-                                    functionToCall: () {
+                                    functionToCall: (BaseUser user) {
+                                      BlocProvider.of<IncidentGeneralInfoCubit>(
+                                          context)
+                                          .updateEmailsValue(
+                                        complainant: user,
+                                      );
+                                      FocusScope.of(context).requestFocus(
+                                          complainantEmpIdFocusNode);
                                       // refresh the list
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
@@ -684,7 +719,12 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   },
                                   roleName: ConstantUserRoles.atomStaticUser,
                                   locationId: state.model.location!.id!,
-                                  functionToCall: () {
+                                  functionToCall: (BaseUser user) {
+                                    BlocProvider.of<IncidentGeneralInfoCubit>(
+                                        context)
+                                        .updateEmailsValue(
+                                      complainantHr: user,
+                                    );
                                     // refresh the list
                                     BlocProvider.of<IncidentGeneralInfoCubit>(
                                             context)
@@ -789,9 +829,15 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                         incidentManager: user,
                                       );
                                     },
-                                    roleName: ConstantUserRoles.atomSeniorSecurityManagerUser,
-                                    locationId:  state.model.location!.id!,
-                                    functionToCall: () {
+                                    roleName: ConstantUserRoles
+                                        .atomSeniorSecurityManagerUser,
+                                    locationId: state.model.location!.id!,
+                                    functionToCall: (BaseUser user) {
+                                      BlocProvider.of<IncidentGeneralInfoCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                        incidentManager: user,
+                                      );
                                       // refresh the list
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
@@ -834,7 +880,14 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     roleName: ConstantUserRoles
                                         .atomSubRegionalHeadUser,
                                     locationId: state.model.location!.id!,
-                                    functionToCall: () {
+                                    functionToCall: (BaseUser user) {
+                                      BlocProvider.of<IncidentGeneralInfoCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                        incidentOwner: user,
+                                      );
+                                      FocusScope.of(context).requestFocus(
+                                          incidentDescriptionFocusNode);
                                       // refresh the list
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)

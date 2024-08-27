@@ -25,6 +25,7 @@ AttendanceModel _$AttendanceModelFromJson(Map<String, dynamic> json) =>
       status: (json['status'] as num?)?.toInt(),
       attendanceType: (json['attendanceType'] as num?)?.toInt(),
       entrySecurityName: json['entrySecurityName'] as String?,
+      isEligibleToEdit: json['isEligibleToEdit'] as bool? ?? false,
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$AttendanceModelToJson(AttendanceModel instance) =>
@@ -40,4 +41,5 @@ Map<String, dynamic> _$AttendanceModelToJson(AttendanceModel instance) =>
       'status': instance.status,
       'attendanceType': instance.attendanceType,
       'entrySecurityName': instance.entrySecurityName,
+      'isEligibleToEdit': instance.isEligibleToEdit,
     };

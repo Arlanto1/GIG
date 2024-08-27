@@ -37,12 +37,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation> quantityUnits = await commonServices.getOrganisations(
         name: 'ATOM_MATERIAL_MOVEMENT_UNIT');
-
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser> emailUsers = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomStaticUser,
-        locationId: state.model.location?.id);
+        locationId: state.model.location!.id!);
 
     emit(
       state.copyWith(
@@ -51,6 +50,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         emailUsers: emailUsers,
         departments: departments.employeeDepartments,
         quantityUnits: quantityUnits,
+        receiverEmailUsers: emailUsers,
+        requestorEmailUsers: emailUsers,
+        approver1Users: emailUsers,
+        approver2Users: emailUsers,
       ),
     );
   }
@@ -72,10 +75,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
 
     emit(state.copyWith(model: model, status: FormStatus.loading));
-    String email = await SharedPrefs.getEmail();
     bool isReadOnly;
 
-    if (state.model.requestorEmail.equalsIgnoreCase(email)) {
+    if (state.model.requestorEmail
+        .equalsIgnoreCase(state.loggedInUserDetails?.userName)) {
       isReadOnly = false;
     } else {
       isReadOnly = true;
@@ -118,7 +121,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       final futures = await Future.wait([
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
-        commonServices.getUsersByRole(roleName: 'T1_Analyst'), // TODO: remove
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
@@ -126,19 +128,19 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         SharedPrefs.getDefaultLocation(),
         commonServices.getBaseUsers(
             roleName: ConstantUserRoles.atomStaticUser,
-            locationId: state.model.location?.id),
+            locationId: state.model.location!.id!),
         commonServices.getOrganisations(name: 'ATOM_MATERIAL_MOVEMENT_UNIT'),
       ]);
 
       Locations locations = futures[0];
       User loggedInUserDetails = futures[1];
-      Analyst users = futures[2]; // TODO: remove
-      EmployeeDepartments departments = futures[3];
-      dynamic responseLabels = futures[4];
-      Organisation? defaultLocation = futures[5];
-      List<BaseUser> emailUsers = futures[6];
-      List<Organisation> quantityUnits = futures[7];
+      EmployeeDepartments departments = futures[2];
+      dynamic responseLabels = futures[3];
+      Organisation? defaultLocation = futures[4];
+      List<BaseUser> emailUsers = futures[5];
+      List<Organisation> quantityUnits = futures[6];
 
+      log('--emailUsers--${emailUsers.length}---');
       // Get Date of Creation
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
@@ -176,13 +178,15 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       emit(
         state.copyWith(
           locations: locations,
-          loggedInUserDetails: state.model.entrySecurity,
+          loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
           loadAttachments: state.model.images,
-          emailUsers: emailUsers,
+          requestorEmailUsers: emailUsers,
           approver1Users: emailUsers,
           approver2Users: emailUsers,
+          receiverEmailUsers: emailUsers,
+          returnReceiverEmailId: emailUsers,
           departments: departments.employeeDepartments,
           quantityUnits: quantityUnits,
           labels: labels,
@@ -223,7 +227,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
       emailUsers = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomStaticUser,
-          locationId: state.model.location?.id);
+          locationId: state.model.location!.id!);
     }
     if (location != null && isInward == false) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -235,12 +239,19 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.slNo = slNo.serialNo;
       emailUsers = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomStaticUser,
-          locationId: state.model.location?.id);
+          locationId: state.model.location!.id!);
     }
     state.model.receiverEmail = null;
+    state.model.requestorEmail = null;
+    state.model.approver1Email = null;
+    state.model.approver2Email = null;
+
     emit(state.copyWith(
       model: state.model,
-      emailUsers: emailUsers,
+      requestorEmailUsers: emailUsers,
+      approver1Users: emailUsers,
+      approver2Users: emailUsers,
+      receiverEmailUsers: emailUsers,
       status: FormStatus.initial,
     ));
   }
@@ -292,10 +303,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           '${receiverEmail.name} (${receiverEmail.email})';
     }
 
-    if (requesterEmailUser != null) {
-      state.model.requestorEmail =
-          '${requesterEmailUser.name} (${requesterEmailUser.email})';
-    }
+    // if (requesterEmailUser != null) {
+    //   state.model.requestorEmail =
+    //       '${requesterEmailUser.name} (${requesterEmailUser.email})';
+    // }
 
     if (returnReceiverMailId != null) {
       state.model.returnReceiverMailId =
@@ -349,7 +360,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     );
 
     if (requesterEmailUser != null) {
-      if( state.model.requestorEmail != null){
+      if (state.model.requestorEmail != null) {
         BaseUser preSelectedUser = BaseUser(
           name: state.model.requestorEmail,
           // email:state.model.requestorEmail,
@@ -357,7 +368,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         state.approver1Users?.add(preSelectedUser);
       }
       state.model.requestorEmail =
-      '${requesterEmailUser.name} ${requesterEmailUser.email != null ?'(${requesterEmailUser.email})' :''}';
+          '${requesterEmailUser.name} ${requesterEmailUser.email != null ? '(${requesterEmailUser.email})' : ''}';
       state.approver1Users?.remove(requesterEmailUser);
       state.approver2Users?.remove(requesterEmailUser);
       emit(
@@ -371,7 +382,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
 
     if (approver1EmailUser != null) {
-      if( state.model.approver1Email != null){
+      if (state.model.approver1Email != null) {
         BaseUser preSelectedUser = BaseUser(
           name: state.model.approver1Email,
           // email: state.model.approver1Email,
@@ -379,9 +390,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         state.approver2Users?.add(preSelectedUser);
       }
       state.model.approver1Email =
-      '${approver1EmailUser.name} ${approver1EmailUser.email != null ?'(${approver1EmailUser.email})' :''}';
-      state.requestorEmailUsers?.remove(approver1EmailUser);
+          '${approver1EmailUser.name} ${approver1EmailUser.email != null ? '(${approver1EmailUser.email})' : ''}';
       state.approver2Users?.remove(approver1EmailUser);
+      state.requestorEmailUsers?.remove(approver1EmailUser);
 
       emit(
         state.copyWith(
@@ -394,18 +405,17 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     }
 
     if (approver2EmailUser != null) {
-
-      if( state.model.approver2Email != null){
+      if (state.model.approver2Email != null) {
         BaseUser preSelectedUser = BaseUser(
           name: state.model.approver2Email,
           // email:state.model.approver2Email,
         );
         state.approver1Users?.add(preSelectedUser);
-
       }
-      state.model.approver2Email = '${approver2EmailUser.name} ${approver2EmailUser.email != null ?'(${approver2EmailUser.email})':''}';
-      state.requestorEmailUsers?.remove(approver2EmailUser);
+      state.model.approver2Email =
+          '${approver2EmailUser.name} ${approver2EmailUser.email != null ? '(${approver2EmailUser.email})' : ''}';
       state.approver1Users?.remove(approver2EmailUser);
+      state.requestorEmailUsers?.remove(approver2EmailUser);
 
       emit(
         state.copyWith(
@@ -541,6 +551,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.inputDate = inputDate.toString();
     }
+
+    state.model.approvedDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     state.model.rejectedDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
@@ -575,7 +588,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         }
         response = await materialMovementServices.createMaterialMovement(
             body: request, flow: 1);
-      } else {
+      }
+      if (!isSaveOnly && !isRejectOnly && !isApprovedOnly) {
         //Validating Fields
         if (!state.isValid.status) {
           emit(

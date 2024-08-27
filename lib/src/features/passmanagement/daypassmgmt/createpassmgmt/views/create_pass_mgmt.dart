@@ -68,7 +68,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   int pageNumber = 0;
   bool isShowSaveAndSubmitButton = false;
 
-
   @override
   void initState() {
     super.initState();
@@ -92,6 +91,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   @override
   Widget build(BuildContext context) {
     log('--passId----${widget.passId}----');
+    log('--status----${widget.model?.status}----');
     final size = MediaQuery
         .of(context)
         .size;
@@ -117,10 +117,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               widget.model?.status == 0 ||
               widget.model?.status == 1 ||
               widget.model?.status == 3) &&
-              (widget.model != null && widget.model!.lock.isEmptyOrNull)) ||
-              widget.model == null ||
-              (widget.extraProperties != null &&
-                  !widget.extraProperties!.hasWritePermission!)) ...[
+              (widget.model != null &&
+                  widget.model!.lock.isEmptyOrNull)) ||
+              widget.model == null
+          // ||
+          // (widget.extraProperties != null &&
+          //     !widget.extraProperties!.hasWritePermission!)
+          ) ...[
             GestureDetector(
               onTap: () {
                 submitForm(false, widget.model?.id ?? 0, globalState);
@@ -239,38 +242,38 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 isDisabled = false;
               }
 
-              if(widget.model?.status != 7 &&
+              if (widget.model?.status != 7 &&
                   widget.model?.status != 2 &&
-              widget.model?.status != 4&&
-              widget.model?.status != 5&&
-              widget.model?.status != 6&&
-              widget.model?.status != 8&&
-                  widget.model?.status != 9){
+                  widget.model?.status != 4 &&
+                  widget.model?.status != 5 &&
+                  widget.model?.status != 6 &&
+                  widget.model?.status != 8 &&
+                  widget.model?.status != 9) {
                 isDisabled = false;
               }
 
               if (widget.model != null && !widget.model!.lock.isEmptyOrNull) {
                 isDisabled = true;
               }
-              if (widget.extraProperties != null &&
-                  !widget.extraProperties!.hasWritePermission!) {
-                isDisabled = true;
-              }
+              // if (widget.extraProperties != null &&
+              //     !widget.extraProperties!.hasWritePermission!) {
+              //   isDisabled = true;
+              // }
               if (((widget.model?.status == null ||
                   widget.model?.status == 0 ||
                   widget.model?.status == 1 ||
                   widget.model?.status == 3) &&
-                  (widget.model != null && widget.model!.lock.isEmptyOrNull)) ||
-                  widget.model == null ||
-                  (widget.extraProperties != null &&
-                      !widget.extraProperties!.hasWritePermission!)){
+                  (widget.model != null &&
+                      widget.model!.lock.isEmptyOrNull)) ||
+                  widget.model == null
+              // ||
+              // (widget.extraProperties != null &&
+              //     !widget.extraProperties!.hasWritePermission!)
+              ) {
                 isShowSaveAndSubmitButton = true;
               }
               if (state.getSerialnumberResponse != null &&
                   !state.getSerialnumberResponse!.serialNo.isEmptyOrNull) {
-                log(
-                    '--state.getSerialnumberResponse----serialnumber----222-${state
-                        .getSerialnumberResponse?.serialNo}----');
                 serialnumber = state.getSerialnumberResponse?.serialNo ?? "";
               }
               globalState = state;
@@ -380,7 +383,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             "created" ||
                                             statusTextController.text
                                                 .toLowerCase() ==
-                                                "handed over")) ...[
+                                                "handed over" || statusTextController.text
+                                            .toLowerCase() ==
+                                            "non returned")) ...[
                                       CommonWidgets.textDisplay(
                                           isMandatory: true,
                                           state.labels?.locale.updateStatus ??
@@ -475,7 +480,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
-                                    /// date of creation
+                                    /// Date of creation
                                     CommonWidgets.textDisplay(
                                         state.labels?.locale.inputDate ??
                                             state.labels?.defaultLocale
@@ -490,7 +495,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         height * 0.01),
 
                                     /// slno
-
                                     CommonWidgets.horizentaltextHandling(
                                       state.labels?.locale.slNo ??
                                           state.labels?.defaultLocale.slNo ??
@@ -1585,13 +1589,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             isMandatory: true,
                                           ),
                                           radioButtonHandling(
-                                            state.exceptionalApproval ?? 0,
-                                            state.labels?.locale
-                                                .exceptionalApproval ??
-                                                state.labels?.defaultLocale
-                                                    .exceptionalApproval ??
-                                                Constants.exceptionalApproval,
-                                          ),
+                                              state.exceptionalApproval ?? 0),
                                         ],
                                       ),
                                     ],
@@ -1846,14 +1844,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     widget.passId ==
                                         ConstantsIntValue.passIdVisitor
                                         ? radioButtonHandling(
-                                        state.escortedbyhost ?? 0,
-                                        state.labels?.locale
-                                            .escortedByHost ??
-                                            state.labels?.defaultLocale
-                                                .escortedByHost ??
-                                            'Escorted by Host')
+                                      state.escortedbyhost ?? 0,
+                                    )
                                         : Container(),
-
+                                    // Text('state.escortedbyhost--- ${widget.model?.escortedByHost}'),
+                                    // Text('state.email--- ${state.escorted}'),
                                     /// Escorted By
                                     (widget.passId ==
                                         ConstantsIntValue
@@ -2121,9 +2116,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.02),
-                                    if (widget.model?.status == 2 ||
-                                        widget.model?.status == 8 ||
-                                        widget.model?.status == 9) ...[
+
+                                    if (widget.model?.status ==
+                                        ConstantsIntValue
+                                            .passStatusReturned ||
+                                        widget.model?.status ==
+                                            ConstantsIntValue
+                                                .passStatusReturnedDamaged ||
+                                        widget.model?.status ==
+                                            ConstantsIntValue
+                                                .passStatusReturnedDefaced) ...[
 
                                       /// Pass Collected By
                                       CommonWidgets.horizentaltextHandling(
@@ -2175,7 +2177,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                         ),
                       ),
                     ),
-
                     if (!isShowSaveAndSubmitButton) ...[
                       Container(
                         padding: const EdgeInsets.all(5.0),
@@ -2205,7 +2206,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
-  Widget radioButtonHandling(int selectedValue, String name) {
+  Widget radioButtonHandling(int selectedValue) {
     bool isEditable =
         (widget.model?.status == null || widget.model?.status == 0) &&
             !(widget.extraProperties != null &&
@@ -2224,8 +2225,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           onChanged: isEditable
               ? (val) {
             selectedValue = 1;
-            createPassMgmtCubit.getRadioButtonSelected(
-                name, selectedValue, "Yes");
+            createPassMgmtCubit.getRadioButtonSelected(selectedValue);
           }
               : null,
         ),
@@ -2238,10 +2238,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           groupValue: selectedValue,
           onChanged: isEditable
               ? (val) {
-            log(name);
             selectedValue = 0;
-            createPassMgmtCubit.getRadioButtonSelected(
-                name, selectedValue, "No");
+            createPassMgmtCubit.getRadioButtonSelected(selectedValue);
           }
               : null,
         ),
@@ -2252,6 +2250,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   populateData() async {
     if (widget.model != null) {
+      int value = 0;
+      if (widget.model!.escortedByHost ?? false) {
+        value = 1;
+      }
+
+      createPassMgmtCubit.getRadioButtonSelected(value);
+
       if (widget.model?.companyType?.name?.toLowerCase() == 'fte') {
         isFTECompanyNameEditable = false;
       }
@@ -2286,7 +2291,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           ? widget.model?.hostName.toString() ?? ""
           : '';
       User? host1 = widget.model?.host ??
-          User(userId: int.parse(userId), name: hostTextController.text);
+          User(userId: widget.model?.host?.userId,
+              name: hostTextController.text);
 
       createPassMgmtCubit.gethostanalystsResponseData(host1);
       createPassMgmtCubit.getdbsponsoranalystsResponseData(host1);
@@ -2299,7 +2305,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //     ? BaseUser(id: int.parse(userId), name: dbsponsorTextController.text)
       //     : BaseUser();
       User? dbSponsor1 = widget.model?.host ??
-          User(userId: int.parse(userId), name: dbsponsorTextController.text);
+          User(userId: widget.model?.host?.userId,
+              name: dbsponsorTextController.text);
 
       createPassMgmtCubit.getdbsponsorUsersResponseData(dbSponsor1);
       nameTextController.text =
@@ -2309,7 +2316,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           : widget.model?.employeeName.toString() ?? '';
       var userid = await SharedPrefs.getUserId();
       BaseUser name1 = nameTextController.text.isNotEmpty
-          ? BaseUser(id: int.tryParse(userid), name: nameTextController.text)
+          ? BaseUser(
+          id: widget.model?.employee?.userId, name: nameTextController.text)
           : BaseUser();
       //createpassmgmtCubit.getnameanalystsResponseData(name1);
       createPassMgmtCubit.getNameUsersResponseData(name1);
@@ -2535,9 +2543,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       'VENDOR_PASS_REASON',
     );
     //await createpassmgmtCubit.getAnalysts('T1_Analyst');
-    await createPassMgmtCubit.getUserByRoleDepositor(
-      ConstantUserRoles.atomStaticUser,
-    );
+    await createPassMgmtCubit.getUserByRoleDepositor();
   }
 
   Widget submitButtonDisplay() {
@@ -2798,16 +2804,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? state.dayPasselementReason?.name ?? ''
               : state.vendorPasselementReason?.name ?? '',
           height: 60,
-          isDisableColor: widget.model?.status == 0 ||
-              widget.model == null ||
-              (widget.extraProperties != null &&
-                  !widget.extraProperties!.hasWritePermission!)
-              ? false
-              : true,
+          isDisableColor:
+          widget.model?.status == 0 || widget.model == null ? false : true,
           onTap: () {
-            if ((widget.model == null || widget.model?.status == 0) &&
-                !(widget.extraProperties != null &&
-                    !widget.extraProperties!.hasWritePermission!)) {
+            if ((widget.model == null || widget.model?.status == 0)) {
               log('--widget.passId---${widget.passId}---');
               if (widget.passId == ConstantsIntValue.passIdVendor) {
                 vendorPassReasonDialog(state);
@@ -2910,9 +2910,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     DateFormat(Constants.fulldateFormat).format(currentDate);
     dateofcreationTextController.text = currentFormattedDate;
     log('--------currentFormattedDate--$currentFormattedDate-');
+    log('-------passReturnedTextControllere--${passReturnedTextController
+        .text}-');
 
     passReturnedTextController.text =
     widget.model?.status == 1 ? currentFormattedDate : '';
+    log('-------passReturned1111--${passReturnedTextController.text}-');
+
     if (widget.passId != ConstantsIntValue.passIdSez) {
       passValidFromTextController.text = currentFormattedDate;
 
@@ -3056,12 +3060,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           ? "FTE"
           : state.selectedCompanyType?.name ?? '',
       height: 60,
-      isDisableColor: widget.model?.status == 0 ||
-          widget.model == null ||
-          (widget.extraProperties != null &&
-              !widget.extraProperties!.hasWritePermission!)
-          ? false
-          : true,
+      isDisableColor: !((widget.model == null || widget.model?.status == 0) &&
+          !(widget.extraProperties != null &&
+              !widget.extraProperties!.hasWritePermission!)),
       onTap: () {
         if ((widget.model == null || widget.model?.status == 0) &&
             !(widget.extraProperties != null &&
@@ -3192,9 +3193,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     });
               }
             },
-            onTap: (Organisation list) {
+            onTap: (Organisation org) {
               //log(list.name);
-              createPassMgmtCubit.getVendorPassReasonResponseData(list);
+              createPassMgmtCubit.getVendorPassReasonResponseData(org);
             },
           );
         });
@@ -3207,10 +3208,19 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       isDisableColor: widget.model?.status == 0 ||
           widget.model == null ||
           (widget.extraProperties != null &&
-              !widget.extraProperties!.hasWritePermission!)
+              !widget.extraProperties!.hasWritePermission!) &&
+              (state.selectedCompanyType?.name ?? '').toLowerCase() != 'fte'
           ? false
           : true,
       onTap: () {
+        if ((state.selectedCompanyType?.name ?? '').toLowerCase() == 'fte' &&
+            state.model.status ==
+                ConstantsIntValue.articleFoundStatusHandedOverOrClaimed ||
+            (widget.extraProperties != null &&
+                !widget.extraProperties!.hasWritePermission!)) {
+          return;
+        }
+
         if (widget.model?.status == 0 ||
             widget.model == null ||
             (widget.extraProperties != null &&
@@ -3219,8 +3229,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             context: context,
             users: state.getDepositorResponse,
             roleName: ConstantUserRoles.atomStaticUser,
-            locationId: 0,
-            functionToCall: () {
+            locationId: state.location!.id!,
+            functionToCall: (BaseUser user) {
+              createPassMgmtCubit.getNameUsersResponseData(user);
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },
             onTap: (BaseUser user) {
@@ -3293,8 +3304,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             context: context,
             users: state.getDepositorResponse!,
             roleName: ConstantUserRoles.atomStaticUser,
-            locationId: 0,
-            functionToCall: () {
+            locationId: state.location!.id!,
+            functionToCall: (BaseUser user) {
+              createPassMgmtCubit.gethostUsersResponseData(
+                  User(userId: user.id, name: user.name));
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },
             onTap: (BaseUser user) {
@@ -3372,8 +3385,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             context: context,
             users: state.getDepositorResponse,
             roleName: ConstantUserRoles.atomStaticUser,
-            locationId: 0,
-            functionToCall: () {
+            locationId: state.location!.id!,
+            functionToCall: (BaseUser user) {
+              createPassMgmtCubit.getdbsponsorUsersResponseData(
+                  User(userId: user.id, name: user.name));
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },
             onTap: (BaseUser user) {
@@ -3623,12 +3638,21 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
     passInfo.mifareNo = mtpApplicationNoTextController.text;
 
-    int passValidFromDate = (DateTime
+    int passValidFromDate = widget.model?.startTime != null
+        ? int.tryParse(widget.model!.startTime!)!
+        : (DateTime
         .now()
         .millisecondsSinceEpoch ~/ 1000);
-    int passReturnedOn = (DateTime
-        .now()
-        .millisecondsSinceEpoch ~/ 1000);
+
+    int? passReturnedOn;
+
+    log('state.model.updatedStatus--${state.model.updatedStatus}--');
+    if (state.model.updatedStatus !=
+        ConstantsIntValue.passStatusLostDeActivated) {
+      passReturnedOn = (DateTime
+          .now()
+          .millisecondsSinceEpoch ~/ 1000);
+    }
     // int passValidUntilDate =
     //     (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 12 * 3600; //Add
     //
@@ -3792,9 +3816,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     User? entrySecurity = widget.model?.entrySecurity ??
         User(userId: state.getUserDetailsResponse?.userId ?? 1);
 
-    User? handoverSecurity = widget.model?.status == 1
-        ? widget.model?.handoverSecurity ??
-        User(userId: state.getUserDetailsResponse?.userId ?? 1)
+    User? handoverSecurity =
+    widget.model?.status == ConstantsIntValue.passStatusHandedOver
+        ? widget.model?.handoverSecurity
         : null;
     if (statusTextController.text.isEmptyOrNull) {
       Validator().showToast(
@@ -3869,7 +3893,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         //     : passValidUntilDate.toString(),
         startTime: passValidFromDate.toString(),
         returnedTime:
-        widget.model?.status == 1 ? passReturnedOn.toString() : null,
+        widget.model?.status == ConstantsIntValue.passStatusHandedOver
+            ? passReturnedOn.toString()
+            : null,
         hostName: dbsponsorTextController.text.isEmpty
             ? state.hostResponse?.userInfo ?? ''
             : state.dbsponsorResponse?.userInfo ?? '',
@@ -4270,22 +4296,21 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter pass valid until",
       );
-    }
-    // else if ((widget.passId == ConstantsIntValue.passIdVisitor || widget.passId == ConstantsIntValue.passIdVendor) &&
-    //     ((state.escortedbyhost ?? 0) == 0) &&
-    //     (escortedbyTextController.text.isEmpty)) {
-    //   Validator().showToast(
-    //     context,
-    //     "Please enter escorted by",
-    //   );
-    // }
-    else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
+    } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
+        widget.passId == ConstantsIntValue.passIdVendor) &&
+        ((state.escortedbyhost ?? 0) == 0) &&
+        (escortedByTextController.text.isEmpty)) {
+      Validator().showToast(
+        context,
+        "Please enter Escorted By",
+      );
+    } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
         widget.passId == ConstantsIntValue.passIdVendor) &&
         ((state.escortedbyhost ?? 0) == 0) &&
         (escortedEmployeeIdByTextController.text.isEmpty)) {
       Validator().showToast(
         context,
-        "Please enter escort employee id",
+        "Please enter Escorted By Employee Id",
       );
     } else {
       submitForm(true, widget.model?.id ?? 0, globalState);

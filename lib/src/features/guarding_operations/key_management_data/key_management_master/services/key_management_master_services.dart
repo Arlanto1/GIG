@@ -124,11 +124,15 @@ class KeyManagementMasterServices {
   Future<GenericResponse> createKeyHistoryRecord({
     required KeyHistoryRecordRequest body,
     required bool isSubmit,
-    required String kmId,
+    required String? kmId,
+    required int? keyIssuanceId,
+    required bool isKeyManagementMaster,
   }) async {
-    // var userId = await SharedPrefs.getUserId();
-    final String url =
-        "${Apis._createKeyHistoryRecord}kmId=$kmId&isSubmit=$isSubmit";
+    String url =
+        "${Apis._createKeyHistoryRecord}kmId=$kmId&isSubmit=$isSubmit&isKeyManagementMaster=$isKeyManagementMaster";
+    if (keyIssuanceId != null) {
+      url = '$url&kmiMasterId=$keyIssuanceId';
+    }
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),

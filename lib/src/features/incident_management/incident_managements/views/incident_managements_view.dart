@@ -89,13 +89,15 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
         Utils().errorAndLogout(state, context);
       },
       builder: (context, state) {
+        log('widget.kldId.isEmptyOrNul--&=${widget.kldId.isEmptyOrNull}');
+        log('widget.occId.isEmptyOrNul--&=${widget.occId.isEmptyOrNull}');
+
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,
             floatingActionButton:
                 (state.extraProperties?.hasWritePermission ?? false) &&
-                        widget.occId.isEmptyOrNull
-
-                    /// disable + icon when navigating via Shift Occurrence
+                    (widget.occId.isEmptyOrNull ) && (widget.kldId.isEmptyOrNull)
+                    /// disable + icon when navigating via Shift Occurrence or via Key Issuance
                     ? Flutterfloatingbutton(
                         backgroundColor: AppColors.navigationSkyBlueColor,
                         foregroundColor: AppColors.backgroundWhiteColor,
@@ -106,6 +108,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                             arguments: {
                               'occId': widget.occId?.toString(),
                               'occType': widget.occType,
+                              'kldId': widget.kldId?.toString(),
                             },
                           )
                         },
@@ -188,7 +191,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                                       value: state.items[index].inputDate != null
                                           ? Utils.timestampToDateConversion(
                                           int.parse(state.items[index].inputDate ?? '0'),
-                                          Constants.dateFormat)
+                                          Constants.twentyFourHourDateTimeFormat)
                                           : ''));
                                   labels.add(
                                     Label(

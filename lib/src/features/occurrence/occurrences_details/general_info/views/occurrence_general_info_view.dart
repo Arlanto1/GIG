@@ -87,9 +87,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
         if (state.model.status == 1) {
           isReadOnly = true;
         }
-        if (state.model.status == ConstantsIntValue.submitted) {
-          isReadOnly = state.isReadOnly ?? true;
-        }
+        // if (state.model.status == ConstantsIntValue.submitted) {
+        //   isReadOnly = state.isReadOnly ?? true;
+        // }
         if (!state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
@@ -291,7 +291,12 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                         roleName: ConstantUserRoles
                                             .atomGuardingStaffUser,
                                         locationId: state.model.location!.id!,
-                                        functionToCall: () {
+                                        functionToCall: (BaseUser user) {
+                                          BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit>(
+                                              context)
+                                              .updateDropdownValues(
+                                              shiftTakenOverBy: user);
                                           // refresh the list
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(

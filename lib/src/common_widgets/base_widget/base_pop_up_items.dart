@@ -918,11 +918,40 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
       widgets.add(
         Row(
           children: [
-            Utils().textHandling('${label.key} : ', label.value),
+            textHandling('${label.key} : ', label.value, this.context),
           ],
         ),
       );
     }
     return widgets;
+  }
+
+  Widget textHandling(String title, String desc, BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double textWidth =
+        width > Constants.tabletScreenWidth ? width / 1.3 : width / 1.17;
+    return SizedBox(
+      width: textWidth,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            overflow: TextOverflow.visible,
+            softWrap: true,
+            style: Styles.textStyleRegularNormalGrey14,
+          ),
+          Flexible(
+            child: Text(
+              desc,
+              overflow: TextOverflow.visible,
+              softWrap: true,
+              style: Styles.textStyleBoldGrey14,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

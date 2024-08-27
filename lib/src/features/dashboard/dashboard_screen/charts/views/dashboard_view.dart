@@ -15,7 +15,6 @@ class DashboardViewState extends State<DashboardView>
     with WidgetsBindingObserver {
   String userName = '';
   String email = '';
-  late DisplayMenu displayMenu;
 
   @override
   void initState() {
@@ -33,8 +32,6 @@ class DashboardViewState extends State<DashboardView>
     email = await SharedPrefs.getEmail();
     log('username : $userName email is : $email');
 
-    displayMenu = await SharedPrefs.getDisplayMenu() ?? DisplayMenu();
-
     // try {
     //   await FCMHandler.initializeFCM();
     //   FCMHandler.setupForegroundMessageHandler();
@@ -47,6 +44,21 @@ class DashboardViewState extends State<DashboardView>
   }
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  bool isToggled = false;
+
+  void _onToggleChanged(bool value) async {
+    setState(() {
+      isToggled = value;
+    });
+    await setLogsToggle(value);
+  }
+
+  static Future<void> setLogsToggle(bool value) async {
+    // Call the provided function
+    // instance.setBool(Constants.logsToggle, value);
+    SharedPrefs.setLogsToggle(value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +84,14 @@ class DashboardViewState extends State<DashboardView>
             isTitleCenter: false,
             title: Constants.dashboard,
             action: [
+              if (Environment().config.apiHost.contains('api.qa.')) ...[
+
+                const Text('Logs', style: TextStyle(color: AppColors.white),),
+                Switch(
+                  value: isToggled,
+                  onChanged: _onToggleChanged,
+                ),
+              ],
               // GestureDetector(
               //   onTap: () {
               //     showDialog(
@@ -129,11 +149,13 @@ class DashboardViewState extends State<DashboardView>
           //     child: getBody(state)),
 
           /// Bottom Navigation Bar
-          bottomNavigationBar: CustomBottomNavigationBar(
-            scaffoldKey: scaffoldKey,
-            context: context,
-            displayMenu: displayMenu,
-          ),
+          bottomNavigationBar: state.displayMenu != null
+              ? CustomBottomNavigationBar(
+                  scaffoldKey: scaffoldKey,
+                  context: context,
+                  displayMenu: state.displayMenu!,
+                )
+              : const SizedBox(),
           body: getBody(state),
         );
       },

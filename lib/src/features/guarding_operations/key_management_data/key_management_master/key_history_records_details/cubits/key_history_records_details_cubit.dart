@@ -12,25 +12,29 @@ class KeyHistoryRecordsDetailsCubit
   final KeyHistoryModel? model;
   final CommonServices commonServices;
   final int parentId;
-  final int type;
+  final int? lostType;
   final int? kipId;
+  final int? keyIssuanceId;
   final KeyManagementIssuanceServices keyIssuanceServices;
+  final int? keyType;
 
   KeyHistoryRecordsDetailsCubit({
     required this.services,
     // required this.keyIssuanceServices,
     required this.parentId,
-    required this.type,
+    required this.lostType,
     required this.commonServices,
     required this.model,
-     this.kipId,
+    this.kipId,
+    this.keyIssuanceId,
     required this.keyIssuanceServices,
+    this.keyType,
   }) : super(
           KeyHistoryRecordsDetailsState.initial(
             model: model ?? KeyHistoryModel(),
             loggedInUserDetails: User(),
             users: const [],
-            securityManager: const [],
+            securityManagers: const [],
             errorMessage: '',
             departments: const [],
           ),
@@ -53,48 +57,77 @@ class KeyHistoryRecordsDetailsCubit
         status: FormStatus.loading,
       ),
     );
+    log('---model.nokeyss--${model?.noKeys}---${model?.noOfKeys}-----');
+    log('---srhh--${model?.srh}-');
+    log('---kipId--$kipId-');
     KeyManagementMasterModel parentModel = await services.getById(parentId);
-    KeyIssuanceProcessRecord keyIssuanceProcessModel = KeyIssuanceProcessRecord();
-    if(kipId != null) {
+    KeyIssuanceProcessRecord keyIssuanceProcessModel =
+        KeyIssuanceProcessRecord();
+    KeyManagementIssuanceModel keyManagementIssuanceModel =
+        KeyManagementIssuanceModel();
+
+    if (keyIssuanceId != null) {
+      keyManagementIssuanceModel =
+          await keyIssuanceServices.getById(keyIssuanceId!);
+    }
+    if (kipId != null) {
       keyIssuanceProcessModel =
-      await keyIssuanceServices.getIssuanceProcessById(kipId!);
+          await keyIssuanceServices.getIssuanceProcessById(kipId!);
     }
     var userId = await SharedPrefs.getUserId();
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
         commonServices.getUserDetails(userId: userId),
-        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Security_Manager'),
+        commonServices.getBaseUsersByRoles(
+            roleNames:
+                ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+            locationId: parentModel.location!.id!),
         commonServices.getOrganisations(
             name: 'KEY_MANAGEMENT_DESTRUCTION_REASON'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.keyManagementMasterModule),
         SharedPrefs.getDefaultLocation(),
-        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head'),
+        commonServices.getBaseUsersByRoles(
+            roleNames: ConstantUserRoles.atomSubRegionalHeadUser,
+            locationId: parentModel.location!.id!),
       ]);
 
       User loggedInUserDetails = futures[0];
-      List<BaseUser> securityManager = futures[1];
+      List<BaseUser> securityManagers = futures[1];
       List<Organisation> destructionReasons = futures[2];
       dynamic responseLabels = futures[3];
-      Organisation? defaultLocation = futures[4];
       List<BaseUser> srh = futures[5];
 
       if (parentModel.location != null && state.model.slNo == null) {
         SerialNumberModel slNo = await commonServices.getKLDSlNo(
           locationId: parentModel.location!.id.toString(),
           moduleCode: Constants.keyLossDestructionModule,
-          type: type,
+          type: lostType,
           kmId: parentId,
         );
         state.model.slNo = slNo.serialNo;
       }
       state.model.createdBy ??= loggedInUserDetails;
       state.model.modifiedBy ??= loggedInUserDetails.email;
-      state.model.type = type;
+      state.model.type = lostType;
 
-      state.model.type == 1 || state.model.type==2 ? state.model.noOfKeys = keyIssuanceProcessModel.lost:'';
+      log('---before---${model?.id}-');
+
+      /// setting lost value to the noOfKeys
+      if ((state.model.noOfKeys == null || state.model.noOfKeys == 0) &&
+          state.model.type == ConstantsIntValue.keyLostHistoryInt) {
+        state.model.noOfKeys = keyIssuanceProcessModel.lost;
+      }
+
+      ///setting damage value to the noOfKeys
+      else if ((state.model.noOfKeys == null || state.model.noOfKeys == 0) &&
+          state.model.type == ConstantsIntValue.keyDamageHistoryInt) {
+        state.model.noOfKeys = keyIssuanceProcessModel.damaged;
+      } else {
+        model?.noOfKeys = state.model.noOfKeys; // wrong: it will always be null
+      }
       // Get Date of Creation
       // state.model.createdDate = Utils().getCurrentDate();
       // state.model.modifiedDate = Utils().getCurrentDate();
@@ -106,17 +139,19 @@ class KeyHistoryRecordsDetailsCubit
           : Utils().formatUnixTimestamp(state.model.modifiedDate ?? '');
       KLDUiLabels labels = KLDUiLabels.fromJson(responseLabels);
 
+      state.model.keyType = keyType;
       emit(
         state.copyWith(
             loggedInUserDetails: loggedInUserDetails,
             status: FormStatus.initial,
             model: state.model,
-            securityManager: securityManager,
-            srh: srh,
+            securityManagers: securityManagers,
+            sRHs: srh,
             destructionReasons: destructionReasons,
             labels: labels,
             keyManagementMasterModel: parentModel,
-            keyIssuanceProcessRecord: keyIssuanceProcessModel),
+            keyIssuanceProcessRecord: keyIssuanceProcessModel,
+            keyManagementIssuanceModel: keyManagementIssuanceModel),
       );
     } catch (e) {
       log('Initialization issue',
@@ -133,20 +168,20 @@ class KeyHistoryRecordsDetailsCubit
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
 
-    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     List<Organisation>? departments = await commonServices.getOrganisations(
         name: 'KEY_MANAGEMENT_DESTRUCTION_REASON');
     List<BaseUser> securityManager = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Security_Manager');
+        roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+        locationId: state.keyManagementMasterModel!.location!.id!);
     List<BaseUser> srh = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Sub_Regional_Head');
+        roleNames: ConstantUserRoles.atomSubRegionalHeadUser,
+        locationId: state.keyManagementMasterModel!.location!.id!);
 
     emit(
       state.copyWith(
         status: FormStatus.initial,
-        users: users.t1Analyst,
-        securityManager: securityManager,
-        srh: srh,
+        securityManagers: securityManager,
+        sRHs: srh,
         departments: departments,
       ),
     );
@@ -249,6 +284,7 @@ class KeyHistoryRecordsDetailsCubit
     log('---state.keyManagementMasterModel?.noKeys----${state.keyManagementMasterModel?.noKeys}------');
 
     GenericResponse response = GenericResponse();
+    log('--isSaveOnly--$isSaveOnly-');
     try {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {
@@ -265,6 +301,8 @@ class KeyHistoryRecordsDetailsCubit
           body: request,
           isSubmit: false,
           kmId: parentId.toString(),
+          keyIssuanceId: keyIssuanceId,
+          isKeyManagementMaster: keyIssuanceId != null? false: true,
         ));
       } else {
         //Validating Fields
@@ -292,6 +330,8 @@ class KeyHistoryRecordsDetailsCubit
             body: request,
             isSubmit: true,
             kmId: parentId.toString(),
+            keyIssuanceId: keyIssuanceId,
+            isKeyManagementMaster: keyIssuanceId != null? false: true,
           );
         }
         if (isApprovedOnly) {
@@ -309,12 +349,16 @@ class KeyHistoryRecordsDetailsCubit
             body: request,
             isSubmit: true,
             kmId: parentId.toString(),
+            keyIssuanceId: keyIssuanceId,
+            isKeyManagementMaster: keyIssuanceId != null? false: true,
           );
         }
         response = (await services.createKeyHistoryRecord(
           body: request,
           isSubmit: true,
           kmId: parentId.toString(),
+          keyIssuanceId: keyIssuanceId,
+          isKeyManagementMaster: keyIssuanceId != null? false: true,
         ));
       }
       state.model.createdDate = state.model.createdDate == null
@@ -340,6 +384,9 @@ class KeyHistoryRecordsDetailsCubit
       );
       return false;
     }
+    log('---response--msg--${response.message}---');
+
+    state.model.id = int.tryParse(response.id ?? '');
     emit(
       state.copyWith(
         message: response.message,

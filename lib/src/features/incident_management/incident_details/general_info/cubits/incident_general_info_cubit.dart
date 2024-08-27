@@ -61,13 +61,13 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
     List<BaseUser> emailUsers = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomStaticUser,
-        locationId: state.model.location?.id);
+        locationId: state.model.location!.id!);
     List<BaseUser> incidentManager = await commonServices.getBaseUsers(
-        roleName: ConstantUserRoles.atomSeniorSecurityManagerUser,
-        locationId: state.model.location?.id);
+        roleName: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+        locationId: state.model.location!.id!);
     List<BaseUser> incidentOwner = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomSubRegionalHeadUser,
-        locationId: state.model.location?.id);
+        locationId: state.model.location!.id!);
     emit(
       state.copyWith(
         status: FormStatus.initial,
@@ -84,6 +84,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
 
   Future<void> initializeValues() async {
     log('initializeValues---incidentGeneralCubit-occId---$occId--');
+    log('initializeValues---incidentGeneralCubit-kldId---$kldId--');
 
     //Show Loader and emit loading state
     emit(
@@ -132,12 +133,14 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         commonServices.getUserDetails(userId: userId),
         commonServices.getBaseUsers(
             roleName: ConstantUserRoles.atomStaticUser,
-            locationId: model.location?.id),
+            locationId: model.location!.id!),
         commonServices.getBaseUsers(
-            roleName: ConstantUserRoles.atomSeniorSecurityManagerUser,
-            locationId: model.location?.id),
+            roleName:
+                ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+            locationId: model.location!.id!),
         commonServices.getBaseUsers(
-            roleName: ConstantUserRoles.atomSubRegionalHeadUser, locationId: model.location?.id),
+            roleName: ConstantUserRoles.atomSubRegionalHeadUser,
+            locationId: model.location!.id!),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getArticleType(name: 'ARTICLE_LIST'),
         commonServices.getUsers(),
@@ -212,13 +215,13 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
 
       emailUsers = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomStaticUser,
-          locationId: state.model.location?.id);
+          locationId: state.model.location!.id!);
       incidentManager = await commonServices.getBaseUsers(
-          roleName: ConstantUserRoles.atomSeniorSecurityManagerUser,
-          locationId: state.model.location?.id);
+          roleName: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+          locationId: state.model.location!.id!);
       incidentOwner = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomSubRegionalHeadUser,
-          locationId: state.model.location?.id);
+          locationId: state.model.location!.id!);
     }
 
     state.model.incidentManager = null;
@@ -322,7 +325,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         userId: complainant.id,
         email: complainant.email,
       );
-      if(state.model.complainant !=null) {
+      if (state.model.complainant != null) {
         BaseUser preselectedUser = BaseUser(
           id: state.model.complainant?.userId,
           name: state.model.complainant?.name,
@@ -330,21 +333,21 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         );
         state.complainantHr?.add(preselectedUser);
       }
-        state.model.complainant = userDetails;
-        state.complainantHr?.remove(complainant);
-      }
-      emit(state.copyWith(
-        model: state.model,
-        complainantHr: state.complainantHr,
-        status: FormStatus.initial,
-      ));
+      state.model.complainant = userDetails;
+      state.complainantHr?.remove(complainant);
+    }
+    emit(state.copyWith(
+      model: state.model,
+      complainantHr: state.complainantHr,
+      status: FormStatus.initial,
+    ));
     if (complainantHr != null) {
       User userDetails = User(
         name: complainantHr.name,
         userId: complainantHr.id,
         email: complainantHr.email,
       );
-      if(state.model.complainantHr !=null) {
+      if (state.model.complainantHr != null) {
         BaseUser preselectedUser = BaseUser(
           id: state.model.complainantHr?.userId,
           name: state.model.complainantHr?.name,
@@ -360,7 +363,6 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       complainant: state.complainant,
       status: FormStatus.initial,
     ));
-
   }
 
   void addAttachment({
@@ -438,6 +440,9 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       int closureTargetDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.closureTargetDate = closureTargetDate.toString();
     }
+
+    log('-kldId---submit-$kldId-');
+
     state.model.incidentType ??= 0;
     state.model.occurrence ??= OccurrenceModel();
     state.model.occurrence?.id = occId.toIntOrNull();
@@ -508,6 +513,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
 
     emit(
       state.copyWith(
+        model: state.model,
         message: response.message,
         status: FormStatus.success,
       ),

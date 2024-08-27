@@ -195,7 +195,7 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
           );
           return;
         }
-        response = (await services.create(body: request, isSubmit: false));
+        response = (await services.createAttendanceGi(body: request, isSubmit: false));
       } else {
         //Validating Fields
         if (!state.isValid.status) {
@@ -207,7 +207,7 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
           );
           return;
         }
-        response = (await services.create(body: request, isSubmit: true));
+        response = (await services.createAttendanceGi(body: request, isSubmit: true));
       }
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
@@ -241,13 +241,18 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
     );
   }
 
-  Future<void> navigateToNextScreen({required int dutyPostNameId}) async {
+  Future<void> navigateToNextScreen({
+    required int dutyPostNameId,
+    required DutyPostModel dutyPostModel,
+  }) async {
     log('-navigateToNextScreen----attInfoId----${state.model.id}----dutyPostNameId---$dutyPostNameId-----');
     emit(state.copyWith(status: FormStatus.loading));
     emit(state.copyWith(
-        status: FormStatus.navigateToNextScreen,
-        parentId: state.model.id,
-        selectedDutyPostNameId: dutyPostNameId));
+      status: FormStatus.navigateToNextScreen,
+      parentId: state.model.id,
+      selectedDutyPostNameId: dutyPostNameId,
+      selectedDutyPostModel: dutyPostModel,
+    ));
   }
 
   void updateStatus({required String id}) {

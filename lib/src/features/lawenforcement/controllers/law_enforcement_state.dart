@@ -1,6 +1,5 @@
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart';
 import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 
 class LawEnforcementState extends Equatable {

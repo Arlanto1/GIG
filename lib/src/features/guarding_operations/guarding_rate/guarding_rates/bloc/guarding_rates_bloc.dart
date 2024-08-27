@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/gr_ui_labels.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 import '../../../../../../index.dart';
 import '../../services/guarding_services.dart';
@@ -96,7 +95,7 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;

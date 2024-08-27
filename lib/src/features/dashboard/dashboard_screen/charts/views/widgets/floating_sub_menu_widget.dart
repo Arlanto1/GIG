@@ -1,4 +1,5 @@
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/utils/device_infomation.dart';
 
 class FloatingSubMenuWidget extends StatelessWidget {
   final List<MenuItem> menuItems;
@@ -12,10 +13,11 @@ class FloatingSubMenuWidget extends StatelessWidget {
     required this.positionX,
   });
 
+
   @override
   Widget build(BuildContext context) {
     // Use a more descriptive name for the constant
-    const double menuOffset = 40.0;
+    const double menuOffset = 30.0;
 
     return Positioned(
       bottom: 70.0,
@@ -23,7 +25,7 @@ class FloatingSubMenuWidget extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: Container(
-          width: 200,
+          width:  DeviceInformation().detectDeviceType(context) == DeviceType.tablet? 270: 180,
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: Colors.white,

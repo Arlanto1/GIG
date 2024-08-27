@@ -70,15 +70,13 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
 
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
-    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     List<BaseUser>? shiftTakenOverBy = await commonServices.getBaseUsersByRoles(
         roleNames: ConstantUserRoles.atomGuardingStaffUser,
-        locationId: model?.location?.id);
+        locationId: model!.location!.id!);
 
     emit(
       state.copyWith(
         status: FormStatus.initial,
-        users: users.t1Analyst,
         shiftTakenOverBy: shiftTakenOverBy,
       ),
     );
@@ -106,9 +104,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
 
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
-
-      Analyst users =
-          await commonServices.getUsersByRole(roleName: 'T1_Analyst');
 
       // Get Date of Creation
       // model.inputDate = Utils().getCurrentDate();
@@ -141,6 +136,12 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
               await services.getOccPowerFailure(
                   locationId: model.location?.id.toString() ?? '');
 
+          StringResponse followUp = await services.getOccFollowUp(
+              locationId: model.location?.id.toString() ?? '');
+
+          if (!followUp.comments.isEmptyOrNull) {
+            model.comments = followUp.comments;
+          }
           log('-powerFailureModel.powerFailureStartDate--${powerFailureModel.powerFailureStartDate}-');
           if (powerFailureModel.powerFailureStartDate != null) {
             model.powerFailure = true;
@@ -156,7 +157,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
             }
 
             model.powerFailures?.add(powerFailure);
-            log('--model.powerFailures--${model.powerFailures?.length}-');
           }
         }
       }
@@ -164,7 +164,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       List<BaseUser>? shiftTakenOverBy =
           await commonServices.getBaseUsersByRoles(
               roleNames: ConstantUserRoles.atomGuardingStaffUser,
-              locationId: model.location?.id);
+              locationId: model.location!.id!);
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
       model.status ?? 0;
@@ -177,7 +177,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           locations: getLocationsData,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
-          users: users.t1Analyst,
           shiftTakenOverBy: shiftTakenOverBy,
           departments: departments.employeeDepartments,
           entrySecurities: entrySecurities,
@@ -222,7 +221,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       state.model.slNo = slNo.serialNo ?? '';
       shiftTakenOverBy = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomGuardingStaffUser,
-          locationId: location.id);
+          locationId: location.id!);
     }
     state.model.handoverSecurity = null;
 

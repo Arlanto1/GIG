@@ -233,7 +233,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils().buildMasterDataStatusRow(widget.status ?? 0),
                       ],
-                      if (widget.guardRank != 0 && widget.isMasterGuard) ...[
+                      if (widget.guardRank != -1 && widget.isMasterGuard) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

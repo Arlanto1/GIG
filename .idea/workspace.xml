@@ -4,13 +4,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="improvements and bug fixes">
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="shift schedule">
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/views/duty_post_name_master_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/views/duty_post_name_master_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/views/occurrence_general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/views/occurrence_general_info_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_list_detail_popup.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_list_detail_popup.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +30,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev" />
+        <entry key="$PROJECT_DIR$" value="firebase-crashlytics" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -300,6 +300,167 @@
         "number": 524
       },
       "lastSeen": 1721127158471
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs51lr5g",
+        "number": 528
+      },
+      "lastSeen": 1721191066294
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs51l1s6",
+        "number": 529
+      },
+      "lastSeen": 1721193389963
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs51mixx",
+        "number": 532
+      },
+      "lastSeen": 1721201136556
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs51mVTs",
+        "number": 531
+      },
+      "lastSeen": 1721201139145
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs51mlqJ",
+        "number": 533
+      },
+      "lastSeen": 1721201629012
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs51nh_l",
+        "number": 535
+      },
+      "lastSeen": 1721210050680
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs51oK9C",
+        "number": 536
+      },
+      "lastSeen": 1721215315840
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs51omVr",
+        "number": 538
+      },
+      "lastSeen": 1721218699652
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs51oN9l",
+        "number": 537
+      },
+      "lastSeen": 1721218823196
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs51pfuA",
+        "number": 539
+      },
+      "lastSeen": 1721225311636
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs51q-aH",
+        "number": 541
+      },
+      "lastSeen": 1721237480837
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs513wKy",
+        "number": 546
+      },
+      "lastSeen": 1721378746424
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs54iULI",
+        "number": 630
+      },
+      "lastSeen": 1723790404883
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs54jMhQ",
+        "number": 631
+      },
+      "lastSeen": 1723795217816
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs54jdML",
+        "number": 632
+      },
+      "lastSeen": 1723805960990
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs54kZeQ",
+        "number": 633
+      },
+      "lastSeen": 1723807731349
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs52E4VK",
+        "number": 550
+      },
+      "lastSeen": 1723809312939
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs54omiS",
+        "number": 634
+      },
+      "lastSeen": 1723881808711
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs54o9-V",
+        "number": 635
+      },
+      "lastSeen": 1723903171495
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs54sMo2",
+        "number": 636
+      },
+      "lastSeen": 1724049088408
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs54svJ7",
+        "number": 637
+      },
+      "lastSeen": 1724053295248
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs54tqk3",
+        "number": 638
+      },
+      "lastSeen": 1724061271584
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs54t5cT",
+        "number": 639
+      },
+      "lastSeen": 1724067746664
     }
   ]
 }]]></component>
@@ -344,7 +505,7 @@
   "keyToString": {
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "Flutter.main.dart.executor": "Run",
-    "Flutter.qa.executor": "Run",
+    "Flutter.qa.executor": "Debug",
     "Flutter.test_msal.dart.executor": "Debug",
     "Flutter.uat.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -357,7 +518,7 @@
     "com.android.tools.idea.streaming.emulator.zoom.toolbar.visible": "false",
     "com.android.tools.idea.streaming.zoom.toolbar.visible": "false",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "web-sso-msal",
+    "git-widget-placeholder": "dev",
     "io.flutter.reload.alreadyRun": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/common_widgets",
@@ -416,9 +577,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="Flutter.test_msal.dart" />
-        <item itemvalue="Flutter.test.dart" />
-        <item itemvalue="Flutter.test.dart" />
-        <item itemvalue="Flutter.test.dart" />
         <item itemvalue="Flutter.test.dart" />
       </list>
     </recent_temporary>
@@ -779,7 +937,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="359" />
+    <option name="localTasksCounter" value="388" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -870,32 +1028,32 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="server restart message handled" />
-    <MESSAGE value="error handling Pass" />
-    <MESSAGE value="imports" />
-    <MESSAGE value="merge" />
-    <MESSAGE value="db offficial email id accompanied leo official" />
-    <MESSAGE value="leo code improvements" />
-    <MESSAGE value="shift schedule editable" />
-    <MESSAGE value="bug fixes" />
-    <MESSAGE value="redmine bug fixes" />
-    <MESSAGE value="app release version changes" />
-    <MESSAGE value="article found issues done" />
-    <MESSAGE value="DB issues done" />
-    <MESSAGE value="bug fixes and improvements" />
-    <MESSAGE value="View uploaded Image is done." />
-    <MESSAGE value="View Image in details page" />
-    <MESSAGE value="View Image in MM Done" />
-    <MESSAGE value="View Image issue fixed for Android" />
-    <MESSAGE value="minor improvement" />
-    <MESSAGE value="removed unwanted parameter" />
-    <MESSAGE value="button hidden" />
+    <MESSAGE value="bug fixed" />
+    <MESSAGE value="signature issue fixed" />
+    <MESSAGE value="slno update issue fixed" />
+    <MESSAGE value="pdf icon" />
+    <MESSAGE value="scroll issue" />
+    <MESSAGE value="leo slno" />
+    <MESSAGE value="leo issues" />
+    <MESSAGE value="found issues" />
+    <MESSAGE value="power failure issues" />
+    <MESSAGE value="article found handover date" />
+    <MESSAGE value="date issue shift schedule" />
+    <MESSAGE value="Invalid configuration: openAiApiKey cannot be null or empty. API keys can be generated here: https://platform.openai.com/account/api-keys." />
     <MESSAGE value="release version changes" />
-    <MESSAGE value="+ icon removed for Departments and Entity Dialog Boxes" />
-    <MESSAGE value="+ icon removed from Incident Management and Ticket Life Cycle via navigating through Shift Occurrence." />
-    <MESSAGE value="MM cancel Record Button" />
-    <MESSAGE value="improvements and bug fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="improvements and bug fixes" />
+    <MESSAGE value="WIP: Key Mangement" />
+    <MESSAGE value="MM Outward returnable and non &#10;menu added" />
+    <MESSAGE value="mm user refresh" />
+    <MESSAGE value="user list refresh issue in MM, Pass" />
+    <MESSAGE value="WIP: key mangment" />
+    <MESSAGE value="auto select added user" />
+    <MESSAGE value="version changes 16 aug" />
+    <MESSAGE value="Attendance and other bug fixes" />
+    <MESSAGE value="version changes 18 aug" />
+    <MESSAGE value="lock added shift and attencdance &#10;code clean" />
+    <MESSAGE value="key management menu add to dashboard&#10;&#10;code clean" />
+    <MESSAGE value="shift schedule" />
+    <option name="LAST_COMMIT_MESSAGE" value="shift schedule" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

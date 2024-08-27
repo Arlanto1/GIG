@@ -1,13 +1,7 @@
 // Created by Ramesh
 
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/constants/ui_geometry_constants.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_list_response.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/util.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class LawEnforcementListItem extends StatefulWidget {
   final Function? onTap;
@@ -117,7 +111,7 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                     ? widget.onEditTap!(widget.index)
                     : null;
               },
-              icon: widget.userItem.status == 3 || widget.userItem.status == -1
+              icon: widget.userItem.status == ConstantsIntValue.leoStatusDistributed || widget.userItem.status == ConstantsIntValue.cancelledStatus || widget.userItem.status == ConstantsIntValue.leoStatusSubmitted
                   ? const Icon(Icons.edit_off_outlined)
                   : const Icon(Icons.edit),
             ),

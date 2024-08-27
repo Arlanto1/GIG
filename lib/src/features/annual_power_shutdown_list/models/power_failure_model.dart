@@ -20,3 +20,19 @@ class PowerFailureModel {
         'powerFailureEndDate': powerFailureEndDate
       };
 }
+
+class StringResponse {
+  String? comments;
+
+  StringResponse({
+    this.comments,
+  });
+
+  StringResponse.fromJson(Map<String, dynamic> json)
+      :
+        comments = json['comments'] as String?;
+
+  Map<String, dynamic> toJson() => {
+    'comments': comments,
+  };
+}

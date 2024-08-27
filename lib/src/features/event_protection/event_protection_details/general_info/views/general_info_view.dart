@@ -423,7 +423,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     roleName: ConstantUserRoles
                                         .atomSubRegionalHeadUser,
                                     locationId: state.model.location!.id!,
-                                    functionToCall: () {
+                                    functionToCall: (BaseUser user) {
+                                      BlocProvider.of<GeneralInfoCubit>(context)
+                                          .updateDropdownValues(
+                                        subRegionalHead1: user,
+                                      );
                                       // refresh the list
                                       BlocProvider.of<GeneralInfoCubit>(context)
                                           .refreshList();
@@ -457,7 +461,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     roleName: ConstantUserRoles
                                         .atomSubRegionalHeadUser,
                                     locationId: state.model.location!.id!,
-                                    functionToCall: () {
+                                    functionToCall: (BaseUser user) {
+                                      BlocProvider.of<GeneralInfoCubit>(context)
+                                          .updateDropdownValues(
+                                        subRegionalHead2: user,
+                                      );
                                       // refresh the list
                                       BlocProvider.of<GeneralInfoCubit>(context)
                                           .refreshList();
@@ -494,7 +502,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     roleName: ConstantUserRoles
                                         .atomSubRegionalHeadUser,
                                     locationId: state.model.location!.id!,
-                                    functionToCall: () {
+                                    functionToCall: (BaseUser user) {
+                                      BlocProvider.of<GeneralInfoCubit>(context)
+                                          .updateDropdownValues(
+                                        epManager1: user,
+                                      );
                                       // refresh the list
                                       BlocProvider.of<GeneralInfoCubit>(context)
                                           .refreshList();
@@ -529,7 +541,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     roleName: ConstantUserRoles
                                         .atomSubRegionalHeadUser,
                                     locationId: state.model.location!.id!,
-                                    functionToCall: () {
+                                    functionToCall: (BaseUser user) {
+                                      BlocProvider.of<GeneralInfoCubit>(context)
+                                          .updateDropdownValues(
+                                        epManager2: user,
+                                      );
                                       // refresh the list
                                       BlocProvider.of<GeneralInfoCubit>(context)
                                           .refreshList();
@@ -567,7 +583,13 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   roleName: ConstantUserRoles
                                       .atomSeniorSecurityManagerUser,
                                   locationId: state.model.location!.id!,
-                                  functionToCall: () {
+                                  functionToCall: (BaseUser user) {
+                                    BlocProvider.of<GeneralInfoCubit>(context)
+                                        .updateDropdownValues(
+                                      locationSecurityManager1: user,
+                                    );
+                                    FocusScope.of(context)
+                                        .requestFocus(lSM1ContactNoFocusNode);
                                     // refresh the list
                                     BlocProvider.of<GeneralInfoCubit>(context)
                                         .refreshList();
@@ -631,7 +653,13 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   roleName: ConstantUserRoles
                                       .atomSeniorSecurityManagerUser,
                                   locationId: state.model.location!.id!,
-                                  functionToCall: () {
+                                  functionToCall: (BaseUser user) {
+                                    BlocProvider.of<GeneralInfoCubit>(context)
+                                        .updateDropdownValues(
+                                      locationSecurityManager2: user,
+                                    );
+                                    FocusScope.of(context)
+                                        .requestFocus(lSM2ContactNoFocusNode);
                                     // refresh the list
                                     BlocProvider.of<GeneralInfoCubit>(context)
                                         .refreshList();
@@ -694,7 +722,13 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   },
                                   roleName: ConstantUserRoles.atomStaticUser,
                                   locationId: state.model.location!.id!,
-                                  functionToCall: () {
+                                  functionToCall: (BaseUser user) {
+                                    BlocProvider.of<GeneralInfoCubit>(context)
+                                        .updateDropdownValues(
+                                      bu1: user,
+                                    );
+                                    FocusScope.of(context)
+                                        .requestFocus(pocContactNoFocusNode);
                                     // refresh the list
                                     BlocProvider.of<GeneralInfoCubit>(context)
                                         .refreshList();
@@ -758,7 +792,13 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   },
                                   roleName: ConstantUserRoles.atomStaticUser,
                                   locationId: state.model.location!.id!,
-                                  functionToCall: () {
+                                  functionToCall: (BaseUser user) {
+                                    BlocProvider.of<GeneralInfoCubit>(context)
+                                        .updateDropdownValues(
+                                      bu2: user,
+                                    );
+                                    FocusScope.of(context).requestFocus(
+                                        pocEscalationContactNoFocusNode);
                                     // refresh the list
                                     BlocProvider.of<GeneralInfoCubit>(context)
                                         .refreshList();

@@ -39,7 +39,7 @@ class GuardingMasterDataDetailsCubit
     List<Organisation>? entities =
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
 
-    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    // Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     Vendors getVendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
     GetDepositor emailUsers =
         await commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER');
@@ -49,7 +49,7 @@ class GuardingMasterDataDetailsCubit
         getEntitiesResponse: entities,
         listOfEntities: entities,
         status: FormStatus.initial,
-        users: users.t1Analyst,
+        // users: users.t1Analyst,
         emailUsers: emailUsers.atomStaticUser,
         vendors: getVendors.items,
       ),
@@ -96,7 +96,7 @@ class GuardingMasterDataDetailsCubit
       final futures = await Future.wait([
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
-        commonServices.getUsersByRole(roleName: 'T1_Analyst'),
+        // commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
         commonServices.getQualification(name: 'GUARD_QUALIFICATIONS'),
@@ -111,14 +111,14 @@ class GuardingMasterDataDetailsCubit
 
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
-      Analyst users = futures[2];
-      List<Organisation>? entities = futures[3];
-      List<User> entrySecurities = futures[4];
-      AddQualifications qualifications = futures[5];
-      GetDepositor emailUsers = futures[6];
-      Vendors vendors = futures[8];
-      dynamic responseLabels = futures[9];
-      Organisation? defaultLocation = futures[10];
+      // Analyst users = futures[2];
+      List<Organisation>? entities = futures[2];
+      List<User> entrySecurities = futures[3];
+      AddQualifications qualifications = futures[4];
+      GetDepositor emailUsers = futures[5];
+      Vendors vendors = futures[7];
+      dynamic responseLabels = futures[8];
+      Organisation? defaultLocation = futures[9];
       if (state.model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
@@ -145,7 +145,7 @@ class GuardingMasterDataDetailsCubit
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
-          users: users.t1Analyst,
+          // users: users.t1Analyst,
           vendors: vendors.items,
           entrySecurities: entrySecurities,
           emailUsers: emailUsers.atomStaticUser,
@@ -491,7 +491,7 @@ class GuardingMasterDataDetailsCubit
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;
@@ -537,7 +537,7 @@ class GuardingMasterDataDetailsCubit
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;

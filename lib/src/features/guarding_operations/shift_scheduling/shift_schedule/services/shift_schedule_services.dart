@@ -26,6 +26,8 @@ class Apis {
   static final String _saveSelectedGuards = '$baseUrl/saveSelectedGuards?';
   static final String _getNextAvailableReplacementDates =
       '$baseUrl/getNextAvailableReplacementDates';
+  static final String _getAvailableGuardsByDate =
+      '$baseUrl/getAvailableGuardsByDate';
 }
 
 class ShiftScheduleServices {
@@ -88,7 +90,6 @@ class ShiftScheduleServices {
 
   Future<DutyPostModel> getDutyPostById({
     required int? id,
-    BuildContext? context,
   }) async {
     final String url = '${Apis._getDutyPostById}/$id';
     final response = await BaseApiService().getRequest(
@@ -152,6 +153,7 @@ class ShiftScheduleServices {
     return NextAvailableDateRange.fromJson(response);
   }
 
+  /// Get Rank List
   Future<List<Organisation>> getRanksListByAssignedDutyPostId({
     required int dutyPostId,
   }) async {
@@ -164,6 +166,7 @@ class ShiftScheduleServices {
         response.map((x) => Organisation.fromJson(x)));
   }
 
+  /// Get Shift List By Rank Id
   Future<List<Organisation>> getShiftListByAssignedDutyPostId({
     required int dutyPostId,
     required int rankId,
@@ -178,7 +181,7 @@ class ShiftScheduleServices {
         response.map((x) => Organisation.fromJson(x)));
   }
 
-  Future<Shift> getAvailableSelectedGuardsByShift({
+  Future<ShiftModel> getAvailableSelectedGuardsByShift({
     required int dutyPostId,
     required int rankId,
     required int shiftId,
@@ -189,7 +192,7 @@ class ShiftScheduleServices {
       url: url,
     );
 
-    return Shift.fromJson(response);
+    return ShiftModel.fromJson(response);
   }
 
   Future<NextAvailableDateRange> getNextAvailableReplacementDates({
@@ -207,15 +210,32 @@ class ShiftScheduleServices {
     return NextAvailableDateRange.fromJson(response);
   }
 
+  Future<List<BaseUser>> getAvailableGuardsByDate({
+    required int dutyPostId,
+    required int rankId,
+    required int shiftId,
+    required String fromDate,
+    required String toDate,
+  }) async {
+    String url =
+        '${Apis._getAvailableGuardsByDate}/$dutyPostId?rankId=$rankId&shiftId=$shiftId&fromDate=$fromDate&toDate=$toDate';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return List<BaseUser>.from(response.map((x) => BaseUser.fromJson(x)));
+  }
+
   Future<GenericResponse> saveSelectedGuards({
     required ShiftRequest body,
     required bool isSubmit,
     required int dutyPostId,
     required int rankId,
     required int shiftId,
+    required int shiftScheduleId,
   }) async {
     final String url =
-        "${Apis._saveSelectedGuards}isSubmit=$isSubmit&shiftAssignedDutyPostId=$dutyPostId&rankId=$rankId&shiftId=$shiftId";
+        "${Apis._saveSelectedGuards}isSubmit=$isSubmit&shiftAssignedDutyPostId=$dutyPostId&rankId=$rankId&shiftId=$shiftId&shiftScheduleId=$shiftScheduleId";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),

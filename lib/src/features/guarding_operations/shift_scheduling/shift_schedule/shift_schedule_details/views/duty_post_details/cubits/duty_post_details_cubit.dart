@@ -10,10 +10,12 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
   final DutyPostModel parentModel;
   final String id;
   final CommonServices commonServices = CommonServices();
+  final int shiftScheduleId;
 
   DutyPostDetailsCubit({
     required this.parentModel,
     required this.id,
+    required this.shiftScheduleId,
   }) : super(
           DutyPostDetailsState.initial(
             locations: Locations(),
@@ -33,30 +35,33 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
       ),
     );
 
-    Organisation selectedRank;
+    ///
     try {
+      Organisation selectedRank;
       List<Organisation> ranks = await services
           .getRanksListByAssignedDutyPostId(dutyPostId: parentModel.id!);
 
-      selectedRank = ranks.first;
+      selectedRank = state.selectedRank ?? ranks.first;
 
       List<Organisation> shifts =
           await services.getShiftListByAssignedDutyPostId(
               dutyPostId: parentModel.id!, rankId: selectedRank.id!);
-      Organisation selectedShift = shifts.first;
+      Organisation selectedShift = state.selectedShift ?? shifts.first;
 
-      Shift model = await services.getAvailableSelectedGuardsByShift(
+      ShiftModel model = await services.getAvailableSelectedGuardsByShift(
         shiftId: selectedShift.id!,
         dutyPostId: parentModel.id!,
         rankId: selectedRank.id!,
       );
 
+      log('-state.selectedRank----${state.selectedRank?.name}---');
+      log('-state.selectedShift----${state.selectedShift?.name}---');
       emit(
         state.copyWith(
           status: FormStatus.initial,
           ranks: ranks,
-          selectedRank: selectedRank,
-          selectedShift: selectedShift,
+          selectedRank: state.selectedRank ?? selectedRank,
+          selectedShift: state.selectedShift ?? selectedShift,
           shifts: shifts,
           model: model,
         ),
@@ -85,7 +90,10 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
         id: id, module: Constants.contactDetailsModule);
   }
 
-  Future<void> getShiftListByAssignedDutyPostId({required rank}) async {
+  /// Shift Dropdown Value
+  Future<void> getShifts({
+    required Organisation rank,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -93,15 +101,15 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     );
 
     List<Organisation> shifts = await services.getShiftListByAssignedDutyPostId(
-        dutyPostId: parentModel.id!, rankId: rank);
+        dutyPostId: parentModel.id!, rankId: rank.id!);
     Organisation selectedShift = shifts.first;
-    getAvailableSelectedGuardsByShift(shift: selectedShift);
 
     emit(state.copyWith(
       shifts: shifts,
+      selectedRank: rank,
       status: FormStatus.initial,
-      selectedShift: selectedShift,
     ));
+    getAvailableSelectedGuardsByShift(shift: selectedShift);
   }
 
   Future<void> getAvailableSelectedGuardsByShift({
@@ -113,7 +121,7 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
         status: FormStatus.loading,
       ),
     );
-    Shift model = await services.getAvailableSelectedGuardsByShift(
+    ShiftModel model = await services.getAvailableSelectedGuardsByShift(
       shiftId: shift.id!,
       dutyPostId: parentModel.id!,
       rankId: state.selectedRank!.id!,
@@ -121,124 +129,67 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
     emit(state.copyWith(
       model: model,
       status: FormStatus.initial,
+      selectedShift: shift,
     ));
   }
 
-  void submitForm({
-    bool isSaveOnly = false,
-    required Shift model,
-    FormStatus? status,
-  }) async {
-    emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
-    );
-    log('---submitDutyPost---');
+  Future<void> updateReplacement(
+    BuildContext context,
+    Replacement updatedReplacement,
+  ) async {
+    emit(state.copyWith(status: FormStatus.loading));
 
-    // Create/Update API Call
-    ShiftRequest request = ShiftRequest(shifts: model);
-
-    GenericResponse response = GenericResponse();
-    try {
-      if (isSaveOnly) {
-        if (!state.isValidDraft.status) {
-          emit(
-            state.copyWith(
-              status: FormStatus.error,
-              message: state.isValidDraft.message,
-            ),
-          );
-          return;
-        }
-        response = (await services.saveSelectedGuards(
-          body: request,
-          isSubmit: false,
-          dutyPostId: parentModel.id!,
-          rankId: state.selectedShift!.id!,
-          shiftId: state.selectedShift!.id!,
-        ));
-      } else {
-        //Validating Fields
-        // if (!state.isValid.status) {
-        //   emit(
-        //     state.copyWith(
-        //       status: FormStatus.error,
-        //       message: state.isValid.message,
-        //     ),
-        //   );
-        //   return;
-        // }
-        response = (await services.saveSelectedGuards(
-          body: request,
-          isSubmit: true,
-          dutyPostId: parentModel.id!,
-          rankId: state.selectedShift!.id!,
-          shiftId: state.selectedShift!.id!,
-        ));
-      }
-    } on GenericResponse catch (e) {
-      emit(
-        state.copyWith(
-          message: e.message,
-          status: FormStatus.error,
-        ),
-      );
-      return;
-    } on Exception catch (e) {
-      emit(
-        state.copyWith(
-          message: e.toString(),
-          status: FormStatus.error,
-        ),
-      );
-    }
-
-    log('---response--msg--${response.message}---');
-
-    emit(
-      state.copyWith(
-        message: response.message,
-        status: status == null ? FormStatus.success: FormStatus.initial,
-      ),
-    );
-  }
-
-  void updateReplacement(
-    Replacement replacement,
-  ) {
-    emit(state.copyWith(
-      status: FormStatus.loading,
-    ));
-
-    log('----replacement.fromDate---${replacement.fromDate}-');
-
-    // Check if replacement has an ID
-    if (replacement.id != null) {
-      // Iterate over ranks and shifts to find and update the replacement
-      state.model.replacements?.forEach((existingReplacement) {
-        log('----existingReplacement-${existingReplacement.id} ${(replacement.id)}--${existingReplacement.toString()}-');
-        if (existingReplacement.id == replacement.id) {
-          // Update the existing replacement with the new values
-          existingReplacement.replacedFor = replacement.replacedFor;
-          existingReplacement.replacementBy = replacement.replacementBy;
-          existingReplacement.fromDate = replacement.fromDate;
-          existingReplacement.toDate = replacement.toDate;
-          existingReplacement.status = replacement.status;
-        }
-      });
+    if (updatedReplacement.id != null) {
+      log('Updating Existing Replacement');
+      state.model.replacements = state.model.replacements
+          ?.map((existing) => existing.id == updatedReplacement.id
+              ? updatedReplacement
+              : existing)
+          .toSet();
     } else {
-      // If replacement has no ID, add it as a new object to the replacements list
-      state.model.replacements ??= [];
-      state.model.replacements!.add(replacement);
+      /// Handle new replacements
+      state.model.replacements ??= {};
+      if (updatedReplacement.tempId != null) {
+        log('Creating/Updating new Replacement with tempId: ${updatedReplacement.tempId}');
+        // Remove any existing replacement with the same tempId before adding
+        state.model.replacements!.removeWhere((existingReplacement) =>
+            existingReplacement.tempId == updatedReplacement.tempId);
+      }
+      state.model.replacements!.add(updatedReplacement);
     }
 
-    log('----end----');
     emit(state.copyWith(
       model: state.model,
-      // seletedDutyPostModel: state.selectedDutyPostModel,
       status: FormStatus.initial,
     ));
+
+    /// Saving and Refresh the record
+    await submitAndRefreshScreen(context: context, checkValidations: false);
+  }
+
+  Future<void> submitAndRefreshScreen({
+    BuildContext? context,
+    required bool checkValidations,
+  }) async {
+    /// Saving the record
+    await submitForm(
+      isSaveOnly: true,
+      model: state.model,
+      status: FormStatus.initial,
+      newSelectedShift: state.selectedShift!,
+      checkValidations: checkValidations,
+    );
+
+    /// For Adding Replacement
+    log('--state.status--context-${state.status}--');
+    if (state.status != FormStatus.formError &&
+        context != null &&
+        context.mounted) {
+      Navigator.pop(context);
+    }
+
+    /// refreshing the list so that we can refresh the validation for creating new replacements.
+    initializeValues();
   }
 
   Future<void> getNextAvailableReplacementDates({required int userId}) async {
@@ -260,5 +211,92 @@ class DutyPostDetailsCubit extends Cubit<DutyPostDetailsState> {
       status: FormStatus.initial,
       replacementDates: replacementDateRange,
     ));
+  }
+
+  Future<void> submitForm({
+    bool isSaveOnly = false,
+    required ShiftModel model,
+    FormStatus? status,
+    required Organisation newSelectedShift,
+    required bool checkValidations,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    log('---state.selectedShift!.id-${state.selectedShift!.id}--');
+    log('---isSaveOnly---$isSaveOnly--');
+
+    // Create/Update API Call
+    ShiftRequest request = ShiftRequest(shifts: model);
+
+    log('--checkValidations-$checkValidations-');
+    GenericResponse response = GenericResponse();
+    try {
+      if (isSaveOnly) {
+        if (checkValidations && !state.isValidDraft.status) {
+          emit(
+            state.copyWith(
+              status: FormStatus.formError,
+              message: state.isValidDraft.message,
+            ),
+          );
+          return;
+        }
+        response = (await services.saveSelectedGuards(
+          body: request,
+          isSubmit: false,
+          dutyPostId: parentModel.id!,
+          rankId: state.selectedRank!.id!,
+          shiftId: newSelectedShift.id!,
+          shiftScheduleId: shiftScheduleId,
+        ));
+      } else {
+        //Validating Fields
+        // if (!state.isValid.status) {
+        //   emit(
+        //     state.copyWith(
+        //       status: FormStatus.error,
+        //       message: state.isValid.message,
+        //     ),
+        //   );
+        //   return;
+        // }
+        response = await services.saveSelectedGuards(
+          body: request,
+          isSubmit: true,
+          dutyPostId: parentModel.id!,
+          rankId: state.selectedRank!.id!,
+          shiftId: state.selectedShift!.id!,
+          shiftScheduleId: shiftScheduleId,
+        );
+      }
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.formError,
+        ),
+      );
+      return;
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          message: e.toString(),
+          status: FormStatus.error,
+        ),
+      );
+    }
+
+    log('---response--msg--${response.message}---');
+
+    emit(
+      state.copyWith(
+        message: response.message,
+        status: status == null ? FormStatus.success : FormStatus.initial,
+        selectedShift: newSelectedShift,
+      ),
+    );
   }
 }

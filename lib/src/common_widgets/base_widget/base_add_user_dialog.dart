@@ -10,9 +10,11 @@ class BaseAddUserDialog extends StatefulWidget {
   });
 
   final String title;
-  final Function functionToCall;
+
+  // final Function functionToCall;
   final String roleName;
   final int locationId;
+  final Function(BaseUser newCreatedUser) functionToCall;
 
   @override
   State<BaseAddUserDialog> createState() => BaseAddUserDialogState();
@@ -181,14 +183,14 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
             context,
             "Please enter all the required fields",
           );
-        }  else if (!emailTextController.text.isEmptyOrNull && !Validator.isValidEmail(emailTextController.text)) {
-          Validator().showToast(
-              context, Constants.enterValidEmail);
+        } else if (!emailTextController.text.isEmptyOrNull &&
+            !Validator.isValidEmail(emailTextController.text)) {
+          Validator().showToast(context, Constants.enterValidEmail);
         } else {
           var sca = ScaffoldMessenger.of(context);
           try {
             var nav = Navigator.of(context);
-            CreateUserModel createUserData = await CommonServices().createUser(
+            User createUserData = await CommonServices().createUser(
               firstName: firstnameTextController.text,
               lastName: lastnameTextController.text,
               email: emailTextController.text,
@@ -198,7 +200,11 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
             );
 
             nav.pop();
-            widget.functionToCall();
+            widget.functionToCall(BaseUser(
+              email: createUserData.email,
+              name: createUserData.name,
+              id: createUserData.userId,
+            ));
 
             sca.showSnackBar(
               const SnackBar(

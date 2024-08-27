@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
 import 'package:db_atom/src/features/createfound/models/create_found_request.dart';
@@ -19,10 +21,14 @@ class CreateFoundServices {
     required CreateFoundRequestBody body,
     required bool isSubmit,
     required String username,
-    BuildContext? context,
+    int? eventId,
   }) async {
     var userId = await SharedPrefs.getUserId();
-    final String url = "${Apis._addFound}?userEmail=$userId&isSubmit=$isSubmit";
+     String url = "${Apis._addFound}?userEmail=$userId&isSubmit=$isSubmit";
+     log('----eventId---$eventId--');
+    if(eventId != null) {
+      url = '$url&eventProtectionId=$eventId';
+    }
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),

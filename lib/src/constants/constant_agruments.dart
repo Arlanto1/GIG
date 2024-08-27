@@ -9,7 +9,7 @@ class ConstantsArgument {
   static const String locationRegion = "locationRegion";
   static const String locationId = "locationId";
   static const String title = "title";
-  static const String type = "type";
+  static const String keyLostType = "keyLostType";
   static const String rankType = "rankType";
   static const String ranks = "ranks";
   static const String violationDescription = "violationDescription";
@@ -21,11 +21,21 @@ class ConstantsArgument {
   static const String showSaveButton = "showSaveButton";
   static const String kldId = "kldId";
   static const String selectedDutyPostNameId = "selectedDutyPostNameId";
+  static const String selectedDutyPostModel = "selectedDutyPostModel";
   static const String isMasterKey = "isMasterKey";
   static const String viaAttendance = "viaAttendance";
   static const String extraProperties = "extraParameters";
   static const String isLocked = "isLocked";
   static const String kipId = "kipId";
   static const String isEventProtection = "isEventProtection";
+  static const String keyMasterId = "keyMasterId";
+  static const String attdInfoId = "attdInfoId";
+  static const String eventId = "eventId";
+  static const String eventProtectionId = "eventProtectionId";
+  static const String keyIssuanceId = "keyIssuanceId";
+  static const String kmId = "kmId";
+  static const String returnable = "returnable";
+  static const String keyType = "keyType";
+  static const String isEligibleToEdit = "isEligibleToEdit";
 
 }

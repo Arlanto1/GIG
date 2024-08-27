@@ -58,9 +58,9 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       final futures = await Future.wait([
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
-        commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getUsers(),
-        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
+        commonServices.getAtomStaticUsers(
+            roleName: ConstantUserRoles.atomStaticUser),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.guardingMasterModuleCode),
@@ -69,15 +69,14 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
 
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
-      Analyst users = futures[2];
-      List<User> entrySecurities = futures[3];
-      GetDepositor emailUsers = futures[4];
-      dynamic responseLabels = futures[5];
-      Organisation? defaultLocation = futures[6];
+      List<User> entrySecurities = futures[2];
+      GetDepositor emailUsers = futures[3];
+      dynamic responseLabels = futures[4];
+      Organisation? defaultLocation = futures[5];
       List<Organisation> dutyPosts = [];
       // Organisation? location = state.model.location;
 
-      if (state.model.location == null || defaultLocation != null) {
+      if (state.model.location == null && defaultLocation != null) {
         // SerialNumberModel slNo = await commonServices.getSlNo(
         //   locationId: defaultLocation.id.toString(),
         //   moduleCode: Constants.contactDetailsModule,
@@ -107,7 +106,6 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
-          users: users.t1Analyst,
           entrySecurities: entrySecurities,
           dutyPosts: dutyPosts,
           emailUsers: emailUsers.atomStaticUser,
@@ -152,6 +150,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
           locationId: location.id.toString());
       log('--dutyPosts-${dutyPosts.length}---');
 
+      await checkDpmExistsOrNot(state.model);
       emit(state.copyWith(
         dutyPosts: dutyPosts,
         status: FormStatus.initial,
@@ -159,14 +158,56 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     }
 
     log('--dutyPostName--${dutyPostName?.name}---');
-    //if (location != null) {
-    state.model.dutyPostLocation = dutyPostName ?? state.model.dutyPostLocation;
-    // }
-    state.model.rankId = rankId ?? state.model.rankId;
+    if (dutyPostName != null) {
+      state.model.dutyPostLocation = dutyPostName;
+      await checkDpmExistsOrNot(state.model);
+    }
+    if (rankId != null) {
+      state.model.rankId = rankId;
+      await checkDpmExistsOrNot(state.model);
+    }
+
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,
     ));
+  }
+
+  Future<void> checkDpmExistsOrNot(DutyPostMasterModel model) async {
+    if (state.model.location?.id == null ||
+        state.model.dutyPostLocation?.id == null ||
+        state.model.rankId == null) {
+      log('Not calling API because mandatory fields are not filled yet.');
+      return;
+    }
+    try {
+      await services.checkDpmExists(
+        locationId: state.model.location!.id!,
+        dutyPostLocationId: state.model.dutyPostLocation!.id!,
+        rankId: state.model.rankId!,
+      );
+    } on GenericResponse catch (e) {
+      state.model.location = null;
+
+      emit(
+        state.copyWith(
+          model: state.model,
+          message: e.message,
+          status: FormStatus.formError,
+        ),
+      );
+      return;
+    } on Exception catch (e) {
+      state.model.location = null;
+      emit(
+        state.copyWith(
+          model: state.model,
+          message: e.toString(),
+          status: FormStatus.formError,
+        ),
+      );
+      return;
+    }
   }
 
   void submitForm({bool isSaveOnly = false}) async {

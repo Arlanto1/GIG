@@ -91,8 +91,6 @@ class _SstIncidentViewState extends State<SstIncidentView> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    double height = size.height;
     return BlocConsumer<SstIncidentBloc, SstIncidentState>(
         listener: (context, state) {
       Utils().formError(state, context);
@@ -209,7 +207,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                           ? Utils.timestampToDateConversion(
                               int.tryParse(
                                   state.items[index].createdDate ?? '0'),
-                              Constants.dateFormat)
+                              Constants.twentyFourHourDateTimeFormat)
                           : '',
                     ));
                     labels.add(Label(
@@ -230,6 +228,18 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                             'Created By',
                         value:
                             '${state.items[index].createdBy?.firstName ?? ''} ${state.items[index].createdBy?.lastName ?? ''}'));
+                    labels.add(Label(
+                      key:
+                      // state.labels?.locale.createDate ??
+                      //     state.labels?.defaultLocale.createDate ??
+                          'Modified Date',
+                      value: state.items[index].modifiedDate != null
+                          ? Utils.timestampToDateConversion(
+                          int.tryParse(
+                              state.items[index].modifiedDate ?? '0'),
+                          Constants.twentyFourHourDateTimeFormat)
+                          : '',
+                    ));
                     return index >= state.items.length
                         ? const BaseLoader()
                         : BaseListTileItem(
@@ -283,15 +293,33 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                               );
                             },
                             showEmailButton: true,
-                            onEmailTap: (selectedIndex) async {
-                              FocusScope.of(context).unfocus();
-                              int? id = state.items[selectedIndex].id;
-                              context
-                                  .read<SstIncidentBloc>()
-                                  .add(SendReminderEmail(
-                                    id: id!,
-                                  ));
-                            },
+                      onEmailTap: (selectedIndex) async {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text(Constants.sentReminder),
+                              content:
+                              const Text(Constants.sentRemindertoVendor),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text(Constants.ok),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                        FocusScope.of(context).unfocus();
+                        int? id = state.items[selectedIndex].id;
+                        context
+                            .read<SstIncidentBloc>()
+                            .add(SendReminderEmail(
+                          id: id!,
+                        ));
+                      },
                             index: index,
                           );
                   }

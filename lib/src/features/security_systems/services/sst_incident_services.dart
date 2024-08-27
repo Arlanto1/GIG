@@ -1,6 +1,7 @@
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
+import 'package:db_atom/src/constants/constant_int_values.dart';
 import 'package:db_atom/src/features/security_systems/models/sst_incident_response.dart';
 import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
@@ -61,13 +62,19 @@ class SstIncidentServices {
     return GenericResponse.fromJson(response);
   }
 
-  Future<GenericResponse> create({
+  Future<GenericResponse> createTicketLifeCycle({
     required SecuritySystemTicketIncidentRequest body,
     required bool isSubmit,
+    required int isRework,
   }) async {
     var userId = await SharedPrefs.getUserId();
-    final String url = "${Apis._create}userEmail=$userId&isSubmit=$isSubmit";
+    String url = "${Apis._create}userEmail=$userId&isSubmit=$isSubmit";
 
+    if (body.sstIncident?.status != null &&
+        body.sstIncident?.status ==
+            ConstantsIntValue.ticketLifeCycleSolveProposedStatus) {
+      url = '$url&isRework=$isRework';
+    }
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),

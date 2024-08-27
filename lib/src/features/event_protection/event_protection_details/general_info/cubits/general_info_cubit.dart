@@ -50,24 +50,24 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation>? entities =
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
-    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
+    // Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     GetDepositor emailUsers = await commonServices.getAtomStaticUsers(
         roleName: 'ATOM_STATIC_USER', locationId: state.model.location?.id);
     List<BaseUser> epm = await commonServices.getBaseUsersByRoles(
         roleNames: 'ATOM_Sub_Regional_Head',
-        locationId: state.model.location?.id);
+        locationId: state.model.location!.id!);
     List<BaseUser> lsm = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Senior_Security_Manager',
-        locationId: state.model.location?.id);
+        roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+        locationId: state.model.location!.id!);
 
     emit(
       state.copyWith(
         getEntitiesResponse: entities,
         listOfEntities: entities,
         status: FormStatus.initial,
-        users: users.t1Analyst,
+        // users: users.t1Analyst,
         epm: epm,
         lsm: lsm,
         emailUsers: emailUsers.atomStaticUser,
@@ -96,7 +96,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.eventProtectionModuleCode),
-        commonServices.getUsersByRole(roleName: 'T1_Analyst'),
+        // commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getAtomStaticUsers(
             roleName: 'ATOM_STATIC_USER', locationId: model.location?.id),
         commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
@@ -105,10 +105,10 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getBaseUsersByRoles(
             roleNames: 'ATOM_Sub_Regional_Head',
-            locationId: model.location?.id),
+            locationId: model.location!.id!),
         commonServices.getBaseUsersByRoles(
-            roleNames: 'ATOM_Senior_Security_Manager',
-            locationId: model.location?.id),
+            roleNames:  ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+            locationId: model.location!.id!),
       ]);
 
       // Assign results to variables with explicit data types
@@ -116,14 +116,14 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       Organisation? defaultLocation = results[1];
       User loggedInUserDetails = results[2];
       dynamic responseLabels = results[3];
-      Analyst users = results[4];
-      GetDepositor emailUsers = results[5];
-      List<Organisation>? entities = results[6];
-      Vendors vendors = results[7];
-      List<User> entrySecurities = results[8];
-      EmployeeDepartments departments = results[9];
-      List<BaseUser>? epm = results[10];
-      List<BaseUser>? lsm = results[11];
+      // Analyst users = results[4];
+      GetDepositor emailUsers = results[4];
+      List<Organisation>? entities = results[5];
+      Vendors vendors = results[6];
+      List<User> entrySecurities = results[7];
+      EmployeeDepartments departments = results[8];
+      List<BaseUser>? epm = results[9];
+      List<BaseUser>? lsm = results[10];
 
       log('input date ---${model.inputDate}');
       // model.inputDate =
@@ -155,7 +155,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         locations: getLocationsData,
         loggedInUserDetails: loggedInUserDetails,
         status: FormStatus.initial,
-        users: users.t1Analyst,
+        // users: users.t1Analyst,
         epm: epm,
         lsm: lsm,
         emailUsers: emailUsers.atomStaticUser,
@@ -203,13 +203,13 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
       emailUsers = await commonServices.getBaseUsers(
-          roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
+          roleName: ConstantUserRoles.atomStaticUser, locationId: location.id!);
       epm = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomSubRegionalHeadUser,
-          locationId: location.id);
+          locationId: location.id!);
       lsm = await commonServices.getBaseUsers(
-          roleName: ConstantUserRoles.atomSeniorSecurityManagerUser,
-          locationId: location.id);
+          roleName: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+          locationId: location.id!);
     }
 
     state.model.epManager1 = null;

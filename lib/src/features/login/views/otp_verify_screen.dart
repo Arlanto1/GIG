@@ -324,14 +324,13 @@ class _OtpVerifyState extends State<OtpVerify> {
 
   _showCustomPop(BuildContext context, String msg) {
     var dialog = CustomAlertDialog(
-        title: Constants.appname,
-        message: msg,
-        onPositivePressed: () {
-          //Validator.logoutAction(context);
-          Navigator.of(context).pop();
-        },
-        positiveBtnText: Constants.yes,
-        negativeBtnText: '');
+      title: Constants.appname,
+      message: msg,
+      onPositivePressed: () {
+        Navigator.of(context).pop();
+      },
+      positiveBtnText: Constants.ok,
+    );
     showDialog(context: context, builder: (BuildContext context) => dialog);
   }
 

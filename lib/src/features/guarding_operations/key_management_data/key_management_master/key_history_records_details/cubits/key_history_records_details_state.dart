@@ -7,27 +7,29 @@ class KeyHistoryRecordsDetailsState extends Equatable {
   final KeyIssuanceProcessRecord? keyIssuanceProcessRecord;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
-  final List<BaseUser>? securityManager;
-  final List<BaseUser>? srh;
+  final List<BaseUser>? securityManagers;
+  final List<BaseUser>? sRHs;
   final List<Organisation>? departments;
   final List<Organisation> destructionReasons;
   final String? message;
   final User? createdBy;
   final KLDUiLabels? labels;
   final bool? isReadOnly;
+  final KeyManagementIssuanceModel? keyManagementIssuanceModel;
 
   factory KeyHistoryRecordsDetailsState.initial({
     required KeyHistoryModel model,
     required User loggedInUserDetails,
     required List<BaseUser>? users,
-    final List<BaseUser>? securityManager,
-    final List<BaseUser>? srh,
+    final List<BaseUser>? securityManagers,
+    final List<BaseUser>? sRHs,
     required final List<Organisation> departments,
     required String errorMessage,
     User? createdBy,
     List<String>? participationDate,
     KeyManagementMasterModel? keyManagementMasterModel,
     KeyIssuanceProcessRecord? keyIssuanceProcessRecord,
+    KeyManagementIssuanceModel? keyManagementIssuanceModel,
   }) {
     return KeyHistoryRecordsDetailsState(
       status: FormStatus.initial,
@@ -36,8 +38,8 @@ class KeyHistoryRecordsDetailsState extends Equatable {
       departments: departments,
       destructionReasons: departments,
       users: users,
-      securityManager: securityManager,
-      srh: srh,
+      securityManagers: securityManagers,
+      sRHs: sRHs,
       message: errorMessage,
       createdBy: createdBy,
     );
@@ -131,8 +133,8 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     this.keyManagementMasterModel,
     this.loggedInUserDetails,
     this.users,
-    this.srh,
-    this.securityManager,
+    this.sRHs,
+    this.securityManagers,
     this.departments,
     required this.destructionReasons,
     this.message,
@@ -140,6 +142,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     this.labels,
     this.isReadOnly,
     this.keyIssuanceProcessRecord,
+    this.keyManagementIssuanceModel,
   });
 
   KeyHistoryRecordsDetailsState copyWith({
@@ -148,8 +151,8 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,
-    List<BaseUser>? securityManager,
-    List<BaseUser>? srh,
+    List<BaseUser>? securityManagers,
+    List<BaseUser>? sRHs,
     List<Organisation>? departments,
     List<Organisation>? destructionReasons,
     AddEntities? getEntitiesResponse,
@@ -160,14 +163,15 @@ class KeyHistoryRecordsDetailsState extends Equatable {
     bool? isReadOnly,
     keyManagementMasterModel,
     keyIssuanceProcessRecord,
+    keyManagementIssuanceModel,
   }) {
     return KeyHistoryRecordsDetailsState(
       status: status ?? this.status,
       model: model ?? this.model,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
-      securityManager: securityManager ?? this.securityManager,
-      srh: srh ?? this.srh,
+      securityManagers: securityManagers ?? this.securityManagers,
+      sRHs: sRHs ?? this.sRHs,
       departments: departments ?? this.departments,
       message: message ?? this.message,
       createdBy: createdBy ?? this.createdBy,
@@ -178,6 +182,7 @@ class KeyHistoryRecordsDetailsState extends Equatable {
           keyManagementMasterModel ?? this.keyManagementMasterModel,
       keyIssuanceProcessRecord:
           keyIssuanceProcessRecord ?? this.keyIssuanceProcessRecord,
+      keyManagementIssuanceModel: keyManagementIssuanceModel ?? this.keyManagementIssuanceModel,
     );
   }
 }

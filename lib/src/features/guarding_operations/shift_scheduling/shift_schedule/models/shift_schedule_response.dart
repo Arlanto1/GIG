@@ -49,6 +49,7 @@ class ShiftScheduleModel extends BaseObject {
   String? modifiedDate;
   String? poc;
   String? entrySecurityName;
+  bool isEligibleToEdit;
 
   factory ShiftScheduleModel.fromJson(Map<String, dynamic> json) =>
       _$ShiftScheduleModelFromJson(json);
@@ -72,5 +73,6 @@ class ShiftScheduleModel extends BaseObject {
     this.modifiedDate,
     this.poc,
     this.entrySecurityName,
+    this.isEligibleToEdit = true,
   });
 }

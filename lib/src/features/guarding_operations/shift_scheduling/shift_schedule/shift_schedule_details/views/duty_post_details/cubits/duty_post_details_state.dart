@@ -2,7 +2,7 @@ part of 'duty_post_details_cubit.dart';
 
 class DutyPostDetailsState extends Equatable {
   final FormStatus status;
-  final Shift model;
+  final ShiftModel model;
   final Locations? locations;
   final User? loggedInUserDetails;
   final List<BaseUser>? users;
@@ -23,7 +23,7 @@ class DutyPostDetailsState extends Equatable {
   }) {
     return DutyPostDetailsState(
       status: FormStatus.initial,
-      model: Shift(),
+      model: ShiftModel(),
       locations: locations,
       loggedInUserDetails: loggedInUserDetails,
       users: users,
@@ -31,7 +31,31 @@ class DutyPostDetailsState extends Equatable {
     );
   }
 
+  static const String msg = 'Please create replacement for ';
+
   ErrorResponse get isValidDraft {
+    // List<BaseUser>? needReplacementUsers = model.selectedGuards?.where((u)=> !u.description.isEmptyOrNull).toList();
+    // model.replacements
+
+    if (model.selectedGuards != null && model.replacements != null) {
+      for (BaseUser guard in model.selectedGuards!) {
+        bool isReplacingAnyBody = model.replacements!
+            .any((replacement) => replacement.replacementBy?.id == guard.id);
+        log('-isReplacingAnyBody-11-$isReplacingAnyBody--');
+        if (isReplacingAnyBody) {
+          return ErrorResponse(status: false, message: '$msg${guard.name}');
+        }
+
+        log('-isReplacingAnyBody--$isReplacingAnyBody--');
+        if (guard.description != null) {
+          bool isReplaced = model.replacements!
+              .any((replacement) => replacement.replacedFor == guard);
+          if (!isReplaced) {
+            return ErrorResponse(status: false, message: '$msg${guard.name}');
+          }
+        }
+      }
+    }
     // if (model.status == null) {
     //   return const ErrorResponse(status: false, message: 'Please enter Status');
     // }
@@ -56,6 +80,17 @@ class DutyPostDetailsState extends Equatable {
   }
 
   ErrorResponse get isValid {
+    if (model.selectedGuards != null && model.replacements != null) {
+      for (BaseUser guard in model.selectedGuards!) {
+        if (guard.description != null) {
+          bool isReplaced = model.replacements!
+              .any((replacement) => replacement.replacedFor == guard);
+          if (!isReplaced) {
+            return ErrorResponse(status: false, message: '$msg${guard.name}');
+          }
+        }
+      }
+    }
     // if (model.location == null) {
     //   return const ErrorResponse(
     //       status: false, message: 'Please enter Location');
@@ -83,7 +118,7 @@ class DutyPostDetailsState extends Equatable {
 
   DutyPostDetailsState copyWith({
     FormStatus? status,
-    Shift? model,
+    ShiftModel? model,
     Locations? locations,
     User? loggedInUserDetails,
     List<BaseUser>? users,

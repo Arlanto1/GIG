@@ -34,8 +34,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
   TextEditingController staffCategoryController = TextEditingController();
   TextEditingController penaltyAmountController = TextEditingController();
   TextEditingController totalPenaltyAmountController = TextEditingController();
-  TextEditingController numberOfViolationsAmountController =
-      TextEditingController();
+  TextEditingController totalNoOfViolationsController = TextEditingController();
   bool isReadonly = false;
 
   @override
@@ -50,10 +49,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
             (widget.model.totalViolations ?? 0));
     totalPenaltyAmountController.text =
         widget.model.penaltyAmount == null ? '' : sum.toString();
-    numberOfViolationsAmountController.text =
-        widget.model.totalViolations == null
-            ? ''
-            : widget.model.totalViolations.toString();
+    totalNoOfViolationsController.text = widget.model.totalViolations == null
+        ? ''
+        : widget.model.totalViolations.toString();
     updateStaffCategoryText();
   }
 
@@ -125,7 +123,10 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                     organisations: widget.users,
                                     onTap: (Organisation org) {
                                       violationController.text = org.name ?? '';
-
+                                      staffCategoryController.clear();
+                                      penaltyAmountController.clear();
+                                      totalPenaltyAmountController.clear();
+                                      totalNoOfViolationsController.clear();
                                       log('-org.keyName----${org.keyName}-');
 
                                       penaltyAmountController.text =
@@ -136,7 +137,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                           double.tryParse(org.keyName ?? '0');
                                       log('-widget.violation.violation?.name----${widget.model.violation?.name}-');
 
-                                      if (!numberOfViolationsAmountController
+                                      if (!totalNoOfViolationsController
                                           .text.isEmptyOrNull) {
                                         penaltyAmountController.text =
                                             ((penaltyAmountController.text
@@ -212,6 +213,13 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                     orElse: () =>
                                         const Label(key: '', value: ''),
                                   );
+
+                                  log('-selectedLabel.value--${selectedLabel.value}--');
+                                  // selectedLabel = staffCategoryDropDownValues.firstWhere(
+                                  //       (label) => label.key.toLowerCase() == value.toLowerCase(),
+                                  //   orElse: () => const Label(key: '', value: ''),
+                                  // );
+
                                   staffCategoryController.text =
                                       selectedLabel.key;
                                   widget.model.staffCategory =
@@ -219,20 +227,28 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
                                   int? staffCategoriesValue = widget
                                       .staffCategoriesValues[selectedLabel.key];
-                                  log('--staffCategoriesValue----$staffCategoriesValue---');
+                                  // log('--staffCategoriesValue----$widget.staffCategoriesValues[selectedLabel.key]---');
+                                  log('--staffCategoriesValue----${widget.staffCategoriesValues}---');
+                                  // log('Selected Label: ${selectedLabel.key}, Value: ${selectedLabel.value}');
+
+                                  if (staffCategoriesValue == null) {
+                                    log('No matching value found for key: ${selectedLabel.key}');
+                                  }
+
                                   if (staffCategoriesValue != null) {
-                                    numberOfViolationsAmountController.text =
+                                    totalNoOfViolationsController.text =
                                         staffCategoriesValue.toString();
                                   }
-                                  if (selectedLabel.value == '1') {
-                                    numberOfViolationsAmountController.text =
-                                        '1';
+                                  if (selectedLabel.value == '0') {
+                                    totalNoOfViolationsController.text = '1';
                                     widget.model.totalViolations = 1;
                                     totalPenaltyAmountController.text =
                                         '${(widget.model.penaltyAmount ?? 0) * (widget.model.totalViolations ?? 0)}';
                                     widget.model.totalPenaltyAmount =
                                         (widget.model.penaltyAmount ?? 0) *
                                             (widget.model.totalViolations ?? 0);
+                                  } else {
+                                    totalNoOfViolationsController.clear();
                                   }
                                   setState(() {});
 
@@ -258,7 +274,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       FlutterInputField(
                         // initialValue: '${widget.model.totalViolations ?? ''}',
                         textInputType: TextInputType.number,
-                        controller: numberOfViolationsAmountController,
+                        controller: totalNoOfViolationsController,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
                         isEnable: !isReadonly,
@@ -272,7 +288,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                           totalPenaltyAmountController.text = sum.toString();
 
                           widget.model.totalPenaltyAmount = sum;
-                          numberOfViolationsAmountController.text = value;
+                          totalNoOfViolationsController.text = value;
                           log('--totalPenaltyAmountController.text-----${totalPenaltyAmountController.text}---');
 
                           setState(() {

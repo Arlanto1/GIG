@@ -81,10 +81,11 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   // get depositor user by role API call
-  Future<void> getUserByRoleDepositor(String userRole) async {
+  Future<void> getUserByRoleDepositor() async {
     try {
-      GetDepositor getDepositorData = await createpassmgmtServices
-          .getUserByRoleDepositor(roleName: userRole,locationId: state.model.location?.id);
+      GetDepositor getDepositorData =
+          await createpassmgmtServices.getUserByRoleDepositor(
+              roleName: ConstantUserRoles.atomStaticUser, locationId: state.model.location?.id);
 
       emit(
         state.copyWith(
@@ -160,7 +161,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   Future<void> createUser(String firstName, String lastName, String email,
       String role, int locationId, BuildContext context) async {
     try {
-      CreateUserModel createUserData = await CommonServices().createUser(
+      User createUserData = await CommonServices().createUser(
         firstName: firstName,
         lastName: lastName,
         email: email,
@@ -177,7 +178,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       await createPassMgmtCubit.getAnalysts();
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-        Utils.dynamicAlert(context, Constants.userAddedUpdatedSuccessfully, Constants.newuser, '');
+        Utils.dynamicAlert(context, Constants.userAddedUpdatedSuccessfully,
+            Constants.newuser, '');
       });
     } on GenericResponse catch (e) {
       emit(
@@ -578,7 +580,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   Future<void> getAnalysts() async {
     try {
       Analyst analysts = await commonServices.getUsersByRole(
-          roleName: ConstantUserRoles.atomStaticUser, locationId: state.location?.id);
+          roleName: ConstantUserRoles.atomStaticUser,
+          locationId: state.location?.id);
       emit(
         state.copyWith(
           analyst: analysts,
@@ -743,6 +746,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     state.dbsponsorResponse = User();
     state.getUserDetailsResponse = User();
     state.dayPasselementReason = Organisation();
+    state.vendorPasselementReason = Organisation();
   }
 
   initializeValues({
@@ -759,8 +763,20 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       ),
     );
 
+    Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+    if (state.model.location == null) {
+      Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+      if (defaultLocation != null) {
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: defaultLocation.id.toString(),
+          moduleCode: Constants.passManagementModuleCode,
+        );
+        state.model.location = defaultLocation;
+        state.model.slNo = slNo.serialNo;
+      }
+    }
+
     try {
-      Organisation? defaultLocation;
       SerialNumberModel serialNumberResponse = SerialNumberModel();
       List<Organisation> passTypes = [];
       DayPassNumberLists companyTypes = DayPassNumberLists();
@@ -796,13 +812,13 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         // await getPassTypes(passId: passId, locationId: defaultLocation.id!);
 
         passTypes = await createpassmgmtServices.getPassTypes(
-            passId: passId, locationId: defaultLocation!.id!);
+            passId: passId, locationId: defaultLocation.id!);
         companyTypes = await createpassmgmtServices.getPassNo(
             passType: passId, locationId: defaultLocation.id!);
       }
 
       List<Organisation> updateStatuses = [];
-      if (model.status != null && (model.status == 0 || model.status == 1)) {
+      if (model.status != null && (model.status == 0 || model.status == 1 || model.status == 3)) {
         updateStatuses = await commonServices.getStatusesByModuleId(
             module: Constants.passManagementModuleCode, filter: model.status);
       }
@@ -1010,13 +1026,12 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     }
   }
 
-  getRadioButtonSelected(String name, int value, String radio) async {
+  getRadioButtonSelected(int value) async {
     try {
       emit(
         state.copyWith(
           escortedbyhost: value,
           exceptionalApproval: value,
-          radioButtonItem: radio,
           stateType: CreatePassMgmtStateType.success,
         ),
       );
@@ -1069,8 +1084,10 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     //     await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
     // EmployeeDepartments departments =
     //     await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
-    List<BaseUser> emailUsers =
-        await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
+    List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
+        roleNames: ConstantUserRoles.atomStaticUser, locationId: state.model.location?.id);
+
+    getUserByRoleDepositor();
     emit(
       state.copyWith(
         // getEntitiesResponse: entities,

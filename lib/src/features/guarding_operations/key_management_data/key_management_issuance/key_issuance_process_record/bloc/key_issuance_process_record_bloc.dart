@@ -41,6 +41,7 @@ class KeyIssuanceProcessRecordBloc
       // List<Organisation> items =
       //     await commonServices.getOrganisations(name: violationDescription);
 
+
       ExtraProperties extraProperties =
           await UtilsCommon().checkWritePermission(
         moduleCode: Constants.keyManagementIssuanceModule,
@@ -48,7 +49,7 @@ class KeyIssuanceProcessRecordBloc
       );
 
       List<Organisation> keyDescriptions = await KeyManagementIssuanceServices()
-          .getKeyDescriptions(locationId: locationId, isMasterKey: isMasterKey);
+          .getKeyDescriptions(locationId: locationId, isMasterKey: isMasterKey, kmIssuanceId: parentId);
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
@@ -68,7 +69,7 @@ class KeyIssuanceProcessRecordBloc
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;
@@ -137,7 +138,7 @@ class KeyIssuanceProcessRecordBloc
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;
@@ -175,13 +176,13 @@ class KeyIssuanceProcessRecordBloc
       return emit(state.copyWith(
         items: response,
         hasReachedMax: false,
-        status: FormStatus.success,
+        status: FormStatus.popOnly, /// Close the pop-up only when record is saved successfully
       ));
     } on GenericResponse catch (e) {
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;
@@ -212,7 +213,7 @@ class KeyIssuanceProcessRecordBloc
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;

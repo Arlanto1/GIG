@@ -58,9 +58,9 @@ class SstIncident {
   String? poNo;
   List<dynamic>? entities;
   List<ImageContent>? attachments;
-  List<dynamic>? dataLossDocs;
+  List<ImageContent>? dataLossDocs;
   List<dynamic>? quotes;
-  List<dynamic>? additionalDocs;
+  List<ImageContent>? additionalDocs;
   String? modifiedBy;
   int? occType;
   List<ActivityNotes>? activityNotes;
@@ -73,6 +73,21 @@ class SstIncident {
   String? escalation2Poc;
   String? escalation3Poc;
   String? lock;
+  String? acknowledgeDate;
+  String? escalation1;
+  String? escalation2;
+  String? escalation3;
+  String? rejectionComment;
+  double? slaOnsiteRes;
+  String? solvedProposed;
+  String? reworkDate;
+  String? closedActivityNotes;
+  num? workFlowId;
+  String? siteVisitDate;
+  String? solvedComplete;
+  double? downTime;
+  double? slaResolutionDate;
+  String? modifiedDate;
 
   SstIncident({
     this.id,
@@ -117,6 +132,19 @@ class SstIncident {
     this.escalation3Poc,
     this.occurrence,
     this.lock,
+    this.acknowledgeDate,
+    this.escalation1,
+    this.escalation2,
+    this.escalation3,
+    this.rejectionComment,
+    this.slaOnsiteRes,
+    this.solvedProposed,
+    this.reworkDate,
+    this.closedActivityNotes,
+    this.workFlowId,
+    this.siteVisitDate,
+    this.solvedComplete,
+    this.modifiedDate,
   });
 
   SstIncident.fromJson(Map<String, dynamic> json)
@@ -157,14 +185,19 @@ class SstIncident {
         emailList = json['emailList'] as String?,
         poNo = json['poNo'] as String?,
         entities = json['entities'] as List?,
-        // attachments = json['attachments'] as List?,
         attachments = (json['attachments'] as List<dynamic>?)
                 ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
                 .toList() ??
             const [],
-        dataLossDocs = json['dataLossDocs'] as List?,
+        dataLossDocs = (json['dataLossDocs'] as List<dynamic>?)
+                ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
+                .toList() ??
+            const [],
         quotes = json['quotes'] as List?,
-        additionalDocs = json['additionalDocs'] as List?,
+        additionalDocs = (json['additionalDocs'] as List<dynamic>?)
+                ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
+                .toList() ??
+            const [],
         modifiedBy = json['modifiedBy'] as String?,
         occType = json['occType'] as int?,
         activityNotes = (json['activityNotes'] as List?)
@@ -187,6 +220,21 @@ class SstIncident {
         escalation1Poc = json['escalation1Poc'] as String?,
         escalation2Poc = json['escalation2Poc'] as String?,
         escalation3Poc = json['escalation3Poc'] as String?,
+        acknowledgeDate = json['acknowledgeDate'] as String?,
+        escalation1 = json['escalation1'] as String?,
+        escalation2 = json['escalation2'] as String?,
+        escalation3 = json['escalation3'] as String?,
+        rejectionComment = json['rejectionComment'] as String?,
+        solvedProposed = json['solvedProposed'] as String?,
+        slaOnsiteRes = json['slaOnsiteRes'] as double?,
+        reworkDate = json['reworkDate'] as String?,
+        closedActivityNotes = json['closedActivityNotes'] as String?,
+        workFlowId = json['workFlowId'] as num?,
+        siteVisitDate = json['siteVisitDate'] as String?,
+        solvedComplete = json['solvedComplete'] as String?,
+        downTime = json['downTime'] as double?,
+        slaResolutionDate = json['slaResolutionDate'] as double?,
+        modifiedDate = json['modifiedDate'] as String?,
         lock = json['lock'] as String?;
 
   Map<String, dynamic> toJson() => {
@@ -231,6 +279,21 @@ class SstIncident {
         'escalation2Poc': escalation2Poc,
         'escalation3Poc': escalation3Poc,
         'occType': occType,
+        'acknowledgeDate': acknowledgeDate,
+        'escalation1': escalation1,
+        'escalation2': escalation2,
+        'escalation3': escalation3,
+        'rejectionComment': rejectionComment,
+        'slaOnsiteResponse': slaOnsiteRes,
+        'solvedProposed': solvedProposed,
+        'reworkDate': reworkDate,
+        'closedActivityNotes': closedActivityNotes,
+        'workFlowId': workFlowId,
+        'siteVisitDate': siteVisitDate,
+        'solvedComplete': solvedComplete,
+        'downTime': downTime,
+        'slaResolutionDate': slaResolutionDate,
+        'modifiedDate': modifiedDate,
         'lock': lock,
       };
 }
@@ -238,7 +301,7 @@ class SstIncident {
 class ActivityNotes {
   final int? id;
   final String? activityNotes;
-  final int? submittedDate;
+  final String? submittedDate;
   final bool? submitted;
 
   ActivityNotes({
@@ -251,7 +314,7 @@ class ActivityNotes {
   ActivityNotes.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int?,
         activityNotes = json['activityNotes'] as String?,
-        submittedDate = json['submittedDate'] as int?,
+        submittedDate = json['submittedDate'] as String?,
         submitted = json['submitted'] as bool?;
 
   Map<String, dynamic> toJson() => {

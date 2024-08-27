@@ -252,7 +252,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                   BlocProvider.of<
                                               SLAViolationPenaltyDetailsCubit>(
                                           context)
-                                      .updateLocationDropdownValue(location: location);
+                                      .updateLocationDropdownValue(
+                                          location: location);
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -366,6 +367,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            /// ASL
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.approver ??
                                     state.labels?.defaultLocale.approver ??
@@ -390,7 +392,11 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                   },
                                   roleName: ConstantUserRoles.atomStaticUser,
                                   locationId: state.model.location!.id!,
-                                  functionToCall: () {
+                                  functionToCall: (BaseUser user) {
+                                    BlocProvider.of<
+                                        SLAViolationPenaltyDetailsCubit>(
+                                        context)
+                                        .updateDropdownValues(user: user);
                                     BlocProvider.of<
                                                 SLAViolationPenaltyDetailsCubit>(
                                             context)

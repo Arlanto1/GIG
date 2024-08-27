@@ -210,12 +210,17 @@ class RouteGenerator {
           FoundListArticleDetails? model = arguments["UserElement"];
           ExtraProperties? extraProperties =
               arguments[ConstantsArgument.extraProperties];
-          int eventId = arguments['eventId'];
+          int? eventId = arguments[ConstantsArgument.eventId];
+          String? eventProtectionId =
+              arguments[ConstantsArgument.eventProtectionId];
+          Organisation? location = arguments[ConstantsArgument.location];
           return MaterialPageRoute(
             builder: (context) => CreateFound(
               model: model,
               eventId: eventId,
+              eventProtectionId: eventProtectionId,
               extraProperties: extraProperties,
+              eventProtectionLocation: location,
             ),
           );
         } else {
@@ -231,6 +236,14 @@ class RouteGenerator {
       // case articleFoundListRoute:
       //   return MaterialPageRoute(builder: (context) => const ArticleFoundListView());
       case articleFoundListRoute:
+        int? eventId;
+        String? eventProtectionId;
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+              settings.arguments as Map<String, dynamic>;
+          eventId = arguments[ConstantsArgument.eventId];
+          eventProtectionId = arguments[ConstantsArgument.eventProtectionId];
+        }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<af.ArticleFoundBloc>(
             create: (_) => af.ArticleFoundBloc()
@@ -240,9 +253,13 @@ class RouteGenerator {
                   maxPos: Constants.maxResults,
                   newSearch: true,
                   filters: BaseFilterModel(),
+                  eventId: eventId,
                 ),
               ),
-            child: const ArticleFoundListView(),
+            child: ArticleFoundListView(
+              eventId: eventId,
+              eventProtectionId: eventProtectionId,
+            ),
           ),
         );
 
@@ -422,6 +439,10 @@ class RouteGenerator {
         String id = '';
         String occId = '';
         int occType = 0;
+        late int? keyType;
+        late int? keyLostType;
+        late int? keyIssuanceId;
+        late int? kmId;
         String kldId = '';
         Organisation? location;
         ExtraProperties? extraProperties;
@@ -431,11 +452,15 @@ class RouteGenerator {
           id = arguments['id'] ?? '';
           occId = arguments['occId'] ?? '';
           occType = arguments['occType'] ?? 0;
-          kldId = arguments['kldId'] ?? '';
+          kldId = arguments[ConstantsArgument.kldId] ?? '';
+          keyType = arguments[ConstantsArgument.keyType];
+          keyLostType = arguments[ConstantsArgument.keyLostType];
           location = arguments[ConstantsArgument.location];
+          keyIssuanceId = arguments[ConstantsArgument.keyIssuanceId];
           extraProperties = arguments[ConstantsArgument.extraProperties];
+          kmId = arguments[ConstantsArgument.kmId];
         }
-        log('--occId-router--$occId--');
+        log('--kldId-router--$kldId--');
         return MaterialPageRoute(
           builder: (context) => BlocProvider<IncidentGeneralInfoCubit>(
             create: (_) => IncidentGeneralInfoCubit(
@@ -451,6 +476,10 @@ class RouteGenerator {
               viaOccurrence: !occId.isEmptyOrNull ? true : false,
               viaKeyIssuance: !kldId.isEmptyOrNull ? true : false,
               extraProperties: extraProperties,
+              keyType: keyType,
+              keyLostType: keyLostType,
+              keyIssuanceId: keyIssuanceId,
+              kmId: kmId,
             ),
           ),
         );
@@ -590,7 +619,7 @@ class RouteGenerator {
         SLAViolationPenaltyServices services = SLAViolationPenaltyServices();
         CommonServices commonServices = CommonServices();
         String title;
-        String? attdInfoId = '';
+        late int? attdInfoId;
         Organisation? location;
         Organisation? locationRegion;
         Organisation? vendor;
@@ -599,13 +628,13 @@ class RouteGenerator {
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
-        attdInfoId = arguments['attdInfoId'] ?? '';
+        attdInfoId = arguments[ConstantsArgument.attdInfoId];
         SLAViolationPenaltyModel? model = arguments[ConstantsArgument.model];
         location = arguments[ConstantsArgument.location];
         locationRegion = arguments[ConstantsArgument.locationRegion];
         vendor = arguments[ConstantsArgument.vendor];
         extraProperties = arguments[ConstantsArgument.extraProperties];
-
+        log('--attdInfoId--$attdInfoId-');
         viaAttendance = location != null ? true : false;
         return MaterialPageRoute(
           builder: (context) => BlocProvider<SLAViolationPenaltyDetailsCubit>(
@@ -745,7 +774,7 @@ class RouteGenerator {
               settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id];
           title = arguments[ConstantsArgument.title];
-          type = arguments[ConstantsArgument.type] ?? 0;
+          type = arguments[ConstantsArgument.keyLostType] ?? 0;
           rankType = arguments[ConstantsArgument.rankType] ?? '';
           ranks = arguments[ConstantsArgument.ranks] ?? [];
           parentStatus = arguments[ConstantsArgument.parentStatus];
@@ -802,13 +831,14 @@ class RouteGenerator {
           isEventProtection = arguments[ConstantsArgument.isEventProtection];
         }
         return MaterialPageRoute(
-            builder: (context) => EventProtectionDetails(
-                  id: id,
-                  title: title,
-                  eventStatus: eventStatus,
-                  showEPGridsModel: showEPGridsModel,
-                  isEventProtection: isEventProtection ?? false,
-                ));
+          builder: (context) => EventProtectionDetails(
+            id: id,
+            title: title,
+            eventStatus: eventStatus,
+            showEPGridsModel: showEPGridsModel,
+            isEventProtection: isEventProtection ?? false,
+          ),
+        );
       // case generalInfoTilesViewRoute:
       //   String id = '';
       //   bool showGuardInfo = true;
@@ -886,14 +916,14 @@ class RouteGenerator {
         String id = '';
         bool editForm = false;
         bool? isEventProtection = false;
-
         int eventDuration = 0;
         String title = '';
+
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           title = arguments[ConstantsArgument.title] ?? '';
-          id = arguments['id'];
+          id = arguments[ConstantsArgument.id];
           eventDuration = arguments['eventDuration'];
           editForm = arguments[ConstantsArgument.editForm];
           isEventProtection = arguments[ConstantsArgument.isEventProtection];
@@ -903,12 +933,13 @@ class RouteGenerator {
             create: (_) => EventInfoCubit(
               services: EventProtectionServices(),
               commonServices: CommonServices(),
-              id: id,
-              eventDuration: eventDuration,
+              eventProtectionId: id,
+              eventDurationType: eventDuration,
             ),
             child: EventInfoView(
               title: title,
               editForm: editForm,
+              eventProtectionId: id,
               isEventProtection: isEventProtection ?? false,
             ),
           ),
@@ -916,21 +947,25 @@ class RouteGenerator {
 
       case materialMovementInwardsOutwardsRoute:
         bool isInward = true;
+        bool? returnable = true;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           if (arguments.isNotEmpty) {
             isInward = arguments['isInward'];
+            returnable = arguments[ConstantsArgument.returnable];
           }
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<mm.MaterialMovementBloc>(
-            create: (_) => mm.MaterialMovementBloc(isInward: isInward)
-              ..add(mm.FetchData(
-                  startPos: 0,
-                  maxPos: Constants.maxResults,
-                  newSearch: true,
-                  filters: BaseFilterModel())),
+            create: (_) => mm.MaterialMovementBloc(
+              isInward: isInward,
+              returnable: returnable,
+            )..add(mm.FetchData(
+                startPos: 0,
+                maxPos: Constants.maxResults,
+                newSearch: true,
+                filters: BaseFilterModel())),
             child: MaterialMovementsView(
               isInward: isInward,
             ),
@@ -1220,7 +1255,7 @@ class RouteGenerator {
               settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id];
           // title = arguments[ConstantsArgument.title];
-          type = arguments[ConstantsArgument.type];
+          type = arguments[ConstantsArgument.keyLostType];
           extraProperties = arguments[ConstantsArgument.extraProperties];
           lock = arguments[ConstantsArgument.isLocked];
         }
@@ -1247,39 +1282,50 @@ class RouteGenerator {
         KeyManagementIssuanceServices keyIssuanceServices =
             KeyManagementIssuanceServices();
         CommonServices commonServices = CommonServices();
-        int parentId = 0;
+        // int? parentId;
+        int? id;
         String title;
-        int type = 0;
+        late int keyLostType;
+        late int? keyType;
         String? lock;
         int? kipId;
+        int? keyIssuanceId;
         ExtraProperties? extraProperties;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
-        parentId = arguments[ConstantsArgument.id];
+        id = arguments[ConstantsArgument.id];
         kipId = arguments[ConstantsArgument.kipId];
-        type = arguments[ConstantsArgument.type];
+        keyIssuanceId = arguments[ConstantsArgument.keyIssuanceId];
+        keyLostType = arguments[ConstantsArgument.keyLostType];
         KeyHistoryModel? model = arguments[ConstantsArgument.model];
         extraProperties = arguments[ConstantsArgument.extraProperties];
         lock = arguments[ConstantsArgument.isLocked];
+        keyType = arguments[ConstantsArgument.keyType];
+
+        log('--keyType--$keyType--');
         return MaterialPageRoute(
           builder: (context) => BlocProvider<KeyHistoryRecordsDetailsCubit>(
             create: (_) => KeyHistoryRecordsDetailsCubit(
               services: services,
               model: model,
-              parentId: parentId,
+              parentId: id!,
               kipId: kipId,
+              keyIssuanceId: keyIssuanceId,
               commonServices: commonServices,
-              type: type,
+              lostType: keyLostType,
+              keyType: keyType,
               keyIssuanceServices: keyIssuanceServices,
             ),
             child: KeyHistoryRecordsDetailsView(
-                model: model,
-                title: title,
-                parentId: parentId,
-                type: type,
-                extraProperties: extraProperties,
-                lock: lock),
+              model: model,
+              title: title,
+              parentId: id!,
+              keyLostType: keyLostType,
+              extraProperties: extraProperties,
+              lock: lock,
+              keyType: keyType,
+            ),
           ),
         );
       case keyReconciliationListRoute:
@@ -1316,7 +1362,7 @@ class RouteGenerator {
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
-        type = arguments[ConstantsArgument.type] ?? 0;
+        type = arguments[ConstantsArgument.keyLostType] ?? 0;
         KeyLossDestructionListModel? keyLossDestructionListModel =
             arguments["keyLossGi"];
         extraProperties = arguments[ConstantsArgument.extraProperties];
@@ -1378,6 +1424,7 @@ class RouteGenerator {
       case keyManagementIssuanceProcessRecordsRoute:
         String title = '';
         int parentId = 0;
+        late int? id;
         int parentStatus = 0;
         int locationId = 0;
         bool isMasterKey = false;
@@ -1387,6 +1434,7 @@ class RouteGenerator {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           title = arguments[ConstantsArgument.title];
+          id = arguments[ConstantsArgument.id];
           parentId = arguments[ConstantsArgument.parentId];
           parentStatus = arguments[ConstantsArgument.parentStatus];
           locationId = arguments[ConstantsArgument.locationId];
@@ -1395,6 +1443,8 @@ class RouteGenerator {
           lock = arguments[ConstantsArgument.isLocked];
         }
 
+        log('ID --$id');
+        log('parentId --$parentId');
         return MaterialPageRoute(
           builder: (context) => BlocProvider<kip.KeyIssuanceProcessRecordBloc>(
             create: (_) => kip.KeyIssuanceProcessRecordBloc(
@@ -1407,6 +1457,7 @@ class RouteGenerator {
                 maxPos: 100,
               )),
             child: KeyIssuanceProcessRecordsView(
+              id: id,
               parentId: parentId,
               parentStatus: parentStatus,
               locationId: locationId,
@@ -1536,6 +1587,9 @@ class RouteGenerator {
         Organisation? location;
         Organisation? locationRegion;
         Organisation? vendor;
+        late DutyPostModel selectedDutyPostModel;
+        late bool isReadOnly;
+        late bool isEligibleToEdit;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
@@ -1545,6 +1599,10 @@ class RouteGenerator {
           location = arguments[ConstantsArgument.location];
           locationRegion = arguments[ConstantsArgument.locationRegion];
           vendor = arguments[ConstantsArgument.vendor];
+          selectedDutyPostModel =
+              arguments[ConstantsArgument.selectedDutyPostModel];
+          isReadOnly = arguments[ConstantsArgument.isReadOnly];
+          isEligibleToEdit = arguments[ConstantsArgument.isEligibleToEdit];
         }
         AttendanceServices services = AttendanceServices();
         CommonServices commonServices = CommonServices();
@@ -1560,10 +1618,13 @@ class RouteGenerator {
               slaServices: slaServices,
             ),
             child: AttendanceShiftsView(
-              location: location!,
-              locationRegion: locationRegion!,
-              vendor: vendor!,
-            ),
+                attInfoId: attInfoId!,
+                location: location!,
+                locationRegion: locationRegion!,
+                vendor: vendor!,
+                selectedDutyPostModel: selectedDutyPostModel,
+                isReadOnly: isReadOnly,
+                isEligibleToEdit: isEligibleToEdit),
           ),
         );
 

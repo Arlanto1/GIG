@@ -118,7 +118,6 @@ class CommonServices {
 
   Future<EmployeeDepartments> getDepartments({
     required String name,
-    BuildContext? context,
   }) async {
     String url = '${CommonApis._getOrganisations}$name';
     final response = await BaseApiService().getRequest(
@@ -159,7 +158,6 @@ class CommonServices {
 
   Future<GetArticleType> getArticleType({
     required String name,
-    BuildContext? context,
   }) async {
     String url = '${CommonApis._getArticleType}$name';
     final response = await BaseApiService().getRequest(
@@ -170,7 +168,6 @@ class CommonServices {
 
   Future<User> getUserDetails({
     required String userId,
-    BuildContext? context,
   }) async {
     String url = '${CommonApis._getUserDetails}$userId';
     final response = await BaseApiService().getRequest(
@@ -228,7 +225,6 @@ class CommonServices {
   Future<List<BaseUser>> getBaseUsers({
     required String roleName,
     int? locationId,
-    BuildContext? context,
   }) async {
     String url = '${CommonApis._getUsersByRole}$roleName';
     if (locationId != null) {
@@ -248,7 +244,6 @@ class CommonServices {
   Future<List<BaseUser>> getBaseUsersByRoles({
     required String roleNames,
     int? locationId,
-    BuildContext? context,
   }) async {
     String url = '${CommonApis._getUsersByRoles}$roleNames';
     if (locationId != null) {
@@ -318,7 +313,7 @@ class CommonServices {
     return Organisation.fromJson(response);
   }
 
-  Future<CreateUserModel> createUser({
+  Future<User> createUser({
     required String firstName,
     required String lastName,
     required String email,
@@ -330,7 +325,7 @@ class CommonServices {
         "${CommonApis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role&locationId=$locationId";
     final response =
         await BaseApiService().postRequest(url: url, requestedData: {});
-    return CreateUserModel.fromJson(response);
+    return User.fromJson(response);
   }
 
   Future<List<PieChartData>> getDashboardChart({required String module}) async {

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
@@ -66,14 +67,11 @@ class _LoginState extends State<Login> {
                   },
                   positiveBtnText: Constants.settings,
                   negativeBtnText: Constants.no);
-              // showDialog(
-              //     context: context, builder: (BuildContext context) => dialog);
+              showDialog(
+                  context: context, builder: (BuildContext context) => dialog);
               return;
             }
 
-            //_showCustomPop(context, );
-            //     alert_handler.alertDisplay(
-            // context,state.errorMsg);
             var dialog = CustomAlertDialog(
               title: Constants.appname,
               message: state.message,
@@ -196,23 +194,49 @@ class _LoginState extends State<Login> {
                                       ),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
-                                      LoginPassword(
+                                      // LoginPassword(
+                                      //   passFocusNode: _passwordFocus,
+                                      //
+                                      //
+                                      //   textInputAction: TextInputAction.done,
+                                      //   validatePassword: ((String? password) {
+                                      //     if (!Validator.isValidPassword(
+                                      //         password)) {
+                                      //       return Constants.passwordError;
+                                      //     } else if (!Validator
+                                      //         .passwordValidation(password)) {
+                                      //       return Constants
+                                      //           .passwordLengthError;
+                                      //     }
+                                      //   }),
+                                      //   onFieldSubmitted: (term) {
+                                      //     _passwordFocus.unfocus();
+                                      //
+                                      //     //FocusScope.of(context).requestFocus(_passwordFocus);
+                                      //     _loginButtonAction(bloc);
+                                      //   },
+                                      //   onChange: (String password) {
+                                      //     this.password = password;
+                                      //   },
+                                      // ),
+
+                                      /// Password
+                                      PasswordField(
+                                        hintText: '',
                                         passFocusNode: _passwordFocus,
                                         textInputAction: TextInputAction.done,
-                                        validatePassword: ((String? password) {
+                                        validatePassword: (String? password) {
                                           if (!Validator.isValidPassword(
                                               password)) {
-                                            return Constants.passwordError;
+                                            return 'Password does not meet the criteria.';
                                           } else if (!Validator
                                               .passwordValidation(password)) {
-                                            return Constants
-                                                .passwordLengthError;
+                                            return 'Password must be at least 8 characters long.';
                                           }
-                                        }),
+                                          return null;
+                                        },
                                         onFieldSubmitted: (term) {
                                           _passwordFocus.unfocus();
-
-                                          //FocusScope.of(context).requestFocus(_passwordFocus);
                                           _loginButtonAction(bloc);
                                         },
                                         onChange: (String password) {
@@ -310,7 +334,7 @@ class _LoginState extends State<Login> {
                               ),
 
                               /// Support Number
-                              const Column(
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -340,9 +364,16 @@ class _LoginState extends State<Login> {
                                   //   height * 0.003,
                                   // ),
 
-                                  Center(
+                                  const Center(
                                     child: Text(
                                       Constants.copyrightText,
+                                      style: Styles.textStyleRegularGrey14,
+                                    ),
+                                  ),
+
+                                  Center(
+                                    child: Text(
+                                      'Version: ${Platform.isIOS ? ConstantAppVersions.iOSVersion : ConstantAppVersions.androidVersion}',
                                       style: Styles.textStyleRegularGrey14,
                                     ),
                                   ),
@@ -411,8 +442,8 @@ class _LoginState extends State<Login> {
       String userName, String pwd, String otp) {
     return LoginRequestModel(
         request: Request(
-      userName: username,
-      password: password,
+      userName: username.trim(),
+      password: password.trim(),
       otp: otp,
     ));
   }

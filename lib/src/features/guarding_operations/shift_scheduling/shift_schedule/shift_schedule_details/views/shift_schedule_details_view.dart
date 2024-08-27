@@ -26,10 +26,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
   TextEditingController statusController = TextEditingController();
   TextEditingController rankController = TextEditingController();
 
-  bool isDisabled = true;
+  // bool isDisabled = true;
   bool isReadOnly = false;
-
-  get guardingMasterData => null;
 
   get model => null;
 
@@ -81,9 +79,11 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                 create: (_) => DutyPostDetailsCubit(
                   parentModel: state.selectedDutyPostModel ?? DutyPostModel(),
                   id: state.model.id.toString(),
+                  shiftScheduleId: state.model.id!,
                 ),
                 child: DutyPostDetailsNewwwww(
                   model: state.selectedDutyPostModel ?? DutyPostModel(),
+                  shiftScheduleId: state.model.id!,
                 ),
               ),
             ),
@@ -91,6 +91,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
         }
       },
       builder: (context, state) {
+        log('(state.model.status != -1 || !isReadOnly ${isReadOnly}');
         if (state.model.status == ConstantsIntValue.cancelledStatus) {
           isReadOnly = true;
         }
@@ -100,11 +101,14 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
         if (state.model.status == null) {
           isReadOnly = false;
         }
+        if (!state.model.isEligibleToEdit) {
+          isReadOnly = true;
+        }
+
         // if (widget.extraProperties != null &&
         //     !widget.extraProperties!.hasWritePermission!) {
         //   isReadOnly = true;
         // }
-
         initializeDates(state);
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
@@ -112,14 +116,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
               title: Constants.shiftSchedule,
               // title: widget.title,
               showPopUp: false,
-              showSaveButton: (state.model.status != -1 || !isReadOnly) &&
-                      state.model.lock.isEmptyOrNull
-                  ? true
-                  : false,
-              showSubmitButton: (state.model.status != -1 || !isReadOnly) &&
-                      state.model.lock.isEmptyOrNull
-                  ? true
-                  : false,
+              showSaveButton: !isReadOnly,
+              showSubmitButton: !isReadOnly,
               showDisLikeButton: false,
               showLikeButton: false,
               pdfAPIName:
@@ -217,7 +215,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               items: shiftScheduleStatusDropDownValues,
                               initialValue: '${state.model.status ?? 0}',
                               onTap: () {
-                                if (!isDisabled) {
+                                if (!isReadOnly) {
                                   BaseDropDown().assetTypeDialog(
                                     context: context,
                                     dropDownValues:
@@ -318,17 +316,9 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             TextFieldAddButton(
                               title: state.model.vendor?.name,
                               height: 60,
-                              isDisableColor: (state.model.status == null ||
-                                          state.model.status ==
-                                              ConstantsIntValue
-                                                  .shiftScheduleDraft) &&
-                                      state.model.lock.isEmptyOrNull
-                                  ? false
-                                  : true,
+                              isDisableColor: isReadOnly,
                               onTap: () {
-                                if (state.model.status == null ||
-                                    state.model.status ==
-                                        ConstantsIntValue.shiftScheduleDraft) {
+                                if (!isReadOnly) {
                                   BaseOrganisationDialog().departmentDialog(
                                       context: context,
                                       organisations: state.vendors,
@@ -365,12 +355,12 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled: state.model.status == -1,
+                                isDisabled: isReadOnly,
                                 textController: rankController,
                                 items: shiftDutyTypeDropDownValues,
                                 initialValue: state.model.dutyType.toString(),
                                 onTap: () {
-                                  if (state.model.status != -1) {
+                                  if (!isReadOnly) {
                                     BaseDropDown().assetTypeDialog(
                                         context: context,
                                         dropDownValues:
@@ -405,16 +395,11 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            if (state.model.status == null ||
-                                state.model.status ==
-                                    ConstantsIntValue.shiftScheduleDraft) ...[
+                            if (!isReadOnly) ...[
                               GestureDetector(
                                 onTap: () {
                                   log('--onTap------');
-                                  if (state.model.status == null ||
-                                      state.model.status ==
-                                          ConstantsIntValue
-                                              .shiftScheduleDraft) {
+                                  if (!isReadOnly) {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext dialogContext) {
@@ -470,9 +455,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               onlyDate: true,
                               showPastDate: false,
                               startDate: state.availableDate?.fromDate,
-                              isDisabled: state.model.status != null &&
-                                  state.model.status !=
-                                      ConstantsIntValue.shiftScheduleDraft,
+                              isDisabled: isReadOnly,
                               onChange: (String value) {
                                 state.model.fromDate =
                                     Utils().formatTime(value);
@@ -499,9 +482,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               onlyDate: true,
                               showPastDate: false,
                               startDate: state.model.fromDate,
-                              isDisabled: state.model.status != null &&
-                                  state.model.status !=
-                                      ConstantsIntValue.shiftScheduleDraft,
+                              isDisabled: isReadOnly,
                               onChange: (String value) {
                                 state.model.toDate = Utils().formatTime(value);
                                 BlocProvider.of<ShiftScheduleDetailsCubit>(
@@ -532,50 +513,48 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                   //     state.labels?.defaultLocale.entrySecurity ??
                                   Constants.modifiedBy,
                                   isMandatory: true,
-                                  '${state.model.modifiedBy}'),
+                                  state.model.modifiedBy ?? ''),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
-
-                            /// List of Duty Posts
-                            if (!state.model.fromDate.isEmptyOrNull &&
-                                !state.model.toDate.isEmptyOrNull) ...[
-                              DutyPostListWidget(
-                                  dutyPosts: state.dutyPosts ?? [],
-                                  onTap: (int? id, int? dustyPostNameId) {
-                                    log('--id---$id-dustyPostNameId--$dustyPostNameId--state.model.id---${state.model.id}');
-
-                                    if (dustyPostNameId != null) {
-                                      BlocProvider.of<
-                                                  ShiftScheduleDetailsCubit>(
-                                              context)
-                                          .submitForm(
-                                        isSaveOnly: true,
-                                        navigateToNextScreen: true,
-                                        dutyPostNameId: dustyPostNameId,
-                                      );
-                                    }
-
-                                    if (id != null) {
-                                      BlocProvider.of<
-                                                  ShiftScheduleDetailsCubit>(
-                                              context)
-                                          .getDutyPostById(id);
-                                    }
-                                  }),
-                            ],
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
                           ],
                         ),
                       ),
                     ),
+
+                    /// List of Duty Posts
+                    if (!state.model.fromDate.isEmptyOrNull &&
+                        !state.model.toDate.isEmptyOrNull) ...[
+                      DutyPostListWidget(
+                          dutyPosts: state.dutyPosts ?? [],
+                          onTap: (int? id, int? dustyPostNameId,
+                              DutyPostModel? dutyPostModel) {
+                            log('--id---$id-dustyPostNameId--$dustyPostNameId--state.model.id---${state.model.id}');
+
+                            if (dustyPostNameId != null) {
+                              BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                      context)
+                                  .submitForm(
+                                isSaveOnly: true,
+                                navigateToNextScreen: true,
+                                dutyPostNameId: dustyPostNameId,
+                              );
+                            }
+
+                            if (id != null) {
+                              BlocProvider.of<ShiftScheduleDetailsCubit>(
+                                      context)
+                                  .getDutyPostById(id);
+                            }
+                          }),
+                    ],
+                    CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                     /// SubmitButton
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         cancelButtonDisplay(),
-                        if ((state.model.status != -1 || !isReadOnly) &&
-                            state.model.lock.isEmptyOrNull) ...[
+                        if (!isReadOnly) ...[
                           submitButtonDisplay()
                         ],
                       ],

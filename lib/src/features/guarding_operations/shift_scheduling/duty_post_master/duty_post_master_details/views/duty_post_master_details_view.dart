@@ -87,6 +87,10 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
         //     !widget.extraProperties!.hasWritePermission!) {
         //   isReadOnly = true;
         // }
+
+        // if(!state.model.isEligibleToEdit){
+        //   isReadOnly = true;
+        // }
         initializeDates();
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
@@ -189,46 +193,46 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                 state.model.createdDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            // /// Status
-                            // CommonWidgets.textDisplay(
-                            //     state.labels?.locale.status ??
-                            //         state.labels?.defaultLocale.status ??
-                            //         Constants.status,
-                            //     Styles.textStyleBlack14,
-                            //     isMandatory: true),
-                            // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            // BaseDropDown().getDropDown(
-                            //   isDisabled: true,
-                            //   textController: statusController,
-                            //   items: dutyPostMasterStatusValues,
-                            //   initialValue: '${state.model.status ?? 1}',
-                            //   onTap: () {
-                            //     if (!isDisabled) {
-                            //       BaseDropDown().assetTypeDialog(
-                            //         context: context,
-                            //         dropDownValues: dutyPostMasterStatusValues
-                            //             .map((label) => label.key)
-                            //             .toList(),
-                            //         onTap: (String value) {
-                            //           Label? selectedLabel;
-                            //           selectedLabel =
-                            //               dutyPostMasterStatusValues.firstWhere(
-                            //             (label) => label.key == value,
-                            //             orElse: () =>
-                            //                 const Label(key: '', value: ''),
-                            //           );
-                            //           BlocProvider.of<DutyPostMasterDetailsCubit>(
-                            //                   context)
-                            //               .updateDropdownValues(
-                            //                   status: int.tryParse(
-                            //                       selectedLabel.value));
-                            //         },
-                            //       );
-                            //     }
-                            //   },
-                            // ),
-                            // CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            /// Status
+                            CommonWidgets.textDisplay(
+                                state.labels?.locale.status ??
+                                    state.labels?.defaultLocale.status ??
+                                    Constants.status,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            BaseDropDown().getDropDown(
+                              isDisabled: true,
+                              textController: statusController,
+                              items: dutyPostMasterStatusValues,
+                              initialValue: '${state.model.status ?? 1}',
+                              onTap: () {
+                                if (!isDisabled) {
+                                  BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues: dutyPostMasterStatusValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          dutyPostMasterStatusValues.firstWhere(
+                                        (label) => label.key == value,
+                                        orElse: () =>
+                                            const Label(key: '', value: ''),
+                                      );
+                                      BlocProvider.of<DutyPostMasterDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              status: int.tryParse(
+                                                  selectedLabel.value));
+                                    },
+                                  );
+                                }
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             ///Location
                             CommonWidgets.textDisplay(
@@ -321,6 +325,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                             orElse: () =>
                                                 const Label(key: '', value: ''),
                                           );
+
                                           BlocProvider.of<
                                                       DutyPostMasterDetailsCubit>(
                                                   context)

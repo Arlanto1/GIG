@@ -87,7 +87,7 @@ class ContactDetailsListBloc
       emit(
         state.copyWith(
           message: e.message,
-          status: FormStatus.error,
+          status: FormStatus.formError,
         ),
       );
       return;

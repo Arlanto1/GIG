@@ -21,6 +21,8 @@ class Apis {
 
   static final String _createIssuanceProcessRecord =
       '$baseUrl/createKmiProcess?';
+  static final String _getIssuanceKeyHistoryDetailsById =
+      '$baseUrl/getKldByIdIfExists?';
 }
 
 class KeyManagementIssuanceServices {
@@ -36,10 +38,13 @@ class KeyManagementIssuanceServices {
         response.map((x) => KeyIssuanceProcessRecord.fromJson(x)));
   }
 
-  Future<List<Organisation>> getKeyDescriptions(
-      {required int locationId, required bool isMasterKey}) async {
+  Future<List<Organisation>> getKeyDescriptions({
+    required int locationId,
+    required bool isMasterKey,
+    required int kmIssuanceId,
+  }) async {
     String url =
-        '${Apis._getKeyDescriptions}?locId=$locationId&isMasterKey=$isMasterKey';
+        '${Apis._getKeyDescriptions}?locId=$locationId&isMasterKey=$isMasterKey&kmIssuanceId=$kmIssuanceId';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,
@@ -138,5 +143,15 @@ class KeyManagementIssuanceServices {
       requestedData: body.toJson(),
     );
     return GenericResponse.fromJson(response);
+  }
+
+  Future<KeyHistoryModel> getIssuanceKHById(
+      int keyManagementId, int keyIssuanceId, int type) async {
+    final String url =
+        '${Apis._getIssuanceKeyHistoryDetailsById}keyManagementId=$keyManagementId&keyIssuanceId=$keyIssuanceId&type=$type';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return KeyHistoryModel.fromJson(response);
   }
 }

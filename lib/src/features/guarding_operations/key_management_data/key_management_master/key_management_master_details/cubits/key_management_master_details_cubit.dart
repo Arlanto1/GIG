@@ -37,8 +37,6 @@ class KeyManagementMasterDetailsCubit
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation>? entities =
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
-
-    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     List<Organisation>? departments =
         await commonServices.getOrganisations(name: 'KEY_MANAGEMENT_DOOR_TYPE');
     GetDepositor emailUsers =
@@ -49,7 +47,6 @@ class KeyManagementMasterDetailsCubit
         getEntitiesResponse: entities,
         listOfEntities: entities,
         status: FormStatus.initial,
-        users: users.t1Analyst,
         emailUsers: emailUsers.atomStaticUser,
         departments: departments,
       ),
@@ -63,42 +60,41 @@ class KeyManagementMasterDetailsCubit
       ),
     );
 
+
+    Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+    if (state.model.location == null && defaultLocation != null) {
+      SerialNumberModel slNo = await commonServices.getSlNo(
+        locationId: defaultLocation.id.toString(),
+        moduleCode: Constants.keyManagementMasterModule,
+      );
+      state.model.location = defaultLocation;
+      state.model.slNo = slNo.serialNo;
+    }
+
     var userId = await SharedPrefs.getUserId();
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
-        commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
-        commonServices.getQualification(name: 'GUARD_QUALIFICATIONS'),
-        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
+        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER', locationId: state.model.location?.id),
         commonServices.getKeyType(name: 'KEY_MANAGEMENT_DOOR_TYPE'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.keyManagementMasterModule),
-        SharedPrefs.getDefaultLocation(),
       ]);
 
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
-      Analyst users = futures[2];
-      List<Organisation>? entities = futures[3];
-      // List<User> createdBy = futures[4];
-      GetDepositor emailUsers = futures[6];
-      KeyType departments = futures[7];
-      dynamic responseLabels = futures[9];
-      Organisation? defaultLocation = futures[10];
-      if (state.model.location == null && defaultLocation != null) {
-        SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.keyManagementMasterModule,
-        );
-        state.model.location = defaultLocation;
-        state.model.slNo = slNo.serialNo;
-      }
+      List<Organisation>? entities = futures[2];
+      // List<User> createdBy = futures[3];
+      GetDepositor emailUsers = futures[4];
+      KeyType departments = futures[5];
+      dynamic responseLabels = futures[7];
+
       state.model.createdBy ??= loggedInUserDetails;
       state.model.modifiedBy ??= loggedInUserDetails;
       // state.model.createdDate = state.model.createdDate == null
@@ -125,7 +121,7 @@ class KeyManagementMasterDetailsCubit
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
-          users: users.t1Analyst,
+          // users: users.t1Analyst,
           //createdBy: createdBy,
           emailUsers: emailUsers.atomStaticUser,
           listOfEntities: entities,

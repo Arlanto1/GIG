@@ -87,51 +87,62 @@ class OccurrenceGeneralInfoState extends Equatable {
           status: false, message: 'Please enter Shift Taken Over By.');
     }
 
-    if (model.medicalEmrgncy && model.medicalEmrgncyComments == null) {
+    if (model.premisesRoundTkn && model.premisesRoundTknComments.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Premises Round Taken Comments');
+    }
+
+    if (model.medicalEmrgncy && model.medicalEmrgncyComments.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Medical Emergency Comments');
     }
 
-    if (model.socialEnggIncdnt && model.socialEnggIncdntComments == null) {
+    if (model.socialEnggIncdnt && model.socialEnggIncdntComments.isEmptyOrNull) {
       return const ErrorResponse(
           status: false,
           message: 'Please enter Social Engineering Incidents Comments');
     }
 
-    if (model.infraIssue && model.infraIssueComments == null) {
+    if (model.infraIssue && model.infraIssueComments.isEmptyOrNull) {
       return const ErrorResponse(
           status: false,
           message: 'Please enter Any Infrastructural Issue Comments');
     }
 
-    if (model.fireAlarmEmrgncy && model.fireAlarmEmrgncyComments == null) {
+    if (model.fireAlarmEmrgncy && model.fireAlarmEmrgncyComments.isEmptyOrNull) {
       return const ErrorResponse(
           status: false,
           message: 'Please enter Fire alarm emergency Occurred Comments');
     }
 
-    if (model.landlordIssue && model.landlordIssueComments == null) {
+    log('model.landlordIssue---- ${model.landlordIssue}');
+    log('model.landlordIssueComments---- ${model.landlordIssueComments}');
+    if (model.landlordIssue && model.landlordIssueComments.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Landlord Issue Comments');
     }
 
-    if (model.sysAlarmRcvd && model.sysAlarmRcvdComments == null) {
+    if (model.sysAlarmRcvd && model.sysAlarmRcvdComments.isEmptyOrNull) {
       return const ErrorResponse(
           status: false,
           message: 'Please enter Any system alarm received Comments');
     }
 
-    if (model.transportIncdnt && model.transportIncdntComments == null) {
+    if (model.transportIncdnt && model.transportIncdntComments.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Transport Incident Comments');
     }
 
-    if (model.anyEvent && model.notifyScri == null) {
+    if (model.anyEvent && model.notifyScri.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Notify SCRI is Mandatory');
     }
+    if (model.powerFailure && model.powerFailures.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Power Failure Dates');
+    }
 
-    if (model.comments == null) {
+    if (model.comments.isEmptyOrNull) {
       return const ErrorResponse(
           status: false,
           message: 'Please enter Follow Up Actions For Next Shift');

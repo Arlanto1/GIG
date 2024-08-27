@@ -110,6 +110,8 @@ MaterialMovementModel _$MaterialMovementModelFromJson(
       takenOutDate: json['takenOutDate'] as String?,
       expectedDateOfReturn: json['expectedDateOfReturn'] as String?,
       actualDateOfReturn: json['actualDateOfReturn'] as String?,
+      comment: json['comment'] as String?,
+      isEligibleToEdit: json['isEligibleToEdit'] as bool? ?? false,
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$MaterialMovementModelToJson(
@@ -177,4 +179,6 @@ Map<String, dynamic> _$MaterialMovementModelToJson(
       'actualDateOfReturn': instance.actualDateOfReturn,
       'takenOutDepartment': instance.takenOutDepartment,
       'gatePassSecuritySign': instance.gatePassSecuritySign,
+      'comment': instance.comment,
+      'isEligibleToEdit': instance.isEligibleToEdit,
     };

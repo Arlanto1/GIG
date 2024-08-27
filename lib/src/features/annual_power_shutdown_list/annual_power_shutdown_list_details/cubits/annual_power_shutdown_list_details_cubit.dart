@@ -52,24 +52,22 @@ class AnnualPowerShutdownListDetailsCubit
     List<Organisation>? entities =
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
 
-    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser>? emailUsers = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomStaticUser,
-        locationId: state.model.location?.id);
+        locationId: state.model.location!.id!);
     List<BaseUser> srh = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomSubRegionalHeadUser,
-        locationId: state.model.location?.id);
+        locationId: state.model.location!.id!);
     List<BaseUser> lsm = await commonServices.getBaseUsers(
-        roleName: ConstantUserRoles.atomSeniorSecurityManagerUser,
-        locationId: state.model.location?.id);
+        roleName: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+        locationId: state.model.location!.id!);
     emit(
       state.copyWith(
         getEntitiesResponse: entities,
         listOfEntities: entities,
         status: FormStatus.initial,
-        users: users.t1Analyst,
         srh: srh,
         lsm: lsm,
         emailUsers: emailUsers,
@@ -107,25 +105,24 @@ class AnnualPowerShutdownListDetailsCubit
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         // TODO: remove the and change the number
         SharedPrefs.getDefaultLocation(),
-
         commonServices.getUserDetails(userId: userId),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.eventProtectionModuleCode),
-        commonServices.getUsersByRole(roleName: 'T1_Analyst'),
+        // commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getBaseUsers(
             roleName: ConstantUserRoles.atomStaticUser,
-            locationId: model.location?.id),
+            locationId: model.location!.id!),
         commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUsers(),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getBaseUsers(
             roleName: ConstantUserRoles.atomSubRegionalHeadUser,
-            locationId: model.location?.id),
+            locationId: model.location!.id!),
         commonServices.getBaseUsers(
-            roleName: ConstantUserRoles.atomSeniorSecurityManagerUser,
-            locationId: model.location?.id),
+            roleName: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+            locationId: model.location!.id!),
       ]);
 
       // Assign results to variables with explicit data types
@@ -133,14 +130,14 @@ class AnnualPowerShutdownListDetailsCubit
       Organisation? defaultLocationRemove =
           results[1]; // TODO: remove the and change the number
       User loggedInUserDetails = results[2];
-      Analyst users = results[4];
-      List<BaseUser>? emailUsers = results[5];
-      List<Organisation>? entities = results[6];
-      Vendors vendors = results[7];
-      List<User> entrySecurities = results[8];
-      EmployeeDepartments departments = results[9];
-      List<BaseUser>? srh = results[10];
-      List<BaseUser>? lsm = results[11];
+      // Analyst users = results[4];
+      List<BaseUser>? emailUsers = results[4];
+      List<Organisation>? entities = results[5];
+      Vendors vendors = results[6];
+      List<User> entrySecurities = results[7];
+      EmployeeDepartments departments = results[8];
+      List<BaseUser>? srh = results[9];
+      List<BaseUser>? lsm = results[10];
 
       // model.inputDate = model.inputDate == null
       //     ? Utils().getCurrentDate()
@@ -159,7 +156,6 @@ class AnnualPowerShutdownListDetailsCubit
         locations: getLocationsData,
         loggedInUserDetails: loggedInUserDetails,
         status: FormStatus.initial,
-        users: users.t1Analyst,
         srh: srh,
         lsm: lsm,
         emailUsers: emailUsers,
@@ -207,13 +203,13 @@ class AnnualPowerShutdownListDetailsCubit
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
       emailUsers = await commonServices.getBaseUsers(
-          roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
+          roleName: ConstantUserRoles.atomStaticUser, locationId: location.id!);
       srh = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomSubRegionalHeadUser,
-          locationId: location.id);
+          locationId: location.id!);
       lsm = await commonServices.getBaseUsers(
-          roleName: ConstantUserRoles.atomSeniorSecurityManagerUser,
-          locationId: location.id);
+          roleName: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+          locationId: location.id!);
     }
 
     state.model.srh1 = null;

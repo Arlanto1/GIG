@@ -135,6 +135,8 @@ class BaseDate {
       }
     }
 
+    log('--fromDate----$fromDate----toDate----$toDate');
+
     if (!fromDate.isEmptyOrNull && !toDate.isEmptyOrNull) {
       log('--if (!fromDate.isEmptyOrNull && !toDate.isEmptyOrNull)--');
       DatePicker.showDatePicker(

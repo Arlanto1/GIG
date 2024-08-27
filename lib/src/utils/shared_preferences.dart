@@ -194,4 +194,14 @@ class SharedPrefs {
   static Future<String> getDeviceToken() async {
     return instance.getString(Constants.deviceToken) ?? '';
   }
+
+
+  static Future<void> setLogsToggle(bool value) async {
+    instance.setBool(Constants.logsToggle, value);
+  }
+
+  static Future<bool> getLogsToggle() async {
+    bool? isUsername = instance.getBool(Constants.logsToggle) ?? false;
+    return isUsername; //Future<bool>.value(isLoggedIn);
+  }
 }

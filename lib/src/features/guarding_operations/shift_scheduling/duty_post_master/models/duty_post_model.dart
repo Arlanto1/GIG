@@ -41,8 +41,8 @@ class DutyPostModel {
 @JsonSerializable()
 class Rank {
   int? rank;
-  List<Shift>? shifts;
-  List<Shift>? attendanceShift;
+  List<ShiftModel>? shifts;
+  List<ShiftModel>? attendanceShift;
 
   Rank({
     this.rank,
@@ -88,22 +88,22 @@ class Rank {
 }
 
 @JsonSerializable()
-class Shift {
+class ShiftModel  extends BaseObject {
   String? shift;
   int? attendanceShiftId;
   int? allowed;
   int? attdStatus;
   bool activeShift;
-  List<BaseUser>? selectedGuards;
-  List<BaseUser>? availableGuards;
-  List<Replacement>? replacements;
+  Set<BaseUser>? selectedGuards;
+  Set<BaseUser>? availableGuards;
+  Set<Replacement>? replacements;
 
-  List<BaseUser>? selectForAttendance;
-  List<BaseUser>? attended;
-  List<BaseUser>? previousShift;
+  Set<BaseUser>? selectForAttendance;
+  Set<BaseUser>? attended;
+  Set<BaseUser>? previousShift;
   String? briefingPoints;
 
-  Shift({
+  ShiftModel({
     this.shift,
     this.allowed,
     this.attendanceShiftId,
@@ -118,9 +118,9 @@ class Shift {
     this.replacements,
   });
 
-  factory Shift.fromJson(Map<String, dynamic> json) {
+  factory ShiftModel.fromJson(Map<String, dynamic> json) {
     try {
-      return _$ShiftFromJson(json);
+      return _$ShiftModelFromJson(json);
     } catch (e) {
       if (e is CheckedFromJsonException) {
         // Access the information about the error
@@ -131,11 +131,12 @@ class Shift {
       }
 
       // Return a default instance or handle differently based on your needs.
-      return Shift();
+      return ShiftModel();
     }
   }
 
-  Map<String, dynamic> toJson() => _$ShiftToJson(this);
+  @override
+  Map<String, dynamic> toJson() => _$ShiftModelToJson(this);
 
   @override
   String toString() {
@@ -174,6 +175,9 @@ class Replacement {
   String? toDate;
   int? status;
 
+  /// For front end only
+  String? tempId;
+
   Replacement({
     this.id,
     this.replacedFor,
@@ -181,6 +185,7 @@ class Replacement {
     this.fromDate,
     this.toDate,
     this.status,
+    this.tempId,
   });
 
   factory Replacement.fromJson(Map<String, dynamic> json) {

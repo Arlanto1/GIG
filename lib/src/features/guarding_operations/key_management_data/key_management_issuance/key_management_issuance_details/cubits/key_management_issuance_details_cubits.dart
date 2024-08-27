@@ -36,7 +36,7 @@ class KeyManagementIssuanceDetailsCubit
     List<Organisation>? entities =
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
     List<BaseUser> emailUsers = await commonServices.getBaseUsers(
-        roleName: 'ATOM_STATIC_USER', locationId: state.model.location?.id);
+        roleName: 'ATOM_STATIC_USER', locationId: state.model.location!.id!);
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
@@ -84,11 +84,11 @@ class KeyManagementIssuanceDetailsCubit
       final futures = await Future.wait([
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
-        commonServices.getUsersByRole(roleName: 'T1_Analyst'), // todo  remove
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
         commonServices.getBaseUsers(
-            roleName: 'ATOM_STATIC_USER', locationId: state.model.location?.id),
+            roleName: 'ATOM_STATIC_USER',
+            locationId: state.model.location!.id!),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
@@ -97,12 +97,11 @@ class KeyManagementIssuanceDetailsCubit
 
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
-      Analyst users = futures[2];
-      AddEntities entities = futures[3];
-      // List<User> entrySecurities = futures[4];
-      List<BaseUser> emailUsers = futures[5];
-      EmployeeDepartments departments = futures[6];
-      // dynamic responseLabels = futures[7];
+      AddEntities entities = futures[2];
+      // List<User> entrySecurities = futures[3];
+      List<BaseUser> emailUsers = futures[4];
+      EmployeeDepartments departments = futures[5];
+      // dynamic responseLabels = futures[6];
 
       state.model.createdBy ??= loggedInUserDetails;
       // Get Date of Creation
@@ -171,7 +170,7 @@ class KeyManagementIssuanceDetailsCubit
       state.model.slNo = slNo.serialNo;
 
       emailUsers = await commonServices.getBaseUsers(
-          roleName: 'ATOM_STATIC_USER', locationId: location.id);
+          roleName: 'ATOM_STATIC_USER', locationId: location.id!);
     }
     state.model.dbSponsorCwrT2 = null;
     state.model.handedOverTo = null;
@@ -242,9 +241,59 @@ class KeyManagementIssuanceDetailsCubit
     ));
   }
 
+  void makeSignEditable(
+      {bool? receiverSign, bool? securitySignatureSignEditable}) {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    emit(
+      state.copyWith(
+        isReceiverSignEditable: receiverSign,
+        isSecuritySignatureSignEditable: securitySignatureSignEditable,
+        status: FormStatus.initial,
+      ),
+    );
+  }
+
+  Future<void> pushSignature({
+    required SignatureController controller,
+    required bool isReceiverSignature,
+  }) async {
+    String imageBytes = await SignatureController().exportSignature(controller);
+
+    // Check for null explicitly
+    if (imageBytes.isEmpty) {
+      return;
+    }
+
+    ImageContent imageContent = ImageContent();
+    imageContent.imageContent = imageBytes;
+
+    log('--imageBytes--$imageBytes--');
+    if (isReceiverSignature) {
+      imageContent.type =
+          ConstantsIntValue.keyIssuanceReceiverSignImageContentType;
+      state.model.receiverSign = imageContent;
+      emit(state.copyWith(
+        model: state.model,
+      ));
+    } else {
+      imageContent.type =
+          ConstantsIntValue.keyIssuanceSecuritySignImageContentType;
+      state.model.securitySign = imageContent;
+      emit(state.copyWith(
+        model: state.model,
+      ));
+    }
+  }
+
   Future<bool> submitForm({
     bool isSaveOnly = false,
     bool navigateToNextScreen = false,
+    required SignatureController receiverSignatureController,
+    required SignatureController securitySignatureController,
   }) async {
     emit(
       state.copyWith(
@@ -263,19 +312,40 @@ class KeyManagementIssuanceDetailsCubit
       int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.createdDate = inputDate.toString();
     }
-    if (state.model.status == 1) {
+    //
+    // if (state.model.status != 0 && state.model.status != null) {
+    //   if (!Utils().isTimestamp(state.model.keyHandOverDate!)) {
+    //     dateTime =
+    //         DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.keyHandOverDate!);
+    //     int inputDate = dateTime
+    //         .toUtc()
+    //         .millisecondsSinceEpoch ~/ 1000;
+    //     state.model.keyHandOverDate = inputDate.toString();
+    //   }
+    // }
+    // if (state.model.status != 0 && state.model.status != null) {
       state.model.keyHandOverDate =
           (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-    }
-    if (state.model.status == 1) {
-      state.model.keyReturnDateTime =
-          (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-    }
+    // }
+    // if (state.model.status == 1) {
+    //   state.model.keyReturnDateTime =
+    //       (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // }
     state.model.keyHandOverDue ??=
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     // Create/Update API Call
     KeyManagementIssuanceRequest request =
         KeyManagementIssuanceRequest(keyIssuanceGi: state.model);
+
+    /// Adding Signature to request Body
+    await pushSignature(
+      controller: receiverSignatureController,
+      isReceiverSignature: true,
+    );
+    await pushSignature(
+      controller: securitySignatureController,
+      isReceiverSignature: false,
+    );
 
     log('--@@@---}----');
     // TODO: Need to change from Backend- Status should be handled from backend

@@ -249,39 +249,41 @@ class _PassManagementListViewState extends State<PassManagementListView> {
 
   getId(bool hasWritePermission, int id) async {
     showLoadingDialog(context);
-    PassManagementModel? foundArticleDetailsResponse =
+    PassManagementModel? model =
         await dayPassListCubit.getpassArticleById(id, context);
 
-    editDataLoading(foundArticleDetailsResponse, hasWritePermission);
+    log('-model---${model?.id}--');
+    editDataLoading(model, hasWritePermission);
   }
 
   void editDataLoading(
-    PassManagementModel? foundArticleDetailsResponse,
+    PassManagementModel? model,
     bool hasWritePermission,
   ) {
     dismissLoadingDialog(context);
-    if (foundArticleDetailsResponse != null) {
-      // Navigator.pushNamed(context, createpassmgmtRoute,
-      //     arguments: {"UserElement": foundArticleDetailsResponse});
-      String titleIdentify = '';
-      if (widget.passId == 0) {
-        titleIdentify = 'Edit Day Pass Management';
-      } else if (widget.passId == 1) {
-        titleIdentify = 'Edit Visitor Pass Management';
-      } else if (widget.passId == 2) {
-        titleIdentify = 'Edit Vendor Pass Management';
-      } else if (widget.passId == 3) {
-        titleIdentify = 'Edit SEZ Pass Management';
-      }
-
-      // DayPassListElement? listuser = foundArticleDetailsResponse;
-      Navigator.pushNamed(context, createpassmgmtRoute, arguments: {
-        "passMngCreateDetails": CreatePassMngArguments(
-            widget.passId, titleIdentify, true, foundArticleDetailsResponse),
-        ConstantsArgument.extraProperties:
-            ExtraProperties(hasWritePermission: hasWritePermission),
-      });
+    if (model == null) {
+      return;
     }
+    // Navigator.pushNamed(context, createpassmgmtRoute,
+    //     arguments: {"UserElement": foundArticleDetailsResponse});
+    String titleIdentify = '';
+    if (widget.passId == 0) {
+      titleIdentify = 'Edit Day Pass Management';
+    } else if (widget.passId == 1) {
+      titleIdentify = 'Edit Visitor Pass Management';
+    } else if (widget.passId == 2) {
+      titleIdentify = 'Edit Vendor Pass Management';
+    } else if (widget.passId == 3) {
+      titleIdentify = 'Edit SEZ Pass Management';
+    }
+
+    // DayPassListElement? listuser = foundArticleDetailsResponse;
+    Navigator.pushNamed(context, createpassmgmtRoute, arguments: {
+      "passMngCreateDetails":
+          CreatePassMngArguments(widget.passId, titleIdentify, true, model),
+      ConstantsArgument.extraProperties:
+          ExtraProperties(hasWritePermission: hasWritePermission),
+    });
   }
 
   // getById(int id) async {

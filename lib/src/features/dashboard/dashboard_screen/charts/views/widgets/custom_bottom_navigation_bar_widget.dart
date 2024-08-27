@@ -9,7 +9,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   const CustomBottomNavigationBar({
     super.key,
-    required this.displayMenu,required this.scaffoldKey,
+    required this.displayMenu,
+    required this.scaffoldKey,
     required this.context,
   });
 
@@ -22,16 +23,30 @@ class CustomBottomNavigationBar extends StatelessWidget {
         backgroundColor: AppColors.navigationSkyBlueColor,
         selectedBackgroundColor: AppColors.white,
         selectedItemColor: AppColors.navigationSkyBlueColor,
-        currentIndex: 0, // Consider making this dynamic if needed
-        items: [ // Use 'const' for efficiency since these items don't change
+        currentIndex: 0,
+        // Consider making this dynamic if needed
+        items: [
+          // Use 'const' for efficiency since these items don't change
           FloatingNavbarItem(
-              icon: Icons.person_pin_outlined,
-              title: Constants.guardingOperations),
+            icon: Icons.person_pin_outlined,
+            title: Constants.guardingOperations,
+          ),
           FloatingNavbarItem(
-              icon: Icons.supervised_user_circle_sharp,
-              title: Constants.materialMovement),
+            icon: Icons.supervised_user_circle_sharp,
+            title: Constants.materialMovement,
+          ),
           FloatingNavbarItem(
-              icon: Icons.calendar_month, title: Constants.shiftScheduling),
+            icon: Icons.quick_contacts_mail_rounded,
+            title: Constants.passManagement,
+          ),
+          FloatingNavbarItem(
+            icon: Icons.key,
+            title: Constants.keyManagementData,
+          ),
+          FloatingNavbarItem(
+            icon: Icons.calendar_month,
+            title: Constants.shiftScheduling,
+          ),
           // Additional items can be added here...
         ],
       ),
@@ -40,21 +55,23 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   void _handleNavTap(int selectedIndex) {
     // Get the position of the tapped item
-    final RenderBox? renderBox = scaffoldKey.currentContext?.findRenderObject() as RenderBox?;
+    final RenderBox? renderBox =
+        scaffoldKey.currentContext?.findRenderObject() as RenderBox?;
     if (renderBox == null) {
       log('Error: Could not find RenderBox for Scaffold');
       return; // Handle the case where RenderBox is not found
     }
 
     final Offset offset = renderBox.localToGlobal(Offset.zero);
-    const int itemCount = 4; // Define the number of items as a constant
+    const int itemCount = 7; // Define the number of items as a constant
     final double itemWidth = renderBox.size.width / itemCount;
-    final double positionX = offset.dx + selectedIndex * itemWidth +itemWidth / 2;
+    final double positionX =
+        offset.dx + selectedIndex * itemWidth + itemWidth / 2;
 
     final bottomMenuHandler = BottomMenuHandler(
-        context: context,
-        displayMenu: displayMenu,
-        positionX: positionX
+      context: context,
+      displayMenu: displayMenu,
+      positionX: positionX,
     );
 
     switch (selectedIndex) {
@@ -65,6 +82,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
         bottomMenuHandler.openMaterialMovementSubMenu();
         break;
       case 2:
+        bottomMenuHandler.openPassManagementSubMenu();
+        break;
+      case 3:
+        bottomMenuHandler.openKeyManagementDataSubMenu();
+        break;
+      case 4:
         bottomMenuHandler.openShiftScheduleSubMenu();
         break;
       default:
