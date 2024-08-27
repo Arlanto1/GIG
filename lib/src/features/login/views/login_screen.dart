@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
@@ -333,7 +334,7 @@ class _LoginState extends State<Login> {
                               ),
 
                               /// Support Number
-                              const Column(
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -363,9 +364,16 @@ class _LoginState extends State<Login> {
                                   //   height * 0.003,
                                   // ),
 
-                                  Center(
+                                  const Center(
                                     child: Text(
                                       Constants.copyrightText,
+                                      style: Styles.textStyleRegularGrey14,
+                                    ),
+                                  ),
+
+                                  Center(
+                                    child: Text(
+                                      'Version: ${Platform.isIOS ? ConstantAppVersions.iOSVersion : ConstantAppVersions.androidVersion}',
                                       style: Styles.textStyleRegularGrey14,
                                     ),
                                   ),
