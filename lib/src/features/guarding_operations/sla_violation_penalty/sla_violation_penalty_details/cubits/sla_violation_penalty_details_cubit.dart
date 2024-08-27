@@ -15,7 +15,7 @@ class SLAViolationPenaltyDetailsCubit
   final CommonServices commonServices;
 
   /// Via Attendance
-  final String? attdInfoId;
+  final int? attdInfoId;
   final Organisation? location;
   final Organisation? locationRegion;
   final Organisation? vendor;
@@ -320,8 +320,8 @@ class SLAViolationPenaltyDetailsCubit
       state.model.inputDate = inputDate.toString();
     }
 
-    if (!attdInfoId.isEmptyOrNull) {
-      state.model.attdShiftInfoId = attdInfoId;
+    if (attdInfoId != null) {
+      state.model.attdShiftInfoId = attdInfoId.toString();
     }
     log('-attdInfoId-111-$attdInfoId--');
     // Create/Update API Call
@@ -379,31 +379,29 @@ class SLAViolationPenaltyDetailsCubit
         }
       }
 
-      if(!attdInfoId.isEmptyOrNull) {
-        emit(
-          state.copyWith(
-            model: state.model,
-            message: response.message,
-            status: !attdInfoId.isEmptyOrNull
-                ? FormStatus.popOnly
-                : navigateToNextScreen
-                ? FormStatus.navigateToNextScreen
-                : FormStatus.success,
-          ),
-        );
+      // Determine the status based on conditions
+      log('--!attdInfoId.isEmptyOrNull-111-$attdInfoId-');
+      // log('--!attdInfoId.isEmptyOrNull--${!attdInfoId.isEmptyOrNull}-');
+      FormStatus status;
+      if (attdInfoId != null ) {
+        log('--!attdInfoId.isEmptyOrNull--$attdInfoId-');
+        status = FormStatus.popOnly;
+      } else if (navigateToNextScreen) {
+        log('--navigateToNextScreen---');
+        status = FormStatus.navigateToNextScreen;
       } else {
-        emit(
-          state.copyWith(
-            model: state.model,
-            message: response.message,
-            status: attdInfoId.isEmptyOrNull
-                ? FormStatus.popOnly
-                : navigateToNextScreen
-                ? FormStatus.navigateToNextScreen
-                : FormStatus.success,
-          ),
-        );
+        log('--else---');
+        status = FormStatus.success;
       }
+
+      emit(
+        state.copyWith(
+          model: state.model,
+          message: response.message,
+          status: status,
+        ),
+      );
+
       log('status---- ${state.status}');
       log('attdInfoId---- $attdInfoId');
       state.model.inputDate = state.model.inputDate == null

@@ -642,7 +642,7 @@ class RouteGenerator {
               services: services,
               model: model,
               commonServices: commonServices,
-              attdInfoId: attdInfoId.toString(),
+              attdInfoId: attdInfoId,
               location: location,
               locationRegion: locationRegion,
               vendor: vendor,
