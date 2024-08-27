@@ -93,7 +93,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         if (state.model.attdStatus == 1 && widget.isEligibleToEdit == true) {
           isReadOnly = false;
         }
-        isReadOnly = false; // TODO: remove this
+        // isReadOnly = false; // TODO: remove this
 
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
