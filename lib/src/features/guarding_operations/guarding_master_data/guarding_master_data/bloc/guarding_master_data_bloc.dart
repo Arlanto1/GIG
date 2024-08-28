@@ -82,8 +82,8 @@ class GuardingMasterDataBloc
       GuardingMasterDataResponse response;
 
       response = await _services.getGuardingMasterData(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         // locationId: '56',
         filters: BaseFilterModel(),
       );

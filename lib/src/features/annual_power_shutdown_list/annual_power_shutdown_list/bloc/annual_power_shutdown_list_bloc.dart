@@ -32,8 +32,8 @@ class AnnualPowerShutdownListBloc
       AnnualPowerShutDownResponse response;
 
       response = await _services.getAnnualPowerShutdownListWithFilters(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         filters: BaseFilterModel(),
       );
 

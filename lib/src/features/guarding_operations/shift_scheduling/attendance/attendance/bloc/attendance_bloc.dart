@@ -29,8 +29,8 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
       AttendanceResponse response;
 
       response = await _services.getList(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         filters: BaseFilterModel(),
       );
 

@@ -30,8 +30,8 @@ class VVIPVisitorsBloc extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
       VVIPVisitorResponseModel response;
 
       response = await services.getGVVIP(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         filters: BaseFilterModel(),
       );
 

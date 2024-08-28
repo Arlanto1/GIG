@@ -84,8 +84,8 @@ class GuardingMasterReportBloc
       GuardingMasterReportModel response;
 
       response = await _services.getGuardingMasterReport(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         filters: BaseFilterModel(),
       );
 

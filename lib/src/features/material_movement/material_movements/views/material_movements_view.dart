@@ -52,12 +52,23 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
     }
   }
 
+  // Future<void> _onRefresh() async {
+  //   context.read<MaterialMovementBloc>().add(
+  //         const RefreshList(),
+  //       );
+  //   await Future.delayed(const Duration(milliseconds: 2000));
+  // }
+
   Future<void> _onRefresh() async {
-    context.read<MaterialMovementBloc>().add(
-          const RefreshList(),
-        );
-    await Future.delayed(const Duration(milliseconds: 2000));
+    // Trigger the refresh event
+    context.read<MaterialMovementBloc>().add(const RefreshList());
+
+    // Wait until the state status is FormStatus.success or FormStatus.failure
+    await context.read<MaterialMovementBloc>().stream.firstWhere(
+          (state) => state.status == FormStatus.success || state.status == FormStatus.failure,
+    );
   }
+
 
   @override
   Widget build(BuildContext context) {

@@ -32,8 +32,8 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
       RatesResponse response;
 
       response = await _services.getRates(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         filters: BaseFilterModel(),
       );
 

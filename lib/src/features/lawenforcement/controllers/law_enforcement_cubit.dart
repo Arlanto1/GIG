@@ -393,9 +393,9 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     state.leoDepartmentsResponse = Organisation();
     state.leoPurposeVisitResponse = Organisation();
     state.loadAttachments = [];
-    state.isDocumentifanySelected = 1;
-    state.isIncaseofpoliceSelected = 1;
-    state.isOfficialIdcardSelected = 1;
+    state.isDocumentifanySelected = 0;
+    state.isIncaseofpoliceSelected = 0;
+    state.isOfficialIdcardSelected = 0;
     state.dBOfficialEmailIdAccompaniedLeoOfficial = BaseUser();
     state.serialnumberResponse?.serialNo = '';
     state.slno = '';

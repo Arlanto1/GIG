@@ -104,8 +104,8 @@ class PassManagementListBloc
       DayPassListResponse response;
 
       response = await services.getListWithFilters(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         passType: passId.toString(),
         filters: BaseFilterModel(),
       );

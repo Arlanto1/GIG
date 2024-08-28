@@ -86,7 +86,6 @@ class _CreateFoundState extends State<CreateFound> {
   void initState() {
     super.initState();
     log('------initState-----');
-    getFoundArticleList();
     claimantSignatureController = SignatureController(
         penStrokeWidth: 2,
         penColor: Colors.black,
@@ -107,6 +106,7 @@ class _CreateFoundState extends State<CreateFound> {
           model: widget.model,
           eventProtectionLocation: widget.eventProtectionLocation);
     }
+    getFoundArticleList();
     _getCurrentDate();
   }
 
@@ -399,8 +399,8 @@ class _CreateFoundState extends State<CreateFound> {
     final bool isActive = await network_handler.networkChecking(context);
     log('-----_getFoundArticleList----');
     if (isActive) {
-      await createFoundArticleCubit
-          .getUserByRoleDepositor(ConstantUserRoles.atomStaticUser);
+      // await createFoundArticleCubit
+      //     .getUserByRoleDepositor(ConstantUserRoles.atomStaticUser);
       await createFoundArticleCubit.getLocations('ATOM_LOCATIONS');
       await createFoundArticleCubit
           .getEmployeeDepartments('EMPLOYEE_DEPARTMENTS');

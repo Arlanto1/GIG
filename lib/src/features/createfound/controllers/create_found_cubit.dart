@@ -66,6 +66,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         model.location = defaultLocation;
       }
 
+
       emit(
         state.copyWith(
           model: model,
@@ -74,6 +75,10 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
           loggedInUser: loggedInUserDetails,
         ),
       );
+
+      createFoundArticleCubit
+          .getUserByRoleDepositor(ConstantUserRoles.atomStaticUser);
+
     } catch (e) {
       emit(
         state.copyWith(
@@ -230,7 +235,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       // log('--getUserByRoleDepositor-locationId-${locationId}--');
 
       GetDepositor getDepositorData = await commonServices.getAtomStaticUsers(
-          roleName: userRole, locationId: state.model.location?.id);
+          roleName: userRole, locationId: state.location?.id);
 
       emit(
         state.copyWith(

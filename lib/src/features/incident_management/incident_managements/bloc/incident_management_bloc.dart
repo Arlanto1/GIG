@@ -93,8 +93,8 @@ class IncidentManagementsBloc
       IncidentsResponse response;
 
       response = await _services.getIncidents(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         // userId: '7',
         filters: BaseFilterModel(),
         occId: occId,

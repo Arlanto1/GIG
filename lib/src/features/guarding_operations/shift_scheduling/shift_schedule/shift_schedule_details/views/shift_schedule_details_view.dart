@@ -91,7 +91,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
         }
       },
       builder: (context, state) {
-        log('(state.model.status != -1 || !isReadOnly ${isReadOnly}');
+        log('(state.model.status != -1 || !isReadOnly $isReadOnly');
         if (state.model.status == ConstantsIntValue.cancelledStatus) {
           isReadOnly = true;
         }
