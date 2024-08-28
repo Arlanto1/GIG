@@ -101,8 +101,8 @@ class ContactDetailsListBloc
       ContactDetailsListResponseModel response;
 
       response = await services.getGcdWithFilters(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         // mmType: isInward ? 1 : 0,
         filters: BaseFilterModel(),
       );

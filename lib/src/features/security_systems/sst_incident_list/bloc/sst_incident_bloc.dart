@@ -97,8 +97,8 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
       SstIncidentResponse response;
 
       response = await _services.get(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         // userId: '77',
         ticketType: ticketType,
         staffType: staffType,

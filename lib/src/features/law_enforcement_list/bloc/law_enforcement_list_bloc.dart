@@ -92,8 +92,8 @@ class LawEnforcementListBloc
       LawEnforcementListResponse response;
 
       response = await services.getListWithFilters(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         filters: BaseFilterModel(),
       );
 

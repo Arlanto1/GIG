@@ -102,8 +102,8 @@ class KeyReconciliationListBloc
       KeyReconciliationListResponse response;
 
       response = await _services.getList(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         userId: '7',
         locationId: '56',
         filters: BaseFilterModel(),

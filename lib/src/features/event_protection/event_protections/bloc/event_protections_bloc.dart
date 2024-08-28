@@ -31,8 +31,8 @@ class EventProtectionsBloc
       EventProtectionResponse response;
 
       response = await _services.getEventProtections(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         filters: BaseFilterModel(),
       );
 

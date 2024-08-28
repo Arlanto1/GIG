@@ -55,8 +55,8 @@ class NotificationsBloc extends Bloc<NotificationsEvent, NotificationsState> {
       RefreshList event, Emitter<NotificationsState> emit) async {
     try {
       NotificationsResponseModel response = await services.getNotificationList(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
       );
 
       return emit(
