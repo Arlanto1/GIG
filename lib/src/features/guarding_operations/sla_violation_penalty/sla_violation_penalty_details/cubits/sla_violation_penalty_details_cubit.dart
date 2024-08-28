@@ -75,7 +75,7 @@ class SLAViolationPenaltyDetailsCubit
     List<Organisation>? entities =
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
     List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
-        roleNames: ConstantUserRoles.atomStaticUser, locationId: location?.id);
+        roleNames: ConstantUserRoles.atomStaticUser, locationId: state.model.location?.id);
 
     Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
 
