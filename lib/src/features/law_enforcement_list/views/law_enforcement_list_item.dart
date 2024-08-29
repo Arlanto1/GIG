@@ -114,9 +114,7 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
               icon: widget.userItem.status ==
                           ConstantsIntValue.leoStatusDistributed ||
                       widget.userItem.status ==
-                          ConstantsIntValue.cancelledStatus ||
-                      widget.userItem.status ==
-                          ConstantsIntValue.leoStatusSubmitted
+                          ConstantsIntValue.cancelledStatus
                   ? const Icon(Icons.edit_off_outlined)
                   : const Icon(Icons.edit),
             ),
