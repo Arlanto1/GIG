@@ -366,6 +366,21 @@ class Constants {
   static const String host = 'Host';
   static const String passCollectedBy = 'Pass Collected By';
   static const String passReturnedOn = 'Pass Returned On';
+  static const String vendorName = 'Vendor Name';
+  static const String visitorName = 'Visitor Name';
+  static const String dbSponsor = 'DB Sponsor';
+  static const String dbSponsorEmployeeId = 'DB Sponsor Employee Id';
+  static const String visitorComingFrom = 'Visitor Coming From';
+  static const String sezPassInfo = 'SEZ Pass Info';
+  static const String mTPApplicationNo = 'MTP Application No';
+  static const String photoIdentityType = 'Photo Identity Validation Type';
+  static const String visitingDepartment = 'Visiting Department';
+  static const String reasonForVendorPass = 'Reason for Vendor Pass';
+  static const String visitorPassNo = 'Visitor Pass No';
+  static const String vendorPassNo = 'Vendor Pass No';
+  static const String escortedByHost =  'Escorted by Host';
+  static const String photoOfVisitor =  'Photo of Visitor';
+  static const String deutscheBank =  'Deutsche Bank';
 
   static const String passIssuedOn = 'Pass Issued On';
   static const String passvlidfrom = 'Pass Valid From';
@@ -381,7 +396,7 @@ class Constants {
   static const String reasonfordaypass = 'Reason for Day Pass';
   static const String daypassno = 'Day Pass No';
   static const String passtype = 'Pass Type';
-  static const String sezPassInfo = 'Sez Pass';
+  static const String sezPass = 'Sez Pass';
   static const String passValidUntil = '31/03/2023';
 
   //List page - Found Article
