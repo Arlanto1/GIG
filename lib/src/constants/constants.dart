@@ -341,6 +341,7 @@ class Constants {
       'Document if any to confirm purpose';
   static const String incaseofpolicewasofficialinuniform =
       'In case of Police, was official in uniform?';
+  static const String dbOfficialName = 'DB Official Name';
   static const String designation = 'Designation';
   static const String officeAddress = 'Office Address';
   static const String emailId = 'Email Id';
@@ -355,6 +356,7 @@ class Constants {
       "Add Another Visiting Official Details";
   static const String visitingOfficialDetails = "Visiting Official Details";
   static const String visitingOfficials = "Visiting Officials";
+  static const String visitingOfficialsEmailId = "Email Id Visiting Officials";
 
   // Pass mgmt
   static const String companyType = 'Company Type';

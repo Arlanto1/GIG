@@ -267,7 +267,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Status: ', statusText),
+          textHandling('Status : ', statusText),
         ],
       ),
     );
@@ -298,7 +298,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Status: ', statusText),
+          textHandling('Status : ', statusText),
         ],
       ),
     );
@@ -350,7 +350,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Status: ', statusText),
+          textHandling('Status : ', statusText),
         ],
       ),
     );
@@ -381,7 +381,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Status: ', statusText),
+          textHandling('Status : ', statusText),
         ],
       ),
     );
@@ -409,7 +409,7 @@ class Utils {
 
     return Row(
       children: [
-        textHandling('DutyType: ', dutyTypeText),
+        textHandling('DutyType : ', dutyTypeText),
       ],
     );
   }
@@ -433,7 +433,7 @@ class Utils {
 
     return Row(
       children: [
-        textHandling('DutyType: ', dutyTypeText),
+        textHandling('DutyType : ', dutyTypeText),
       ],
     );
   }
@@ -463,7 +463,7 @@ class Utils {
     }
     return Row(
       children: [
-        textHandling('Status: ', statusText),
+        textHandling('Status : ', statusText),
       ],
     );
   }
@@ -504,7 +504,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('GuardRank: ', guardRankText),
+          textHandling('GuardRank : ', guardRankText),
         ],
       ),
     );
@@ -526,7 +526,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('MaritalStatus: ', maritalStatusText),
+          textHandling('MaritalStatus : ', maritalStatusText),
         ],
       ),
     );
@@ -601,7 +601,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Gender: ', genderText),
+          textHandling('Gender : ', genderText),
         ],
       ),
     );
@@ -623,7 +623,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Asset Type: ', assetTypeText),
+          textHandling('Asset Type : ', assetTypeText),
         ],
       ),
     );
@@ -733,7 +733,7 @@ class Utils {
         statusText = ''; // Handle the default case if needed
     }
     return IntrinsicWidth(
-      child: textHandling('Status: ', statusText),
+      child: textHandling('Status : ', statusText),
     );
   }
 
@@ -822,7 +822,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('PassType: ', passTypeText),
+          textHandling('PassType : ', passTypeText),
         ],
       ),
     );
@@ -847,7 +847,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Status: ', statusText),
+          textHandling('Status : ', statusText),
         ],
       ),
     );
@@ -899,7 +899,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Status: ', statusText),
+          textHandling('Status : ', statusText),
         ],
       ),
     );
@@ -927,7 +927,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Status: ', statusText),
+          textHandling('Status : ', statusText),
         ],
       ),
     );
@@ -985,7 +985,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Status: ', statusText),
+          textHandling('Status : ', statusText),
         ],
       ),
     );
@@ -1037,7 +1037,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Status: ', statusText),
+          textHandling('Status : ', statusText),
         ],
       ),
     );
@@ -1179,7 +1179,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Status: ', statusText),
+          textHandling('Status : ', statusText),
         ],
       ),
     );
@@ -1212,7 +1212,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Status: ', statusText),
+          textHandling('Status : ', statusText),
         ],
       ),
     );
@@ -1230,7 +1230,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('LEO Visit: ', statusText),
+          textHandling('LEO Visit : ', statusText),
         ],
       ),
     );
@@ -1248,7 +1248,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Material Movement: ', statusText),
+          textHandling('Material Movement : ', statusText),
         ],
       ),
     );
@@ -1266,7 +1266,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Shift Briefing Attended: ', statusText),
+          textHandling('Shift Briefing Attended : ', statusText),
         ],
       ),
     );
@@ -1296,7 +1296,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Incident Type: ', incidentTypeText),
+          textHandling('Incident Type : ', incidentTypeText),
         ],
       ),
     );
@@ -1317,7 +1317,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Pass Category: ', categoryTypeText),
+          textHandling('Pass Category : ', categoryTypeText),
         ],
       ),
     );
@@ -1342,7 +1342,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Status: ', statusText),
+          textHandling('Status : ', statusText),
         ],
       ),
     );
@@ -1367,7 +1367,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Status: ', statusText),
+          textHandling('Status : ', statusText),
         ],
       ),
     );
@@ -1392,7 +1392,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Employee Type: ', employeeTypeText),
+          textHandling('Employee Type : ', employeeTypeText),
         ],
       ),
     );
@@ -1454,7 +1454,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Status: ', statusText),
+          textHandling('Status : ', statusText),
         ],
       ),
     );
@@ -1479,7 +1479,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Status: ', statusText),
+          textHandling('Status : ', statusText),
         ],
       ),
     );
@@ -1507,7 +1507,7 @@ class Utils {
     return IntrinsicWidth(
       child: Row(
         children: [
-          textHandling('Status: ', statusText),
+          textHandling('Status : ', statusText),
         ],
       ),
     );

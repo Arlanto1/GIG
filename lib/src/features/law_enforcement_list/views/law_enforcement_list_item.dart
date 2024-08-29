@@ -65,12 +65,12 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
               stepWidth: width * .6,
               child: Wrap(
                 children: [
-                  Utils().textHandling('ID : ', widget.userItem.id.toString()),
+                  Utils().textHandling('${Constants.id} : ', widget.userItem.id.toString()),
                   CommonWidgets.horizontalSpacerWidget(8),
                   Utils().buildLeoStatusRow(widget.userItem.status ?? 0),
                   Row(
                     children: [
-                      Utils().textHandling('Region : ',
+                      Utils().textHandling('${Constants.region} : ',
                           widget.userItem.locationRegion?.name ?? ''),
                     ],
                   ),
@@ -79,12 +79,12 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                     Row(
                       children: [
                         if (widget.userItem.location != null) ...[
-                          Utils().textHandling('Location : ',
+                          Utils().textHandling('${Constants.location} : ',
                               widget.userItem.location?.name ?? ''),
                         ],
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils().textHandling(
-                            'Date : ',
+                            '${Constants.date} : ',
                             widget.userItem.inputDate != null
                                 ? Utils.timestampToDateConversion(
                                     int.tryParse(

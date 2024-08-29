@@ -83,35 +83,37 @@ class _LawEnforcementCustomPopUpListState
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              textHandling('ID : ', widget.userItem?.id.toString() ?? " "),
+              textHandling(
+                  '${Constants.id} :', widget.userItem?.id.toString() ?? " "),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             //mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              textHandling('Sl No : ', widget.userItem?.slNo.toString() ?? ""),
+              textHandling('${Constants.slno} :',
+                  widget.userItem?.slNo.toString() ?? ""),
+            ],
+          ),
+          CommonWidgets.verticalSpacerWidget(8),
+          Row(
+            children: [
+              textHandling('${Constants.region} :',
+                  widget.userItem?.locationRegion?.name ?? " "),
+            ],
+          ),
+          CommonWidgets.verticalSpacerWidget(8),
+          Row(
+            children: [
+              textHandling('${Constants.location} :',
+                  widget.userItem?.location?.name ?? " "),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
               textHandling(
-                  'Region : ', widget.userItem?.locationRegion?.name ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling(
-                  'Location : ', widget.userItem?.location?.name ?? " "),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(8),
-          Row(
-            children: [
-              textHandling(
-                  'TimeOfVisit : ',
+                  '${Constants.actualtimeofvisit} :',
                   widget.userItem?.timeOfVisit != null
                       ? Utils.timestampToDateConversion(
                           int.parse(widget.userItem?.timeOfVisit ?? '0'),
@@ -122,14 +124,14 @@ class _LawEnforcementCustomPopUpListState
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
-              textHandling(
-                  'Created By : ', '${widget.userItem?.entrySecurityName}'),
+              textHandling('${Constants.createdby} :',
+                  '${widget.userItem?.entrySecurityName}'),
             ],
           ),
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
-              textHandling('DBOfficialName : ',
+              textHandling('${Constants.dbOfficialName} : ',
                   widget.userItem?.dbOfficialEmail.toString() ?? " "),
             ],
           ),
@@ -137,7 +139,7 @@ class _LawEnforcementCustomPopUpListState
           Row(
             children: [
               textHandling(
-                  'Date Of Creation : ',
+                  '${Constants.dateofcreation} :',
                   widget.userItem?.inputDate != null
                       ? Utils.timestampToDateConversion(
                           int.parse(widget.userItem?.inputDate ?? '0'),
@@ -148,7 +150,7 @@ class _LawEnforcementCustomPopUpListState
           CommonWidgets.verticalSpacerWidget(8),
           Row(
             children: [
-              textHandling('Purpose of Visit : ',
+              textHandling('${Constants.purposeOfVisit} :',
                   widget.userItem?.visitPurpose?.name ?? " "),
             ],
           ),
