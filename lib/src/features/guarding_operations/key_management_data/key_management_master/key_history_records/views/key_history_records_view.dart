@@ -168,18 +168,18 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                         labels.add(Label(
                             key: state.labels?.locale.floor ??
                                 state.labels?.defaultLocale.floor ??
-                                'Floor',
+                                Constants.floor,
                             value: state.list[index].floor.toString()));
                         labels.add(Label(
                             key: state.labels?.locale.createdBy ??
                                 state.labels?.defaultLocale.createdBy ??
-                                'Created By',
+                                Constants.createdby,
                             value:
                                 '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
                         labels.add(Label(
                             key: state.labels?.locale.createdDate ??
                                 state.labels?.defaultLocale.createdDate ??
-                                'Create On',
+                                Constants.createOn,
                             value: state.list[index].createdDate != null
                                 ? Utils.timestampToDateConversion(
                                     int.parse(
@@ -187,7 +187,9 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                                     Constants.twentyFourHourDateTimeFormat)
                                 : ''));
                         labels.add(Label(
-                            key: 'No.of.Keys',
+                            key: state.labels?.locale.noKeys ??
+                                state.labels?.defaultLocale.noKeys ??
+                                Constants.noOfKeys,
                             value: state.list[index].noOfKeys.toString()));
                         return index >= state.list.length
                             ? const BaseLoader()

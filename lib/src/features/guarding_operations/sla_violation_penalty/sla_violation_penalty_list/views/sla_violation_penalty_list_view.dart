@@ -175,29 +175,29 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                           labels.add(Label(
                               key: state.labels?.locale.entrySecurity ??
                                   state.labels?.defaultLocale.entrySecurity ??
-                                  'Created By',
+                                  Constants.createdby,
                               value:
                                   '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
                           labels.add(Label(
                               key: state.labels?.locale.locationRegion ??
                                   state.labels?.defaultLocale.locationRegion ??
-                                  'Region',
+                                  Constants.region,
                               value: state.items[index].locationRegion?.name ??
                                   ''));
                           labels.add(Label(
                               key: state.labels?.locale.location ??
                                   state.labels?.defaultLocale.location ??
-                                  'Location',
+                                  Constants.location,
                               value: state.items[index].location?.name ?? ''));
                           labels.add(Label(
                               key: state.labels?.locale.slNo ??
                                   state.labels?.defaultLocale.slNo ??
-                                  'SL No',
+                                  Constants.slno,
                               value: state.items[index].slNo ?? ''));
                           labels.add(Label(
                               key: state.labels?.locale.inputDate ??
                                   state.labels?.defaultLocale.inputDate ??
-                                  'Date of Creation',
+                                  Constants.dateofcreation,
                               value: state.items[index].inputDate != null
                                   ? Utils.timestampToDateConversion(
                                       int.parse(
@@ -207,18 +207,18 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                           labels.add(Label(
                               key: state.labels?.locale.entity ??
                                   state.labels?.defaultLocale.entity ??
-                                  'Entity',
+                                  Constants.entity,
                               value: state.items[index].entitiesInfo ?? ''));
                           labels.add(Label(
                               key: state.labels?.locale.typeOfService ??
                                   state.labels?.defaultLocale.typeOfService ??
-                                  'Type of Services',
+                                  Constants.typeOfService,
                               value:
                                   state.items[index].typeOfServiceInfo ?? ''));
                           labels.add(Label(
                               key: state.labels?.locale.vendor ??
                                   state.labels?.defaultLocale.vendor ??
-                                  'Vendor',
+                                  Constants.vendor,
                               value: state.items[index].vendorInfo ?? ''));
                           return index >= state.items.length
                               ? const BaseLoader()

@@ -154,15 +154,37 @@ class _KeyManagementMasterListViewState
                               labels.add(Label(
                                   key: state.labels?.locale.floor ??
                                       state.labels?.defaultLocale.floor ??
-                                      'Floor',
+                                      Constants.floor,
                                   value: state.list[index].floor.toString()));
                               labels.add(Label(
                                   key: state.labels?.locale.createdBy ??
                                       state.labels?.defaultLocale.createdBy ??
-                                      'Created By',
+                                      Constants.createdby,
                                   value:
                                       '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
-
+                              labels.add(Label(
+                                  key: state.labels?.locale.createdDate ??
+                                      state.labels?.defaultLocale.createdDate ??
+                                      Constants.createdDate,
+                                  value: state.list[index].createdDate != null
+                                      ? Utils.timestampToDateConversion(
+                                          int.parse(
+                                              state.list[index].createdDate ??
+                                                  '0'),
+                                          Constants
+                                              .twentyFourHourDateTimeFormat)
+                                      : ''));
+                              labels.add(Label(
+                                  key: state.labels?.locale.noKeys ??
+                                      state.labels?.defaultLocale.noKeys ??
+                                      Constants.noOfKeys,
+                                  value: state.list[index].noKeys.toString()));
+                              labels.add(Label(
+                                  key: state.labels?.locale.noMasterKey ??
+                                      state.labels?.defaultLocale.noMasterKey ??
+                                      Constants.noOfKeys,
+                                  value: state.list[index].noMasterKey
+                                      .toString()));
                               return index >= state.list.length
                                   ? const BaseLoader()
                                   : BaseListTileItem(
@@ -186,9 +208,9 @@ class _KeyManagementMasterListViewState
                                                   .list[selectedIndex].status,
                                               keyNo: state
                                                   .list[selectedIndex].keyNo,
-                                              keyTagging: state
-                                                  .list[selectedIndex]
-                                                  .keyTagging,
+                                              // keyTagging: state
+                                              //     .list[selectedIndex]
+                                              //     .keyTagging,
                                               doorName: state
                                                   .list[selectedIndex].doorName,
                                               isKeyManagementStatus: true,
@@ -223,9 +245,9 @@ class _KeyManagementMasterListViewState
                                                   .list[selectedIndex].status,
                                               keyNo: state
                                                   .list[selectedIndex].keyNo,
-                                              keyTagging: state
-                                                  .list[selectedIndex]
-                                                  .keyTagging,
+                                              // keyTagging: state
+                                              //     .list[selectedIndex]
+                                              //     .keyTagging,
                                               doorName: state
                                                   .list[selectedIndex].doorName,
                                               isEventProtectionStatus: false,

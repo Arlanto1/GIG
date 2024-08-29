@@ -186,7 +186,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                     labels.add(Label(
                       key: state.labels?.locale.createDate ??
                           state.labels?.defaultLocale.createDate ??
-                          'Date of Creation',
+                          Constants.dateofcreation,
                       value: state.items[index].createdDate != null
                           ? Utils.timestampToDateConversion(
                               int.tryParse(
@@ -197,26 +197,26 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                     labels.add(Label(
                       key: state.labels?.locale.location ??
                           state.labels?.defaultLocale.location ??
-                          'Location',
+                          Constants.location,
                       value: state.items[index].location?.name ?? '',
                     ));
                     labels.add(Label(
                       key: state.labels?.locale.region ??
                           state.labels?.defaultLocale.region ??
-                          'Region',
+                          Constants.region,
                       value: state.items[index].region?.name ?? '',
                     ));
                     labels.add(Label(
                         key: state.labels?.locale.createdBy ??
                             state.labels?.defaultLocale.createdBy ??
-                            'Created By',
+                            Constants.createdby,
                         value:
                             '${state.items[index].createdBy?.firstName ?? ''} ${state.items[index].createdBy?.lastName ?? ''}'));
                     labels.add(Label(
                       key:
                           // state.labels?.locale.createDate ??
                           //     state.labels?.defaultLocale.createDate ??
-                          'Modified Date',
+                          Constants.modifiedDate,
                       value: state.items[index].modifiedDate != null
                           ? Utils.timestampToDateConversion(
                               int.tryParse(

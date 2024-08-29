@@ -153,25 +153,31 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
           if (index < state.items!.length) {
             labels.add(
               Label(
-                key: 'Penalty Amount',
+                key: state.labels?.locale.penaltyAmount ??
+                    state.labels?.defaultLocale.penaltyAmount ??
+                    Constants.penaltyAmount,
                 value: '${state.items![index].penaltyAmount ?? 0}',
               ),
             );
             labels.add(
               Label(
-                key: 'Total No Of Violations',
+                key: state.labels?.locale.totalViolations ??
+                    state.labels?.defaultLocale.totalViolations ??
+                    Constants.totalNoOfViolations,
                 value: '${state.items![index].totalViolations ?? ''}',
               ),
             );
             labels.add(
               Label(
-                key: 'Total Penalty Amount',
+                key: state.labels?.locale.totalPenaltyAmount ??
+                    state.labels?.defaultLocale.totalPenaltyAmount ??
+                    Constants.totalPenaltyAmount,
                 value: '${state.items![index].totalPenaltyAmount ?? ''}',
               ),
             );
             labels.add(
               Label(
-                key: 'Violation',
+                key: Constants.violation,
                 value: state.items![index].violation?.name ?? '',
               ),
             );

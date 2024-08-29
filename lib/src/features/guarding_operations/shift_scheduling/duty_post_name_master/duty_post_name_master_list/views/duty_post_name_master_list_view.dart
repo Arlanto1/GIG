@@ -161,21 +161,21 @@ class _DutyPostNameMasterListViewState
                                   key: state.labels?.locale.locationRegion ??
                                       state.labels?.defaultLocale
                                           .locationRegion ??
-                                      'Region',
+                                      Constants.region,
                                   value:
                                       state.list[index].locationRegion?.name ??
                                           ''));
                               labels.add(Label(
                                   key: state.labels?.locale.location ??
                                       state.labels?.defaultLocale.location ??
-                                      'Location ',
+                                      Constants.location,
                                   value:
                                       state.list[index].location?.name ?? ''));
                               labels.add(Label(
                                   key: state.labels?.locale.entrySecurity ??
                                       state.labels?.defaultLocale
                                           .entrySecurity ??
-                                      'Created By',
+                                      Constants.createdby,
                                   value:
                                       '${state.list[index].entrySecurity?.firstName ?? ''} ${state.list[index].entrySecurity?.lastName ?? ''}'));
                             }

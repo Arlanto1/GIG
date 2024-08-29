@@ -182,26 +182,26 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                                   key: state.labels?.locale.entrySecurity ??
                                       state.labels?.defaultLocale
                                           .entrySecurity ??
-                                      'Created By',
+                                      Constants.createdby,
                                   value:
                                       '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
                               labels.add(Label(
                                   key: state.labels?.locale.locationRegion ??
                                       state.labels?.defaultLocale
                                           .locationRegion ??
-                                      'Region',
+                                      Constants.region,
                                   value:
                                       state.items[index].locationRegion?.name ??
                                           ''));
                               labels.add(Label(
                                   key: state.labels?.locale.slNo ??
                                       state.labels?.defaultLocale.slNo ??
-                                      'SL No',
+                                      Constants.slno,
                                   value: state.items[index].slNo ?? ''));
                               labels.add(Label(
                                   key: state.labels?.locale.location ??
                                       state.labels?.defaultLocale.location ??
-                                      'Location',
+                                      Constants.location,
                                   value:
                                       state.items[index].location?.name ?? ''));
                               return index >= state.items.length

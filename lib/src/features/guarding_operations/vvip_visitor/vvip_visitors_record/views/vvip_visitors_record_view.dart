@@ -144,31 +144,41 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
           if (index < state.items!.length) {
             labels.add(
               Label(
-                key: 'Visitor Name',
+                key: state.labels?.locale.visitorName ??
+                    state.labels?.defaultLocale.visitorName ??
+                    Constants.visitorsName,
                 value: state.items![index].name ?? '',
               ),
             );
             labels.add(
               Label(
-                key: 'Visitor Email Id',
+                key: state.labels?.locale.visitorEmailId ??
+                    state.labels?.defaultLocale.visitorEmailId ??
+                    Constants.visitorsEmailId,
                 value: state.items![index].email ?? '',
               ),
             );
             labels.add(
               Label(
-                key: 'Purpose of Visit',
+                key: state.labels?.locale.purposeOfVisit ??
+                    state.labels?.defaultLocale.purposeOfVisit ??
+                    Constants.purposeOfVisit,
                 value: state.items![index].purpose ?? '',
               ),
             );
             labels.add(
               Label(
-                key: 'Visitor Designation',
+                key: state.labels?.locale.visitorDesignation ??
+                    state.labels?.defaultLocale.visitorDesignation ??
+                    Constants.visitorsDesignation,
                 value: state.items![index].designation ?? '',
               ),
             );
             labels.add(
               Label(
-                key: 'Base Location of Visitor',
+                key: state.labels?.locale.baseLocationOfVisitor ??
+                    state.labels?.defaultLocale.baseLocationOfVisitor ??
+                    Constants.baseLocationOfVisitors,
                 value: state.items![index].baseLocation ?? '',
               ),
             );

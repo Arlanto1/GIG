@@ -154,7 +154,7 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                     key: state.labels?.locale.createdDate ??
                                         state.labels?.defaultLocale
                                             .createdDate ??
-                                        'Created Date',
+                                        Constants.createdDate,
                                     value: state.list[index].createdDate != null
                                         ? Utils.timestampToDateConversion(
                                             int.parse(
@@ -167,50 +167,50 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                     key: state.labels?.locale.locationRegion ??
                                         state.labels?.defaultLocale
                                             .locationRegion ??
-                                        'Region',
+                                        Constants.region,
                                     value:
                                         state.list[index].region?.name ?? ''));
                                 labels.add(Label(
                                     key: state.labels?.locale.location ??
                                         state.labels?.defaultLocale.location ??
-                                        'Location',
+                                        Constants.location,
                                     value: state.list[index].location?.name ??
                                         ''));
                                 labels.add(Label(
                                     key: state.labels?.locale.entrySecurity ??
                                         state.labels?.defaultLocale
                                             .entrySecurity ??
-                                        'Created By',
+                                        Constants.createdby,
                                     value:
                                         '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
                                 labels.add(Label(
                                     key: state.labels?.locale.shiftA ??
                                         state.labels?.defaultLocale.shiftA ??
-                                        'Shift A',
+                                        Constants.aShift,
                                     value:
                                         state.list[index].shiftA.toString()));
                                 labels.add(Label(
                                     key: state.labels?.locale.shiftB ??
                                         state.labels?.defaultLocale.shiftB ??
-                                        'Shift B',
+                                        Constants.bShift,
                                     value:
                                         state.list[index].shiftB.toString()));
                                 labels.add(Label(
                                     key: state.labels?.locale.shiftC ??
                                         state.labels?.defaultLocale.shiftC ??
-                                        'Shift C',
+                                        Constants.cShift,
                                     value:
                                         state.list[index].shiftC.toString()));
                                 labels.add(Label(
                                     key: state.labels?.locale.shiftG ??
                                         state.labels?.defaultLocale.shiftG ??
-                                        'Shift G',
+                                        Constants.gShift,
                                     value:
                                         state.list[index].shiftG.toString()));
                                 labels.add(Label(
                                     key: state.labels?.locale.total ??
                                         state.labels?.defaultLocale.total ??
-                                        'Total',
+                                        Constants.total,
                                     value: state.list[index].total.toString()));
                                 return index >= state.list.length
                                     ? const BaseLoader()

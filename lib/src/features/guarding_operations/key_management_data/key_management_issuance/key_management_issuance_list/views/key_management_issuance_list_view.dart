@@ -160,20 +160,20 @@ class _KeyManagementIssuanceListViewState
                                 labels.add(Label(
                                     key: state.labels?.locale.createdBy ??
                                         state.labels?.defaultLocale.createdBy ??
-                                        'Created By',
+                                        Constants.createdby,
                                     value:
                                         '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
                                 labels.add(Label(
                                     key: state.labels?.locale.location ??
                                         state.labels?.defaultLocale.location ??
-                                        'Location ',
+                                        Constants.location,
                                     value: state.list[index].location?.name ??
                                         ''));
                                 labels.add(Label(
                                     key: state.labels?.locale.createdDate ??
                                         state.labels?.defaultLocale
                                             .createdDate ??
-                                        'Created Date',
+                                        Constants.createDate,
                                     value: state.list[index].createdDate != null
                                         ? Utils.timestampToDateConversion(
                                             int.parse(
@@ -186,7 +186,7 @@ class _KeyManagementIssuanceListViewState
                                     key: state.labels?.locale.handedOverTo ??
                                         state.labels?.defaultLocale
                                             .handedOverTo ??
-                                        'Handed Over To',
+                                        Constants.handedOverTo,
                                     value:
                                         '${state.list[index].handedOverTo?.firstName ?? ''} ${state.list[index].handedOverTo?.lastName ?? ''}'));
                               }

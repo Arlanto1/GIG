@@ -65,10 +65,11 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
 
     // Wait until the state status is FormStatus.success or FormStatus.failure
     await context.read<MaterialMovementBloc>().stream.firstWhere(
-          (state) => state.status == FormStatus.success || state.status == FormStatus.failure,
-    );
+          (state) =>
+              state.status == FormStatus.success ||
+              state.status == FormStatus.failure,
+        );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +175,10 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                             List<Label> labels = [];
                             if (index < state.items.length) {
                               labels.add(Label(
-                                  key: 'Date',
+                                  key: state.labels?.locale.inputDate ??
+                                      state.labels?.defaultLocale
+                                          .requestorEmail ??
+                                      Constants.date,
                                   value: state.items[index].inputDate != null
                                       ? Utils.timestampToDateConversion(
                                           int.parse(
@@ -184,19 +188,29 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                                               .twentyFourHourDateTimeFormat)
                                       : ''));
                               labels.add(Label(
-                                  key: 'Region',
+                                  key: Constants.region,
                                   value:
                                       state.items[index].locationRegion?.name ??
                                           ''));
                               labels.add(Label(
-                                  key: 'Location',
+                                  key: state.labels?.locale.location ??
+                                      state.labels?.defaultLocale.location ??
+                                      Constants.location,
                                   value:
                                       state.items[index].location?.name ?? ''));
                               labels.add(Label(
-                                  key: 'Material Movement Type ',
+                                  key: state.labels?.locale.type ??
+                                      state.labels?.defaultLocale.type ??
+                                      Constants.materialMovementsType,
                                   value: state.items[index].returnable == true
-                                      ? 'Returnable'
-                                      : 'Not Returnable'));
+                                      ? state.labels?.locale.returnable ??
+                                          state.labels?.defaultLocale
+                                              .returnable ??
+                                          Constants.returnable
+                                      : state.labels?.locale.nonReturnable ??
+                                          state.labels?.defaultLocale
+                                              .nonReturnable ??
+                                          Constants.nonReturnable));
 
                               return index >= state.items.length
                                   ? const BaseLoader()

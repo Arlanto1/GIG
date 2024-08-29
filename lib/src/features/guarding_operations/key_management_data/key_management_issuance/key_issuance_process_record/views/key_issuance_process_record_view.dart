@@ -192,37 +192,49 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           if (index < state.items.length) {
             labels.add(
               Label(
-                key: 'No.keys issued',
+                key: state.labels?.locale.noKeysIssued ??
+                    state.labels?.defaultLocale.noKeysIssued ??
+                    Constants.noKeysIssued,
                 value: state.items[index].noKeysIssued.toString(),
               ),
             );
             labels.add(
               Label(
-                key: 'Available ',
+                key: state.labels?.locale.available ??
+                    state.labels?.defaultLocale.available ??
+                    Constants.available,
                 value: state.items[index].available.toString(),
               ),
             );
             labels.add(
               Label(
-                key: 'Keys Returned',
+                key: state.labels?.locale.keysReturned ??
+                    state.labels?.defaultLocale.keysReturned ??
+                    Constants.keysReturned,
                 value: state.items[index].returned.toString(),
               ),
             );
             labels.add(
               Label(
-                key: 'Keys Not Returned',
+                key: state.labels?.locale.keysNotReturned ??
+                    state.labels?.defaultLocale.keysNotReturned ??
+                    Constants.keysNotReturned,
                 value: state.items[index].notReturned.toString(),
               ),
             );
             labels.add(
               Label(
-                key: 'Keys Lost',
+                key: state.labels?.locale.keysLost ??
+                    state.labels?.defaultLocale.keysLost ??
+                    Constants.keysLost,
                 value: state.items[index].lost.toString(),
               ),
             );
             labels.add(
               Label(
-                key: 'Keys Damaged',
+                key: state.labels?.locale.keysDamaged ??
+                    state.labels?.defaultLocale.keysDamaged ??
+                    Constants.keysDamaged,
                 value: state.items[index].damaged.toString(),
               ),
             );
