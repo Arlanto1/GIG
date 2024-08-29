@@ -137,25 +137,25 @@ class _AttendanceViewState extends State<AttendanceView> {
                                 key: state.labels?.locale.locationRegion ??
                                     state
                                         .labels?.defaultLocale.locationRegion ??
-                                    'Region',
+                                    Constants.region,
                                 value:
                                     state.items[index].locationRegion?.name ??
                                         ''));
                             labels.add(Label(
                                 key: state.labels?.locale.location ??
                                     state.labels?.defaultLocale.location ??
-                                    'Location ',
+                                    Constants.location,
                                 value:
                                     state.items[index].location?.name ?? ''));
                             labels.add(Label(
                                 key: state.labels?.locale.slNo ??
                                     state.labels?.defaultLocale.slNo ??
-                                    'SlNo',
+                                    Constants.slno,
                                 value: state.items[index].slNo ?? ''));
                             labels.add(Label(
                                 key: state.labels?.locale.inputDate ??
                                     state.labels?.defaultLocale.inputDate ??
-                                    'Date of Creation',
+                                    Constants.dateofcreation,
                                 value: state.items[index].inputDate != null
                                     ? Utils.timestampToDateConversion(
                                         int.parse(
