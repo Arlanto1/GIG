@@ -323,6 +323,10 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           getSerialnumberResponse: serialNumberResponse,
           getDepositorResponse: getDepositorData,
           stateType: CreatePassMgmtStateType.success,
+          // refresh according to the location
+          nameResponse: BaseUser(),
+          hostResponse: User(),
+          dbsponsorResponse: User(),
         ),
       );
     } catch (e) {
