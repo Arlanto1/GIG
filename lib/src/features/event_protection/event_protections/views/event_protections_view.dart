@@ -164,7 +164,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                               labels.add(Label(
                                   key: state.labels?.locale.inputDate ??
                                       state.labels?.defaultLocale.inputDate ??
-                                      'Date of Creation',
+                                      Constants.dateofcreation,
                                   value: state.items[index].inputDate != null
                                       ? Utils.timestampToDateConversion(
                                           int.parse(
@@ -177,14 +177,14 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                   key: state.labels?.locale.locationRegion ??
                                       state.labels?.defaultLocale
                                           .locationRegion ??
-                                      'Region',
+                                      Constants.region,
                                   value:
                                       state.items[index].locationRegion?.name ??
                                           ''));
                               labels.add(Label(
                                   key: state.labels?.locale.location ??
                                       state.labels?.defaultLocale.location ??
-                                      'Location',
+                                      Constants.location,
                                   value:
                                       state.items[index].location?.name ?? ''));
                               if (!state
@@ -193,7 +193,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                     key: state.labels?.locale.eventStartDate ??
                                         state.labels?.defaultLocale
                                             .eventStartDate ??
-                                        'Event Start Date',
+                                        Constants.eventStartDate,
                                     value: Utils.timestampToDateConversion(
                                         int.tryParse(
                                             state.items[index].eventStartDate ??
@@ -207,7 +207,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                     key: state.labels?.locale.eventEndDate ??
                                         state.labels?.defaultLocale
                                             .eventEndDate ??
-                                        'Event End Date',
+                                        Constants.eventEndDate,
                                     value: Utils.timestampToDateConversion(
                                         int.tryParse(
                                             state.items[index].eventEndDate ??

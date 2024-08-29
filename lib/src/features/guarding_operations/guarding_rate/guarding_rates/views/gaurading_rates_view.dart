@@ -171,7 +171,7 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
                             labels.add(Label(
                                 key: state.labels?.locale.inputDate ??
                                     state.labels?.defaultLocale.inputDate ??
-                                    'Date of Creation',
+                                    Constants.dateofcreation,
                                 value: state.items[index].inputDate != null
                                     ? Utils.timestampToDateConversion(
                                         int.parse(
@@ -183,20 +183,20 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
                                 key: state.labels?.locale.locationRegion ??
                                     state
                                         .labels?.defaultLocale.locationRegion ??
-                                    'Region',
+                                    Constants.region,
                                 value:
                                     state.items[index].locationRegion?.name ??
                                         ''));
                             labels.add(Label(
                                 key: state.labels?.locale.location ??
                                     state.labels?.defaultLocale.location ??
-                                    'Building Location',
+                                    Constants.buildingLocation,
                                 value:
                                     state.items[index].location?.name ?? ''));
                             labels.add(Label(
                                 key: state.labels?.locale.slNo ??
                                     state.labels?.defaultLocale.slNo ??
-                                    'SlNo',
+                                    Constants.slno,
                                 value: state.items[index].slNo ?? ''));
                             return BaseListTileItem(
                               id: state.items[index].id,

@@ -412,8 +412,8 @@ class _KeyHistoryRecordsDetailsViewState
 
                         ///Type
                         CommonWidgets.textDisplay(
-                          // state.labels?.locale.type ??
-                          //  state.labels?.defaultLocale.type ??
+                          state.labels?.locale.type ??
+                           state.labels?.defaultLocale.type ??
                           Constants.type,
                           isMandatory: true,
                           Styles.textStyleBlack14,

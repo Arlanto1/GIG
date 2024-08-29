@@ -152,33 +152,33 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                                     key: state.labels?.locale.locationRegion ??
                                         state.labels?.defaultLocale
                                             .locationRegion ??
-                                        'Region',
+                                        Constants.region,
                                     value: state
                                             .list[index].locationRegion?.name ??
                                         ''));
                                 labels.add(Label(
                                     key: state.labels?.locale.location ??
                                         state.labels?.defaultLocale.location ??
-                                        'Building Location ',
+                                        Constants.buildingLocation,
                                     value: state.list[index].location?.name ??
                                         ''));
                                 labels.add(Label(
                                     key: state.labels?.locale.vendor ??
                                         state.labels?.defaultLocale.vendor ??
-                                        'Vendor',
+                                        Constants.vendor,
                                     value:
                                         state.list[index].vendor?.name ?? ''));
                                 labels.add(Label(
                                     key: state.labels?.locale.guard ??
                                         state.labels?.defaultLocale.guard ??
-                                        'Guard Name',
+                                        Constants.guardName,
                                     value:
                                         '${state.list[index].guard?.firstName ?? ''} ${state.list[index].guard?.lastName ?? ''}'));
                                 labels.add(Label(
                                     key: state.labels?.locale.entrySecurity ??
                                         state.labels?.defaultLocale
                                             .entrySecurity ??
-                                        'Created By',
+                                        Constants.createdby,
                                     value:
                                         '${state.list[index].entrySecurity?.firstName ?? ''} ${state.list[index].entrySecurity?.lastName ?? ''}'));
                                 return index >= state.list.length

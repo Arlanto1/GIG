@@ -146,7 +146,7 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                     key: state.labels?.locale.createdDate ??
                                         state.labels?.defaultLocale
                                             .createdDate ??
-                                        'Date of Creation',
+                                        Constants.createdDate,
                                     value: state.items[index].inputDate != null
                                         ? Utils.timestampToDateConversion(
                                             int.parse(
@@ -159,38 +159,29 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                     key: state.labels?.locale.entrySecurity ??
                                         state.labels?.defaultLocale
                                             .entrySecurity ??
-                                        'Created By',
+                                        Constants.createdby,
                                     value:
                                         state.items[index].entrySecurityName ??
                                             ''));
-
                                 labels.add(Label(
                                     key: state.labels?.locale.locationRegion ??
                                         state.labels?.defaultLocale
                                             .locationRegion ??
-                                        'Region',
-                                    value: state.items[index].entrySecurityName
-                                            .toString() ??
-                                        ''));
-                                labels.add(Label(
-                                    key: state.labels?.locale.locationRegion ??
-                                        state.labels?.defaultLocale
-                                            .locationRegion ??
-                                        'Region',
+                                        Constants.region,
                                     value: state.items[index].locationRegion
                                             ?.name ??
                                         ''));
                                 labels.add(Label(
                                     key: state.labels?.locale.location ??
                                         state.labels?.defaultLocale.location ??
-                                        'Location',
+                                        Constants.location,
                                     value: state.items[index].location?.name ??
                                         ''));
 
                                 labels.add(Label(
                                     key: state.labels?.locale.fromDate ??
                                         state.labels?.defaultLocale.fromDate ??
-                                        'From Date',
+                                        Constants.fromDate,
                                     value: state.items[index].fromDate != null
                                         ? Utils.timestampToDateConversion(
                                             int.parse(
@@ -202,7 +193,7 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                 labels.add(Label(
                                     key: state.labels?.locale.toDate ??
                                         state.labels?.defaultLocale.toDate ??
-                                        'To Date',
+                                        Constants.toDate,
                                     value: state.items[index].toDate != null
                                         ? Utils.timestampToDateConversion(
                                             int.parse(

@@ -121,7 +121,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
-            moduleCode: Constants.guardingMasterModuleCode),
+            moduleCode: Constants.shiftScheduleModuleCode),
         SharedPrefs.getDefaultLocation(),
       ]);
 

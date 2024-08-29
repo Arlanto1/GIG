@@ -495,9 +495,9 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             if (state.model.id != null) ...[
                               /// Modified Date
                               CommonWidgets.textDisplay(
-                                // state.labels?.locale.date ??
-                                //     state.labels?.defaultLocale.date ??
-                                Constants.modifiedOn,
+                                state.labels?.locale.modifiedDate ??
+                                    state.labels?.defaultLocale.modifiedDate ??
+                                    Constants.modifiedOn,
                                 Styles.textStyleBlack14,
                                 isMandatory: true,
                               ),
@@ -509,9 +509,9 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
 
                               /// Modified By
                               CommonWidgets.horizentaltextHandling(
-                                  // state.labels?.locale.entrySecurity ??
-                                  //     state.labels?.defaultLocale.entrySecurity ??
-                                  Constants.modifiedBy,
+                                  state.labels?.locale.modifiedBy ??
+                                      state.labels?.defaultLocale.modifiedBy ??
+                                      Constants.modifiedBy,
                                   isMandatory: true,
                                   state.model.modifiedBy ?? ''),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),

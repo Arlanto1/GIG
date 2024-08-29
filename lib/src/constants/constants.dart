@@ -249,6 +249,7 @@ class Constants {
   static const String updatestatus = 'Update Status';
   static const String dateofcreation = 'Date of Creation';
   static const String createDate = 'Create Date';
+  static const String createdDate = 'Created Date';
   static const String createOn = 'Create On';
   static const String assetype = 'Asset Type';
   static const String founddate = 'Found Date';
@@ -477,6 +478,8 @@ class Constants {
   static const String rejectedBy = 'Rejected By';
   static const String rejectedDate = 'Rejected Date';
   static const String rejectedComment = 'Rejected Comment';
+  static const String returnable = 'Returnable';
+  static const String nonReturnable = 'Non Returnable';
 
   static const String approvedBy = 'Approved By';
   static const String approvedDate = 'Approved Date';
@@ -729,6 +732,7 @@ class Constants {
 
   //SLA Violation Penalty
   static const String sLAViolationPenalty = 'SLA Violation Penalty';
+  static const String addViewViolation = 'Add/View Violation Penalty(S)';
 
   //Contact Details
   static const String phoneNumber = 'Phone Number';
@@ -841,6 +845,7 @@ class Constants {
   static const String keyIssuanceProcess = 'Key Issuance Process';
   static const String keys = 'Keys';
   static const String keysAvailable = 'Keys Available';
+  static const String available = 'Available';
   static const String alreadyIssuedKeys = 'Issued/In Progress';
   static const String keysReturned = 'Keys Returned';
   static const String keysNotReturned = 'Keys Not Returned';

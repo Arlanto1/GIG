@@ -519,7 +519,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               ),
                               const SizedBox(width: 10),
                               const Text(
-                                'Add/View Violation Penalty(S)',
+                                Constants.addViewViolation,
                                 style: TextStyle(
                                   color: AppColors.navigationSkyBlueColor,
                                   decoration: TextDecoration.underline,
