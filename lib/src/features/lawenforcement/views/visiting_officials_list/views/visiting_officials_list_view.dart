@@ -167,26 +167,50 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
           if (index < state.items!.length) {
             labels.add(
               Label(
-                key: 'Name',
+                key: state.labels?.locale.visitingOfficialName ??
+                    state.labels?.defaultLocale.visitingOfficialName ??
+                    Constants.name,
                 value: state.items![index].name ?? '',
               ),
             );
             labels.add(
               Label(
-                key: 'Designation',
+                key: state.labels?.locale.visitingOfficialDesignation ??
+                    state.labels?.defaultLocale.visitingOfficialDesignation ??
+                    Constants.designation,
                 value: state.items![index].designation ?? '',
               ),
             );
             labels.add(
               Label(
-                key: 'Department',
+                key: state.labels?.locale.visitingOfficialDepartment ??
+                    state.labels?.defaultLocale.visitingOfficialDepartment ??
+                    Constants.department,
                 value: state.items![index].department?.name ?? '',
               ),
             );
             labels.add(
               Label(
-                key: 'Phone Number',
+                key: state.labels?.locale.visitingOfficialContactNo ??
+                    state.labels?.defaultLocale.visitingOfficialContactNo ??
+                    Constants.phoneNumber,
                 value: state.items![index].contactNo ?? '',
+              ),
+            );
+            labels.add(
+              Label(
+                key: state.labels?.locale.visitingOfficialAddress ??
+                    state.labels?.defaultLocale.visitingOfficialAddress ??
+                    Constants.officeAddress,
+                value: state.items![index].address ?? '',
+              ),
+            );
+            labels.add(
+              Label(
+                key: state.labels?.locale.visitingOfficialEmail ??
+                    state.labels?.defaultLocale.visitingOfficialEmail ??
+                    Constants.visitingOfficialsEmailId,
+                value: state.items![index].email ?? '',
               ),
             );
             return index >= state.items!.length

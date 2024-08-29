@@ -57,11 +57,11 @@ class LawEnforcementListBloc
       Locations locations =
           await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
-      // dynamic responseLabels = await commonServices.getUiLabels(
-      //     language: await SharedPrefs.getLanguageCode(),
-      //     moduleCode: Constants.leoModuleCode);
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: await SharedPrefs.getLanguageCode(),
+          moduleCode: Constants.leoModuleCode);
 
-      // CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
+      LeoUiLabels labels = LeoUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,
@@ -71,6 +71,7 @@ class LawEnforcementListBloc
           hasReachedMax: false,
           status: FormStatus.initial,
           extraProperties: extraProperties,
+          labels: labels,
         ),
       );
     } on GenericResponse catch (e) {

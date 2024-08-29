@@ -718,7 +718,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                       .vendorName ??
                                                   state.labels?.defaultLocale
                                                       .vendorName ??
-                                                  "Vendor Name"
+                                          Constants.vendorName
                                               : widget.passId ==
                                                       ConstantsIntValue
                                                           .passIdDayPass
@@ -735,7 +735,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                           .labels
                                                           ?.defaultLocale
                                                           .visitorName ??
-                                                      "Visitor Name",
+                                          Constants.visitorName,
                                       Styles.textStyleBlack14,
                                       isMandatory: true,
                                     ),
@@ -829,12 +829,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 ? state.labels?.locale.email ??
                                                     state.labels?.defaultLocale
                                                         .email ??
-                                                    "Email"
+                                            Constants.email
                                                 : state.labels?.locale
                                                         .contactNo ??
                                                     state.labels?.defaultLocale
                                                         .contactNo ??
-                                                    "Contact No",
+                                            Constants.contactNo,
                                         Styles.textStyleBlack14,
                                         isMandatory:
                                             passCategoryTextController.text ==
@@ -981,7 +981,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             state.labels?.locale.cwrSponsor ??
                                                 state.labels?.defaultLocale
                                                     .cwrSponsor ??
-                                                'DB Sponsor',
+                                                Constants.dbSponsor,
                                             isMandatory: true,
                                             Styles.textStyleBlack14)
                                         : Container(),
@@ -1051,7 +1051,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     .cwrSponsorEmployeeId ??
                                                 state.labels?.defaultLocale
                                                     .cwrSponsorEmployeeId ??
-                                                'DB Sponsor Employee Id',
+                                                Constants.dbSponsorEmployeeId,
                                             isMandatory: true,
                                             Styles.textStyleBlack14)
                                         : Container(),
@@ -1103,12 +1103,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     .visitorComingFrom ??
                                                 state.labels?.defaultLocale
                                                     .visitorComingFrom ??
-                                                'Visitor Coming From'
+                                           Constants.visitorComingFrom
                                             : state.labels?.locale
                                                     .sezPassInfo ??
                                                 state.labels?.defaultLocale
                                                     .sezPassInfo ??
-                                                'SEZ Pass Info',
+                                            Constants.sezPass,
                                         Styles.textStyleBlack14,
                                         isMandatory: true,
                                       ),
@@ -1155,12 +1155,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             ? state.labels?.locale.mtpPassNo ??
                                                 state.labels?.defaultLocale
                                                     .mtpPassNo ??
-                                                'MTP Application No'
+                                            Constants.mTPApplicationNo
                                             : state.labels?.locale
                                                     .visitingPurpose ??
                                                 state.labels?.defaultLocale
                                                     .visitingPurpose ??
-                                                'Purpose of Visit',
+                                            Constants.purposeOfVisit,
                                         Styles.textStyleBlack14,
                                         isMandatory: true,
                                       ),
@@ -1184,7 +1184,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     .idValidationType ??
                                                 state.labels?.defaultLocale
                                                     .idValidationType ??
-                                                'Photo Identity Validation Type  ',
+                                               Constants.photoIdentityType,
                                             isMandatory: true,
                                             Styles.textStyleBlack14)
                                         : Container(),
@@ -1506,7 +1506,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                         .visitingDepartment ??
                                                     state.labels?.defaultLocale
                                                         .visitingDepartment ??
-                                                    "Visiting Department"
+                                                Constants.visitingDepartment
                                                 : Constants.department,
                                             isMandatory:
                                                 (state.selectedCompanyType
@@ -1543,7 +1543,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     .vendorPassReason ??
                                                 state.labels?.defaultLocale
                                                     .vendorPassReason ??
-                                                "Reason for Vendor Pass"
+                                            Constants.reasonForVendorPass
                                             : state.labels?.locale
                                                     .dayPassReason ??
                                                 state.labels?.defaultLocale
@@ -1596,7 +1596,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     .visitorPassInfo ??
                                                 state.labels?.defaultLocale
                                                     .visitorPassInfo ??
-                                                "Visitor Pass No"
+                                            Constants.visitorPassNo
                                             : widget.passId ==
                                                     ConstantsIntValue
                                                         .passIdVendor
@@ -1604,7 +1604,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                         .vendorPassInfo ??
                                                     state.labels?.defaultLocale
                                                         .vendorPassInfo ??
-                                                    "Vendor Pass No"
+                                            Constants.vendorPassNo
                                                 : state.labels?.locale
                                                         .dayPassInfo ??
                                                     state.labels?.defaultLocale
@@ -1827,7 +1827,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     .escortedByHost ??
                                                 state.labels?.defaultLocale
                                                     .escortedByHost ??
-                                                'Escorted by Host',
+                                                Constants.escortedByHost,
                                             isMandatory: true,
                                             Styles.textStyleBlack14)
                                         : Container(),
@@ -1991,7 +1991,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             state.labels?.locale.visitorImage ??
                                                 state.labels?.defaultLocale
                                                     .visitorImage ??
-                                                'Photo of Visitor',
+                                               Constants.photoOfVisitor,
                                             Styles.textStyleBlack14)
                                         : Container(),
                                     widget.passId ==
@@ -2676,7 +2676,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
             if (value.equalsIgnoreCase('Permanent')) {
               passValidUntilTextController.text = passValidUntilDate;
-              companyNameTextController.text = "Deutsche Bank";
+              companyNameTextController.text = Constants.deutscheBank;
               isFTECompanyNameEditable = false;
             } else {
               passValidUntilTextController.text = passValidUntilDate;

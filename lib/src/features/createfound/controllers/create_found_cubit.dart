@@ -66,6 +66,11 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         model.location = defaultLocation;
       }
 
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: await SharedPrefs.getLanguageCode(),
+          moduleCode: Constants.articleFoundModuleCode);
+
+      AFUiLabels labels = AFUiLabels.fromJson(responseLabels);
 
       emit(
         state.copyWith(
@@ -73,6 +78,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
           location: model.location,
           slno: serialNumberResponse?.serialNo,
           loggedInUser: loggedInUserDetails,
+          labels: labels
         ),
       );
 

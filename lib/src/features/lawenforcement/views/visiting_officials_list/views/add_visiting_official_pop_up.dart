@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_bloc.dart';
 
 class AddVisitingOfficialPopUp extends StatefulWidget {
   const AddVisitingOfficialPopUp({
@@ -53,6 +54,8 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
 
   @override
   Widget build(BuildContext context) {
+    VisitingOfficialListState state =
+        const VisitingOfficialListState(departments: []);
     return AlertDialog(
       title: Align(
         alignment: Alignment.center,
@@ -82,7 +85,9 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                     children: <Widget>[
                       /// Name
                       CommonWidgets.textDisplay(
-                        Constants.name,
+                        state.labels?.locale.visitingOfficialName ??
+                            state.labels?.defaultLocale.visitingOfficialName ??
+                            Constants.name,
                         //isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
@@ -109,7 +114,10 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
 
                       /// Designation
                       CommonWidgets.textDisplay(
-                        Constants.designation,
+                        state.labels?.locale.visitingOfficialDesignation ??
+                            state.labels?.defaultLocale
+                                .visitingOfficialDesignation ??
+                            Constants.designation,
                         //isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
@@ -136,7 +144,10 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
 
                       /// Department
                       CommonWidgets.textDisplay(
-                        Constants.department,
+                        state.labels?.locale.visitingOfficialDepartment ??
+                            state.labels?.defaultLocale
+                                .visitingOfficialDepartment ??
+                            Constants.department,
                         Styles.textStyleBlack14,
                         //  isMandatory: true,
                       ),
@@ -182,7 +193,10 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
 
                       /// Office Address
                       CommonWidgets.textDisplay(
-                        Constants.officeAddress,
+                        state.labels?.locale.visitingOfficialAddress ??
+                            state.labels?.defaultLocale
+                                .visitingOfficialAddress ??
+                            Constants.officeAddress,
                         //isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
@@ -210,7 +224,9 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
 
                       /// Email Id
                       CommonWidgets.textDisplay(
-                        Constants.emailId,
+                        state.labels?.locale.visitingOfficialEmail ??
+                            state.labels?.defaultLocale.visitingOfficialEmail ??
+                            Constants.emailId,
                         //isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
@@ -237,7 +253,10 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
 
                       /// Contact No
                       CommonWidgets.textDisplay(
-                        Constants.phoneNumber,
+                        state.labels?.locale.visitingOfficialContactNo ??
+                            state.labels?.defaultLocale
+                                .visitingOfficialContactNo ??
+                            Constants.phoneNumber,
                         Styles.textStyleBlack14,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
