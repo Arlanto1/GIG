@@ -202,6 +202,7 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
                               id: state.items[index].id,
                               // inputDate: state.items[index].inputDate,
                               vendors: state.items[index].vendor,
+                              labels: labels,
                               onTap: (selectedIndex) {
                                 showDialog(
                                   context: context,
