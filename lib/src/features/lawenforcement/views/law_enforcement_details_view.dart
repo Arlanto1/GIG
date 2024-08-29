@@ -812,7 +812,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                               widget.model == null ||
                                                   widget.model?.status ==
                                                       ConstantsIntValue
-                                                          .leoStatusDraft),
+                                                          .leoStatusDraft ||
+                                                  widget.model?.status ==
+                                                      ConstantsIntValue
+                                                          .leoStatusSubmitted),
                                       // Attachments
                                       // getSpaceattchment(height),
                                       // getAttachement(height),
