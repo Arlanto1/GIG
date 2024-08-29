@@ -1033,6 +1033,9 @@ class _CreateFoundState extends State<CreateFound> {
                                         state.model.location?.name =
                                             location.name ?? '';
                                         selectedLocation = location;
+
+                                        selectedClaimList = null;
+                                        selectedDepositorUser = null;
                                         setState(() {});
                                       }),
                                   CommonWidgets.verticalSpacerWidget(
