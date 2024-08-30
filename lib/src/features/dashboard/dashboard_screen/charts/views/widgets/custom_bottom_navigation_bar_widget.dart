@@ -7,56 +7,80 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final BuildContext context;
   final DisplayMenu displayMenu;
 
-  const CustomBottomNavigationBar({
+  CustomBottomNavigationBar({
     super.key,
     required this.displayMenu,
     required this.scaffoldKey,
     required this.context,
   });
 
+  List<FloatingNavbarItem> getMenuItems() {
+    List<FloatingNavbarItem> items = [];
+
+    if (displayMenu.gM ?? false) {
+      items.add(
+        FloatingNavbarItem(
+          icon: Icons.person_pin_outlined,
+          title: Constants.guardingOperations,
+        ),
+      );
+    }
+    if (displayMenu.mM ?? false) {
+      items.add(
+        FloatingNavbarItem(
+          icon: Icons.supervised_user_circle_sharp,
+          title: Constants.materialMovement,
+        ),
+      );
+    }
+    if (displayMenu.pM ?? false) {
+      items.add(
+        FloatingNavbarItem(
+          icon: Icons.quick_contacts_mail_rounded,
+          title: Constants.passManagement,
+        ),
+      );
+    }
+    if (displayMenu.keyMM ?? false) {
+      items.add(
+        FloatingNavbarItem(
+          icon: Icons.key,
+          title: Constants.keyManagementData,
+        ),
+      );
+    }
+    if (displayMenu.sS ?? false) {
+      items.add(
+        FloatingNavbarItem(
+          icon: Icons.calendar_month,
+          title: Constants.shiftScheduling,
+        ),
+      );
+    }
+    return items;
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<FloatingNavbarItem> menuItems = getMenuItems();
+
     return SizedBox(
       height: 140,
       child: FloatingNavbar(
-        onTap: _handleNavTap,
+        onTap: (index) => _handleNavTap(index, menuItems),
         backgroundColor: AppColors.navigationSkyBlueColor,
         selectedBackgroundColor: AppColors.white,
         selectedItemColor: AppColors.navigationSkyBlueColor,
         currentIndex: 0,
-        // Consider making this dynamic if needed
-        items: [
-          // Use 'const' for efficiency since these items don't change
-          FloatingNavbarItem(
-            icon: Icons.person_pin_outlined,
-            title: Constants.guardingOperations,
-          ),
-          FloatingNavbarItem(
-            icon: Icons.supervised_user_circle_sharp,
-            title: Constants.materialMovement,
-          ),
-          FloatingNavbarItem(
-            icon: Icons.quick_contacts_mail_rounded,
-            title: Constants.passManagement,
-          ),
-          FloatingNavbarItem(
-            icon: Icons.key,
-            title: Constants.keyManagementData,
-          ),
-          FloatingNavbarItem(
-            icon: Icons.calendar_month,
-            title: Constants.shiftScheduling,
-          ),
-          // Additional items can be added here...
-        ],
+        items: menuItems,
       ),
     );
   }
 
-  void _handleNavTap(int selectedIndex) {
+  void _handleNavTap(int selectedIndex, List<FloatingNavbarItem> menuItems) {
     // Get the position of the tapped item
     final RenderBox? renderBox =
-        scaffoldKey.currentContext?.findRenderObject() as RenderBox?;
+    scaffoldKey.currentContext?.findRenderObject() as RenderBox?;
     if (renderBox == null) {
       log('Error: Could not find RenderBox for Scaffold');
       return; // Handle the case where RenderBox is not found
@@ -74,24 +98,22 @@ class CustomBottomNavigationBar extends StatelessWidget {
       positionX: positionX,
     );
 
-    switch (selectedIndex) {
-      case 0:
+    switch (menuItems[selectedIndex].title) {
+      case Constants.guardingOperations:
         bottomMenuHandler.openGuardingOperationSubMenu();
         break;
-      case 1:
+      case Constants.materialMovement:
         bottomMenuHandler.openMaterialMovementSubMenu();
         break;
-      case 2:
+      case Constants.passManagement:
         bottomMenuHandler.openPassManagementSubMenu();
         break;
-      case 3:
+      case Constants.keyManagementData:
         bottomMenuHandler.openKeyManagementDataSubMenu();
         break;
-      case 4:
+      case Constants.shiftScheduling:
         bottomMenuHandler.openShiftScheduleSubMenu();
         break;
-      default:
-        log('Invalid tab index: $selectedIndex');
-    }
+       }
   }
 }
