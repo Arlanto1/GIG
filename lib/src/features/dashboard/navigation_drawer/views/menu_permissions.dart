@@ -61,25 +61,25 @@ class MenuPermissions {
     DisplayMenu? displayMenu,
     List<MenuItem> menuItems,
   ) {
-    if (displayMenu?.aTD ?? false) {
+    // if (displayMenu?.pM ?? false) {
       menuItems.add(const MenuItem(Constants.dayPassManagement,
           AppIcon.dayPassManagementRegisterIcon, 0));
-    }
+    // }
 
-    if (displayMenu?.ssDPM ?? false) {
+    // if (displayMenu?.ssDPM ?? false) {
       menuItems.add(const MenuItem(
           Constants.sezpassmgmt, AppIcon.sezPassManagementRegisterIcon, 0));
-    }
+    // }
 
-    if (displayMenu?.sSDP ?? false) {
+    // if (displayMenu?.sSDP ?? false) {
       menuItems.add(const MenuItem(Constants.vendorpassmgmt,
           AppIcon.vendorPassManagementRegisterIcon, 0));
-    }
+    // }
 
-    if (displayMenu?.sS ?? false) {
+    // if (displayMenu?.sS ?? false) {
       menuItems.add(const MenuItem(Constants.visitorpassmgmt,
           AppIcon.visitorPassManagementRegisterIcon, 0));
-    }
+    // }
   }
 
   void checkMenuPermissionsKeyManagementData(
