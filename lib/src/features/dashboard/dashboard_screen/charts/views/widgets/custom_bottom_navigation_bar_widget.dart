@@ -14,8 +14,14 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   List<BottomMenuItem> prepareMenuItems() {
     final List<BottomMenuItem> bottomMenuItems = [];
+    bool guardingOperations = ((displayMenu.gM ?? false) ||
+        (displayMenu.cD ?? false) ||
+        (displayMenu.gR ?? false) ||
+        (displayMenu.oCC ?? false) ||
+        (displayMenu.sVP ?? false) ||
+        (displayMenu.gMR ?? false));
 
-    if (displayMenu.gM ?? false) {
+    if (guardingOperations) {
       bottomMenuItems.add(
         BottomMenuItem(
           title: Constants.guardingOperations,
@@ -54,7 +60,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
         ),
       );
     }
-
     if (displayMenu.pM ?? false) {
       bottomMenuItems.add(
         BottomMenuItem(

@@ -28,6 +28,13 @@ class NavigationDrawer1 extends StatelessWidget {
 
   Future<List<MenuItem>> checkDisplayMenu() async {
     displayMenu = await SharedPrefs.getDisplayMenu();
+    bool guardingOperations = ((displayMenu?.gM ?? false) ||
+        (displayMenu?.cD ?? false) ||
+        (displayMenu?.gR ?? false) ||
+        (displayMenu?.oCC ?? false) ||
+        (displayMenu?.sVP ?? false) ||
+        (displayMenu?.gMR ?? false));
+
     if (displayMenu == null) {
       return [];
     }
@@ -49,9 +56,10 @@ class NavigationDrawer1 extends StatelessWidget {
           Constants.eventProtectionList, AppIcon.eventProtectionIcon, 0));
     }
 
-    if (displayMenu?.gM ?? false) {
-    expansionTileDrawerItems.add(const MenuItem(
-        Constants.guardingOperations, AppIcon.guardingOperationIcon, 1));
+    log('gm -- ${displayMenu?.gM}');
+    if (guardingOperations) {
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.guardingOperations, AppIcon.guardingOperationIcon, 1));
     }
 
     if (displayMenu?.iM ?? false) {
@@ -61,8 +69,8 @@ class NavigationDrawer1 extends StatelessWidget {
           0));
     }
     if (displayMenu?.keyMM ?? false) {
-    expansionTileDrawerItems.add(const MenuItem(
-        Constants.keyManagementData, AppIcon.keyManagementDataIcon, 1));
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.keyManagementData, AppIcon.keyManagementDataIcon, 1));
     }
     if (displayMenu?.lEO ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
@@ -81,8 +89,8 @@ class NavigationDrawer1 extends StatelessWidget {
     }
 
     if (displayMenu?.sS ?? false) {
-    expansionTileDrawerItems.add(
-        const MenuItem(shiftSchedulingTitle, AppIcon.eventProtectionIcon, 1));
+      expansionTileDrawerItems.add(
+          const MenuItem(shiftSchedulingTitle, AppIcon.eventProtectionIcon, 1));
     }
 
     if (displayMenu?.vIP ?? false) {
