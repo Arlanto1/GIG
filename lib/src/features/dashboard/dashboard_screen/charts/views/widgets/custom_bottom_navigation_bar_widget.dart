@@ -56,7 +56,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   void _handleNavTap(int selectedIndex) {
     // Get the position of the tapped item
     final RenderBox? renderBox =
-        scaffoldKey.currentContext?.findRenderObject() as RenderBox?;
+    scaffoldKey.currentContext?.findRenderObject() as RenderBox?;
     if (renderBox == null) {
       log('Error: Could not find RenderBox for Scaffold');
       return; // Handle the case where RenderBox is not found

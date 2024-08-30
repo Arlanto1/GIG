@@ -49,10 +49,10 @@ class NavigationDrawer1 extends StatelessWidget {
           Constants.eventProtectionList, AppIcon.eventProtectionIcon, 0));
     }
 
-    // if (displayMenu?.gM ?? false) {
+    if (displayMenu?.gM ?? false) {
     expansionTileDrawerItems.add(const MenuItem(
         Constants.guardingOperations, AppIcon.guardingOperationIcon, 1));
-    // }
+    }
 
     if (displayMenu?.iM ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
@@ -60,10 +60,10 @@ class NavigationDrawer1 extends StatelessWidget {
           AppIcon.incidentManagementIcon,
           0));
     }
-    // if (displayMenu.gM ?? false) {
+    if (displayMenu?.keyMM ?? false) {
     expansionTileDrawerItems.add(const MenuItem(
         Constants.keyManagementData, AppIcon.keyManagementDataIcon, 1));
-    // }
+    }
     if (displayMenu?.lEO ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
           Constants.lawEnforcementVisitsListTitle,
@@ -80,10 +80,10 @@ class NavigationDrawer1 extends StatelessWidget {
           Constants.passManagement, AppIcon.passManagementIcon, 1));
     }
 
-    // if (displayMenu.gM ?? false) {
+    if (displayMenu?.sS ?? false) {
     expansionTileDrawerItems.add(
         const MenuItem(shiftSchedulingTitle, AppIcon.eventProtectionIcon, 1));
-    // }
+    }
 
     if (displayMenu?.vIP ?? false) {
       expansionTileDrawerItems
