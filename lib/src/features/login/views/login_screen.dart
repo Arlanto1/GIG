@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
+import 'package:db_atom/src/utils/web_sso_msal_handler.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -275,6 +276,7 @@ class _LoginState extends State<Login> {
                               // CommonWidgets.verticalSpacerWidget(
                               //   height * 0.03,
                               // ),
+                              // /// DB SSO
                               // ElevatedButton(
                               //   onPressed: WebSsoMsalHandler().getToken,
                               //   style: ElevatedButton.styleFrom(
