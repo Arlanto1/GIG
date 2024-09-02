@@ -115,6 +115,14 @@ class KeyManagementIssuanceDetailsCubit
           : Utils.timestampToDateConversion(
               int.tryParse(state.model.createdDate ?? '0'),
               Constants.fulldateFormat);
+
+      if (state.model.status == 1) {
+        state.model.keyReturnDateTime = state.model.keyReturnDateTime == null
+            ? Utils().getCurrentDate()
+            : Utils.timestampToDateConversion(
+            int.tryParse(state.model.keyReturnDateTime ?? '0'),
+            Constants.fulldateFormat);
+      }
       if (state.model.status != 0) {
         state.model.keyHandOverDate = state.model.keyHandOverDate == null
             ? Utils().getCurrentDate()
@@ -326,6 +334,10 @@ class KeyManagementIssuanceDetailsCubit
     // if (state.model.status != 0 && state.model.status != null) {
     state.model.keyHandOverDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    state.model.keyReturnDateTime =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
     // }
     // if (state.model.status == 1) {
     //   state.model.keyReturnDateTime =
