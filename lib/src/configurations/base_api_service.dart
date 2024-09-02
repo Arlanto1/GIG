@@ -8,6 +8,7 @@ import 'package:db_atom/main.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/models/responseModels/permission_error.dart';
+import 'package:db_atom/src/utils/inactivity_functions.dart';
 import 'package:db_atom/src/utils/location_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,6 +31,7 @@ enum RequestType {
 
 class BaseApiService {
   Future<Map<String, String>> getHeaders({bool? isAuthenticated}) async {
+    unawaited(InactivityFunctions().updateUserInteraction());
     Map<String, String> headers = {'Content-Type': 'application/json'};
 
     // Passing Location Parameter only if the location service is Enabled
