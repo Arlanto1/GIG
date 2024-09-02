@@ -346,12 +346,12 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
           int.tryParse(state.model.keyHandOverDue ?? '0'),
           Constants.fulldateFormat);
     }
-
-    if (state.model.keyReturnDateTime != null) {
-      keyReturnDateAndTimeController.text = Utils.timestampToDateConversion(
-          int.tryParse(state.model.keyReturnDateTime ?? '0'),
-          Constants.fulldateFormat);
-    }
+    //
+    // if (state.model.keyReturnDateTime != null) {
+    //   keyReturnDateAndTimeController.text = Utils.timestampToDateConversion(
+    //       int.tryParse(state.model.keyReturnDateTime ?? '0'),
+    //       Constants.fulldateFormat);
+    // }
   }
 
   getBodybuilder(KeyManagementIssuanceDetailsState state, height) {
@@ -978,32 +978,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
-                                  BaseDate().datePickerWidgetLoading(
-                                    textController:
-                                        keyReturnDateAndTimeController,
-                                    isDisabled: (state.model.status != 1 &&
-                                            state.model.status != 2 &&
-                                            !isNotReturnableStatus) ||
-                                        isReadOnly,
-                                    onlyDate: false,
-                                    // showFutureDate: false,
-                                    // showPastDate: false,
-                                    // startDate: initialisedFromDate,
-                                    fromDate: initialisedFromDate,
-                                    toDate: DateTime.now().toString(),
-
-                                    onChange: (String value) {
-                                      state.model.keyReturnDateTime =
-                                          Utils().formatTime(value);
-
-                                      BlocProvider.of<
-                                                  KeyManagementIssuanceDetailsCubit>(
-                                              context)
-                                          .onModelValueChange(state.model);
-                                      //},
-                                    },
-                                    context: context,
-                                  ),
+                                  datecreateWidgetdisplay(
+                                      state.model.keyReturnDateTime ?? ''),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
 

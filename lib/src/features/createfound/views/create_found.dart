@@ -1673,9 +1673,9 @@ class _CreateFoundState extends State<CreateFound> {
                                             isClaimantDBEmployeeSelected == 1
                                         ? CommonWidgets.textDisplay(
                                             state.labels?.locale
-                                                    .foundClaimantDbEmp ??
+                                                    .foundClaimantDepartment ??
                                                 state.labels?.defaultLocale
-                                                    .foundClaimantDbEmp ??
+                                                    .foundClaimantDepartment ??
                                                 Constants.claimantdepartment,
                                             Styles.textStyleBlack14,
                                             isMandatory: true)
