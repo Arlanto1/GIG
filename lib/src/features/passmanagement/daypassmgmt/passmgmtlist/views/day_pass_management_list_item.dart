@@ -91,7 +91,7 @@ class _DayPassManagementListItemState extends State<DayPassManagementListItem> {
                       ],
                     ),
                   ],
-                  if (widget.userItem.location != null) ...[
+                  if (widget.userItem.entrySecurity != null) ...[
                     Row(
                       children: [
                         Utils().textHandling(
