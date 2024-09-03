@@ -222,6 +222,13 @@ class _KeyManagementMasterListViewState
                                           },
                                         );
                                       },
+                                      showEditButton:
+                                          state.list[index].status !=
+                                                  ConstantsIntValue
+                                                      .cancelledStatus &&
+                                              state.list[index].status !=
+                                                  ConstantsIntValue
+                                                      .keyMMClosedStatus,
                                       onEditTap: (selectedIndex) {
                                         getById(
                                             state.extraProperties
@@ -229,7 +236,6 @@ class _KeyManagementMasterListViewState
                                                 false,
                                             state.list[index].id ?? 0);
                                       },
-                                      showEditButton: true,
                                       onViewTap: (selectedIndex) {
                                         showDialog(
                                           context: context,

@@ -233,12 +233,6 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                                     !(widget.extraProperties != null &&
                                             !widget.extraProperties!
                                                 .hasWritePermission!)
-                                        ? true
-                                        : false,
-                                showDutyPostEditButton:
-                                    !(widget.extraProperties != null &&
-                                            !widget.extraProperties!
-                                                .hasWritePermission!)
                                         ? false
                                         : true,
                                 onViewTap: (selectedIndex) {

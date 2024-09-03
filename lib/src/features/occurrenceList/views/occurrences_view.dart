@@ -217,6 +217,10 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                                           },
                                         );
                                       },
+                                      showEditButton:
+                                          state.list[index].status ==
+                                              ConstantsIntValue
+                                                  .occurrenceStatusCreated,
                                       onEditTap: (selectedIndex) {
                                         getId(
                                             state.extraProperties

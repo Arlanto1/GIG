@@ -178,7 +178,7 @@ class _KeyLossDestructionListViewState
                                 // onEditTap: (selectedIndex) {
                                 //   getById(state.list[index].id ?? 0);
                                 // },
-                                showEditButton: false,
+                                // showNonEditButton: true,
                                 onViewTap: (selectedIndex) {
                                   showDialog(
                                     context: context,

@@ -245,6 +245,12 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                                       },
                                     );
                                   },
+                                  showEditButton:
+                                      state.items[index].status !=
+                                              ConstantsIntValue
+                                                  .slaStatusFinalized &&
+                                          state.items[index].status !=
+                                              ConstantsIntValue.cancelledStatus,
                                   onEditTap: (selectedIndex) {
                                     getById(
                                         state.extraProperties

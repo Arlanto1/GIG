@@ -232,6 +232,9 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                             },
                                           );
                                         },
+                                        showEditButton: state
+                                                .items[index].status !=
+                                            ConstantsIntValue.cancelledStatus,
                                         onEditTap: (selectedIndex) {
                                           getById(
                                               state.extraProperties

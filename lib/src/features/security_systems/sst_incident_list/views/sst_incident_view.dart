@@ -251,6 +251,8 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                 },
                               );
                             },
+                            showEditButton: state.items[index].status ==
+                                ConstantsIntValue.securitySystemCreatedStatus,
                             onEditTap: (selectedIndex) {
                               getId(
                                 state.extraProperties?.hasWritePermission ??

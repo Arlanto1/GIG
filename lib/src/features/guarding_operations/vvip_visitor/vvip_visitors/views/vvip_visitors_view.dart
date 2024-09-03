@@ -205,6 +205,9 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
                                         },
                                       );
                                     },
+                                    showEditButton:
+                                        state.items[index].status ==
+                                            ConstantsIntValue.vVIPCreatedStatus,
                                     onEditTap: (selectedIndex) {
                                       getById(
                                           state.extraProperties

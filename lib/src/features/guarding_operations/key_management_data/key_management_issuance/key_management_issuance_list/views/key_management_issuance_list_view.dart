@@ -104,7 +104,8 @@ class _KeyManagementIssuanceListViewState
                 // if (state.list.isEmptyOrNull) {
                 //   return const NoRecordFoundWidget();
                 // }
-                // log('--labels-${state.labels?.locale.locationRegion}');
+                // log('--labels-${state.labels?.locale.locationRegion}')
+
                 return Container(
                   margin: allMargin16,
                   decoration: const ShapeDecoration(
@@ -131,6 +132,7 @@ class _KeyManagementIssuanceListViewState
                         const BaseLoader(),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                       ],
+
                       // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                       // Text('state.status=====${state.status}'),
                       if (state.list.isEmptyOrNull &&
@@ -231,6 +233,24 @@ class _KeyManagementIssuanceListViewState
                                           },
                                         );
                                       },
+                                      showEditButton: state
+                                                  .list[index].status !=
+                                              ConstantsIntValue
+                                                  .issuanceClosedDamagedStatus &&
+                                          state.list[index].status !=
+                                              ConstantsIntValue
+                                                  .issuanceClosedLostStatus &&
+                                          state.list[index].status !=
+                                              ConstantsIntValue
+                                                  .issuanceClosedLostDamagedStatus &&
+                                          state.list[index].status !=
+                                              ConstantsIntValue
+                                                  .issuanceClosedDamagedStatus &&
+                                          state.list[index].status !=
+                                              ConstantsIntValue
+                                                  .issuanceClosedStatus &&
+                                          state.list[index].status !=
+                                              ConstantsIntValue.cancelledStatus,
                                       onEditTap: (selectedIndex) {
                                         getById(
                                             state.extraProperties
@@ -238,7 +258,6 @@ class _KeyManagementIssuanceListViewState
                                                 false,
                                             state.list[index].id ?? 0);
                                       },
-                                      showEditButton: true,
                                       onViewTap: (selectedIndex) {
                                         showDialog(
                                           context: context,

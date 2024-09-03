@@ -230,10 +230,6 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
                       );
                     },
                     showEditButton:
-                        widget.showSaveButton || !widget.lock.isEmptyOrNull
-                            ? false
-                            : true,
-                    showDutyPostEditButton:
                         widget.showSaveButton && widget.lock.isEmptyOrNull
                             ? true
                             : false,

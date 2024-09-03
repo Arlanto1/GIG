@@ -219,14 +219,14 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                                             },
                                           );
                                         },
-                                        onEditTap: (selectedIndex) {
+                                  showEditButton: false,
+                                  onEditTap: (selectedIndex) {
                                           getById(
                                               state.extraProperties
                                                       ?.hasWritePermission ??
                                                   false,
                                               state.list[index].id ?? 0);
                                         },
-                                        showEditButton: true,
                                         onViewTap: (selectedIndex) {
                                           showDialog(
                                             context: context,

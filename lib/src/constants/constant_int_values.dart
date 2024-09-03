@@ -7,11 +7,16 @@ class ConstantsIntValue {
   static const int articleFoundStatusUnderSecurityCustody = 1;
   static const int articleFoundStatusHandedOverOrClaimed = 2;
 
-  /// Key Management
+  /// Key Management Master Type
   static const int lockChangeHistoryInt = 0;
   static const int keyLostHistoryInt = 1;
   static const int keyDamageHistoryInt = 2;
   static const int keyDestroyHistoryInt = 3;
+
+  /// Key Management Master Status
+  static const int keyMMDraftStatus = 0;
+  static const int keyMMOpenStatus = 1;
+  static const int keyMMClosedStatus = 2;
 
   /// Event Protection
   static const int eventDurationBefore = 0;
@@ -78,8 +83,10 @@ class ConstantsIntValue {
   static const int shiftScheduleInActive = 2;
 
   /// Incident status
-  static const int incidentStatusCancelled = 40;
+  static const int incidentCreatedStatus = 0;
   static const int incidentStatusClosed = 39;
+  static const int incidentStatusCancelled = 40;
+
 
   /// Incident Management
   // static const int incidentStatusCancelled = 40;
@@ -139,4 +146,19 @@ class ConstantsIntValue {
   /// Key Management Issuance Image Content Type
   static const int keyIssuanceReceiverSignImageContentType = 1;
   static const int keyIssuanceSecuritySignImageContentType = 2;
+
+
+  ///Event Protection Status
+  static const int ePClosedStatus = 30;
+
+  ///VVIP status
+  static const int vVIPCreatedStatus = 0;
+
+  ///Security System SLA Status
+  static const int securitySystemCreatedStatus = 1;
+
+  ///Key Loss Destruction Status
+  static const int keyLossClosedStatus = 10;
+  static const int keyLossCancelledStatus = 11;
+
 }
