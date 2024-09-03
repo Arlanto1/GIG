@@ -91,6 +91,17 @@ class _DayPassManagementListItemState extends State<DayPassManagementListItem> {
                       ],
                     ),
                   ],
+                  if (widget.userItem.entrySecurity != null) ...[
+                    Row(
+                      children: [
+                        Utils().textHandling(
+                            state.labels?.locale.entrySecurity ??
+                                state.labels?.defaultLocale.entrySecurity ??
+                                'Created By : ',
+                            '${widget.userItem.entrySecurity?.firstName ?? ''}${widget.userItem.entrySecurity?.lastName ?? ''}'),
+                      ],
+                    ),
+                  ],
                   if (widget.userItem.inputDate != null) ...[
                     CommonWidgets.horizontalSpacerWidget(5),
                     Row(

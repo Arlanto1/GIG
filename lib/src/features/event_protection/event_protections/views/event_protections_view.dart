@@ -174,6 +174,13 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                               .twentyFourHourDateTimeFormat)
                                       : ''));
                               labels.add(Label(
+                                  key: state.labels?.locale.entrySecurity ??
+                                      state.labels?.defaultLocale
+                                          .entrySecurity ??
+                                      Constants.createdby,
+                                  value:
+                                  '${state.items[index].createdBy?.firstName ?? ''} ${state.items[index].createdBy?.lastName ?? ''}'));
+                              labels.add(Label(
                                   key: state.labels?.locale.locationRegion ??
                                       state.labels?.defaultLocale
                                           .locationRegion ??

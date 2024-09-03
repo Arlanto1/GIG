@@ -65,7 +65,8 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
               stepWidth: width * .6,
               child: Wrap(
                 children: [
-                  Utils().textHandling('${Constants.id} : ', widget.userItem.id.toString()),
+                  Utils().textHandling(
+                      '${Constants.id} : ', widget.userItem.id.toString()),
                   CommonWidgets.horizontalSpacerWidget(8),
                   Utils().buildLeoStatusRow(widget.userItem.status ?? 0),
                   Row(
@@ -91,6 +92,14 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                                         widget.userItem.inputDate ?? '0'),
                                     Constants.dateFormat)
                                 : ''),
+                      ],
+                    ),
+                  ],
+                  if (widget.userItem.entrySecurityName != null) ...[
+                    Row(
+                      children: [
+                        Utils().textHandling('${Constants.createdby} :',
+                            '${widget.userItem.entrySecurityName}'),
                       ],
                     ),
                   ],
