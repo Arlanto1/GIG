@@ -191,6 +191,7 @@ class _AttendanceViewState extends State<AttendanceView> {
                                         },
                                       );
                                     },
+                                    showEditButton: true,
                                     onEditTap: (selectedIndex) {
                                       getById(
                                           state.extraProperties
@@ -198,7 +199,6 @@ class _AttendanceViewState extends State<AttendanceView> {
                                               false,
                                           id: state.items[index].id ?? 0);
                                     },
-                                    showEditButton: true,
                                     onViewTap: (selectedIndex) {
                                       showDialog(
                                         context: context,

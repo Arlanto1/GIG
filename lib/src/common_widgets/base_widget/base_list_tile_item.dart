@@ -27,7 +27,8 @@ class BaseListTileItem extends StatefulWidget {
 
   // final Item userItem;
   final int? index;
-  final bool? showEditButton;
+
+  // final bool? showEditButton;
   final bool? showViewButton;
   final bool? showDeleteButton;
   final bool? showEmailButton;
@@ -48,7 +49,8 @@ class BaseListTileItem extends StatefulWidget {
   final bool isShiftScheduleStatus;
   final bool isDutyPostNameMasterStatus;
   final bool isAttendanceStatus;
-  final bool? showDutyPostEditButton;
+  final bool? showEditButton;
+  final bool? showNonEditButton;
 
   const BaseListTileItem({
     super.key,
@@ -70,7 +72,7 @@ class BaseListTileItem extends StatefulWidget {
     this.pvcExpired,
     this.msgbExempted,
     this.returnable,
-    this.showEditButton = true,
+    // this.showEditButton = true,
     this.isIncident = false,
     this.locationStr,
     this.guardRank,
@@ -94,10 +96,11 @@ class BaseListTileItem extends StatefulWidget {
     this.isShiftScheduleStatus = false,
     this.isAttendanceStatus = false,
     this.vendors,
-    this.showDutyPostEditButton = false,
+    this.showEditButton = false,
     this.showDeleteButton = true,
     this.showEmailButton = false,
     this.showLinkOffButton = false,
+    this.showNonEditButton = false,
   });
 
   @override
@@ -367,50 +370,10 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ? widget.onEditTap!(widget.index)
                           : null;
                     },
-                    icon: (widget.isMaterialMovementStatus &&
-                                (widget.status == 10 || widget.status == -1)) ||
-                            (widget.isSLAViolationStatus &&
-                                (widget.status == 2 || widget.status == -1)) ||
-                            (widget.isContactDetailsStatus) ||
-                            (widget.isKeyManagementStatus &&
-                                (widget.status == -1 || widget.status == 2)) ||
-                            (widget.isEventProtectionStatus &&
-                                (widget.status != null)) ||
-                            (widget.isDutyPostNameMasterStatus &&
-                                widget.status == -1) ||
-                            (widget.isShiftScheduleStatus &&
-                                widget.status == -1) ||
-                            (widget.isIncident && widget.status != 0) ||
-                            (widget.isMasterGuard &&
-                                (widget.status != 1 ||
-                                    widget.status != 2 ||
-                                    widget.status != 3 ||
-                                    widget.status != 4)) ||
-                            (widget.isVipStatus && (widget.status != 0) ||
-                                (widget.isOccurrenceStatus &&
-                                    (widget.status == 1 ||
-                                        widget.status == -1))) ||
-                            (widget.isKeyManagementIssuanceStatus &&
-                                widget.status != 0 &&
-                                widget.status != 1 &&
-                                widget.status != 2) ||
-                            (widget.isKeyManagementHistoryStatus &&
-                                    (widget.status == 10 ||
-                                        widget.status == 11) ||
-                                (widget.isSecuritySystemSLA &&
-                                    (widget.status == -1 ||
-                                        widget.status == 2 ||
-                                        widget.status == 14)) ||
-                                (widget.isKeyLossStatus &&
-                                    (widget.status == 10 ||
-                                        widget.status == 11)) ||
-                                widget.status ==
-                                    ConstantsIntValue.cancelledStatus)
-                        ? const Icon(Icons.edit_off_outlined)
-                        : const Icon(Icons.edit),
+                    icon: const Icon(Icons.edit),
                   ),
                 ],
-                if (widget.showDutyPostEditButton ?? true) ...[
+                if (widget.showNonEditButton ?? true) ...[
                   IconButton(
                     onPressed: () {
                       //do action on view
@@ -418,7 +381,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ? widget.onEditTap!(widget.index)
                           : null;
                     },
-                    icon: const Icon(Icons.edit),
+                    icon: const Icon(Icons.edit_off_outlined),
                   ),
                 ],
                 if (widget.showViewButton ?? true) ...[

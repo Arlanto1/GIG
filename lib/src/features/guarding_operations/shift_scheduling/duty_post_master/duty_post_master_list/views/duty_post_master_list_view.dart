@@ -240,8 +240,12 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                                   false,
                                               state.list[index].id ?? 0);
                                         },
-                                        showDutyPostEditButton: true,
-                                        showEditButton: false,
+                                        showEditButton: state
+                                                .list[index].status !=
+                                            ConstantsIntValue.cancelledStatus,
+                                        showNonEditButton: state
+                                                .list[index].status ==
+                                            ConstantsIntValue.cancelledStatus,
                                         onViewTap: (selectedIndex) {
                                           showDialog(
                                             context: context,

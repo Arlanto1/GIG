@@ -143,6 +143,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     }
     bool showIcons;
     bool editableStatus;
+    bool showEditIcon;
 
     editableStatus = (widget.parentStatus ==
             ConstantsIntValue.issuanceHandedOverStatus ||
@@ -157,6 +158,15 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
             ConstantsIntValue.issuanceClosedLostDamagedNotReturnedStatus ||
         widget.parentStatus ==
             ConstantsIntValue.issuanceDamagedNotReturnedStatus);
+
+    showEditIcon = (widget.parentStatus ==
+            ConstantsIntValue.issuanceClosedDamagedStatus ||
+        widget.parentStatus == ConstantsIntValue.issuanceClosedLostStatus ||
+        widget.parentStatus ==
+            ConstantsIntValue.issuanceClosedLostDamagedStatus ||
+        widget.parentStatus == ConstantsIntValue.issuanceClosedDamagedStatus ||
+        widget.parentStatus == ConstantsIntValue.issuanceClosedStatus ||
+        widget.parentStatus == ConstantsIntValue.cancelledStatus);
 
     showIcons = editableStatus &&
         !(widget.extraProperties != null &&
@@ -255,18 +265,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         },
                       );
                     },
-                    showDutyPostEditButton: showIcons ||
-                            widget.parentStatus ==
-                                ConstantsIntValue.issuanceDraftStatus
-                        ? true
-                        : false,
-                    showEditButton: widget.parentStatus == 12 ||
-                            widget.parentStatus == 4 ||
-                            widget.parentStatus == 3 ||
-                            widget.parentStatus == 7 ||
-                            widget.parentStatus == 8
-                        ? true
-                        : false,
+                    showNonEditButton: showEditIcon,
+                    showEditButton: !showEditIcon,
                     onEditTap: (selectedIndex) async {
                       KeyIssuanceProcessRecord keyIssuanceProcessModel =
                           await KeyManagementIssuanceServices()

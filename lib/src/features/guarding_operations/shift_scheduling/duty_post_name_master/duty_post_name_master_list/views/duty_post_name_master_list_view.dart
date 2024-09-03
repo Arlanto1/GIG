@@ -206,6 +206,12 @@ class _DutyPostNameMasterListViewState
                                         },
                                       );
                                     },
+                                    showNonEditButton:
+                                        state.list[index].status ==
+                                            ConstantsIntValue.cancelledStatus,
+                                    showEditButton:
+                                        state.list[index].status !=
+                                            ConstantsIntValue.cancelledStatus,
                                     onEditTap: (selectedIndex) {
                                       getById(
                                           state.extraProperties
@@ -213,7 +219,6 @@ class _DutyPostNameMasterListViewState
                                               false,
                                           state.list[index].id ?? 0);
                                     },
-                                    showEditButton: true,
                                     onViewTap: (selectedIndex) {
                                       showDialog(
                                         context: context,

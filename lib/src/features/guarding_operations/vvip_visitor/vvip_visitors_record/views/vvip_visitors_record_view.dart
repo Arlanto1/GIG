@@ -216,9 +216,9 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
                         },
                       );
                     },
-                    showEditButton:
+                    showNonEditButton:
                         widget.parentStatus != 0 && !widget.lock.isEmptyOrNull,
-                    showDutyPostEditButton:
+                    showEditButton:
                         widget.parentStatus == 0 && widget.lock.isEmptyOrNull,
                     onEditTap: (selectedIndex) async {
                       VIVPVisitorRecordModel visitorsModel =

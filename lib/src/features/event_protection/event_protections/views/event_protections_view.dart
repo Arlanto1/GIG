@@ -179,7 +179,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                           .entrySecurity ??
                                       Constants.createdby,
                                   value:
-                                  '${state.items[index].createdBy?.firstName ?? ''} ${state.items[index].createdBy?.lastName ?? ''}'));
+                                      '${state.items[index].createdBy?.firstName ?? ''} ${state.items[index].createdBy?.lastName ?? ''}'));
                               labels.add(Label(
                                   key: state.labels?.locale.locationRegion ??
                                       state.labels?.defaultLocale
@@ -250,6 +250,18 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                           },
                                         );
                                       },
+                                      showNonEditButton: state
+                                                  .items[index].status ==
+                                              ConstantsIntValue
+                                                  .cancelledStatus ||
+                                          state.items[index].status ==
+                                              ConstantsIntValue.ePClosedStatus,
+                                      showEditButton: state
+                                                  .items[index].status !=
+                                              ConstantsIntValue
+                                                  .cancelledStatus &&
+                                          state.items[index].status !=
+                                              ConstantsIntValue.ePClosedStatus,
                                       onEditTap: (selectedIndex) {
                                         getById(
                                             state.extraProperties

@@ -202,7 +202,18 @@ class _KeyLossDestructionListViewState
                                               false,
                                           state.list[index].id ?? 0);
                                     },
-                                    showEditButton: true,
+                                    showEditButton: state
+                                                .list[index].status !=
+                                            ConstantsIntValue
+                                                .keyLossClosedStatus &&
+                                        state.list[index].status !=
+                                            ConstantsIntValue.cancelledStatus,
+                                    showNonEditButton: state
+                                                .list[index].status ==
+                                            ConstantsIntValue
+                                                .keyLossClosedStatus ||
+                                        state.list[index].status ==
+                                            ConstantsIntValue.cancelledStatus,
                                     onViewTap: (selectedIndex) {
                                       showDialog(
                                         context: context,

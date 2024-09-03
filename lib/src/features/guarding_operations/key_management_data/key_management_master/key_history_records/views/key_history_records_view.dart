@@ -229,13 +229,13 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                                           false,
                                       state.list[index].id ?? 0);
                                 },
-                                showEditButton:
+                                showNonEditButton:
                                     !(widget.extraProperties != null &&
                                             !widget.extraProperties!
                                                 .hasWritePermission!)
                                         ? true
                                         : false,
-                                showDutyPostEditButton:
+                                showEditButton:
                                     !(widget.extraProperties != null &&
                                             !widget.extraProperties!
                                                 .hasWritePermission!)

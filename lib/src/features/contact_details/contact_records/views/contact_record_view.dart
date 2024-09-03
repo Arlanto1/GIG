@@ -197,7 +197,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                         },
                       );
                     },
-                    showEditButton: true,
+                    showNonEditButton: true,
                     onEditTap: (selectedIndex) async {
                       ContactRecord contactsModel =
                           await ContactDetailsServices()

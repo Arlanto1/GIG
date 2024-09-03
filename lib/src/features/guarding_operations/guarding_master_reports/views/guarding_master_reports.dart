@@ -181,7 +181,7 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
                                       },
                                     );
                                   },
-                                  showEditButton: false,
+                                  showNonEditButton: true,
                                   onViewTap: (selectedIndex) {
                                     showDialog(
                                       context: context,

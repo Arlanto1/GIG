@@ -126,7 +126,6 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
               // if (state.status == FormStatus.initial) {
               //   return const BaseLoader();
               // }
-
               return Container(
                 margin: allMargin16,
                 decoration: const ShapeDecoration(
@@ -189,10 +188,11 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                                       : ''));
                               labels.add(Label(
                                   key: state.labels?.locale.entrySecurity ??
-                                      state.labels?.defaultLocale.entrySecurity ??
+                                      state.labels?.defaultLocale
+                                          .entrySecurity ??
                                       Constants.createdby,
                                   value:
-                                  '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
+                                      '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
 
                               labels.add(Label(
                                   key: Constants.region,
@@ -257,6 +257,18 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                                           },
                                         );
                                       },
+                                      showNonEditButton: state
+                                                  .items[index].status ==
+                                              ConstantsIntValue
+                                                  .mmStatusClosed ||
+                                          state.items[index].status ==
+                                              ConstantsIntValue.cancelledStatus,
+                                      showEditButton: state
+                                                  .items[index].status !=
+                                              ConstantsIntValue
+                                                  .mmStatusClosed &&
+                                          state.items[index].status !=
+                                              ConstantsIntValue.cancelledStatus,
                                       onEditTap: (selectedIndex) {
                                         getById(
                                             state.extraProperties

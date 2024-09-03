@@ -248,6 +248,14 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                                           },
                                         );
                                       },
+                                      showNonEditButton:
+                                      state.items[index].status !=
+                                          ConstantsIntValue
+                                              .incidentCreatedStatus,
+                                      showEditButton:
+                                          state.items[index].status ==
+                                                  ConstantsIntValue
+                                                      .incidentCreatedStatus,
                                       onEditTap: (selectedIndex) {
                                         getById(
                                           state.extraProperties
