@@ -28,7 +28,6 @@ class BaseListTileItem extends StatefulWidget {
   // final Item userItem;
   final int? index;
 
-  // final bool? showEditButton;
   final bool? showViewButton;
   final bool? showDeleteButton;
   final bool? showEmailButton;
@@ -71,7 +70,6 @@ class BaseListTileItem extends StatefulWidget {
     this.pvcExpired,
     this.msgbExempted,
     this.returnable,
-    // this.showEditButton = true,
     this.isIncident = false,
     this.locationStr,
     this.guardRank,
