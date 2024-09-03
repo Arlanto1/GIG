@@ -143,7 +143,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     }
     bool showIcons;
     bool editableStatus;
-    bool showEditIcon;
+    bool showNonEditIcon;
 
     editableStatus = (widget.parentStatus ==
             ConstantsIntValue.issuanceHandedOverStatus ||
@@ -159,7 +159,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
         widget.parentStatus ==
             ConstantsIntValue.issuanceDamagedNotReturnedStatus);
 
-    showEditIcon = (widget.parentStatus ==
+    showNonEditIcon = (widget.parentStatus ==
             ConstantsIntValue.issuanceClosedDamagedStatus ||
         widget.parentStatus == ConstantsIntValue.issuanceClosedLostStatus ||
         widget.parentStatus ==
@@ -265,8 +265,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         },
                       );
                     },
-                    showNonEditButton: showEditIcon,
-                    showEditButton: !showEditIcon,
+                    showEditButton: !showNonEditIcon,
                     onEditTap: (selectedIndex) async {
                       KeyIssuanceProcessRecord keyIssuanceProcessModel =
                           await KeyManagementIssuanceServices()

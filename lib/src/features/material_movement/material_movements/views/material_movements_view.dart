@@ -257,12 +257,6 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                                           },
                                         );
                                       },
-                                      showNonEditButton: state
-                                                  .items[index].status ==
-                                              ConstantsIntValue
-                                                  .mmStatusClosed ||
-                                          state.items[index].status ==
-                                              ConstantsIntValue.cancelledStatus,
                                       showEditButton: state
                                                   .items[index].status !=
                                               ConstantsIntValue

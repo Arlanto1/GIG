@@ -250,12 +250,6 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                           },
                                         );
                                       },
-                                      showNonEditButton: state
-                                                  .items[index].status ==
-                                              ConstantsIntValue
-                                                  .cancelledStatus ||
-                                          state.items[index].status ==
-                                              ConstantsIntValue.ePClosedStatus,
                                       showEditButton: state
                                                   .items[index].status !=
                                               ConstantsIntValue

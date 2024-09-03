@@ -193,7 +193,7 @@ class _AttendanceReportBillingViewState
                                     onEditTap: (selectedIndex) {
                                       getById(id: state.items[index].id ?? 0);
                                     },
-                                    showNonEditButton: true,
+                                    showEditButton: false,
                                     onViewTap: (selectedIndex) {
                                       showDialog(
                                         context: context,

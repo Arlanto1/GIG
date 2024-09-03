@@ -192,23 +192,6 @@ class _KeyManagementIssuanceListViewState
                                     value:
                                         '${state.list[index].handedOverTo?.firstName ?? ''} ${state.list[index].handedOverTo?.lastName ?? ''}'));
                               }
-                              bool showNonEditIcon;
-                              showNonEditIcon = state.list[index].status ==
-                                      ConstantsIntValue
-                                          .issuanceClosedDamagedStatus ||
-                                  state.list[index].status ==
-                                      ConstantsIntValue
-                                          .issuanceClosedLostStatus ||
-                                  state.list[index].status ==
-                                      ConstantsIntValue
-                                          .issuanceClosedLostDamagedStatus ||
-                                  state.list[index].status ==
-                                      ConstantsIntValue
-                                          .issuanceClosedDamagedStatus ||
-                                  state.list[index].status ==
-                                      ConstantsIntValue.issuanceClosedStatus ||
-                                  state.list[index].status ==
-                                      ConstantsIntValue.cancelledStatus;
                               return index >= state.list.length
                                   ? null
                                   : BaseListTileItem(
@@ -250,8 +233,24 @@ class _KeyManagementIssuanceListViewState
                                           },
                                         );
                                       },
-                                      showNonEditButton: showNonEditIcon,
-                                      showEditButton: !showNonEditIcon,
+                                      showEditButton: state
+                                                  .list[index].status !=
+                                              ConstantsIntValue
+                                                  .issuanceClosedDamagedStatus &&
+                                          state.list[index].status !=
+                                              ConstantsIntValue
+                                                  .issuanceClosedLostStatus &&
+                                          state.list[index].status !=
+                                              ConstantsIntValue
+                                                  .issuanceClosedLostDamagedStatus &&
+                                          state.list[index].status !=
+                                              ConstantsIntValue
+                                                  .issuanceClosedDamagedStatus &&
+                                          state.list[index].status !=
+                                              ConstantsIntValue
+                                                  .issuanceClosedStatus &&
+                                          state.list[index].status !=
+                                              ConstantsIntValue.cancelledStatus,
                                       onEditTap: (selectedIndex) {
                                         getById(
                                             state.extraProperties

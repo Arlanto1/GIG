@@ -217,10 +217,6 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                                           },
                                         );
                                       },
-                                      showNonEditButton:
-                                          state.list[index].status !=
-                                              ConstantsIntValue
-                                                  .occurrenceStatusCreated,
                                       showEditButton:
                                           state.list[index].status ==
                                               ConstantsIntValue

@@ -208,12 +208,6 @@ class _KeyLossDestructionListViewState
                                                 .keyLossClosedStatus &&
                                         state.list[index].status !=
                                             ConstantsIntValue.cancelledStatus,
-                                    showNonEditButton: state
-                                                .list[index].status ==
-                                            ConstantsIntValue
-                                                .keyLossClosedStatus ||
-                                        state.list[index].status ==
-                                            ConstantsIntValue.cancelledStatus,
                                     onViewTap: (selectedIndex) {
                                       showDialog(
                                         context: context,

@@ -206,9 +206,6 @@ class _DutyPostNameMasterListViewState
                                         },
                                       );
                                     },
-                                    showNonEditButton:
-                                        state.list[index].status ==
-                                            ConstantsIntValue.cancelledStatus,
                                     showEditButton:
                                         state.list[index].status !=
                                             ConstantsIntValue.cancelledStatus,

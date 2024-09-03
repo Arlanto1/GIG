@@ -219,7 +219,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                                             },
                                           );
                                         },
-                                  showNonEditButton: true,
+                                  showEditButton: false,
                                   onEditTap: (selectedIndex) {
                                           getById(
                                               state.extraProperties

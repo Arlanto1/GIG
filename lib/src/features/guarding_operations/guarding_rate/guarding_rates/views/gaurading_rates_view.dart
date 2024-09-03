@@ -221,7 +221,7 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
                                   },
                                 );
                               },
-                              showNonEditButton: true,
+                              showEditButton: false,
                               onEditTap: (selectedIndex) {
                                 getId(
                                     state.extraProperties?.hasWritePermission ??

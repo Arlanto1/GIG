@@ -50,7 +50,6 @@ class BaseListTileItem extends StatefulWidget {
   final bool isDutyPostNameMasterStatus;
   final bool isAttendanceStatus;
   final bool? showEditButton;
-  final bool? showNonEditButton;
 
   const BaseListTileItem({
     super.key,
@@ -100,7 +99,6 @@ class BaseListTileItem extends StatefulWidget {
     this.showDeleteButton = true,
     this.showEmailButton = false,
     this.showLinkOffButton = false,
-    this.showNonEditButton = false,
   });
 
   @override
@@ -362,28 +360,29 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
           IntrinsicWidth(
             child: Row(
               children: [
-                if (widget.showEditButton ?? true) ...[
-                  IconButton(
-                    onPressed: () {
-                      //do action on view
-                      widget.onEditTap != null
-                          ? widget.onEditTap!(widget.index)
-                          : null;
-                    },
-                    icon: const Icon(Icons.edit),
-                  ),
-                ],
-                if (widget.showNonEditButton ?? true) ...[
-                  IconButton(
-                    onPressed: () {
-                      //do action on view
-                      widget.onEditTap != null
-                          ? widget.onEditTap!(widget.index)
-                          : null;
-                    },
-                    icon: const Icon(Icons.edit_off_outlined),
-                  ),
-                ],
+                IconButton(
+                  onPressed: () {
+                    //do action on view
+                    widget.onEditTap != null
+                        ? widget.onEditTap!(widget.index)
+                        : null;
+                  },
+                  icon: widget.showEditButton ?? true
+                      ? const Icon(Icons.edit)
+                      : const Icon(Icons.edit_off_outlined),
+                ),
+                //],
+                // if (widget.showNonEditButton ?? true) ...[
+                //   IconButton(
+                //     onPressed: () {
+                //       //do action on view
+                //       widget.onEditTap != null
+                //           ? widget.onEditTap!(widget.index)
+                //           : null;
+                //     },
+                //     icon: const Icon(Icons.edit_off_outlined),
+                //   ),
+                // ],
                 if (widget.showViewButton ?? true) ...[
                   IconButton(
                     onPressed: () {

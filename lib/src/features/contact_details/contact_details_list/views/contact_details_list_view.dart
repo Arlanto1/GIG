@@ -230,7 +230,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                                           },
                                         );
                                       },
-                                showNonEditButton: true,
+                                      showEditButton: false,
                                       onEditTap: (selectedIndex) {
                                         getById(
                                             state.extraProperties

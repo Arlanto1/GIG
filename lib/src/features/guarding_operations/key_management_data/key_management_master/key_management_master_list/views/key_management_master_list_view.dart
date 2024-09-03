@@ -222,13 +222,6 @@ class _KeyManagementMasterListViewState
                                           },
                                         );
                                       },
-                                      showNonEditButton:
-                                          state.list[index].status ==
-                                                  ConstantsIntValue
-                                                      .cancelledStatus ||
-                                              state.list[index].status ==
-                                                  ConstantsIntValue
-                                                      .keyMMClosedStatus,
                                       showEditButton:
                                           state.list[index].status !=
                                                   ConstantsIntValue
