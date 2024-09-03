@@ -35,7 +35,7 @@ class _CreateFoundState extends State<CreateFound> {
   // Group Value for Radio Button.
   int isDepositorDBEmployeeSelected = 0;
   int isClaimantDBEmployeeSelected = 0;
-  int isClaimantAcceptedToSignSelected = 1;
+  int isClaimantAcceptedToSignSelected = 0;
   int isClaimantAcceptedByEmail = 0;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController quantityTextController = TextEditingController();
@@ -2238,11 +2238,10 @@ class _CreateFoundState extends State<CreateFound> {
           onChanged: (val) {
             radioButtonItem = 'Yes';
             selectedValue = 1;
-            if (name == Constants.isclaimantacceptedtosign &&
-                widget.model?.status != 2 &&
-                isClaimantAcceptedByEmail == 0) {
+            if (widget.model?.status != 2) {
               isClaimantAcceptedToSignSelected = selectedValue;
-            } else if ((name == Constants.isclaimantacceptedbyemail) &&
+            }
+             if ((name == Constants.isclaimantacceptedbyemail) &&
                 widget.model?.status != 2 &&
                 widget.model?.status != 1 &&
                 widget.model?.status != -1) {
@@ -2271,9 +2270,7 @@ class _CreateFoundState extends State<CreateFound> {
             onChanged: (val) {
               radioButtonItem = 'No';
               selectedValue = 0;
-              if (name == Constants.isclaimantacceptedtosign &&
-                  widget.model?.status != 2 &&
-                  isClaimantAcceptedByEmail == 0) {
+              if (widget.model?.status != 2) {
                 isClaimantAcceptedToSignSelected = selectedValue;
               } else if ((name == Constants.isclaimantacceptedbyemail) &&
                   widget.model?.status != 2 &&
