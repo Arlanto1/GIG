@@ -155,14 +155,13 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                             Constants
                                                 .twentyFourHourDateTimeFormat)
                                         : ''));
-                                labels.add(Label(
-                                    key: state.labels?.locale.entrySecurity ??
-                                        state.labels?.defaultLocale
-                                            .entrySecurity ??
-                                        Constants.createdby,
-                                    value:
-                                        state.items[index].entrySecurityName ??
-                                            ''));
+                                // labels.add(Label(
+                                // key: state.labels?.locale.entrySecurity ??
+                                //     state.labels?.defaultLocale
+                                //         .entrySecurity ??
+                                //     Constants.createdby,
+                                // value:
+                                //     '${state.items[index].entrySecurity?.firstName ?? ''}${state.items[index].entrySecurity?.lastName ?? ''} '));
                                 labels.add(Label(
                                     key: state.labels?.locale.locationRegion ??
                                         state.labels?.defaultLocale
@@ -177,7 +176,6 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                         Constants.location,
                                     value: state.items[index].location?.name ??
                                         ''));
-
                                 labels.add(Label(
                                     key: state.labels?.locale.fromDate ??
                                         state.labels?.defaultLocale.fromDate ??

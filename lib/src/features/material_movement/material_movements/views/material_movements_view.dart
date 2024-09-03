@@ -188,6 +188,13 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                                               .twentyFourHourDateTimeFormat)
                                       : ''));
                               labels.add(Label(
+                                  key: state.labels?.locale.entrySecurity ??
+                                      state.labels?.defaultLocale.entrySecurity ??
+                                      Constants.createdby,
+                                  value:
+                                  '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
+
+                              labels.add(Label(
                                   key: Constants.region,
                                   value:
                                       state.items[index].locationRegion?.name ??
