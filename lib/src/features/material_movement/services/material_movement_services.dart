@@ -37,9 +37,14 @@ class MaterialMovementServices {
     required String maximumRecords,
     required int mmType,
     required BaseFilterModel filters,
+    required bool? returnable,
   }) async {
     String url =
         '${Apis._getMaterialMovements}mmType=$mmType&startPos=$startPosition&maxResults=$maximumRecords';
+
+    if (returnable != null) {
+      url = '$url&returnable=$returnable';
+    }
     var response = await BaseApiService().postRequest(
       requestedData: filters.toJson(),
       isAuthenticated: true,

@@ -12,6 +12,7 @@ class AttendanceShiftsView extends StatefulWidget {
     required this.attInfoId,
     required this.selectedDutyPostModel,
     required this.isReadOnly,
+    required this.isEligibleToEdit,
   });
 
   final Organisation location;
@@ -20,12 +21,15 @@ class AttendanceShiftsView extends StatefulWidget {
   final int attInfoId;
   final DutyPostModel selectedDutyPostModel;
   final bool isReadOnly;
+  final bool isEligibleToEdit;
 
   @override
   AttendanceShiftsViewState createState() => AttendanceShiftsViewState();
 }
 
 class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
+  bool isReadOnly = false;
+
   @override
   void initState() {
     super.initState();
@@ -71,19 +75,68 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
       builder: (context, state) {
         log('----builder----');
 
+        if (!state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
+
+        log('11111${state.model.attdStatus}');
+        if (state.model.attdStatus != 1) {
+          isReadOnly = true;
+        }
+        if (widget.isEligibleToEdit == false) {
+          isReadOnly = true;
+        }
+        // if (widget.isEligibleToEdit == false) {
+        //   isReadOnly = true;
+        // }
+
+        if (state.model.attdStatus == 1 && widget.isEligibleToEdit == true) {
+          isReadOnly = false;
+        }
+        // isReadOnly = false; // TODO: remove this
+
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
-            context: context,
-            title: widget.selectedDutyPostModel.name ?? '',
-            showPopUp: false,
-            showSaveButton: widget.isReadOnly ? false : true,
-            showSubmitButton: widget.isReadOnly ? false : true,
-            showDisLikeButton: false,
-            showLikeButton: false,
-            onTapSave: () => BlocProvider.of<AttendanceShiftsCubit>(context)
-                .submitAndRefreshScreen(),
-            onTapSubmit: () => submitDutyPost(context, isSaveOnly: false),
-          ),
+              context: context,
+              title: widget.selectedDutyPostModel.name ?? '',
+              showPopUp: false,
+              showSaveButton: widget.isReadOnly ? false : true,
+              showSubmitButton: widget.isReadOnly ? false : true,
+              showDisLikeButton: false,
+              showLikeButton: false,
+              onTapSave: () => BlocProvider.of<AttendanceShiftsCubit>(context)
+                  .submitAndRefreshScreen(),
+              // onTapSubmit: () => submitDutyPost(context, isSaveOnly: false),
+
+              /// On Click on Submit it will show the confirmation dialogue box
+              onTapSubmit: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text(Constants.attendanceMessage),
+                      content:
+                          const Text(Constants.attendanceSubmissionMessage),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text(Constants.cancel),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+
+                        /// on click ok, it will submit the record
+                        TextButton(
+                            child: const Text(Constants.ok),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              submitDutyPost(this.context, isSaveOnly: false);
+                            }),
+                      ],
+                    );
+                  },
+                );
+              }),
           body: Padding(
             padding: const EdgeInsets.all(20),
             child: SingleChildScrollView(
@@ -111,16 +164,12 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     double height,
     ShiftModel model,
   ) {
-    // log('--model.name-${model.name}-');
-    // log('--model.ranks-${model.ranks?.length}-');
-
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // for (Rank rank in model.ranks ?? [])
         IntrinsicHeight(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -162,9 +211,10 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     required AttendanceShiftsState state,
     required double height,
   }) {
-    // log('--shifts--length--${shifts.length}-');
     return [
-      // for (Shift shift in shifts) ...[
+      if (!state.model.lock.isEmptyOrNull) ...[
+        RecordLockedWidget(text: '${state.model.lock}'),
+      ],
 
       /// Rank Dropdown
       CommonWidgets.textDisplay(
@@ -175,9 +225,6 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         isMandatory: true,
       ),
 
-      // Problem: Not displaying selected element
-      // please update the below widget to show selected element
-
       DropdownWidget(
         label: 'Select Rank',
         items: state.ranks ?? [],
@@ -186,6 +233,10 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         onChange: (Organisation? value) async {
           setState(() {
             selectedRank = value;
+            selectedShift =
+                null; // set selectedShift to null, when we select the rank
+            state.model.selectForAttendance = null;
+            state.model.shift = null;
           });
           log('---onChange-region-----');
 
@@ -203,11 +254,11 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         Styles.textStyleBlack14,
         isMandatory: true,
       ),
-
       DropdownWidget(
         label: 'Select Shift',
         items: state.shifts ?? [],
-        isInitial: false,
+        isInitial: selectedRank != null && selectedShift == null ? true : false,
+        //remove the previous data when we select rank
         initialValue: selectedShift,
         onChange: (Organisation? value) {
           // selectedShift = value;
@@ -228,7 +279,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           Utils().buildAttendanceStatusRow(
               status: state.model.attdStatus ?? 0, returnTextOnly: true)),
       OpacityAbsorbInkWellWidget(
-        absorbing: !state.model.activeShift,
+        absorbing: isReadOnly,
         child: Column(
           children: [
             Row(
@@ -242,7 +293,6 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                   label:
                       'Select For \nAttendance: \n${state.model.shift} (Planned: ${state.model.allowed})',
                 ),
-
                 Column(
                   children: [
                     buildArrowButton(
@@ -265,16 +315,6 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                     ),
                   ],
                 ),
-                // buildArrowButtons(
-                //   sourceList: shift.selectForAttendance ?? [],
-                //   destinationList: shift.attended ?? [],
-                //   onAdd: (BaseUser guard) {
-                //     shift.attended?.add(guard);
-                //   },
-                //   onRemove: (BaseUser guard) {
-                //     shift.attended?.remove(guard);
-                //   },
-                // ),
                 buildShiftColumn(
                   shift: state.model,
                   guards: state.model.attended ?? {},
@@ -359,8 +399,6 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           ],
         ),
       ),
-
-      // ],
     ];
   }
 
@@ -369,7 +407,6 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     required IconData icon,
     required Set<BaseUser> destinationList,
     required void Function(BaseUser guard) onAdd,
-    // required void Function(BaseUser guard) onRemove,
   }) {
     return IconButton(
       iconSize: 30,
@@ -378,10 +415,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           log('--onPressed----');
 
           log('----@@@--${state.status}-----');
-          // if (state.status != FormStatus.formError) {
           log('------${state.status}-----');
           onAdd(selectedGuard!);
-          // }
 
           BlocProvider.of<AttendanceShiftsCubit>(context)
               .submitAndRefreshScreen();
@@ -431,11 +466,15 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
 
     log('----state.shiftSlaList--${state.shiftSlaList?.length}-');
 
-    if (!state.shiftSlaList.isEmptyOrNull) {
-      SlaList? sla = state.shiftSlaList?.firstWhere(
-          (element) => element.attInfoId == shift.attendanceShiftId);
-      slaList = sla?.items ?? [];
-    }
+    // if (!state.shiftSlaList.isEmptyOrNull) {
+    //   SlaList? sla = state.shiftSlaList?.firstWhere(
+    //     (element) => element.attInfoId == shift.attendanceShiftId,
+    //     orElse: () => SlaList(),
+    //   );
+    //
+    //   slaList = sla?.items ?? [];
+    // }
+    slaList = state.shiftSlaList?.first.items ?? [];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -475,7 +514,6 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           ),
         ),
         if (!slaList.isEmptyOrNull) ...[
-          // Problem: make this column list with horizontal scroll
           SizedBox(
             height: MediaQuery.of(context).size.height *
                 0.094, // Set the desired height
@@ -536,7 +574,9 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             context: context,
             model: Replacement(),
             selectedGuards: state.model.selectForAttendance ?? {},
-            availableGuards: state.model.availableGuards ?? {},
+            state: state,
+            rankId: state.selectedRank!.id!,
+            shiftId: state.selectedShift!.id!,
           ),
           child: Row(
             children: <Widget>[
@@ -576,15 +616,16 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
   }
 
   List<Widget> buildReplacements(AttendanceShiftsState state) {
-    log('--shift---${state.model.replacements?.length}-');
     return [
       for (Replacement replacement in state.model.replacements ?? [])
         InkWell(
           onTap: () => showReplacementPopUp(
             context: context,
             model: replacement,
-            availableGuards: state.model.selectForAttendance ?? {},
             selectedGuards: state.model.selectedGuards ?? {},
+            state: state,
+            rankId: state.selectedRank!.id!,
+            shiftId: state.selectedShift!.id!,
           ),
           child: Stack(
             children: [
@@ -690,13 +731,11 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     double width = MediaQuery.of(context).size.width;
     double columnWidth;
     if (width > Constants.tabletScreenWidth) {
-      columnWidth = width / 3.6;
-
       /// TABLET
+      columnWidth = width / 3.6;
     } else {
-      columnWidth = width / 4.67;
-
       /// Mobile
+      columnWidth = width / 4.67;
     }
     return Container(
       decoration: BoxDecoration(
@@ -743,8 +782,10 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
   void showReplacementPopUp({
     required BuildContext context,
     required Replacement model,
-    required Set<BaseUser> availableGuards,
     required Set<BaseUser> selectedGuards,
+    required AttendanceShiftsState state,
+    required int rankId,
+    required int shiftId,
   }) {
     showDialog(
       context: context,
@@ -753,8 +794,10 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           viaAttendance: true,
           model: model,
           mainContext: context,
-          availableGuards: availableGuards,
           selectedGuards: selectedGuards,
+          shiftModel: state.model,
+          shiftId: shiftId,
+          rankId: rankId,
         );
       },
     );

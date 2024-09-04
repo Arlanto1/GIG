@@ -4,7 +4,10 @@ import 'package:quill_html_editor/quill_html_editor.dart';
 class Constants {
   // static const inactivityDuration = Duration(minutes: 5);
 
-  static double tabletScreenWidth = 800;
+  static const String logsToggle = 'logsToggle';
+
+  static const double tabletScreenWidth = 800;
+
   /// Pagination
   static const int maxResults = 20;
 
@@ -154,7 +157,8 @@ class Constants {
   static const String copyrightText = "Copyright © 2024 Arlanto.";
   static const String submit = "Submit";
 
-  static const String locationPermissionError = 'Please enable location services!';
+  static const String locationPermissionError =
+      'Please enable location services!';
 
   //Dashboard
   static const String home = 'Home';
@@ -204,6 +208,10 @@ class Constants {
       'Edit Inward Material Movement';
 
   static const String materialMovementOutward = 'Material Movement Outward';
+  static const String materialMovementOutwardReturnable =
+      'Material Movement Outward - Returnable';
+  static const String materialMovementOutwardNonReturnable =
+      'Material Movement Outward - Non-Returnable';
   static const String materialMovementOutwardCreate =
       'Create Outward Material Movement';
   static const String materialMovementOutwardEdit =
@@ -241,6 +249,7 @@ class Constants {
   static const String updatestatus = 'Update Status';
   static const String dateofcreation = 'Date of Creation';
   static const String createDate = 'Create Date';
+  static const String createdDate = 'Created Date';
   static const String createOn = 'Create On';
   static const String assetype = 'Asset Type';
   static const String founddate = 'Found Date';
@@ -306,7 +315,8 @@ class Constants {
   static const String isclaimantacceptedtosign = 'Claimant accepted to sign';
   static const String isclaimantacceptedbyemail = 'Claimant Confirmed by Email';
   static const String addedSuccessfully = 'Added Successfully.';
-  static const String userAddedUpdatedSuccessfully = 'List is Updated(Search with the email).';
+  static const String userAddedUpdatedSuccessfully =
+      'List is Updated(Search with the email).';
 
   // Law enforcement
   static const String createlawenforcement =
@@ -331,6 +341,7 @@ class Constants {
       'Document if any to confirm purpose';
   static const String incaseofpolicewasofficialinuniform =
       'In case of Police, was official in uniform?';
+  static const String dbOfficialName = 'DB Official Name';
   static const String designation = 'Designation';
   static const String officeAddress = 'Office Address';
   static const String emailId = 'Email Id';
@@ -345,6 +356,7 @@ class Constants {
       "Add Another Visiting Official Details";
   static const String visitingOfficialDetails = "Visiting Official Details";
   static const String visitingOfficials = "Visiting Officials";
+  static const String visitingOfficialsEmailId = "Email Id Visiting Officials";
 
   // Pass mgmt
   static const String companyType = 'Company Type';
@@ -354,6 +366,21 @@ class Constants {
   static const String host = 'Host';
   static const String passCollectedBy = 'Pass Collected By';
   static const String passReturnedOn = 'Pass Returned On';
+  static const String vendorName = 'Vendor Name';
+  static const String visitorName = 'Visitor Name';
+  static const String dbSponsor = 'DB Sponsor';
+  static const String dbSponsorEmployeeId = 'DB Sponsor Employee Id';
+  static const String visitorComingFrom = 'Visitor Coming From';
+  static const String sezPassInfo = 'SEZ Pass Info';
+  static const String mTPApplicationNo = 'MTP Application No';
+  static const String photoIdentityType = 'Photo Identity Validation Type';
+  static const String visitingDepartment = 'Visiting Department';
+  static const String reasonForVendorPass = 'Reason for Vendor Pass';
+  static const String visitorPassNo = 'Visitor Pass No';
+  static const String vendorPassNo = 'Vendor Pass No';
+  static const String escortedByHost =  'Escorted by Host';
+  static const String photoOfVisitor =  'Photo of Visitor';
+  static const String deutscheBank =  'Deutsche Bank';
 
   static const String passIssuedOn = 'Pass Issued On';
   static const String passvlidfrom = 'Pass Valid From';
@@ -369,7 +396,7 @@ class Constants {
   static const String reasonfordaypass = 'Reason for Day Pass';
   static const String daypassno = 'Day Pass No';
   static const String passtype = 'Pass Type';
-  static const String sezPassInfo = 'Sez Pass';
+  static const String sezPass = 'Sez Pass';
   static const String passValidUntil = '31/03/2023';
 
   //List page - Found Article
@@ -468,6 +495,8 @@ class Constants {
   static const String rejectedBy = 'Rejected By';
   static const String rejectedDate = 'Rejected Date';
   static const String rejectedComment = 'Rejected Comment';
+  static const String returnable = 'Returnable';
+  static const String nonReturnable = 'Non Returnable';
 
   static const String approvedBy = 'Approved By';
   static const String approvedDate = 'Approved Date';
@@ -720,6 +749,7 @@ class Constants {
 
   //SLA Violation Penalty
   static const String sLAViolationPenalty = 'SLA Violation Penalty';
+  static const String addViewViolation = 'Add/View Violation Penalty(S)';
 
   //Contact Details
   static const String phoneNumber = 'Phone Number';
@@ -832,7 +862,8 @@ class Constants {
   static const String keyIssuanceProcess = 'Key Issuance Process';
   static const String keys = 'Keys';
   static const String keysAvailable = 'Keys Available';
-  static const String alreadyIssuedKeys = 'Already Issued Keys';
+  static const String available = 'Available';
+  static const String alreadyIssuedKeys = 'Issued/In Progress';
   static const String keysReturned = 'Keys Returned';
   static const String keysNotReturned = 'Keys Not Returned';
   static const String keysLost = 'Keys Lost';
@@ -895,7 +926,8 @@ class Constants {
   /// Ticket Life Cycle
   static const String sentReminder = 'Reminder Sent';
   static const String sentRemindertoVendor = 'Sent reminder to Vendor.';
-  static const String systemIntegratorForVendorAction = 'System Integrator for Vendor Action';
+  static const String systemIntegratorForVendorAction =
+      'System Integrator for Vendor Action';
   static const String acknowledgeDateAndTime = 'Acknowledge Date and Time';
   static const String vendorTicketNo = 'Vendor Ticket No';
   static const String escalation1 = 'Escalation 1';
@@ -904,28 +936,40 @@ class Constants {
   static const String onsiteVisitDateAndTime = 'Onsite Visit Date and Time';
   static const String criticalSpareUsed = 'Critical Spare Used';
   static const String rootCauseAnalysis = 'Root Cause Analysis';
-  static const String actionTakenMitigationAction = 'Action Taken/ Mitigation Action';
+  static const String actionTakenMitigationAction =
+      'Action Taken/ Mitigation Action';
   static const String issueType = 'Issue Type';
   static const String dataLoss = 'Data Loss';
-  static const String attachTheLayout = 'Attach The Layout, work completion certificate, PO, Invoice, Approval Emails etc.documents';
+  static const String attachTheLayout =
+      'Attach The Layout, work completion certificate, PO, Invoice, Approval Emails etc.documents';
   static const String activityNotes = 'Activity Notes';
   static const String selectStatus = 'Select Status';
-  static const String message = 'Please click on the respective Status button you like to submit';
+  static const String message =
+      'Please click on the respective Status button you like to submit';
   static const String rework = 'Rework';
   static const String closed = 'Closed';
   static const String dataLossAttachment = 'Data Loss Attachment';
   static const String slaOnSiteResponse = 'SLA Onsite Response';
   static const String solvedProposedDate = 'Solved Proposed Date';
+  static const String solvedCompleteDate = 'Solved Complete';
   static const String reworkProposedDate = 'Rework Proposed Date';
   static const String comments = 'Comments';
-
-
+  static const String downTime = 'DownTime(Hours)';
+  static const String slaResolutionDate = 'SLA Resolution Date';
 
   ///Key issuance Process
   static const String valueNotAccepted = 'Value Not Accepted';
-  static const String enteredValueNotAccepted = 'Entered Value not accepted';
+  static const String enteredKeyLostValueNotAccepted =
+      'Entered Key Lost Value not accepted';
+  static const String enteredKeyDamageValueNotAccepted =
+      'Entered Key Damage Value not accepted';
+
   /// Module Code for roles
   static const String passManagementRolesModuleCode = 'PM';
+
+  static const String attendanceMessage = 'Confirm';
+  static const String attendanceSubmissionMessage =
+      'Please confirm the submission of attendance starts the shift and ends the previous shift.';
 }
 
 //static const String height = 'Height(cm)';

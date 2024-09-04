@@ -12,21 +12,23 @@ class KeyHistoryRecordsDetailsCubit
   final KeyHistoryModel? model;
   final CommonServices commonServices;
   final int parentId;
-  final int type;
+  final int? lostType;
   final int? kipId;
   final int? keyIssuanceId;
   final KeyManagementIssuanceServices keyIssuanceServices;
+  final int? keyType;
 
   KeyHistoryRecordsDetailsCubit({
     required this.services,
     // required this.keyIssuanceServices,
     required this.parentId,
-    required this.type,
+    required this.lostType,
     required this.commonServices,
     required this.model,
     this.kipId,
     this.keyIssuanceId,
     required this.keyIssuanceServices,
+    this.keyType,
   }) : super(
           KeyHistoryRecordsDetailsState.initial(
             model: model ?? KeyHistoryModel(),
@@ -57,14 +59,16 @@ class KeyHistoryRecordsDetailsCubit
     );
     log('---model.nokeyss--${model?.noKeys}---${model?.noOfKeys}-----');
     log('---srhh--${model?.srh}-');
+    log('---kipId--$kipId-');
     KeyManagementMasterModel parentModel = await services.getById(parentId);
     KeyIssuanceProcessRecord keyIssuanceProcessModel =
         KeyIssuanceProcessRecord();
-    KeyManagementIssuanceModel keyManagementIssuanceModel = KeyManagementIssuanceModel();
-    log('---kipId--$kipId-');
+    KeyManagementIssuanceModel keyManagementIssuanceModel =
+        KeyManagementIssuanceModel();
 
-    if(keyIssuanceId !=null){
-      keyManagementIssuanceModel = await keyIssuanceServices.getById(keyIssuanceId!);
+    if (keyIssuanceId != null) {
+      keyManagementIssuanceModel =
+          await keyIssuanceServices.getById(keyIssuanceId!);
     }
     if (kipId != null) {
       keyIssuanceProcessModel =
@@ -76,7 +80,8 @@ class KeyHistoryRecordsDetailsCubit
       final futures = await Future.wait([
         commonServices.getUserDetails(userId: userId),
         commonServices.getBaseUsersByRoles(
-            roleNames: 'ATOM_Security_Manager',
+            roleNames:
+                ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
             locationId: parentModel.location!.id!),
         commonServices.getOrganisations(
             name: 'KEY_MANAGEMENT_DESTRUCTION_REASON'),
@@ -85,7 +90,7 @@ class KeyHistoryRecordsDetailsCubit
             moduleCode: Constants.keyManagementMasterModule),
         SharedPrefs.getDefaultLocation(),
         commonServices.getBaseUsersByRoles(
-            roleNames: 'ATOM_Sub_Regional_Head',
+            roleNames: ConstantUserRoles.atomSubRegionalHeadUser,
             locationId: parentModel.location!.id!),
       ]);
 
@@ -99,28 +104,29 @@ class KeyHistoryRecordsDetailsCubit
         SerialNumberModel slNo = await commonServices.getKLDSlNo(
           locationId: parentModel.location!.id.toString(),
           moduleCode: Constants.keyLossDestructionModule,
-          type: type,
+          type: lostType,
           kmId: parentId,
         );
         state.model.slNo = slNo.serialNo;
       }
       state.model.createdBy ??= loggedInUserDetails;
       state.model.modifiedBy ??= loggedInUserDetails.email;
-      state.model.type = type;
+      state.model.type = lostType;
 
-      log('---before--');
-      //setting lost value to the noOfKeys
-      if (state.model.type == ConstantsIntValue.keyLostHistoryInt ||
+      log('---before---${model?.id}-');
+
+      /// setting lost value to the noOfKeys
+      if ((state.model.noOfKeys == null || state.model.noOfKeys == 0) &&
+          state.model.type == ConstantsIntValue.keyLostHistoryInt) {
+        state.model.noOfKeys = keyIssuanceProcessModel.lost;
+      }
+
+      ///setting damage value to the noOfKeys
+      else if ((state.model.noOfKeys == null || state.model.noOfKeys == 0) &&
           state.model.type == ConstantsIntValue.keyDamageHistoryInt) {
-        log('---1111--');
-        if (state.model.noOfKeys == null || state.model.noOfKeys == 0) {
-          log('--22222--${keyIssuanceProcessModel.lost}-');
-
-          state.model.noOfKeys = keyIssuanceProcessModel.lost;
-        } else {
-          model?.noOfKeys =
-              state.model.noOfKeys; // wrong: it will always be null
-        }
+        state.model.noOfKeys = keyIssuanceProcessModel.damaged;
+      } else {
+        model?.noOfKeys = state.model.noOfKeys; // wrong: it will always be null
       }
       // Get Date of Creation
       // state.model.createdDate = Utils().getCurrentDate();
@@ -133,6 +139,7 @@ class KeyHistoryRecordsDetailsCubit
           : Utils().formatUnixTimestamp(state.model.modifiedDate ?? '');
       KLDUiLabels labels = KLDUiLabels.fromJson(responseLabels);
 
+      state.model.keyType = keyType;
       emit(
         state.copyWith(
             loggedInUserDetails: loggedInUserDetails,
@@ -144,8 +151,7 @@ class KeyHistoryRecordsDetailsCubit
             labels: labels,
             keyManagementMasterModel: parentModel,
             keyIssuanceProcessRecord: keyIssuanceProcessModel,
-            keyManagementIssuanceModel:keyManagementIssuanceModel
-        ),
+            keyManagementIssuanceModel: keyManagementIssuanceModel),
       );
     } catch (e) {
       log('Initialization issue',
@@ -162,18 +168,18 @@ class KeyHistoryRecordsDetailsCubit
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
 
-    Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     List<Organisation>? departments = await commonServices.getOrganisations(
         name: 'KEY_MANAGEMENT_DESTRUCTION_REASON');
     List<BaseUser> securityManager = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Security_Manager', locationId: state.keyManagementMasterModel!.location!.id!);
+        roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+        locationId: state.keyManagementMasterModel!.location!.id!);
     List<BaseUser> srh = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Sub_Regional_Head', locationId: state.keyManagementMasterModel!.location!.id!);
+        roleNames: ConstantUserRoles.atomSubRegionalHeadUser,
+        locationId: state.keyManagementMasterModel!.location!.id!);
 
     emit(
       state.copyWith(
         status: FormStatus.initial,
-        users: users.t1Analyst,
         securityManagers: securityManager,
         sRHs: srh,
         departments: departments,
@@ -278,6 +284,7 @@ class KeyHistoryRecordsDetailsCubit
     log('---state.keyManagementMasterModel?.noKeys----${state.keyManagementMasterModel?.noKeys}------');
 
     GenericResponse response = GenericResponse();
+    log('--isSaveOnly--$isSaveOnly-');
     try {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {
@@ -294,7 +301,8 @@ class KeyHistoryRecordsDetailsCubit
           body: request,
           isSubmit: false,
           kmId: parentId.toString(),
-            keyIssuanceId:keyIssuanceId.toString(),
+          keyIssuanceId: keyIssuanceId,
+          isKeyManagementMaster: keyIssuanceId != null ? false : true,
         ));
       } else {
         //Validating Fields
@@ -322,8 +330,8 @@ class KeyHistoryRecordsDetailsCubit
             body: request,
             isSubmit: true,
             kmId: parentId.toString(),
-            keyIssuanceId:keyIssuanceId.toString(),
-
+            keyIssuanceId: keyIssuanceId,
+            isKeyManagementMaster: keyIssuanceId != null ? false : true,
           );
         }
         if (isApprovedOnly) {
@@ -341,15 +349,16 @@ class KeyHistoryRecordsDetailsCubit
             body: request,
             isSubmit: true,
             kmId: parentId.toString(),
-            keyIssuanceId:keyIssuanceId.toString(),
-
+            keyIssuanceId: keyIssuanceId,
+            isKeyManagementMaster: keyIssuanceId != null ? false : true,
           );
         }
         response = (await services.createKeyHistoryRecord(
           body: request,
           isSubmit: true,
           kmId: parentId.toString(),
-          keyIssuanceId:keyIssuanceId.toString(),
+          keyIssuanceId: keyIssuanceId,
+          isKeyManagementMaster: keyIssuanceId != null ? false : true,
         ));
       }
       state.model.createdDate = state.model.createdDate == null
@@ -377,6 +386,7 @@ class KeyHistoryRecordsDetailsCubit
     }
     log('---response--msg--${response.message}---');
 
+    state.model.id = int.tryParse(response.id ?? '');
     emit(
       state.copyWith(
         message: response.message,

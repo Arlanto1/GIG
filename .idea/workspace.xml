@@ -4,24 +4,14 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="date issue shift schedule">
-      <change beforePath="$PROJECT_DIR$/.dart_tool/dartpad/web_plugin_registrant.dart" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/dartpad/web_plugin_registrant.dart" afterDir="false" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="anual power shutdown issue">
       <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/app/PROD/release/output-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/PROD/release/output-metadata.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/QA/release/output-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/QA/release/output-metadata.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/firebase_options.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/firebase_options.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/index.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/index.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/configurations/base_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/base_api_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/configurations/main_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/main_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/msal_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/msal_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/constants/constant_app_versions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constant_app_versions.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -42,7 +32,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="web-sso-msal" />
+        <entry key="$PROJECT_DIR$" value="leo-new" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -396,6 +386,167 @@
         &quot;number&quot;: 546
       },
       &quot;lastSeen&quot;: 1721378746424
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs54iULI&quot;,
+        &quot;number&quot;: 630
+      },
+      &quot;lastSeen&quot;: 1723790404883
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs54jMhQ&quot;,
+        &quot;number&quot;: 631
+      },
+      &quot;lastSeen&quot;: 1723795217816
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs54jdML&quot;,
+        &quot;number&quot;: 632
+      },
+      &quot;lastSeen&quot;: 1723805960990
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs54kZeQ&quot;,
+        &quot;number&quot;: 633
+      },
+      &quot;lastSeen&quot;: 1723807731349
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs54omiS&quot;,
+        &quot;number&quot;: 634
+      },
+      &quot;lastSeen&quot;: 1723881808711
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs54o9-V&quot;,
+        &quot;number&quot;: 635
+      },
+      &quot;lastSeen&quot;: 1723903171495
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs54sMo2&quot;,
+        &quot;number&quot;: 636
+      },
+      &quot;lastSeen&quot;: 1724049088408
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs54svJ7&quot;,
+        &quot;number&quot;: 637
+      },
+      &quot;lastSeen&quot;: 1724053295248
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs54tqk3&quot;,
+        &quot;number&quot;: 638
+      },
+      &quot;lastSeen&quot;: 1724061271584
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs54t5cT&quot;,
+        &quot;number&quot;: 639
+      },
+      &quot;lastSeen&quot;: 1724067746664
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs55tVvJ&quot;,
+        &quot;number&quot;: 654
+      },
+      &quot;lastSeen&quot;: 1724854408504
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs55x3Y0&quot;,
+        &quot;number&quot;: 657
+      },
+      &quot;lastSeen&quot;: 1724908115501
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs55yT8P&quot;,
+        &quot;number&quot;: 659
+      },
+      &quot;lastSeen&quot;: 1724913212380
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs55yjrv&quot;,
+        &quot;number&quot;: 660
+      },
+      &quot;lastSeen&quot;: 1724915857437
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs55yttr&quot;,
+        &quot;number&quot;: 661
+      },
+      &quot;lastSeen&quot;: 1724929113121
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs550Nn6&quot;,
+        &quot;number&quot;: 662
+      },
+      &quot;lastSeen&quot;: 1724929341737
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs558HBE&quot;,
+        &quot;number&quot;: 664
+      },
+      &quot;lastSeen&quot;: 1725006353253
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs52E4VK&quot;,
+        &quot;number&quot;: 550
+      },
+      &quot;lastSeen&quot;: 1725009165616
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs559KH3&quot;,
+        &quot;number&quot;: 666
+      },
+      &quot;lastSeen&quot;: 1725016267401
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs56HM-l&quot;,
+        &quot;number&quot;: 668
+      },
+      &quot;lastSeen&quot;: 1725257581578
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs56Niah&quot;,
+        &quot;number&quot;: 669
+      },
+      &quot;lastSeen&quot;: 1725337514892
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs56NzLz&quot;,
+        &quot;number&quot;: 670
+      },
+      &quot;lastSeen&quot;: 1725343450474
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOJ23nvs56PPU6&quot;,
+        &quot;number&quot;: 671
+      },
+      &quot;lastSeen&quot;: 1725367612267
     }
   ]
 }</component>
@@ -439,8 +590,8 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
-    &quot;Flutter.qa.executor&quot;: &quot;Run&quot;,
+    &quot;Flutter.main.dart.executor&quot;: &quot;Debug&quot;,
+    &quot;Flutter.qa.executor&quot;: &quot;Debug&quot;,
     &quot;Flutter.test_msal.dart.executor&quot;: &quot;Debug&quot;,
     &quot;Flutter.uat.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
@@ -453,7 +604,7 @@
     &quot;com.android.tools.idea.streaming.emulator.zoom.toolbar.visible&quot;: &quot;false&quot;,
     &quot;com.android.tools.idea.streaming.zoom.toolbar.visible&quot;: &quot;false&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;firebase-crashlytics&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
     &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/anurag/StudioProjects/Arlanto-App-Codebase/lib/src/common_widgets&quot;,
@@ -478,7 +629,7 @@
       <recent name="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views" />
     </key>
   </component>
-  <component name="RunManager" selected="Flutter.qa">
+  <component name="RunManager" selected="Flutter.main.dart">
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="buildFlavor" value="PROD" />
       <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
@@ -511,8 +662,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Flutter.test.dart" />
         <item itemvalue="Flutter.test_msal.dart" />
         <item itemvalue="Flutter.test.dart" />
+        <item itemvalue="Flutter.test_msal.dart" />
+        <item itemvalue="Flutter.test_msal.dart" />
       </list>
     </recent_temporary>
   </component>
@@ -872,7 +1026,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="375" />
+    <option name="localTasksCounter" value="401" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -963,32 +1117,32 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="View Image issue fixed for Android" />
-    <MESSAGE value="minor improvement" />
-    <MESSAGE value="removed unwanted parameter" />
-    <MESSAGE value="button hidden" />
-    <MESSAGE value="+ icon removed for Departments and Entity Dialog Boxes" />
-    <MESSAGE value="+ icon removed from Incident Management and Ticket Life Cycle via navigating through Shift Occurrence." />
-    <MESSAGE value="MM cancel Record Button" />
-    <MESSAGE value="improvements and bug fixes" />
-    <MESSAGE value="new bug fixes" />
-    <MESSAGE value="leo image upload improvements" />
-    <MESSAGE value="api and other" />
-    <MESSAGE value="pull down to refresh" />
-    <MESSAGE value="bug fixed" />
-    <MESSAGE value="signature issue fixed" />
-    <MESSAGE value="slno update issue fixed" />
-    <MESSAGE value="pdf icon" />
-    <MESSAGE value="scroll issue" />
-    <MESSAGE value="leo slno" />
-    <MESSAGE value="leo issues" />
-    <MESSAGE value="found issues" />
-    <MESSAGE value="power failure issues" />
-    <MESSAGE value="article found handover date" />
-    <MESSAGE value="date issue shift schedule" />
-    <MESSAGE value="Invalid configuration: openAiApiKey cannot be null or empty. API keys can be generated here: https://platform.openai.com/account/api-keys." />
     <MESSAGE value="release version changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="release version changes" />
+    <MESSAGE value="WIP: Key Mangement" />
+    <MESSAGE value="MM Outward returnable and non &#10;menu added" />
+    <MESSAGE value="mm user refresh" />
+    <MESSAGE value="user list refresh issue in MM, Pass" />
+    <MESSAGE value="WIP: key mangment" />
+    <MESSAGE value="auto select added user" />
+    <MESSAGE value="version changes 16 aug" />
+    <MESSAGE value="Attendance and other bug fixes" />
+    <MESSAGE value="version changes 18 aug" />
+    <MESSAGE value="lock added shift and attencdance &#10;code clean" />
+    <MESSAGE value="key management menu add to dashboard&#10;&#10;code clean" />
+    <MESSAGE value="shift schedule" />
+    <MESSAGE value="pull down to refresh changed" />
+    <MESSAGE value="wip: lock key issuance&#10;@pooja fix the disable color issue" />
+    <MESSAGE value="shift schedule new improvements" />
+    <MESSAGE value="improvements in pull to refresh" />
+    <MESSAGE value="code improvements" />
+    <MESSAGE value="flutter clean" />
+    <MESSAGE value="issues fixed" />
+    <MESSAGE value="pass issues" />
+    <MESSAGE value="article issues fixed" />
+    <MESSAGE value="g file" />
+    <MESSAGE value="version changes &#10;menu items according to the role" />
+    <MESSAGE value="anual power shutdown issue" />
+    <option name="LAST_COMMIT_MESSAGE" value="anual power shutdown issue" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

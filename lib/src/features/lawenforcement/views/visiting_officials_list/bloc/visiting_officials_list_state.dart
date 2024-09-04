@@ -6,6 +6,7 @@ class VisitingOfficialListState extends Equatable {
   final FormStatus status;
   final List<Organisation> departments;
   final String? message;
+  final LeoUiLabels? labels;
 
   const VisitingOfficialListState({
     this.message,
@@ -13,6 +14,7 @@ class VisitingOfficialListState extends Equatable {
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
     required this.departments,
+    this.labels
   });
 
   VisitingOfficialListState copyWith({
@@ -21,6 +23,7 @@ class VisitingOfficialListState extends Equatable {
     FormStatus? status,
     List<Organisation>? departments,
     String? message,
+    LeoUiLabels? labels,
   }) {
     return VisitingOfficialListState(
       items: items ?? this.items,
@@ -28,6 +31,7 @@ class VisitingOfficialListState extends Equatable {
       status: status ?? this.status,
       departments: departments ?? this.departments,
       message: message ?? this.message,
+      labels: labels ?? this.labels,
     );
   }
 

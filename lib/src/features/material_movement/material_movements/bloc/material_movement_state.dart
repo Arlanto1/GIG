@@ -10,6 +10,7 @@ class MaterialMovementState extends Equatable {
   final String? message;
   final MmUiLabels? labels;
   final ExtraProperties? extraProperties;
+  final MaterialMovementModel? model;
 
   const MaterialMovementState({
     this.items = const <MaterialMovementModel>[],
@@ -21,6 +22,7 @@ class MaterialMovementState extends Equatable {
     this.loggedInUser,
     this.labels,
     this.extraProperties,
+    this.model,
   });
 
   MaterialMovementState copyWith({

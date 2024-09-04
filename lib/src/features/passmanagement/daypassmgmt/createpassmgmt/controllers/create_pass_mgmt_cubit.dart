@@ -81,11 +81,12 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   // get depositor user by role API call
-  Future<void> getUserByRoleDepositor(String userRole) async {
+  Future<void> getUserByRoleDepositor() async {
     try {
       GetDepositor getDepositorData =
           await createpassmgmtServices.getUserByRoleDepositor(
-              roleName: userRole, locationId: state.model.location?.id);
+              roleName: ConstantUserRoles.atomStaticUser,
+              locationId: state.model.location?.id);
 
       emit(
         state.copyWith(
@@ -322,6 +323,10 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           getSerialnumberResponse: serialNumberResponse,
           getDepositorResponse: getDepositorData,
           stateType: CreatePassMgmtStateType.success,
+          // refresh according to the location
+          nameResponse: BaseUser(),
+          hostResponse: User(),
+          dbsponsorResponse: User(),
         ),
       );
     } catch (e) {
@@ -812,13 +817,14 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         // await getPassTypes(passId: passId, locationId: defaultLocation.id!);
 
         passTypes = await createpassmgmtServices.getPassTypes(
-            passId: passId, locationId: defaultLocation!.id!);
+            passId: passId, locationId: defaultLocation.id!);
         companyTypes = await createpassmgmtServices.getPassNo(
             passType: passId, locationId: defaultLocation.id!);
       }
 
       List<Organisation> updateStatuses = [];
-      if (model.status != null && (model.status == 0 || model.status == 1)) {
+      if (model.status != null &&
+          (model.status == 0 || model.status == 1 || model.status == 3)) {
         updateStatuses = await commonServices.getStatusesByModuleId(
             module: Constants.passManagementModuleCode, filter: model.status);
       }
@@ -1085,7 +1091,10 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     // EmployeeDepartments departments =
     //     await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_STATIC_USER', locationId: state.model.location?.id);
+        roleNames: ConstantUserRoles.atomStaticUser,
+        locationId: state.model.location?.id);
+
+    getUserByRoleDepositor();
     emit(
       state.copyWith(
         // getEntitiesResponse: entities,

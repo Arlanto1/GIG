@@ -47,10 +47,11 @@ ShiftModel _$ShiftModelFromJson(Map<String, dynamic> json) => ShiftModel(
       replacements: (json['replacements'] as List<dynamic>?)
           ?.map((e) => Replacement.fromJson(e as Map<String, dynamic>))
           .toSet(),
-    );
+    )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$ShiftModelToJson(ShiftModel instance) =>
     <String, dynamic>{
+      'lock': instance.lock,
       'shift': instance.shift,
       'attendanceShiftId': instance.attendanceShiftId,
       'allowed': instance.allowed,

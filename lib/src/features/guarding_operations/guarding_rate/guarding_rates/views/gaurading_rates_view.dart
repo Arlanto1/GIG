@@ -1,8 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
-
 import '../../services/guarding_services.dart';
 import '../bloc/guarding_rates_bloc.dart';
 
@@ -19,8 +17,6 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -33,7 +29,6 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
 
   @override
   void dispose() {
-    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -58,19 +53,11 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
     }
   }
 
-  void _onRefresh() async {
+  Future<void> _onRefresh() async {
     context.read<GuardingRatesBloc>().add(
           const RefreshList(),
         );
     await Future.delayed(const Duration(milliseconds: 2000));
-    refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    if (mounted) {
-      setState(() {});
-    }
-    refreshController.loadComplete();
   }
 
   @override
@@ -164,19 +151,15 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
                     const NoRecordFoundWidget(),
                 ],
                 Expanded(
-                  child: SmartRefresher(
-                    controller: refreshController,
-                    enablePullDown: true,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    header: WaterDropHeader(
-                      waterDropColor: AppColors.navigationSkyBlueColor,
-                      refresh: state.status != FormStatus.loading
-                          ? const BaseLoader()
-                          : null,
-                    ),
-                    key: const Key(Keys.refreshKey),
-                    onRefresh: _onRefresh,
-                    onLoading: _onLoading,
+                  child: CustomMaterialIndicator(
+                    onRefresh: () => _onRefresh(),
+                    backgroundColor: Colors.white,
+                    indicatorBuilder: (context, controller) {
+                      return const Padding(
+                        padding: EdgeInsets.all(6.0),
+                        child: BaseLoader(),
+                      );
+                    },
                     child: ListView.builder(
                         controller: _scrollController,
                         itemCount: state.hasReachedMax
@@ -188,7 +171,7 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
                             labels.add(Label(
                                 key: state.labels?.locale.inputDate ??
                                     state.labels?.defaultLocale.inputDate ??
-                                    'Date of Creation',
+                                    Constants.dateofcreation,
                                 value: state.items[index].inputDate != null
                                     ? Utils.timestampToDateConversion(
                                         int.parse(
@@ -200,25 +183,26 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
                                 key: state.labels?.locale.locationRegion ??
                                     state
                                         .labels?.defaultLocale.locationRegion ??
-                                    'Region',
+                                    Constants.region,
                                 value:
                                     state.items[index].locationRegion?.name ??
                                         ''));
                             labels.add(Label(
                                 key: state.labels?.locale.location ??
                                     state.labels?.defaultLocale.location ??
-                                    'Building Location',
+                                    Constants.buildingLocation,
                                 value:
                                     state.items[index].location?.name ?? ''));
                             labels.add(Label(
                                 key: state.labels?.locale.slNo ??
                                     state.labels?.defaultLocale.slNo ??
-                                    'SlNo',
+                                    Constants.slno,
                                 value: state.items[index].slNo ?? ''));
                             return BaseListTileItem(
                               id: state.items[index].id,
                               // inputDate: state.items[index].inputDate,
                               vendors: state.items[index].vendor,
+                              labels: labels,
                               onTap: (selectedIndex) {
                                 showDialog(
                                   context: context,
@@ -237,6 +221,7 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
                                   },
                                 );
                               },
+                              showEditButton: false,
                               onEditTap: (selectedIndex) {
                                 getId(
                                     state.extraProperties?.hasWritePermission ??

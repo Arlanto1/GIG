@@ -37,7 +37,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation> quantityUnits = await commonServices.getOrganisations(
         name: 'ATOM_MATERIAL_MOVEMENT_UNIT');
-
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser> emailUsers = await commonServices.getBaseUsers(
@@ -51,6 +50,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         emailUsers: emailUsers,
         departments: departments.employeeDepartments,
         quantityUnits: quantityUnits,
+        receiverEmailUsers: emailUsers,
+        requestorEmailUsers: emailUsers,
+        approver1Users: emailUsers,
+        approver2Users: emailUsers,
       ),
     );
   }
@@ -118,7 +121,6 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       final futures = await Future.wait([
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
-        commonServices.getUsersByRole(roleName: 'T1_Analyst'), // TODO: remove
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
@@ -132,12 +134,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
       Locations locations = futures[0];
       User loggedInUserDetails = futures[1];
-      Analyst users = futures[2]; // TODO: remove
-      EmployeeDepartments departments = futures[3];
-      dynamic responseLabels = futures[4];
-      Organisation? defaultLocation = futures[5];
-      List<BaseUser> emailUsers = futures[6];
-      List<Organisation> quantityUnits = futures[7];
+      EmployeeDepartments departments = futures[2];
+      dynamic responseLabels = futures[3];
+      Organisation? defaultLocation = futures[4];
+      List<BaseUser> emailUsers = futures[5];
+      List<Organisation> quantityUnits = futures[6];
 
       log('--emailUsers--${emailUsers.length}---');
       // Get Date of Creation

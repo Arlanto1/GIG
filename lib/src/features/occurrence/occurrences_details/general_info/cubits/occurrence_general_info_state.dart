@@ -87,7 +87,8 @@ class OccurrenceGeneralInfoState extends Equatable {
           status: false, message: 'Please enter Shift Taken Over By.');
     }
 
-    if (model.premisesRoundTkn && model.premisesRoundTknComments.isEmptyOrNull) {
+    if (model.premisesRoundTkn &&
+        model.premisesRoundTknComments.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Premises Round Taken Comments');
     }
@@ -97,7 +98,8 @@ class OccurrenceGeneralInfoState extends Equatable {
           status: false, message: 'Please enter Medical Emergency Comments');
     }
 
-    if (model.socialEnggIncdnt && model.socialEnggIncdntComments.isEmptyOrNull) {
+    if (model.socialEnggIncdnt &&
+        model.socialEnggIncdntComments.isEmptyOrNull) {
       return const ErrorResponse(
           status: false,
           message: 'Please enter Social Engineering Incidents Comments');
@@ -109,7 +111,8 @@ class OccurrenceGeneralInfoState extends Equatable {
           message: 'Please enter Any Infrastructural Issue Comments');
     }
 
-    if (model.fireAlarmEmrgncy && model.fireAlarmEmrgncyComments.isEmptyOrNull) {
+    if (model.fireAlarmEmrgncy &&
+        model.fireAlarmEmrgncyComments.isEmptyOrNull) {
       return const ErrorResponse(
           status: false,
           message: 'Please enter Fire alarm emergency Occurred Comments');

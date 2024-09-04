@@ -1,14 +1,7 @@
 // Created by Ramesh
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/features/law_enforcement_list/models/law_enforcement_list_response.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/util.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class LawEnforcementListItem extends StatefulWidget {
   final Function? onTap;
@@ -72,12 +65,13 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
               stepWidth: width * .6,
               child: Wrap(
                 children: [
-                  Utils().textHandling('ID : ', widget.userItem.id.toString()),
+                  Utils().textHandling(
+                      '${Constants.id} : ', widget.userItem.id.toString()),
                   CommonWidgets.horizontalSpacerWidget(8),
                   Utils().buildLeoStatusRow(widget.userItem.status ?? 0),
                   Row(
                     children: [
-                      Utils().textHandling('Region : ',
+                      Utils().textHandling('${Constants.region} : ',
                           widget.userItem.locationRegion?.name ?? ''),
                     ],
                   ),
@@ -86,18 +80,26 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                     Row(
                       children: [
                         if (widget.userItem.location != null) ...[
-                          Utils().textHandling('Location : ',
+                          Utils().textHandling('${Constants.location} : ',
                               widget.userItem.location?.name ?? ''),
                         ],
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils().textHandling(
-                            'Date : ',
+                            '${Constants.date} : ',
                             widget.userItem.inputDate != null
                                 ? Utils.timestampToDateConversion(
                                     int.tryParse(
                                         widget.userItem.inputDate ?? '0'),
                                     Constants.dateFormat)
                                 : ''),
+                      ],
+                    ),
+                  ],
+                  if (widget.userItem.entrySecurityName != null) ...[
+                    Row(
+                      children: [
+                        Utils().textHandling('${Constants.createdby} :',
+                            '${widget.userItem.entrySecurityName}'),
                       ],
                     ),
                   ],
@@ -118,7 +120,10 @@ class _LawEnforcementListItemState extends State<LawEnforcementListItem> {
                     ? widget.onEditTap!(widget.index)
                     : null;
               },
-              icon: widget.userItem.status == ConstantsIntValue.leoStatusDistributed || widget.userItem.status == ConstantsIntValue.cancelledStatus || widget.userItem.status == ConstantsIntValue.leoStatusSubmitted
+              icon: widget.userItem.status ==
+                          ConstantsIntValue.leoStatusDistributed ||
+                      widget.userItem.status ==
+                          ConstantsIntValue.cancelledStatus
                   ? const Icon(Icons.edit_off_outlined)
                   : const Icon(Icons.edit),
             ),

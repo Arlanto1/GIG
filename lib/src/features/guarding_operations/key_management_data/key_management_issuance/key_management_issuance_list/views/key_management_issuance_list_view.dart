@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_list/bloc/key_management_issuance_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class KeyManagementIssuanceListView extends StatefulWidget {
   const KeyManagementIssuanceListView({
@@ -20,8 +19,6 @@ class _KeyManagementIssuanceListViewState
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -34,7 +31,6 @@ class _KeyManagementIssuanceListViewState
 
   @override
   void dispose() {
-    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -56,19 +52,11 @@ class _KeyManagementIssuanceListViewState
     }
   }
 
-  void _onRefresh() async {
+  Future<void> _onRefresh() async {
     context.read<KeyManagementIssuanceListBloc>().add(
           const RefreshList(),
         );
     await Future.delayed(const Duration(milliseconds: 2000));
-    refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    if (mounted) {
-      setState(() {});
-    }
-    refreshController.loadComplete();
   }
 
   @override
@@ -116,7 +104,8 @@ class _KeyManagementIssuanceListViewState
                 // if (state.list.isEmptyOrNull) {
                 //   return const NoRecordFoundWidget();
                 // }
-                // log('--labels-${state.labels?.locale.locationRegion}');
+                // log('--labels-${state.labels?.locale.locationRegion}')
+
                 return Container(
                   margin: allMargin16,
                   decoration: const ShapeDecoration(
@@ -143,6 +132,7 @@ class _KeyManagementIssuanceListViewState
                         const BaseLoader(),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                       ],
+
                       // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                       // Text('state.status=====${state.status}'),
                       if (state.list.isEmptyOrNull &&
@@ -152,19 +142,15 @@ class _KeyManagementIssuanceListViewState
                       ],
 
                       Expanded(
-                        child: SmartRefresher(
-                          controller: refreshController,
-                          enablePullDown: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          header: WaterDropHeader(
-                            waterDropColor: AppColors.navigationSkyBlueColor,
-                            refresh: state.status != FormStatus.loading
-                                ? const BaseLoader()
-                                : null,
-                          ),
-                          key: const Key(Keys.refreshKey),
-                          onRefresh: _onRefresh,
-                          onLoading: _onLoading,
+                        child: CustomMaterialIndicator(
+                          onRefresh: () => _onRefresh(),
+                          backgroundColor: Colors.white,
+                          indicatorBuilder: (context, controller) {
+                            return const Padding(
+                              padding: EdgeInsets.all(6.0),
+                              child: BaseLoader(),
+                            );
+                          },
                           child: ListView.builder(
                             controller: _scrollController,
                             itemCount: state.hasReachedMax
@@ -176,15 +162,35 @@ class _KeyManagementIssuanceListViewState
                                 labels.add(Label(
                                     key: state.labels?.locale.createdBy ??
                                         state.labels?.defaultLocale.createdBy ??
-                                        'Created By',
+                                        Constants.createdby,
                                     value:
                                         '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
                                 labels.add(Label(
                                     key: state.labels?.locale.location ??
                                         state.labels?.defaultLocale.location ??
-                                        'Location ',
+                                        Constants.location,
                                     value: state.list[index].location?.name ??
                                         ''));
+                                labels.add(Label(
+                                    key: state.labels?.locale.createdDate ??
+                                        state.labels?.defaultLocale
+                                            .createdDate ??
+                                        Constants.createDate,
+                                    value: state.list[index].createdDate != null
+                                        ? Utils.timestampToDateConversion(
+                                            int.parse(
+                                                state.list[index].createdDate ??
+                                                    '0'),
+                                            Constants
+                                                .twentyFourHourDateTimeFormat)
+                                        : ''));
+                                labels.add(Label(
+                                    key: state.labels?.locale.handedOverTo ??
+                                        state.labels?.defaultLocale
+                                            .handedOverTo ??
+                                        Constants.handedOverTo,
+                                    value:
+                                        '${state.list[index].handedOverTo?.firstName ?? ''} ${state.list[index].handedOverTo?.lastName ?? ''}'));
                               }
                               return index >= state.list.length
                                   ? null
@@ -220,9 +226,6 @@ class _KeyManagementIssuanceListViewState
                                               department: state
                                                   .list[selectedIndex]
                                                   .department,
-                                              handedOver: state
-                                                  .list[selectedIndex]
-                                                  .handedOverTo,
                                               returnedByName: state
                                                   .list[selectedIndex]
                                                   .returnedByName,
@@ -230,6 +233,24 @@ class _KeyManagementIssuanceListViewState
                                           },
                                         );
                                       },
+                                      showEditButton: state
+                                                  .list[index].status !=
+                                              ConstantsIntValue
+                                                  .issuanceClosedDamagedStatus &&
+                                          state.list[index].status !=
+                                              ConstantsIntValue
+                                                  .issuanceClosedLostStatus &&
+                                          state.list[index].status !=
+                                              ConstantsIntValue
+                                                  .issuanceClosedLostDamagedStatus &&
+                                          state.list[index].status !=
+                                              ConstantsIntValue
+                                                  .issuanceClosedDamagedStatus &&
+                                          state.list[index].status !=
+                                              ConstantsIntValue
+                                                  .issuanceClosedStatus &&
+                                          state.list[index].status !=
+                                              ConstantsIntValue.cancelledStatus,
                                       onEditTap: (selectedIndex) {
                                         getById(
                                             state.extraProperties
@@ -237,7 +258,6 @@ class _KeyManagementIssuanceListViewState
                                                 false,
                                             state.list[index].id ?? 0);
                                       },
-                                      showEditButton: true,
                                       onViewTap: (selectedIndex) {
                                         showDialog(
                                           context: context,
@@ -260,9 +280,6 @@ class _KeyManagementIssuanceListViewState
                                               department: state
                                                   .list[selectedIndex]
                                                   .department,
-                                              handedOver: state
-                                                  .list[selectedIndex]
-                                                  .handedOverTo,
                                               returnedByName: state
                                                   .list[selectedIndex]
                                                   .returnedByName,

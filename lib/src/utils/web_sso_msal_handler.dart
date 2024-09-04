@@ -42,22 +42,24 @@ class WebSsoMsalHandler {
   //     iosConfig: IosConfig(authority: _authority),
   //   );
   // }
-  Future<void> getToken() async {
+  Future<MsalUser?> getToken() async {
     log('getToken');
     try {
-      final msalAuth = await getMsalAuth();
-      final user = await msalAuth.acquireToken();
+      final MsalAuth msalAuth = await getMsalAuth();
+      final MsalUser? user = await msalAuth.acquireToken();
       log('User data: ${user?.toJson()}');
+      return user;
     } on MsalException catch (e) {
       log('Msal exception with error: ${e.errorMessage}');
     } catch (e) {
       log(e.toString());
     }
+    return null;
   }
 
   Future<void> logout() async {
     try {
-      final msalAuth = await getMsalAuth();
+      final MsalAuth msalAuth = await getMsalAuth();
       await msalAuth.logout();
     } on MsalException catch (e) {
       log('Msal exception with error: ${e.errorMessage}');

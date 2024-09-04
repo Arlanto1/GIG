@@ -5,7 +5,6 @@ import 'package:db_atom/index.dart';
 import '../../services/sst_incident_services.dart';
 
 part 'sst_incident_event.dart';
-
 part 'sst_incident_state.dart';
 
 class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
@@ -98,8 +97,8 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
       SstIncidentResponse response;
 
       response = await _services.get(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         // userId: '77',
         ticketType: ticketType,
         staffType: staffType,

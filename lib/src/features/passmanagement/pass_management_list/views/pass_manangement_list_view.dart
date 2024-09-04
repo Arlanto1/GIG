@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/views/day_pass_list_detail_popup.dart';
 import 'package:db_atom/src/features/passmanagement/pass_management_list/bloc/pass_management_list_bloc.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
-
 import '../../daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 import '../../daypassmgmt/passmgmtlist/views/day_pass_management_list_item.dart';
 
@@ -38,7 +36,6 @@ class _PassManagementListViewState extends State<PassManagementListView> {
 
   @override
   void dispose() {
-    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -60,22 +57,11 @@ class _PassManagementListViewState extends State<PassManagementListView> {
     }
   }
 
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
-
-  void _onRefresh() async {
+  Future<void> _onRefresh() async {
     context.read<PassManagementListBloc>().add(
           const RefreshList(),
         );
     await Future.delayed(const Duration(milliseconds: 2000));
-    refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    if (mounted) {
-      setState(() {});
-    }
-    refreshController.loadComplete();
   }
 
   @override
@@ -175,19 +161,15 @@ class _PassManagementListViewState extends State<PassManagementListView> {
                     UtilsCommon().showNoRecordWidget(
                         state: state, height: height, items: state.items),
                     Expanded(
-                      child: SmartRefresher(
-                        controller: refreshController,
-                        enablePullDown: true,
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        header: WaterDropHeader(
-                          waterDropColor: AppColors.navigationSkyBlueColor,
-                          refresh: state.status != FormStatus.loading
-                              ? const BaseLoader()
-                              : null,
-                        ),
-                        key: const Key(Keys.refreshKey),
-                        onRefresh: _onRefresh,
-                        onLoading: _onLoading,
+                      child: CustomMaterialIndicator(
+                        onRefresh: () => _onRefresh(),
+                        backgroundColor: Colors.white,
+                        indicatorBuilder: (context, controller) {
+                          return const Padding(
+                            padding: EdgeInsets.all(6.0),
+                            child: BaseLoader(),
+                          );
+                        },
                         child: ListView.builder(
                           controller: _scrollController,
                           itemCount: state.hasReachedMax

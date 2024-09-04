@@ -386,7 +386,13 @@ class _AnnualPowerShutdownListDetailsViewState
                                     roleName: ConstantUserRoles
                                         .atomSubRegionalHeadUser,
                                     locationId: state.model.location!.id!,
-                                    functionToCall: () {
+                                    functionToCall: (BaseUser user) {
+                                      BlocProvider.of<
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        subRegionalHead1: user,
+                                      );
                                       // refresh the list
                                       BlocProvider.of<
                                                   AnnualPowerShutdownListDetailsCubit>(
@@ -425,7 +431,13 @@ class _AnnualPowerShutdownListDetailsViewState
                                     roleName: ConstantUserRoles
                                         .atomSubRegionalHeadUser,
                                     locationId: state.model.location!.id!,
-                                    functionToCall: () {
+                                    functionToCall: (BaseUser user) {
+                                      BlocProvider.of<
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        subRegionalHead2: user,
+                                      );
                                       // refresh the list
                                       BlocProvider.of<
                                                   AnnualPowerShutdownListDetailsCubit>(
@@ -466,7 +478,15 @@ class _AnnualPowerShutdownListDetailsViewState
                                     roleName: ConstantUserRoles
                                         .atomSeniorSecurityManagerUser,
                                     locationId: state.model.location!.id!,
-                                    functionToCall: () {
+                                    functionToCall: (BaseUser user) {
+                                      BlocProvider.of<
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        locationSecurityManager1: user,
+                                      );
+                                      FocusScope.of(context)
+                                          .requestFocus(lSM1ContactNoFocusNode);
                                       // refresh the list
                                       BlocProvider.of<
                                                   AnnualPowerShutdownListDetailsCubit>(
@@ -538,7 +558,15 @@ class _AnnualPowerShutdownListDetailsViewState
                                     roleName: ConstantUserRoles
                                         .atomSeniorSecurityManagerUser,
                                     locationId: state.model.location!.id!,
-                                    functionToCall: () {
+                                    functionToCall: (BaseUser user) {
+                                      BlocProvider.of<
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        locationSecurityManager2: user,
+                                      );
+                                      FocusScope.of(context)
+                                          .requestFocus(lSM2ContactNoFocusNode);
                                       // refresh the list
                                       BlocProvider.of<
                                                   AnnualPowerShutdownListDetailsCubit>(
@@ -610,7 +638,15 @@ class _AnnualPowerShutdownListDetailsViewState
                                     },
                                     roleName: ConstantUserRoles.atomStaticUser,
                                     locationId: state.model.location!.id!,
-                                    functionToCall: () {
+                                    functionToCall: (BaseUser user) {
+                                      BlocProvider.of<
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        bu1: user,
+                                      );
+                                      FocusScope.of(context)
+                                          .requestFocus(pocContactNoFocusNode);
                                       // refresh the list
                                       BlocProvider.of<
                                                   AnnualPowerShutdownListDetailsCubit>(
@@ -681,7 +717,15 @@ class _AnnualPowerShutdownListDetailsViewState
                                     },
                                     roleName: ConstantUserRoles.atomStaticUser,
                                     locationId: state.model.location!.id!,
-                                    functionToCall: () {
+                                    functionToCall: (BaseUser user) {
+                                      BlocProvider.of<
+                                                  AnnualPowerShutdownListDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        bu2: user,
+                                      );
+                                      FocusScope.of(context).requestFocus(
+                                          pocEscalationContactNoFocusNode);
                                       // refresh the list
                                       BlocProvider.of<
                                                   AnnualPowerShutdownListDetailsCubit>(
@@ -1025,7 +1069,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   isMandatory: true),
                               //if (!disableForm) ...[
                               Opacity(
-                                opacity: disableForm? 0.5:1,
+                                opacity: disableForm ? 0.5 : 1,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -1110,14 +1154,16 @@ class _AnnualPowerShutdownListDetailsViewState
                                         );
                                       },
                                       child: Opacity(
-                                        opacity: disableForm? 0.5:1,
+                                        opacity: disableForm ? 0.5 : 1,
                                         child: Row(
                                           children: <Widget>[
                                             const SizedBox(width: 14),
                                             SvgPicture.asset(
                                               AppIcon.pluscircle,
-                                              colorFilter: const ColorFilter.mode(
-                                                AppColors.navigationSkyBlueColor,
+                                              colorFilter:
+                                                  const ColorFilter.mode(
+                                                AppColors
+                                                    .navigationSkyBlueColor,
                                                 BlendMode.srcIn,
                                               ),
                                               // color:
@@ -1153,7 +1199,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   Styles.textStyleBlack14,
                                 ),
                                 Opacity(
-                                  opacity: disableForm? 0.5:1,
+                                  opacity: disableForm ? 0.5 : 1,
                                   child: Checkbox(
                                       activeColor:
                                           AppColors.navigationSkyBlueColor,
@@ -1633,7 +1679,7 @@ class _AnnualPowerShutdownListDetailsViewState
       onTap: () {
         Navigator.pop(context);
         CommonServices().unlock();
-        },
+      },
     );
   }
 

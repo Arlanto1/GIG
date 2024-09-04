@@ -23,7 +23,7 @@ class KeyHistoryModel {
 
   KeyHistoryModel(
       {this.id,
-        this.kmId,
+      this.kmId,
       this.createdBy,
       this.noKeys,
       this.createdDate,
@@ -76,7 +76,7 @@ class KeyHistoryModel {
 
   Map<String, dynamic> toJson() => {
         'id': id,
-    'kmId':kmId,
+        'kmId': kmId,
         'createdBy': createdBy?.toJson(),
         'createdDate': createdDate,
         'status': status,

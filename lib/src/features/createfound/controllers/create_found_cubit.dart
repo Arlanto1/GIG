@@ -66,14 +66,25 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         model.location = defaultLocation;
       }
 
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: await SharedPrefs.getLanguageCode(),
+          moduleCode: Constants.articleFoundModuleCode);
+
+      AFUiLabels labels = AFUiLabels.fromJson(responseLabels);
+
       emit(
         state.copyWith(
           model: model,
           location: model.location,
           slno: serialNumberResponse?.serialNo,
           loggedInUser: loggedInUserDetails,
+          labels: labels
         ),
       );
+
+      createFoundArticleCubit
+          .getUserByRoleDepositor(ConstantUserRoles.atomStaticUser);
+
     } catch (e) {
       emit(
         state.copyWith(
@@ -230,7 +241,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       // log('--getUserByRoleDepositor-locationId-${locationId}--');
 
       GetDepositor getDepositorData = await commonServices.getAtomStaticUsers(
-          roleName: userRole, locationId: state.model.location?.id);
+          roleName: userRole, locationId: state.location?.id);
 
       emit(
         state.copyWith(

@@ -174,10 +174,10 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
       model.createdBy ??= loggedInUserDetails;
 
-      if (isInternal == true) {
-        state.model.staffType = 1;
-        state.model.ticketType = 1;
-      }
+      // if (isInternal == true) {
+      state.model.staffType = 1;
+      state.model.ticketType = 1;
+      // }
       // else {
       //   state.model.staffType = 2;
       //   state.model.ticketType = 1;
@@ -479,9 +479,9 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
   }
 
   void submitForm({
-    bool isSaveOnly = false,
-    bool isReworkOnly = false,
-    bool isSubmitOnly = false,
+    required bool isSaveOnly,
+    required bool isReworkOnly,
+    required bool isSubmitOnly,
   }) async {
     emit(
       state.copyWith(
@@ -491,10 +491,10 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
 
     state.model.status ??= 1;
 
-    if (isInternal == true) {
-      state.model.staffType = 1;
-      state.model.ticketType = 1;
-    }
+    // if (isInternal == true) {
+    state.model.staffType = 1;
+    state.model.ticketType = 1;
+    // }
 
     if (state.model.workFlowId != null) {
       state.model.workFlowId = state.model.workFlowId;

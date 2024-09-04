@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/bloc/material_movement_bloc.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class MaterialMovementsView extends StatefulWidget {
   const MaterialMovementsView({
@@ -32,7 +31,6 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
 
   @override
   void dispose() {
-    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -54,22 +52,23 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
     }
   }
 
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
+  // Future<void> _onRefresh() async {
+  //   context.read<MaterialMovementBloc>().add(
+  //         const RefreshList(),
+  //       );
+  //   await Future.delayed(const Duration(milliseconds: 2000));
+  // }
 
-  void _onRefresh() async {
-    context.read<MaterialMovementBloc>().add(
-          const RefreshList(),
+  Future<void> _onRefresh() async {
+    // Trigger the refresh event
+    context.read<MaterialMovementBloc>().add(const RefreshList());
+
+    // Wait until the state status is FormStatus.success or FormStatus.failure
+    await context.read<MaterialMovementBloc>().stream.firstWhere(
+          (state) =>
+              state.status == FormStatus.success ||
+              state.status == FormStatus.failure,
         );
-    await Future.delayed(const Duration(milliseconds: 2000));
-    refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    if (mounted) {
-      setState(() {});
-    }
-    refreshController.loadComplete();
   }
 
   @override
@@ -127,7 +126,6 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
               // if (state.status == FormStatus.initial) {
               //   return const BaseLoader();
               // }
-
               return Container(
                 margin: allMargin16,
                 decoration: const ShapeDecoration(
@@ -158,19 +156,15 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                     UtilsCommon().showNoRecordWidget(
                         state: state, height: height, items: state.items),
                     Expanded(
-                      child: SmartRefresher(
-                        controller: refreshController,
-                        enablePullDown: true,
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        header: WaterDropHeader(
-                          waterDropColor: AppColors.navigationSkyBlueColor,
-                          refresh: state.status != FormStatus.loading
-                              ? const BaseLoader()
-                              : null,
-                        ),
-                        key: const Key(Keys.refreshKey),
-                        onRefresh: _onRefresh,
-                        onLoading: _onLoading,
+                      child: CustomMaterialIndicator(
+                        onRefresh: () => _onRefresh(),
+                        backgroundColor: Colors.white,
+                        indicatorBuilder: (context, controller) {
+                          return const Padding(
+                            padding: EdgeInsets.all(6.0),
+                            child: BaseLoader(),
+                          );
+                        },
                         child: ListView.builder(
                           controller: _scrollController,
                           itemCount: state.hasReachedMax
@@ -180,28 +174,50 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                             List<Label> labels = [];
                             if (index < state.items.length) {
                               labels.add(Label(
-                                  key: 'Date',
+                                  key: state.labels?.locale.inputDate ??
+                                      state.labels?.defaultLocale
+                                          .requestorEmail ??
+                                      Constants.date,
                                   value: state.items[index].inputDate != null
                                       ? Utils.timestampToDateConversion(
                                           int.parse(
                                               state.items[index].inputDate ??
                                                   '0'),
-                                          Constants.twentyFourHourDateTimeFormat)
+                                          Constants
+                                              .twentyFourHourDateTimeFormat)
                                       : ''));
                               labels.add(Label(
-                                  key: 'Region',
+                                  key: state.labels?.locale.entrySecurity ??
+                                      state.labels?.defaultLocale
+                                          .entrySecurity ??
+                                      Constants.createdby,
+                                  value:
+                                      '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
+
+                              labels.add(Label(
+                                  key: Constants.region,
                                   value:
                                       state.items[index].locationRegion?.name ??
                                           ''));
                               labels.add(Label(
-                                  key: 'Location',
+                                  key: state.labels?.locale.location ??
+                                      state.labels?.defaultLocale.location ??
+                                      Constants.location,
                                   value:
                                       state.items[index].location?.name ?? ''));
                               labels.add(Label(
-                                  key: 'Material Movement Type ',
+                                  key: state.labels?.locale.type ??
+                                      state.labels?.defaultLocale.type ??
+                                      Constants.materialMovementsType,
                                   value: state.items[index].returnable == true
-                                      ? 'Returnable'
-                                      : 'Not Returnable'));
+                                      ? state.labels?.locale.returnable ??
+                                          state.labels?.defaultLocale
+                                              .returnable ??
+                                          Constants.returnable
+                                      : state.labels?.locale.nonReturnable ??
+                                          state.labels?.defaultLocale
+                                              .nonReturnable ??
+                                          Constants.nonReturnable));
 
                               return index >= state.items.length
                                   ? const BaseLoader()
@@ -241,6 +257,12 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                                           },
                                         );
                                       },
+                                      showEditButton: state
+                                                  .items[index].status !=
+                                              ConstantsIntValue
+                                                  .mmStatusClosed &&
+                                          state.items[index].status !=
+                                              ConstantsIntValue.cancelledStatus,
                                       onEditTap: (selectedIndex) {
                                         getById(
                                             state.extraProperties

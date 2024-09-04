@@ -28,6 +28,24 @@ const materialMovementDrawerItems = [
       AppIcon.materialMovementOutwardIcon, 0),
 ];
 
+const materialMovementDrawerItemsWithReturnable = [
+  MenuItem(
+    Constants.materialMovementInward,
+    AppIcon.materialMovementInwardIcon,
+    0,
+  ),
+  MenuItem(
+    Constants.materialMovementOutwardReturnable,
+    AppIcon.materialMovementOutwardIcon,
+    0,
+  ),
+  MenuItem(
+    Constants.materialMovementOutwardNonReturnable,
+    AppIcon.materialMovementOutwardIcon,
+    0,
+  ),
+];
+
 // const securitySystemTicketsItems = [
 //   MenuItem(Constants.incident, AppIcon.incidentIcon, 0),
 // ];

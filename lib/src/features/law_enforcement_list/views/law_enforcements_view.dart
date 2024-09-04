@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/law_enforcement_list/bloc/law_enforcement_list_bloc.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 import 'law_enforcement_list_item.dart';
 import 'le_custom_list_pop_up.dart';
@@ -36,8 +35,6 @@ class _LnPageState extends State<LnPage> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -50,7 +47,6 @@ class _LnPageState extends State<LnPage> {
 
   @override
   void dispose() {
-    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -71,19 +67,11 @@ class _LnPageState extends State<LnPage> {
     }
   }
 
-  void _onRefresh() async {
+  Future<void> _onRefresh() async {
     context.read<LawEnforcementListBloc>().add(
           const RefreshList(),
         );
     await Future.delayed(const Duration(milliseconds: 2000));
-    refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    if (mounted) {
-      setState(() {});
-    }
-    refreshController.loadComplete();
   }
 
   @override
@@ -197,16 +185,15 @@ class _LnPageState extends State<LnPage> {
                     const NoRecordFoundWidget(),
                   ],
                   Expanded(
-                    child: SmartRefresher(
-                      controller: refreshController,
-                      enablePullDown: true,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      header: const WaterDropHeader(
-                        waterDropColor: AppColors.navigationSkyBlueColor,
-                      ),
-                      key: const Key(Keys.refreshKey),
-                      onRefresh: _onRefresh,
-                      onLoading: _onLoading,
+                    child: CustomMaterialIndicator(
+                      onRefresh: () => _onRefresh(),
+                      backgroundColor: Colors.white,
+                      indicatorBuilder: (context, controller) {
+                        return const Padding(
+                          padding: EdgeInsets.all(6.0),
+                          child: BaseLoader(),
+                        );
+                      },
                       child: ListView.builder(
                         controller: _scrollController,
                         itemCount: state.hasReachedMax

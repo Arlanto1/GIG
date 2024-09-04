@@ -1,12 +1,6 @@
-import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/constants/ui_geometry_constants.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 import 'package:db_atom/src/features/passmanagement/pass_management_list/bloc/pass_management_list_bloc.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-import 'package:db_atom/src/utils/util.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class DayPassManagementListItem extends StatefulWidget {
   final Function? onTap;
@@ -97,6 +91,17 @@ class _DayPassManagementListItemState extends State<DayPassManagementListItem> {
                       ],
                     ),
                   ],
+                  if (widget.userItem.entrySecurity != null) ...[
+                    Row(
+                      children: [
+                        Utils().textHandling(
+                            state.labels?.locale.entrySecurity ??
+                                state.labels?.defaultLocale.entrySecurity ??
+                                'Created By : ',
+                            '${widget.userItem.entrySecurity?.firstName ?? ''}${widget.userItem.entrySecurity?.lastName ?? ''}'),
+                      ],
+                    ),
+                  ],
                   if (widget.userItem.inputDate != null) ...[
                     CommonWidgets.horizontalSpacerWidget(5),
                     Row(
@@ -111,6 +116,31 @@ class _DayPassManagementListItemState extends State<DayPassManagementListItem> {
                                         widget.userItem.inputDate ?? '0'),
                                     Constants.dateFormat)
                                 : ''),
+                      ],
+                    ),
+                  ],
+                  if (widget.userItem.passInfo != null) ...[
+                    CommonWidgets.horizontalSpacerWidget(5),
+                    Row(
+                      children: [
+                        Utils().textHandling(
+                            widget.userItem.passType ==
+                                    ConstantsIntValue.passIdDayPass
+                                ? (state.labels?.locale.dayPassInfo ??
+                                    state.labels?.defaultLocale.dayPassInfo ??
+                                    'Day Pass No: ')
+                                : widget.userItem.passType ==
+                                        ConstantsIntValue.passIdVendor
+                                    ? (state.labels?.locale.vendorPassInfo ??
+                                        state.labels?.defaultLocale
+                                            .vendorPassInfo ??
+                                        'Vendor Pass No: ')
+                                    : (state.labels?.locale.visitorPassInfo ??
+                                        state.labels?.defaultLocale
+                                            .visitorPassInfo ??
+                                        'Visitor Pass No: '),
+                            widget.userItem.passInfo?.passNo?.toString() ??
+                                " "),
                       ],
                     ),
                   ],

@@ -6,7 +6,6 @@ import 'package:db_atom/index.dart';
 import '../../services/contact_details_services.dart';
 
 part 'contact_details_list_event.dart';
-
 part 'contact_details_list_state.dart';
 
 class ContactDetailsListBloc
@@ -102,8 +101,8 @@ class ContactDetailsListBloc
       ContactDetailsListResponseModel response;
 
       response = await services.getGcdWithFilters(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         // mmType: isInward ? 1 : 0,
         filters: BaseFilterModel(),
       );

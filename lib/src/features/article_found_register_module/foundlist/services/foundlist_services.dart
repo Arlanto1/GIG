@@ -9,7 +9,6 @@ class Apis {
 }
 
 class FoundListServices {
-
   // Future<FoundListModel> getFoundArticleList({
   //   required String startPosition,
   //   required String maximumRecords,
@@ -32,7 +31,7 @@ class FoundListServices {
     String url =
         '${Apis._getArticleList}startPos=$startPosition&maxResults=$maximumRecords';
 
-    if(eventId != null) {
+    if (eventId != null) {
       url = '$url&eventId=$eventId';
     }
     var response = await BaseApiService().postRequest(

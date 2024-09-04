@@ -52,6 +52,8 @@ class _RatesInfoState extends State<RatesInfo> {
             showSubmitButton: false,
             showDisLikeButton: false,
             showLikeButton: false,
+            pdfAPIName:
+            '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.guardingRatesModule}',
           ),
           backgroundColor: AppColors.backgroundWhiteColor,
           body: getBody(context, state, height),

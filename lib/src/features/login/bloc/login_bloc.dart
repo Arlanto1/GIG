@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/key_clock_services.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
-import 'package:db_atom/src/models/responseModels/permission_error.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -20,6 +19,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginVerifyEvent>(_loginVerifyEvent);
     on<ForgotPwdEvent>(_forgotPwdEvent);
     on<UpdatePwdEvent>(_updatePwdEvent);
+    on<LoginSsoVerifyEvent>(_loginSsoVerifyEvent);
   }
 
   final KeyClockServices keyClockServices = KeyClockServices();
@@ -82,6 +82,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           ));
           return null;
         }
+
         /// Setting Default Location
         await SharedPrefs.setDefaultLocation(loginData.user!.defaultLocation!);
 
@@ -121,7 +122,90 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         // Handle other unexpected errors
         log('Server Might Be Restarting: $e');
         emit(LoginFailureState(
-          message: 'Please check your network connection and try again. Reason: ${e.toString()}',
+          message:
+              'Please check your network connection and try again. Reason: ${e.toString()}',
+          status: FormStatus.error,
+        ));
+      }
+      // Problem: not able to read the response here because loginData.msg is null
+      // log('response--------$e-----');
+      // emit(LoginFailureState(errorMsg: '${loginData.msg}' ));
+    }
+  }
+
+  /// Login via DB SSO
+  Future<FutureOr<void>> _loginSsoVerifyEvent(
+      LoginSsoVerifyEvent event, Emitter<LoginState> emit) async {
+    emit(LoginLoadingState(status: FormStatus.loading));
+    LoginResponseModel loginData = LoginResponseModel();
+    try {
+      loginData = await loginService.ssoLoginUser(event.user);
+
+      log('--loginData---${loginData.toString()}----');
+
+      var data = event.user;
+      userName = data.username.trim();
+
+      deviceToken = await SharedPrefs.getDeviceToken();
+
+      log('email address is ${loginData.user?.email}');
+      await SharedPrefs.setUsername(userName);
+      await SharedPrefs.setUserId('${loginData.user?.userId}');
+      await SharedPrefs.setEmail(loginData.user?.email ?? '');
+      await SharedPrefs.setIdentifymenuindex(0);
+      await SharedPrefs.setToken(loginData.token ?? '');
+      await SharedPrefs.setRefreshToken(loginData.refreshToken ?? '');
+
+      if (loginData.user?.displayMenu == null) {
+        emit(LoginFailureState(
+          message: 'Menu Roles are not defined',
+          status: FormStatus.formError,
+        ));
+        return null;
+      }
+
+      /// Setting Menu Items according to User Role
+      await SharedPrefs.setDisplayMenu(loginData.user!.displayMenu!);
+
+      if (loginData.user?.defaultLocation == null) {
+        emit(LoginFailureState(
+          message: 'Roles/Default Location is not defined!',
+          status: FormStatus.formError,
+        ));
+        return null;
+      }
+
+      /// Setting Default Location
+      await SharedPrefs.setDefaultLocation(loginData.user!.defaultLocation!);
+
+      if (loginData.requirePasswordChange == true) {
+        await SharedPrefs.setIsRequiredPasswordChange(true);
+
+        emit(UpdatePasswordState());
+      } else {
+        emit(LoginVerifyOtpActionState());
+      }
+    } catch (e) {
+      // Handle API errors here
+
+      log('--e-$e-------to-${e.toString()}-');
+      if (e is GenericResponse) {
+        emit(LoginFailureState(
+          message: e.message ?? 'An unexpected error occurred.',
+          status: FormStatus.error,
+        ));
+      } else if (e is PermissionError) {
+        emit(LoginFailureState(
+          message: e.message ?? 'An unexpected error occurred.',
+          status: FormStatus.permissionLocationError,
+        ));
+      } else {
+        InactivityFunctions().logoutUser(navigatorKey);
+        // Handle other unexpected errors
+        log('Server Might Be Restarting: $e');
+        emit(LoginFailureState(
+          message:
+              'Please check your network connection and try again. Reason: ${e.toString()}',
           status: FormStatus.error,
         ));
       }

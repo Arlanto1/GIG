@@ -5,7 +5,6 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 
 part 'key_management_master_list_event.dart';
-
 part 'key_management_master_list_state.dart';
 
 class KeyManagementMasterListBloc
@@ -84,8 +83,8 @@ class KeyManagementMasterListBloc
       KeyManagementMasterResponse response;
 
       response = await _services.getList(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         filters: BaseFilterModel(),
       );
 

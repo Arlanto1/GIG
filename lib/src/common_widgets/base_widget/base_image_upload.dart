@@ -31,7 +31,7 @@ class BaseImageUpload {
                 backgroundColor: AppColors.navigationSkyBlueColor,
               ),
               onPressed: () {
-                if(isDisabled??false){
+                if (isDisabled ?? false) {
                   return;
                 }
                 showDialog(
@@ -272,7 +272,7 @@ class AttachmentListViewState extends State<AttachmentListView> {
 }
 
 class ImageFromBytes extends StatelessWidget {
-  ImageFromBytes({
+  const ImageFromBytes({
     super.key,
     required this.imageData,
   });

@@ -76,9 +76,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   // String? serialnumber;
   bool isReadOnly = false;
 
-  int isOfficialIdcardSelected = 0;
-  int isDocumentifanySelected = 0;
-  int isIncaseofpoliceSelected = 0;
+  int isOfficialIdCardSelected = 0;
+  int isDocumentIfAnySelected = 0;
+  int isInCaseOfPoliceSelected = 0;
 
   // int get index => 0;
 
@@ -306,7 +306,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
                                         /// Status
                                         CommonWidgets.textDisplay(
-                                            Constants.status,
+                                            state.labels?.locale.status ??
+                                                state.labels?.defaultLocale
+                                                    .status ??
+                                                Constants.status,
                                             Styles.textStyleBlack14,
                                             isMandatory: true),
                                         CommonWidgets.verticalSpacerWidget(
@@ -350,14 +353,20 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
                                         /// created by
                                         CommonWidgets.horizentaltextHandling(
-                                            Constants.createdby,
+                                            state.labels?.locale.entrySecurity ??
+                                                state.labels?.defaultLocale
+                                                    .entrySecurity ??
+                                                Constants.createdby,
                                             isMandatory: true,
                                             // '${state.getUserDetailsResponse?.firstName ?? ''} ${state.getUserDetailsResponse?.lastName ?? ''}'),
                                             '${widget.model != null ? widget.model?.entrySecurity?.firstName : state.getUserDetailsResponse?.firstName ?? ''} ${widget.model != null ? widget.model?.entrySecurity?.lastName : state.getUserDetailsResponse?.lastName ?? ''}'),
 
                                         /// Location
                                         CommonWidgets.textDisplay(
-                                            Constants.location,
+                                            state.labels?.locale.location ??
+                                                state.labels?.defaultLocale
+                                                    .location ??
+                                                Constants.location,
                                             Styles.textStyleBlack14,
                                             isMandatory: true),
                                         CommonWidgets.verticalSpacerWidget(
@@ -384,7 +393,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
                                         /// Date of creation
                                         CommonWidgets.textDisplay(
-                                            Constants.dateofcreation,
+                                            state.labels?.locale.inputDate ??
+                                                state.labels?.defaultLocale
+                                                    .inputDate ??
+                                                Constants.dateofcreation,
                                             Styles.textStyleBlack14,
                                             isMandatory: true),
                                         CommonWidgets.verticalSpacerWidget(
@@ -395,14 +407,21 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
                                         /// slno
                                         CommonWidgets.horizentaltextHandling(
-                                            Constants.slno, state.slno ?? '',
+                                            state.labels?.locale.slNo ??
+                                                state.labels?.defaultLocale
+                                                    .slNo ??
+                                                Constants.slno,
+                                            state.slno ?? '',
                                             isMandatory: true),
                                         CommonWidgets.verticalSpacerWidget(
                                             height * 0.01),
 
                                         /// Entity type
                                         CommonWidgets.textDisplay(
-                                            Constants.entity,
+                                            state.labels?.locale.entity ??
+                                                state.labels?.defaultLocale
+                                                    .entity ??
+                                                Constants.entity,
                                             Styles.textStyleBlack14,
                                             isMandatory: true),
                                         CommonWidgets.verticalSpacerWidget(
@@ -413,7 +432,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
                                         /// Actual time of visit
                                         CommonWidgets.textDisplay(
-                                            Constants.actualtimeofvisit,
+                                            state.labels?.locale.timeOfVisit ??
+                                                state.labels?.defaultLocale
+                                                    .timeOfVisit ??
+                                                Constants.actualtimeofvisit,
                                             Styles.textStyleBlack14,
                                             isMandatory: true),
                                         CommonWidgets.verticalSpacerWidget(
@@ -440,17 +462,26 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                             height * 0.01),
 
                                         /// Officials ID Card Verified?
-                                        CommonWidgets.textDisplay(
-                                            Constants.officialsidcardverified,
-                                            Styles.textStyleBlack14,
-                                            isMandatory: true),
+                                        CommonWidgets
+                                            .textDisplay(
+                                                state.labels?.locale
+                                                        .officialCardVerified ??
+                                                    state.labels?.defaultLocale
+                                                        .officialCardVerified ??
+                                                    Constants
+                                                        .officialsidcardverified,
+                                                Styles.textStyleBlack14,
+                                                isMandatory: true),
                                         radioButtonHandling(
-                                            isOfficialIdcardSelected,
+                                            isOfficialIdCardSelected,
                                             Constants.officialsidcardverified),
 
                                         /// Purpose of visit
                                         CommonWidgets.textDisplay(
-                                            Constants.purposeofvsit,
+                                            state.labels?.locale.visitPurpose ??
+                                                state.labels?.defaultLocale
+                                                    .visitPurpose ??
+                                                Constants.purposeofvsit,
                                             Styles.textStyleBlack14,
                                             isMandatory: true),
                                         CommonWidgets.verticalSpacerWidget(
@@ -463,30 +494,42 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
                                         /// Document if any to confirm purpose
                                         CommonWidgets.textDisplay(
-                                            Constants
-                                                .documentifanytoconfirmpurpose,
+                                            state.labels?.locale
+                                                    .documentVerified ??
+                                                state.labels?.defaultLocale
+                                                    .documentVerified ??
+                                                Constants
+                                                    .documentifanytoconfirmpurpose,
                                             Styles.textStyleBlack14,
                                             isMandatory: true),
                                         radioButtonHandling(
-                                            isDocumentifanySelected,
+                                            isDocumentIfAnySelected,
                                             Constants
                                                 .documentifanytoconfirmpurpose),
 
                                         /// In case of Police, was official in uniform?
                                         CommonWidgets.textDisplay(
-                                            Constants
-                                                .incaseofpolicewasofficialinuniform,
+                                            state.labels?.locale
+                                                    .visitorInUniform ??
+                                                state.labels?.defaultLocale
+                                                    .visitorInUniform ??
+                                                Constants
+                                                    .incaseofpolicewasofficialinuniform,
                                             Styles.textStyleBlack14,
                                             isMandatory: true),
                                         radioButtonHandling(
-                                            isIncaseofpoliceSelected,
+                                            isInCaseOfPoliceSelected,
                                             // state.isIncaseofpoliceSelected ?? 0,
                                             Constants
                                                 .incaseofpolicewasofficialinuniform),
 
                                         /// DB official want to meet
                                         CommonWidgets.textDisplay(
-                                            Constants.dbofficialwanttomeet,
+                                            state.labels?.locale
+                                                    .dbOfficialEmail ??
+                                                state.labels?.defaultLocale
+                                                    .dbOfficialEmail ??
+                                                Constants.dbofficialwanttomeet,
                                             Styles.textStyleBlack14,
                                             isMandatory: true),
                                         CommonWidgets.verticalSpacerWidget(
@@ -516,7 +559,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
                                         /// DB official department
                                         CommonWidgets.textDisplay(
-                                            Constants.dbofficialdepartment,
+                                            state.labels?.locale
+                                                    .dbOfficialEmailDepartment ??
+                                                state.labels?.defaultLocale
+                                                    .dbOfficialEmailDepartment ??
+                                                Constants.dbofficialdepartment,
                                             Styles.textStyleBlack14,
                                             isMandatory: true),
                                         CommonWidgets.verticalSpacerWidget(
@@ -528,8 +575,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
                                         /// DB Official email ID Accompanied LEO official'
                                         CommonWidgets.textDisplay(
-                                            Constants
-                                                .dbofficialemailidaccompaniedleoofficial,
+                                            state.labels?.locale
+                                                    .dbOfficialAccompaniedEmail ??
+                                                state.labels?.defaultLocale
+                                                    .dbOfficialAccompaniedEmail ??
+                                                Constants
+                                                    .dbofficialemailidaccompaniedleoofficial,
                                             Styles.textStyleBlack14,
                                             isMandatory: true),
                                         CommonWidgets.verticalSpacerWidget(
@@ -542,7 +593,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
                                         /// additional information
                                         CommonWidgets.textDisplay(
-                                            Constants.additionalinformation,
+                                            state.labels?.locale
+                                                    .additionalInformation ??
+                                                state.labels?.defaultLocale
+                                                    .additionalInformation ??
+                                                Constants.additionalinformation,
                                             Styles.textStyleBlack14),
                                         CommonWidgets.verticalSpacerWidget(
                                             height * 0.001),
@@ -665,7 +720,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                             arguments: {
                                               ConstantsArgument.title:
                                                   Constants.visitingOfficials,
-                                              ConstantsArgument.type: 0,
+                                              ConstantsArgument.keyLostType: 0,
                                               ConstantsArgument.id:
                                                   state.model?.id,
                                               // ConstantsArgument.models:
@@ -812,7 +867,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                               widget.model == null ||
                                                   widget.model?.status ==
                                                       ConstantsIntValue
-                                                          .leoStatusDraft),
+                                                          .leoStatusDraft ||
+                                                  widget.model?.status ==
+                                                      ConstantsIntValue
+                                                          .leoStatusSubmitted),
                                       // Attachments
                                       // getSpaceattchment(height),
                                       // getAttachement(height),
@@ -1197,25 +1255,31 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       log('--widget.model?.slNo--22--${widget.model?.slNo}---');
 
       lawEnforcementCubit.getlocationsResponseData(mumbai);
-      int isDocumentifanySelected1 =
-          ((widget.model?.documentVerified ?? false) == true) ? 1 : 0;
-      int isOfficialIdcardSelected1 =
+      isOfficialIdCardSelected =
           ((widget.model?.officialCardVerified ?? false) == true) ? 1 : 0;
-      int isIncaseofpoliceSelected1 =
+      isDocumentIfAnySelected =
+          ((widget.model?.documentVerified ?? false) == true) ? 1 : 0;
+      isInCaseOfPoliceSelected =
           ((widget.model?.visitorInUniform ?? false) == true) ? 1 : 0;
+      // int isDocumentifanySelected1 =
+      //     ((widget.model?.documentVerified ?? false) == true) ? 1 : 0;
+      // int isOfficialIdcardSelected1 =
+      //     ((widget.model?.officialCardVerified ?? false) == true) ? 1 : 0;
+      // int isIncaseofpoliceSelected1 =
+      //     ((widget.model?.visitorInUniform ?? false) == true) ? 1 : 0;
 
-      lawEnforcementCubit.getRadioButtonSelected(
-          Constants.documentifanytoconfirmpurpose,
-          isDocumentifanySelected1,
-          isDocumentifanySelected1 == 1 ? "Yes" : "No");
-      lawEnforcementCubit.getRadioButtonSelected(
-          Constants.officialsidcardverified,
-          isOfficialIdcardSelected1,
-          isOfficialIdcardSelected1 == 1 ? "Yes" : "No");
-      lawEnforcementCubit.getRadioButtonSelected(
-          Constants.incaseofpolicewasofficialinuniform,
-          isIncaseofpoliceSelected1,
-          isIncaseofpoliceSelected1 == 1 ? "Yes" : "No");
+      // lawEnforcementCubit.getRadioButtonSelected(
+      //     Constants.documentifanytoconfirmpurpose,
+      //     isDocumentifanySelected1,
+      //     isDocumentifanySelected1 == 1 ? "Yes" : "No");
+      // lawEnforcementCubit.getRadioButtonSelected(
+      //     Constants.officialsidcardverified,
+      //     isOfficialIdcardSelected1,
+      //     isOfficialIdcardSelected1 == 1 ? "Yes" : "No");
+      // lawEnforcementCubit.getRadioButtonSelected(
+      //     Constants.incaseofpolicewasofficialinuniform,
+      //     isIncaseofpoliceSelected1,
+      //     isIncaseofpoliceSelected1 == 1 ? "Yes" : "No");
 
       if ((widget.model?.entities?.length ?? 0) > 0) {
         List<Organisation> entities = [];
@@ -1338,6 +1402,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
   getLawEnforcementList(context) async {
     var userid = await SharedPrefs.getUserId();
+    await lawEnforcementCubit.getLabels();
     await lawEnforcementCubit.getLocations('ATOM_LOCATIONS', context);
     await lawEnforcementCubit.getEntities('ATOM_ENTITIES');
     await lawEnforcementCubit.getLeoPurposeOfVisits(
@@ -1396,13 +1461,13 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             selectedValue = 1;
             if (name == Constants.officialsidcardverified &&
                 (widget.model?.status == 0 || widget.model?.status == null)) {
-              isOfficialIdcardSelected = selectedValue;
+              isOfficialIdCardSelected = selectedValue;
             } else if (name == Constants.documentifanytoconfirmpurpose &&
                 (widget.model?.status == 0 || widget.model?.status == null)) {
-              isDocumentifanySelected = selectedValue;
+              isDocumentIfAnySelected = selectedValue;
             } else if (name == Constants.incaseofpolicewasofficialinuniform &&
                 (widget.model?.status == 0 || widget.model?.status == null)) {
-              isIncaseofpoliceSelected = selectedValue;
+              isInCaseOfPoliceSelected = selectedValue;
             }
             setState(() {});
             lawEnforcementCubit.getRadioButtonSelected(
@@ -1424,13 +1489,13 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             selectedValue = 0;
             if (name == Constants.officialsidcardverified &&
                 (widget.model?.status == 0 || widget.model?.status == null)) {
-              isOfficialIdcardSelected = selectedValue;
+              isOfficialIdCardSelected = selectedValue;
             } else if (name == Constants.documentifanytoconfirmpurpose &&
                 (widget.model?.status == 0 || widget.model?.status == null)) {
-              isDocumentifanySelected = selectedValue;
+              isDocumentIfAnySelected = selectedValue;
             } else if (name == Constants.incaseofpolicewasofficialinuniform &&
                 (widget.model?.status == 0 || widget.model?.status == null)) {
-              isIncaseofpoliceSelected = selectedValue;
+              isInCaseOfPoliceSelected = selectedValue;
             }
 
             //setState(() {});
@@ -1916,11 +1981,11 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     } else if (statusTextController.text.toLowerCase() == "cancelled") {
       statusValue = -1;
     }
-    bool isDocumentifanySelected =
+    bool isDocumentIfAnySelected =
         state.isDocumentifanySelected == 1 ? true : false;
-    bool isIncaseofpoliceSelected =
+    bool isInCaseOfPoliceSelected =
         state.isIncaseofpoliceSelected == 1 ? true : false;
-    bool isOfficialIdcardSelected =
+    bool isOfficialIdCardSelected =
         state.isOfficialIdcardSelected == 1 ? true : false;
 
     DbOfficialEmailDepartment? dbOfficialEmailDepartment =
@@ -1989,9 +2054,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           status: statusValue,
           images: images,
           timeOfVisit: actualDate != 0 ? actualDate.toString() : '',
-          officialCardVerified: isOfficialIdcardSelected,
-          documentVerified: isDocumentifanySelected,
-          visitorInUniform: isIncaseofpoliceSelected,
+          officialCardVerified: isOfficialIdCardSelected,
+          documentVerified: isDocumentIfAnySelected,
+          visitorInUniform: isInCaseOfPoliceSelected,
           entities: entities,
           additionalInformation: additionalInformationTextController.text,
           visitingOfficials: visitingOfficials,
@@ -2012,9 +2077,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           status: statusValue,
           images: images,
           timeOfVisit: actualDate != 0 ? actualDate.toString() : '',
-          officialCardVerified: isOfficialIdcardSelected,
-          documentVerified: isDocumentifanySelected,
-          visitorInUniform: isIncaseofpoliceSelected,
+          officialCardVerified: isOfficialIdCardSelected,
+          documentVerified: isDocumentIfAnySelected,
+          visitorInUniform: isInCaseOfPoliceSelected,
           entities: entities,
           additionalInformation: additionalInformationTextController.text,
           visitingOfficials: visitingOfficials,

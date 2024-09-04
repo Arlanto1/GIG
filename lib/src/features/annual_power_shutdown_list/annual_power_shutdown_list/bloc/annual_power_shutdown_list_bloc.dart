@@ -6,7 +6,6 @@ import '../../models/aps_ui_labels.dart';
 import '../../services/annual_power_shutdown_services.dart';
 
 part 'annual_power_shutdown_list_event.dart';
-
 part 'annual_power_shutdown_list_state.dart';
 
 class AnnualPowerShutdownListBloc
@@ -33,8 +32,8 @@ class AnnualPowerShutdownListBloc
       AnnualPowerShutDownResponse response;
 
       response = await _services.getAnnualPowerShutdownListWithFilters(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         filters: BaseFilterModel(),
       );
 

@@ -1,7 +1,6 @@
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_list/bloc/duty_post_master_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/services/duty_post_master_services.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class DutyPostMasterListView extends StatefulWidget {
   const DutyPostMasterListView({
@@ -16,8 +15,6 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -30,7 +27,6 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
 
   @override
   void dispose() {
-    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -52,19 +48,11 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
     }
   }
 
-  void _onRefresh() async {
+  Future<void> _onRefresh() async {
     context.read<DutyPostMasterListBloc>().add(
           const RefreshList(),
         );
     await Future.delayed(const Duration(milliseconds: 2000));
-    refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    if (mounted) {
-      setState(() {});
-    }
-    refreshController.loadComplete();
   }
 
   @override
@@ -145,19 +133,15 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                       ],
 
                       Expanded(
-                        child: SmartRefresher(
-                          controller: refreshController,
-                          enablePullDown: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          header: WaterDropHeader(
-                            waterDropColor: AppColors.navigationSkyBlueColor,
-                            refresh: state.status != FormStatus.loading
-                                ? const BaseLoader()
-                                : null,
-                          ),
-                          key: const Key(Keys.refreshKey),
-                          onRefresh: _onRefresh,
-                          onLoading: _onLoading,
+                        child: CustomMaterialIndicator(
+                          onRefresh: () => _onRefresh(),
+                          backgroundColor: Colors.white,
+                          indicatorBuilder: (context, controller) {
+                            return const Padding(
+                              padding: EdgeInsets.all(6.0),
+                              child: BaseLoader(),
+                            );
+                          },
                           child: ListView.builder(
                             controller: _scrollController,
                             itemCount: state.hasReachedMax
@@ -170,61 +154,63 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                     key: state.labels?.locale.createdDate ??
                                         state.labels?.defaultLocale
                                             .createdDate ??
-                                        'Created Date',
+                                        Constants.createdDate,
                                     value: state.list[index].createdDate != null
                                         ? Utils.timestampToDateConversion(
                                             int.parse(
                                                 state.list[index].createdDate ??
                                                     '0'),
-                                            Constants.twentyFourHourDateTimeFormat)
+                                            Constants
+                                                .twentyFourHourDateTimeFormat)
                                         : ''));
                                 labels.add(Label(
                                     key: state.labels?.locale.locationRegion ??
                                         state.labels?.defaultLocale
                                             .locationRegion ??
-                                        'Region',
+                                        Constants.region,
                                     value:
                                         state.list[index].region?.name ?? ''));
                                 labels.add(Label(
                                     key: state.labels?.locale.location ??
                                         state.labels?.defaultLocale.location ??
-                                        'Location',
+                                        Constants.location,
                                     value: state.list[index].location?.name ??
                                         ''));
                                 labels.add(Label(
                                     key: state.labels?.locale.entrySecurity ??
-                                        state.labels?.defaultLocale.entrySecurity ??
-                                        'Created By',
+                                        state.labels?.defaultLocale
+                                            .entrySecurity ??
+                                        Constants.createdby,
                                     value:
                                         '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
                                 labels.add(Label(
                                     key: state.labels?.locale.shiftA ??
                                         state.labels?.defaultLocale.shiftA ??
-                                        'Shift A',
+                                        Constants.aShift,
                                     value:
                                         state.list[index].shiftA.toString()));
                                 labels.add(Label(
                                     key: state.labels?.locale.shiftB ??
                                         state.labels?.defaultLocale.shiftB ??
-                                        'Shift B',
+                                        Constants.bShift,
                                     value:
                                         state.list[index].shiftB.toString()));
                                 labels.add(Label(
                                     key: state.labels?.locale.shiftC ??
                                         state.labels?.defaultLocale.shiftC ??
-                                        'Shift C',
+                                        Constants.cShift,
                                     value:
                                         state.list[index].shiftC.toString()));
                                 labels.add(Label(
                                     key: state.labels?.locale.shiftG ??
                                         state.labels?.defaultLocale.shiftG ??
-                                        'Shift G',
+                                        Constants.gShift,
                                     value:
                                         state.list[index].shiftG.toString()));
                                 labels.add(Label(
                                     key: state.labels?.locale.total ??
                                         state.labels?.defaultLocale.total ??
-                                        'Total',
+                                        Constants.total,
                                     value: state.list[index].total.toString()));
                                 return index >= state.list.length
                                     ? const BaseLoader()
@@ -254,8 +240,9 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                                   false,
                                               state.list[index].id ?? 0);
                                         },
-                                        showDutyPostEditButton: true,
-                                        showEditButton: false,
+                                        showEditButton: state
+                                                .list[index].status !=
+                                            ConstantsIntValue.cancelledStatus,
                                         onViewTap: (selectedIndex) {
                                           showDialog(
                                             context: context,

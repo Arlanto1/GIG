@@ -6,7 +6,6 @@ import 'package:db_atom/index.dart';
 import '../../services/contact_details_services.dart';
 
 part 'contact_record_event.dart';
-
 part 'contact_record_state.dart';
 
 class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {

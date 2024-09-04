@@ -1,7 +1,9 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
+import 'package:db_atom/src/utils/web_sso_msal_handler.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -265,46 +267,56 @@ class _LoginState extends State<Login> {
                                 ],
                               ),
 
-                              // const Center(
-                              //   child: Text(
-                              //     'OR',
-                              //     style: TextStyle(fontWeight: FontWeight.bold),
-                              //   ),
-                              // ),
-                              // CommonWidgets.verticalSpacerWidget(
-                              //   height * 0.03,
-                              // ),
-                              // ElevatedButton(
-                              //   onPressed: WebSsoMsalHandler().getToken,
-                              //   style: ElevatedButton.styleFrom(
-                              //     backgroundColor: Colors
-                              //         .white, // Set the background color to white
-                              //   ),
-                              //   child: Row(
-                              //     mainAxisAlignment: MainAxisAlignment.center,
-                              //     children: [
-                              //       Image.asset(
-                              //         AppIcon.deutscheBankLogo,
-                              //         fit: BoxFit.cover,
-                              //         height: 20,
-                              //         // color:
-                              //         //     AppColors.navigationSkyBlueColor,
-                              //       ),
-                              //       CommonWidgets.horizontalSpacerWidget(
-                              //         height * 0.01,
-                              //       ),
-                              //       const Text(
-                              //         Constants.dbSSO,
-                              //         style: TextStyle(
-                              //           color: Color(0xFF000080),
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
-                              // CommonWidgets.verticalSpacerWidget(
-                              //   height * 0.03,
-                              // ),
+                              const Center(
+                                child: Text(
+                                  'OR',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                height * 0.03,
+                              ),
+
+                              /// DB SSO
+                              ElevatedButton(
+                                onPressed: () async {
+                                  final MsalUser? user =
+                                      await WebSsoMsalHandler().getToken();
+                                  if (user != null) {
+                                    bloc.add(LoginSsoVerifyEvent(
+                                      user: user,
+                                    ));
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors
+                                      .white, // Set the background color to white
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      AppIcon.deutscheBankLogo,
+                                      fit: BoxFit.cover,
+                                      height: 20,
+                                      // color:
+                                      //     AppColors.navigationSkyBlueColor,
+                                    ),
+                                    CommonWidgets.horizontalSpacerWidget(
+                                      height * 0.01,
+                                    ),
+                                    const Text(
+                                      Constants.dbSSO,
+                                      style: TextStyle(
+                                        color: Color(0xFF000080),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                height * 0.03,
+                              ),
                               // AppButton(
                               //   // key: const Key(Keys.loginButton),
                               //   buttonText: Constants.dbSSO,
@@ -333,7 +345,7 @@ class _LoginState extends State<Login> {
                               ),
 
                               /// Support Number
-                              const Column(
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -363,9 +375,16 @@ class _LoginState extends State<Login> {
                                   //   height * 0.003,
                                   // ),
 
-                                  Center(
+                                  const Center(
                                     child: Text(
                                       Constants.copyrightText,
+                                      style: Styles.textStyleRegularGrey14,
+                                    ),
+                                  ),
+
+                                  Center(
+                                    child: Text(
+                                      'Version: ${Platform.isIOS ? ConstantAppVersions.iOSVersion : ConstantAppVersions.androidVersion}',
                                       style: Styles.textStyleRegularGrey14,
                                     ),
                                   ),
@@ -458,6 +477,16 @@ class _LoginState extends State<Login> {
     try {
       if (loginFormKey.currentState!.validate()) {
         log('username $username password $password');
+
+        // bloc.add(LoginSsoVerifyEvent(
+        //   user: MsalUser(
+        //     username: 'test@db.com',
+        //     displayName: 'testuser',
+        //     accessToken: '654asdf576878asdf75jkbm,ansjkdfasd',
+        //     tokenCreatedAt: 123435,
+        //     tokenExpiresOn: 12345234,
+        //   ),
+        // ));
         bloc.add(LoginVerifyEvent(
           requestModel: prepareLoginRequestBody(username, password, ''),
           isFromLogin: true,

@@ -383,7 +383,13 @@ class _KeyLossDestructionDetailsViewState
                                       );
                                     },
                                     locationId: 0,
-                                    functionToCall: () {
+                                    functionToCall: (BaseUser user) {
+                                      BlocProvider.of<
+                                                  KeyLossDestructionDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                        srh: user,
+                                      );
                                       // refresh the list
                                       BlocProvider.of<
                                                   KeyLossDestructionDetailsCubit>(
@@ -454,7 +460,13 @@ class _KeyLossDestructionDetailsViewState
                                         );
                                       },
                                       locationId: 0,
-                                      functionToCall: () {
+                                      functionToCall: (BaseUser user) {
+                                        BlocProvider.of<
+                                                    KeyLossDestructionDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                          securityManager: user,
+                                        );
                                         // refresh the list
                                         BlocProvider.of<
                                                     KeyLossDestructionDetailsCubit>(

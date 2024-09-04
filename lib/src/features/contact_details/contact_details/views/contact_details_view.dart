@@ -339,7 +339,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 arguments: {
                                   ConstantsArgument.title:
                                       Constants.generalContact,
-                                  ConstantsArgument.type: 0,
+                                  ConstantsArgument.keyLostType: 0,
                                   ConstantsArgument.id: state.model.id,
                                   ConstantsArgument.rankType:
                                       Constants.contactGeneralRank,
@@ -411,7 +411,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 arguments: {
                                   ConstantsArgument.title:
                                       Constants.guardingAgencyContact,
-                                  ConstantsArgument.type: 1,
+                                  ConstantsArgument.keyLostType: 1,
                                   ConstantsArgument.id: state.model.id,
                                   ConstantsArgument.rankType: Constants
                                       .contactGuardingAgencyEscalationRank,
@@ -483,7 +483,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 arguments: {
                                   ConstantsArgument.title:
                                       Constants.systemEscalationContact,
-                                  ConstantsArgument.type: 2,
+                                  ConstantsArgument.keyLostType: 2,
                                   ConstantsArgument.id: state.model.id,
                                   ConstantsArgument.rankType:
                                       Constants.contactSystemEscalationRank,
@@ -553,7 +553,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 arguments: {
                                   ConstantsArgument.title:
                                       Constants.cmsEscalationContact,
-                                  ConstantsArgument.type: 4,
+                                  ConstantsArgument.keyLostType: 4,
                                   ConstantsArgument.id: state.model.id,
                                   ConstantsArgument.rankType:
                                       Constants.contactSupervisorRank,
@@ -624,7 +624,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 arguments: {
                                   ConstantsArgument.title: Constants
                                       .guardingAgencyZonalManagerContact,
-                                  ConstantsArgument.type: 3,
+                                  ConstantsArgument.keyLostType: 3,
                                   ConstantsArgument.id: state.model.id,
                                   ConstantsArgument.rankType:
                                       Constants.contactZone,
@@ -708,7 +708,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
       onTap: () {
         Navigator.pop(context);
         CommonServices().unlock();
-        },
+      },
     );
   }
 

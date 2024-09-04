@@ -5,15 +5,17 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 
 part 'material_movement_event.dart';
-
 part 'material_movement_state.dart';
 
 class MaterialMovementBloc
     extends Bloc<MaterialMovementEvent, MaterialMovementState> {
   final bool isInward;
+  final bool? returnable;
 
-  MaterialMovementBloc({required this.isInward})
-      : super(const MaterialMovementState()) {
+  MaterialMovementBloc({
+    required this.isInward,
+    this.returnable,
+  }) : super(const MaterialMovementState()) {
     on<InitializeValuesMM>(_initializeValues);
     on<FetchData>(
       _fetchMaterialMovements,
@@ -85,19 +87,15 @@ class MaterialMovementBloc
   FutureOr<void> _refreshList(
       RefreshList event, Emitter<MaterialMovementState> emit) async {
     try {
-      MaterialMovementsModel response;
-
-      response = await services.getMaterialMovementsWithFilters(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+      final MaterialMovementsModel response =
+          await services.getMaterialMovementsWithFilters(
+        startPosition: '0',
+        maximumRecords: '20',
         mmType: isInward ? 1 : 0,
         filters: BaseFilterModel(),
+        returnable: returnable,
       );
 
-      // if (response.items?.isEmpty == true) {
-      //   return emit(state.copyWith(hasReachedMax: true));
-      // }
-      log('--_refreshList-${state.status}--');
       return emit(
         state.copyWith(
           items: response.items,
@@ -137,6 +135,7 @@ class MaterialMovementBloc
           maximumRecords: '${event.maxPos}',
           mmType: isInward ? 1 : 0,
           filters: event.filters,
+          returnable: returnable,
         );
 
         return emit(
@@ -155,6 +154,7 @@ class MaterialMovementBloc
         maximumRecords: '${event.maxPos}',
         mmType: isInward ? 1 : 0,
         filters: event.filters,
+        returnable: returnable,
       );
 
       if (response.items?.isEmpty == true) {

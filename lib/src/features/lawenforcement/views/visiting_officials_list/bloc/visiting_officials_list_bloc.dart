@@ -4,6 +4,7 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
 
 part 'visiting_officials_list_event.dart';
+
 part 'visiting_officials_list_state.dart';
 
 class VisitingOfficialListBloc
@@ -33,6 +34,11 @@ class VisitingOfficialListBloc
     try {
       List<LawVisitingOfficial> items =
           await services.getLeoVisitingOfficials(id: parentId);
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: await SharedPrefs.getLanguageCode(),
+          moduleCode: Constants.leoModuleCode);
+
+      LeoUiLabels labels = LeoUiLabels.fromJson(responseLabels);
 
       // LeoDepartments leodepartments =
       //     await services.getLeodepartments('ATOM_LEO_DEPARTMENTS');
@@ -41,6 +47,7 @@ class VisitingOfficialListBloc
         state.copyWith(
           items: items,
           departments: departments,
+          labels: labels,
           hasReachedMax: false,
         ),
       );

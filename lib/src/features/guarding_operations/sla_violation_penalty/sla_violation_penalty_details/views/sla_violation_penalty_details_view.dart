@@ -367,6 +367,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            /// ASL
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.approver ??
                                     state.labels?.defaultLocale.approver ??
@@ -391,7 +392,11 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                   },
                                   roleName: ConstantUserRoles.atomStaticUser,
                                   locationId: state.model.location!.id!,
-                                  functionToCall: () {
+                                  functionToCall: (BaseUser user) {
+                                    BlocProvider.of<
+                                                SLAViolationPenaltyDetailsCubit>(
+                                            context)
+                                        .updateDropdownValues(user: user);
                                     BlocProvider.of<
                                                 SLAViolationPenaltyDetailsCubit>(
                                             context)
@@ -514,7 +519,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               ),
                               const SizedBox(width: 10),
                               const Text(
-                                'Add/View Violation Penalty(S)',
+                                Constants.addViewViolation,
                                 style: TextStyle(
                                   color: AppColors.navigationSkyBlueColor,
                                   decoration: TextDecoration.underline,

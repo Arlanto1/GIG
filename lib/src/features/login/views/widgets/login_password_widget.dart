@@ -129,25 +129,25 @@ class _PasswordFieldState extends State<PasswordField> {
           : TextCapitalization.none,
       enabled: widget.isEnable,
       maxLines: widget.lineHeight,
-      decoration:  InputDecoration(
-              labelText: widget.hintText,
-              labelStyle: const TextStyle(
-                color: Colors.grey,
-              ),
-              focusedBorder: const UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue),
-              ),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  !_showPassword ? Icons.visibility_off : Icons.visibility,
-                ),
-                onPressed: () {
-                  setState(() {
-                    _showPassword = !_showPassword;
-                  });
-                },
-              ),
-            ),
+      decoration: InputDecoration(
+        labelText: widget.hintText,
+        labelStyle: const TextStyle(
+          color: Colors.grey,
+        ),
+        focusedBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue),
+        ),
+        suffixIcon: IconButton(
+          icon: Icon(
+            !_showPassword ? Icons.visibility_off : Icons.visibility,
+          ),
+          onPressed: () {
+            setState(() {
+              _showPassword = !_showPassword;
+            });
+          },
+        ),
+      ),
       onChanged: widget.onChange,
       validator: (password) => widget.validatePassword(password),
       onFieldSubmitted: (value) {

@@ -21,7 +21,7 @@ class FoundListCubit extends Cubit<FoundListState> {
     String startPosition,
     String maximumRecords,
     String userId,
-      int? eventId,
+    int? eventId,
   ) async {
     if (startPosition == '0') {
       emit(state.copyWith(stateType: FoundListStateType.loading));

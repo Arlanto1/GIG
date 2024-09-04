@@ -5,7 +5,6 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 
 part 'key_management_issuance_list_event.dart';
-
 part 'key_management_issuance_list_state.dart';
 
 class KeyManagementIssuanceListBloc extends Bloc<KeyManagementIssuanceListEvent,
@@ -86,8 +85,8 @@ class KeyManagementIssuanceListBloc extends Bloc<KeyManagementIssuanceListEvent,
       KeyManagementIssuanceResponseModel response;
 
       response = await _services.getList(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         filters: BaseFilterModel(),
       );
 

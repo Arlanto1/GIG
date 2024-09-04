@@ -24,9 +24,9 @@ class CreateFoundServices {
     int? eventId,
   }) async {
     var userId = await SharedPrefs.getUserId();
-     String url = "${Apis._addFound}?userEmail=$userId&isSubmit=$isSubmit";
-     log('----eventId---$eventId--');
-    if(eventId != null) {
+    String url = "${Apis._addFound}?userEmail=$userId&isSubmit=$isSubmit";
+    log('----eventId---$eventId--');
+    if (eventId != null) {
       url = '$url&eventProtectionId=$eventId';
     }
     final response = await BaseApiService().postRequest(

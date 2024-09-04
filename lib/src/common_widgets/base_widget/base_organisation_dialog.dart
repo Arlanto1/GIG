@@ -51,7 +51,7 @@ class BaseOrganisationDialog {
     List<BaseUser>? users,
     List<Organisation>? entities,
     required Function onTap,
-    Function? functionToCall,
+    final Function(BaseUser newCreatedUser)? functionToCall,
     bool enabled = true,
     String? roleName,
     required int locationId,
@@ -77,7 +77,8 @@ class BaseOrganisationDialog {
                     title: Constants.createnewuser,
                     roleName: roleName ?? '',
                     locationId: locationId,
-                    functionToCall: functionToCall ?? () {},
+                    functionToCall:
+                        functionToCall ?? (BaseUser newCreatedUser) {},
                   );
                 });
           },

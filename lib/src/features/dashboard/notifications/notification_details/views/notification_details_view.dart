@@ -144,10 +144,12 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                             Styles.textStyleBlack14,
                           ),
                           BaseImageUpload().getAttachment(
-                              height: height,
-                              attachments: state.model.attachments,
-                              files: state.model.attachments,
-                              moduleCode: state.model.moduleCode ?? ''),
+                            height: height,
+                            attachments: state.model.attachments,
+                            files: state.model.attachments,
+                            moduleCode: state.model.moduleCode ?? '',
+                            showDeleteIcon: false,
+                          ),
                         ],
                         if (!state.model.moduleCode.isEmptyOrNull &&
                             state.model.moduleId != null) ...[

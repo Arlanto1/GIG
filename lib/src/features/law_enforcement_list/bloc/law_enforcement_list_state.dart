@@ -8,6 +8,7 @@ class LawEnforcementListState extends Equatable {
   final CommonFilters? commonFilters;
   final String? message;
   final ExtraProperties? extraProperties;
+  final LeoUiLabels? labels;
 
   const LawEnforcementListState(
       {this.items = const <LawEnforcementListElement>[],
@@ -16,7 +17,7 @@ class LawEnforcementListState extends Equatable {
       this.locations,
       this.commonFilters,
       this.extraProperties,
-      this.status = FormStatus.initial});
+      this.status = FormStatus.initial,this.labels});
 
   LawEnforcementListState copyWith({
     List<LawEnforcementListElement>? todos,
@@ -28,6 +29,7 @@ class LawEnforcementListState extends Equatable {
     List<Organisation>? regions,
     List<Organisation>? statuses,
     ExtraProperties? extraProperties,
+    LeoUiLabels? labels,
   }) {
     return LawEnforcementListState(
       items: todos ?? items,
@@ -37,6 +39,7 @@ class LawEnforcementListState extends Equatable {
       commonFilters: commonFilters ?? this.commonFilters,
       locations: locations ?? this.locations,
       extraProperties: extraProperties ?? this.extraProperties,
+      labels: labels?? this.labels
     );
   }
 

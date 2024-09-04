@@ -58,9 +58,9 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       final futures = await Future.wait([
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
-        commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getUsers(),
-        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
+        commonServices.getAtomStaticUsers(
+            roleName: ConstantUserRoles.atomStaticUser),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.guardingMasterModuleCode),
@@ -69,11 +69,10 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
 
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
-      Analyst users = futures[2];
-      List<User> entrySecurities = futures[3];
-      GetDepositor emailUsers = futures[4];
-      dynamic responseLabels = futures[5];
-      Organisation? defaultLocation = futures[6];
+      List<User> entrySecurities = futures[2];
+      GetDepositor emailUsers = futures[3];
+      dynamic responseLabels = futures[4];
+      Organisation? defaultLocation = futures[5];
       List<Organisation> dutyPosts = [];
       // Organisation? location = state.model.location;
 
@@ -107,7 +106,6 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
-          users: users.t1Analyst,
           entrySecurities: entrySecurities,
           dutyPosts: dutyPosts,
           emailUsers: emailUsers.atomStaticUser,

@@ -1,6 +1,7 @@
 // Created by Ramesh
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/article_found_register_module/article_found_list/bloc/article_found_bloc.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 
 class FoundListItem extends StatefulWidget {
@@ -55,6 +56,7 @@ class _FoundListItemState extends State<FoundListItem> {
 
   List<Widget> getChildren(List<Label>? labels, double width) {
     List<Widget> widgets = [];
+    ArticleFoundState state = const ArticleFoundState();
 
     widgets = [
       SizedBox(
@@ -65,13 +67,13 @@ class _FoundListItemState extends State<FoundListItem> {
               stepWidth: width * .6,
               child: Wrap(
                 children: [
-                  Utils().textHandling('ID : ', widget.userItem.id.toString()),
+                  Utils().textHandling('${Constants.id}: ', widget.userItem.id.toString()),
                   CommonWidgets.horizontalSpacerWidget(5),
                   Utils().buildFoundStatusRow(widget.userItem.status ?? 0),
                   Row(
                     children: [
                       if (widget.userItem.locationRegion?.name != null) ...[
-                        Utils().textHandling('Region : ',
+                        Utils().textHandling('${Constants.region}: ',
                             widget.userItem.locationRegion?.name ?? ''),
                       ],
                     ],
@@ -80,13 +82,13 @@ class _FoundListItemState extends State<FoundListItem> {
                   Row(
                     children: [
                       if (widget.userItem.location?.name != null) ...[
-                        Utils().textHandling('Location : ',
+                        Utils().textHandling('${Constants.location}: ',
                             widget.userItem.location?.name ?? ''),
                       ],
                       CommonWidgets.horizontalSpacerWidget(5),
                       if (!(widget.userItem.foundDate.isEmptyOrNull)) ...[
                         Utils().textHandling(
-                            'Found Date : ',
+                            '${Constants.founddate}: ',
                             widget.userItem.foundDate != null
                                 ? Utils.timestampToDateConversion(
                                     int.tryParse(
@@ -99,7 +101,7 @@ class _FoundListItemState extends State<FoundListItem> {
                   Row(
                     children: [
                       if (widget.userItem.entrySecurity != null) ...[
-                        Utils().textHandling('Created By : ',
+                        Utils().textHandling('${Constants.createdby}: ',
                             ('${widget.userItem.entrySecurity?.firstName ?? ''} ${widget.userItem.entrySecurity?.lastName ?? ''}')),
                       ],
                     ],

@@ -1,7 +1,6 @@
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_list/bloc/duty_post_name_master_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class DutyPostNameMasterListView extends StatefulWidget {
   const DutyPostNameMasterListView({
@@ -18,8 +17,6 @@ class _DutyPostNameMasterListViewState
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -32,7 +29,6 @@ class _DutyPostNameMasterListViewState
 
   @override
   void dispose() {
-    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -56,19 +52,11 @@ class _DutyPostNameMasterListViewState
     }
   }
 
-  void _onRefresh() async {
+  Future<void> _onRefresh() async {
     context.read<DutyPostNameMasterListBloc>().add(
           const RefreshDPNList(),
         );
     await Future.delayed(const Duration(milliseconds: 2000));
-    refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    if (mounted) {
-      setState(() {});
-    }
-    refreshController.loadComplete();
   }
 
   @override
@@ -152,19 +140,15 @@ class _DutyPostNameMasterListViewState
                     ],
 
                     Expanded(
-                      child: SmartRefresher(
-                        controller: refreshController,
-                        enablePullDown: true,
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        header: WaterDropHeader(
-                          waterDropColor: AppColors.navigationSkyBlueColor,
-                          refresh: state.status != FormStatus.loading
-                              ? const BaseLoader()
-                              : null,
-                        ),
-                        key: const Key(Keys.refreshKey),
-                        onRefresh: _onRefresh,
-                        onLoading: _onLoading,
+                      child: CustomMaterialIndicator(
+                        onRefresh: () => _onRefresh(),
+                        backgroundColor: Colors.white,
+                        indicatorBuilder: (context, controller) {
+                          return const Padding(
+                            padding: EdgeInsets.all(6.0),
+                            child: BaseLoader(),
+                          );
+                        },
                         child: ListView.builder(
                           controller: _scrollController,
                           itemCount: state.hasReachedMax
@@ -177,21 +161,21 @@ class _DutyPostNameMasterListViewState
                                   key: state.labels?.locale.locationRegion ??
                                       state.labels?.defaultLocale
                                           .locationRegion ??
-                                      'Region',
+                                      Constants.region,
                                   value:
                                       state.list[index].locationRegion?.name ??
                                           ''));
                               labels.add(Label(
                                   key: state.labels?.locale.location ??
                                       state.labels?.defaultLocale.location ??
-                                      'Location ',
+                                      Constants.location,
                                   value:
                                       state.list[index].location?.name ?? ''));
                               labels.add(Label(
                                   key: state.labels?.locale.entrySecurity ??
                                       state.labels?.defaultLocale
                                           .entrySecurity ??
-                                      'Created By',
+                                      Constants.createdby,
                                   value:
                                       '${state.list[index].entrySecurity?.firstName ?? ''} ${state.list[index].entrySecurity?.lastName ?? ''}'));
                             }
@@ -222,6 +206,9 @@ class _DutyPostNameMasterListViewState
                                         },
                                       );
                                     },
+                                    showEditButton:
+                                        state.list[index].status !=
+                                            ConstantsIntValue.cancelledStatus,
                                     onEditTap: (selectedIndex) {
                                       getById(
                                           state.extraProperties
@@ -229,7 +216,6 @@ class _DutyPostNameMasterListViewState
                                               false,
                                           state.list[index].id ?? 0);
                                     },
-                                    showEditButton: true,
                                     onViewTap: (selectedIndex) {
                                       showDialog(
                                         context: context,

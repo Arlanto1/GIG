@@ -1,7 +1,4 @@
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/dropdown_object.dart';
-import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 
 class LawEnforcementState extends Equatable {
   final LawEnforcementDetailsModel? model;
@@ -38,6 +35,7 @@ class LawEnforcementState extends Equatable {
   Organisation? createEmployeeDepartments;
   CreateUserModel? createUserResponse;
   bool? isDistributed;
+  final LeoUiLabels? labels;
 
   LawEnforcementState({
     this.model,
@@ -74,6 +72,7 @@ class LawEnforcementState extends Equatable {
     this.createOrganisationResponse,
     this.createUserResponse,
     this.isDistributed,
+    this.labels,
   });
 
   LawEnforcementState copyWith({
@@ -111,6 +110,7 @@ class LawEnforcementState extends Equatable {
     CreateUserModel? createUserResponse,
     bool? isDistributed,
     LawEnforcementDetailsModel? model,
+    LeoUiLabels? labels,
   }) {
     return LawEnforcementState(
       model: model ?? this.model,
@@ -158,6 +158,7 @@ class LawEnforcementState extends Equatable {
           createOrganisationResponse ?? this.createOrganisationResponse,
       createUserResponse: createUserResponse ?? this.createUserResponse,
       isDistributed: isDistributed ?? this.isDistributed,
+      labels: labels ?? this.labels,
     );
   }
 
@@ -196,5 +197,6 @@ class LawEnforcementState extends Equatable {
         createOrganisationResponse,
         createUserResponse,
         isDistributed,
+        labels
       ];
 }

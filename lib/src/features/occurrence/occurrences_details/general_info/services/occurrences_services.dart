@@ -63,8 +63,7 @@ class OccurrenceDetailsServices {
     return PowerFailureModel.fromJson(response);
   }
 
-  Future<StringResponse> getOccFollowUp(
-      {required String locationId}) async {
+  Future<StringResponse> getOccFollowUp({required String locationId}) async {
     final String url = "${Apis._getOccFollowUp}$locationId";
     final response = await BaseApiService().getRequest(
       url: url,

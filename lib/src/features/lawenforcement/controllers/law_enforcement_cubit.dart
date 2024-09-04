@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
-import 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
 
 class LawEnforcementCubit extends Cubit<LawEnforcementState> {
@@ -205,6 +203,31 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     }
   }
 
+  // Get locations api call
+  Future<void> getLabels() async {
+    try {
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: await SharedPrefs.getLanguageCode(),
+          moduleCode: Constants.leoModuleCode);
+
+      LeoUiLabels labels = LeoUiLabels.fromJson(responseLabels);
+      emit(
+        state.copyWith(
+          labels: labels,
+          status: FormStatus.success,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          message: Constants.errorText,
+          status: FormStatus.failure,
+        ),
+      );
+    }
+  }
+
+
   // Serialnumber api  call
   Future<void> getSerialnumberDetails(
     int locationId,
@@ -393,9 +416,9 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     state.leoDepartmentsResponse = Organisation();
     state.leoPurposeVisitResponse = Organisation();
     state.loadAttachments = [];
-    state.isDocumentifanySelected = 1;
-    state.isIncaseofpoliceSelected = 1;
-    state.isOfficialIdcardSelected = 1;
+    state.isDocumentifanySelected = 0;
+    state.isIncaseofpoliceSelected = 0;
+    state.isOfficialIdcardSelected = 0;
     state.dBOfficialEmailIdAccompaniedLeoOfficial = BaseUser();
     state.serialnumberResponse?.serialNo = '';
     state.slno = '';

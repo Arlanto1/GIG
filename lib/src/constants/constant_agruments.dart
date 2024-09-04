@@ -9,7 +9,7 @@ class ConstantsArgument {
   static const String locationRegion = "locationRegion";
   static const String locationId = "locationId";
   static const String title = "title";
-  static const String type = "type";
+  static const String keyLostType = "keyLostType";
   static const String rankType = "rankType";
   static const String ranks = "ranks";
   static const String violationDescription = "violationDescription";
@@ -33,5 +33,8 @@ class ConstantsArgument {
   static const String eventId = "eventId";
   static const String eventProtectionId = "eventProtectionId";
   static const String keyIssuanceId = "keyIssuanceId";
-
+  static const String kmId = "kmId";
+  static const String returnable = "returnable";
+  static const String keyType = "keyType";
+  static const String isEligibleToEdit = "isEligibleToEdit";
 }

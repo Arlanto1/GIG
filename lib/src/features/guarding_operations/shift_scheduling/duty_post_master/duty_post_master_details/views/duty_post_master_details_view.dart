@@ -87,6 +87,10 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
         //     !widget.extraProperties!.hasWritePermission!) {
         //   isReadOnly = true;
         // }
+
+        // if(!state.model.isEligibleToEdit){
+        //   isReadOnly = true;
+        // }
         initializeDates();
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
@@ -218,7 +222,8 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                         orElse: () =>
                                             const Label(key: '', value: ''),
                                       );
-                                      BlocProvider.of<DutyPostMasterDetailsCubit>(
+                                      BlocProvider.of<
+                                                  DutyPostMasterDetailsCubit>(
                                               context)
                                           .updateDropdownValues(
                                               status: int.tryParse(

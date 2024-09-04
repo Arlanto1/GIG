@@ -8,21 +8,23 @@ import '../cubits/key_history_records_details_cubit.dart';
 class KeyHistoryRecordsDetailsView extends StatefulWidget {
   final KeyHistoryModel? model;
   final String title;
-  final int type;
+  final int keyLostType;
   final int parentId;
   final int? id;
   final ExtraProperties? extraProperties;
   final String? lock;
+  final int? keyType;
 
   const KeyHistoryRecordsDetailsView({
     super.key,
     this.model,
     required this.title,
-    required this.type,
+    required this.keyLostType,
     required this.parentId,
     this.id,
     this.extraProperties,
     this.lock,
+    this.keyType,
   });
 
   @override
@@ -64,12 +66,18 @@ class _KeyHistoryRecordsDetailsViewState
 
   @override
   Widget build(BuildContext context) {
+    if (widget.keyType != null) {
+      keyTypeController.text = Utils().getKeyFromValue(
+              value: widget.keyType!, dropdownValues: keyTypeDropDownValues) ??
+          '';
+    }
     final size = MediaQuery.of(context).size;
     final height = size.height;
     return BlocConsumer<KeyHistoryRecordsDetailsCubit,
         KeyHistoryRecordsDetailsState>(
       listener: (context, state) {
-        log('--widget.type--${widget.type}--');
+        log('--widget.type--${widget.keyLostType}--');
+        log('--widget.keyType--${widget.keyType}--');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
@@ -81,16 +89,17 @@ class _KeyHistoryRecordsDetailsViewState
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
-              if (widget.type != ConstantsIntValue.keyLostHistoryInt && widget.type != ConstantsIntValue.keyDamageHistoryInt) {
+              if (widget.keyLostType != ConstantsIntValue.keyLostHistoryInt &&
+                  widget.keyLostType != ConstantsIntValue.keyDamageHistoryInt) {
                 Navigator.popAndPushNamed(context, keyHistoryRecordsViewRoute,
                     arguments: {
                       ConstantsArgument.id: widget.parentId,
-                      ConstantsArgument.type: widget.type,
+                      ConstantsArgument.keyLostType: widget.keyLostType,
                       ConstantsArgument.title: widget.title,
                     });
               }
-                Navigator.pop(context);
-                return;
+              // Navigator.pop(context);
+              // return;
             },
           );
           showDialog(
@@ -124,11 +133,15 @@ class _KeyHistoryRecordsDetailsViewState
           loginAndCreatedByUser = true;
         }
         if (state.loggedInUserDetails!.userName
-            .equalsIgnoreCase(state.model.srh?.userName)) {
+                .equalsIgnoreCase(state.model.srh?.userName) &&
+            (widget.model?.type == ConstantsIntValue.keyLostHistoryInt ||
+                widget.model?.type == ConstantsIntValue.keyDamageHistoryInt)) {
           srh = true;
         }
         if (state.loggedInUserDetails!.userName
-            .equalsIgnoreCase(state.model.securityManager?.userName)) {
+                .equalsIgnoreCase(state.model.securityManager?.userName) &&
+            (widget.model?.type == ConstantsIntValue.lockChangeHistoryInt ||
+                widget.model?.type == ConstantsIntValue.keyDestroyHistoryInt)) {
           securityManager = true;
         }
 
@@ -143,8 +156,8 @@ class _KeyHistoryRecordsDetailsViewState
         }
 
         if (initialStatus &&
-            (widget.type == ConstantsIntValue.lockChangeHistoryInt ||
-                widget.type == ConstantsIntValue.keyDestroyHistoryInt)) {
+            (widget.keyLostType == ConstantsIntValue.lockChangeHistoryInt ||
+                widget.keyLostType == ConstantsIntValue.keyDestroyHistoryInt)) {
           editNumOfKeys = true;
         }
 
@@ -154,13 +167,13 @@ class _KeyHistoryRecordsDetailsViewState
         }
 
         if ((state.model.status == ConstantsIntValue.destroyInitiated &&
-                widget.type == ConstantsIntValue.keyDestroyHistoryInt) &&
+                widget.keyLostType == ConstantsIntValue.keyDestroyHistoryInt) &&
             securityManager) {
           showLikeDisLikeButtons = true;
         }
 
-        if (widget.type == ConstantsIntValue.keyLostHistoryInt ||
-            widget.type == ConstantsIntValue.keyDamageHistoryInt) {
+        if (widget.keyLostType == ConstantsIntValue.keyLostHistoryInt ||
+            widget.keyLostType == ConstantsIntValue.keyDamageHistoryInt) {
           keyLostOrDamageScreen = true;
         }
         if (initialStatus ||
@@ -366,12 +379,12 @@ class _KeyHistoryRecordsDetailsViewState
                           Styles.textStyleBlack14,
                         ),
                         BaseDropDown().getDropDown(
-                            isDisabled: !initialStatus,
+                            isDisabled: !initialStatus || keyLostOrDamageScreen,
                             textController: keyTypeController,
                             items: keyTypeDropDownValues,
-                            initialValue: state.model.keyType.toString(),
+                            // initialValue: state.model.keyType.toString(),
                             onTap: () {
-                              if (initialStatus) {
+                              if (initialStatus && !keyLostOrDamageScreen) {
                                 BaseDropDown().assetTypeDialog(
                                     context: context,
                                     dropDownValues: keyTypeDropDownValues
@@ -385,6 +398,7 @@ class _KeyHistoryRecordsDetailsViewState
                                         orElse: () =>
                                             const Label(key: '', value: ''),
                                       );
+                                      keyTypeController.text = value;
                                       BlocProvider.of<
                                                   KeyHistoryRecordsDetailsCubit>(
                                               context)
@@ -398,8 +412,8 @@ class _KeyHistoryRecordsDetailsViewState
 
                         ///Type
                         CommonWidgets.textDisplay(
-                          // state.labels?.locale.type ??
-                          //  state.labels?.defaultLocale.type ??
+                          state.labels?.locale.type ??
+                           state.labels?.defaultLocale.type ??
                           Constants.type,
                           isMandatory: true,
                           Styles.textStyleBlack14,
@@ -409,7 +423,7 @@ class _KeyHistoryRecordsDetailsViewState
                             textController: typeController,
                             items: typesDropDownValues,
                             initialValue:
-                                '${widget.type == ConstantsIntValue.lockChangeHistoryInt ? state.model.type ?? 0 : widget.type == ConstantsIntValue.keyLostHistoryInt ? state.model.type ?? 1 : widget.type == ConstantsIntValue.keyDamageHistoryInt ? state.model.type ?? 2 : widget.type == ConstantsIntValue.keyDestroyHistoryInt ? state.model.type ?? 3 : state.model.type.toString()}',
+                                '${widget.keyLostType == ConstantsIntValue.lockChangeHistoryInt ? state.model.type ?? 0 : widget.keyLostType == ConstantsIntValue.keyLostHistoryInt ? state.model.type ?? 1 : widget.keyLostType == ConstantsIntValue.keyDamageHistoryInt ? state.model.type ?? 2 : widget.keyLostType == ConstantsIntValue.keyDestroyHistoryInt ? state.model.type ?? 3 : state.model.type.toString()}',
                             onTap: () {
                               if (!isDisabled) {
                                 BaseDropDown().assetTypeDialog(
@@ -466,7 +480,13 @@ class _KeyHistoryRecordsDetailsViewState
                                   roleName:
                                       ConstantUserRoles.atomSubRegionalHeadUser,
                                   locationId: 0,
-                                  functionToCall: () {
+                                  functionToCall: (BaseUser user) {
+                                    BlocProvider.of<
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                      srh: user,
+                                    );
                                     // refresh the list
                                     BlocProvider.of<
                                                 KeyHistoryRecordsDetailsCubit>(
@@ -480,7 +500,7 @@ class _KeyHistoryRecordsDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
 
-                        if (widget.type ==
+                        if (widget.keyLostType ==
                             ConstantsIntValue.keyDestroyHistoryInt) ...[
                           /// Security Manager
                           CommonWidgets.textDisplay(
@@ -511,7 +531,13 @@ class _KeyHistoryRecordsDetailsViewState
                                   roleName:
                                       ConstantUserRoles.atomSecurityManagerUser,
                                   locationId: 0,
-                                  functionToCall: () {
+                                  functionToCall: (BaseUser user) {
+                                    BlocProvider.of<
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                      securityManager: user,
+                                    );
                                     // refresh the list
                                     BlocProvider.of<
                                                 KeyHistoryRecordsDetailsCubit>(
@@ -596,13 +622,13 @@ class _KeyHistoryRecordsDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                         ],
 
-                        if (widget.type ==
+                        if (widget.keyLostType ==
                                 ConstantsIntValue.lockChangeHistoryInt ||
-                            widget.type ==
+                            widget.keyLostType ==
                                 ConstantsIntValue.keyDestroyHistoryInt ||
-                            widget.type ==
+                            widget.keyLostType ==
                                 ConstantsIntValue.keyDamageHistoryInt ||
-                            widget.type ==
+                            widget.keyLostType ==
                                 ConstantsIntValue.keyLostHistoryInt) ...[
                           /// No Of Keys
                           CommonWidgets.textDisplay(
@@ -614,7 +640,7 @@ class _KeyHistoryRecordsDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           FlutterInputField(
                             textInputType: TextInputType.number,
-                            initialValue: '${state.model.noOfKeys  ?? ''}',
+                            initialValue: '${state.model.noOfKeys ?? ''}',
                             textFormKey: Keys.guardingPOCKey,
                             hintText: '',
                             focusNode: noOfKeysFocusNode,
@@ -644,10 +670,11 @@ class _KeyHistoryRecordsDetailsViewState
                           textFormKey: Keys.additionInitiativesKey,
                           hintText: Constants.informationhere,
                           showBorder: true,
-                          isEnable: ((securityManager || srh || initialStatus||
-                              lockChangeInitiatedAndUser)) &&
-                                  state.model.status !=
-                                      ConstantsIntValue.closed,
+                          isEnable: ((securityManager ||
+                                  srh ||
+                                  initialStatus ||
+                                  lockChangeInitiatedAndUser)) &&
+                              state.model.status != ConstantsIntValue.closed,
                           isDisableColor: !((securityManager ||
                                       srh ||
                                       initialStatus) ||
@@ -678,28 +705,35 @@ class _KeyHistoryRecordsDetailsViewState
                                   state.model.investigationRequired ?? false
                                       ? 1
                                       : 0,
-                              onChangedYes: !((initialStatus ||
-                                              state.model.status ==
-                                                  ConstantsIntValue
-                                                      .lostInitiated) &&
-                                          keyLostOrDamageScreen &&
-                                          loginAndCreatedByUser) &&
-                                      hasPermission
-                                  ? null
-                                  : (val) {
-                                      state.model.investigationRequired = true;
-                                      BlocProvider.of<
-                                                  KeyHistoryRecordsDetailsCubit>(
-                                              context)
-                                          .onCheckBoxChange(state.model);
-                                    },
-                              onChangedNo: !((initialStatus ||
-                                              state.model.status ==
-                                                  ConstantsIntValue
-                                                      .lostInitiated) &&
-                                          keyLostOrDamageScreen &&
-                                          loginAndCreatedByUser) &&
-                                      hasPermission
+                              onChangedYes:
+                                  // !((initialStatus ||
+                                  //                 state.model.status ==
+                                  //                     ConstantsIntValue
+                                  //                         .lostInitiated) &&
+                                  //             keyLostOrDamageScreen &&
+                                  //             loginAndCreatedByUser) &&
+                                  //         hasPermission
+                                  !(((securityManager ||
+                                              srh ||
+                                              initialStatus ||
+                                              lockChangeInitiatedAndUser)) &&
+                                          state.model.status !=
+                                              ConstantsIntValue.closed)
+                                      ? null
+                                      : (val) {
+                                          state.model.investigationRequired =
+                                              true;
+                                          BlocProvider.of<
+                                                      KeyHistoryRecordsDetailsCubit>(
+                                                  context)
+                                              .onCheckBoxChange(state.model);
+                                        },
+                              onChangedNo: !(((securityManager ||
+                                          srh ||
+                                          initialStatus ||
+                                          lockChangeInitiatedAndUser)) &&
+                                      state.model.status !=
+                                          ConstantsIntValue.closed)
                                   ? null
                                   : (val) {
                                       state.model.investigationRequired = false;
@@ -963,7 +997,14 @@ class _KeyHistoryRecordsDetailsViewState
     }
     log('--state.model.id-----keyLossGi-------${state.model.id.toString()}-----');
 
-    var map = {'kldId': state.model.id};
+    var map = {
+      ConstantsArgument.kldId: state.model.id.toString(),
+      ConstantsArgument.keyType: state.model.keyType,
+      ConstantsArgument.keyLostType: state.model.type,
+      ConstantsArgument.keyIssuanceId: widget.parentId,
+      ConstantsArgument.kmId: widget.parentId,
+      ConstantsArgument.location: state.keyManagementMasterModel?.location,
+    };
     nav.pushNamed(
       incidentManagementDetailsRoute,
       arguments: map,

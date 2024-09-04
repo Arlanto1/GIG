@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/violation_penalty_record/bloc/violation_penalty_record_bloc.dart';
 
 class AddContactPopUp extends StatefulWidget {
   const AddContactPopUp({
@@ -69,6 +70,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
   @override
   Widget build(BuildContext context) {
+    ViolationPenaltyRecordState state = const ViolationPenaltyRecordState();
     return AlertDialog(
       title: Align(
         alignment: Alignment.center,
@@ -108,7 +110,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       Column(
                         children: [
                           CommonWidgets.textDisplay(
-                            Constants.violation,
+                            state.labels?.locale.violation ??
+                                state.labels?.defaultLocale.violation ??
+                                Constants.violation,
                             Styles.textStyleBlack14,
                             //isMandatory: true,
                           ),
@@ -123,7 +127,10 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                     organisations: widget.users,
                                     onTap: (Organisation org) {
                                       violationController.text = org.name ?? '';
-
+                                      staffCategoryController.clear();
+                                      penaltyAmountController.clear();
+                                      totalPenaltyAmountController.clear();
+                                      totalNoOfViolationsController.clear();
                                       log('-org.keyName----${org.keyName}-');
 
                                       penaltyAmountController.text =
@@ -161,7 +168,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
                       /// Penalty Amount
                       CommonWidgets.textDisplay(
-                        Constants.penaltyAmount,
+                        state.labels?.locale.penaltyAmount ??
+                            state.labels?.defaultLocale.penaltyAmount ??
+                            Constants.penaltyAmount,
                         //isMandatory: true,
                         Styles.textStyleBlack14,
                       ),
@@ -186,7 +195,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
                       /// Staff Category
                       CommonWidgets.textDisplay(
-                          Constants.staffCategory,
+                          state.labels?.locale.staffCategory ??
+                              state.labels?.defaultLocale.staffCategory ??
+                              Constants.staffCategory,
                           //isMandatory: true,
                           Styles.textStyleBlack14),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -263,7 +274,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
                       /// Total No of Violations
                       CommonWidgets.textDisplay(
-                        Constants.totalNoOfViolations,
+                        state.labels?.locale.totalViolations ??
+                            state.labels?.defaultLocale.totalViolations ??
+                            Constants.totalNoOfViolations,
                         Styles.textStyleBlack14,
                         //isMandatory: true,
                       ),
@@ -298,7 +311,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
                       /// Total Penalty Amount
                       CommonWidgets.textDisplay(
-                        Constants.totalPenaltyAmount,
+                        state.labels?.locale.totalPenaltyAmount ??
+                            state.labels?.defaultLocale.totalPenaltyAmount ??
+                            Constants.totalPenaltyAmount,
                         Styles.textStyleBlack14,
                         //isMandatory: true,
                       ),

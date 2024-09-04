@@ -2,8 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
-
 import '../bloc/key_history_record_bloc.dart';
 
 class KeyHistoryRecordsView extends StatefulWidget {
@@ -30,8 +28,7 @@ class KeyHistoryRecordsView extends StatefulWidget {
 class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
+
   bool hasPermission = false;
   bool lockEmpty = false;
   bool keyDamageHistoryScreen = false;
@@ -47,7 +44,6 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
 
   @override
   void dispose() {
-    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -122,7 +118,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                                             : Constants
                                                 .createkeyManagementMaster,
                             ConstantsArgument.id: widget.id,
-                            ConstantsArgument.type: widget.type,
+                            ConstantsArgument.keyLostType: widget.type,
                           }),
                     },
                   )
@@ -172,18 +168,18 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                         labels.add(Label(
                             key: state.labels?.locale.floor ??
                                 state.labels?.defaultLocale.floor ??
-                                'Floor',
+                                Constants.floor,
                             value: state.list[index].floor.toString()));
                         labels.add(Label(
                             key: state.labels?.locale.createdBy ??
                                 state.labels?.defaultLocale.createdBy ??
-                                'Created By',
+                                Constants.createdby,
                             value:
                                 '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
                         labels.add(Label(
                             key: state.labels?.locale.createdDate ??
                                 state.labels?.defaultLocale.createdDate ??
-                                'Create On',
+                                Constants.createOn,
                             value: state.list[index].createdDate != null
                                 ? Utils.timestampToDateConversion(
                                     int.parse(
@@ -191,8 +187,9 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                                     Constants.twentyFourHourDateTimeFormat)
                                 : ''));
                         labels.add(Label(
-                            key:
-                                'No.of.Keys',
+                            key: state.labels?.locale.noKeys ??
+                                state.labels?.defaultLocale.noKeys ??
+                                Constants.noOfKeys,
                             value: state.list[index].noOfKeys.toString()));
                         return index >= state.list.length
                             ? const BaseLoader()
@@ -233,12 +230,6 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                                       state.list[index].id ?? 0);
                                 },
                                 showEditButton:
-                                    !(widget.extraProperties != null &&
-                                            !widget.extraProperties!
-                                                .hasWritePermission!)
-                                        ? true
-                                        : false,
-                                showDutyPostEditButton:
                                     !(widget.extraProperties != null &&
                                             !widget.extraProperties!
                                                 .hasWritePermission!)
@@ -309,7 +300,8 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                             ? Constants.editKeyDestroyHistory
                             : 'Default Title',
         ConstantsArgument.id: widget.id,
-        ConstantsArgument.type: widget.type,
+        ConstantsArgument.keyLostType: widget.type,
+        ConstantsArgument.keyType: keyHistoryModel.keyType,
         ConstantsArgument.extraProperties:
             ExtraProperties(hasWritePermission: hasWritePermission),
       },

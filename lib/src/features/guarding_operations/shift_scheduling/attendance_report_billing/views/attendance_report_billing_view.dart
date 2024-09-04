@@ -1,5 +1,3 @@
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
-
 import '../../../../../../index.dart';
 import '../bloc/attendance_report_billing_bloc.dart';
 
@@ -18,8 +16,6 @@ class _AttendanceReportBillingViewState
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -32,7 +28,6 @@ class _AttendanceReportBillingViewState
 
   @override
   void dispose() {
-    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -56,19 +51,11 @@ class _AttendanceReportBillingViewState
     }
   }
 
-  void _onRefresh() async {
+  Future<void> _onRefresh() async {
     context.read<AttendanceReportBillingBloc>().add(
           const RefreshList(),
         );
     await Future.delayed(const Duration(milliseconds: 2000));
-    refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    if (mounted) {
-      setState(() {});
-    }
-    refreshController.loadComplete();
   }
 
   @override
@@ -133,19 +120,15 @@ class _AttendanceReportBillingViewState
                 ],
 
                 Expanded(
-                  child: SmartRefresher(
-                    controller: refreshController,
-                    enablePullDown: true,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    header: WaterDropHeader(
-                      waterDropColor: AppColors.navigationSkyBlueColor,
-                      refresh: state.status != FormStatus.loading
-                          ? const BaseLoader()
-                          : null,
-                    ),
-                    key: const Key(Keys.refreshKey),
-                    onRefresh: _onRefresh,
-                    onLoading: _onLoading,
+                  child: CustomMaterialIndicator(
+                    onRefresh: () => _onRefresh(),
+                    backgroundColor: Colors.white,
+                    indicatorBuilder: (context, controller) {
+                      return const Padding(
+                        padding: EdgeInsets.all(6.0),
+                        child: BaseLoader(),
+                      );
+                    },
                     child: ListView.builder(
                         controller: _scrollController,
                         itemCount: state.hasReachedMax
@@ -210,7 +193,7 @@ class _AttendanceReportBillingViewState
                                     onEditTap: (selectedIndex) {
                                       getById(id: state.items[index].id ?? 0);
                                     },
-                                    showEditButton: true,
+                                    showEditButton: false,
                                     onViewTap: (selectedIndex) {
                                       showDialog(
                                         context: context,

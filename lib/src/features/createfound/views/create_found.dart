@@ -35,7 +35,7 @@ class _CreateFoundState extends State<CreateFound> {
   // Group Value for Radio Button.
   int isDepositorDBEmployeeSelected = 0;
   int isClaimantDBEmployeeSelected = 0;
-  int isClaimantAcceptedToSignSelected = 1;
+  int isClaimantAcceptedToSignSelected = 0;
   int isClaimantAcceptedByEmail = 0;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController quantityTextController = TextEditingController();
@@ -86,7 +86,6 @@ class _CreateFoundState extends State<CreateFound> {
   void initState() {
     super.initState();
     log('------initState-----');
-    getFoundArticleList();
     claimantSignatureController = SignatureController(
         penStrokeWidth: 2,
         penColor: Colors.black,
@@ -107,6 +106,7 @@ class _CreateFoundState extends State<CreateFound> {
           model: widget.model,
           eventProtectionLocation: widget.eventProtectionLocation);
     }
+    getFoundArticleList();
     _getCurrentDate();
   }
 
@@ -289,10 +289,10 @@ class _CreateFoundState extends State<CreateFound> {
         userId: userDetails?.userId ?? widget.model?.entrySecurity?.userId);
     User? handoverSecurity = widget.model?.status ==
             ConstantsIntValue.articleFoundStatusUnderSecurityCustody
-        ? User(userId: state?.loggedInUser?.userId ?? handOverSecurity?.userId)
+        ? User(userId: state.loggedInUser?.userId ?? handOverSecurity?.userId)
         : null;
 
-    log('-=state?.loggedInUser?.userId====${state?.loggedInUser?.userId}==');
+    log('-=state?.loggedInUser?.userId====${state.loggedInUser?.userId}==');
     // return;
 
     User? depositor = User(
@@ -399,8 +399,8 @@ class _CreateFoundState extends State<CreateFound> {
     final bool isActive = await network_handler.networkChecking(context);
     log('-----_getFoundArticleList----');
     if (isActive) {
-      await createFoundArticleCubit
-          .getUserByRoleDepositor(ConstantUserRoles.atomStaticUser);
+      // await createFoundArticleCubit
+      //     .getUserByRoleDepositor(ConstantUserRoles.atomStaticUser);
       await createFoundArticleCubit.getLocations('ATOM_LOCATIONS');
       await createFoundArticleCubit
           .getEmployeeDepartments('EMPLOYEE_DEPARTMENTS');
@@ -1033,6 +1033,9 @@ class _CreateFoundState extends State<CreateFound> {
                                         state.model.location?.name =
                                             location.name ?? '';
                                         selectedLocation = location;
+
+                                        selectedClaimList = null;
+                                        selectedDepositorUser = null;
                                         setState(() {});
                                       }),
                                   CommonWidgets.verticalSpacerWidget(
@@ -1670,9 +1673,9 @@ class _CreateFoundState extends State<CreateFound> {
                                             isClaimantDBEmployeeSelected == 1
                                         ? CommonWidgets.textDisplay(
                                             state.labels?.locale
-                                                    .foundClaimantDbEmp ??
+                                                    .foundClaimantDepartment ??
                                                 state.labels?.defaultLocale
-                                                    .foundClaimantDbEmp ??
+                                                    .foundClaimantDepartment ??
                                                 Constants.claimantdepartment,
                                             Styles.textStyleBlack14,
                                             isMandatory: true)
@@ -2235,11 +2238,10 @@ class _CreateFoundState extends State<CreateFound> {
           onChanged: (val) {
             radioButtonItem = 'Yes';
             selectedValue = 1;
-            if (name == Constants.isclaimantacceptedtosign &&
-                widget.model?.status != 2 &&
-                isClaimantAcceptedByEmail == 0) {
+            if (widget.model?.status != 2) {
               isClaimantAcceptedToSignSelected = selectedValue;
-            } else if ((name == Constants.isclaimantacceptedbyemail) &&
+            }
+             if ((name == Constants.isclaimantacceptedbyemail) &&
                 widget.model?.status != 2 &&
                 widget.model?.status != 1 &&
                 widget.model?.status != -1) {
@@ -2268,9 +2270,7 @@ class _CreateFoundState extends State<CreateFound> {
             onChanged: (val) {
               radioButtonItem = 'No';
               selectedValue = 0;
-              if (name == Constants.isclaimantacceptedtosign &&
-                  widget.model?.status != 2 &&
-                  isClaimantAcceptedByEmail == 0) {
+              if (widget.model?.status != 2) {
                 isClaimantAcceptedToSignSelected = selectedValue;
               } else if ((name == Constants.isclaimantacceptedbyemail) &&
                   widget.model?.status != 2 &&

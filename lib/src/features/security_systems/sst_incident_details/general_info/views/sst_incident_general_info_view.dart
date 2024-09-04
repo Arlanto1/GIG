@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+
 import 'comment_pop_up.dart';
 
 class SstIncidentGeneralInfoView extends StatefulWidget {
@@ -44,6 +45,9 @@ class _SstIncidentGeneralInfoViewState
   TextEditingController slaOnsiteResponseController = TextEditingController();
   TextEditingController solvedProposedDateController = TextEditingController();
   TextEditingController reworkProposedDateController = TextEditingController();
+  TextEditingController solvedCompleteDateController = TextEditingController();
+  TextEditingController downTimeController = TextEditingController();
+  TextEditingController slaResolutionDateController = TextEditingController();
 
   bool isDisabled = true;
   bool disableForm = false;
@@ -54,6 +58,8 @@ class _SstIncidentGeneralInfoViewState
   bool isShowSubmitButtonForSecurityManager = false;
   final FocusNode vendorPocFocusNode = FocusNode();
   final FocusNode descriptionFocusNode = FocusNode();
+  bool showSolvedProposed = false;
+  bool showSLAOnsiteResponse = false;
 
   @override
   void initState() {
@@ -124,6 +130,9 @@ class _SstIncidentGeneralInfoViewState
         vendorTicketNoController.text = state.model.vendorTicketNo ?? '';
         slaOnsiteResponseController.text =
             state.model.slaOnsiteRes?.toString() ?? '0.0';
+        downTimeController.text = state.model.downTime?.toString() ?? '0.0';
+        slaResolutionDateController.text =
+            state.model.slaResolutionDate?.toString() ?? '0.0';
         state.model.status ??= 1;
         if (state.model.id != null && state.model.status! > 1) {
           log('--state.model.status----asd---${state.model.status}-');
@@ -135,6 +144,19 @@ class _SstIncidentGeneralInfoViewState
 
         if (!state.model.lock.isEmptyOrNull) {
           disableForm = true;
+        }
+
+        if (state.model.status ==
+                ConstantsIntValue.ticketLifeCycleSolveProposedStatus ||
+            state.model.status ==
+                ConstantsIntValue.ticketLifeCycleClosedStatus) {
+          showSolvedProposed = true;
+        }
+
+        if (showSolvedProposed ||
+            state.model.status ==
+                ConstantsIntValue.ticketLifeCycleReworkStatus) {
+          showSLAOnsiteResponse = true;
         }
 
         if (state.model.status !=
@@ -219,7 +241,11 @@ class _SstIncidentGeneralInfoViewState
                                     BlocProvider.of<
                                                 SstIncidentGeneralInfoCubit>(
                                             this.context)
-                                        .submitForm(isReworkOnly: true);
+                                        .submitForm(
+                                      isReworkOnly: true,
+                                      isSaveOnly: false,
+                                      isSubmitOnly: false,
+                                    );
                                     Navigator.pop(context);
                                   },
                                 );
@@ -245,7 +271,11 @@ class _SstIncidentGeneralInfoViewState
                                     BlocProvider.of<
                                                 SstIncidentGeneralInfoCubit>(
                                             this.context)
-                                        .submitForm(isSubmitOnly: true);
+                                        .submitForm(
+                                      isSubmitOnly: true,
+                                      isSaveOnly: false,
+                                      isReworkOnly: false,
+                                    );
                                     Navigator.pop(context);
                                   },
                                 );
@@ -302,6 +332,18 @@ class _SstIncidentGeneralInfoViewState
     reworkProposedDateController.text = state.model.reworkDate != null
         ? Utils.timestampToDateConversion(
             int.tryParse(state.model.reworkDate ?? '0'),
+            Constants.fulldateFormat)
+        : '';
+
+    onsiteVisitDateController.text = state.model.siteVisitDate != null
+        ? Utils.timestampToDateConversion(
+            int.tryParse(state.model.siteVisitDate ?? '0'),
+            Constants.fulldateFormat)
+        : '';
+
+    solvedCompleteDateController.text = state.model.solvedComplete != null
+        ? Utils.timestampToDateConversion(
+            int.tryParse(state.model.solvedComplete ?? '0'),
             Constants.fulldateFormat)
         : '';
   }
@@ -711,7 +753,13 @@ class _SstIncidentGeneralInfoViewState
                                       roleName: ConstantUserRoles
                                           .atomSeniorSecurityManagerUser,
                                       locationId: state.model.location!.id!,
-                                      functionToCall: () {
+                                      functionToCall: (BaseUser user) {
+                                        BlocProvider.of<
+                                                    SstIncidentGeneralInfoCubit>(
+                                                context)
+                                            .updateEmailsValue(
+                                          systemManager: user,
+                                        );
                                         // refresh the list
                                         BlocProvider.of<
                                                     SstIncidentGeneralInfoCubit>(
@@ -751,7 +799,13 @@ class _SstIncidentGeneralInfoViewState
                                       roleName: ConstantUserRoles
                                           .atomSecurityAndSeniorSecurityManagerUser,
                                       locationId: state.model.location!.id!,
-                                      functionToCall: () {
+                                      functionToCall: (BaseUser user) {
+                                        BlocProvider.of<
+                                                    SstIncidentGeneralInfoCubit>(
+                                                context)
+                                            .updateEmailsValue(
+                                          securityManager: user,
+                                        );
                                         // refresh the list
                                         BlocProvider.of<
                                                     SstIncidentGeneralInfoCubit>(
@@ -791,7 +845,13 @@ class _SstIncidentGeneralInfoViewState
                                       roleName: ConstantUserRoles
                                           .atomSecurityLeadAndAssistantSecurityLeadUser,
                                       locationId: state.model.location!.id!,
-                                      functionToCall: () {
+                                      functionToCall: (BaseUser user) {
+                                        BlocProvider.of<
+                                                    SstIncidentGeneralInfoCubit>(
+                                                context)
+                                            .updateEmailsValue(
+                                          securityLead: user,
+                                        );
                                         // refresh the list
                                         BlocProvider.of<
                                                     SstIncidentGeneralInfoCubit>(
@@ -833,7 +893,15 @@ class _SstIncidentGeneralInfoViewState
                                       roleName: ConstantUserRoles
                                           .atomSecurityTeamUser,
                                       locationId: state.model.location!.id!,
-                                      functionToCall: () {
+                                      functionToCall: (BaseUser user) {
+                                        BlocProvider.of<
+                                                    SstIncidentGeneralInfoCubit>(
+                                                context)
+                                            .updateEmailsValue(
+                                          locationTeam: user,
+                                        );
+                                        FocusScope.of(context)
+                                            .requestFocus(descriptionFocusNode);
                                         // refresh the list
                                         BlocProvider.of<
                                                     SstIncidentGeneralInfoCubit>(
@@ -989,17 +1057,23 @@ class _SstIncidentGeneralInfoViewState
                       ),
 
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      if (showSystemIntegratorFields) ...[
-                        CommonWidgets.textDisplay(
-                            Constants.systemIntegratorForVendorAction,
-                            Styles.textStyleBlack16),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      ],
+                      // if (showSystemIntegratorFields) ...[
+                      //   CommonWidgets.textDisplay(
+                      //       Constants.systemIntegratorForVendorAction,
+                      //       Styles.textStyleBlack16),
+                      //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      // ],
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0, right: 20),
                         child: Column(
                           children: [
                             if (showSystemIntegratorFields) ...[
+                              CommonWidgets.textDisplay(
+                                  Constants.systemIntegratorForVendorAction,
+                                  Styles.textStyleBlack16),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Acknowledge Integrator for Vendor Action
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.acknowledgeDateTime ??
                                       state.labels?.defaultLocale
@@ -1039,6 +1113,8 @@ class _SstIncidentGeneralInfoViewState
                                 validateTextField: (String? user) {},
                               ),
                             ],
+
+                            /// Onsite Visit Date and Time
                             if (showSystemIntegratorFields &&
                                 state.model.status !=
                                     ConstantsIntValue
@@ -1275,9 +1351,7 @@ class _SstIncidentGeneralInfoViewState
                               ),
                             ],
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            if (state.model.status ==
-                                ConstantsIntValue
-                                    .ticketLifeCycleSolveProposedStatus) ...[
+                            if (showSolvedProposed) ...[
                               ///Solved proposed Date
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.solvedProposed ??
@@ -1296,10 +1370,34 @@ class _SstIncidentGeneralInfoViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
+
                             if (state.model.status ==
                                 ConstantsIntValue
-                                    .ticketLifeCycleSolveProposedStatus) ...[
-                              ///Rework proposed Date
+                                    .ticketLifeCycleClosedStatus) ...[
+                              ///Solved Complete
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.solvedComplete ??
+                                      state.labels?.defaultLocale
+                                          .solvedComplete ??
+                                      Constants.solvedCompleteDate,
+                                  isMandatory: false,
+                                  Styles.textStyleBlack14),
+                              BaseDate().datePickerWidgetLoading(
+                                isDisabled: true,
+                                textController: solvedProposedDateController,
+                                onlyDate: false,
+                                showFutureDate: false,
+                                onChange: (String value) {},
+                                context: context,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
+
+                            if (state.model.reworkDate != null &&
+                                state.model.status! >=
+                                    ConstantsIntValue
+                                        .ticketLifeCycleReworkStatus) ...[
+                              /// Rework proposed Date
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.reworkDate ??
                                       state.labels?.defaultLocale.reworkDate ??
@@ -1316,6 +1414,7 @@ class _SstIncidentGeneralInfoViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
+
                             if (state.model.status != null &&
                                 state.model.status !=
                                     ConstantsIntValue
@@ -1371,12 +1470,7 @@ class _SstIncidentGeneralInfoViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
-                            if (state.model.status ==
-                                    ConstantsIntValue
-                                        .ticketLifeCycleSolveProposedStatus ||
-                                state.model.status ==
-                                    ConstantsIntValue
-                                        .ticketLifeCycleReworkStatus) ...[
+                            if (showSLAOnsiteResponse) ...[
                               /// SLA Onsite Response
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.slaOnsiteResponse ??
@@ -1399,6 +1493,55 @@ class _SstIncidentGeneralInfoViewState
                                 validateTextField: (String? user) {},
                               ),
                             ],
+
+                            if (state.model.status ==
+                                ConstantsIntValue
+                                    .ticketLifeCycleClosedStatus) ...[
+                              /// Downtime(Hours)
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.downtime ??
+                                      state.labels?.defaultLocale.downtime ??
+                                      Constants.downTime,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                lineHeight: 1,
+                                controller: downTimeController,
+                                // initialValue: state.model.escalation3Poc,
+                                textFormKey: Keys.claimantTextController,
+                                hintText: '',
+                                isEnable: false,
+                                isDisableColor: true,
+                                onChange: (String value) {},
+                                validateTextField: (String? user) {},
+                              ),
+
+                              ///SLA Resolution Date
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.slaResolutionDate ??
+                                      state.labels?.defaultLocale
+                                          .slaResolutionDate ??
+                                      Constants.slaResolutionDate,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                lineHeight: 1,
+                                controller: slaResolutionDateController,
+                                // initialValue: state.model.escalation3Poc,
+                                textFormKey: Keys.claimantTextController,
+                                hintText: '',
+                                isEnable: false,
+                                isDisableColor: true,
+                                onChange: (String value) {},
+                                validateTextField: (String? user) {},
+                              ),
+                            ],
+
+                            /// Activity notes
                             if (showSystemIntegratorFields &&
                                 state.model.status !=
                                     ConstantsIntValue
@@ -1433,7 +1576,10 @@ class _SstIncidentGeneralInfoViewState
                               BlocProvider.of<SstIncidentGeneralInfoCubit>(
                                       context)
                                   .submitForm(
-                                      isSaveOnly: false, isReworkOnly: false);
+                                isSubmitOnly: true,
+                                isSaveOnly: false,
+                                isReworkOnly: false,
+                              );
                             })
                           ],
                         ],

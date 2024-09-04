@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_cubits.dart';
+import 'package:intl/intl.dart';
 
 class KeyManagementIssuanceDetailsView extends StatefulWidget {
   final KeyManagementIssuanceModel? model;
@@ -33,19 +34,24 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
   TextEditingController keyReturnDueDateController = TextEditingController();
   TextEditingController employeeTypeController = TextEditingController();
   TextEditingController keyHandlingOverDurationController =
-  TextEditingController();
+      TextEditingController();
   TextEditingController guardingAgencyPOCController = TextEditingController();
   TextEditingController keyReturnDateAndTimeController =
-  TextEditingController();
+      TextEditingController();
   SignatureController receiverSignatureController = SignatureController();
   SignatureController securitySignatureController = SignatureController();
 
   bool isReadOnly = false;
   bool showSaveSubmitButton = false;
   bool isEnabled = false;
+  bool isNotReturnableStatus = false;
+
   final FocusNode employeeIdFocusNode = FocusNode();
 
   get model => null;
+  String? initialisedFromDate;
+  String? initialisedToDate;
+  String? initialisedStartDate;
 
   @override
   void initState() {
@@ -107,13 +113,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
         if (state.model.status == -1 ||
             state.model.status == 3 ||
             state.model.status == 4 ||
-            state.model.status == 5 ||
-            state.model.status == 6 ||
             state.model.status == 7 ||
-            state.model.status == 8 ||
-            state.model.status == 9 ||
-            state.model.status == 10 ||
-            state.model.status == 11) {
+            state.model.status == 8) {
           isReadOnly = true;
         }
 
@@ -137,10 +138,28 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
           isReadOnly = false;
         }
 
+        isNotReturnableStatus = state.model.status ==
+                ConstantsIntValue.issuanceNotReturnedStatus ||
+            state.model.status ==
+                ConstantsIntValue.issuanceLostNotReturnedStatus ||
+            state.model.status ==
+                ConstantsIntValue.issuanceClosedLostNotReturnedStatus ||
+            state.model.status ==
+                ConstantsIntValue.issuanceLostDamagedNotReturnedStatus ||
+            state.model.status ==
+                ConstantsIntValue.issuanceClosedLostDamagedNotReturnedStatus ||
+            state.model.status ==
+                ConstantsIntValue.issuanceDamagedNotReturnedStatus;
+
+        if (isNotReturnableStatus == true || state.model.lock.isEmptyOrNull) {
+          isReadOnly = false;
+        }
+
         showSaveSubmitButton = (state.model.status == 0 ||
-            state.model.status == 1 ||
-            state.model.status == 2 ||
-            state.model.status == null) &&
+                state.model.status == 1 ||
+                state.model.status == 2 ||
+                isNotReturnableStatus ||
+                state.model.status == null) &&
             !isReadOnly &&
             state.model.lock.isEmptyOrNull;
 
@@ -160,7 +179,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             showDisLikeButton: false,
             showLikeButton: false,
             pdfAPIName:
-            '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.keyManagementIssuanceModule}',
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.keyManagementIssuanceModule}',
             // onTapSave: () {
             //   FocusScope.of(context).unfocus();
             //   BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
@@ -189,35 +208,150 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
+  bool isDateSelectedByUser = false;
+
+  // void initializeDates(KeyManagementIssuanceDetailsState state) {
+  //   DateTime dateTime;
+  //   DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
+  //   DateTime keyHandOverDateTime =
+  //       dateFormat.parse(state.model.keyHandOverDate.toString());
+  //   int keyHandOverTimestamp = keyHandOverDateTime.millisecondsSinceEpoch;
+  //   initialisedFromDate =
+  //       DateTime.fromMillisecondsSinceEpoch(keyHandOverTimestamp).toString();
+  //   // Logging the results
+  //   log('initialisedFromDate--- $initialisedFromDate');
+  //   log('keyHandOverTimestamp--- $keyHandOverTimestamp');
+  //
+  //   if (state.model.keyHandOverDue.isEmptyOrNull) {
+  //     if (!isDateSelectedByUser) {
+  //       log('state.model.keyHandOverDue----${state.model.keyHandOverDue}');
+  //       if (state.model.keyHandingOverDuration == 1 && !isDateSelectedByUser) {
+  //         dateTime = DateTime.fromMillisecondsSinceEpoch(
+  //             DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+  //         keyReturnDueDateController.text = Utils.timestampToDateConversion(
+  //             dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+  //       } else if (state.model.keyHandingOverDuration == 2 &&
+  //           !isDateSelectedByUser) {
+  //         if (DateTime.now().month < 6) {
+  //           // Set to June 30th of the current year
+  //           dateTime = DateTime(DateTime.now().year, 6, 30);
+  //         } else {
+  //           // Set to December 31st of the current year
+  //           dateTime = DateTime(DateTime.now().year, 12, 31);
+  //         }
+  //         keyReturnDueDateController.text = Utils.timestampToDateConversion(
+  //             dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+  //       } else if (state.model.keyHandingOverDuration == 1 &&
+  //           !isDateSelectedByUser) {
+  //         dateTime = DateTime.fromMillisecondsSinceEpoch(
+  //             DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+  //         keyReturnDueDateController.text = Utils.timestampToDateConversion(
+  //             dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+  //       } else {
+  //         dateTime = DateTime.fromMillisecondsSinceEpoch(
+  //             DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+  //         keyReturnDueDateController.text = Utils.timestampToDateConversion(
+  //             dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+  //       }
+  //       //
+  //       // state.model.keyHandOverDue =
+  //       //     Utils().formatTime(keyReturnDueDateController.text);
+  //     }
+  //   } else if (state.model.keyHandingOverDuration == 1 &&
+  //       !isDateSelectedByUser) {
+  //     dateTime = DateTime.fromMillisecondsSinceEpoch(
+  //         DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+  //     keyReturnDueDateController.text = Utils.timestampToDateConversion(
+  //         dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+  //   } else {
+  //     keyReturnDueDateController.text = Utils.timestampToDateConversion(
+  //         int.tryParse(state.model.keyHandOverDue ?? '0'),
+  //         Constants.fulldateFormat);
+  //   }
+  //
+  //   if (state.model.keyReturnDateTime != null) {
+  //     keyReturnDateAndTimeController.text = Utils.timestampToDateConversion(
+  //         int.tryParse(state.model.keyReturnDateTime ?? '0'),
+  //         Constants.fulldateFormat);
+  //   }
+  // }
   void initializeDates(KeyManagementIssuanceDetailsState state) {
     DateTime dateTime;
 
-    if (state.model.keyHandingOverDuration == 2 && DateTime.now().month < 6) {
-      // Set to July 1st of the current year
-      dateTime = DateTime(DateTime.now().year, 6, 30);
-      keyReturnDueDateController.text = Utils.timestampToDateConversion(
-          dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
-    } else if (state.model.keyHandingOverDuration == 2 &&
-        DateTime.now().month > 6) {
-      // Set to December 31st of the current year
-      dateTime = DateTime(DateTime.now().year, 12, 31);
-      keyReturnDueDateController.text = Utils.timestampToDateConversion(
-          dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+    String keyHandOverDateString = state.model.keyHandOverDate.toString();
+
+// Check if the input is a timestamp (numeric) or a formatted date string
+    if (RegExp(r'^\d+$').hasMatch(keyHandOverDateString)) {
+      int keyHandOverTimestamp = int.parse(keyHandOverDateString);
+      DateTime keyHandOverDateTime =
+          DateTime.fromMillisecondsSinceEpoch(keyHandOverTimestamp * 1000);
+
+      DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
+      initialisedFromDate = dateFormat.format(keyHandOverDateTime);
     } else {
+      DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
+      DateTime keyHandOverDateTime = dateFormat.parse(keyHandOverDateString);
+
+      int keyHandOverTimestamp = keyHandOverDateTime.millisecondsSinceEpoch;
+      initialisedFromDate =
+          keyHandOverDateTime.toString(); // Or format to a string if needed
+      // Logging the results
+      log('initialisedFromDate--- $initialisedFromDate');
+      log('keyHandOverTimestamp--- $keyHandOverTimestamp');
+    }
+
+    if (state.model.keyHandOverDue.isEmptyOrNull) {
+      if (!isDateSelectedByUser) {
+        log('state.model.keyHandOverDue----${state.model.keyHandOverDue}');
+        if (state.model.keyHandingOverDuration == 1 && !isDateSelectedByUser) {
+          dateTime = DateTime.fromMillisecondsSinceEpoch(
+              DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+          keyReturnDueDateController.text = Utils.timestampToDateConversion(
+              dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+        } else if (state.model.keyHandingOverDuration == 2 &&
+            !isDateSelectedByUser) {
+          if (DateTime.now().month < 6) {
+            // Set to June 30th of the current year
+            dateTime = DateTime(DateTime.now().year, 6, 30);
+          } else {
+            // Set to December 31st of the current year
+            dateTime = DateTime(DateTime.now().year, 12, 31);
+          }
+          keyReturnDueDateController.text = Utils.timestampToDateConversion(
+              dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+        } else if (state.model.keyHandingOverDuration == 1 &&
+            !isDateSelectedByUser) {
+          dateTime = DateTime.fromMillisecondsSinceEpoch(
+              DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+          keyReturnDueDateController.text = Utils.timestampToDateConversion(
+              dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+        } else {
+          dateTime = DateTime.fromMillisecondsSinceEpoch(
+              DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+          keyReturnDueDateController.text = Utils.timestampToDateConversion(
+              dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+        }
+        //
+        // state.model.keyHandOverDue =
+        //     Utils().formatTime(keyReturnDueDateController.text);
+      }
+    } else if (state.model.keyHandingOverDuration == 1 &&
+        !isDateSelectedByUser) {
       dateTime = DateTime.fromMillisecondsSinceEpoch(
           DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
       keyReturnDueDateController.text = Utils.timestampToDateConversion(
           dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
-    }
-
-    state.model.keyHandOverDue =
-        Utils().formatTime(keyReturnDueDateController.text);
-
-    if (state.model.keyReturnDateTime != null) {
-      keyReturnDateAndTimeController.text = Utils.timestampToDateConversion(
-          int.tryParse(state.model.keyReturnDateTime ?? '0'),
+    } else {
+      keyReturnDueDateController.text = Utils.timestampToDateConversion(
+          int.tryParse(state.model.keyHandOverDue ?? '0'),
           Constants.fulldateFormat);
     }
+    //
+    // if (state.model.keyReturnDateTime != null) {
+    //   keyReturnDateAndTimeController.text = Utils.timestampToDateConversion(
+    //       int.tryParse(state.model.keyReturnDateTime ?? '0'),
+    //       Constants.fulldateFormat);
+    // }
   }
 
   getBodybuilder(KeyManagementIssuanceDetailsState state, height) {
@@ -240,7 +374,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                 color: AppColors.backgroundWhiteColor,
                 shape: RoundedRectangleBorder(
                   borderRadius:
-                  BorderRadius.vertical(top: Radius.circular(20.0)),
+                      BorderRadius.vertical(top: Radius.circular(20.0)),
                 ),
               ),
               child: Padding(
@@ -301,7 +435,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   textFormKey: Keys.statusTextController,
                                   hintText: '',
                                   initialValue:
-                                  getStatusString(state.model.status ?? 0),
+                                      getStatusString(state.model.status ?? 0),
                                   onChange: (String value) {},
                                   validateTextField: (String? user) {},
                                 ),
@@ -399,10 +533,10 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   onTap: (List<Organisation> selectedEntities) {
                                     log('--selectedEntities----${selectedEntities.length}');
                                     BlocProvider.of<
-                                        KeyManagementIssuanceDetailsCubit>(
-                                        context)
+                                                KeyManagementIssuanceDetailsCubit>(
+                                            context)
                                         .updateDropdownValues(
-                                        entities: selectedEntities);
+                                            entities: selectedEntities);
                                     Navigator.of(context)
                                         .pop(); // Close the dialog
                                   },
@@ -410,8 +544,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<
-                                        KeyManagementIssuanceDetailsCubit>(
-                                        context)
+                                                KeyManagementIssuanceDetailsCubit>(
+                                            context)
                                         .refreshList();
                                   },
                                 ),
@@ -441,10 +575,10 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                                 department.name;
 
                                             BlocProvider.of<
-                                                KeyManagementIssuanceDetailsCubit>(
-                                                context)
+                                                        KeyManagementIssuanceDetailsCubit>(
+                                                    context)
                                                 .updateDropdownValues(
-                                                department: department);
+                                                    department: department);
                                           },
                                           orgName: 'EMPLOYEE_DEPARTMENTS',
                                           createEntity: false,
@@ -452,8 +586,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           functionToCall: () {
                                             // refresh the list
                                             BlocProvider.of<
-                                                KeyManagementIssuanceDetailsCubit>(
-                                                context)
+                                                        KeyManagementIssuanceDetailsCubit>(
+                                                    context)
                                                 .refreshList();
                                           });
                                     }
@@ -466,52 +600,64 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                                 /// Key Handing Over Duration
                                 CommonWidgets.textDisplay(
-                                    state.labels?.locale
-                                        .keyHandingOverDuration ??
-                                        state.labels?.defaultLocale
-                                            .keyHandingOverDuration ??
-                                        Constants.keyHandingOverDuration,
-                                    isMandatory: true,
-                                    Styles.textStyleBlack14),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
+                                  state.labels?.locale.keyHandingOverDuration ??
+                                      state.labels?.defaultLocale
+                                          .keyHandingOverDuration ??
+                                      Constants.keyHandingOverDuration,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14,
+                                ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 BaseDropDown().getDropDown(
-                                    isDisabled: !isEnabled,
-                                    textController:
-                                    keyHandlingOverDurationController,
-                                    items: keyHandingOverDurationValues,
-                                    initialValue:
-                                    '${state.model.keyHandingOverDuration ?? 1}',
-                                    onTap: () {
-                                      if (isEnabled) {
-                                        BaseDropDown().assetTypeDialog(
-                                            context: context,
-                                            dropDownValues:
+                                  isDisabled: !isEnabled,
+                                  textController:
+                                      keyHandlingOverDurationController,
+                                  items: keyHandingOverDurationValues,
+                                  initialValue:
+                                      '${state.model.keyHandingOverDuration ?? 1}',
+                                  onTap: () {
+                                    if (isEnabled) {
+                                      BaseDropDown().assetTypeDialog(
+                                        context: context,
+                                        dropDownValues:
                                             keyHandingOverDurationValues
                                                 .map((label) => label.key)
                                                 .toList(),
-                                            onTap: (String value) {
-                                              Label? selectedLabel;
-                                              selectedLabel =
-                                                  keyHandingOverDurationValues
-                                                      .firstWhere(
-                                                        (label) => label.key == value,
-                                                    orElse: () => const Label(
-                                                        key: '', value: ''),
-                                                  );
-                                              BlocProvider.of<
-                                                  KeyManagementIssuanceDetailsCubit>(
+                                        onTap: (String value) {
+                                          Label? selectedLabel;
+                                          selectedLabel =
+                                              keyHandingOverDurationValues
+                                                  .firstWhere(
+                                            (label) => label.key == value,
+                                            orElse: () =>
+                                                const Label(key: '', value: ''),
+                                          );
+
+                                          int newDuration = int.tryParse(
+                                                  selectedLabel.value) ??
+                                              1;
+
+                                          // Update the duration in the state
+                                          BlocProvider.of<
+                                                      KeyManagementIssuanceDetailsCubit>(
                                                   context)
-                                                  .updateDropdownValues(
+                                              .updateDropdownValues(
                                                   keyHandingOverDuration:
-                                                  int.tryParse(
-                                                      selectedLabel
-                                                          .value));
-                                            });
-                                      }
-                                    }),
+                                                      newDuration);
+
+                                          // Reset the isDateSelectedByUser flag and reinitialize dates
+                                          isDateSelectedByUser = false;
+                                          state.model.keyHandingOverDuration =
+                                              newDuration;
+                                          initializeDates(state);
+
+                                          log('Key Duration----${state.model.keyHandingOverDuration}');
+                                        },
+                                      );
+                                    }
+                                  },
+                                ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
@@ -530,17 +676,24 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 BaseDate().datePickerWidgetLoading(
                                   textController: keyReturnDueDateController,
                                   isDisabled:
-                                  state.model.keyHandingOverDuration == 2
-                                      ? false
-                                      : true,
+                                      state.model.keyHandingOverDuration == 2 &&
+                                              (state.model.status == null ||
+                                                  state.model.status ==
+                                                      ConstantsIntValue
+                                                          .issuanceDraftStatus)
+                                          ? false
+                                          : true,
                                   onlyDate: false,
+                                  showPastDate: false,
                                   onChange: (String value) {
+                                    isDateSelectedByUser = true;
+                                    keyReturnDueDateController.text = value;
+                                    log('keyReturnDueDateControllerValue --- $value');
                                     state.model.keyHandOverDue =
                                         Utils().formatTime(value);
-
                                     BlocProvider.of<
-                                        KeyManagementIssuanceDetailsCubit>(
-                                        context)
+                                                KeyManagementIssuanceDetailsCubit>(
+                                            context)
                                         .onModelValueChange(state.model);
                                     //},
                                   },
@@ -566,35 +719,35 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     textController: employeeTypeController,
                                     items: employeeTypeDropDownValues,
                                     initialValue:
-                                    state.model.employeeType.toString(),
+                                        state.model.employeeType.toString(),
                                     onTap: () {
                                       if (isEnabled) {
                                         BaseDropDown().assetTypeDialog(
                                             context: context,
                                             dropDownValues:
-                                            employeeTypeDropDownValues
-                                                .map((label) => label.key)
-                                                .toList(),
+                                                employeeTypeDropDownValues
+                                                    .map((label) => label.key)
+                                                    .toList(),
                                             onTap: (String value) {
                                               Label? selectedLabel;
                                               selectedLabel =
                                                   employeeTypeDropDownValues
                                                       .firstWhere(
-                                                        (label) => label.key == value,
-                                                    orElse: () => const Label(
-                                                        key: '', value: ''),
-                                                  );
+                                                (label) => label.key == value,
+                                                orElse: () => const Label(
+                                                    key: '', value: ''),
+                                              );
                                               BlocProvider.of<
-                                                  KeyManagementIssuanceDetailsCubit>(
-                                                  context)
+                                                          KeyManagementIssuanceDetailsCubit>(
+                                                      context)
                                                   .updateDropdownValues(
-                                                  employeeType:
-                                                  int.tryParse(
-                                                      selectedLabel
-                                                          .value));
+                                                      employeeType:
+                                                          int.tryParse(
+                                                              selectedLabel
+                                                                  .value));
                                               FocusScope.of(context)
                                                   .requestFocus(
-                                                  employeeIdFocusNode);
+                                                      employeeIdFocusNode);
                                             });
                                       }
                                     }),
@@ -623,7 +776,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     state.model.employeeID = value;
                                     context
                                         .read<
-                                        KeyManagementIssuanceDetailsCubit>()
+                                            KeyManagementIssuanceDetailsCubit>()
                                         .onModelValueChange(state.model);
                                   },
                                   validateTextField: (String? user) {},
@@ -652,20 +805,26 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           users: state.emailUsers!,
                                           onTap: (BaseUser user) {
                                             BlocProvider.of<
-                                                KeyManagementIssuanceDetailsCubit>(
-                                                context)
+                                                        KeyManagementIssuanceDetailsCubit>(
+                                                    context)
                                                 .updateDropdownValues(
                                               handedOverTo: user,
                                             );
                                           },
                                           roleName:
-                                          ConstantUserRoles.atomStaticUser,
+                                              ConstantUserRoles.atomStaticUser,
                                           locationId: state.model.location!.id!,
-                                          functionToCall: () {
+                                          functionToCall: (BaseUser user) {
+                                            BlocProvider.of<
+                                                        KeyManagementIssuanceDetailsCubit>(
+                                                    context)
+                                                .updateDropdownValues(
+                                              handedOverTo: user,
+                                            );
                                             // refresh the list
                                             BlocProvider.of<
-                                                KeyManagementIssuanceDetailsCubit>(
-                                                context)
+                                                        KeyManagementIssuanceDetailsCubit>(
+                                                    context)
                                                 .refreshList();
                                           },
                                         );
@@ -699,7 +858,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                       state.model.handedOverToCwrT2 = value;
                                       context
                                           .read<
-                                          KeyManagementIssuanceDetailsCubit>()
+                                              KeyManagementIssuanceDetailsCubit>()
                                           .onModelValueChange(state.model);
                                     },
                                     validateTextField: (String? user) {},
@@ -717,8 +876,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                       isMandatory: true),
                                   TextFieldAddButton(
                                     title:
-                                    state.model.dbSponsorCwrT2?.userInfo ??
-                                        state.model.dbSponsorCwrT2?.name,
+                                        state.model.dbSponsorCwrT2?.userInfo ??
+                                            state.model.dbSponsorCwrT2?.name,
                                     height: 60,
                                     isDisableColor: !isEnabled,
                                     onTap: () {
@@ -729,20 +888,26 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           users: state.emailUsers!,
                                           onTap: (BaseUser user) {
                                             BlocProvider.of<
-                                                KeyManagementIssuanceDetailsCubit>(
-                                                context)
+                                                        KeyManagementIssuanceDetailsCubit>(
+                                                    context)
                                                 .updateDropdownValues(
                                               dbSponsorCwrT2: user,
                                             );
                                           },
                                           roleName:
-                                          ConstantUserRoles.atomStaticUser,
+                                              ConstantUserRoles.atomStaticUser,
                                           locationId: state.model.location!.id!,
-                                          functionToCall: () {
+                                          functionToCall: (BaseUser user) {
+                                            BlocProvider.of<
+                                                        KeyManagementIssuanceDetailsCubit>(
+                                                    context)
+                                                .updateDropdownValues(
+                                              dbSponsorCwrT2: user,
+                                            );
                                             // refresh the list
                                             BlocProvider.of<
-                                                KeyManagementIssuanceDetailsCubit>(
-                                                context)
+                                                        KeyManagementIssuanceDetailsCubit>(
+                                                    context)
                                                 .refreshList();
                                           },
                                         );
@@ -813,27 +978,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
-
-                                  BaseDate().datePickerWidgetLoading(
-                                    textController:
-                                    keyReturnDateAndTimeController,
-                                    isDisabled: (state.model.status != 1 &&
-                                        state.model.status != 2) ||
-                                        isReadOnly,
-                                    onlyDate: false,
-                                    showPastDate: false,
-                                    onChange: (String value) {
-                                      state.model.keyReturnDateTime =
-                                          Utils().formatTime(value);
-
-                                      BlocProvider.of<
-                                          KeyManagementIssuanceDetailsCubit>(
-                                          context)
-                                          .onModelValueChange(state.model);
-                                      //},
-                                    },
-                                    context: context,
-                                  ),
+                                  datecreateWidgetdisplay(
+                                      state.model.keyReturnDateTime ?? ''),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
 
@@ -854,20 +1000,22 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     hintText: '',
                                     // focusNode: employeeIdFocusNode,
                                     isEnable: (state.model.status == 1 ||
-                                        state.model.status == 2) &&
-                                        state.model.lock.isEmptyOrNull
+                                                state.model.status == 2 ||
+                                                isNotReturnableStatus) &&
+                                            state.model.lock.isEmptyOrNull
                                         ? true
                                         : false,
                                     isDisableColor: state.model.status != 1 &&
-                                        state.model.status != 2 &&
-                                        !state.model.lock.isEmptyOrNull
+                                            state.model.status != 2 &&
+                                            !isNotReturnableStatus &&
+                                            !state.model.lock.isEmptyOrNull
                                         ? false
                                         : true,
                                     onChange: (String value) {
                                       state.model.returnedByName = value;
                                       context
                                           .read<
-                                          KeyManagementIssuanceDetailsCubit>()
+                                              KeyManagementIssuanceDetailsCubit>()
                                           .onModelValueChange(state.model);
                                     },
                                     validateTextField: (String? user) {},
@@ -878,25 +1026,26 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
                                 /// Security Signature
                                 buildSignature(
-                                  controller: securitySignatureController,
-                                  label: state.labels?.locale.securitySign ??
-                                      state.labels?.defaultLocale
-                                          .securitySign ??
-                                      Constants.securitySignature,
-                                  spaceHeight: height,
-                                  state: state,
-                                ),
+                                    controller: securitySignatureController,
+                                    label: state.labels?.locale.securitySign ??
+                                        state.labels?.defaultLocale
+                                            .securitySign ??
+                                        Constants.securitySignature,
+                                    spaceHeight: height,
+                                    state: state,
+                                    isMandatory: true),
 
                                 /// Receiver Sign/Acceptance
                                 buildSignature(
-                                  controller: receiverSignatureController,
-                                  label: state.labels?.locale.receiverSignAcceptance ??
-                                      state.labels?.defaultLocale
-                                          .receiverSignAcceptance ??
-                                      Constants.receiverSignature,
-                                  spaceHeight: height,
-                                  state: state,
-                                ),
+                                    controller: receiverSignatureController,
+                                    label: state.labels?.locale
+                                            .receiverSignAcceptance ??
+                                        state.labels?.defaultLocale
+                                            .receiverSignAcceptance ??
+                                        Constants.receiverSignature,
+                                    spaceHeight: height,
+                                    state: state,
+                                    isMandatory: true),
 
                                 /// Key Issuance Process
                                 Container(
@@ -925,8 +1074,10 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                         ).submitForm(
                           isSaveOnly: true,
                           navigateToNextScreen: true,
-                          receiverSignatureController: receiverSignatureController,
-                          securitySignatureController: securitySignatureController,
+                          receiverSignatureController:
+                              receiverSignatureController,
+                          securitySignatureController:
+                              securitySignatureController,
                         );
                         log('----2---');
                         if (!isSaveSuccess) {
@@ -939,12 +1090,12 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                           keyManagementIssuanceProcessRecordsRoute,
                           arguments: {
                             ConstantsArgument.title:
-                            Constants.keyIssuanceProcess,
+                                Constants.keyIssuanceProcess,
                             // ConstantsArgument.id: state.model.id,
                             ConstantsArgument.parentId: state.model.id,
                             ConstantsArgument.parentStatus: state.model.status,
                             ConstantsArgument.locationId:
-                            state.model.location?.id,
+                                state.model.location?.id,
                             ConstantsArgument.isMasterKey: widget.isMasterKey,
                             ConstantsArgument.isLocked: state.model.lock,
                           },
@@ -986,7 +1137,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                 color: AppColors.backgroundWhiteColor,
                 shape: RoundedRectangleBorder(
                   borderRadius:
-                  BorderRadius.vertical(top: Radius.circular(00.0)),
+                      BorderRadius.vertical(top: Radius.circular(00.0)),
                 ),
               ),
               child: Padding(
@@ -996,11 +1147,12 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                   children: [
                     cancelButtonDisplay(),
                     if ((state.model.status == 0 ||
-                        state.model.status == 1 ||
-                        state.model.status == 2 ||
-                        state.model.status == null) &&
-                        !isReadOnly &&
-                        state.model.lock.isEmptyOrNull
+                                state.model.status == 1 ||
+                                state.model.status == 2 ||
+                                state.model.status == null ||
+                                isNotReturnableStatus) &&
+                            !isReadOnly &&
+                            state.model.lock.isEmptyOrNull
                         ? true
                         : false) ...[submitButtonDisplay()],
                   ],
@@ -1011,13 +1163,14 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
         ),
       ),
     );
-   }
+  }
 
   AbsorbPointer buildSignature({
     required SignatureController controller,
     required String label,
     required double spaceHeight,
     required KeyManagementIssuanceDetailsState state,
+    required bool isMandatory,
   }) {
     bool isEditable = false;
     bool isSigned = false;
@@ -1026,44 +1179,61 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       isSigned = state.model.receiverSign != null &&
           !state.model.receiverSign!.imageContent.isEmptyOrNull;
       isEditable = state.isReceiverSignEditable;
-    }
-    else {
+    } else {
       isSigned = state.model.securitySign != null &&
           !state.model.securitySign!.imageContent.isEmptyOrNull;
       isEditable = state.isSecuritySignatureSignEditable;
-     }
+    }
 
     log('---------');
     return AbsorbPointer(
-      absorbing: !state.model.lock.isEmptyOrNull && state.model.status != ConstantsIntValue.issuanceDraftStatus,
+      absorbing: !state.model.lock.isEmptyOrNull &&
+          state.model.status != ConstantsIntValue.issuanceDraftStatus,
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CommonWidgets.textDisplay(
-                label,
-                Styles.textStyleBlack14,
+              Row(
+                children: [
+                  CommonWidgets.textDisplay(
+                    label,
+                    Styles.textStyleBlack14,
+                  ),
+                  if (isMandatory) ...[
+                    const Text(
+                      ' *',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ],
+                ],
               ),
               Row(
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      controller.clear();
-                      if (isReceiver) {
-                        BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
-                            .makeSignEditable(receiverSign: true);
-                      }
-                      else {
-                        BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
-                            .makeSignEditable(
-                            securitySignatureSignEditable: true);
-                      }
-                    },
-                    iconSize: 20,
-                    color: Colors.grey,
-                    icon: const Icon(Icons.refresh),
-                  ),
+                  state.model.status == null ||
+                          state.model.status ==
+                              ConstantsIntValue.issuanceDraftStatus
+                      ? IconButton(
+                          onPressed: () {
+                            controller.clear();
+                            if (isReceiver) {
+                              BlocProvider.of<
+                                          KeyManagementIssuanceDetailsCubit>(
+                                      context)
+                                  .makeSignEditable(receiverSign: true);
+                            } else {
+                              BlocProvider.of<
+                                          KeyManagementIssuanceDetailsCubit>(
+                                      context)
+                                  .makeSignEditable(
+                                      securitySignatureSignEditable: true);
+                            }
+                          },
+                          iconSize: 20,
+                          color: Colors.grey,
+                          icon: const Icon(Icons.refresh),
+                        )
+                      : SizedBox.fromSize(),
                 ],
               ),
             ],
@@ -1082,20 +1252,19 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
               width: double.infinity,
               child: (!isEditable && isSigned)
                   ? Image.memory(
-                Uint8List.fromList(
-                  base64Decode(
-                    isReceiver
-                        ? state.model.receiverSign!.imageContent ?? ''
-                        : state.model.securitySign!.imageContent ??
-                        '',
-                  ),
-                ),
-                fit: BoxFit.none,
-              )
+                      Uint8List.fromList(
+                        base64Decode(
+                          isReceiver
+                              ? state.model.receiverSign!.imageContent ?? ''
+                              : state.model.securitySign!.imageContent ?? '',
+                        ),
+                      ),
+                      fit: BoxFit.none,
+                    )
                   : Signature(
-                controller: controller,
-                backgroundColor: Colors.white,
-              ),
+                      controller: controller,
+                      backgroundColor: Colors.white,
+                    ),
             ),
           ),
           CommonWidgets.verticalSpacerWidget(spaceHeight * 0.01),
@@ -1208,10 +1377,11 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-        BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
-            .submitForm(isSaveOnly: false,
+        BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context).submitForm(
+          isSaveOnly: false,
           receiverSignatureController: receiverSignatureController,
-          securitySignatureController: securitySignatureController,);
+          securitySignatureController: securitySignatureController,
+        );
       },
     );
   }

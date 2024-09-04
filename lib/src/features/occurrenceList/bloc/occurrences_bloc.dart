@@ -97,8 +97,8 @@ class OccurrencesBloc extends Bloc<OccurrencesEvent, OccurrencesState> {
       OccurrenceResponse response;
 
       response = await _services.getIncidents(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         // userId: '7',
         filters: BaseFilterModel(),
       );

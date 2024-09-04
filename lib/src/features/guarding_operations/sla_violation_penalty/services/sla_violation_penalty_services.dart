@@ -28,6 +28,8 @@ class Apis {
   static final String _deleteViolationRecordsById = '$baseUrl/deleteSlaVp';
 
   static final String _createViolationPenaltyRecord = '$baseUrl/createSlaVp?';
+
+  static final String _preCreateSvp = '$baseUrl/preCreateSvp';
 }
 
 class SLAViolationPenaltyServices {
@@ -56,15 +58,15 @@ class SLAViolationPenaltyServices {
   Future<SLAViolationPenaltyResponseModel> getGSvp({
     required String startPosition,
     required String maximumRecords,
-    int? attInfoId,
+    int? attdInfoId,
     required BaseFilterModel filters,
   }) async {
     String url =
         '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords';
 
     // Append the 'aShiftInfoId' parameter in url if it's not null
-    if (attInfoId != null) {
-      url += '&aShiftInfoId=$attInfoId';
+    if (attdInfoId != null) {
+      url += '&aShiftInfoId=$attdInfoId';
     }
     // String url =
     //     '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords&aShiftInfoId=$aShiftInfoId';
@@ -79,10 +81,10 @@ class SLAViolationPenaltyServices {
   Future<SLAViolationPenaltyResponseModel> getSvpList({
     required String startPosition,
     required String maximumRecords,
-    required int attInfoId,
+    required int attdInfoId,
   }) async {
     String url =
-        '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords&aShiftInfoId=$attInfoId';
+        '${Apis._getVP}startPos=$startPosition&maxResults=$maximumRecords&aShiftInfoId=$attdInfoId';
     var response = await BaseApiService().getRequest(
       isAuthenticated: true,
       url: url,
@@ -153,5 +155,15 @@ class SLAViolationPenaltyServices {
       requestedData: body.toJson(),
     );
     return GenericResponse.fromJson(response);
+  }
+
+  Future<SLAViolationPenaltyModel> preCreateSvp({
+    required int attdInfoId,
+  }) async {
+    final String url = '${Apis._preCreateSvp}?attdShiftInfoId=$attdInfoId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return SLAViolationPenaltyModel.fromJson(response);
   }
 }

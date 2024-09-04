@@ -1,7 +1,6 @@
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class KeyManagementMasterListView extends StatefulWidget {
   const KeyManagementMasterListView({
@@ -18,8 +17,6 @@ class _KeyManagementMasterListViewState
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -32,7 +29,6 @@ class _KeyManagementMasterListViewState
 
   @override
   void dispose() {
-    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -54,19 +50,11 @@ class _KeyManagementMasterListViewState
     }
   }
 
-  void _onRefresh() async {
+  Future<void> _onRefresh() async {
     context.read<KeyManagementMasterListBloc>().add(
           const RefreshList(),
         );
     await Future.delayed(const Duration(milliseconds: 2000));
-    refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    if (mounted) {
-      setState(() {});
-    }
-    refreshController.loadComplete();
   }
 
   @override
@@ -146,19 +134,15 @@ class _KeyManagementMasterListViewState
                         state: state, height: height, items: state.list),
 
                     Expanded(
-                      child: SmartRefresher(
-                        controller: refreshController,
-                        enablePullDown: true,
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        header: WaterDropHeader(
-                          waterDropColor: AppColors.navigationSkyBlueColor,
-                          refresh: state.status != FormStatus.loading
-                              ? const BaseLoader()
-                              : null,
-                        ),
-                        key: const Key(Keys.refreshKey),
-                        onRefresh: _onRefresh,
-                        onLoading: _onLoading,
+                      child: CustomMaterialIndicator(
+                        onRefresh: () => _onRefresh(),
+                        backgroundColor: Colors.white,
+                        indicatorBuilder: (context, controller) {
+                          return const Padding(
+                            padding: EdgeInsets.all(6.0),
+                            child: BaseLoader(),
+                          );
+                        },
                         child: ListView.builder(
                           controller: _scrollController,
                           itemCount: state.hasReachedMax
@@ -170,15 +154,37 @@ class _KeyManagementMasterListViewState
                               labels.add(Label(
                                   key: state.labels?.locale.floor ??
                                       state.labels?.defaultLocale.floor ??
-                                      'Floor',
+                                      Constants.floor,
                                   value: state.list[index].floor.toString()));
                               labels.add(Label(
                                   key: state.labels?.locale.createdBy ??
                                       state.labels?.defaultLocale.createdBy ??
-                                      'Created By',
+                                      Constants.createdby,
                                   value:
                                       '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
-
+                              labels.add(Label(
+                                  key: state.labels?.locale.createdDate ??
+                                      state.labels?.defaultLocale.createdDate ??
+                                      Constants.createdDate,
+                                  value: state.list[index].createdDate != null
+                                      ? Utils.timestampToDateConversion(
+                                          int.parse(
+                                              state.list[index].createdDate ??
+                                                  '0'),
+                                          Constants
+                                              .twentyFourHourDateTimeFormat)
+                                      : ''));
+                              labels.add(Label(
+                                  key: state.labels?.locale.noKeys ??
+                                      state.labels?.defaultLocale.noKeys ??
+                                      Constants.noOfKeys,
+                                  value: state.list[index].noKeys.toString()));
+                              labels.add(Label(
+                                  key: state.labels?.locale.noMasterKey ??
+                                      state.labels?.defaultLocale.noMasterKey ??
+                                      Constants.noOfKeys,
+                                  value: state.list[index].noMasterKey
+                                      .toString()));
                               return index >= state.list.length
                                   ? const BaseLoader()
                                   : BaseListTileItem(
@@ -202,9 +208,9 @@ class _KeyManagementMasterListViewState
                                                   .list[selectedIndex].status,
                                               keyNo: state
                                                   .list[selectedIndex].keyNo,
-                                              keyTagging: state
-                                                  .list[selectedIndex]
-                                                  .keyTagging,
+                                              // keyTagging: state
+                                              //     .list[selectedIndex]
+                                              //     .keyTagging,
                                               doorName: state
                                                   .list[selectedIndex].doorName,
                                               isKeyManagementStatus: true,
@@ -216,6 +222,13 @@ class _KeyManagementMasterListViewState
                                           },
                                         );
                                       },
+                                      showEditButton:
+                                          state.list[index].status !=
+                                                  ConstantsIntValue
+                                                      .cancelledStatus &&
+                                              state.list[index].status !=
+                                                  ConstantsIntValue
+                                                      .keyMMClosedStatus,
                                       onEditTap: (selectedIndex) {
                                         getById(
                                             state.extraProperties
@@ -223,7 +236,6 @@ class _KeyManagementMasterListViewState
                                                 false,
                                             state.list[index].id ?? 0);
                                       },
-                                      showEditButton: true,
                                       onViewTap: (selectedIndex) {
                                         showDialog(
                                           context: context,
@@ -239,9 +251,9 @@ class _KeyManagementMasterListViewState
                                                   .list[selectedIndex].status,
                                               keyNo: state
                                                   .list[selectedIndex].keyNo,
-                                              keyTagging: state
-                                                  .list[selectedIndex]
-                                                  .keyTagging,
+                                              // keyTagging: state
+                                              //     .list[selectedIndex]
+                                              //     .keyTagging,
                                               doorName: state
                                                   .list[selectedIndex].doorName,
                                               isEventProtectionStatus: false,

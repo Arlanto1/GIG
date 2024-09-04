@@ -6,7 +6,6 @@ import 'package:db_atom/src/features/event_protection/models/ep_ui_labels.dart';
 import '../../services/event_protection_services.dart';
 
 part 'event_protections_event.dart';
-
 part 'event_protections_state.dart';
 
 class EventProtectionsBloc
@@ -32,8 +31,8 @@ class EventProtectionsBloc
       EventProtectionResponse response;
 
       response = await _services.getEventProtections(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         filters: BaseFilterModel(),
       );
 

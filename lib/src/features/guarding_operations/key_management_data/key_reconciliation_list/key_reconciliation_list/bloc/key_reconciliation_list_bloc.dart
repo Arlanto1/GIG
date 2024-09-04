@@ -6,7 +6,6 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_reconciliation_list/services/key_reconciliation_list_services.dart';
 
 part 'key_reconciliation_list_event.dart';
-
 part 'key_reconciliation_list_state.dart';
 
 class KeyReconciliationListBloc
@@ -103,8 +102,8 @@ class KeyReconciliationListBloc
       KeyReconciliationListResponse response;
 
       response = await _services.getList(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         userId: '7',
         locationId: '56',
         filters: BaseFilterModel(),

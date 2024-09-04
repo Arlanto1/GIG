@@ -27,7 +27,6 @@ class ArticleFoundBloc extends Bloc<ArticleFoundStateEvent, ArticleFoundState> {
 
   FutureOr<void> _initializeValues(
       InitializeValuesAF event, Emitter<ArticleFoundState> emit) async {
-
     try {
       emit(state.copyWith(status: FormStatus.loading));
 
@@ -85,8 +84,8 @@ class ArticleFoundBloc extends Bloc<ArticleFoundStateEvent, ArticleFoundState> {
       FoundListModel response;
 
       response = await services.getFoundArticleList(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         eventId: event.eventId,
         filters: BaseFilterModel(),
       );

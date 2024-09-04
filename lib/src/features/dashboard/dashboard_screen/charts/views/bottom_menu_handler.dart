@@ -1,12 +1,12 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/dashboard/navigation_drawer/views/menu_navigation.dart';
 import 'package:db_atom/src/features/dashboard/navigation_drawer/views/menu_permissions.dart';
 
 class BottomMenuHandler {
   final BuildContext context;
   final DisplayMenu displayMenu;
-
   final double positionX;
 
   const BottomMenuHandler({
@@ -65,10 +65,10 @@ class BottomMenuHandler {
     );
   }
 
-  void _onGuardingOperationSubMenu(BuildContext context, int optionIndex) {
-    log('Selected option: $optionIndex');
-    // Navigate to the respective screen based on optionIndex
-    switch (optionIndex) {
+  void _onGuardingOperationSubMenu(BuildContext context, int index) {
+    log('Selected option: $index');
+    // Navigate to the respective screen based on index
+    switch (index) {
       case 0:
         log('contactDetailsListRoute');
         Navigator.pushNamed(context, contactDetailsListRoute);
@@ -100,22 +100,26 @@ class BottomMenuHandler {
     openSubMenu(
       context: context,
       positionX: positionX,
-      menuItems: materialMovementDrawerItems,
+      menuItems: materialMovementDrawerItemsWithReturnable,
       onOptionSelected: _onMaterialMovementSubMenu,
     );
   }
 
-  void _onMaterialMovementSubMenu(BuildContext context, int optionIndex) {
-    log('Selected option: $optionIndex');
-    // Navigate to the respective screen based on optionIndex
-    switch (optionIndex) {
+  void _onMaterialMovementSubMenu(BuildContext context, int index) {
+    log('Selected option: $index');
+    // Navigate to the respective screen based on index
+    switch (index) {
       case 0:
         Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
             arguments: {"isInward": true});
         break;
       case 1:
         Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
-            arguments: {"isInward": false});
+            arguments: {"isInward": false, "returnable": true});
+        break;
+      case 2:
+        Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
+            arguments: {"isInward": false, "returnable": false});
         break;
       default:
         log('Invalid option selected');
@@ -125,7 +129,8 @@ class BottomMenuHandler {
   /// PassManagement
   void openPassManagementSubMenu() {
     List<MenuItem> menuItems = [];
-    MenuPermissions().checkMenuPermissionsPassManagement(displayMenu, menuItems);
+    MenuPermissions()
+        .checkMenuPermissionsPassManagement(displayMenu, menuItems);
     openSubMenu(
       context: context,
       positionX: positionX,
@@ -133,38 +138,14 @@ class BottomMenuHandler {
       onOptionSelected: _onPassManagementSubMenu,
     );
   }
-  void _onPassManagementSubMenu(BuildContext context, int optionIndex) {
-    log('Selected option: $optionIndex');
-    // Navigate to the respective screen based on optionIndex
-    switch (optionIndex) {
-      case 0:
-        log('day pass management index0');
-        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
-          "passMngDetails": PassMngArguments(0, 'Day Pass Management', false)
-        });
-        break;
-      case 1:
-        log('Sez pass Management index6');
-        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
-          "passMngDetails": PassMngArguments(3, 'Sez Pass Management', false)
-        });
-        break;
-      case 2:
-        log('vendor pass management index4');
-        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
-          "passMngDetails": PassMngArguments(2, 'Vendor Pass Management', false)
-        });
-        break;
-      case 3:
-        log('visitor pass management index2');
-        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
-          "passMngDetails":
-          PassMngArguments(1, 'Visitor Pass Management', false)
-        });
-        break;
-      default:
-        break;
-    }
+
+  void _onPassManagementSubMenu(BuildContext context, int index) {
+    log('Selected option: $index');
+    // Navigate to the respective screen based on index
+    MenuNavigation().onPassManagementItemSelected(
+      context: context,
+      index: index,
+    );
   }
 
   /// Shift Scheduling
@@ -180,27 +161,35 @@ class BottomMenuHandler {
     );
   }
 
-  void _onShiftScheduleSubMenu(BuildContext context, int optionIndex) {
-    log('Selected option: $optionIndex');
-    // Navigate to the respective screen based on optionIndex
-    switch (optionIndex) {
-      case 0:
-        Navigator.pushNamed(context, attendanceListRoute);
-        break;
-      case 1:
-        Navigator.pushNamed(context, dutyPostMasterListRoute);
-        break;
-      case 2:
-        Navigator.pushNamed(context, dutyPostNameMasterListRoute);
-        break;
-      case 3:
-        Navigator.pushNamed(context, shiftScheduleListRoute);
-        break;
-      case 4:
-        Navigator.pushNamed(context, attendanceReportBillingListRoute);
-        break;
-      default:
-        break;
-    }
+  void _onShiftScheduleSubMenu(BuildContext context, int index) {
+    log('Selected option: $index');
+    // Navigate to the respective screen based on index
+    MenuNavigation().onShiftScheduleItemSelected(
+      context: context,
+      index: index,
+    );
+  }
+
+  /// Key Management Data
+  void openKeyManagementDataSubMenu() {
+    List<MenuItem> menuItems = [];
+    MenuPermissions()
+        .checkMenuPermissionsKeyManagementData(displayMenu, menuItems);
+
+    openSubMenu(
+      context: context,
+      positionX: positionX,
+      menuItems: menuItems,
+      onOptionSelected: _onKeyManagementDataSubMenu,
+    );
+  }
+
+  void _onKeyManagementDataSubMenu(BuildContext context, int index) {
+    log('Selected option: $index');
+    // Navigate to the respective screen based on index
+    MenuNavigation().onKeyManagementItemSelected(
+      context: context,
+      index: index,
+    );
   }
 }

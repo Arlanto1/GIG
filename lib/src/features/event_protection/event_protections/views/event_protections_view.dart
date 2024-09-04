@@ -2,8 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
-
 import '../bloc/event_protections_bloc.dart';
 
 class EventProtectionsView extends StatefulWidget {
@@ -19,8 +17,6 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -33,7 +29,6 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
 
   @override
   void dispose() {
-    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -71,19 +66,11 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
     }
   }
 
-  void _onRefresh() async {
+  Future<void> _onRefresh() async {
     context.read<EventProtectionsBloc>().add(
           const RefreshList(),
         );
     await Future.delayed(const Duration(milliseconds: 2000));
-    refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    if (mounted) {
-      setState(() {});
-    }
-    refreshController.loadComplete();
   }
 
   @override
@@ -157,19 +144,15 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                     UtilsCommon().showNoRecordWidget(
                         state: state, height: height, items: state.items),
                     Expanded(
-                      child: SmartRefresher(
-                        controller: refreshController,
-                        enablePullDown: true,
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        header: WaterDropHeader(
-                          waterDropColor: AppColors.navigationSkyBlueColor,
-                          refresh: state.status != FormStatus.loading
-                              ? const BaseLoader()
-                              : null,
-                        ),
-                        key: const Key(Keys.refreshKey),
-                        onRefresh: _onRefresh,
-                        onLoading: _onLoading,
+                      child: CustomMaterialIndicator(
+                        onRefresh: () => _onRefresh(),
+                        backgroundColor: Colors.white,
+                        indicatorBuilder: (context, controller) {
+                          return const Padding(
+                            padding: EdgeInsets.all(6.0),
+                            child: BaseLoader(),
+                          );
+                        },
                         child: ListView.builder(
                           controller: _scrollController,
                           itemCount: state.hasReachedMax
@@ -181,26 +164,34 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                               labels.add(Label(
                                   key: state.labels?.locale.inputDate ??
                                       state.labels?.defaultLocale.inputDate ??
-                                      'Date of Creation',
+                                      Constants.dateofcreation,
                                   value: state.items[index].inputDate != null
                                       ? Utils.timestampToDateConversion(
                                           int.parse(
                                               state.items[index].inputDate ??
                                                   '0'),
-                                          Constants.twentyFourHourDateTimeFormat)
+                                          Constants
+                                              .twentyFourHourDateTimeFormat)
                                       : ''));
+                              labels.add(Label(
+                                  key: state.labels?.locale.entrySecurity ??
+                                      state.labels?.defaultLocale
+                                          .entrySecurity ??
+                                      Constants.createdby,
+                                  value:
+                                      '${state.items[index].createdBy?.firstName ?? ''} ${state.items[index].createdBy?.lastName ?? ''}'));
                               labels.add(Label(
                                   key: state.labels?.locale.locationRegion ??
                                       state.labels?.defaultLocale
                                           .locationRegion ??
-                                      'Region',
+                                      Constants.region,
                                   value:
                                       state.items[index].locationRegion?.name ??
                                           ''));
                               labels.add(Label(
                                   key: state.labels?.locale.location ??
                                       state.labels?.defaultLocale.location ??
-                                      'Location',
+                                      Constants.location,
                                   value:
                                       state.items[index].location?.name ?? ''));
                               if (!state
@@ -209,12 +200,13 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                     key: state.labels?.locale.eventStartDate ??
                                         state.labels?.defaultLocale
                                             .eventStartDate ??
-                                        'Event Start Date',
+                                        Constants.eventStartDate,
                                     value: Utils.timestampToDateConversion(
                                         int.tryParse(
                                             state.items[index].eventStartDate ??
                                                 '0'),
-                                        Constants.twentyFourHourDateTimeFormat)));
+                                        Constants
+                                            .twentyFourHourDateTimeFormat)));
                               }
                               if (!(state
                                   .items[index].eventEndDate.isEmptyOrNull)) {
@@ -222,12 +214,13 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                     key: state.labels?.locale.eventEndDate ??
                                         state.labels?.defaultLocale
                                             .eventEndDate ??
-                                        'Event End Date',
+                                        Constants.eventEndDate,
                                     value: Utils.timestampToDateConversion(
                                         int.tryParse(
                                             state.items[index].eventEndDate ??
                                                 '0'),
-                                        Constants.twentyFourHourDateTimeFormat)));
+                                        Constants
+                                            .twentyFourHourDateTimeFormat)));
                               }
                               return index >= state.items.length
                                   ? const BaseLoader()
@@ -257,6 +250,12 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                           },
                                         );
                                       },
+                                      showEditButton: state
+                                                  .items[index].status !=
+                                              ConstantsIntValue
+                                                  .cancelledStatus &&
+                                          state.items[index].status !=
+                                              ConstantsIntValue.ePClosedStatus,
                                       onEditTap: (selectedIndex) {
                                         getById(
                                             state.extraProperties

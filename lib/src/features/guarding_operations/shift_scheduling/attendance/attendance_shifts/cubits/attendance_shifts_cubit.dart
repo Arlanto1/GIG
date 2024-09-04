@@ -55,7 +55,9 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
 
       List<Organisation> shifts =
           await services.getAttendanceShiftByByDutyPostIdAndRankId(
-              dutyPostId: selectedDutyPostNameId, attendanceId: attInfoId, rankId: selectedRank.id!);
+              dutyPostId: selectedDutyPostNameId,
+              attendanceId: attInfoId,
+              rankId: selectedRank.id!);
       Organisation selectedShift = state.selectedShift ?? shifts.first;
 
       ShiftModel model = await services.getDutyPostById(
@@ -83,18 +85,18 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       List<SlaList> slaList = [];
 
       SLAViolationPenaltyResponseModel list =
-      await SLAViolationPenaltyServices().getSvpList(
+          await SLAViolationPenaltyServices().getSvpList(
         startPosition: '0',
         maximumRecords: '100',
-        attInfoId: model.attendanceShiftId!,
+        attdInfoId: model.attendanceShiftId!,
       );
 
       // for (Rank rank in model.ranks ?? []) {
       //   for (Shift shift in rank.attendanceShift ?? []) {
       //
-          slaList.add(
-              SlaList(attInfoId: model.attendanceShiftId!, items: list.items));
-        // }
+      slaList
+          .add(SlaList(attInfoId: model.attendanceShiftId!, items: list.items));
+      // }
       // }
       // dynamic responseLabels = commonServices.getUiLabels(
       //     language: await SharedPrefs.getLanguageCode(),
@@ -131,17 +133,22 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
   Future<void> getShifts({
     required Organisation rank,
   }) async {
+    // Set selectedShift to null while loading new shifts
     emit(
       state.copyWith(
         status: FormStatus.loading,
+        shifts: null,
+        selectedShift: null, // Set selectedShift to null
       ),
     );
 
     List<Organisation> shifts =
-    await services.getAttendanceShiftByByDutyPostIdAndRankId(
-        dutyPostId: selectedDutyPostNameId, attendanceId: attInfoId, rankId: rank.id!);
+        await services.getAttendanceShiftByByDutyPostIdAndRankId(
+            dutyPostId: selectedDutyPostNameId,
+            attendanceId: attInfoId,
+            rankId: rank.id!);
 
-    Organisation selectedShift = shifts.first;
+    Organisation? selectedShift;
 
     emit(state.copyWith(
       shifts: shifts,
@@ -150,10 +157,8 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       selectedShift: selectedShift,
     ));
 
-
     // getAvailableSelectedGuardsByShift(shift: selectedShift);
   }
-
 
   Future<void> getAvailableSelectedGuardsByShift({
     required Organisation shift,
@@ -170,10 +175,25 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       rankId: state.selectedRank!.id!,
       attInfoId: attInfoId,
     );
+
+    List<SlaList> slaList = [];
+
+    SLAViolationPenaltyResponseModel list =
+        await SLAViolationPenaltyServices().getSvpList(
+      startPosition: '0',
+      maximumRecords: '100',
+      attdInfoId: model.attendanceShiftId!,
+    );
+    log('---list.items-${list.items?.length}--');
+    slaList.add(SlaList(attInfoId: attInfoId, items: list.items));
+
+    log('---slaList-${slaList.length}--');
+
     emit(state.copyWith(
       model: model,
       status: FormStatus.initial,
       selectedShift: shift,
+      shiftSlaList: slaList,
     ));
   }
 
@@ -188,8 +208,8 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-
-  Future<void> submitAndRefreshScreen({bool? checkValidations}) async {
+  Future<void> submitAndRefreshScreen(
+      {BuildContext? context, bool? checkValidations}) async {
     /// Saving the record
     await submitForm(
       isSaveOnly: true,
@@ -199,22 +219,32 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       // checkValidations: checkValidations,
     );
 
+    /// For Adding Replacement
+    log('--state.status--context-${state.status}--');
+    if (state.status != FormStatus.formError &&
+        context != null &&
+        context.mounted) {
+      Navigator.pop(context);
+    }
+
     /// refreshing the list so that we can refresh the validation for creating new replacements.
     if (state.status != FormStatus.formError) {
       initializeValues();
     }
   }
 
-
-  Future<void> updateReplacement(Replacement updatedReplacement) async {
+  Future<void> updateReplacement(
+    BuildContext context,
+    Replacement updatedReplacement,
+  ) async {
     emit(state.copyWith(status: FormStatus.loading));
 
     if (updatedReplacement.id != null) {
       log('Updating Existing Replacement');
       state.model.replacements = state.model.replacements
           ?.map((existing) => existing.id == updatedReplacement.id
-          ? updatedReplacement
-          : existing)
+              ? updatedReplacement
+              : existing)
           .toSet();
     } else {
       /// Handle new replacements
@@ -223,7 +253,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
         log('Creating/Updating new Replacement with tempId: ${updatedReplacement.tempId}');
         // Remove any existing replacement with the same tempId before adding
         state.model.replacements!.removeWhere((existingReplacement) =>
-        existingReplacement.tempId == updatedReplacement.tempId);
+            existingReplacement.tempId == updatedReplacement.tempId);
       }
       state.model.replacements!.add(updatedReplacement);
     }
@@ -234,9 +264,8 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     ));
 
     /// Saving and Refresh the record
-    await submitAndRefreshScreen(checkValidations: false);
+    await submitAndRefreshScreen(context: context, checkValidations: false);
   }
-
 
   Future<void> submitForm({bool isSaveOnly = false, FormStatus? status}) async {
     emit(
@@ -302,8 +331,8 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
 }
 
 class SlaList {
-  final int attInfoId;
+  final int? attInfoId;
   final List<SLAViolationPenaltyModel>? items;
 
-  SlaList({required this.attInfoId, required this.items});
+  SlaList({this.attInfoId, this.items});
 }

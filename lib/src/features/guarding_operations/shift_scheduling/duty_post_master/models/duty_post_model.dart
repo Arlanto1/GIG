@@ -88,7 +88,7 @@ class Rank {
 }
 
 @JsonSerializable()
-class ShiftModel {
+class ShiftModel extends BaseObject {
   String? shift;
   int? attendanceShiftId;
   int? allowed;
@@ -135,6 +135,7 @@ class ShiftModel {
     }
   }
 
+  @override
   Map<String, dynamic> toJson() => _$ShiftModelToJson(this);
 
   @override

@@ -2,13 +2,11 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:db_atom/src/features/guarding_operations/guarding_rate/models/gr_ui_labels.dart';
-import 'package:db_atom/src/services/common_services.dart';
 
 import '../../../../../../index.dart';
 import '../../services/guarding_services.dart';
 
 part 'guarding_rates_event.dart';
-
 part 'guarding_rates_state.dart';
 
 class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
@@ -34,8 +32,8 @@ class GuardingRatesBloc extends Bloc<GuardingRatesEvent, GuardingRatesState> {
       RatesResponse response;
 
       response = await _services.getRates(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         filters: BaseFilterModel(),
       );
 

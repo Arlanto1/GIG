@@ -241,9 +241,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Date of creation
                           CommonWidgets.textDisplay(
-                              // state.labels?.locale.inputDate ??
-                              //     state.labels?.defaultLocale.inputDate ??
-                              Constants.dateofcreation,
+                              state.labels?.locale.createdDate ??
+                                  state.labels?.defaultLocale.createdDate ??
+                                  Constants.createDate,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -253,9 +253,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Location
                           CommonWidgets.textDisplay(
-                              //state.labels?.locale.location ??
-                              //  state.labels?.defaultLocale.location ??
-                              Constants.location,
+                              state.labels?.locale.location ??
+                                  state.labels?.defaultLocale.location ??
+                                  Constants.location,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -275,7 +275,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Entity
                           CommonWidgets.textDisplay(
-                            Constants.entity,
+                            state.labels?.locale.entities ??
+                                state.labels?.defaultLocale.entities ??
+                                Constants.entity,
                             isMandatory: true,
                             Styles.textStyleBlack14,
                           ),
@@ -319,9 +321,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Floor
                           CommonWidgets.textDisplay(
-                              //  state.labels?.locale.guardingPOC ??
-                              // state.labels?.defaultLocale.guardingPOC ??
-                              Constants.floor,
+                              state.labels?.locale.floor ??
+                                  state.labels?.defaultLocale.floor ??
+                                  Constants.floor,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -345,9 +347,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Key Type
                           CommonWidgets.textDisplay(
-                            //state.labels?.locale.vendor ??
-                            //  state.labels?.defaultLocale.vendor ??
-                            Constants.keyType,
+                            state.labels?.locale.keyType ??
+                                state.labels?.defaultLocale.keyType ??
+                                Constants.keyType,
                             isMandatory: true,
                             Styles.textStyleBlack14,
                           ),
@@ -393,9 +395,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Key Description
                           CommonWidgets.textDisplay(
-                              //state.labels?.locale.employeeCode ??
-                              //state.labels?.defaultLocale.employeeCode ??
-                              Constants.keyDescription,
+                              state.labels?.locale.keyDescription ??
+                                  state.labels?.defaultLocale.keyDescription ??
+                                  Constants.keyDescription,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -419,10 +421,10 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Door Has Access Control
                           CommonWidgets.textDisplay(
-                              // state.labels?.locale.deploymentOrderSubmitted ??
-                              //   state.labels?.defaultLocale
-                              //     .deploymentOrderSubmitted ??
-                              Constants.doorHasAccessControl,
+                              state.labels?.locale.doorAccessControl ??
+                                  state.labels?.defaultLocale
+                                      .doorAccessControl ??
+                                  Constants.doorHasAccessControl,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           RadioButtonsYesNo(
@@ -450,10 +452,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Door Has Lock And Key Mechanism
                           CommonWidgets.textDisplay(
-                              // state.labels?.locale.deploymentOrderSubmitted ??
-                              //   state.labels?.defaultLocale
-                              //     .deploymentOrderSubmitted ??
-                              Constants.doorHasLockAndKeyMechanism,
+                              state.labels?.locale.doorLockKey ??
+                                  state.labels?.defaultLocale.doorLockKey ??
+                                  Constants.doorHasLockAndKeyMechanism,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           RadioButtonsYesNo(
@@ -480,9 +481,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Key No
                           CommonWidgets.textDisplay(
-                              //state.labels?.locale.employeeCode ??
-                              //state.labels?.defaultLocale.employeeCode ??
-                              Constants.keyNo,
+                              state.labels?.locale.keyNo ??
+                                  state.labels?.defaultLocale.keyNo ??
+                                  Constants.keyNo,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -505,9 +506,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Key Tagging Done?
                           CommonWidgets.textDisplay(
-                              //state.labels?.locale.gender ??
-                              //  state.labels?.defaultLocale.gender ??
-                              Constants.keyTaggingDone,
+                              state.labels?.locale.keyTagging ??
+                                  state.labels?.defaultLocale.keyTagging ??
+                                  Constants.keyTaggingDone,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -547,9 +548,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// No. of  Keys
                           CommonWidgets.textDisplay(
-                              //state.labels?.locale.employeeCode ??
-                              //state.labels?.defaultLocale.employeeCode ??
-                              Constants.noOfKeys,
+                              state.labels?.locale.noKeys ??
+                                  state.labels?.defaultLocale.noKeys ??
+                                  Constants.noOfKeys,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -580,9 +581,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Number of  Master Keys
                           CommonWidgets.textDisplay(
-                              //state.labels?.locale.employeeCode ??
-                              //state.labels?.defaultLocale.employeeCode ??
-                              Constants.noOfMasterKeys,
+                              state.labels?.locale.noMasterKey ??
+                                  state.labels?.defaultLocale.noMasterKey ??
+                                  Constants.noOfMasterKeys,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -613,9 +614,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// Total Keys
                           CommonWidgets.textDisplay(
-                              // state.labels?.locale.budget ??
-                              //     state.labels?.defaultLocale.budget ??
-                              Constants.totalKeys,
+                              state.labels?.locale.total ??
+                                  state.labels?.defaultLocale.total ??
+                                  Constants.totalKeys,
                               Styles.textStyleBlack14,
                               isMandatory: true),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -641,9 +642,9 @@ class _KeyManagementMasterDetailsViewState
 
                           /// How And Where The Keys Are Stored
                           CommonWidgets.textDisplay(
-                              //state.labels?.locale.employeeCode ??
-                              //state.labels?.defaultLocale.employeeCode ??
-                              Constants.howAndWhereTheKeysAreStored,
+                              state.labels?.locale.keysStored ??
+                                  state.labels?.defaultLocale.keysStored ??
+                                  Constants.howAndWhereTheKeysAreStored,
                               isMandatory: true,
                               Styles.textStyleBlack14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -667,9 +668,9 @@ class _KeyManagementMasterDetailsViewState
                           if (widget.model?.id != null) ...[
                             /// Modified Date
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.date ??
-                              //     state.labels?.defaultLocale.date ??
-                              Constants.modifiedOn,
+                              state.labels?.locale.modifiedDate ??
+                                  state.labels?.defaultLocale.modifiedDate ??
+                                  Constants.modifiedOn,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -680,20 +681,20 @@ class _KeyManagementMasterDetailsViewState
 
                             /// Modified By
                             CommonWidgets.horizentaltextHandling(
-                                // state.labels?.locale.entrySecurity ??
-                                //     state.labels?.defaultLocale.entrySecurity ??
-                                Constants.modifiedBy,
+                                state.labels?.locale.modifiedBy ??
+                                    state.labels?.defaultLocale.modifiedBy ??
+                                    Constants.modifiedBy,
                                 isMandatory: true,
                                 '${state.model.modifiedBy}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// No. keys issued
                             CommonWidgets.horizentaltextHandling(
-                                // state.labels?.locale.entrySecurity ??
-                                //     state.labels?.defaultLocale.entrySecurity ??
-                                Constants.noKeysIssued,
+                                state.labels?.locale.noKeysIssued ??
+                                    state.labels?.defaultLocale.noKeysIssued ??
+                                    Constants.noKeysIssued,
                                 isMandatory: true,
-                                ' ${state.model.noKeysIssued??''}'),
+                                ' ${state.model.noKeysIssued ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Keys Available
@@ -701,7 +702,7 @@ class _KeyManagementMasterDetailsViewState
                                 state.labels?.locale.available ??
                                     state.labels?.defaultLocale.available ??
                                     Constants.noOfKeysAvailable,
-                                '${state.model.available??''}'),
+                                '${state.model.available ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Keys Returned
@@ -709,7 +710,7 @@ class _KeyManagementMasterDetailsViewState
                                 state.labels?.locale.returned ??
                                     state.labels?.defaultLocale.returned ??
                                     Constants.noOfKeysReturned,
-                                '${state.model.returned??''}'),
+                                '${state.model.returned ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Keys not Returned
@@ -717,7 +718,7 @@ class _KeyManagementMasterDetailsViewState
                                 state.labels?.locale.notReturned ??
                                     state.labels?.defaultLocale.notReturned ??
                                     Constants.noOfKeysNotReturned,
-                                '${state.model.notReturned??''}'),
+                                '${state.model.notReturned ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Keys Lost
@@ -725,7 +726,7 @@ class _KeyManagementMasterDetailsViewState
                                 state.labels?.locale.lost ??
                                     state.labels?.defaultLocale.lost ??
                                     Constants.noOfKeysLost,
-                                '${state.model.lost??''}'),
+                                '${state.model.lost ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Keys Damaged
@@ -733,7 +734,7 @@ class _KeyManagementMasterDetailsViewState
                                 state.labels?.locale.damaged ??
                                     state.labels?.defaultLocale.damaged ??
                                     Constants.noOfKeysDamaged,
-                                '${state.model.damaged??''}'),
+                                '${state.model.damaged ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Master Keys Issued
@@ -742,7 +743,7 @@ class _KeyManagementMasterDetailsViewState
                                     state.labels?.defaultLocale
                                         .noKeysIssuedMaster ??
                                     Constants.noOfMasterKeysIssued,
-                                '${state.model.noKeysIssuedMaster??''}'),
+                                '${state.model.noKeysIssuedMaster ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Master Keys Available
@@ -751,7 +752,7 @@ class _KeyManagementMasterDetailsViewState
                                     state.labels?.defaultLocale
                                         .availableMaster ??
                                     Constants.noOfMasterKeysAvailable,
-                                '${state.model.availableMaster??''}'),
+                                '${state.model.availableMaster ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Master Keys Returned
@@ -760,7 +761,7 @@ class _KeyManagementMasterDetailsViewState
                                     state
                                         .labels?.defaultLocale.returnedMaster ??
                                     Constants.noOfMasterKeysReturned,
-                                '${state.model.returnedMaster??''}'),
+                                '${state.model.returnedMaster ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Master Keys Not Returned
@@ -769,7 +770,7 @@ class _KeyManagementMasterDetailsViewState
                                     state.labels?.defaultLocale
                                         .notReturnedMaster ??
                                     Constants.noOfMasterKeysNotReturned,
-                                '${state.model.notReturnedMaster??''}'),
+                                '${state.model.notReturnedMaster ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Master Keys Lost
@@ -777,7 +778,7 @@ class _KeyManagementMasterDetailsViewState
                                 state.labels?.locale.lostMaster ??
                                     state.labels?.defaultLocale.lostMaster ??
                                     Constants.noOfMasterKeysLost,
-                                '${state.model.lostMaster??''}'),
+                                '${state.model.lostMaster ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Number of Master Keys Damaged
@@ -785,7 +786,7 @@ class _KeyManagementMasterDetailsViewState
                                 state.labels?.locale.damagedMaster ??
                                     state.labels?.defaultLocale.damagedMaster ??
                                     Constants.noOfMasterKeysDamaged,
-                                '${state.model.damagedMaster??''}'),
+                                '${state.model.damagedMaster ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ],
 
@@ -825,7 +826,7 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.title:
                                         Constants.lockChangeHistory,
                                     ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.type:
+                                    ConstantsArgument.keyLostType:
                                         ConstantsIntValue.lockChangeHistoryInt,
                                     ConstantsArgument.isLocked:
                                         state.model.lock,
@@ -857,7 +858,7 @@ class _KeyManagementMasterDetailsViewState
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            ///Key Lost History
+                            /// Key Lost History
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -889,25 +890,25 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.title:
                                         Constants.keyLostHistory,
                                     ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.type:
+                                    ConstantsArgument.keyLostType:
                                         ConstantsIntValue.keyLostHistoryInt,
                                     ConstantsArgument.isLocked:
                                         state.model.lock,
                                   },
                                 );
                               },
-                              child: Row(
+                              child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                    colorFilter: const ColorFilter.mode(
-                                      AppColors.navigationSkyBlueColor,
-                                      BlendMode.srcIn,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Text(
+                                  // SvgPicture.asset(
+                                  //   AppIcon.pluscircle,
+                                  //   colorFilter: const ColorFilter.mode(
+                                  //     AppColors.navigationSkyBlueColor,
+                                  //     BlendMode.srcIn,
+                                  //   ),
+                                  // ),
+                                  // SizedBox(width: 35),
+                                  Text(
                                     'View Key Lost History(S)',
                                     style: TextStyle(
                                       color: AppColors.navigationSkyBlueColor,
@@ -919,7 +920,7 @@ class _KeyManagementMasterDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            ///Key Damage History
+                            /// Key Damage History
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
@@ -953,25 +954,25 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.title:
                                         Constants.keyDamageHistory,
                                     ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.type:
+                                    ConstantsArgument.keyLostType:
                                         ConstantsIntValue.keyDamageHistoryInt,
                                     ConstantsArgument.isLocked:
                                         state.model.lock,
                                   },
                                 );
                               },
-                              child: Row(
+                              child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                    colorFilter: const ColorFilter.mode(
-                                      AppColors.navigationSkyBlueColor,
-                                      BlendMode.srcIn,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Text(
+                                  // SvgPicture.asset(
+                                  //   AppIcon.pluscircle,
+                                  //   colorFilter: const ColorFilter.mode(
+                                  //     AppColors.navigationSkyBlueColor,
+                                  //     BlendMode.srcIn,
+                                  //   ),
+                                  // ),
+                                  // SizedBox(width: 35),
+                                  Text(
                                     'View Key Damage History(S)',
                                     style: TextStyle(
                                       color: AppColors.navigationSkyBlueColor,
@@ -1014,7 +1015,7 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.title:
                                         Constants.keyDestroyHistory,
                                     ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.type:
+                                    ConstantsArgument.keyLostType:
                                         ConstantsIntValue.keyDestroyHistoryInt,
                                     ConstantsArgument.isLocked:
                                         state.model.lock,

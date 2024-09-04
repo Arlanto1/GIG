@@ -17,7 +17,11 @@ class Apis {
 
   static final String _getBriefingPoints = '$baseUrl/getBriefingPoints';
 
-  static final String _create = '$baseUrl/updateAttendance?';
+  static final String _createAttendanceGi = '$baseUrl/attendanceGi?';
+  static final String _updateAttendance = '$baseUrl/updateAttendance?';
+
+  static final String _getAttAvailableGuardsByDate =
+      '$baseUrl/getAttAvailableGuardsByDate';
 }
 
 class AttendanceServices {
@@ -88,11 +92,11 @@ class AttendanceServices {
     return ShiftModel.fromJson(response);
   }
 
-  Future<GenericResponse> create({
+  Future<GenericResponse> createAttendanceGi({
     required AttendanceRequest body,
     required bool isSubmit,
   }) async {
-    final String url = "${Apis._create}&isSubmit=$isSubmit";
+    final String url = "${Apis._createAttendanceGi}&isSubmit=$isSubmit";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),
@@ -104,7 +108,7 @@ class AttendanceServices {
     required AttendanceShiftDutyPostRequest body,
     required bool isSubmit,
   }) async {
-    final String url = "${Apis._create}&isSubmit=$isSubmit";
+    final String url = "${Apis._updateAttendance}&isSubmit=$isSubmit";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),
@@ -141,5 +145,20 @@ class AttendanceServices {
 
     return List<Organisation>.from(
         response.map((x) => Organisation.fromJson(x)));
+  }
+
+  Future<List<BaseUser>> getAttAvailableGuardsByDate({
+    required int dutyPostId,
+    required int rankId,
+    required int shiftId,
+    required String fromDate,
+  }) async {
+    String url =
+        '${Apis._getAttAvailableGuardsByDate}/$dutyPostId?rankId=$rankId&fromDate=$fromDate&shiftId=$shiftId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return List<BaseUser>.from(response.map((x) => BaseUser.fromJson(x)));
   }
 }

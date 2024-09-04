@@ -2,8 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
-
 import '../bloc/contact_details_list_bloc.dart';
 
 class ContactDetailsListView extends StatefulWidget {
@@ -19,8 +17,6 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -33,7 +29,6 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
 
   @override
   void dispose() {
-    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -75,19 +70,11 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
   //
   // }
 
-  void _onRefresh() async {
+  Future<void> _onRefresh() async {
     context.read<ContactDetailsListBloc>().add(
           const RefreshList(),
         );
     await Future.delayed(const Duration(milliseconds: 2000));
-    refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    if (mounted) {
-      setState(() {});
-    }
-    refreshController.loadComplete();
   }
 
   @override
@@ -174,19 +161,15 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                     UtilsCommon().showNoRecordWidget(
                         state: state, height: height, items: state.items),
                     Expanded(
-                      child: SmartRefresher(
-                        controller: refreshController,
-                        enablePullDown: true,
-                        physics: const BouncingScrollPhysics(),
-                        header: WaterDropHeader(
-                          waterDropColor: AppColors.navigationSkyBlueColor,
-                          refresh: state.status != FormStatus.loading
-                              ? const BaseLoader()
-                              : null,
-                        ),
-                        key: const Key(Keys.refreshKey),
-                        onRefresh: _onRefresh,
-                        onLoading: _onLoading,
+                      child: CustomMaterialIndicator(
+                        onRefresh: () => _onRefresh(),
+                        backgroundColor: Colors.white,
+                        indicatorBuilder: (context, controller) {
+                          return const Padding(
+                            padding: EdgeInsets.all(6.0),
+                            child: BaseLoader(),
+                          );
+                        },
                         child: ListView.builder(
                           controller: _scrollController,
                           itemCount: state.hasReachedMax
@@ -199,26 +182,26 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                                   key: state.labels?.locale.entrySecurity ??
                                       state.labels?.defaultLocale
                                           .entrySecurity ??
-                                      'Created By',
+                                      Constants.createdby,
                                   value:
                                       '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
                               labels.add(Label(
                                   key: state.labels?.locale.locationRegion ??
                                       state.labels?.defaultLocale
                                           .locationRegion ??
-                                      'Region',
+                                      Constants.region,
                                   value:
                                       state.items[index].locationRegion?.name ??
                                           ''));
                               labels.add(Label(
                                   key: state.labels?.locale.slNo ??
                                       state.labels?.defaultLocale.slNo ??
-                                      'SL No',
+                                      Constants.slno,
                                   value: state.items[index].slNo ?? ''));
                               labels.add(Label(
                                   key: state.labels?.locale.location ??
                                       state.labels?.defaultLocale.location ??
-                                      'Location',
+                                      Constants.location,
                                   value:
                                       state.items[index].location?.name ?? ''));
                               return index >= state.items.length
@@ -247,6 +230,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                                           },
                                         );
                                       },
+                                      showEditButton: false,
                                       onEditTap: (selectedIndex) {
                                         getById(
                                             state.extraProperties

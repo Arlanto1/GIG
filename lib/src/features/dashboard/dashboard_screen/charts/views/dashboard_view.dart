@@ -45,6 +45,21 @@ class DashboardViewState extends State<DashboardView>
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  bool isToggled = false;
+
+  void _onToggleChanged(bool value) async {
+    setState(() {
+      isToggled = value;
+    });
+    await setLogsToggle(value);
+  }
+
+  static Future<void> setLogsToggle(bool value) async {
+    // Call the provided function
+    // instance.setBool(Constants.logsToggle, value);
+    SharedPrefs.setLogsToggle(value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ChartsCubit, ChartsState>(
@@ -69,6 +84,16 @@ class DashboardViewState extends State<DashboardView>
             isTitleCenter: false,
             title: Constants.dashboard,
             action: [
+              if (Environment().config.apiHost.contains('api.qa.')) ...[
+                const Text(
+                  'Logs',
+                  style: TextStyle(color: AppColors.white),
+                ),
+                Switch(
+                  value: isToggled,
+                  onChanged: _onToggleChanged,
+                ),
+              ],
               // GestureDetector(
               //   onTap: () {
               //     showDialog(
@@ -188,8 +213,8 @@ class DashboardViewState extends State<DashboardView>
         title: Constants.logout,
         message: Constants.logoutValidation,
         onPositivePressed: () {
-          Validator.logoutAction(context);
           CommonServices().unlock();
+          Validator.logoutAction(context);
         },
         positiveBtnText: Constants.yes,
         negativeBtnText: Constants.no);

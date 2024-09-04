@@ -54,10 +54,6 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
 
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
-
-      Analyst users =
-          await commonServices.getUsersByRole(roleName: 'T1_Analyst');
-
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
@@ -97,7 +93,6 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
-          users: users.t1Analyst,
           labels: labels,
         ),
       );

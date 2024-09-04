@@ -4,7 +4,6 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
 
 part 'guarding_master_data_event.dart';
-
 part 'guarding_master_data_state.dart';
 
 class GuardingMasterDataBloc
@@ -83,8 +82,8 @@ class GuardingMasterDataBloc
       GuardingMasterDataResponse response;
 
       response = await _services.getGuardingMasterData(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         // locationId: '56',
         filters: BaseFilterModel(),
       );

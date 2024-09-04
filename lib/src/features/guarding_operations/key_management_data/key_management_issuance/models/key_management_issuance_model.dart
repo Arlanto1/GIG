@@ -129,7 +129,7 @@ class KeyManagementIssuanceModel {
   User? createdBy;
   int? keyHandingOverDuration;
   String? keyHandOverDate;
-  dynamic keyHandOverDue;
+  String? keyHandOverDue;
   int? employeeType;
   dynamic handedOverTo;
   dynamic handedOverToCwrT2;
@@ -137,7 +137,7 @@ class KeyManagementIssuanceModel {
   String? employeeID;
   dynamic department;
   ImageContent? receiverSign;
-  dynamic keyReturnDateTime;
+  String? keyReturnDateTime;
   String? returnedByName;
   ImageContent? securitySign;
   String? createdDate;
@@ -210,10 +210,16 @@ class KeyManagementIssuanceModel {
         department = (json['department'] as Map<String, dynamic>?) != null
             ? Organisation.fromJson(json['department'] as Map<String, dynamic>)
             : null,
-        receiverSign = json['receiverSign'] as ImageContent?,
+        receiverSign = json['receiverSign'] == null
+            ? null
+            : ImageContent.fromJson(
+                json['receiverSign'] as Map<String, dynamic>),
         keyReturnDateTime = json['keyReturnDateTime'] as String?,
         returnedByName = json['returnedByName'] as String?,
-        securitySign = json['securitySign'] as ImageContent?,
+        securitySign = json['securitySign'] == null
+            ? null
+            : ImageContent.fromJson(
+                json['securitySign'] as Map<String, dynamic>),
         createdDate = json['createdDate'] as String?,
         modifiedDate = json['modifiedDate'] as String?,
         modifiedBy = json['modifiedBy'] as String?,
@@ -244,10 +250,10 @@ class KeyManagementIssuanceModel {
         'dbSponsorCwrT2': dbSponsorCwrT2,
         'employeeID': employeeID,
         'department': department?.toJson(),
-        'receiverSign': receiverSign,
+        'receiverSign': receiverSign?.toJson(),
         'keyReturnDateTime': keyReturnDateTime,
         'returnedByName': returnedByName,
-        'securitySign': securitySign,
+        'securitySign': securitySign?.toJson(),
         'createdDate': createdDate,
         'entities': entities,
         'modifiedDate': modifiedDate,

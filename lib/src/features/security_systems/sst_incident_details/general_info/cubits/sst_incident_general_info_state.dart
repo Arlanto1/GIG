@@ -68,7 +68,7 @@ class SstIncidentGeneralInfoState extends Equatable {
       entrySecurities: entrySecurities,
       loggedInUserDetails: loggedInUserDetails,
       rejectionComment: rejectionComment,
-        activityNotes:activityNotes,
+      activityNotes: activityNotes,
     );
   }
 
@@ -199,7 +199,6 @@ class SstIncidentGeneralInfoState extends Equatable {
     List<User>? entrySecurities,
     String? rejectionComment,
     String? activityNotes,
-
   }) {
     return SstIncidentGeneralInfoState(
       status: status ?? this.status,
@@ -222,7 +221,7 @@ class SstIncidentGeneralInfoState extends Equatable {
       additionalAttachments:
           additionalAttachments ?? this.additionalAttachments,
       rejectionComment: rejectionComment ?? this.rejectionComment,
-        activityNotes:activityNotes?? this.activityNotes,
+      activityNotes: activityNotes ?? this.activityNotes,
     );
   }
 }

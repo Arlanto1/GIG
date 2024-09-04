@@ -2,7 +2,6 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/models/key_loss_destruction_list_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/services/key_loss_destruction_list_services.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class KeyLossDestructionListView extends StatefulWidget {
   const KeyLossDestructionListView({
@@ -19,8 +18,6 @@ class _KeyLossDestructionListViewState
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
-  RefreshController refreshController =
-      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
@@ -33,7 +30,6 @@ class _KeyLossDestructionListViewState
 
   @override
   void dispose() {
-    refreshController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -54,19 +50,11 @@ class _KeyLossDestructionListViewState
     }
   }
 
-  void _onRefresh() async {
+  Future<void> _onRefresh() async {
     context.read<KeyLossDestructionListBloc>().add(
           const RefreshList(),
         );
     await Future.delayed(const Duration(milliseconds: 2000));
-    refreshController.refreshCompleted();
-  }
-
-  void _onLoading() async {
-    if (mounted) {
-      setState(() {});
-    }
-    refreshController.loadComplete();
   }
 
   @override
@@ -138,19 +126,15 @@ class _KeyLossDestructionListViewState
                   UtilsCommon().showNoRecordWidget(
                       state: state, height: height, items: state.list),
                   Expanded(
-                    child: SmartRefresher(
-                      controller: refreshController,
-                      enablePullDown: true,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      header: WaterDropHeader(
-                        waterDropColor: AppColors.navigationSkyBlueColor,
-                        refresh: state.status != FormStatus.loading
-                            ? const BaseLoader()
-                            : null,
-                      ),
-                      key: const Key(Keys.refreshKey),
-                      onRefresh: _onRefresh,
-                      onLoading: _onLoading,
+                    child: CustomMaterialIndicator(
+                      onRefresh: () => _onRefresh(),
+                      backgroundColor: Colors.white,
+                      indicatorBuilder: (context, controller) {
+                        return const Padding(
+                          padding: EdgeInsets.all(6.0),
+                          child: BaseLoader(),
+                        );
+                      },
                       child: ListView.builder(
                         controller: _scrollController,
                         itemCount: state.hasReachedMax
@@ -160,10 +144,9 @@ class _KeyLossDestructionListViewState
                           List<Label> labels = [];
                           if (index < state.list.length) {
                             labels.add(Label(
-                                key:
-                                    // state.labels?.locale.reg ??
-                                    //  state.labels?.defaultLocale.locationRegion ??
-                                    'Created Date',
+                                key: state.labels?.locale.createdDate ??
+                                    state.labels?.defaultLocale.createdDate ??
+                                    Constants.createDate,
                                 value: state.list[index].createdDate != null
                                     ? Utils.timestampToDateConversion(
                                         int.parse(
@@ -174,7 +157,7 @@ class _KeyLossDestructionListViewState
                             labels.add(Label(
                                 key: state.labels?.locale.createdBy ??
                                     state.labels?.defaultLocale.createdBy ??
-                                    'Created By',
+                                    Constants.createdby,
                                 value:
                                     '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
                             return index >= state.list.length
@@ -219,7 +202,12 @@ class _KeyLossDestructionListViewState
                                               false,
                                           state.list[index].id ?? 0);
                                     },
-                                    showEditButton: true,
+                                    showEditButton: state
+                                                .list[index].status !=
+                                            ConstantsIntValue
+                                                .keyLossClosedStatus &&
+                                        state.list[index].status !=
+                                            ConstantsIntValue.cancelledStatus,
                                     onViewTap: (selectedIndex) {
                                       showDialog(
                                         context: context,

@@ -26,6 +26,8 @@ class Apis {
   static final String _saveSelectedGuards = '$baseUrl/saveSelectedGuards?';
   static final String _getNextAvailableReplacementDates =
       '$baseUrl/getNextAvailableReplacementDates';
+  static final String _getAvailableGuardsByDate =
+      '$baseUrl/getAvailableGuardsByDate';
 }
 
 class ShiftScheduleServices {
@@ -206,6 +208,22 @@ class ShiftScheduleServices {
     );
 
     return NextAvailableDateRange.fromJson(response);
+  }
+
+  Future<List<BaseUser>> getAvailableGuardsByDate({
+    required int dutyPostId,
+    required int rankId,
+    required int shiftId,
+    required String fromDate,
+    required String toDate,
+  }) async {
+    String url =
+        '${Apis._getAvailableGuardsByDate}/$dutyPostId?rankId=$rankId&shiftId=$shiftId&fromDate=$fromDate&toDate=$toDate';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return List<BaseUser>.from(response.map((x) => BaseUser.fromJson(x)));
   }
 
   Future<GenericResponse> saveSelectedGuards({

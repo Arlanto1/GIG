@@ -84,7 +84,8 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
               ConstantsArgument.vendor: state.model.vendor,
               ConstantsArgument.selectedDutyPostModel:
                   state.selectedDutyPostModel,
-              ConstantsArgument.isReadOnly: isReadOnly
+              ConstantsArgument.isReadOnly: isReadOnly,
+              ConstantsArgument.isEligibleToEdit: state.model.isEligibleToEdit
             },
           );
         }
@@ -96,14 +97,23 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
         if (state.model.status == null) {
           isReadOnly = false;
         }
-        if (state.model.status == 0) {
-          isReadOnly = true;
-        }
+
+        // if (state.model.status == 0) {
+        //   isReadOnly = true;
+        // }
         // if (widget.extraProperties != null &&
         //     !widget.extraProperties!.hasWritePermission!) {
         //   isReadOnly = true;
         // }
         if (state.model.status == ConstantsIntValue.cancelledStatus) {
+          isReadOnly = true;
+        }
+        if (!state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
+
+        log('isEligible -----  ${!state.model.isEligibleToEdit}');
+        if (!state.model.isEligibleToEdit) {
           isReadOnly = true;
         }
         initializeDates();
@@ -112,8 +122,8 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
             context: context,
             title: Constants.attendanceDetails,
             showPopUp: false,
-            showSubmitButton: isReadOnly ? false : true,
-            showSaveButton: isReadOnly ? false : true,
+            showSubmitButton: !isReadOnly,
+            showSaveButton: !isReadOnly,
             showDisLikeButton: false,
             showLikeButton: false,
             pdfAPIName:
@@ -239,9 +249,9 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
-                                // state.labels?.locale.inputDate ??
-                                //     state.labels?.defaultLocale.inputDate ??
-                                Constants.date,
+                                state.labels?.locale.inputDate ??
+                                    state.labels?.defaultLocale.inputDate ??
+                                    Constants.date,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -251,9 +261,9 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
 
                             /// Location
                             CommonWidgets.textDisplay(
-                                //state.labels?.locale.location ??
-                                //  state.labels?.defaultLocale.location ??
-                                Constants.location,
+                                state.labels?.locale.location ??
+                                    state.labels?.defaultLocale.location ??
+                                    Constants.location,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -315,9 +325,9 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
 
                             /// Duty Type
                             CommonWidgets.textDisplay(
-                                // state.labels?.locale.guardRank ??
-                                //    state.labels?.defaultLocale.guardRank ??
-                                Constants.dutyType,
+                                state.labels?.locale.dutyType ??
+                                    state.labels?.defaultLocale.dutyType ??
+                                    Constants.dutyType,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -365,7 +375,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled: state.model.status == -1,
+                                isDisabled: state.model.status != null,
                                 textController: attendanceTypeController,
                                 items: attendanceTypeDropDownValues,
                                 initialValue:

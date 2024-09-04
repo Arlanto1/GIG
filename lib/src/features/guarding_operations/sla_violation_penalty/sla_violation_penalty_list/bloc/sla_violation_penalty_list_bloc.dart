@@ -85,8 +85,8 @@ class SLAViolationPenaltyListBloc
       SLAViolationPenaltyResponseModel response;
 
       response = await services.getGSvp(
-        startPosition: '${0}',
-        maximumRecords: '${20}',
+        startPosition: '0',
+        maximumRecords: '20',
         filters: BaseFilterModel(),
       );
 

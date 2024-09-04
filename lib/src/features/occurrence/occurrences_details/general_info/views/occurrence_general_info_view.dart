@@ -291,7 +291,12 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                         roleName: ConstantUserRoles
                                             .atomGuardingStaffUser,
                                         locationId: state.model.location!.id!,
-                                        functionToCall: () {
+                                        functionToCall: (BaseUser user) {
+                                          BlocProvider.of<
+                                                      OccurrenceGeneralInfoCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  shiftTakenOverBy: user);
                                           // refresh the list
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
@@ -1808,12 +1813,14 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
       selectedStartDate = powerFailure.powerFailureStartDate;
       DateTime fromDate = DateTime.now();
 
-
       if (!selectedStartDate.isEmptyOrNull) {
         RegExp spaceOrSpecialCharRegExp = RegExp(r'[ \\\W]');
         // Check if the string contains spaces or special characters
         String timestamp = Utils().formatTime(selectedStartDate ?? '');
-        int timestampInt = int.parse(spaceOrSpecialCharRegExp.hasMatch(selectedStartDate??'')? timestamp:selectedStartDate??'');
+        int timestampInt = int.parse(
+            spaceOrSpecialCharRegExp.hasMatch(selectedStartDate ?? '')
+                ? timestamp
+                : selectedStartDate ?? '');
         fromDate = DateTime.fromMillisecondsSinceEpoch(timestampInt * 1000);
         DateTime newDateTime = fromDate.add(const Duration(days: 1));
         afterTwoDays = newDateTime.toString();

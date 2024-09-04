@@ -230,9 +230,8 @@ class KeyManagementIssuanceDetailsState extends Equatable {
       emailUsers: emailUsers ?? this.emailUsers,
       labels: labels ?? this.labels,
       isReceiverSignEditable:
-      isReceiverSignEditable ?? this.isReceiverSignEditable,
-      isSecuritySignatureSignEditable:
-      isSecuritySignatureSignEditable ??
+          isReceiverSignEditable ?? this.isReceiverSignEditable,
+      isSecuritySignatureSignEditable: isSecuritySignatureSignEditable ??
           this.isSecuritySignatureSignEditable,
     );
   }
