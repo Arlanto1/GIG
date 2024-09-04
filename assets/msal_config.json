@@ -9,7 +9,7 @@
     }
   ],
   "broker_redirect_uri_registered": true,
-  "authorization_user_agent": "WEBVIEW",
+  "authorization_user_agent": "DEFAULT",
   "minimum_required_broker_protocol_version": "3.0",
   "multiple_clouds_supported": false,
   "redirect_uri": "msauth://com.arlanto.atomedge/%2B3vXNEvHgIj0mgMdygQMfRjiAy4%3D",
