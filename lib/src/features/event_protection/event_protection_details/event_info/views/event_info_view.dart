@@ -63,13 +63,33 @@ class _EventInfoViewState extends State<EventInfoView> {
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
-        if (state.status == FormStatus.success) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text('${state.message}')));
-          Navigator.pop(context);
-          Navigator.pop(context);
-        }
+        // if (state.status == FormStatus.success) {
+        //   ScaffoldMessenger.of(context)
+        //       .showSnackBar(SnackBar(content: Text('${state.message}')));
+        //   Navigator.pop(context);
+        //   Navigator.pop(context);
+        // }
 
+        if (state.status == FormStatus.success) {
+          var dialog = CustomAlertDialog(
+            title: 'Event Protection',
+            message: state.message ?? '',
+            positiveBtnText: Constants.ok,
+            onPositivePressed: () {
+              // TODO: Need to improve this code
+              Navigator.pop(context);
+              Navigator.pop(context);
+              // Navigator.popAndPushNamed(
+              //   context,
+              //   keyManagementIssuanceListRoute,
+              // );
+            },
+          );
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) => dialog);
+        }
         if (state.status == FormStatus.addArticleFound) {
           Navigator.pop(context);
           Navigator.pushNamed(
@@ -592,63 +612,62 @@ class _EventInfoViewState extends State<EventInfoView> {
     final exampleCubit = context.read<EventInfoCubit>();
     showDialog(
       context: context,
-      builder: (context) {
+      builder: (dialogContext) {
         return BlocProvider<EventInfoCubit>.value(
           value: exampleCubit,
           child: BlocBuilder<EventInfoCubit, EventInfoState>(
             builder: (context, state) {
+              var height = MediaQuery.of(dialogContext).size.height;
+              var width = MediaQuery.of(dialogContext).size.width;
               return AlertDialog(
                 backgroundColor: AppColors.backgroundWhiteColor,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                content: Builder(
-                  builder: (context) {
-                    var height = MediaQuery.of(context).size.height;
-                    var width = MediaQuery.of(context).size.width;
-                    return SizedBox(
-                      height: height * 0.19,
-                      width: width,
-                      child: Center(
-                        child: Column(
-                          children: [
-                            CommonWidgets.textDisplay(
-                                Constants.additionalEmails,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              lineHeight: 1,
-                              controller: addEmailController,
-                              textFormKey: Keys.equipmentNoKey,
-                              hintText: '',
-                              isEnable: showSaveButtons,
-                              isDisableColor: false,
-                              onChange: (String value) {},
-                              validateTextField: (String value) {},
-                            ),
-                            if (state.status == FormStatus.invalidEmail) ...[
-                              const Text(
-                                'Please enter valid email',
-                                style: TextStyle(color: Colors.red),
-                              )
-                            ],
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            const Spacer(),
-                            submitButtonDisplay(
-                              onTap: () {
-                                BlocProvider.of<EventInfoCubit>(this.context)
-                                    .onAddEmail(addEmailController.text);
-                                if (EmailValidator.validate(
-                                    addEmailController.text)) {
-                                  addEmailController.clear();
-                                  Navigator.pop(context);
-                                }
-                              },
-                            ),
-                          ],
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                content: SizedBox(
+                  height: height * 0.19,
+                  width: width,
+                  child: Center(
+                    child: Column(
+                      children: [
+                        CommonWidgets.textDisplay(
+                          Constants.additionalEmails,
+                          Styles.textStyleBlack14,
                         ),
-                      ),
-                    );
-                  },
+                        CommonWidgets.verticalSpacerWidget(height * 0.001),
+                        FlutterInputField(
+                          lineHeight: 1,
+                          controller: addEmailController,
+                          textFormKey: Keys.equipmentNoKey,
+                          hintText: '',
+                          isEnable: showSaveButtons,
+                          isDisableColor: false,
+                          onChange: (String value) {},
+                          validateTextField: (String value) {},
+                        ),
+                        if (state.status == FormStatus.invalidEmail) ...[
+                          const Text(
+                            'Please enter a valid email',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ],
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        const Spacer(),
+                        submitButtonDisplay(
+                          onTap: () {
+                            // Access the context here for BlocProvider
+                            BlocProvider.of<EventInfoCubit>(this.context)
+                                .onAddEmail(addEmailController.text);
+                            if (EmailValidator.validate(
+                                addEmailController.text)) {
+                              addEmailController.clear();
+                              Navigator.pop(dialogContext);
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               );
             },
