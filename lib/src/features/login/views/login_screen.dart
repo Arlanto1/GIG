@@ -282,6 +282,7 @@ class _LoginState extends State<Login> {
                                 onPressed: () async {
                                   final MsalUser? user =
                                       await WebSsoMsalHandler().getToken();
+                                  log('-user-${user?.accessToken}-');
                                   UtilsCommon().logCustomEvent(
                                       msg: 'Login via SSO',
                                       customKey: 'LOGIN_SSO'

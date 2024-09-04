@@ -31,17 +31,6 @@ class WebSsoMsalHandler {
     );
   }
 
-  // Future<MsalAuth> getMsalAuth() async {
-  //   return MsalAuth.createPublicClientApplication(
-  //     clientId: clientId,
-  //     scopes: scopes,
-  //     androidConfig: AndroidConfig(
-  //       configFilePath: 'assets/msal_config.json',
-  //       tenantId: tenantId,
-  //     ),
-  //     iosConfig: IosConfig(authority: _authority),
-  //   );
-  // }
   Future<MsalUser?> getToken() async {
     log('getToken');
     try {

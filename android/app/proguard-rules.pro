@@ -21,3 +21,6 @@
 -dontwarn org.bouncycastle.openssl.PEMKeyPair
 -dontwarn org.bouncycastle.openssl.PEMParser
 -dontwarn org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter
+# Preserve MSAL classes
+-keep class com.microsoft.identity.** { *; }
+-keep class com.azure.identity.** { *; }
