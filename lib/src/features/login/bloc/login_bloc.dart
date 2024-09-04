@@ -139,8 +139,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(LoginLoadingState(status: FormStatus.loading));
     LoginResponseModel loginData = LoginResponseModel();
     try {
+      UtilsCommon().logCustomEvent(
+          msg: event.user.toString(),
+          customKey: 'LOGIN_SSO'
+      );
       loginData = await loginService.ssoLoginUser(event.user);
 
+      UtilsCommon().logCustomEvent(
+          msg: loginData.toString(),
+          customKey: 'LOGIN_SSO'
+      );
       log('--loginData---${loginData.toString()}----');
 
       var data = event.user;

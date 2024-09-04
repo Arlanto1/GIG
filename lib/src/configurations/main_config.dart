@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/utils/device_infomation.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 export 'package:flutter/material.dart';
 
