@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="anual power shutdown issue">
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="versions">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/configurations/main_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/main_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/login/bloc/login_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/login/bloc/login_bloc.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/login/views/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/login/views/login_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/constants/constant_app_versions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constant_app_versions.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1024,7 +1023,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="401" />
+    <option name="localTasksCounter" value="402" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -1115,7 +1114,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="release version changes" />
     <MESSAGE value="WIP: Key Mangement" />
     <MESSAGE value="MM Outward returnable and non &#10;menu added" />
     <MESSAGE value="mm user refresh" />
@@ -1140,7 +1138,8 @@
     <MESSAGE value="g file" />
     <MESSAGE value="version changes &#10;menu items according to the role" />
     <MESSAGE value="anual power shutdown issue" />
-    <option name="LAST_COMMIT_MESSAGE" value="anual power shutdown issue" />
+    <MESSAGE value="versions" />
+    <option name="LAST_COMMIT_MESSAGE" value="versions" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>
