@@ -300,3 +300,5 @@ export 'package:db_atom/src/features/lawenforcement/models/leo_ui_labels.dart';
 export 'package:db_atom/src/features/lawenforcement/models/distribution_model.dart';
 export 'package:db_atom/src/features/lawenforcement/models/leopurposevisit.dart';
 
+export 'package:msal_auth/models/msal_user.dart';
+export 'package:db_atom/src/models/responseModels/permission_error.dart';

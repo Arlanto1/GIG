@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/models/login_model.dart';
 import 'package:db_atom/src/features/login/models/login_request_model.dart';
 
@@ -12,6 +13,7 @@ class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
   static final String _login = '$baseUrl/login';
+  static final String _loginSso = '$baseUrl/loginSso';
   static const String _resetPassword = 'oauth2/resetPassword';
   static const String _updatePassword = 'oauth2/updatePassword';
   static const String _refreshToken = 'oauth2/tokenRefresh';
@@ -23,6 +25,14 @@ class LoginService {
     log('---url----$url----');
     final response = await BaseApiService().postRequest(
         url: url, requestedData: data.toJson(), isAuthenticated: false);
+    return LoginResponseModel.fromJson(response);
+  }
+
+  Future<LoginResponseModel> ssoLoginUser(MsalUser data) async {
+    String url = Apis._loginSso;
+    log('---url----$url----');
+    final response = await BaseApiService().postRequest(
+        url: url, requestedData: data.toJson()!, isAuthenticated: false);
     return LoginResponseModel.fromJson(response);
   }
 

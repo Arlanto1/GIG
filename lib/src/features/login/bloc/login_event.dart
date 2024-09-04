@@ -10,6 +10,12 @@ class LoginVerifyEvent extends LoginEvent {
   LoginVerifyEvent({required this.requestModel, required this.isFromLogin});
 }
 
+class LoginSsoVerifyEvent extends LoginEvent {
+  final MsalUser user;
+
+  LoginSsoVerifyEvent({required this.user});
+}
+
 class ForgotPwdEvent extends LoginEvent {
   final LoginRequestModel requestModel;
 
