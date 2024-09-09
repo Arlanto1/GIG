@@ -51,17 +51,23 @@ class BottomMenuHandler {
     );
   }
 
+
+
   /// Guarding Operations
   void openGuardingOperationSubMenu() {
-    List<MenuItem> menuItems = [];
+    List<MenuItemAction> menuItemActions = [];
 
     MenuPermissions()
-        .checkMenuPermissionsGuardingOperations(displayMenu, menuItems);
+        .checkMenuPermissionsGuardingOperations(displayMenu, menuItemActions);
+
     openSubMenu(
       context: context,
       positionX: positionX,
-      menuItems: menuItems,
-      onOptionSelected: _onGuardingOperationSubMenu,
+      menuItems: menuItemActions.map((action) => action.menuItem).toList(),
+      onOptionSelected: (context, index) {
+        // Dynamically trigger the corresponding action based on the selected index
+        menuItemActions[index].onSelected(context);
+      },
     );
   }
 
@@ -192,4 +198,10 @@ class BottomMenuHandler {
       index: index,
     );
   }
+}
+class MenuItemAction {
+  final MenuItem menuItem;
+  final Function(BuildContext) onSelected;
+
+  MenuItemAction({required this.menuItem, required this.onSelected});
 }

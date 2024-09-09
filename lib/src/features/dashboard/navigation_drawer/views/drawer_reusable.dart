@@ -1167,8 +1167,7 @@ class NavigationDrawer1 extends StatelessWidget {
       //   );
       case Constants.guardingOperations:
         List<MenuItem> menuItems = [];
-        MenuPermissions()
-            .checkMenuPermissionsGuardingOperations(displayMenu, menuItems);
+        checkMenuPermissionsGuardingOperations(displayMenu, menuItems);
 
         // if (displayMenu?.cD ?? false) {
         //   menuItems.add(const MenuItem(
@@ -1259,4 +1258,34 @@ class NavigationDrawer1 extends StatelessWidget {
             context, guardingOperationDrawerItems, title);
     }
   }
+
+  void checkMenuPermissionsGuardingOperations(
+      DisplayMenu? displayMenu,
+      List<MenuItem> menuItems,
+      ) {
+    if (displayMenu?.cD ?? false) {
+      menuItems.add(const MenuItem(
+          Constants.escalationMatrix, AppIcon.escalationMatrixIcon, 0));
+    }
+
+    if (displayMenu?.gM ?? false) {
+      menuItems.add(const MenuItem(
+          Constants.guardingMasterData, AppIcon.guardingMasterDataIcon, 0));
+    }
+
+    if (displayMenu?.gMR ?? false) {
+      menuItems.add(const MenuItem(
+          Constants.guardingMasterReport, AppIcon.guardingMasterReportIcon, 0));
+    }
+
+    if (displayMenu?.oCC ?? false) {
+      menuItems.add(const MenuItem(
+          Constants.shiftOccurrence, AppIcon.shiftOccurrenceIcon, 0));
+    }
+    if (displayMenu?.sVP ?? false) {
+      menuItems.add(const MenuItem(Constants.slaViolationPenaltyTitle,
+          AppIcon.slaViolationPenaltyIcon, 0));
+    }
+  }
+
 }

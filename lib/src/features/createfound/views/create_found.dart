@@ -1741,25 +1741,28 @@ class _CreateFoundState extends State<CreateFound> {
                                               isMandatory: true)
                                           : Container(),
                                       widget.model != null
-                                          ? radioButtonHandling(
-                                              isClaimantAcceptedToSignSelected,
-                                              state.labels?.locale
-                                                      .foundClaimantNoSign ??
-                                                  state.labels?.defaultLocale
-                                                      .foundClaimantNoSign ??
-                                                  Constants
-                                                      .isclaimantacceptedtosign,
-                                              // isDisableColor: isDisabled,
-                                              isDisableColor: (widget.model
-                                                                  ?.status ==
-                                                              2 ||
-                                                          isClaimantAcceptedByEmail !=
-                                                              0) ||
-                                                      !state.model.lock
-                                                          .isEmptyOrNull
-                                                  ? true
-                                                  : false,
-                                            )
+                                          ? AbsorbPointer(
+                                        absorbing: state.model.claimantConfirmByEmail??false,
+                                            child: radioButtonHandling(
+                                                isClaimantAcceptedToSignSelected,
+                                                state.labels?.locale
+                                                        .foundClaimantNoSign ??
+                                                    state.labels?.defaultLocale
+                                                        .foundClaimantNoSign ??
+                                                    Constants
+                                                        .isclaimantacceptedtosign,
+                                                // isDisableColor: isDisabled,
+                                                isDisableColor: (widget.model
+                                                                    ?.status ==
+                                                                2 ||
+                                                            isClaimantAcceptedByEmail !=
+                                                                0) ||
+                                                        !state.model.lock
+                                                            .isEmptyOrNull
+                                                    ? true
+                                                    : false,
+                                              ),
+                                          )
                                           : Container(),
 
                                       /// is claimant confirmed by email
@@ -1780,22 +1783,26 @@ class _CreateFoundState extends State<CreateFound> {
                                       widget.model != null &&
                                               isClaimantAcceptedToSignSelected ==
                                                   0
-                                          ? radioButtonHandling(
-                                              isClaimantAcceptedByEmail,
-                                              state.labels?.locale
-                                                      .foundClaimantConfirmByEmail ??
-                                                  state.labels?.defaultLocale
-                                                      .foundClaimantConfirmByEmail ??
-                                                  Constants
-                                                      .isclaimantacceptedbyemail,
-                                              isDisableColor: widget
-                                                              .model?.status !=
-                                                          2 ||
-                                                      widget.model?.status !=
-                                                          1 ||
-                                                      widget.model?.status != -1
-                                                  ? !isDisabled
-                                                  : isDisabled,
+                                          ? AbsorbPointer(
+                                              absorbing: true,
+                                              child: radioButtonHandling(
+                                                isClaimantAcceptedByEmail,
+                                                state.labels?.locale
+                                                        .foundClaimantConfirmByEmail ??
+                                                    state.labels?.defaultLocale
+                                                        .foundClaimantConfirmByEmail ??
+                                                    Constants
+                                                        .isclaimantacceptedbyemail,
+                                                isDisableColor: widget.model
+                                                                ?.status !=
+                                                            2 ||
+                                                        widget.model?.status !=
+                                                            1 ||
+                                                        widget.model?.status !=
+                                                            -1
+                                                    ? !isDisabled
+                                                    : isDisabled,
+                                              ),
                                             )
                                           : Container(),
                                     ],
@@ -2242,7 +2249,7 @@ class _CreateFoundState extends State<CreateFound> {
             if (widget.model?.status != 2) {
               isClaimantAcceptedToSignSelected = selectedValue;
             }
-             if ((name == Constants.isclaimantacceptedbyemail) &&
+            if ((name == Constants.isclaimantacceptedbyemail) &&
                 widget.model?.status != 2 &&
                 widget.model?.status != 1 &&
                 widget.model?.status != -1) {

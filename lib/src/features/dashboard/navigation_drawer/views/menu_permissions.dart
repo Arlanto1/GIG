@@ -2,34 +2,42 @@ import 'package:db_atom/index.dart';
 
 class MenuPermissions {
   void checkMenuPermissionsGuardingOperations(
-    DisplayMenu? displayMenu,
-    List<MenuItem> menuItems,
-  ) {
+      DisplayMenu? displayMenu, List<MenuItemAction> menuItemActions) {
     if (displayMenu?.cD ?? false) {
-      menuItems.add(const MenuItem(
-          Constants.escalationMatrix, AppIcon.escalationMatrixIcon, 0));
+      menuItemActions.add(MenuItemAction(
+        menuItem: const MenuItem(Constants.escalationMatrix, AppIcon.escalationMatrixIcon, 0),
+        onSelected: (context) => Navigator.pushNamed(context, contactDetailsListRoute),
+      ));
     }
 
     if (displayMenu?.gM ?? false) {
-      menuItems.add(const MenuItem(
-          Constants.guardingMasterData, AppIcon.guardingMasterDataIcon, 0));
+      menuItemActions.add(MenuItemAction(
+        menuItem: const MenuItem(Constants.guardingMasterData, AppIcon.guardingMasterDataIcon, 0),
+        onSelected: (context) => Navigator.pushNamed(context, guardingMasterDataRoute),
+      ));
     }
 
     if (displayMenu?.gMR ?? false) {
-      menuItems.add(const MenuItem(
-          Constants.guardingMasterReport, AppIcon.guardingMasterReportIcon, 0));
+      menuItemActions.add(MenuItemAction(
+        menuItem: const MenuItem(Constants.guardingMasterReport, AppIcon.guardingMasterReportIcon, 0),
+        onSelected: (context) => Navigator.pushNamed(context, guardingMasterReportRoute),
+      ));
     }
 
     if (displayMenu?.oCC ?? false) {
-      menuItems.add(const MenuItem(
-          Constants.shiftOccurrence, AppIcon.shiftOccurrenceIcon, 0));
+      menuItemActions.add(MenuItemAction(
+        menuItem: const MenuItem(Constants.shiftOccurrence, AppIcon.shiftOccurrenceIcon, 0),
+        onSelected: (context) => Navigator.pushNamed(context, shiftOccurrenceRoute),
+      ));
     }
+
     if (displayMenu?.sVP ?? false) {
-      menuItems.add(const MenuItem(Constants.slaViolationPenaltyTitle,
-          AppIcon.slaViolationPenaltyIcon, 0));
+      menuItemActions.add(MenuItemAction(
+        menuItem: const MenuItem(Constants.slaViolationPenaltyTitle, AppIcon.slaViolationPenaltyIcon, 0),
+        onSelected: (context) => Navigator.pushNamed(context, slaViolationPenaltyListRoute),
+      ));
     }
   }
-
   /// ShiftSchedule
   void checkMenuPermissionsShiftSchedule(
     DisplayMenu? displayMenu,

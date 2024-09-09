@@ -146,7 +146,7 @@ class SLAViolationPenaltyDetailsCubit
           await commonServices.getUserDetails(userId: userId);
 
       List<BaseUser> emailUsers = await commonServices.getBaseUsers(
-        roleName: ConstantUserRoles.atomStaticUser,
+        roleName: ConstantUserRoles.atomAssistantSecurityLead,
         locationId: state.model.location?.id,
         isDbUser: true,
       );

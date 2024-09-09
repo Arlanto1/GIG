@@ -4,55 +4,15 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="versions">
-      <change afterPath="$PROJECT_DIR$/lib/src/constants/constant_crashlytics_keys.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/dartpad/web_plugin_registrant.dart" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/dartpad/web_plugin_registrant.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="db domain issue">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/PROD/release/output-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/PROD/release/output-metadata.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/proguard-rules.pro" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/proguard-rules.pro" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_add_user_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_add_user_dialog.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_organisation_dialog.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_organisation_dialog.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/configurations/base_api_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/configurations/base_api_service.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/constants/constant_app_versions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constant_app_versions.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/constants/constant_user_roles.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constant_user_roles.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/constants/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/views/annual_power_shutdown_list_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/views/annual_power_shutdown_list_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/controllers/create_found_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/controllers/create_found_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/QA/release/output-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/QA/release/output-metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/msal_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/msal_config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/views/create_found.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/views/create_found.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/views/create_found_newuser.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/views/create_found_newuser.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/cubits/general_info_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/views/general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/event_protection/event_protection_details/general_info/views/general_info_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_cubits.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_cubits.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/views/key_management_issuance_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/views/key_management_issuance_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_details/views/key_management_master_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_master/models/key_management_master_model.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/bottom_menu_handler.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/bottom_menu_handler.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/drawer_reusable.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/menu_permissions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/navigation_drawer/views/menu_permissions.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/cubits/sla_violation_penalty_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/cubits/sla_violation_penalty_details_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/views/sla_violation_penalty_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/sla_violation_penalty/sla_violation_penalty_details/views/sla_violation_penalty_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/incident_management/incident_details/general_info/cubits/incident_general_info_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/incident_management/incident_details/general_info/views/incident_general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/incident_management/incident_details/general_info/views/incident_general_info_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/controllers/law_enforcement_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/login/views/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/login/views/login_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/views/occurrence_general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/occurrence/occurrences_details/general_info/views/occurrence_general_info_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/cubits/sst_incident_general_info_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/cubits/sst_incident_general_info_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/views/sst_incident_general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/views/sst_incident_general_info_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/services/common_services.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/services/common_services.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/utils/web_sso_msal_handler.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/utils/web_sso_msal_handler.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,514 +42,521 @@
     &quot;state&quot;: &quot;OPEN&quot;
   }
 }</component>
-  <component name="GitHubPullRequestState">{
-  &quot;prStates&quot;: [
+  <component name="GitHubPullRequestState"><![CDATA[{
+  "prStates": [
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs50yoTY&quot;,
-        &quot;number&quot;: 480
+      "id": {
+        "id": "PR_kwDOJ23nvs50yoTY",
+        "number": 480
       },
-      &quot;lastSeen&quot;: 1720523381749
+      "lastSeen": 1720523381749
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs500XJC&quot;,
-        &quot;number&quot;: 482
+      "id": {
+        "id": "PR_kwDOJ23nvs500XJC",
+        "number": 482
       },
-      &quot;lastSeen&quot;: 1720584235667
+      "lastSeen": 1720584235667
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs500WmH&quot;,
-        &quot;number&quot;: 481
+      "id": {
+        "id": "PR_kwDOJ23nvs500WmH",
+        "number": 481
       },
-      &quot;lastSeen&quot;: 1720596605363
+      "lastSeen": 1720596605363
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs5063bS&quot;,
-        &quot;number&quot;: 483
+      "id": {
+        "id": "PR_kwDOJ23nvs5063bS",
+        "number": 483
       },
-      &quot;lastSeen&quot;: 1720596675360
+      "lastSeen": 1720596675360
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs5067t6&quot;,
-        &quot;number&quot;: 484
+      "id": {
+        "id": "PR_kwDOJ23nvs5067t6",
+        "number": 484
       },
-      &quot;lastSeen&quot;: 1720597523320
+      "lastSeen": 1720597523320
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs507GAD&quot;,
-        &quot;number&quot;: 486
+      "id": {
+        "id": "PR_kwDOJ23nvs507GAD",
+        "number": 486
       },
-      &quot;lastSeen&quot;: 1720597756300
+      "lastSeen": 1720597756300
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs507_Iy&quot;,
-        &quot;number&quot;: 488
+      "id": {
+        "id": "PR_kwDOJ23nvs507_Iy",
+        "number": 488
       },
-      &quot;lastSeen&quot;: 1720604473366
+      "lastSeen": 1720604473366
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs508RC1&quot;,
-        &quot;number&quot;: 490
+      "id": {
+        "id": "PR_kwDOJ23nvs508RC1",
+        "number": 490
       },
-      &quot;lastSeen&quot;: 1720608022601
+      "lastSeen": 1720608022601
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs508VTe&quot;,
-        &quot;number&quot;: 491
+      "id": {
+        "id": "PR_kwDOJ23nvs508VTe",
+        "number": 491
       },
-      &quot;lastSeen&quot;: 1720608914061
+      "lastSeen": 1720608914061
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs507MXC&quot;,
-        &quot;number&quot;: 487
+      "id": {
+        "id": "PR_kwDOJ23nvs507MXC",
+        "number": 487
       },
-      &quot;lastSeen&quot;: 1720610643508
+      "lastSeen": 1720610643508
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs506-6C&quot;,
-        &quot;number&quot;: 485
+      "id": {
+        "id": "PR_kwDOJ23nvs506-6C",
+        "number": 485
       },
-      &quot;lastSeen&quot;: 1720611318144
+      "lastSeen": 1720611318144
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs509A0K&quot;,
-        &quot;number&quot;: 493
+      "id": {
+        "id": "PR_kwDOJ23nvs509A0K",
+        "number": 493
       },
-      &quot;lastSeen&quot;: 1720611337609
+      "lastSeen": 1720611337609
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs509J0_&quot;,
-        &quot;number&quot;: 494
+      "id": {
+        "id": "PR_kwDOJ23nvs509J0_",
+        "number": 494
       },
-      &quot;lastSeen&quot;: 1720611543610
+      "lastSeen": 1720611543610
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51DbVt&quot;,
-        &quot;number&quot;: 496
+      "id": {
+        "id": "PR_kwDOJ23nvs51DbVt",
+        "number": 496
       },
-      &quot;lastSeen&quot;: 1720680083246
+      "lastSeen": 1720680083246
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Db-8&quot;,
-        &quot;number&quot;: 497
+      "id": {
+        "id": "PR_kwDOJ23nvs51Db-8",
+        "number": 497
       },
-      &quot;lastSeen&quot;: 1720680288678
+      "lastSeen": 1720680288678
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51DDrX&quot;,
-        &quot;number&quot;: 495
+      "id": {
+        "id": "PR_kwDOJ23nvs51DDrX",
+        "number": 495
       },
-      &quot;lastSeen&quot;: 1720680400876
+      "lastSeen": 1720680400876
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51DdHn&quot;,
-        &quot;number&quot;: 498
+      "id": {
+        "id": "PR_kwDOJ23nvs51DdHn",
+        "number": 498
       },
-      &quot;lastSeen&quot;: 1720680414675
+      "lastSeen": 1720680414675
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Dyix&quot;,
-        &quot;number&quot;: 500
+      "id": {
+        "id": "PR_kwDOJ23nvs51Dyix",
+        "number": 500
       },
-      &quot;lastSeen&quot;: 1720690090478
+      "lastSeen": 1720690090478
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51ER1a&quot;,
-        &quot;number&quot;: 501
+      "id": {
+        "id": "PR_kwDOJ23nvs51ER1a",
+        "number": 501
       },
-      &quot;lastSeen&quot;: 1720690207017
+      "lastSeen": 1720690207017
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51FUD7&quot;,
-        &quot;number&quot;: 502
+      "id": {
+        "id": "PR_kwDOJ23nvs51FUD7",
+        "number": 502
       },
-      &quot;lastSeen&quot;: 1720697288494
+      "lastSeen": 1720697288494
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51LtWW&quot;,
-        &quot;number&quot;: 506
+      "id": {
+        "id": "PR_kwDOJ23nvs51LtWW",
+        "number": 506
       },
-      &quot;lastSeen&quot;: 1720768248643
+      "lastSeen": 1720768248643
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51LxHC&quot;,
-        &quot;number&quot;: 507
+      "id": {
+        "id": "PR_kwDOJ23nvs51LxHC",
+        "number": 507
       },
-      &quot;lastSeen&quot;: 1720768987360
+      "lastSeen": 1720768987360
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51L60A&quot;,
-        &quot;number&quot;: 508
+      "id": {
+        "id": "PR_kwDOJ23nvs51L60A",
+        "number": 508
       },
-      &quot;lastSeen&quot;: 1720769037111
+      "lastSeen": 1720769037111
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Le56&quot;,
-        &quot;number&quot;: 504
+      "id": {
+        "id": "PR_kwDOJ23nvs51Le56",
+        "number": 504
       },
-      &quot;lastSeen&quot;: 1720769084165
+      "lastSeen": 1720769084165
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51L8os&quot;,
-        &quot;number&quot;: 509
+      "id": {
+        "id": "PR_kwDOJ23nvs51L8os",
+        "number": 509
       },
-      &quot;lastSeen&quot;: 1720771990787
+      "lastSeen": 1720771990787
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51MNQH&quot;,
-        &quot;number&quot;: 510
+      "id": {
+        "id": "PR_kwDOJ23nvs51MNQH",
+        "number": 510
       },
-      &quot;lastSeen&quot;: 1720772607267
+      "lastSeen": 1720772607267
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51MwsW&quot;,
-        &quot;number&quot;: 511
+      "id": {
+        "id": "PR_kwDOJ23nvs51MwsW",
+        "number": 511
       },
-      &quot;lastSeen&quot;: 1720777982079
+      "lastSeen": 1720777982079
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Vh_s&quot;,
-        &quot;number&quot;: 513
+      "id": {
+        "id": "PR_kwDOJ23nvs51Vh_s",
+        "number": 513
       },
-      &quot;lastSeen&quot;: 1721016502512
+      "lastSeen": 1721016502512
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51WBl6&quot;,
-        &quot;number&quot;: 516
+      "id": {
+        "id": "PR_kwDOJ23nvs51WBl6",
+        "number": 516
       },
-      &quot;lastSeen&quot;: 1721024514492
+      "lastSeen": 1721024514492
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51VpxB&quot;,
-        &quot;number&quot;: 514
+      "id": {
+        "id": "PR_kwDOJ23nvs51VpxB",
+        "number": 514
       },
-      &quot;lastSeen&quot;: 1721024634721
+      "lastSeen": 1721024634721
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51Vsss&quot;,
-        &quot;number&quot;: 515
+      "id": {
+        "id": "PR_kwDOJ23nvs51Vsss",
+        "number": 515
       },
-      &quot;lastSeen&quot;: 1721024638394
+      "lastSeen": 1721024638394
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51W4Ku&quot;,
-        &quot;number&quot;: 517
+      "id": {
+        "id": "PR_kwDOJ23nvs51W4Ku",
+        "number": 517
       },
-      &quot;lastSeen&quot;: 1721043463006
+      "lastSeen": 1721043463006
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51dq8H&quot;,
-        &quot;number&quot;: 520
+      "id": {
+        "id": "PR_kwDOJ23nvs51dq8H",
+        "number": 520
       },
-      &quot;lastSeen&quot;: 1721109902356
+      "lastSeen": 1721109902356
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51elv9&quot;,
-        &quot;number&quot;: 521
+      "id": {
+        "id": "PR_kwDOJ23nvs51elv9",
+        "number": 521
       },
-      &quot;lastSeen&quot;: 1721117759138
+      "lastSeen": 1721117759138
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51exr6&quot;,
-        &quot;number&quot;: 522
+      "id": {
+        "id": "PR_kwDOJ23nvs51exr6",
+        "number": 522
       },
-      &quot;lastSeen&quot;: 1721118357799
+      "lastSeen": 1721118357799
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51fHtK&quot;,
-        &quot;number&quot;: 523
+      "id": {
+        "id": "PR_kwDOJ23nvs51fHtK",
+        "number": 523
       },
-      &quot;lastSeen&quot;: 1721122217948
+      "lastSeen": 1721122217948
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51f1As&quot;,
-        &quot;number&quot;: 524
+      "id": {
+        "id": "PR_kwDOJ23nvs51f1As",
+        "number": 524
       },
-      &quot;lastSeen&quot;: 1721127158471
+      "lastSeen": 1721127158471
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51lr5g&quot;,
-        &quot;number&quot;: 528
+      "id": {
+        "id": "PR_kwDOJ23nvs51lr5g",
+        "number": 528
       },
-      &quot;lastSeen&quot;: 1721191066294
+      "lastSeen": 1721191066294
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51l1s6&quot;,
-        &quot;number&quot;: 529
+      "id": {
+        "id": "PR_kwDOJ23nvs51l1s6",
+        "number": 529
       },
-      &quot;lastSeen&quot;: 1721193389963
+      "lastSeen": 1721193389963
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51mixx&quot;,
-        &quot;number&quot;: 532
+      "id": {
+        "id": "PR_kwDOJ23nvs51mixx",
+        "number": 532
       },
-      &quot;lastSeen&quot;: 1721201136556
+      "lastSeen": 1721201136556
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51mVTs&quot;,
-        &quot;number&quot;: 531
+      "id": {
+        "id": "PR_kwDOJ23nvs51mVTs",
+        "number": 531
       },
-      &quot;lastSeen&quot;: 1721201139145
+      "lastSeen": 1721201139145
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51mlqJ&quot;,
-        &quot;number&quot;: 533
+      "id": {
+        "id": "PR_kwDOJ23nvs51mlqJ",
+        "number": 533
       },
-      &quot;lastSeen&quot;: 1721201629012
+      "lastSeen": 1721201629012
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51nh_l&quot;,
-        &quot;number&quot;: 535
+      "id": {
+        "id": "PR_kwDOJ23nvs51nh_l",
+        "number": 535
       },
-      &quot;lastSeen&quot;: 1721210050680
+      "lastSeen": 1721210050680
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51oK9C&quot;,
-        &quot;number&quot;: 536
+      "id": {
+        "id": "PR_kwDOJ23nvs51oK9C",
+        "number": 536
       },
-      &quot;lastSeen&quot;: 1721215315840
+      "lastSeen": 1721215315840
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51omVr&quot;,
-        &quot;number&quot;: 538
+      "id": {
+        "id": "PR_kwDOJ23nvs51omVr",
+        "number": 538
       },
-      &quot;lastSeen&quot;: 1721218699652
+      "lastSeen": 1721218699652
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51oN9l&quot;,
-        &quot;number&quot;: 537
+      "id": {
+        "id": "PR_kwDOJ23nvs51oN9l",
+        "number": 537
       },
-      &quot;lastSeen&quot;: 1721218823196
+      "lastSeen": 1721218823196
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51pfuA&quot;,
-        &quot;number&quot;: 539
+      "id": {
+        "id": "PR_kwDOJ23nvs51pfuA",
+        "number": 539
       },
-      &quot;lastSeen&quot;: 1721225311636
+      "lastSeen": 1721225311636
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs51q-aH&quot;,
-        &quot;number&quot;: 541
+      "id": {
+        "id": "PR_kwDOJ23nvs51q-aH",
+        "number": 541
       },
-      &quot;lastSeen&quot;: 1721237480837
+      "lastSeen": 1721237480837
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs513wKy&quot;,
-        &quot;number&quot;: 546
+      "id": {
+        "id": "PR_kwDOJ23nvs513wKy",
+        "number": 546
       },
-      &quot;lastSeen&quot;: 1721378746424
+      "lastSeen": 1721378746424
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs54iULI&quot;,
-        &quot;number&quot;: 630
+      "id": {
+        "id": "PR_kwDOJ23nvs54iULI",
+        "number": 630
       },
-      &quot;lastSeen&quot;: 1723790404883
+      "lastSeen": 1723790404883
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs54jMhQ&quot;,
-        &quot;number&quot;: 631
+      "id": {
+        "id": "PR_kwDOJ23nvs54jMhQ",
+        "number": 631
       },
-      &quot;lastSeen&quot;: 1723795217816
+      "lastSeen": 1723795217816
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs54jdML&quot;,
-        &quot;number&quot;: 632
+      "id": {
+        "id": "PR_kwDOJ23nvs54jdML",
+        "number": 632
       },
-      &quot;lastSeen&quot;: 1723805960990
+      "lastSeen": 1723805960990
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs54kZeQ&quot;,
-        &quot;number&quot;: 633
+      "id": {
+        "id": "PR_kwDOJ23nvs54kZeQ",
+        "number": 633
       },
-      &quot;lastSeen&quot;: 1723807731349
+      "lastSeen": 1723807731349
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs54omiS&quot;,
-        &quot;number&quot;: 634
+      "id": {
+        "id": "PR_kwDOJ23nvs54omiS",
+        "number": 634
       },
-      &quot;lastSeen&quot;: 1723881808711
+      "lastSeen": 1723881808711
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs54o9-V&quot;,
-        &quot;number&quot;: 635
+      "id": {
+        "id": "PR_kwDOJ23nvs54o9-V",
+        "number": 635
       },
-      &quot;lastSeen&quot;: 1723903171495
+      "lastSeen": 1723903171495
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs54sMo2&quot;,
-        &quot;number&quot;: 636
+      "id": {
+        "id": "PR_kwDOJ23nvs54sMo2",
+        "number": 636
       },
-      &quot;lastSeen&quot;: 1724049088408
+      "lastSeen": 1724049088408
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs54svJ7&quot;,
-        &quot;number&quot;: 637
+      "id": {
+        "id": "PR_kwDOJ23nvs54svJ7",
+        "number": 637
       },
-      &quot;lastSeen&quot;: 1724053295248
+      "lastSeen": 1724053295248
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs54tqk3&quot;,
-        &quot;number&quot;: 638
+      "id": {
+        "id": "PR_kwDOJ23nvs54tqk3",
+        "number": 638
       },
-      &quot;lastSeen&quot;: 1724061271584
+      "lastSeen": 1724061271584
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs54t5cT&quot;,
-        &quot;number&quot;: 639
+      "id": {
+        "id": "PR_kwDOJ23nvs54t5cT",
+        "number": 639
       },
-      &quot;lastSeen&quot;: 1724067746664
+      "lastSeen": 1724067746664
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs55tVvJ&quot;,
-        &quot;number&quot;: 654
+      "id": {
+        "id": "PR_kwDOJ23nvs55tVvJ",
+        "number": 654
       },
-      &quot;lastSeen&quot;: 1724854408504
+      "lastSeen": 1724854408504
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs55x3Y0&quot;,
-        &quot;number&quot;: 657
+      "id": {
+        "id": "PR_kwDOJ23nvs55x3Y0",
+        "number": 657
       },
-      &quot;lastSeen&quot;: 1724908115501
+      "lastSeen": 1724908115501
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs55yT8P&quot;,
-        &quot;number&quot;: 659
+      "id": {
+        "id": "PR_kwDOJ23nvs55yT8P",
+        "number": 659
       },
-      &quot;lastSeen&quot;: 1724913212380
+      "lastSeen": 1724913212380
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs55yjrv&quot;,
-        &quot;number&quot;: 660
+      "id": {
+        "id": "PR_kwDOJ23nvs55yjrv",
+        "number": 660
       },
-      &quot;lastSeen&quot;: 1724915857437
+      "lastSeen": 1724915857437
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs55yttr&quot;,
-        &quot;number&quot;: 661
+      "id": {
+        "id": "PR_kwDOJ23nvs55yttr",
+        "number": 661
       },
-      &quot;lastSeen&quot;: 1724929113121
+      "lastSeen": 1724929113121
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs550Nn6&quot;,
-        &quot;number&quot;: 662
+      "id": {
+        "id": "PR_kwDOJ23nvs550Nn6",
+        "number": 662
       },
-      &quot;lastSeen&quot;: 1724929341737
+      "lastSeen": 1724929341737
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs558HBE&quot;,
-        &quot;number&quot;: 664
+      "id": {
+        "id": "PR_kwDOJ23nvs558HBE",
+        "number": 664
       },
-      &quot;lastSeen&quot;: 1725006353253
+      "lastSeen": 1725006353253
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs52E4VK&quot;,
-        &quot;number&quot;: 550
+      "id": {
+        "id": "PR_kwDOJ23nvs52E4VK",
+        "number": 550
       },
-      &quot;lastSeen&quot;: 1725009165616
+      "lastSeen": 1725009165616
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs559KH3&quot;,
-        &quot;number&quot;: 666
+      "id": {
+        "id": "PR_kwDOJ23nvs559KH3",
+        "number": 666
       },
-      &quot;lastSeen&quot;: 1725016267401
+      "lastSeen": 1725016267401
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs56HM-l&quot;,
-        &quot;number&quot;: 668
+      "id": {
+        "id": "PR_kwDOJ23nvs56HM-l",
+        "number": 668
       },
-      &quot;lastSeen&quot;: 1725257581578
+      "lastSeen": 1725257581578
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs56Niah&quot;,
-        &quot;number&quot;: 669
+      "id": {
+        "id": "PR_kwDOJ23nvs56Niah",
+        "number": 669
       },
-      &quot;lastSeen&quot;: 1725337514892
+      "lastSeen": 1725337514892
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs56NzLz&quot;,
-        &quot;number&quot;: 670
+      "id": {
+        "id": "PR_kwDOJ23nvs56NzLz",
+        "number": 670
       },
-      &quot;lastSeen&quot;: 1725343450474
+      "lastSeen": 1725343450474
     },
     {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOJ23nvs56PPU6&quot;,
-        &quot;number&quot;: 671
+      "id": {
+        "id": "PR_kwDOJ23nvs56PPU6",
+        "number": 671
       },
-      &quot;lastSeen&quot;: 1725367612267
+      "lastSeen": 1725367612267
+    },
+    {
+      "id": {
+        "id": "PR_kwDOJ23nvs561gWP",
+        "number": 673
+      },
+      "lastSeen": 1725880608321
     }
   ]
-}</component>
+}]]></component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;git@github.com:Arlanto1/Arlanto-App-Codebase.git&quot;,
@@ -1066,7 +1033,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="404" />
+    <option name="localTasksCounter" value="405" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -1157,7 +1124,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="WIP: Key Mangement" />
     <MESSAGE value="MM Outward returnable and non &#10;menu added" />
     <MESSAGE value="mm user refresh" />
     <MESSAGE value="user list refresh issue in MM, Pass" />
@@ -1182,7 +1148,8 @@
     <MESSAGE value="version changes &#10;menu items according to the role" />
     <MESSAGE value="anual power shutdown issue" />
     <MESSAGE value="versions" />
-    <option name="LAST_COMMIT_MESSAGE" value="versions" />
+    <MESSAGE value="db domain issue" />
+    <option name="LAST_COMMIT_MESSAGE" value="db domain issue" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>
