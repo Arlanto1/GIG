@@ -2161,6 +2161,7 @@ class _GuardingMasterDataDetailsViewState
                                       height * 0.001),
 
                                   BaseDate().datePickerWidgetLoading(
+                                    isDisabled: true,
                                     onlyDate: true,
                                     textController: mSGBExemptionDateController,
                                     onChange: (String value) {
