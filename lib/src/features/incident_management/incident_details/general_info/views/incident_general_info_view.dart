@@ -562,6 +562,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     context: context,
                                     enabled: !disableForm,
                                     users: state.emailUsers!,
+                                    isDbUser: true,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
@@ -602,21 +603,31 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
-                              FlutterInputField(
-                                lineHeight: 1,
-                                initialValue: state.model.complainantName,
-                                textFormKey: Keys.claimantTextController,
-                                hintText: Constants.informationhere,
-                                focusNode: complainantFocusNode,
-                                isEnable: state.model.status == 0,
-                                isDisableColor: state.model.status != 0,
-                                onChange: (String value) {
-                                  state.model.complainantName = value;
-                                  context
-                                      .read<IncidentGeneralInfoCubit>()
-                                      .onModelValueChange(state.model);
-                                },
-                                validateTextField: (String? user) {},
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width - 105,
+
+                                    child: FlutterInputField(
+                                      lineHeight: 1,
+                                      initialValue: state.model.complainantName,
+                                      textFormKey: Keys.claimantTextController,
+                                      hintText: Constants.informationhere,
+                                      focusNode: complainantFocusNode,
+                                      isEnable: state.model.status == 0,
+                                      isDisableColor: state.model.status != 0,
+                                      onChange: (String value) {
+                                        state.model.complainantName = value + dbEmailId;
+                                        context
+                                            .read<IncidentGeneralInfoCubit>()
+                                            .onModelValueChange(state.model);
+                                      },
+                                      validateTextField: (String? user) {},
+                                    ),
+                                  ),
+                                  const Text('@db.com')
+
+                                ],
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
@@ -710,6 +721,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   context: context,
                                   enabled: !disableForm,
                                   users: state.emailUsers!,
+                                  isDbUser: true,
                                   onTap: (BaseUser user) {
                                     BlocProvider.of<IncidentGeneralInfoCubit>(
                                             context)
@@ -822,6 +834,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     context: context,
                                     enabled: !disableForm,
                                     users: state.incidentManager,
+                                    isDbUser: true,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
@@ -868,6 +881,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     context: context,
                                     enabled: !disableForm,
                                     users: state.incidentOwner,
+                                    isDbUser: true,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)

@@ -2,9 +2,11 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/constants/constant_crashlytics_keys.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
 import 'package:db_atom/src/utils/web_sso_msal_handler.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
+import 'package:msal_auth/models/msal_exception.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -280,12 +282,39 @@ class _LoginState extends State<Login> {
                               /// DB SSO
                               ElevatedButton(
                                 onPressed: () async {
-                                  final MsalUser? user =
-                                      await WebSsoMsalHandler().getToken();
-                                  if (user != null) {
-                                    bloc.add(LoginSsoVerifyEvent(
-                                      user: user,
-                                    ));
+                                  try {
+                                    final MsalUser? user =
+                                        await WebSsoMsalHandler().getToken(context);
+                                    log('-user-${user?.accessToken}-');
+
+                                    UtilsCommon().logCustomEvent(
+                                      msg: 'Login via SSO',
+                                      customKey: loginSso,
+                                    );
+
+                                    if (user != null) {
+                                      UtilsCommon().logCustomEvent(
+                                        msg: user.accessToken,
+                                        customKey: loginSso,
+                                      );
+                                      bloc.add(LoginSsoVerifyEvent(
+                                        user: user,
+                                      ));
+                                    }
+                                  } on MsalException catch (e) {
+                                    log('MSAL error: ${e.errorMessage}');
+                                    UtilsCommon().logCustomEvent(
+                                      msg: 'MSAL Error: ${e.errorMessage}',
+                                      customKey: loginSsoError,
+                                    );
+                                    // Handle MSAL-specific errors
+                                  } catch (e) {
+                                    log('General error: ${e.toString()}');
+                                    UtilsCommon().logCustomEvent(
+                                      msg: 'General Error: ${e.toString()}',
+                                      customKey: loginSsoError,
+                                    );
+                                    // Handle any other exceptions
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(

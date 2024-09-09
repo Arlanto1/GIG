@@ -225,10 +225,15 @@ class CommonServices {
   Future<List<BaseUser>> getBaseUsers({
     required String roleName,
     int? locationId,
+    bool? isDbUser,
   }) async {
     String url = '${CommonApis._getUsersByRole}$roleName';
     if (locationId != null) {
       url = '$url&locationId=$locationId';
+    }
+
+    if (isDbUser != null) {
+      url = '$url&isDbUser=$isDbUser';
     }
     final response = await BaseApiService().getRequest(
       url: url,
@@ -244,10 +249,14 @@ class CommonServices {
   Future<List<BaseUser>> getBaseUsersByRoles({
     required String roleNames,
     int? locationId,
+    bool? isDbUser,
   }) async {
     String url = '${CommonApis._getUsersByRoles}$roleNames';
     if (locationId != null) {
       url = '$url&locationId=$locationId';
+    }
+    if (isDbUser != null) {
+      url = '$url&isDbUser=$isDbUser';
     }
     final response = await BaseApiService().getRequest(
       url: url,
@@ -260,10 +269,14 @@ class CommonServices {
   Future<GetDepositor> getAtomStaticUsers({
     required String roleName,
     int? locationId,
+    bool? isDbUser,
   }) async {
     String url = '${CommonApis._getUsersByRole}$roleName';
     if (locationId != null) {
       url = '$url&locationId=$locationId';
+    }
+    if (isDbUser != null) {
+      url = '$url&isDbUser=$isDbUser';
     }
     final response = await BaseApiService().getRequest(
       url: url,

@@ -241,6 +241,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
       // log('--getUserByRoleDepositor-locationId-${locationId}--');
 
       GetDepositor getDepositorData = await commonServices.getAtomStaticUsers(
+          isDbUser: true,
           roleName: userRole, locationId: state.location?.id);
 
       emit(

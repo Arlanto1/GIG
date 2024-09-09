@@ -436,6 +436,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   textFormKey: Keys.premisesRoundTknCommentsKey,
                                   hintText: Constants.informationhere,
                                   showBorder: true,
+                                  textInputAction: TextInputAction.newline,
+                                  textInputType:
+                                  TextInputType.multiline,
                                   isEnable: showSaveSubmitButtons,
                                   isDisableColor: !showSaveSubmitButtons,
                                   onChange: (String value) {
@@ -495,6 +498,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   hintText: Constants.informationhere,
                                   isEnable: showSaveSubmitButtons,
                                   isDisableColor: !showSaveSubmitButtons,
+                                  textInputAction: TextInputAction.newline,
+                                  textInputType:
+                                  TextInputType.multiline,
                                   onChange: (String value) {
                                     state.model.medicalEmrgncyComments = value;
                                     context
@@ -619,6 +625,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   hintText: Constants.informationhere,
                                   isEnable: showSaveSubmitButtons,
                                   isDisableColor: !showSaveSubmitButtons,
+                                  textInputAction: TextInputAction.newline,
+                                  textInputType:
+                                  TextInputType.multiline,
                                   onChange: (String value) {
                                     state.model.socialEnggIncdntComments =
                                         value;
@@ -804,6 +813,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   hintText: Constants.informationhere,
                                   isEnable: showSaveSubmitButtons,
                                   isDisableColor: !showSaveSubmitButtons,
+                                  textInputAction: TextInputAction.newline,
+                                  textInputType:
+                                  TextInputType.multiline,
                                   onChange: (String value) {
                                     state.model.infraIssueComments = value;
                                     context
@@ -946,6 +958,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   hintText: Constants.informationhere,
                                   isEnable: showSaveSubmitButtons,
                                   isDisableColor: !showSaveSubmitButtons,
+                                  textInputAction: TextInputAction.newline,
+                                  textInputType:
+                                  TextInputType.multiline,
                                   onChange: (String value) {
                                     state.model.fireAlarmEmrgncyComments =
                                         value;
@@ -1001,7 +1016,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   hintText: Constants.informationhere,
                                   isEnable: showSaveSubmitButtons,
                                   isDisableColor: !showSaveSubmitButtons,
-                                  onChange: (String value) {
+                                  textInputAction: TextInputAction.newline,
+                                  textInputType:
+                                  TextInputType.multiline, onChange: (String value) {
                                     state.model.landlordIssueComments = value;
                                     context
                                         .read<OccurrenceGeneralInfoCubit>()
@@ -1144,7 +1161,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               hintText: Constants.informationhere,
                               isEnable: showSaveSubmitButtons,
                               isDisableColor: !showSaveSubmitButtons,
-                              onChange: (String value) {
+                              textInputAction: TextInputAction.newline,
+                              textInputType:
+                              TextInputType.multiline,  onChange: (String value) {
                                 state.model.sysAlarmRcvdComments = value;
                                 context
                                     .read<OccurrenceGeneralInfoCubit>()
@@ -1193,7 +1212,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               showBorder: true,
                               isEnable: showSaveSubmitButtons,
                               isDisableColor: !showSaveSubmitButtons,
-                              onChange: (String value) {
+                              textInputAction: TextInputAction.newline,
+                              textInputType:
+                              TextInputType.multiline,  onChange: (String value) {
                                 state.model.transportIncdntComments = value;
                                 context
                                     .read<OccurrenceGeneralInfoCubit>()
@@ -1249,7 +1270,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               isEnable: showSaveSubmitButtons,
                               showBorder: true,
                               isDisableColor: !showSaveSubmitButtons,
-                              onChange: (String value) {
+                              textInputAction: TextInputAction.newline,
+                              textInputType:
+                              TextInputType.multiline,  onChange: (String value) {
                                 state.model.notifyScri = value;
                                 context
                                     .read<OccurrenceGeneralInfoCubit>()
@@ -1484,7 +1507,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             showBorder: true,
                             isEnable: showSaveSubmitButtons,
                             isDisableColor: !showSaveSubmitButtons,
-                            onChange: (String value) {
+                            textInputAction: TextInputAction.newline,
+                            textInputType:
+                            TextInputType.multiline, onChange: (String value) {
                               state.model.comments = value;
                               context
                                   .read<OccurrenceGeneralInfoCubit>()

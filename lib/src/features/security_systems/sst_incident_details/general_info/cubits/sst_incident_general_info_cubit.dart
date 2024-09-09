@@ -58,6 +58,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
     Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
 
     List<BaseUser> systemManagerUsers = await commonServices.getBaseUsers(
+        isDbUser: true,
         roleName: ConstantUserRoles.atomSecuritySystemManagerUser,
         locationId: state.model.location!.id!);
 
@@ -66,11 +67,13 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         locationId: state.model.location!.id!);
 
     List<BaseUser> securityLeads = await commonServices.getBaseUsersByRoles(
+        isDbUser: true,
         roleNames:
             ConstantUserRoles.atomSecurityLeadAndAssistantSecurityLeadUser,
         locationId: state.model.location!.id!);
 
     List<BaseUser> securityManagers = await commonServices.getBaseUsersByRoles(
+      isDbUser: true,
         roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
         locationId: state.model.location!.id!);
 
@@ -138,20 +141,24 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         commonServices.getUsers(),
         commonServices.getOrganisations(name: 'ATOM_VENDORS'),
         commonServices.getBaseUsersByRoles(
+          isDbUser: true,
           roleNames:
               ConstantUserRoles.atomSecurityLeadAndAssistantSecurityLeadUser,
           locationId: model.location!.id!,
         ),
         commonServices.getBaseUsersByRoles(
           roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+          isDbUser: true,
           locationId: model.location!.id!,
         ),
         commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomSecurityTeamUser,
           locationId: model.location!.id!,
+          isDbUser: true,
         ),
         commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomSecuritySystemManagerUser,
+          isDbUser: true,
           locationId: model.location!.id!,
         ),
       ]);
@@ -231,15 +238,18 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       state.model.slNo = slNo.serialNo ?? '';
 
       locationTeamUsers = await commonServices.getBaseUsers(
+          isDbUser: true,
           roleName: ConstantUserRoles.atomSecurityTeamUser,
           locationId: location.id!);
 
       securityLeads = await commonServices.getBaseUsersByRoles(
+          isDbUser: true,
           roleNames:
               ConstantUserRoles.atomSecurityLeadAndAssistantSecurityLeadUser,
           locationId: location.id!);
 
       securityManagers = await commonServices.getBaseUsersByRoles(
+          isDbUser: true,
           roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
           locationId: location.id!);
     }

@@ -1585,6 +1585,10 @@ class Utils {
 
     log('STATUS: ${state.status}');
     if (state.status == FormStatus.error && context.mounted) {
+      UtilsCommon().logCustomEvent(
+        msg: state.message,
+        customKey: 'ERROR_AND_LOGOUT'
+      );
       InactivityFunctions().logoutUser(navigatorKey);
       Validator().showToast(
         context,

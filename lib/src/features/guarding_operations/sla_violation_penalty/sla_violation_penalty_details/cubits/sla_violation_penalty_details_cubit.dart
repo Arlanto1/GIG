@@ -74,8 +74,11 @@ class SLAViolationPenaltyDetailsCubit
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation>? entities =
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
-    List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
-        roleNames: ConstantUserRoles.atomStaticUser, locationId: state.model.location?.id);
+    List<BaseUser> emailUsers = await commonServices.getBaseUsers(
+      roleName: ConstantUserRoles.atomAssistantSecurityLead,
+      locationId: state.model.location?.id,
+      isDbUser: true,
+    );
 
     Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
 
@@ -104,9 +107,9 @@ class SLAViolationPenaltyDetailsCubit
     );
     var userId = await SharedPrefs.getUserId();
 
-    if(attdInfoId != null) {
+    if (attdInfoId != null) {
       SLAViolationPenaltyModel model =
-      await services.preCreateSvp(attdInfoId: attdInfoId!);
+          await services.preCreateSvp(attdInfoId: attdInfoId!);
       emit(
         state.copyWith(
           status: FormStatus.loading,
@@ -142,9 +145,11 @@ class SLAViolationPenaltyDetailsCubit
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
 
-      List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
-          roleNames: ConstantUserRoles.atomStaticUser,
-          locationId: state.model.location?.id);
+      List<BaseUser> emailUsers = await commonServices.getBaseUsers(
+        roleName: ConstantUserRoles.atomAssistantSecurityLead,
+        locationId: state.model.location?.id,
+        isDbUser: true,
+      );
 
       if (location != null) {
         state.model.location = location;
@@ -237,7 +242,10 @@ class SLAViolationPenaltyDetailsCubit
       state.model.slNo = slNo.serialNo ?? '';
 
       emailUsers = await commonServices.getBaseUsers(
-          roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
+        roleName: ConstantUserRoles.atomAssistantSecurityLead,
+        locationId: location.id,
+        isDbUser: true,
+      );
     }
 
     state.model.approver = null;

@@ -114,6 +114,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           status: FormStatus.permissionLocationError,
         ));
       } else {
+        UtilsCommon().logCustomEvent(
+            msg: e.toString(),
+            customKey: 'LOGIN'
+        );
         InactivityFunctions().logoutUser(navigatorKey);
         // Handle other unexpected errors
         log('Server Might Be Restarting: $e');
@@ -135,8 +139,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(LoginLoadingState(status: FormStatus.loading));
     LoginResponseModel loginData = LoginResponseModel();
     try {
+      UtilsCommon().logCustomEvent(
+          msg: event.user.toString(),
+          customKey: 'LOGIN_SSO'
+      );
       loginData = await loginService.ssoLoginUser(event.user);
 
+      UtilsCommon().logCustomEvent(
+          msg: loginData.toString(),
+          customKey: 'LOGIN_SSO'
+      );
       log('--loginData---${loginData.toString()}----');
 
       var data = event.user;
@@ -234,7 +246,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         );
       } else {
         // Handle other unexpected errors
-        log('An unexpected error occurred: $e');
+        UtilsCommon().logCustomEvent(
+            msg: e.toString(),
+            customKey: 'LOGIN'
+        ); log('An unexpected error occurred: $e');
         emit(
           LoginFailureState(
             message: 'An unexpected error occurred.',
@@ -267,6 +282,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         ));
       } else {
         // Handle other unexpected errors
+        UtilsCommon().logCustomEvent(
+            msg: e.toString(),
+            customKey: 'LOGIN'
+        );
         log('An unexpected error occurred: $e');
         emit(LoginFailureState(
           message: 'An unexpected error occurred.',

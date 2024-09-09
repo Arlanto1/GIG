@@ -36,6 +36,30 @@ class MainConfig with WidgetsBindingObserver {
 
     // Listen for app lifecycle changes
     WidgetsBinding.instance.addObserver(MainConfig());
+
+
+
+    await Firebase.initializeApp(
+        name: 'AtomEdge',
+      options: DefaultFirebaseOptions.currentPlatform
+    );
+
+    // Enable Crashlytics collection
+    FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+
+    // Pass all uncaught errors from the framework to Crashlytics
+    FlutterError.onError = (errorDetails) {
+      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+    };
+
+    // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
+    FirebaseCrashlytics.instance.log('Test: Flutter App started');
+
+    log('---Firebase.initializeApp----');
     // try {
     //   await FCMHandler.initializeFCM();
     //   FCMHandler.setupForegroundMessageHandler();

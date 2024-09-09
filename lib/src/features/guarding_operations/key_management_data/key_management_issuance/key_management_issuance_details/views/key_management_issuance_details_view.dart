@@ -803,6 +803,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                         BaseOrganisationDialog().userDialog(
                                           context: context,
                                           users: state.emailUsers!,
+                                          isDbUser: true,
                                           onTap: (BaseUser user) {
                                             BlocProvider.of<
                                                         KeyManagementIssuanceDetailsCubit>(
@@ -886,6 +887,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           context: context,
                                           enabled: isEnabled,
                                           users: state.emailUsers!,
+                                          isDbUser: true,
                                           onTap: (BaseUser user) {
                                             BlocProvider.of<
                                                         KeyManagementIssuanceDetailsCubit>(
@@ -968,6 +970,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                       height * 0.01),
 
                                   /// Key Return Date And Time
+                                  // Text('${state.model.keyReturnDateTime}'),
+    // if (state
+    //     .model.keyReturnDateTime.isEmptyOrNull) ...[
                                   CommonWidgets.textDisplay(
                                     state.labels?.locale.keyReturnDateTime ??
                                         state.labels?.defaultLocale
@@ -982,7 +987,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                       state.model.keyReturnDateTime ?? ''),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
-
+// ],
                                   /// Returned By Name
                                   CommonWidgets.textDisplay(
                                       state.labels?.locale.returnedByName ??

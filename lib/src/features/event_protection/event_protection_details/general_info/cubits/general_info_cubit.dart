@@ -50,15 +50,17 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation>? entities =
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
-    // Analyst users = await commonServices.getUsersByRole(roleName: 'T1_Analyst');
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
-    GetDepositor emailUsers = await commonServices.getAtomStaticUsers(
+    List<BaseUser> emailUsers = await commonServices.getBaseUsers(
+        isDbUser: true,
         roleName: 'ATOM_STATIC_USER', locationId: state.model.location?.id);
     List<BaseUser> epm = await commonServices.getBaseUsersByRoles(
+        isDbUser: true,
         roleNames: 'ATOM_Sub_Regional_Head',
         locationId: state.model.location!.id!);
     List<BaseUser> lsm = await commonServices.getBaseUsersByRoles(
+        isDbUser: true,
         roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
         locationId: state.model.location!.id!);
 
@@ -67,10 +69,9 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         getEntitiesResponse: entities,
         listOfEntities: entities,
         status: FormStatus.initial,
-        // users: users.t1Analyst,
         epm: epm,
         lsm: lsm,
-        emailUsers: emailUsers.atomStaticUser,
+        emailUsers: emailUsers,
         departments: departments.employeeDepartments,
       ),
     );
@@ -97,16 +98,19 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.eventProtectionModuleCode),
         // commonServices.getUsersByRole(roleName: 'T1_Analyst'),
-        commonServices.getAtomStaticUsers(
+        commonServices.getBaseUsers(
+            isDbUser: true,
             roleName: 'ATOM_STATIC_USER', locationId: model.location?.id),
         commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
         commonServices.getUsers(),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getBaseUsersByRoles(
+            isDbUser: true,
             roleNames: 'ATOM_Sub_Regional_Head',
             locationId: model.location!.id!),
         commonServices.getBaseUsersByRoles(
+            isDbUser: true,
             roleNames:
                 ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
             locationId: model.location!.id!),
@@ -118,7 +122,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       User loggedInUserDetails = results[2];
       dynamic responseLabels = results[3];
       // Analyst users = results[4];
-      GetDepositor emailUsers = results[4];
+      List<BaseUser>? emailUsers = results[4];
       List<Organisation>? entities = results[5];
       Vendors vendors = results[6];
       List<User> entrySecurities = results[7];
@@ -159,8 +163,8 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         // users: users.t1Analyst,
         epm: epm,
         lsm: lsm,
-        emailUsers: emailUsers.atomStaticUser,
-        epOfficers: emailUsers.atomStaticUser,
+        emailUsers: emailUsers,
+        epOfficers: emailUsers,
         departments: departments.employeeDepartments,
         vendors: vendors.items,
         entrySecurities: entrySecurities,
@@ -204,11 +208,14 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
       emailUsers = await commonServices.getBaseUsers(
+          isDbUser: true,
           roleName: ConstantUserRoles.atomStaticUser, locationId: location.id!);
       epm = await commonServices.getBaseUsers(
+          isDbUser: true,
           roleName: ConstantUserRoles.atomSubRegionalHeadUser,
           locationId: location.id!);
       lsm = await commonServices.getBaseUsers(
+          isDbUser: true,
           roleName: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
           locationId: location.id!);
     }

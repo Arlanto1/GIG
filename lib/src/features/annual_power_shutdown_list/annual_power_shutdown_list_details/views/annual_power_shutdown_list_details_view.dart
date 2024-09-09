@@ -375,6 +375,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
                                     users: state.srh,
+                                    isDbUser: true,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<
                                                   AnnualPowerShutdownListDetailsCubit>(
@@ -420,6 +421,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
                                     users: state.srh,
+                                    isDbUser: true,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<
                                                   AnnualPowerShutdownListDetailsCubit>(
@@ -465,6 +467,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
                                     users: state.lsm,
+                                    isDbUser: true,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<
                                                   AnnualPowerShutdownListDetailsCubit>(
@@ -545,6 +548,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
                                     users: state.lsm,
+                                    isDbUser: true,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<
                                                   AnnualPowerShutdownListDetailsCubit>(
@@ -626,6 +630,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
                                     users: state.emailUsers!,
+                                    isDbUser: true,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<
                                                   AnnualPowerShutdownListDetailsCubit>(
@@ -705,6 +710,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
                                     users: state.emailUsers!,
+                                    isDbUser: true,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<
                                                   AnnualPowerShutdownListDetailsCubit>(
@@ -1126,6 +1132,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                         BaseOrganisationDialog().userDialog(
                                           context: context,
                                           enabled: !disableForm,
+                                          isDbUser: true,
                                           users: state.emailUsers!,
                                           onTap: (BaseUser user) {
                                             state.model.epOfficers ??= [];

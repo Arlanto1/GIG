@@ -12,4 +12,7 @@ class ConstantUserRoles {
       'ATOM_Security_Manager;ATOM_Senior_Security_Manager';
   static const String atomSecurityLeadAndAssistantSecurityLeadUser =
       'ATOM_ROLE_Security_Lead;ATOM_Assistant_Security_Lead';
+
+  static const String atomAssistantSecurityLead = 'ATOM_Assistant_Security_Lead';
+
 }

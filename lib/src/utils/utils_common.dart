@@ -4,6 +4,20 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/models/responseModels/permission_error.dart';
 
 class UtilsCommon {
+
+  Future<void> logCustomEvent({required String msg, required String customKey}) async {
+    FirebaseCrashlytics.instance.log(msg);
+    FirebaseCrashlytics.instance.setUserIdentifier(await SharedPrefs.getUserId());
+    FirebaseCrashlytics.instance.setCustomKey(customKey, msg);
+
+    // await FirebaseCrashlytics.instance.recordError(
+    //   error,
+    //   stackTrace,
+    //   reason: 'a non-fatal error',
+    //   information: ['further diagnostic information about the error', 'version 2.0'],
+    // );
+  }
+
   Future<ExtraProperties> checkWritePermission({
     required String moduleCode,
     required CommonServices commonServices,
@@ -18,7 +32,7 @@ class UtilsCommon {
 
   void exceptionHandling(Exception e, dynamic emit, dynamic state) {
     dynamic copyWith;
-    copyWith = UtilsCommon().genericExceptionHandling(e, copyWith, state);
+    copyWith = genericExceptionHandling(e, copyWith, state);
     emit(copyWith);
   }
 

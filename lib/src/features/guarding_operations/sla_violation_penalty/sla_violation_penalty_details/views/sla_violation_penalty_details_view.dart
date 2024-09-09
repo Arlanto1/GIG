@@ -384,6 +384,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                   context: context,
                                   enabled: !isReadOnly,
                                   users: state.emailUsers,
+                                  isDbUser: true,
                                   onTap: (BaseUser user) {
                                     BlocProvider.of<
                                                 SLAViolationPenaltyDetailsCubit>(

@@ -82,6 +82,7 @@ class KeyManagementMasterModel {
   String? additionalInformation;
   String? lostKeyDetails;
   String? lock;
+  bool isEligibleToEdit;
 
   KeyManagementMasterModel({
     this.keyManagementId,
@@ -131,6 +132,7 @@ class KeyManagementMasterModel {
     this.lostKeyDetails,
     this.securityManager,
     this.destructionReason,
+    this.isEligibleToEdit = false,
     this.lock,
   });
 
