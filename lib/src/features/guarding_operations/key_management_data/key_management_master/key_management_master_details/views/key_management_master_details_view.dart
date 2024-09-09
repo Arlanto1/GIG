@@ -105,6 +105,10 @@ class _KeyManagementMasterDetailsViewState
         //   isReadOnly = true;
         // }
 
+        if (!state.model.isEligibleToEdit) {
+          isReadOnly = true;
+        }
+
         showSaveSubmitButton = state.model.status != 2 &&
             state.model.status != -1 &&
             !isReadOnly &&

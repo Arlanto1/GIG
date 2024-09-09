@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/index.dart';
 
 class BaseAddUserDialog extends StatefulWidget {
@@ -7,6 +9,7 @@ class BaseAddUserDialog extends StatefulWidget {
     required this.functionToCall,
     required this.roleName,
     required this.locationId,
+    this.isDbUser = false,
   });
 
   final String title;
@@ -14,6 +17,7 @@ class BaseAddUserDialog extends StatefulWidget {
   // final Function functionToCall;
   final String roleName;
   final int locationId;
+  final bool isDbUser;
   final Function(BaseUser newCreatedUser) functionToCall;
 
   @override
@@ -125,21 +129,48 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
                           ),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
-                        FlutterInputField(
-                          controller: emailTextController,
-                          textFormKey: Keys.emailTextController,
-                          textCapitalization: false,
-                          hintText: '',
-                          onChange: (String username) {
-                            //this.username = username;
-                            setState(() {});
-                          },
-                          validateTextField: (String? username) {
-                            if (!Validator.isValidEmail(username)) {
-                              return Constants.enterValidEmail;
-                            }
-                          },
-                        ),
+                        if (!widget.isDbUser) ...[
+                          FlutterInputField(
+                            controller: emailTextController,
+                            textFormKey: Keys.emailTextController,
+                            textCapitalization: false,
+                            hintText: '',
+                            onChange: (String username) {
+                              //this.username = username;
+                              setState(() {});
+                            },
+                            validateTextField: (String? username) {
+                              if (!Validator.isValidEmail(username)) {
+                                return Constants.enterValidEmail;
+                              }
+                            },
+                          )
+                        ],
+                        if (widget.isDbUser) ...[
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width - 200,
+                                child: FlutterInputField(
+                                  controller: emailTextController,
+                                  textFormKey: Keys.emailTextController,
+                                  textCapitalization: false,
+                                  hintText: '',
+                                  onChange: (String username) {
+                                    //this.username = username;
+                                    setState(() {});
+                                  },
+                                  validateTextField: (String? username) {
+                                    if (!Validator.isValidEmail(username)) {
+                                      return Constants.enterValidEmail;
+                                    }
+                                  },
+                                ),
+                              ),
+                              const Text(dbEmailId)
+                            ],
+                          )
+                        ],
                         CommonWidgets.verticalSpacerWidget(height * 0.03),
                         buttonViews(context, width),
                       ],
@@ -175,6 +206,12 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () async {
         //loginFormKey.currentState!.validate();
+
+        late String dbEmail;
+        if (widget.isDbUser) {
+          dbEmail = '${emailTextController.text}@db.com';
+        }
+        log('--onTap---$dbEmail');
         FocusScope.of(context).unfocus();
         if (firstnameTextController.text.isEmpty ||
             lastnameTextController.text.isEmpty ||
@@ -183,17 +220,25 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
             context,
             "Please enter all the required fields",
           );
-        } else if (!emailTextController.text.isEmptyOrNull &&
+        } else if (widget.isDbUser && !Validator.isValidEmail(dbEmail)) {
+            Validator().showToast(context, Constants.enterValidEmail);
+        } else if (!widget.isDbUser &&
+            !emailTextController.text.isEmptyOrNull &&
             !Validator.isValidEmail(emailTextController.text)) {
           Validator().showToast(context, Constants.enterValidEmail);
         } else {
+          if (widget.isDbUser) {}
           var sca = ScaffoldMessenger.of(context);
           try {
             var nav = Navigator.of(context);
+
+            log('-sub-onTap-');
+
             User createUserData = await CommonServices().createUser(
               firstName: firstnameTextController.text,
               lastName: lastnameTextController.text,
-              email: emailTextController.text,
+              email:
+                  widget.isDbUser == true ? dbEmail : emailTextController.text,
               role: widget.roleName,
               locationId: widget.locationId,
               context: context,

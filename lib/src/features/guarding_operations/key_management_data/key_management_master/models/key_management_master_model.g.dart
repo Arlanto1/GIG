@@ -73,6 +73,7 @@ KeyManagementMasterModel _$KeyManagementMasterModelFromJson(
           ? null
           : Organisation.fromJson(
               json['destructionReason'] as Map<String, dynamic>),
+      isEligibleToEdit: json['isEligibleToEdit'] as bool? ?? false,
       lock: json['lock'] as String?,
     );
 
@@ -127,4 +128,5 @@ Map<String, dynamic> _$KeyManagementMasterModelToJson(
       'additionalInformation': instance.additionalInformation,
       'lostKeyDetails': instance.lostKeyDetails,
       'lock': instance.lock,
+      'isEligibleToEdit': instance.isEligibleToEdit,
     };

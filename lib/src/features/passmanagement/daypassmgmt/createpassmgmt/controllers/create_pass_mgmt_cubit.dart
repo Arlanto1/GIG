@@ -84,8 +84,9 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   Future<void> getUserByRoleDepositor() async {
     try {
       GetDepositor getDepositorData =
-          await createpassmgmtServices.getUserByRoleDepositor(
+          await commonServices.getAtomStaticUsers(
               roleName: ConstantUserRoles.atomStaticUser,
+              isDbUser: true,
               locationId: state.model.location?.id);
 
       emit(
@@ -314,6 +315,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       );
 
       List<BaseUser>? getDepositorData = await commonServices.getBaseUsers(
+        isDbUser: true,
           roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
 
       getAnalysts();
@@ -1092,6 +1094,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     //     await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
         roleNames: ConstantUserRoles.atomStaticUser,
+        isDbUser: true,
         locationId: state.model.location?.id);
 
     getUserByRoleDepositor();

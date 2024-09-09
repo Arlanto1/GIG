@@ -540,6 +540,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       List<BaseUser>? getDepositorData = await commonServices.getBaseUsers(
         roleName: roleName,
         locationId: locationId,
+        isDbUser: true,
       );
       emit(
         state.copyWith(

@@ -36,7 +36,8 @@ class KeyManagementIssuanceDetailsCubit
     List<Organisation>? entities =
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
     List<BaseUser> emailUsers = await commonServices.getBaseUsers(
-        roleName: 'ATOM_STATIC_USER', locationId: state.model.location!.id!);
+        isDbUser: true,
+        roleName: ConstantUserRoles.atomStaticUser, locationId: state.model.location!.id!);
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
@@ -87,6 +88,7 @@ class KeyManagementIssuanceDetailsCubit
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getUsers(),
         commonServices.getBaseUsers(
+            isDbUser: true,
             roleName: 'ATOM_STATIC_USER',
             locationId: state.model.location!.id!),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
@@ -116,10 +118,8 @@ class KeyManagementIssuanceDetailsCubit
               int.tryParse(state.model.createdDate ?? '0'),
               Constants.fulldateFormat);
 
-      if (state.model.status == 1) {
-        state.model.keyReturnDateTime = state.model.keyReturnDateTime == null
-            ? Utils().getCurrentDate()
-            : Utils.timestampToDateConversion(
+      if (!state.model.keyReturnDateTime.isEmptyOrNull) {
+        state.model.keyReturnDateTime =  Utils.timestampToDateConversion(
             int.tryParse(state.model.keyReturnDateTime ?? '0'),
             Constants.fulldateFormat);
       }
@@ -178,6 +178,7 @@ class KeyManagementIssuanceDetailsCubit
       state.model.slNo = slNo.serialNo;
 
       emailUsers = await commonServices.getBaseUsers(
+          isDbUser: true,
           roleName: 'ATOM_STATIC_USER', locationId: location.id!);
     }
     state.model.dbSponsorCwrT2 = null;
@@ -335,8 +336,8 @@ class KeyManagementIssuanceDetailsCubit
     state.model.keyHandOverDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
-    state.model.keyReturnDateTime =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.keyReturnDateTime =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     // }
     // if (state.model.status == 1) {

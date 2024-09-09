@@ -742,6 +742,7 @@ class _SstIncidentGeneralInfoViewState
                                       context: context,
                                       enabled: !disableForm,
                                       users: state.systemManagers!,
+                                      isDbUser: true,
                                       onTap: (BaseUser user) {
                                         BlocProvider.of<
                                                     SstIncidentGeneralInfoCubit>(
@@ -788,6 +789,7 @@ class _SstIncidentGeneralInfoViewState
                                       context: context,
                                       enabled: !disableForm,
                                       users: state.securityManagers!,
+                                      isDbUser: true,
                                       onTap: (BaseUser user) {
                                         BlocProvider.of<
                                                     SstIncidentGeneralInfoCubit>(
@@ -834,6 +836,7 @@ class _SstIncidentGeneralInfoViewState
                                       context: context,
                                       enabled: !disableForm,
                                       users: state.securityLeads!,
+                                      isDbUser: true,
                                       onTap: (BaseUser user) {
                                         BlocProvider.of<
                                                     SstIncidentGeneralInfoCubit>(

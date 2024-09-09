@@ -506,6 +506,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "fluttertoast",
+      "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/fluttertoast-8.2.8",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "frontend_server_client",
       "rootUri": "file:///Users/anurag/.pub-cache/hosted/pub.dev/frontend_server_client-4.0.0",
       "packageUri": "lib/",
@@ -1406,7 +1412,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2024-09-04T13:28:53.545201Z",
+  "generated": "2024-09-09T05:31:13.412678Z",
   "generator": "pub",
   "generatorVersion": "3.5.1",
   "flutterRoot": "file:///Users/anurag/Downloads/flutter",

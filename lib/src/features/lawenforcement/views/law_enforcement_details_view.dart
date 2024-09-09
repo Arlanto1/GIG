@@ -1527,6 +1527,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                       title: Constants.createnewuser,
                       lawstate: state,
                       locationId: state.locationSelectedlist!.id!,
+                      isDbUser: true,
                     );
                   });
             },

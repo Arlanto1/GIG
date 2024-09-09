@@ -638,6 +638,7 @@ class _CreateFoundState extends State<CreateFound> {
                       title: Constants.createnewuser,
                       createoundstate: state,
                       locationId: state.location!.id!,
+                      isDbUser: true,
                     );
                   });
             },

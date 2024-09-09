@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/main.dart';
+import 'package:db_atom/src/constants/constant_crashlytics_keys.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/models/responseModels/generic_response.dart';
 import 'package:db_atom/src/models/responseModels/permission_error.dart';
@@ -27,6 +28,7 @@ import '../utils/shared_preferences.dart';
 enum RequestType {
   get,
   post,
+  patch,
   delete,
 }
 
@@ -78,29 +80,28 @@ class BaseApiService {
     required String url,
     bool? isAuthenticated,
   }) async {
+    int? statusCode;
+
     try {
       log('url--getData---$url');
       var headers = await getHeaders(
         isAuthenticated: isAuthenticated ?? true,
       );
-      // log('headers---${headers.toString()}');
       var response = await http.get(
         Uri.parse(url),
         headers: headers,
       );
-      log('response.statusCode----${response.statusCode}');
-      // if (!url.contains('getLabels') || url.contains('Location')) {
-      //   log('response.body----${response.body}');
-      // }
+
+      statusCode = response.statusCode; // Store status code
+      log('response.statusCode----$statusCode');
+
       final responseBody = json.decode(response.body);
       if (response.statusCode == HttpStatus.ok) {
-        // log('response.body----${response.body}');
-        // log('responseBody----$responseBody');
         return responseBody;
       } else {
-        log("$url GET response is NOT OK:${response.statusCode}");
+        log("$url GET response is NOT OK: $statusCode");
 
-        /// If Token is Expired
+        /// Handle specific status codes like token expiry, 401, 400
         if (response.statusCode == 449) {
           var response = await _refreshTokenAndRetry(
               originalUrl: url, requestType: RequestType.get);
@@ -108,14 +109,8 @@ class BaseApiService {
           return response;
         }
 
-        if (response.statusCode.toString() == "401") {
-          log("will log out now${response.statusCode}");
-          // TODO: Need to handle the logout case
-          throw GenericResponse.fromJson(responseBody);
-        }
-        if (response.statusCode.toString() == "400") {
-          log("will log out now${response.statusCode}");
-          // TODO: Need to handle the logout case
+        if (response.statusCode == 401 || response.statusCode == 400) {
+          log("will log out now $statusCode");
           throw GenericResponse.fromJson(responseBody);
         }
 
@@ -123,18 +118,19 @@ class BaseApiService {
             requestType: RequestType.get,
             apiUrl: url,
             statusCode: response.statusCode.toString(),
-            response: json.decode(response.body));
-        throw json.decode(response.body);
+            response: responseBody);
+        throw responseBody;
       }
     } on SocketException {
       throw json.decode('{"errorMessage":"Network Lost"}');
     } catch (e) {
-      log('$e');
+      var decodedResponse = tryJsonDecode(e);
+      log("Exception thrown: $e");
       setFirebaseLog(
-          requestType: RequestType.post,
+          requestType: RequestType.get,
           apiUrl: url,
-          statusCode: 'UNHANDLED',
-          response: e.toString());
+          statusCode: statusCode?.toString() ?? unhandled,
+          response: decodedResponse.toString());
       rethrow;
     }
   }
@@ -194,6 +190,8 @@ class BaseApiService {
     bool? showAlert,
     bool? showLoader,
   }) async {
+    int? statusCode; // Declare statusCode variable to capture status code
+
     try {
       log("API URL: $url");
       log("requestedData - ${jsonEncode(requestedData)}");
@@ -208,24 +206,20 @@ class BaseApiService {
           jsonEncode(requestedData), // body
         );
       }
+
       var response = await http.post(
         Uri.parse(url),
         headers: await getHeaders(isAuthenticated: isAuthenticated ?? true),
         body: json.encode(requestedData),
       );
 
-      // throw GenericResponse(message: 'TEST');
-      log("HTTP Status Code: ${response.statusCode}");
-      // log("Response: ${response.body}");
-      // if (url.contains('getIncidentMgmtById')) {
-      //   log("Response: ${response.body}");
-      // }
+      statusCode = response.statusCode;
+      log("HTTP Status Code: $statusCode");
+
       var responseBody;
       if (!response.body.isEmptyOrNull) {
         responseBody = json.decode(response.body);
       }
-
-      // responseBody = json.decode(response.body);
 
       if (response.statusCode == HttpStatus.ok) {
         return responseBody ?? '';
@@ -237,14 +231,11 @@ class BaseApiService {
           requestedData: requestedData,
         );
       } else if (response.statusCode == 400) {
-        // final responseBody = json.decode(response.body);
         log("User is unauthorized. Logging out...");
-        log("------responseBody.toString()-------------${responseBody.runtimeType.toString()}");
         Map<String, dynamic> json = responseBody;
         json.putIfAbsent('statusCode', () => '400');
         throw GenericResponse.fromJson(json);
       } else if (response.statusCode == 401) {
-        // Unauthorized
         log("User is unauthorized. Logging out...");
         Map<String, dynamic> json = responseBody;
         json.putIfAbsent('statusCode', () => '401');
@@ -257,7 +248,6 @@ class BaseApiService {
             apiUrl: url,
             statusCode: response.statusCode.toString(),
             response: json.decode(response.body));
-        // Handle other error cases
         log("$url POST response is NOT OK:${response.statusCode}");
         log("_response - ${responseBody['msg']}");
         if (responseBody["error"] != null &&
@@ -265,28 +255,57 @@ class BaseApiService {
           throw json.decode(response.body);
         }
       }
+
       return response;
     } on SocketException {
       // Handle SocketException
-      // TODO: Handle Error
+      throw json.decode('{"errorMessage":"Network Lost"}');
+      rethrow;
     } on GenericResponse catch (e) {
       // Handle GenericCreateResponse
       log('--on GenericCreateResponse POST---${e.toString()}---');
       setFirebaseLog(
           requestType: RequestType.post,
           apiUrl: url,
-          statusCode: 'UNHANDLED',
+          statusCode: statusCode?.toString() ?? unhandled,
           response: e.toString());
       rethrow;
     } catch (e) {
       // Handle other exceptions
+      // Problem: try to parse the e in order to extract information properly
+      var decodedResponse = tryJsonDecode(e);
       log("Exception thrown: $e");
       setFirebaseLog(
           requestType: RequestType.post,
           apiUrl: url,
-          statusCode: 'UNHANDLED',
-          response: e.toString());
+          statusCode: statusCode?.toString() ?? unhandled,
+          response: decodedResponse.toString());
       rethrow;
+    }
+  }
+
+  dynamic tryJsonDecode(dynamic input) {
+    try {
+      // Try decoding if the input is already a JSON string
+      if (input is String) {
+        return jsonDecode(input);
+      }
+
+      // Try converting the object to JSON (if it has a toJson method)
+      if (input != null && input is Map || input is List) {
+        return input; // Input is already JSON serializable
+      }
+
+      // If the input has a toJson method, serialize it to JSON
+      if (input != null && input.toJson != null) {
+        return jsonEncode(input.toJson());
+      }
+
+      // Otherwise, return the string representation
+      return input.toString();
+    } catch (e) {
+      // If any error occurs, return the string representation of the input
+      return 'Could not decode: ${input.toString()}';
     }
   }
 
@@ -294,6 +313,7 @@ class BaseApiService {
     required String url,
     bool? isAuthenticated,
   }) async {
+    int? statusCode;
     try {
       log('url--patch---$url');
       var headers = await getHeaders(
@@ -305,6 +325,7 @@ class BaseApiService {
       );
       log('response.statusCode----${response.statusCode}');
       final responseBody = json.decode(response.body);
+      statusCode = response.statusCode;
       if (response.statusCode == HttpStatus.ok) {
         return responseBody;
       } else {
@@ -334,12 +355,13 @@ class BaseApiService {
     } on SocketException {
       throw json.decode('{"errorMessage":"Network Lost"}');
     } catch (e) {
-      log('$e');
+      var decodedResponse = tryJsonDecode(e);
+      log("Exception thrown: $e");
       setFirebaseLog(
-          requestType: RequestType.post,
+          requestType: RequestType.patch,
           apiUrl: url,
-          statusCode: 'UNHANDLED',
-          response: e.toString());
+          statusCode: statusCode?.toString() ?? unhandled,
+          response: decodedResponse.toString());
       rethrow;
     }
   }
@@ -348,6 +370,7 @@ class BaseApiService {
     required String url,
     bool? isAuthenticated,
   }) async {
+    int? statusCode;
     try {
       log('url--delete---$url');
       var headers = await getHeaders(
@@ -357,7 +380,8 @@ class BaseApiService {
         Uri.parse(url),
         headers: headers,
       );
-      log('response.statusCode----${response.statusCode}');
+      statusCode = response.statusCode;
+      log("HTTP Status Code: $statusCode");
       final responseBody = json.decode(response.body);
       if (response.statusCode == HttpStatus.ok) {
         return responseBody;
@@ -388,13 +412,13 @@ class BaseApiService {
     } on SocketException {
       throw json.decode('{"errorMessage":"Network Lost"}');
     } catch (e) {
-      log('$e');
+      var decodedResponse = tryJsonDecode(e);
+      log("Exception thrown: $e");
       setFirebaseLog(
-          requestType: RequestType.post,
+          requestType: RequestType.delete,
           apiUrl: url,
-          statusCode: 'UNHANDLED',
-          response: e.toString());
-      rethrow;
+          statusCode: statusCode?.toString() ?? unhandled,
+          response: decodedResponse.toString());
     }
   }
 

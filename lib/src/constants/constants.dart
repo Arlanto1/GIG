@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quill_html_editor/quill_html_editor.dart';
 
+const String dbEmailId = '@db.com';
+
 class Constants {
   // static const inactivityDuration = Duration(minutes: 5);
 
@@ -378,9 +380,9 @@ class Constants {
   static const String reasonForVendorPass = 'Reason for Vendor Pass';
   static const String visitorPassNo = 'Visitor Pass No';
   static const String vendorPassNo = 'Vendor Pass No';
-  static const String escortedByHost =  'Escorted by Host';
-  static const String photoOfVisitor =  'Photo of Visitor';
-  static const String deutscheBank =  'Deutsche Bank';
+  static const String escortedByHost = 'Escorted by Host';
+  static const String photoOfVisitor = 'Photo of Visitor';
+  static const String deutscheBank = 'Deutsche Bank';
 
   static const String passIssuedOn = 'Pass Issued On';
   static const String passvlidfrom = 'Pass Valid From';

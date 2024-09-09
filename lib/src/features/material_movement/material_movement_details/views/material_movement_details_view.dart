@@ -949,6 +949,7 @@ class _MaterialMovementDetailsViewState
                                           BaseOrganisationDialog().userDialog(
                                             context: context,
                                             users: state.requestorEmailUsers!,
+                                            isDbUser: true,
                                             onTap: (BaseUser user) {
                                               BlocProvider.of<
                                                           MaterialMovementDetailsCubit>(
@@ -1497,6 +1498,7 @@ class _MaterialMovementDetailsViewState
                                           BaseOrganisationDialog().userDialog(
                                             context: context,
                                             users: state.approver1Users!,
+                                            isDbUser: true,
                                             onTap: (BaseUser user) {
                                               BlocProvider.of<
                                                           MaterialMovementDetailsCubit>(
@@ -1653,6 +1655,7 @@ class _MaterialMovementDetailsViewState
                                           BaseOrganisationDialog().userDialog(
                                             context: context,
                                             users: state.approver2Users!,
+                                            isDbUser: true,
                                             onTap: (BaseUser user) {
                                               BlocProvider.of<
                                                           MaterialMovementDetailsCubit>(
@@ -1882,11 +1885,15 @@ class _MaterialMovementDetailsViewState
                                           state.model.status ==
                                               ConstantsIntValue
                                                   .mmStatusClosed ||
-                                          state.model.status ==
-                                              ConstantsIntValue
-                                                  .mmStatusInwardWaiting
+                                          // state.model.status ==
+                                          //     ConstantsIntValue
+                                          //         .mmStatusInwardWaiting ||
+                                      state.model.status ==
+                                          ConstantsIntValue
+                                              .mmStatusApproved
                                       ? true
                                       : false,
+                                  // isDisabled: true,
                                   onChange: (String value) {
                                     state.model.expectedDateOfReturn =
                                         Utils().formatTime(value);
@@ -1910,7 +1917,6 @@ class _MaterialMovementDetailsViewState
                                 if (state.model.status == 6 ||
                                     state.model.status == 9 ||
                                     state.model.status == 10) ...[
-                                  ///Expected Date of Return
 
                                   /// Approved By
                                   CommonWidgets.verticalTextHandling(
@@ -2256,6 +2262,7 @@ class _MaterialMovementDetailsViewState
                                             BaseOrganisationDialog().userDialog(
                                               context: context,
                                               users: state.receiverEmailUsers!,
+                                              isDbUser: true,
                                               onTap: (BaseUser user) {
                                                 BlocProvider.of<
                                                             MaterialMovementDetailsCubit>(
@@ -2391,7 +2398,7 @@ class _MaterialMovementDetailsViewState
                                     if (!isReadOnly) {
                                       BaseOrganisationDialog().userDialog(
                                         context: context,
-                                        users: state.receiverEmailUsers!,
+                                        users: state.emailUsers!,
                                         onTap: (BaseUser user) {
                                           BlocProvider.of<
                                                       MaterialMovementDetailsCubit>(

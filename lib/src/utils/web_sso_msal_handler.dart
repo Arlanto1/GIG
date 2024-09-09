@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/constants/constant_crashlytics_keys.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:msal_auth/msal_auth.dart';
 
 class WebSsoMsalHandler {
@@ -31,18 +33,66 @@ class WebSsoMsalHandler {
     );
   }
 
-  Future<MsalUser?> getToken() async {
+  // Future<MsalUser?> getToken() async {
+  //   log('getToken');
+  //   try {
+  //     final MsalAuth msalAuth = await getMsalAuth();
+  //     final MsalUser? user = await msalAuth.acquireToken();
+  //     log('User data: ${user?.toJson()}');
+  //     return user;
+  //   } on MsalException catch (e) {
+  //     log('Msal exception with error: ${e.errorMessage}');
+  //   } catch (e) {
+  //     log(e.toString());
+  //   }
+  //   return null;
+  // }
+
+  Future<MsalUser?> getToken(BuildContext context) async {
     log('getToken');
     try {
       final MsalAuth msalAuth = await getMsalAuth();
       final MsalUser? user = await msalAuth.acquireToken();
+
       log('User data: ${user?.toJson()}');
+
+      // Log successful token acquisition in Firebase Analytics
+      UtilsCommon().logCustomEvent(
+        msg: user!.toJson().toString(),
+        customKey: loginSso,
+      );
+
       return user;
     } on MsalException catch (e) {
       log('Msal exception with error: ${e.errorMessage}');
+
+      UtilsCommon().logCustomEvent(
+        msg: e.errorMessage ?? e.toString(),
+        customKey: loginSsoError,
+      );
+
+      // Show a toast for the error
+      Fluttertoast.showToast(
+        msg: "MSAL Error: ${e.errorMessage}",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+      );
     } catch (e) {
       log(e.toString());
+
+      UtilsCommon().logCustomEvent(
+        msg: e.toString(),
+        customKey: loginSsoError,
+      );
+
+      // Show a general error toast
+      Fluttertoast.showToast(
+        msg: "An unknown error occurred. Please try again.",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+      );
     }
+
     return null;
   }
 

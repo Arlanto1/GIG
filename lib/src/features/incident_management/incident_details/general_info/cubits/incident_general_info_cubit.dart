@@ -60,12 +60,15 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     List<Organisation>? entities =
         await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
     List<BaseUser> emailUsers = await commonServices.getBaseUsers(
+        isDbUser: true,
         roleName: ConstantUserRoles.atomStaticUser,
         locationId: state.model.location!.id!);
     List<BaseUser> incidentManager = await commonServices.getBaseUsers(
+        isDbUser: true,
         roleName: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
         locationId: state.model.location!.id!);
     List<BaseUser> incidentOwner = await commonServices.getBaseUsers(
+        isDbUser: true,
         roleName: ConstantUserRoles.atomSubRegionalHeadUser,
         locationId: state.model.location!.id!);
     emit(
@@ -132,13 +135,16 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
         commonServices.getBaseUsers(
+            isDbUser: true,
             roleName: ConstantUserRoles.atomStaticUser,
             locationId: model.location!.id!),
         commonServices.getBaseUsers(
+            isDbUser: true,
             roleName:
                 ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
             locationId: model.location!.id!),
         commonServices.getBaseUsers(
+            isDbUser: true,
             roleName: ConstantUserRoles.atomSubRegionalHeadUser,
             locationId: model.location!.id!),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
@@ -214,12 +220,15 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       state.model.slNo = slNo.serialNo ?? '';
 
       emailUsers = await commonServices.getBaseUsers(
+          isDbUser: true,
           roleName: ConstantUserRoles.atomStaticUser,
           locationId: state.model.location!.id!);
       incidentManager = await commonServices.getBaseUsers(
+          isDbUser: true,
           roleName: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
           locationId: state.model.location!.id!);
       incidentOwner = await commonServices.getBaseUsers(
+          isDbUser: true,
           roleName: ConstantUserRoles.atomSubRegionalHeadUser,
           locationId: state.model.location!.id!);
     }

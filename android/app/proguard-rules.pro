@@ -24,3 +24,21 @@
 # Preserve MSAL classes
 -keep class com.microsoft.identity.** { *; }
 -keep class com.azure.identity.** { *; }
+-dontwarn com.microsoft.identity.**
+
+# Preserve Nimbus classes
+-keep class com.nimbusds.** { *; }
+-dontwarn com.nimbusds.**
+
+# Preserve Jackson classes used for JSON parsing
+-keep class com.fasterxml.jackson.** { *; }
+-dontwarn com.fasterxml.jackson.**
+
+# Prevent stripping classes used for OAuth token handling
+-keep class net.minidev.json.** { *; }
+-dontwarn net.minidev.json.**
+
+# Preserve Android WebView and browser components
+-keep class android.webkit.** { *; }
+-keep class android.net.http.SslError { *; }
+-keep class org.chromium.** { *; }

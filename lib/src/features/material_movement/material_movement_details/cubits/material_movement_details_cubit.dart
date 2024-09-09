@@ -43,6 +43,12 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         roleName: ConstantUserRoles.atomStaticUser,
         locationId: state.model.location!.id!);
 
+    List<BaseUser> onlyDBUsers = await commonServices.getBaseUsers(
+      roleName: ConstantUserRoles.atomStaticUser,
+      locationId: state.model.location!.id!,
+      isDbUser: true,
+    );
+
     emit(
       state.copyWith(
         status: FormStatus.initial,
@@ -51,9 +57,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         departments: departments.employeeDepartments,
         quantityUnits: quantityUnits,
         receiverEmailUsers: emailUsers,
-        requestorEmailUsers: emailUsers,
-        approver1Users: emailUsers,
-        approver2Users: emailUsers,
+        requestorEmailUsers: onlyDBUsers,
+        approver1Users: onlyDBUsers,
+        approver2Users: onlyDBUsers,
       ),
     );
   }
@@ -175,6 +181,12 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       // state.model.rejectedBy ??= loggedInUserDetails;
       log('--state.model.entrySecurity---${state.model.entrySecurity?.firstName}----');
 
+      List<BaseUser> onlyDBUsers = await commonServices.getBaseUsers(
+        roleName: ConstantUserRoles.atomStaticUser,
+        locationId: state.model.location!.id!,
+        isDbUser: true,
+      );
+
       emit(
         state.copyWith(
           locations: locations,
@@ -182,10 +194,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           status: FormStatus.initial,
           model: state.model,
           loadAttachments: state.model.images,
-          requestorEmailUsers: emailUsers,
-          approver1Users: emailUsers,
-          approver2Users: emailUsers,
-          receiverEmailUsers: emailUsers,
+          requestorEmailUsers: onlyDBUsers,
+          approver1Users: onlyDBUsers,
+          approver2Users: onlyDBUsers,
+          receiverEmailUsers: onlyDBUsers,
           returnReceiverEmailId: emailUsers,
           departments: departments.employeeDepartments,
           quantityUnits: quantityUnits,
@@ -239,6 +251,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.slNo = slNo.serialNo;
       emailUsers = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomStaticUser,
+          isDbUser: true,
           locationId: state.model.location!.id!);
     }
     state.model.receiverEmail = null;

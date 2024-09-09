@@ -13,6 +13,7 @@ class CreateFoundNewUser extends StatefulWidget {
     this.createoundstate,
     this.createpassmgmtstate,
     required this.locationId,
+    this.isDbUser = false,
   });
 
   final String title;
@@ -20,6 +21,7 @@ class CreateFoundNewUser extends StatefulWidget {
   final CreateFoundState? createoundstate;
   final CreatePassMgmtState? createpassmgmtstate;
   final int locationId;
+  final bool isDbUser;
 
   @override
   State<CreateFoundNewUser> createState() => CreateFoundNewUserState();
@@ -151,16 +153,48 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
                           ),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
-                        FlutterInputField(
-                          controller: emailTextController,
-                          textFormKey: Keys.emailTextController,
-                          hintText: '',
-                          onChange: (String username) {
-                            //this.username = username;
-                            setState(() {});
-                          },
-                          validateTextField: (String? user) {},
-                        ),
+                        if (!widget.isDbUser) ...[
+                          FlutterInputField(
+                            controller: emailTextController,
+                            textFormKey: Keys.emailTextController,
+                            textCapitalization: false,
+                            hintText: '',
+                            onChange: (String username) {
+                              //this.username = username;
+                              setState(() {});
+                            },
+                            validateTextField: (String? username) {
+                              if (!Validator.isValidEmail(username)) {
+                                return Constants.enterValidEmail;
+                              }
+                            },
+                          )
+                        ],
+                        if (widget.isDbUser) ...[
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width - 200,
+                                child: FlutterInputField(
+                                  controller: emailTextController,
+                                  textFormKey: Keys.emailTextController,
+                                  textCapitalization: false,
+                                  hintText: '',
+                                  onChange: (String username) {
+                                    //this.username = username;
+                                    setState(() {});
+                                  },
+                                  validateTextField: (String? username) {
+                                    if (!Validator.isValidEmail(username)) {
+                                      return Constants.enterValidEmail;
+                                    }
+                                  },
+                                ),
+                              ),
+                              const Text(dbEmailId)
+                            ],
+                          )
+                        ],
                         CommonWidgets.verticalSpacerWidget(height * 0.03),
                         buttonViews(context, width),
                       ],
@@ -195,6 +229,12 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {
+
+        late String dbEmail;
+        if (widget.isDbUser) {
+          dbEmail = '${emailTextController.text}@db.com';
+        }
+        log('--onTap---$dbEmail');
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
         if (firstnameTextController.text.isEmpty ||
@@ -204,7 +244,11 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
             context,
             "Please enter all the required fields",
           );
-        } else if (!emailTextController.text.isEmptyOrNull &&
+
+        } else if (widget.isDbUser && !Validator.isValidEmail(dbEmail)) {
+          Validator().showToast(context, Constants.enterValidEmail);
+        } else if (!widget.isDbUser &&
+            !emailTextController.text.isEmptyOrNull &&
             !Validator.isValidEmail(emailTextController.text)) {
           Validator().showToast(context, Constants.enterValidEmail);
         } else {
@@ -212,7 +256,7 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
             _getFoundNewuser(
                 firstnameTextController.text,
                 lastnameTextController.text,
-                emailTextController.text,
+                widget.isDbUser == true ? dbEmail : emailTextController.text,
                 widget.locationId);
           } catch (e) {
             // present userwith error message

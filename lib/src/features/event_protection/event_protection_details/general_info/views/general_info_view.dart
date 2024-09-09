@@ -491,6 +491,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     context: context,
                                     enabled: !disableForm,
                                     users: state.epm,
+                                    isDbUser: true,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<GeneralInfoCubit>(context)
                                           .updateDropdownValues(
@@ -530,6 +531,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
                                     users: state.epm,
+                                    isDbUser: true,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<GeneralInfoCubit>(context)
                                           .updateDropdownValues(
@@ -570,6 +572,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.lsm,
+                                  isDbUser: true,
                                   onTap: (BaseUser user) {
                                     BlocProvider.of<GeneralInfoCubit>(context)
                                         .updateDropdownValues(
@@ -640,6 +643,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.lsm,
+                                  isDbUser: true,
                                   onTap: (BaseUser user) {
                                     BlocProvider.of<GeneralInfoCubit>(context)
                                         .updateDropdownValues(
@@ -710,6 +714,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.emailUsers!,
+                                  isDbUser: true,
                                   onTap: (BaseUser user) {
                                     BlocProvider.of<GeneralInfoCubit>(context)
                                         .updateDropdownValues(
@@ -780,6 +785,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 BaseOrganisationDialog().userDialog(
                                   context: context,
                                   users: state.emailUsers!,
+                                  isDbUser: true,
                                   onTap: (BaseUser user) {
                                     BlocProvider.of<GeneralInfoCubit>(context)
                                         .updateDropdownValues(
@@ -1162,7 +1168,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            ///Event Protection Officer
+                            /// Event Protection Officer
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.epOfficers ??
                                     state.labels?.defaultLocale.epOfficers ??
@@ -1232,6 +1238,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       context: context,
                                       enabled: !disableForm,
                                       users: state.emailUsers!,
+                                      isDbUser: true,
                                       onTap: (BaseUser user) {
                                         state.model.epOfficers ??= [];
 

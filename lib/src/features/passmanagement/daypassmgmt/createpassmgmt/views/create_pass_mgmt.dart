@@ -714,11 +714,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                               Constants.companyName
                                           : widget.passId ==
                                                   ConstantsIntValue.passIdVendor
-                                              ? state.labels?.locale
-                                                      .vendorName ??
+                                              ? state.labels?.locale.vendorName ??
                                                   state.labels?.defaultLocale
                                                       .vendorName ??
-                                          Constants.vendorName
+                                                  Constants.vendorName
                                               : widget.passId ==
                                                       ConstantsIntValue
                                                           .passIdDayPass
@@ -735,7 +734,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                           .labels
                                                           ?.defaultLocale
                                                           .visitorName ??
-                                          Constants.visitorName,
+                                                      Constants.visitorName,
                                       Styles.textStyleBlack14,
                                       isMandatory: true,
                                     ),
@@ -817,24 +816,27 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
                                     CommonWidgets.textDisplay(
-                                        widget.passId ==
+                                        widget
+                                                    .passId ==
                                                 ConstantsIntValue.passIdDayPass
                                             ? state.labels?.locale
                                                     .employeeName ??
                                                 state.labels?.defaultLocale
                                                     .employeeName ??
                                                 Constants.name
-                                            : widget.passId ==
+                                            : widget
+                                                        .passId ==
                                                     ConstantsIntValue.passIdSez
-                                                ? state.labels?.locale.email ??
+                                                ? state
+                                                        .labels?.locale.email ??
                                                     state.labels?.defaultLocale
                                                         .email ??
-                                            Constants.email
+                                                    Constants.email
                                                 : state.labels?.locale
                                                         .contactNo ??
                                                     state.labels?.defaultLocale
                                                         .contactNo ??
-                                            Constants.contactNo,
+                                                    Constants.contactNo,
                                         Styles.textStyleBlack14,
                                         isMandatory:
                                             passCategoryTextController.text ==
@@ -865,6 +867,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 controller: emailTextController,
                                                 index: 0,
                                                 state: state,
+                                                isDbUser: true,
                                               )
                                             : textFieldWidgetLoad(
                                                 controller:
@@ -967,8 +970,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     widget.passId ==
                                                 ConstantsIntValue
                                                     .passIdDayPass &&
-                                            ((state.selectedCompanyType
-                                                                ?.name ??
+                                            ((state.selectedCompanyType?.name ??
                                                             '')
                                                         .toLowerCase() ==
                                                     'cwr t1' ||
@@ -1037,7 +1039,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     widget.passId ==
                                                 ConstantsIntValue
                                                     .passIdDayPass &&
-                                            ((state.selectedCompanyType?.name ??
+                                            ((state.selectedCompanyType
+                                                                ?.name ??
                                                             '')
                                                         .toLowerCase() ==
                                                     'cwr t1' ||
@@ -1046,14 +1049,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                             '')
                                                         .toLowerCase() ==
                                                     'cwr t2')
-                                        ? CommonWidgets.textDisplay(
-                                            state.labels?.locale
-                                                    .cwrSponsorEmployeeId ??
-                                                state.labels?.defaultLocale
-                                                    .cwrSponsorEmployeeId ??
-                                                Constants.dbSponsorEmployeeId,
-                                            isMandatory: true,
-                                            Styles.textStyleBlack14)
+                                        ? CommonWidgets
+                                            .textDisplay(
+                                                state.labels?.locale
+                                                        .cwrSponsorEmployeeId ??
+                                                    state.labels?.defaultLocale
+                                                        .cwrSponsorEmployeeId ??
+                                                    Constants
+                                                        .dbSponsorEmployeeId,
+                                                isMandatory: true,
+                                                Styles.textStyleBlack14)
                                         : Container(),
 
                                     widget.passId ==
@@ -1097,18 +1102,19 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         widget.passId ==
                                             ConstantsIntValue.passIdSez) ...[
                                       CommonWidgets.textDisplay(
-                                        widget.passId ==
+                                        widget
+                                                    .passId ==
                                                 ConstantsIntValue.passIdVisitor
                                             ? state.labels?.locale
                                                     .visitorComingFrom ??
                                                 state.labels?.defaultLocale
                                                     .visitorComingFrom ??
-                                           Constants.visitorComingFrom
+                                                Constants.visitorComingFrom
                                             : state.labels?.locale
                                                     .sezPassInfo ??
                                                 state.labels?.defaultLocale
                                                     .sezPassInfo ??
-                                            Constants.sezPass,
+                                                Constants.sezPass,
                                         Styles.textStyleBlack14,
                                         isMandatory: true,
                                       ),
@@ -1155,12 +1161,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             ? state.labels?.locale.mtpPassNo ??
                                                 state.labels?.defaultLocale
                                                     .mtpPassNo ??
-                                            Constants.mTPApplicationNo
+                                                Constants.mTPApplicationNo
                                             : state.labels?.locale
                                                     .visitingPurpose ??
                                                 state.labels?.defaultLocale
                                                     .visitingPurpose ??
-                                            Constants.purposeOfVisit,
+                                                Constants.purposeOfVisit,
                                         Styles.textStyleBlack14,
                                         isMandatory: true,
                                       ),
@@ -1184,7 +1190,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     .idValidationType ??
                                                 state.labels?.defaultLocale
                                                     .idValidationType ??
-                                               Constants.photoIdentityType,
+                                                Constants.photoIdentityType,
                                             isMandatory: true,
                                             Styles.textStyleBlack14)
                                         : Container(),
@@ -1499,14 +1505,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             widget.passId ==
                                                         ConstantsIntValue
                                                             .passIdVisitor ||
-                                                    widget.passId ==
+                                                    widget
+                                                            .passId ==
                                                         ConstantsIntValue
                                                             .passIdVendor
                                                 ? state.labels?.locale
                                                         .visitingDepartment ??
                                                     state.labels?.defaultLocale
                                                         .visitingDepartment ??
-                                                Constants.visitingDepartment
+                                                    Constants.visitingDepartment
                                                 : Constants.department,
                                             isMandatory:
                                                 (state.selectedCompanyType
@@ -1543,7 +1550,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     .vendorPassReason ??
                                                 state.labels?.defaultLocale
                                                     .vendorPassReason ??
-                                            Constants.reasonForVendorPass
+                                                Constants.reasonForVendorPass
                                             : state.labels?.locale
                                                     .dayPassReason ??
                                                 state.labels?.defaultLocale
@@ -1590,21 +1597,23 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         ConstantsIntValue.passIdSez) ...[
                                       /// Day  pass no
                                       CommonWidgets.textDisplay(
-                                        widget.passId ==
+                                        widget
+                                                    .passId ==
                                                 ConstantsIntValue.passIdVisitor
                                             ? state.labels?.locale
                                                     .visitorPassInfo ??
                                                 state.labels?.defaultLocale
                                                     .visitorPassInfo ??
-                                            Constants.visitorPassNo
-                                            : widget.passId ==
+                                                Constants.visitorPassNo
+                                            : widget
+                                                        .passId ==
                                                     ConstantsIntValue
                                                         .passIdVendor
-                                                ? state.labels?.locale
-                                                        .vendorPassInfo ??
+                                                ? state.labels
+                                                        ?.locale.vendorPassInfo ??
                                                     state.labels?.defaultLocale
                                                         .vendorPassInfo ??
-                                            Constants.vendorPassNo
+                                                    Constants.vendorPassNo
                                                 : state.labels?.locale
                                                         .dayPassInfo ??
                                                     state.labels?.defaultLocale
@@ -1991,7 +2000,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             state.labels?.locale.visitorImage ??
                                                 state.labels?.defaultLocale
                                                     .visitorImage ??
-                                               Constants.photoOfVisitor,
+                                                Constants.photoOfVisitor,
                                             Styles.textStyleBlack14)
                                         : Container(),
                                     widget.passId ==
@@ -2058,49 +2067,55 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     // ],
 
                                     ///upload
-                                    ((widget.model == null ||
-                                                widget.model?.status == 0) ||
-                                            !(widget.extraProperties != null &&
-                                                !widget.extraProperties!
-                                                    .hasWritePermission!))
-                                        ? CommonWidgets.textDisplay(
-                                            state.labels?.locale
-                                                    .evidenceInfo ??
-                                                state.labels?.defaultLocale
-                                                    .evidenceInfo ??
-                                                Constants.evidenceDocuments,
-                                            Styles.textStyleBlack14)
-                                        : Container(),
-                                    ((widget.model == null ||
-                                                widget.model?.status == 0) ||
-                                            !(widget.extraProperties != null &&
-                                                !widget.extraProperties!
-                                                    .hasWritePermission!))
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.001)
-                                        : Container(),
-                                    ((widget.model == null ||
-                                                widget.model?.status == 0) ||
-                                            !(widget.extraProperties != null &&
-                                                !widget.extraProperties!
-                                                    .hasWritePermission!))
-                                        ? uploadWidget(state, false)
-                                        : Container(),
+                                    if (widget.passId !=
+                                        ConstantsIntValue.passIdVisitor) ...[
+                                      ((widget.model == null ||
+                                                  widget.model?.status == 0) ||
+                                              !(widget.extraProperties !=
+                                                      null &&
+                                                  !widget.extraProperties!
+                                                      .hasWritePermission!))
+                                          ? CommonWidgets.textDisplay(
+                                              state.labels?.locale
+                                                      .evidenceInfo ??
+                                                  state.labels?.defaultLocale
+                                                      .evidenceInfo ??
+                                                  Constants.evidenceDocuments,
+                                              Styles.textStyleBlack14)
+                                          : Container(),
+                                      ((widget.model == null ||
+                                                  widget.model?.status == 0) ||
+                                              !(widget.extraProperties !=
+                                                      null &&
+                                                  !widget.extraProperties!
+                                                      .hasWritePermission!))
+                                          ? CommonWidgets.verticalSpacerWidget(
+                                              height * 0.001)
+                                          : Container(),
+                                      ((widget.model == null ||
+                                                  widget.model?.status == 0) ||
+                                              !(widget.extraProperties !=
+                                                      null &&
+                                                  !widget.extraProperties!
+                                                      .hasWritePermission!))
+                                          ? uploadWidget(state, false)
+                                          : Container(),
 
-                                    /// Attachments
-                                    BaseImageUpload().getAttachment(
-                                      height: height,
-                                      attachments: state.loadAttachments,
-                                      files: getFiles,
-                                      showDeleteIcon:
-                                          widget.model?.status != 0 &&
-                                                  widget.model != null
-                                              ? false
-                                              : true,
-                                      moduleCode:
-                                          Constants.passManagementModuleCode,
-                                      isDisabled: isDisabled,
-                                    ),
+                                      /// Attachments
+                                      BaseImageUpload().getAttachment(
+                                        height: height,
+                                        attachments: state.loadAttachments,
+                                        files: getFiles,
+                                        showDeleteIcon:
+                                            widget.model?.status != 0 &&
+                                                    widget.model != null
+                                                ? false
+                                                : true,
+                                        moduleCode:
+                                            Constants.passManagementModuleCode,
+                                        isDisabled: isDisabled,
+                                      ),
+                                    ],
                                     // getSpaceattchment(height),
                                     // getAttachement(height),
 
@@ -2882,8 +2897,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   //   return DateFormat(Constants.fulldateFormat).format(DateTime.now());
   // }
 
+  final currentDate = DateTime.now();
+
   void _getCurrentDate() {
-    final currentDate = DateTime.now();
     String currentFormattedDate =
         DateFormat(Constants.fulldateFormat).format(currentDate);
     dateofcreationTextController.text = currentFormattedDate;
@@ -3079,6 +3095,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               } else {
                 isFTECompanyNameEditable = true;
               }
+              log('--organisation.name ---${organisation.name}---');
+              if ((organisation.name ?? '').toLowerCase() != 'exceptions') {
+                log('--if----organisation.name ---${organisation.name}---');
+                String nextFormattedDate = DateFormat(Constants.fulldateFormat)
+                    .format(currentDate.add(const Duration(hours: 12)));
+                log('---nextFormattedDate----$nextFormattedDate------');
+                passValidUntilTextController.text = nextFormattedDate;
+              }
               createPassMgmtCubit.selectedCompanyType(organisation);
             },
           );
@@ -3206,6 +3230,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             users: state.getDepositorResponse,
             roleName: ConstantUserRoles.atomStaticUser,
             locationId: state.location!.id!,
+            isDbUser: true,
             functionToCall: (BaseUser user) {
               createPassMgmtCubit.getNameUsersResponseData(user);
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
@@ -3281,6 +3306,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             users: state.getDepositorResponse!,
             roleName: ConstantUserRoles.atomStaticUser,
             locationId: state.location!.id!,
+            isDbUser: true,
             functionToCall: (BaseUser user) {
               createPassMgmtCubit.gethostUsersResponseData(
                   User(userId: user.id, name: user.name));
@@ -3362,6 +3388,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             users: state.getDepositorResponse,
             roleName: ConstantUserRoles.atomStaticUser,
             locationId: state.location!.id!,
+            isDbUser: true,
             functionToCall: (BaseUser user) {
               createPassMgmtCubit.getdbsponsorUsersResponseData(
                   User(userId: user.id, name: user.name));
@@ -4363,40 +4390,83 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     required TextEditingController controller,
     required int index,
     required CreatePassMgmtState state,
+    bool isDbUser = false,
   }) {
     bool isEditable =
         (widget.model?.status == null || widget.model?.status == 0);
-    return FlutterInputField(
-      //lineHeight: textController == employeeidTextController ? 1 : 1,
-      onTap: () {},
-      controller: controller,
-      textFormKey: Keys.colorTextController,
-      textCapitalization: controller == emailTextController ? false : true,
-      textInputType: controller == contactnoTextController ||
-              controller == employeeIdTextController ||
-              controller == escortedEmployeeIdByTextController ||
-              controller == hostEmployeeIdTextController ||
-              controller == dbsponsorTextController
-          ? TextInputType.number
-          : TextInputType.text,
-      characterLimit: controller == contactnoTextController
-          ? Constants.characterLimitContactNo
-          : Constants.characterLimitIdTextFormField,
-      isEnable:
-          (controller == companyNameTextController && widget.model?.status == 0
-                  ? isFTECompanyNameEditable
-                  : isEditable) ||
-              isEditable,
-      isDisableColor: isEditable,
-      hintText: '',
-      onChange: (String value) {
-        //this.username = username;
-        controller.text = value;
-      },
-      validateTextField: (String? user) {},
-      // )
-      //)
-    );
+    return isDbUser
+        ? Row(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 105,
+                child: FlutterInputField(
+                  //lineHeight: textController == employeeidTextController ? 1 : 1,
+                  onTap: () {},
+                  controller: controller,
+                  textFormKey: Keys.colorTextController,
+                  textCapitalization:
+                      controller == emailTextController ? false : true,
+                  textInputType: controller == contactnoTextController ||
+                          controller == employeeIdTextController ||
+                          controller == escortedEmployeeIdByTextController ||
+                          controller == hostEmployeeIdTextController ||
+                          controller == dbsponsorTextController
+                      ? TextInputType.number
+                      : TextInputType.text,
+                  characterLimit: controller == contactnoTextController
+                      ? Constants.characterLimitContactNo
+                      : Constants.characterLimitIdTextFormField,
+                  isEnable: (controller == companyNameTextController &&
+                              widget.model?.status == 0
+                          ? isFTECompanyNameEditable
+                          : isEditable) ||
+                      isEditable,
+                  isDisableColor: isEditable,
+                  hintText: '',
+                  onChange: (String value) {
+                    //this.username = username;
+                    controller.text = value;
+                  },
+                  validateTextField: (String? user) {},
+                  // )
+                  //)
+                ),
+              ),
+              const Text('@db.com')
+            ],
+          )
+        : FlutterInputField(
+            //lineHeight: textController == employeeidTextController ? 1 : 1,
+            onTap: () {},
+            controller: controller,
+            textFormKey: Keys.colorTextController,
+            textCapitalization:
+                controller == emailTextController ? false : true,
+            textInputType: controller == contactnoTextController ||
+                    controller == employeeIdTextController ||
+                    controller == escortedEmployeeIdByTextController ||
+                    controller == hostEmployeeIdTextController ||
+                    controller == dbsponsorTextController
+                ? TextInputType.number
+                : TextInputType.text,
+            characterLimit: controller == contactnoTextController
+                ? Constants.characterLimitContactNo
+                : Constants.characterLimitIdTextFormField,
+            isEnable: (controller == companyNameTextController &&
+                        widget.model?.status == 0
+                    ? isFTECompanyNameEditable
+                    : isEditable) ||
+                isEditable,
+            isDisableColor: isEditable,
+            hintText: '',
+            onChange: (String value) {
+              //this.username = username;
+              controller.text = value;
+            },
+            validateTextField: (String? user) {},
+            // )
+            //)
+          );
   }
 
   Widget textfieldWidgetLoad1(TextEditingController textController, int index,

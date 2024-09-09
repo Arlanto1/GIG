@@ -56,13 +56,18 @@ class AnnualPowerShutdownListDetailsCubit
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser>? emailUsers = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomStaticUser,
+        isDbUser: true,
         locationId: state.model.location!.id!);
     List<BaseUser> srh = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomSubRegionalHeadUser,
-        locationId: state.model.location!.id!);
+        locationId: state.model.location!.id!,
+      isDbUser: true,
+    );
     List<BaseUser> lsm = await commonServices.getBaseUsers(
-        roleName: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
-        locationId: state.model.location!.id!);
+      roleName: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+      locationId: state.model.location!.id!,
+      isDbUser: true,
+    );
     emit(
       state.copyWith(
         getEntitiesResponse: entities,
@@ -112,6 +117,7 @@ class AnnualPowerShutdownListDetailsCubit
         // commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getBaseUsers(
             roleName: ConstantUserRoles.atomStaticUser,
+            isDbUser: true,
             locationId: model.location!.id!),
         commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
@@ -119,10 +125,13 @@ class AnnualPowerShutdownListDetailsCubit
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getBaseUsers(
             roleName: ConstantUserRoles.atomSubRegionalHeadUser,
+            isDbUser: true,
             locationId: model.location!.id!),
         commonServices.getBaseUsers(
             roleName:
                 ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+            isDbUser: true,
+
             locationId: model.location!.id!),
       ]);
 
@@ -204,11 +213,14 @@ class AnnualPowerShutdownListDetailsCubit
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
       emailUsers = await commonServices.getBaseUsers(
+          isDbUser: true,
           roleName: ConstantUserRoles.atomStaticUser, locationId: location.id!);
       srh = await commonServices.getBaseUsers(
+          isDbUser: true,
           roleName: ConstantUserRoles.atomSubRegionalHeadUser,
           locationId: location.id!);
       lsm = await commonServices.getBaseUsers(
+          isDbUser: true,
           roleName: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
           locationId: location.id!);
     }
