@@ -27,6 +27,7 @@ class FlutterInputField extends StatelessWidget {
   final bool? showBorder;
   final int? characterLimit;
   final bool? textCapitalization;
+  final Color? textFormFieldBackgroundColor;
 
   const FlutterInputField({
     super.key,
@@ -56,6 +57,7 @@ class FlutterInputField extends StatelessWidget {
     this.showBorder,
     this.characterLimit = Constants.characterLimitIdTextFormField,
     this.textCapitalization = true,
+    this.textFormFieldBackgroundColor,
   });
 
   @override
@@ -111,6 +113,10 @@ class FlutterInputField extends StatelessWidget {
               ),
             )
           : InputDecoration(
+              fillColor: (textFormFieldBackgroundColor!= null)
+                  ? textFormFieldBackgroundColor
+                  : AppColors.white,
+              filled: textFormFieldBackgroundColor!= null?true:  false,
               labelText: labelText,
               labelStyle: const TextStyle(
                 color: Colors.grey,

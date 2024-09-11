@@ -172,7 +172,12 @@ const List<Label> categoryValues = [
 const List<Label> mSGBFormBSubmittedDropDownValues = [
   Label(key: 'Yes', value: '1'),
   Label(key: 'No', value: '2'),
-  Label(key: 'Under ', value: '3'),
+  Label(key: 'Under Process ', value: '3'),
+];
+
+const List<Label> staffMsgbCompliantDropDownValues = [
+  Label(key: 'Complaint', value: '1'),
+  Label(key: 'Non Complaint', value: '2'),
 ];
 
 const List<Label> incidentTypeValues = [

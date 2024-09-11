@@ -1327,7 +1327,7 @@ class _CreateFoundState extends State<CreateFound> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
 
-                                  /// is Depositor DBEmployee
+                                  /// is Depositor DB Employee
                                   CommonWidgets
                                       .textDisplay(
                                           state.labels?.locale
@@ -1742,8 +1742,10 @@ class _CreateFoundState extends State<CreateFound> {
                                           : Container(),
                                       widget.model != null
                                           ? AbsorbPointer(
-                                        absorbing: state.model.claimantConfirmByEmail??false,
-                                            child: radioButtonHandling(
+                                              absorbing: state.model
+                                                      .claimantConfirmByEmail ??
+                                                  false,
+                                              child: radioButtonHandling(
                                                 isClaimantAcceptedToSignSelected,
                                                 state.labels?.locale
                                                         .foundClaimantNoSign ??
@@ -1762,7 +1764,7 @@ class _CreateFoundState extends State<CreateFound> {
                                                     ? true
                                                     : false,
                                               ),
-                                          )
+                                            )
                                           : Container(),
 
                                       /// is claimant confirmed by email
@@ -2246,7 +2248,8 @@ class _CreateFoundState extends State<CreateFound> {
           onChanged: (val) {
             radioButtonItem = 'Yes';
             selectedValue = 1;
-            if (widget.model?.status != 2) {
+            if (name == Constants.isclaimantacceptedtosign &&
+                widget.model?.status != 2) {
               isClaimantAcceptedToSignSelected = selectedValue;
             }
             if ((name == Constants.isclaimantacceptedbyemail) &&
@@ -2278,7 +2281,8 @@ class _CreateFoundState extends State<CreateFound> {
             onChanged: (val) {
               radioButtonItem = 'No';
               selectedValue = 0;
-              if (widget.model?.status != 2) {
+              if (name == Constants.isclaimantacceptedtosign &&
+                  widget.model?.status != 2) {
                 isClaimantAcceptedToSignSelected = selectedValue;
               } else if ((name == Constants.isclaimantacceptedbyemail) &&
                   widget.model?.status != 2 &&

@@ -215,10 +215,15 @@ class MaterialMovementDetailsState extends Equatable {
           status: false, message: 'Comment is Mandatory');
     }
 
-    if (!model.takenOutContactNo.isEmptyOrNull &&
-        model.takenOutContactNo!.length < 10) {
+    if (
+    // !model.takenOutContactNo.isEmptyOrNull &&
+        (!Utils().isNumeric(model.takenOutContactNo!) ||
+            model.takenOutContactNo!.length > 17 ||
+            model.takenOutContactNo!.length < 10)) {
       return const ErrorResponse(
-          status: false, message: 'Please enter valid Taken Out By Contact Number');
+        status: false,
+        message: 'Please enter valid Taken Out By Contact Number',
+      );
     }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }

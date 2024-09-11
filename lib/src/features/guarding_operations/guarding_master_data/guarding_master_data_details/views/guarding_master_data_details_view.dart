@@ -59,6 +59,7 @@ class _GuardingMasterDataDetailsViewState
   TextEditingController systemAccessController = TextEditingController();
   TextEditingController statusController = TextEditingController();
   TextEditingController mSGbFormBSubmittedController = TextEditingController();
+  TextEditingController staffMSFBComplaintController = TextEditingController();
   bool isDisabled = true;
   bool isReadOnly = false;
 
@@ -166,9 +167,9 @@ class _GuardingMasterDataDetailsViewState
                 Constants.dateFormat)
             : '';
 
-    // mSGBExemptionDateController.text = Utils.timestamptoDateConversion(
-    //     int.parse(widget.guardingMasterData?.msgbExemptionDate ?? '0'),
-    //     Constants.dateFormat);
+    mSGBExemptionDateController.text = Utils.timestampToDateConversion(
+        int.parse(widget.guardingMasterData?.msgbExemptionDate ?? '0'),
+        Constants.dateFormat);
 
     pvcIssuedDateController.text =
         widget.guardingMasterData?.pvcIssuedDate != null
@@ -2109,6 +2110,8 @@ class _GuardingMasterDataDetailsViewState
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
 
+                                // Text('-${state.model.showMsgbData}--'),
+                                if(state.model.showMsgbData??false)...[
                                 ///MSGB Exempted
                                 CommonWidgets.textDisplay(
                                     state.labels?.locale.msgbExempted ??
@@ -2198,38 +2201,30 @@ class _GuardingMasterDataDetailsViewState
                                       initialValue: state
                                           .model.msgbFormBSubmitted
                                           .toString(),
-                                      onTap: () {
-                                        // if (isDisabled) {
-                                        //   BaseDropDown().assetTypeDialog(
-                                        //       context: context,
-                                        //       dropDownValues:
-                                        //           mSGBFormBSubmittedDropDownValues
-                                        //               .map((label) => label.key)
-                                        //               .toList(),
-                                        //       onTap: (String value) {
-                                        //         Label? selectedLabel;
-                                        //         selectedLabel =
-                                        //             mSGBFormBSubmittedDropDownValues
-                                        //                 .firstWhere(
-                                        //           (label) => label.key == value,
-                                        //           orElse: () => const Label(
-                                        //               key: '', value: ''),
-                                        //         );
-                                        //         BlocProvider.of<
-                                        //                     GuardingMasterDataDetailsCubit>(
-                                        //                 context)
-                                        //             .updateDropdownValues(
-                                        //                 msgbFormBSubmitted:
-                                        //                     int.tryParse(
-                                        //                         selectedLabel
-                                        //                             .value));
-                                        //       });
-                                        // }
-                                      }),
+                                      onTap: () {}),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
                                 ],
 
+                                CommonWidgets.textDisplay(
+                                    state.labels?.locale.staffMsgbCompliant ??
+                                        state.labels?.defaultLocale
+                                            .msgbFormBSubmitted ??
+                                        Constants.mSGBFormBSubmitted,
+                                    Styles.textStyleBlack14),
+
+                                BaseDropDown().getDropDown(
+                                    isDisabled: state.model.status != 6,
+                                    textController:
+                                        staffMSFBComplaintController,
+                                    textFormFieldBackgroundColor:
+                                        getColor(state.model),
+                                    items: staffMsgbCompliantDropDownValues,
+                                    initialValue: state.model.staffMsgbCompliant
+                                        .toString(),
+                                    onTap: () {}),
+
+                                ],
                                 /// Date of First Covid Dose
                                 CommonWidgets.textDisplay(
                                   state.labels?.locale.covidFirstDoseDate ??
@@ -3051,5 +3046,21 @@ class _GuardingMasterDataDetailsViewState
         children: widgets,
       ),
     );
+  }
+
+  getColor(GuardingMastersDataModel model) {
+    if(model.msgbExempted) {
+      return AppColors.darkGreenColor;
+    }else {
+      if (model.msgbFormBSubmitted == 1) {
+        return AppColors.darkGreenColor;
+      }
+      if (model.msgbFormBSubmitted == 2) {
+        return AppColors.redColor;
+      }
+      if (model.msgbFormBSubmitted == 3) {
+        return AppColors.lightOrangeColor;
+      }
+    }
   }
 }

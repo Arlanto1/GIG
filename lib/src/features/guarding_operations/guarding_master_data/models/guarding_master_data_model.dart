@@ -108,6 +108,7 @@ class GuardingMastersDataModel extends BaseObject {
   String? guardName;
   int? dependentsNo;
   String? msgbExemptionDate;
+  bool? showMsgbData;
 
   GuardingMastersDataModel({
     this.id,
@@ -155,6 +156,7 @@ class GuardingMastersDataModel extends BaseObject {
     this.pvcExpiryDate,
     this.pvc,
     this.trainingCertificateProvided = false,
+    this.showMsgbData,
     this.trainingCertificates,
     this.medicalCertificateValidUntil,
     this.medicalCertificates,

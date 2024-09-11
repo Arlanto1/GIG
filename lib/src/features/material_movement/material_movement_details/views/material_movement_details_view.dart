@@ -2004,6 +2004,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.status !=
                                             ConstantsIntValue
                                                 .mmStatusInwardWaiting,
+
                                     isDisableColor:
                                         showSaveSubmitButtons ? false : true,
                                     onChange: (String value) {
@@ -2398,7 +2399,8 @@ class _MaterialMovementDetailsViewState
                                     if (!isReadOnly) {
                                       BaseOrganisationDialog().userDialog(
                                         context: context,
-                                        users: state.emailUsers!,
+                                        users: state.receiverEmailUsers!,
+                                        isDbUser: true,
                                         onTap: (BaseUser user) {
                                           BlocProvider.of<
                                                       MaterialMovementDetailsCubit>(

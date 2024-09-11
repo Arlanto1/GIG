@@ -85,6 +85,7 @@ GuardingMastersDataModel _$GuardingMastersDataModelFromJson(
           .toList(),
       trainingCertificateProvided:
           json['trainingCertificateProvided'] as bool? ?? false,
+      showMsgbData: json['showMsgbData'] as bool? ?? false,
       trainingCertificates: (json['trainingCertificates'] as List<dynamic>?)
           ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -209,4 +210,5 @@ Map<String, dynamic> _$GuardingMastersDataModelToJson(
       'guardName': instance.guardName,
       'dependentsNo': instance.dependentsNo,
       'msgbExemptionDate': instance.msgbExemptionDate,
+      'showMsgbData': instance.showMsgbData,
     };

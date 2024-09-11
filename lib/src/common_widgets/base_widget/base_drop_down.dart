@@ -14,6 +14,7 @@ class BaseDropDown {
     List<Label>? items,
     String? initialValue,
     required void Function()? onTap,
+     Color? textFormFieldBackgroundColor,
   }) {
     if (initialValue != null && items != null) {
       final selectedLabel = items.firstWhere(
@@ -33,6 +34,7 @@ class BaseDropDown {
             textFormKey: Keys.returnableKey,
             hintText: '',
             isEnable: true,
+            textFormFieldBackgroundColor: textFormFieldBackgroundColor,
             suffixIcon: Icons.arrow_drop_down,
             isDisableColor: !isDisabled,
             onChange: (String value) {},

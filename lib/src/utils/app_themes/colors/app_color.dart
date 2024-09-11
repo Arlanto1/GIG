@@ -26,7 +26,9 @@ class AppColors {
   static const Color disableTextFieldBackground = Color(0xFFE6E6E9);
   static const Color lightOrangeColor = Color(0xFFFF8C00);
   static const Color lightPinkColor = Color(0xFFE75480);
-
+  static const Color redColor = Color(0xFFFF0000);
+  static const Color greenColor = Color(0xFF00FF00);
+  static const Color darkGreenColor = Color(0xFF006400);
   static MaterialColor colorCustom = MaterialColor(0xFF2CAAE0, color);
 
   static const white = MaterialColor(

@@ -314,7 +314,7 @@ class Constants {
   static const String nodata = 'No Data Found';
   static const String ok = 'Ok';
   static const String isclaimantdbemployee = 'Is Claimant DB Employee';
-  static const String isclaimantacceptedtosign = 'Claimant accepted to sign';
+  static const String isclaimantacceptedtosign = 'Claimant accepted to Sign';
   static const String isclaimantacceptedbyemail = 'Claimant Confirmed by Email';
   static const String addedSuccessfully = 'Added Successfully.';
   static const String userAddedUpdatedSuccessfully =

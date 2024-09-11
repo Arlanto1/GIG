@@ -952,6 +952,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             controller: emailTextController,
                                             index: 0,
                                             state: state,
+                                            isDbUser: true,
                                           )
                                         : Container(),
 
