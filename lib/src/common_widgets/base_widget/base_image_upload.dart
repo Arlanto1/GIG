@@ -76,7 +76,7 @@ class BaseImageUpload {
     if (isDisabled) {
       showDeleteIcon = false;
     }
-    if (attachments != null) {
+    if (attachments != null || attachments!.isNotEmpty) {
       return Column(
         children: [
           CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -89,10 +89,7 @@ class BaseImageUpload {
       );
     }
 
-    return const SizedBox(
-      height: 0,
-      width: 0,
-    );
+    return Container();
   }
 }
 
@@ -115,7 +112,7 @@ class AttachmentListView extends StatefulWidget {
 class AttachmentListViewState extends State<AttachmentListView> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return widget.attachmentListviews!.isEmpty? Container():Container(
       decoration: BoxDecoration(
         border: Border.all(
           color: const Color(0xFFCACACA),

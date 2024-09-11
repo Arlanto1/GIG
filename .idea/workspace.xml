@@ -4,26 +4,22 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="issues fixed">
-      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+    <list default="true" id="8896fb71-8d8d-4980-b764-b3b28d74f150" name="Changes" comment="bug fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_drop_down.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_drop_down.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/new_search_textfield.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/new_search_textfield.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/constants/constant_app_versions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constant_app_versions.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/constants/constant_drop_down_values.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constant_drop_down_values.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/constants/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/constants/constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/controllers/create_found_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/controllers/create_found_cubit.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/createfound/views/create_found.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/createfound/views/create_found.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/QA/release/output-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/QA/release/output-metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_image_upload.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common_widgets/base_widget/base_image_upload.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/widgets/custom_bottom_navigation_bar_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/dashboard/dashboard_screen/charts/views/widgets/custom_bottom_navigation_bar_widget.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/views/guarding_master_data_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/guarding_master_data_details/views/guarding_master_data_details_view.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/models/guarding_master_data_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/models/guarding_master_data_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/models/guarding_master_data_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/guarding_master_data/models/guarding_master_data_model.g.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_state.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/cubits/material_movement_details_state.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/views/key_management_issuance_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/views/key_management_issuance_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/views/attendance_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/attendance_details/views/attendance_details_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/guarding_operations/shift_scheduling/attendance/models/attendance_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/lawenforcement/views/law_enforcement_details_view.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/material_movement_details/views/material_movement_details_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/passmanagement/daypassmgmt/createpassmgmt/views/create_pass_mgmt.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/utils/app_themes/colors/app_color.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/utils/app_themes/colors/app_color.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/models/material_movement_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/models/material_movement_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/material_movement/models/material_movement_model.g.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/material_movement/models/material_movement_model.g.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/views/sst_incident_general_info_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/features/security_systems/sst_incident_details/general_info/views/sst_incident_general_info_view.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1051,7 +1047,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702273235254</updated>
     </task>
-    <option name="localTasksCounter" value="405" />
+    <option name="localTasksCounter" value="406" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -1142,7 +1138,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="MM Outward returnable and non &#10;menu added" />
     <MESSAGE value="mm user refresh" />
     <MESSAGE value="user list refresh issue in MM, Pass" />
     <MESSAGE value="WIP: key mangment" />
@@ -1167,7 +1162,8 @@
     <MESSAGE value="anual power shutdown issue" />
     <MESSAGE value="versions" />
     <MESSAGE value="db domain issue" />
-    <option name="LAST_COMMIT_MESSAGE" value="db domain issue" />
+    <MESSAGE value="bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="bug fixes" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
 </project>

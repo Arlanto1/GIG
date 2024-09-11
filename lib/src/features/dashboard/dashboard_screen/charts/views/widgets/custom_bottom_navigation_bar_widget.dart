@@ -41,25 +41,25 @@ class CustomBottomNavigationBar extends StatelessWidget {
       );
     }
 
-    if (displayMenu.mM ?? false) {
-      bottomMenuItems.add(
-        BottomMenuItem(
-          title: Constants.materialMovement,
-          menuItem: FloatingNavbarItem(
-            icon: Icons.supervised_user_circle_sharp,
-            title: Constants.materialMovement,
-          ),
-          onTap: () {
-            final bottomMenuHandler = BottomMenuHandler(
-              context: context,
-              displayMenu: displayMenu,
-              positionX: getItemPositionX(1),
-            );
-            bottomMenuHandler.openMaterialMovementSubMenu();
-          },
-        ),
-      );
-    }
+    // if (displayMenu.mM ?? false) {
+    //   bottomMenuItems.add(
+    //     BottomMenuItem(
+    //       title: Constants.materialMovement,
+    //       menuItem: FloatingNavbarItem(
+    //         icon: Icons.supervised_user_circle_sharp,
+    //         title: Constants.materialMovement,
+    //       ),
+    //       onTap: () {
+    //         final bottomMenuHandler = BottomMenuHandler(
+    //           context: context,
+    //           displayMenu: displayMenu,
+    //           positionX: getItemPositionX(1),
+    //         );
+    //         bottomMenuHandler.openMaterialMovementSubMenu();
+    //       },
+    //     ),
+    //   );
+    // }
     if (displayMenu.pM ?? false) {
       bottomMenuItems.add(
         BottomMenuItem(

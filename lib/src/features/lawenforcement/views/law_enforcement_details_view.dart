@@ -920,6 +920,31 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.01),
 
+
+                                      if(state.model != null) ...[
+                                      /// Modified Date
+                                      CommonWidgets.textDisplay(
+                                        // state.labels?.locale.date ??
+                                        //     state.labels?.defaultLocale.date ??
+                                        Constants.modifiedOn,
+                                        Styles.textStyleBlack14,
+                                        isMandatory: true,
+                                      ),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001),
+                                      dateViewWidget(
+                                          state.model?.modifiedDate ?? ''),
+                                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                      /// Modified By
+                                      CommonWidgets.horizentaltextHandling(
+                                        // state.labels?.locale.entrySecurity ??
+                                        //     state.labels?.defaultLocale.entrySecurity ??
+                                          Constants.modifiedBy,
+                                          isMandatory: true,
+                                          state.model?.modifiedBy ?? ''),
+                                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                      ],
                                       /// SubmitButton
                                       Row(
                                         mainAxisAlignment:
@@ -2238,6 +2263,18 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       submitForm(isSubmit: true, state: globalState);
       //}
     }
+  }
+
+  Widget dateViewWidget(String date) {
+    return FlutterInputField(
+      textFormKey: Keys.dateofcreationTextController,
+      initialValue: date,
+      hintText: '',
+      isEnable: false,
+      isDisableColor: true,
+      onChange: (String value) {},
+      validateTextField: (String? user) {},
+    );
   }
 
   Widget datecreateWidgetdisplay() {

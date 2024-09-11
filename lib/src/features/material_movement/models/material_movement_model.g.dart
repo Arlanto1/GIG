@@ -112,6 +112,7 @@ MaterialMovementModel _$MaterialMovementModelFromJson(
       actualDateOfReturn: json['actualDateOfReturn'] as String?,
       comment: json['comment'] as String?,
       isEligibleToEdit: json['isEligibleToEdit'] as bool? ?? false,
+      modifiedDate: json['modifiedDate'] as String?,
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$MaterialMovementModelToJson(
@@ -181,4 +182,5 @@ Map<String, dynamic> _$MaterialMovementModelToJson(
       'gatePassSecuritySign': instance.gatePassSecuritySign,
       'comment': instance.comment,
       'isEligibleToEdit': instance.isEligibleToEdit,
+      'modifiedDate': instance.modifiedDate,
     };

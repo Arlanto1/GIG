@@ -109,6 +109,8 @@ class GuardingMastersDataModel extends BaseObject {
   int? dependentsNo;
   String? msgbExemptionDate;
   bool? showMsgbData;
+  String? modifiedBy;
+  String? modifiedDate;
 
   GuardingMastersDataModel({
     this.id,
@@ -184,6 +186,8 @@ class GuardingMastersDataModel extends BaseObject {
     this.chest,
     this.dependentsNo,
     this.msgbExemptionDate,
+    this.modifiedBy,
+    this.modifiedDate,
   });
 
   factory GuardingMastersDataModel.fromJson(Map<String, dynamic> json) {
