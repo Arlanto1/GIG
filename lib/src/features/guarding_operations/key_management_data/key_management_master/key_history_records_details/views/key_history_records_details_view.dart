@@ -14,6 +14,7 @@ class KeyHistoryRecordsDetailsView extends StatefulWidget {
   final ExtraProperties? extraProperties;
   final String? lock;
   final int? keyType;
+  final bool parentIsEligibleToEdit;
 
   const KeyHistoryRecordsDetailsView({
     super.key,
@@ -25,6 +26,7 @@ class KeyHistoryRecordsDetailsView extends StatefulWidget {
     this.extraProperties,
     this.lock,
     this.keyType,
+    required this.parentIsEligibleToEdit,
   });
 
   @override
@@ -96,6 +98,8 @@ class _KeyHistoryRecordsDetailsViewState
                       ConstantsArgument.id: widget.parentId,
                       ConstantsArgument.keyLostType: widget.keyLostType,
                       ConstantsArgument.title: widget.title,
+                      ConstantsArgument.isEligibleToEdit:
+                          widget.parentIsEligibleToEdit
                     });
               }
               // Navigator.pop(context);
@@ -413,8 +417,8 @@ class _KeyHistoryRecordsDetailsViewState
                         ///Type
                         CommonWidgets.textDisplay(
                           state.labels?.locale.type ??
-                           state.labels?.defaultLocale.type ??
-                          Constants.type,
+                              state.labels?.defaultLocale.type ??
+                              Constants.type,
                           isMandatory: true,
                           Styles.textStyleBlack14,
                         ),
@@ -674,7 +678,8 @@ class _KeyHistoryRecordsDetailsViewState
                                   srh ||
                                   initialStatus ||
                                   lockChangeInitiatedAndUser)) &&
-                              state.model.status != ConstantsIntValue.closed,
+                              state.model.status != ConstantsIntValue.closed &&
+                              widget.parentIsEligibleToEdit,
                           isDisableColor: !((securityManager ||
                                       srh ||
                                       initialStatus) ||

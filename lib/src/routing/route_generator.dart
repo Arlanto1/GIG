@@ -1250,6 +1250,7 @@ class RouteGenerator {
         int type = 0;
         String? lock;
         ExtraProperties? extraProperties;
+        bool isEligibleToEdit = false;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
@@ -1258,6 +1259,7 @@ class RouteGenerator {
           type = arguments[ConstantsArgument.keyLostType];
           extraProperties = arguments[ConstantsArgument.extraProperties];
           lock = arguments[ConstantsArgument.isLocked];
+          isEligibleToEdit = arguments[ConstantsArgument.isEligibleToEdit];
         }
         log('route----type--$type--');
         return MaterialPageRoute(
@@ -1273,6 +1275,7 @@ class RouteGenerator {
                 id: id,
                 type: type,
                 extraProperties: extraProperties,
+                parentIsEligibleToEdit: isEligibleToEdit,
                 lock: lock),
           ),
         );
@@ -1291,6 +1294,7 @@ class RouteGenerator {
         int? kipId;
         int? keyIssuanceId;
         ExtraProperties? extraProperties;
+        bool isEligibleToEdit = false;
         Map<String, dynamic> arguments =
             settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
@@ -1302,7 +1306,7 @@ class RouteGenerator {
         extraProperties = arguments[ConstantsArgument.extraProperties];
         lock = arguments[ConstantsArgument.isLocked];
         keyType = arguments[ConstantsArgument.keyType];
-
+        isEligibleToEdit = arguments[ConstantsArgument.isEligibleToEdit];
         log('--keyType--$keyType--');
         return MaterialPageRoute(
           builder: (context) => BlocProvider<KeyHistoryRecordsDetailsCubit>(
@@ -1323,6 +1327,7 @@ class RouteGenerator {
               parentId: id!,
               keyLostType: keyLostType,
               extraProperties: extraProperties,
+              parentIsEligibleToEdit: isEligibleToEdit,
               lock: lock,
               keyType: keyType,
             ),

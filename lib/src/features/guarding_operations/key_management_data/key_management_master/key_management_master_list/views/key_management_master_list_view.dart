@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/key_management_master_list/bloc/key_management_master_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
@@ -65,6 +67,7 @@ class _KeyManagementMasterListViewState
         KeyManagementMasterListState>(
       listener: (context, state) {},
       builder: (context, state) {
+        log('hasWritePermission ${state.extraProperties?.hasWritePermission}');
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,
             floatingActionButton:

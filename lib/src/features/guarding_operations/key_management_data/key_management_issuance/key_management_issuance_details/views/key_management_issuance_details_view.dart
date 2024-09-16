@@ -1068,7 +1068,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                         Constants.securitySignature,
                                     spaceHeight: height,
                                     state: state,
-                                    isMandatory: true),
+                                    isMandatory: false),
 
                                 /// Receiver Sign/Acceptance
                                 buildSignature(
@@ -1080,7 +1080,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                         Constants.receiverSignature,
                                     spaceHeight: height,
                                     state: state,
-                                    isMandatory: true),
+                                    isMandatory: false),
 
                                 /// Key Issuance Process
                                 Container(
