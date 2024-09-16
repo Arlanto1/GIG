@@ -109,6 +109,12 @@ class GuardingMasterDataDetailsCubit
         SharedPrefs.getDefaultLocation(),
       ]);
 
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.modifiedDate ?? '0'),
+          Constants.fulldateFormat);
+
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
       // Analyst users = futures[2];

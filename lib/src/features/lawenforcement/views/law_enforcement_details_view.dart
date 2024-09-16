@@ -59,6 +59,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   TextEditingController distributiongroupsTextController =
       TextEditingController();
   TextEditingController dateofcreationTextController = TextEditingController();
+  TextEditingController modifieddateTextController = TextEditingController();
   TextEditingController officeaddressTextController4 = TextEditingController();
   TextEditingController nameTextController5 = TextEditingController();
   TextEditingController designationTextController5 = TextEditingController();
@@ -921,7 +922,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                           height * 0.01),
 
 
-                                      if(state.model != null) ...[
+                                      if(widget.model != null) ...[
                                       /// Modified Date
                                       CommonWidgets.textDisplay(
                                         // state.labels?.locale.date ??
@@ -932,8 +933,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                       ),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
-                                      dateViewWidget(
-                                          state.model?.modifiedDate ?? ''),
+                                        modifieddateWidgetdisplay(),
+                                      // dateViewWidget(
+                                      //     widget.model?.modifiedDate ?? ''),
                                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                                       /// Modified By
@@ -942,7 +944,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                         //     state.labels?.defaultLocale.entrySecurity ??
                                           Constants.modifiedBy,
                                           isMandatory: true,
-                                          state.model?.modifiedBy ?? ''),
+                                          widget.model?.modifiedBy ?? ''),
                                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                                       ],
                                       /// SubmitButton
@@ -1236,6 +1238,14 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   int.parse(widget.model?.inputDate ?? '0'),
                   Constants.fulldateFormat)
               : dateofcreationTextController.text;
+
+      modifieddateTextController.text =
+                widget.model?.modifiedDate != null && widget.model?.modifiedDate != '0'
+                    ? Utils.timestampToDateConversion(
+                        int.parse(widget.model?.modifiedDate ?? '0'),
+                        Constants.fulldateFormat)
+                    : modifieddateTextController.text;
+
       // List<VisitingOfficial>? visitingOfficials = widget.listuser?.visitingOfficials != null ? widget.listuser?.visitingOfficials ?? [] : [];
       statusTextController.text = widget.model?.status == 0
           ? "Draft"
@@ -2291,6 +2301,20 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     );
   }
 
+  Widget modifieddateWidgetdisplay() {
+    return FlutterInputField(
+      controller: modifieddateTextController,
+      textFormKey: Keys.dateofcreationTextController,
+      hintText: '',
+      isEnable: false,
+      isDisableColor: true,
+      onChange: (String username) {
+        setState(() {});
+      },
+      validateTextField: (String? user) {},
+    );
+  }
+
   Widget cancelButtonDisplay() {
     return AppButton(
       width: Constants.cancelButtonWidth,
@@ -2406,3 +2430,4 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     );
   }
 }
+

@@ -132,6 +132,8 @@ GuardingMastersDataModel _$GuardingMastersDataModelFromJson(
       chest: json['chest'] as num?,
       dependentsNo: (json['dependentsNo'] as num?)?.toInt(),
       msgbExemptionDate: json['msgbExemptionDate'] as String?,
+      modifiedBy: json['modifiedBy'] as String?,
+      modifiedDate: json['modifiedDate'] as String?,
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$GuardingMastersDataModelToJson(
@@ -211,4 +213,6 @@ Map<String, dynamic> _$GuardingMastersDataModelToJson(
       'dependentsNo': instance.dependentsNo,
       'msgbExemptionDate': instance.msgbExemptionDate,
       'showMsgbData': instance.showMsgbData,
+      'modifiedBy': instance.modifiedBy,
+      'modifiedDate': instance.modifiedDate,
     };
