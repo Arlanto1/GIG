@@ -118,6 +118,12 @@ class KeyManagementIssuanceDetailsCubit
               int.tryParse(state.model.createdDate ?? '0'),
               Constants.fulldateFormat);
 
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.modifiedDate ?? '0'),
+              Constants.fulldateFormat);
+
       if (!state.model.keyReturnDateTime.isEmptyOrNull) {
         state.model.keyReturnDateTime =  Utils.timestampToDateConversion(
             int.tryParse(state.model.keyReturnDateTime ?? '0'),

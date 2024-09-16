@@ -139,7 +139,6 @@ Map<String, dynamic> _$MaterialMovementModelToJson(
       'receiverEmployeeId': instance.receiverEmployeeId,
       'entrySecurity': instance.entrySecurity,
       'status': instance.status,
-      'modifiedBy': instance.modifiedBy,
       'history': instance.history,
       'requestorEmail': instance.requestorEmail,
       'requestorEmployeeId': instance.requestorEmployeeId,
@@ -182,5 +181,6 @@ Map<String, dynamic> _$MaterialMovementModelToJson(
       'gatePassSecuritySign': instance.gatePassSecuritySign,
       'comment': instance.comment,
       'isEligibleToEdit': instance.isEligibleToEdit,
+      'modifiedBy': instance.modifiedBy,
       'modifiedDate': instance.modifiedDate,
     };
