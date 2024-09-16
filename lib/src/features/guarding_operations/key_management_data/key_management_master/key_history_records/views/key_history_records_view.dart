@@ -5,14 +5,16 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import '../bloc/key_history_record_bloc.dart';
 
 class KeyHistoryRecordsView extends StatefulWidget {
-  const KeyHistoryRecordsView(
-      {super.key,
-      required this.id,
-      required this.type,
-      this.model,
-      this.extraProperties,
-      this.lock,
-      this.kipId});
+  const KeyHistoryRecordsView({
+    super.key,
+    required this.id,
+    required this.type,
+    this.model,
+    this.extraProperties,
+    this.lock,
+    this.kipId,
+    required this.parentIsEligibleToEdit,
+  });
 
   final int id;
   final int type;
@@ -20,6 +22,7 @@ class KeyHistoryRecordsView extends StatefulWidget {
   final ExtraProperties? extraProperties;
   final String? lock;
   final int? kipId;
+  final bool parentIsEligibleToEdit;
 
   @override
   State<KeyHistoryRecordsView> createState() => _KeyHistoryRecordsViewState();
@@ -72,6 +75,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
     return BlocConsumer<KeyHistoryRecordBloc, KeyHistoryRecordState>(
       listener: (context, state) {},
       builder: (context, state) {
+        log('isEligible ${widget.parentIsEligibleToEdit}');
         if ((widget.extraProperties != null &&
             !widget.extraProperties!.hasWritePermission!)) {
           hasPermission = true;
@@ -94,7 +98,8 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
         }
         return Scaffold(
             backgroundColor: AppColors.cardBgColor,
-            floatingActionButton: !hasPermission &&
+            floatingActionButton: widget.parentIsEligibleToEdit &&
+                    !hasPermission &&
                     lockEmpty &&
                     widget.model?.status != -1 &&
                     widget.model?.status != 0 &&
@@ -119,6 +124,8 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                                                 .createkeyManagementMaster,
                             ConstantsArgument.id: widget.id,
                             ConstantsArgument.keyLostType: widget.type,
+                            ConstantsArgument.isEligibleToEdit:
+                                widget.parentIsEligibleToEdit,
                           }),
                     },
                   )
@@ -304,6 +311,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
         ConstantsArgument.keyType: keyHistoryModel.keyType,
         ConstantsArgument.extraProperties:
             ExtraProperties(hasWritePermission: hasWritePermission),
+        ConstantsArgument.isEligibleToEdit: widget.parentIsEligibleToEdit,
       },
     );
   }

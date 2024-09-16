@@ -105,7 +105,8 @@ class _KeyManagementMasterDetailsViewState
         //   isReadOnly = true;
         // }
 
-        if (!state.model.isEligibleToEdit) {
+        log('isEligible ${state.model.isEligibleToEdit}');
+        if (!state.model.isEligibleToEdit && state.model.status != null) {
           isReadOnly = true;
         }
 
@@ -834,6 +835,8 @@ class _KeyManagementMasterDetailsViewState
                                         ConstantsIntValue.lockChangeHistoryInt,
                                     ConstantsArgument.isLocked:
                                         state.model.lock,
+                                    ConstantsArgument.isEligibleToEdit:
+                                        state.model.isEligibleToEdit,
                                   },
                                 );
                               },
@@ -1023,6 +1026,8 @@ class _KeyManagementMasterDetailsViewState
                                         ConstantsIntValue.keyDestroyHistoryInt,
                                     ConstantsArgument.isLocked:
                                         state.model.lock,
+                                    ConstantsArgument.isEligibleToEdit:
+                                        state.model.isEligibleToEdit,
                                   },
                                 );
                               },
