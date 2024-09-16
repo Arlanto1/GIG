@@ -333,8 +333,16 @@ class KeyManagementIssuanceDetailsCubit
     //   }
     // }
     // if (state.model.status != 0 && state.model.status != null) {
-    state.model.keyHandOverDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    if (!Utils().isTimestamp(state.model.keyHandOverDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.keyHandOverDate!);
+      int keyHandOverDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.keyHandOverDate = keyHandOverDate.toString();
+    }
+
+    // state.model.keyHandOverDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     // state.model.keyReturnDateTime =
     //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
