@@ -153,6 +153,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
+state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.modifiedDate ?? '0'),
+              Constants.fulldateFormat);
 
       // if (state.model.inputDate != null) {
       //   Utils.timestampToDateConversion(
@@ -660,6 +665,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.modifiedDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.inputDate = state.model.inputDate == null
@@ -667,12 +677,22 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.modifiedDate ?? '0'),
+              Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.modifiedDate ?? '0'),
               Constants.fulldateFormat);
       emit(
         state.copyWith(

@@ -178,6 +178,10 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
               int.tryParse(model.createdDate ?? '0'), Constants.fulldateFormat);
+model.modifiedDate = model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(model.modifiedDate ?? '0'), Constants.fulldateFormat);
 
       model.createdBy ??= loggedInUserDetails;
 

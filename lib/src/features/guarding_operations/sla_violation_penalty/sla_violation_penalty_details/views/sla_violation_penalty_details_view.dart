@@ -391,7 +391,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                             context)
                                         .updateDropdownValues(user: user);
                                   },
-                                  roleName: ConstantUserRoles.atomStaticUser,
+                                  roleName: ConstantUserRoles.atomAssistantSecurityLead,
                                   locationId: state.model.location!.id!,
                                   functionToCall: (BaseUser user) {
                                     BlocProvider.of<
@@ -404,6 +404,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                         .refreshList();
                                   },
                                 );
+
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),

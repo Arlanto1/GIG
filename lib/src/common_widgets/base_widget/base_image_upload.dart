@@ -76,7 +76,7 @@ class BaseImageUpload {
     if (isDisabled) {
       showDeleteIcon = false;
     }
-    if (attachments != null || attachments!.isNotEmpty) {
+    if (attachments != null) {
       return Column(
         children: [
           CommonWidgets.verticalSpacerWidget(height * 0.01),
