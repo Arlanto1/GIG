@@ -34,6 +34,8 @@ class MaterialMovementBloc
   FutureOr<void> _initializeValues(
       InitializeValuesMM event, Emitter<MaterialMovementState> emit) async {
     try {
+
+      log('Retu${returnable}');
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =

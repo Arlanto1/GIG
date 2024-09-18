@@ -947,7 +947,7 @@ class RouteGenerator {
 
       case materialMovementInwardsOutwardsRoute:
         bool isInward = true;
-        bool returnable =false;
+        bool? returnable = false;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
