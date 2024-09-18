@@ -9,6 +9,7 @@ import 'add_rejection_commnet_pop_up.dart';
 class MaterialMovementDetailsView extends StatefulWidget {
   final MaterialMovementModel? model;
   final bool isInward;
+  final bool? returnable;
   final String title;
   final ExtraProperties? extraProperties;
 
@@ -16,6 +17,7 @@ class MaterialMovementDetailsView extends StatefulWidget {
     super.key,
     this.model,
     required this.isInward,
+    required this.returnable,
     required this.title,
     this.extraProperties,
   });
@@ -109,8 +111,10 @@ class _MaterialMovementDetailsViewState
               Navigator.pop(context);
               Navigator.pop(context);
               Navigator.popAndPushNamed(
-                  context, materialMovementInwardsOutwardsRoute,
-                  arguments: {"isInward": widget.isInward});
+                  context, materialMovementInwardsOutwardsRoute, arguments: {
+                "isInward": widget.isInward,
+                "returnable": widget.returnable
+              });
             },
           );
           showDialog(
@@ -316,10 +320,24 @@ class _MaterialMovementDetailsViewState
     initializeDates(state);
     log('-state.materialMovement.status---${state.model.status}--');
     log('-rejection Comment---${widget.model?.rejectionComment}--');
+    log('widget.returnable ${widget.returnable}');
+
+      // state.model.returnable ?? false
+      //     ? 'Returnable'
+      //     : 'Non Returnable';
 
     returnableTextController.text =
-        state.model.returnable! ? 'Returnable' : 'Non Returnable';
-
+    ((state.model.returnable ?? false) || (widget.returnable ?? false))
+        ? 'Returnable'
+        : 'Non Returnable';
+    if(returnableTextController.text == 'Returnable'){
+    if(widget.returnable ?? true){
+      state.model.returnable = true ;
+    }}
+    else{
+      state.model.returnable = false ;
+    }
+    // state.model.returnable ??= false ;
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
@@ -407,6 +425,7 @@ class _MaterialMovementDetailsViewState
                                   widget.isInward ||
                                   lock,
                               textController: returnableTextController,
+                              // initialValue: state.model.returnable.toString(),
                               onTap: () {
                                 if ((!isReadOnly && !widget.isInward) &&
                                     (state.model.status == 0 ||
@@ -417,7 +436,7 @@ class _MaterialMovementDetailsViewState
                                     onTap: (String value) {
                                       bool isReturnable =
                                           value == 'Returnable' ? true : false;
-                                      state.model.returnable = isReturnable;
+                                      state.model.returnable = isReturnable ;
                                       BlocProvider.of<
                                                   MaterialMovementDetailsCubit>(
                                               context)
@@ -429,6 +448,7 @@ class _MaterialMovementDetailsViewState
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
+
 
                             /// Status
                             CommonWidgets.textDisplay(
@@ -1888,9 +1908,8 @@ class _MaterialMovementDetailsViewState
                                           // state.model.status ==
                                           //     ConstantsIntValue
                                           //         .mmStatusInwardWaiting ||
-                                      state.model.status ==
-                                          ConstantsIntValue
-                                              .mmStatusApproved
+                                          state.model.status ==
+                                              ConstantsIntValue.mmStatusApproved
                                       ? true
                                       : false,
                                   // isDisabled: true,
@@ -1917,7 +1936,6 @@ class _MaterialMovementDetailsViewState
                                 if (state.model.status == 6 ||
                                     state.model.status == 9 ||
                                     state.model.status == 10) ...[
-
                                   /// Approved By
                                   CommonWidgets.verticalTextHandling(
                                       state.labels?.locale.approvedBy ??
@@ -2004,13 +2022,11 @@ class _MaterialMovementDetailsViewState
                                         state.model.status !=
                                             ConstantsIntValue
                                                 .mmStatusInwardWaiting,
-
                                     isDisableColor:
                                         showSaveSubmitButtons ? false : true,
                                     onChange: (String value) {
                                       state.model.takenOutContactNo = value;
-                                      context
-                                          .read<MaterialMovementDetailsCubit>()
+                                      context.read<MaterialMovementDetailsCubit>()
                                           .onModelValueChange(state.model);
                                     },
                                     validateTextField: (String? user) {},
@@ -2977,30 +2993,29 @@ class _MaterialMovementDetailsViewState
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                    if(state.model.id != null) ...[
-                      /// Modified Date
-                      CommonWidgets.textDisplay(
-                        // state.labels?.locale.date ??
-                        //     state.labels?.defaultLocale.date ??
-                        Constants.modifiedOn,
-                        Styles.textStyleBlack14,
-                        isMandatory: true,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(
-                          height * 0.001),
-                      datecreateWidgetdisplay(
-                          state.model.modifiedDate ?? ''),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                      /// Modified By
-                      CommonWidgets.horizentaltextHandling(
-                        // state.labels?.locale.entrySecurity ??
-                        //     state.labels?.defaultLocale.entrySecurity ??
-                          Constants.modifiedBy,
+                      if (state.model.id != null) ...[
+                        /// Modified Date
+                        CommonWidgets.textDisplay(
+                          // state.labels?.locale.date ??
+                          //     state.labels?.defaultLocale.date ??
+                          Constants.modifiedOn,
+                          Styles.textStyleBlack14,
                           isMandatory: true,
-                          state.model.modifiedBy ?? ''),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-  ],
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.001),
+                        datecreateWidgetdisplay(state.model.modifiedDate ?? ''),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                        /// Modified By
+                        CommonWidgets.horizentaltextHandling(
+                            // state.labels?.locale.entrySecurity ??
+                            //     state.labels?.defaultLocale.entrySecurity ??
+                            Constants.modifiedBy,
+                            isMandatory: true,
+                            state.model.modifiedBy ?? ''),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      ],
+
                       /// SubmitButton
                       if (((state.model.status == 0 ||
                                   state.model.status == 8 ||

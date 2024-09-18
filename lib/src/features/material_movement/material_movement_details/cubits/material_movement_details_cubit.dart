@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/common_widgets/signature/review_signature_page.dart';
 import 'package:intl/intl.dart';
 
 part 'material_movement_details_state.dart';
@@ -18,7 +19,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     required this.commonServices,
     this.model,
     this.isInward,
-    this.returnable,
+    required this.returnable,
   }) : super(
           MaterialMovementDetailsState.initial(
             model: model ?? MaterialMovementModel(),
@@ -99,6 +100,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
+    log('returnable-${returnable}--');
+
     // Show Loader and emit loading state
     emit(
       state.copyWith(status: FormStatus.loading),
@@ -111,8 +114,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     if (state.model.location == null && defaultLocation != null) {
       String moduleCode = isInward ?? false
           ? Constants.materialMovementInwardReturnableModule
-          : Constants.materialMovementOutwardNonReturnableModule;
-
+          : (returnable ?? false
+          ? Constants.materialMovementOutwardReturnableModule
+          : Constants.materialMovementOutwardNonReturnableModule);
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: defaultLocation.id.toString(),
         moduleCode: moduleCode,
@@ -153,7 +157,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
-state.model.modifiedDate = state.model.modifiedDate == null
+      state.model.modifiedDate = state.model.modifiedDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
               int.tryParse(state.model.modifiedDate ?? '0'),
