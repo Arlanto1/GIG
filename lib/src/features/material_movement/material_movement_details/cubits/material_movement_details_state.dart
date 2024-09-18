@@ -23,6 +23,7 @@ class MaterialMovementDetailsState extends Equatable {
   final String? message;
   final String? rejectionComment;
   final bool isInward;
+  final bool returnable;
   final bool isReceiverSignEditable;
   final bool isEntrySecuritySignatureSignEditable;
   final MmUiLabels? labels;
@@ -216,9 +217,8 @@ class MaterialMovementDetailsState extends Equatable {
     }
 
     if (
-    // !model.takenOutContactNo.isEmptyOrNull &&
-        (!Utils().isNumeric(model.takenOutContactNo!) ||
-            model.takenOutContactNo!.length > 17 ||
+    (!model.takenOutContactNo.isEmptyOrNull &&
+        !Utils().isNumeric(model.takenOutContactNo!) &&
             model.takenOutContactNo!.length < 10)) {
       return const ErrorResponse(
         status: false,
@@ -245,6 +245,7 @@ class MaterialMovementDetailsState extends Equatable {
     this.eventId,
     this.message,
     this.isInward = false,
+    this.returnable=false,
     this.labels,
     this.requestorEmailUsers,
     this.returnReceiverEmailId,

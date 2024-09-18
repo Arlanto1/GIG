@@ -947,13 +947,13 @@ class RouteGenerator {
 
       case materialMovementInwardsOutwardsRoute:
         bool isInward = true;
-        bool? returnable = true;
+        bool returnable =false;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
               settings.arguments as Map<String, dynamic>;
           if (arguments.isNotEmpty) {
             isInward = arguments['isInward'];
-            returnable = arguments[ConstantsArgument.returnable];
+            returnable = arguments['returnable'];
           }
         }
         return MaterialPageRoute(
@@ -968,6 +968,7 @@ class RouteGenerator {
                 filters: BaseFilterModel())),
             child: MaterialMovementsView(
               isInward: isInward,
+              returnable: returnable,
             ),
           ),
         );
@@ -976,6 +977,7 @@ class RouteGenerator {
         MaterialMovementServices services = MaterialMovementServices();
         CommonServices commonServices = CommonServices();
         bool isInward = true;
+        bool? returnable = false;
         String title;
         ExtraProperties? extraProperties;
         Map<String, dynamic> arguments =
@@ -985,6 +987,7 @@ class RouteGenerator {
         MaterialMovementModel? materialMovement =
             arguments["MaterialMovementModel"];
         extraProperties = arguments[ConstantsArgument.extraProperties];
+        returnable = arguments['returnable'];
         if (materialMovement != null) {
           return MaterialPageRoute(
               builder: (context) => BlocProvider<MaterialMovementDetailsCubit>(
@@ -993,12 +996,14 @@ class RouteGenerator {
                       commonServices: commonServices,
                       model: materialMovement,
                       isInward: isInward,
+                      returnable: returnable,
                     ),
                     child: MaterialMovementDetailsView(
                       model: materialMovement,
                       isInward: isInward,
                       title: title,
                       extraProperties: extraProperties,
+                      returnable: returnable,
                     ),
                   ));
         }
@@ -1009,11 +1014,13 @@ class RouteGenerator {
                     commonServices: commonServices,
                     model: MaterialMovementModel(),
                     isInward: isInward,
+                    returnable: returnable,
                   ),
                   child: MaterialMovementDetailsView(
                     isInward: isInward,
                     title: title,
                     extraProperties: extraProperties,
+                    returnable: returnable,
                   ),
                 ));
 

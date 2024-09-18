@@ -86,7 +86,7 @@ class MaterialMovementModel extends BaseObject {
     this.entities,
     this.returnQuantity,
     this.inwardMovement = false,
-    this.returnable = false,
+    this.returnable,
     this.challanNo,
     this.materialComingFrom,
     this.materialFromAddress,

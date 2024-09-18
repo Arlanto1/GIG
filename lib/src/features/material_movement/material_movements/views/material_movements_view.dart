@@ -7,9 +7,11 @@ class MaterialMovementsView extends StatefulWidget {
   const MaterialMovementsView({
     super.key,
     required this.isInward,
+    this.returnable,
   });
 
   final bool isInward;
+  final bool? returnable;
 
   @override
   State<MaterialMovementsView> createState() => _MaterialMovementsViewState();
@@ -94,6 +96,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                               "title": widget.isInward
                                   ? Constants.materialMovementInwardCreate
                                   : Constants.materialMovementOutwardCreate,
+                              "returnable": widget.returnable ?? false,
                             })
                       },
                     )
@@ -341,6 +344,7 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                 : Constants.materialMovementOutwardEdit,
             ConstantsArgument.extraProperties:
                 ExtraProperties(hasWritePermission: hasWritePermission),
+            "returnable": widget.returnable,
           });
     }
   }

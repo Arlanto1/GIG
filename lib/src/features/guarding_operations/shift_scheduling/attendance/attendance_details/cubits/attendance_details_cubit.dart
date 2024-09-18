@@ -86,6 +86,11 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
           : Utils.timestampToDateConversion(
               int.tryParse(model.inputDate ?? '0'), Constants.fulldateFormat);
 
+      model.modifiedDate = model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(model.modifiedDate ?? '0'), Constants.fulldateFormat);
+
       // dynamic participationDates = Utils()
       //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
 

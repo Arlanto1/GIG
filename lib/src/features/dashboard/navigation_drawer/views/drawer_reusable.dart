@@ -344,7 +344,9 @@ class NavigationDrawer1 extends StatelessWidget {
           arguments: {"isInward": true});
     } else if (index == 1) {
       Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
-          arguments: {"isInward": false});
+          arguments: {
+            "isInward": false, "returnable": false,
+          });
     }
   }
 
@@ -1260,9 +1262,9 @@ class NavigationDrawer1 extends StatelessWidget {
   }
 
   void checkMenuPermissionsGuardingOperations(
-      DisplayMenu? displayMenu,
-      List<MenuItem> menuItems,
-      ) {
+    DisplayMenu? displayMenu,
+    List<MenuItem> menuItems,
+  ) {
     if (displayMenu?.cD ?? false) {
       menuItems.add(const MenuItem(
           Constants.escalationMatrix, AppIcon.escalationMatrixIcon, 0));
@@ -1287,5 +1289,4 @@ class NavigationDrawer1 extends StatelessWidget {
           AppIcon.slaViolationPenaltyIcon, 0));
     }
   }
-
 }
