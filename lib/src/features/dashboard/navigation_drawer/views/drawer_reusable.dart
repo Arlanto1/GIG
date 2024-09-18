@@ -345,7 +345,7 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 1) {
       Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
           arguments: {
-            "isInward": false, "returnable": false,
+            "isInward": false, "returnable": null,
           });
     }
   }
