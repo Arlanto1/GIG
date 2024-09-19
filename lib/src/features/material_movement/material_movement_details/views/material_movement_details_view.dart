@@ -31,6 +31,7 @@ class _MaterialMovementDetailsViewState
     extends State<MaterialMovementDetailsView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController returnableTextController = TextEditingController();
+
   User? userDetails;
   List<ImageContent> getFiles = [];
   TextEditingController takenOutOnDateController = TextEditingController();
@@ -322,20 +323,23 @@ class _MaterialMovementDetailsViewState
     log('-rejection Comment---${widget.model?.rejectionComment}--');
     log('widget.returnable ${widget.returnable}');
 
-      // state.model.returnable ?? false
-      //     ? 'Returnable'
-      //     : 'Non Returnable';
-
     returnableTextController.text =
-    ((state.model.returnable ?? false) || (widget.returnable ?? false))
-        ? 'Returnable'
-        : 'Non Returnable';
-    if(returnableTextController.text == 'Returnable'){
-    if(widget.returnable ?? true){
-      state.model.returnable = true ;
-    }}
-    else{
-      state.model.returnable = false ;
+        widget.returnable == true ? 'Returnable' : 'Non Returnable';
+
+    if (widget.returnable == true) {
+      returnableTextController.text == 'Returnable';
+    } else {
+      returnableTextController.text == 'Non Returnable';
+    }
+    // ((state.model.returnable ?? false) || (widget.returnable ?? false))
+    //     ? 'Returnable'
+    //     : 'Non Returnable';
+    if (returnableTextController.text == 'Returnable') {
+      if (widget.returnable ?? true) {
+        state.model.returnable = true;
+      }
+    } else {
+      state.model.returnable = false;
     }
     // state.model.returnable ??= false ;
     if (state.status == FormStatus.loading) {
@@ -416,39 +420,37 @@ class _MaterialMovementDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Non Returnable
+                            /// Returnable/Non Returnable
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                              isDisabled: state.model.status !=
-                                          ConstantsIntValue.mmStatusDraft &&
-                                      state.model.status != null ||
-                                  widget.isInward ||
-                                  lock,
+                              isDisabled: true,
                               textController: returnableTextController,
                               // initialValue: state.model.returnable.toString(),
                               onTap: () {
-                                if ((!isReadOnly && !widget.isInward) &&
-                                    (state.model.status == 0 ||
-                                        state.model.status == null)) {
-                                  BaseDropDown().assetTypeDialog(
-                                    context: context,
-                                    dropDownValues: returnableDropDownValues,
-                                    onTap: (String value) {
-                                      bool isReturnable =
-                                          value == 'Returnable' ? true : false;
-                                      state.model.returnable = isReturnable ;
-                                      BlocProvider.of<
-                                                  MaterialMovementDetailsCubit>(
-                                              context)
-                                          .updateDropdownValues(
-                                              isReturnable: isReturnable);
-                                    },
-                                  );
-                                }
+                                //   BaseDropDown().assetTypeDialog(
+                                //     context: context,
+                                //     dropDownValues: returnableDropDownValues,
+                                //     onTap: (String value) {
+                                //       setState(() {
+                                //         returnableTextController.text = value;
+                                //         bool isReturnable =
+                                //         value == 'Returnable' ? true : false;
+                                //         log('value ${value}');
+                                //         log('111 ${returnableTextController
+                                //             .text}');
+                                //         state.model.returnable = isReturnable;
+                                //         BlocProvider.of<
+                                //             MaterialMovementDetailsCubit>(
+                                //             context)
+                                //             .updateDropdownValues(
+                                //             isReturnable: isReturnable);
+                                //       });
+                                //     },
+                                //   );
+                                // }
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-
 
                             /// Status
                             CommonWidgets.textDisplay(
@@ -2026,7 +2028,8 @@ class _MaterialMovementDetailsViewState
                                         showSaveSubmitButtons ? false : true,
                                     onChange: (String value) {
                                       state.model.takenOutContactNo = value;
-                                      context.read<MaterialMovementDetailsCubit>()
+                                      context
+                                          .read<MaterialMovementDetailsCubit>()
                                           .onModelValueChange(state.model);
                                     },
                                     validateTextField: (String? user) {},
