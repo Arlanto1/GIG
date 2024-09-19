@@ -350,10 +350,23 @@ class _MaterialMovementDetailsViewState
         state.status == FormStatus.initial) {
       getFiles = state.loadAttachments ?? [];
     }
-    bool isQuantityDisabled = (state.model.status == 10 ||
+    // bool isQuantityDisabled = (state.model.status == 10 ||
+    //     state.model.status == -1 ||
+    //     state.model.status == 6 ||
+    //     state.model.status == 2);
+
+    bool isQuantityDisabled =  state.model.status ==
+        10 ||
         state.model.status == -1 ||
         state.model.status == 6 ||
-        state.model.status == 2);
+        state.model.status == 2 ||
+        state.model.status == 3 ||
+        state.model.status == 4 ||
+        !showSaveSubmitButtons ||
+        state.model.status ==
+            ConstantsIntValue
+                .mmStatusInwardWaiting ||
+        !state.model.lock.isEmptyOrNull;
     return Container(
       color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
