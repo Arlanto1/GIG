@@ -999,6 +999,29 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
 
+                                  /// Security Signature
+                                  buildSignature(
+                                      controller: securitySignatureController,
+                                      label: state.labels?.locale.securitySign ??
+                                          state.labels?.defaultLocale
+                                              .securitySign ??
+                                          Constants.securitySignature,
+                                      spaceHeight: height,
+                                      state: state,
+                                      isMandatory: false),
+
+                                  /// Receiver Sign/Acceptance
+                                  buildSignature(
+                                      controller: receiverSignatureController,
+                                      label: state.labels?.locale
+                                          .receiverSignAcceptance ??
+                                          state.labels?.defaultLocale
+                                              .receiverSignAcceptance ??
+                                          Constants.receiverSignature,
+                                      spaceHeight: height,
+                                      state: state,
+                                      isMandatory: false),
+
                                   /// Key Return Date And Time
                                   // Text('${state.model.keyReturnDateTime}'),
                                   // if (state
@@ -1058,29 +1081,6 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
                                 ],
-
-                                /// Security Signature
-                                buildSignature(
-                                    controller: securitySignatureController,
-                                    label: state.labels?.locale.securitySign ??
-                                        state.labels?.defaultLocale
-                                            .securitySign ??
-                                        Constants.securitySignature,
-                                    spaceHeight: height,
-                                    state: state,
-                                    isMandatory: false),
-
-                                /// Receiver Sign/Acceptance
-                                buildSignature(
-                                    controller: receiverSignatureController,
-                                    label: state.labels?.locale
-                                        .receiverSignAcceptance ??
-                                        state.labels?.defaultLocale
-                                            .receiverSignAcceptance ??
-                                        Constants.receiverSignature,
-                                    spaceHeight: height,
-                                    state: state,
-                                    isMandatory: false),
 
                                 /// Key Issuance Process
                                 Container(

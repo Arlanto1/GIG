@@ -132,7 +132,7 @@ class KeyManagementIssuanceModel {
   String? keyHandOverDue;
   int? employeeType;
   dynamic handedOverTo;
-  dynamic handedOverToCwrT2;
+  String? handedOverToCwrT2;
   User? dbSponsorCwrT2;
   String? employeeID;
   dynamic department;

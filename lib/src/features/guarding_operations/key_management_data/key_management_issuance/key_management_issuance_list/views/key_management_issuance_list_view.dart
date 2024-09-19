@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/common_widgets/signature/review_signature_page.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_list/bloc/key_management_issuance_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 
@@ -184,13 +185,27 @@ class _KeyManagementIssuanceListViewState
                                             Constants
                                                 .twentyFourHourDateTimeFormat)
                                         : ''));
-                                labels.add(Label(
-                                    key: state.labels?.locale.handedOverTo ??
-                                        state.labels?.defaultLocale
-                                            .handedOverTo ??
-                                        Constants.handedOverTo,
-                                    value:
-                                        '${state.list[index].handedOverTo?.firstName ?? ''} ${state.list[index].handedOverTo?.lastName ?? ''}'));
+                                if (state.list[index].handedOverTo?.firstName !=
+                                    null) {
+                                  labels.add(Label(
+                                      key: state.labels?.locale.handedOverTo ??
+                                          state.labels?.defaultLocale
+                                              .handedOverTo ??
+                                          Constants.handedOverTo,
+                                      value:
+                                          '${state.list[index].handedOverTo?.firstName ?? ''} ${state.list[index].handedOverTo?.lastName ?? ''}'));
+                                }
+
+                                if (!state.list[index].handedOverToCwrT2
+                                    .isEmptyOrNull) {
+                                  labels.add(Label(
+                                      key: state.labels?.locale.handedOverTo ??
+                                          state.labels?.defaultLocale
+                                              .handedOverTo ??
+                                          Constants.handedOverTo,
+                                      value:
+                                          '${state.list[index].handedOverToCwrT2 ?? ''} ${state.list[index].handedOverTo ?? ''}'));
+                                }
                               }
                               return index >= state.list.length
                                   ? null

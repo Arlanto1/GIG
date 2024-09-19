@@ -345,7 +345,13 @@ class NavigationDrawer1 extends StatelessWidget {
     } else if (index == 1) {
       Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
           arguments: {
-            "isInward": false, "returnable": null,
+            "isInward": false, "returnable": true,
+          });
+    }
+    else if(index == 2){
+      Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
+          arguments: {
+            "isInward": false, "returnable": false,
           });
     }
   }
@@ -1154,7 +1160,7 @@ class NavigationDrawer1 extends StatelessWidget {
     switch (title) {
       case Constants.materialMovement:
         return _genericItemSelection(
-            context, materialMovementDrawerItems, title);
+            context, materialMovementDrawerItemsWithReturnable, title);
       // case Constants.securitySystemTickets:
       //   return _genericItemExpandable(
       //     context,
