@@ -54,26 +54,26 @@ class _LoginState extends State<Login> {
           Utils().formError(state, context);
           if (state is LoginFailureState) {
             dismissLoadingDialog(context);
-            if (state.status == FormStatus.permissionLocationError) {
-              var dialog = CustomAlertDialog(
-                  title: 'Location Permission',
-                  message: state.message,
-                  onPositivePressed: () async {
-                    openAppSettings();
-                    Navigator.of(context).pop();
-                    setState(() {
-                      state.status == FormStatus.success;
-                    });
-                  },
-                  onNegativePressed: () {
-                    log('--onNegativePressed--');
-                  },
-                  positiveBtnText: Constants.settings,
-                  negativeBtnText: Constants.no);
-              showDialog(
-                  context: context, builder: (BuildContext context) => dialog);
-              return;
-            }
+            // if (state.status == FormStatus.permissionLocationError) {
+            //   var dialog = CustomAlertDialog(
+            //       title: 'Location Permission',
+            //       message: state.message,
+            //       onPositivePressed: () async {
+            //         openAppSettings();
+            //         Navigator.of(context).pop();
+            //         setState(() {
+            //           state.status == FormStatus.success;
+            //         });
+            //       },
+            //       onNegativePressed: () {
+            //         log('--onNegativePressed--');
+            //       },
+            //       positiveBtnText: Constants.settings,
+            //       negativeBtnText: Constants.no);
+            //   // showDialog(
+            //   //     context: context, builder: (BuildContext context) => dialog);
+            //   return;
+            // }
 
             var dialog = CustomAlertDialog(
               title: Constants.appname,

@@ -59,7 +59,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:host="com.arlanto.atomedge"
-                    android:path="/HyV29tTq5KrVwblfb8LmqRdYXA4="
+                    android:path="/%2B3vXNEvHgIj0mgMdygQMfRjiAy4%3D"
                     android:scheme="msauth" />
             </intent-filter>
         </activity>

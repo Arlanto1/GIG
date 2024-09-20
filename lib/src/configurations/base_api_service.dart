@@ -50,7 +50,7 @@ class BaseApiService {
         headers.addAll({"Latitude": position.latitude.toString()});
         headers.addAll({"Longitude": position.longitude.toString()});
       } else {
-        throw PermissionError(message: Constants.locationPermissionError);
+        // throw PermissionError(message: Constants.locationPermissionError);
       }
     } else {
       PermissionStatus permissionStatus = await requestLocationPermission();
@@ -60,7 +60,7 @@ class BaseApiService {
         headers.addAll({"Latitude": position.latitude.toString()});
         headers.addAll({"Longitude": position.longitude.toString()});
       } else {
-        throw PermissionError(message: Constants.locationPermissionError);
+        // throw PermissionError(message: Constants.locationPermissionError);
       }
     }
 
