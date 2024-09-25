@@ -678,8 +678,7 @@ class _KeyHistoryRecordsDetailsViewState
                                   srh ||
                                   initialStatus ||
                                   lockChangeInitiatedAndUser)) &&
-                              state.model.status != ConstantsIntValue.closed &&
-                              widget.parentIsEligibleToEdit,
+                              state.model.status != ConstantsIntValue.closed,
                           isDisableColor: !((securityManager ||
                                       srh ||
                                       initialStatus) ||

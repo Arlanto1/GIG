@@ -901,6 +901,7 @@ class _KeyManagementMasterDetailsViewState
                                         ConstantsIntValue.keyLostHistoryInt,
                                     ConstantsArgument.isLocked:
                                         state.model.lock,
+                                    ConstantsArgument.isEligibleToEdit : state.model.isEligibleToEdit
                                   },
                                 );
                               },
@@ -965,6 +966,7 @@ class _KeyManagementMasterDetailsViewState
                                         ConstantsIntValue.keyDamageHistoryInt,
                                     ConstantsArgument.isLocked:
                                         state.model.lock,
+                                    ConstantsArgument.isEligibleToEdit: state.model.isEligibleToEdit,
                                   },
                                 );
                               },
