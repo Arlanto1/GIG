@@ -205,7 +205,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       } else if (e is PermissionError) {
         emit(LoginFailureState(
           message: e.message ?? 'An unexpected error occurred.',
-          status: FormStatus.permissionLocationError,
+          status: FormStatus.success,
         ));
       } else {
         InactivityFunctions().logoutUser(navigatorKey);

@@ -35,7 +35,9 @@ Future<Position> determinePosition() async {
       // returned true. According to Android guidelines
       // your App should show an explanatory UI now.
       // return Future.error('Location permissions are denied');
-      throw PermissionError(message: 'Location services are disabled.');
+      throw PermissionError(
+          message:
+          'Location maybe required to use some functionalities of this app, enable it if you need Personal Customization.\n\nPlease click on login again and continue to the application');
     }
   }
 
@@ -43,7 +45,7 @@ Future<Position> determinePosition() async {
     // Permissions are denied forever, handle appropriately.
     throw PermissionError(
         message:
-            'Location is required to use this app.\nPlease enable Location');
+            'Location maybe required to use some functionalities of this app, enable it if you need Personal Customization.\n\nPlease click on login again and continue to the application');
 
     // return Future.error(
     //     'Location permissions are permanently denied, we cannot request permissions.');
