@@ -396,7 +396,7 @@ class _MaterialMovementDetailsViewState
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       AbsorbPointer(
-                        absorbing: !showSaveSubmitButtons,
+                        absorbing: !showSaveSubmitButtons || lock,
                         child: Column(
                           children: [
                             if (!state.model.lock.isEmptyOrNull) ...[
@@ -1924,7 +1924,7 @@ class _MaterialMovementDetailsViewState
                                           //     ConstantsIntValue
                                           //         .mmStatusInwardWaiting ||
                                           state.model.status ==
-                                              ConstantsIntValue.mmStatusApproved
+                                              ConstantsIntValue.mmStatusApproved || lock
                                       ? true
                                       : false,
                                   // isDisabled: true,
@@ -2789,7 +2789,7 @@ class _MaterialMovementDetailsViewState
                                 textController: actualDateOfReturnController,
                                 isDisabled: state.model.status ==
                                         ConstantsIntValue.mmStatusClosed ||
-                                    !showSaveSubmitButtons,
+                                    !showSaveSubmitButtons || lock,
                                 onlyDate: false,
                                 showFutureDate: false,
                                 showPastDate: true,
@@ -2821,9 +2821,9 @@ class _MaterialMovementDetailsViewState
                                 initialValue:
                                     state.model.materialReturnedChallanNo,
                                 hintText: '',
-                                isEnable: showSaveSubmitButtons ? true : false,
+                                isEnable: showSaveSubmitButtons && !lock ? true : false,
                                 isDisableColor:
-                                    showSaveSubmitButtons ? false : true,
+                                    showSaveSubmitButtons || !lock ? false : true,
                                 onChange: (String value) {
                                   log('--value---$value');
 
@@ -2853,7 +2853,7 @@ class _MaterialMovementDetailsViewState
                                           title:
                                               state.model.returnReceiverMailId,
                                           height: 70,
-                                          isDisableColor: !showSaveSubmitButtons
+                                          isDisableColor: !showSaveSubmitButtons || lock
                                               ? true
                                               : false,
                                           onTap: () {
@@ -2908,7 +2908,7 @@ class _MaterialMovementDetailsViewState
                                                       .mmStatusInwardWaiting
                                               ? true
                                               : false,
-                                          isDisableColor: !showSaveSubmitButtons
+                                          isDisableColor: !showSaveSubmitButtons || lock
                                               ? true
                                               : false,
                                           onChange: (String username) {},
@@ -2931,9 +2931,9 @@ class _MaterialMovementDetailsViewState
                                 initialValue:
                                     '${state.model.returnQuantity ?? ''}',
                                 textFormKey: Keys.returnQuantityTextController,
-                                isEnable: showSaveSubmitButtons ? true : false,
+                                isEnable: showSaveSubmitButtons && !lock ? true : false,
                                 isDisableColor:
-                                    !showSaveSubmitButtons ? true : false,
+                                    !showSaveSubmitButtons || lock ? true : false,
                                 hintText: '',
                                 onChange: (String? value) {
                                   if (value != null) {
@@ -2961,7 +2961,7 @@ class _MaterialMovementDetailsViewState
                                 initialValue: state.model.comment,
                                 textFormKey: Keys.claimantEmpIdTextController,
                                 hintText: '',
-                                isEnable: showSaveSubmitButtons ? true : false,
+                                isEnable: showSaveSubmitButtons && !lock ? true : false,
                                 isDisableColor:
                                     !showSaveSubmitButtons ? true : false,
                                 onChange: (String value) {

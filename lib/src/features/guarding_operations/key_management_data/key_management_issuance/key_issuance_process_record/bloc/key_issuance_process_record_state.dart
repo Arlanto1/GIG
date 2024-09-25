@@ -9,6 +9,7 @@ class KeyIssuanceProcessRecordState extends Equatable {
   final String? message;
   final KMUiLabels? labels;
   final ExtraProperties? extraProperties;
+  final bool isEligibleToEdit;
 
   const KeyIssuanceProcessRecordState({
     this.message,
@@ -19,6 +20,7 @@ class KeyIssuanceProcessRecordState extends Equatable {
     this.keyDescription,
     this.labels,
     this.extraProperties,
+    this.isEligibleToEdit = false,
   });
 
   KeyIssuanceProcessRecordState copyWith({

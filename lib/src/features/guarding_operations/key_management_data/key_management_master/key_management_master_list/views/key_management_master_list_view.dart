@@ -231,7 +231,8 @@ class _KeyManagementMasterListViewState
                                                       .cancelledStatus &&
                                               state.list[index].status !=
                                                   ConstantsIntValue
-                                                      .keyMMClosedStatus,
+                                                      .keyMMClosedStatus && state.extraProperties
+                                              ?.hasWritePermission == true,
                                       onEditTap: (selectedIndex) {
                                         getById(
                                             state.extraProperties

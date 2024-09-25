@@ -329,6 +329,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                       } else {
                         getKeyHistoryById(
                           state.extraProperties?.hasWritePermission ?? false,
+                          state.isEligibleToEdit ?? false,
                           state.items[index].kmId,
                           widget.parentId,
                           state.items[selectedIndex].id,
@@ -362,6 +363,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                       } else {
                         getKeyHistoryById(
                           state.extraProperties?.hasWritePermission ?? false,
+                          state.isEligibleToEdit,
                           state.items[index].kmId,
                           widget.parentId,
                           state.items[selectedIndex].id,
@@ -406,6 +408,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
 
   getKeyHistoryById(
     bool hasWritePermission,
+    bool? isEligibleToEdit,
     int? kmId,
     int? keyIssuanceId,
     int? id,
@@ -426,6 +429,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
       kmId,
       keyHistoryModel,
       hasWritePermission,
+      isEligibleToEdit,
       id,
       keyIssuanceId,
       title,
@@ -438,7 +442,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     int kmId,
     KeyHistoryModel? keyHistoryModel,
     bool hasWritePermission,
-    int? id,
+      bool? isEligibleToEdit,
+      int? id,
     int? keyIssuanceId,
     String? title,
     int? type, {
@@ -461,6 +466,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           ConstantsArgument.extraProperties: ExtraProperties(
             hasWritePermission: hasWritePermission,
           ),
+          ConstantsArgument.isEligibleToEdit: isEligibleToEdit,
         },
       );
     } else {
@@ -475,6 +481,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           ConstantsArgument.keyIssuanceId: keyIssuanceId,
           ConstantsArgument.keyLostType: type,
           ConstantsArgument.keyType: keyIssuanceProcessModel.keyType,
+          ConstantsArgument.isEligibleToEdit: isEligibleToEdit,
         },
       );
     }
