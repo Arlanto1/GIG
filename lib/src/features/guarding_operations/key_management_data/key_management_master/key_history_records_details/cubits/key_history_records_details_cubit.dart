@@ -60,6 +60,8 @@ class KeyHistoryRecordsDetailsCubit
     log('---model.nokeyss--${model?.noKeys}---${model?.noOfKeys}-----');
     log('---srhh--${model?.srh}-');
     log('---kipId--$kipId-');
+    log('modifiedDate${ state.model.modifiedDate}---');
+
     KeyManagementMasterModel parentModel = await services.getById(parentId);
     KeyIssuanceProcessRecord keyIssuanceProcessModel =
         KeyIssuanceProcessRecord();
