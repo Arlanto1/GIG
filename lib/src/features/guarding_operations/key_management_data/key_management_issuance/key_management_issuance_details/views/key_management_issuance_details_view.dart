@@ -810,6 +810,30 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
+
+                                /// Security Signature
+                                buildSignature(
+                                    controller: securitySignatureController,
+                                    label: state.labels?.locale.securitySign ??
+                                        state.labels?.defaultLocale
+                                            .securitySign ??
+                                        Constants.securitySignature,
+                                    spaceHeight: height,
+                                    state: state,
+                                    isMandatory: false),
+
+                                /// Receiver Sign/Acceptance
+                                buildSignature(
+                                    controller: receiverSignatureController,
+                                    label: state.labels?.locale
+                                        .receiverSignAcceptance ??
+                                        state.labels?.defaultLocale
+                                            .receiverSignAcceptance ??
+                                        Constants.receiverSignature,
+                                    spaceHeight: height,
+                                    state: state,
+                                    isMandatory: false),
+
                                 if (employeeTypeController.text !=
                                     'CWR T2') ...[
 
@@ -865,7 +889,6 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                 ],
                                 if (employeeTypeController.text ==
                                     'CWR T2') ...[
-
                                   /// Handed Over To
                                   CommonWidgets.textDisplay(
                                       state.labels?.locale.handedOverTo ??
@@ -947,28 +970,6 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
-                                  /// Security Signature
-                                  buildSignature(
-                                      controller: securitySignatureController,
-                                      label: state.labels?.locale.securitySign ??
-                                          state.labels?.defaultLocale
-                                              .securitySign ??
-                                          Constants.securitySignature,
-                                      spaceHeight: height,
-                                      state: state,
-                                      isMandatory: false),
-
-                                  /// Receiver Sign/Acceptance
-                                  buildSignature(
-                                      controller: receiverSignatureController,
-                                      label: state.labels?.locale
-                                          .receiverSignAcceptance ??
-                                          state.labels?.defaultLocale
-                                              .receiverSignAcceptance ??
-                                          Constants.receiverSignature,
-                                      spaceHeight: height,
-                                      state: state,
-                                      isMandatory: false),
                                 ],
                                 if (state.model.status != 0 &&
                                     state.model.status != null) ...[
