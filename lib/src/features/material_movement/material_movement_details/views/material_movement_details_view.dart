@@ -2112,7 +2112,7 @@ class _MaterialMovementDetailsViewState
                                         : true,
                                     onlyDate: false,
                                     showFutureDate: false,
-                                    showPastDate: false,
+                                    showPastDate: true,
                                     onChange: (String value) {
                                       state.model.takenOutDate =
                                           Utils().formatTime(value);

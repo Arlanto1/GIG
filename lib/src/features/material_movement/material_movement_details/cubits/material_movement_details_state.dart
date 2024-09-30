@@ -152,10 +152,13 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Quantity');
     }
+    if (model.quantity == 0) {
+      return const ErrorResponse(
+          status: false, message: 'Quantity cannot be zero!');
+    }
     if (model.unit == null && model.status != 0) {
       return const ErrorResponse(status: false, message: 'Please enter Unit');
     }
-
     if (model.modelInfo.isEmptyOrNull &&
         model.status != 0 &&
         model.status != null) {
