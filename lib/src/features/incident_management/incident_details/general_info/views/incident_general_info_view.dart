@@ -924,6 +924,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             FlutterInputField(
                               showBorder: true,
                               lineHeight: 6,
+                              characterLimit:
+                              Constants.characterLimitDescTextFormField,
                               initialValue: state.model.description,
                               textFormKey: Keys.incidentDescription,
                               hintText: Constants.informationhere,

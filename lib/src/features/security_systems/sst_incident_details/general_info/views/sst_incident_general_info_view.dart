@@ -927,6 +927,8 @@ class _SstIncidentGeneralInfoViewState
                                   height * 0.001),
                               FlutterInputField(
                                 lineHeight: 6,
+                                characterLimit:
+                                Constants.characterLimitDescTextFormField,
                                 showBorder: true,
                                 initialValue: state.model.shortDescription,
                                 textFormKey: Keys.incidentDescription,
@@ -956,6 +958,8 @@ class _SstIncidentGeneralInfoViewState
                                   height * 0.001),
                               FlutterInputField(
                                 lineHeight: 6,
+                                characterLimit:
+                                Constants.characterLimitDescTextFormField,
                                 initialValue: state.model.detailDescription,
                                 showBorder: true,
                                 textFormKey: Keys.incidentDescription,
@@ -1185,6 +1189,8 @@ class _SstIncidentGeneralInfoViewState
                                   height * 0.001),
                               FlutterInputField(
                                 lineHeight: 6,
+                                characterLimit:
+                                Constants.characterLimitDescTextFormField,
                                 initialValue: state.model.rootCauseAnalysis,
                                 showBorder: true,
                                 textFormKey: Keys.incidentDescription,
@@ -1213,6 +1219,8 @@ class _SstIncidentGeneralInfoViewState
                                   height * 0.001),
                               FlutterInputField(
                                 lineHeight: 6,
+                                characterLimit:
+                                Constants.characterLimitDescTextFormField,
                                 initialValue: state.model.actionTaken,
                                 showBorder: true,
                                 textFormKey: Keys.incidentDescription,
@@ -1797,7 +1805,8 @@ class _SstIncidentGeneralInfoViewState
                 const SizedBox(height: 20),
                 FlutterInputField(
                   lineHeight: 6,
-                  characterLimit: 4000,
+                  characterLimit:
+                  Constants.characterLimitDescTextFormField,
                   initialValue: activityNotes.activityNotes ?? '',
                   showBorder: true,
                   textFormKey: Keys.incidentDescription,

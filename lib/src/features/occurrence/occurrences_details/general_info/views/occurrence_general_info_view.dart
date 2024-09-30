@@ -431,6 +431,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 /// Premises Round Taken Comments
                                 FlutterInputField(
                                   lineHeight: 6,
+                                  characterLimit:
+                                  Constants.characterLimitDescTextFormField,
                                   initialValue:
                                       state.model.premisesRoundTknComments,
                                   textFormKey: Keys.premisesRoundTknCommentsKey,
@@ -491,6 +493,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 /// Medical Emergency Comments
                                 FlutterInputField(
                                   lineHeight: 6,
+                                  characterLimit:
+                                  Constants.characterLimitDescTextFormField,
                                   initialValue:
                                       state.model.medicalEmrgncyComments,
                                   showBorder: true,
@@ -618,6 +622,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 /// Medical Emergency Comments
                                 FlutterInputField(
                                   lineHeight: 6,
+                                  characterLimit:
+                                  Constants.characterLimitDescTextFormField,
                                   initialValue:
                                       state.model.socialEnggIncdntComments,
                                   showBorder: true,
@@ -807,6 +813,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 /// Any Infrastructural Issue Comments
                                 FlutterInputField(
                                   lineHeight: 6,
+                                  characterLimit:
+                                  Constants.characterLimitDescTextFormField,
                                   initialValue: state.model.infraIssueComments,
                                   textFormKey: Keys.infraIssueCommentsKey,
                                   showBorder: true,
@@ -951,6 +959,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 /// fire Alarm Emrgncy comments
                                 FlutterInputField(
                                   lineHeight: 6,
+                                  characterLimit:
+                                  Constants.characterLimitDescTextFormField,
                                   initialValue:
                                       state.model.fireAlarmEmrgncyComments,
                                   showBorder: true,
@@ -1009,6 +1019,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 /// fire Alarm Emrgncy comments
                                 FlutterInputField(
                                   lineHeight: 6,
+                                  characterLimit:
+                                  Constants.characterLimitDescTextFormField,
                                   initialValue:
                                       state.model.landlordIssueComments,
                                   showBorder: true,
@@ -1155,6 +1167,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             /// Any system alarm received Comments
                             FlutterInputField(
                               lineHeight: 6,
+                              characterLimit:
+                              Constants.characterLimitDescTextFormField,
                               initialValue: state.model.sysAlarmRcvdComments,
                               textFormKey: Keys.sysAlarmRcvdCommentsKey,
                               showBorder: true,
@@ -1206,6 +1220,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             /// Transport incident  Comments
                             FlutterInputField(
                               lineHeight: 6,
+                              characterLimit:
+                              Constants.characterLimitDescTextFormField,
                               initialValue: state.model.transportIncdntComments,
                               textFormKey: Keys.transportIncdntCommentsKey,
                               hintText: Constants.informationhere,
@@ -1264,6 +1280,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 Styles.textStyleBlack14),
                             FlutterInputField(
                               lineHeight: 6,
+                              characterLimit:
+                              Constants.characterLimitDescTextFormField,
                               initialValue: state.model.notifyScri,
                               textFormKey: Keys.notifyScriKey,
                               hintText: Constants.informationhere,
@@ -1501,6 +1519,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               Styles.textStyleBlack14),
                           FlutterInputField(
                             lineHeight: 6,
+                            characterLimit:
+                            Constants.characterLimitDescTextFormField,
                             initialValue: state.model.comments,
                             textFormKey: Keys.commentsKey,
                             hintText: Constants.informationhere,

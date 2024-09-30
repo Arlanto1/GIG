@@ -411,6 +411,8 @@ class _KeyLossDestructionDetailsViewState
                                   height * 0.001),
                               FlutterInputField(
                                 lineHeight: 6,
+                                characterLimit:
+                                Constants.characterLimitDescTextFormField,
                                 initialValue: state.model.lostKeyDetails,
                                 textFormKey: Keys.additionInitiativesKey,
                                 hintText: Constants.informationhere,
@@ -556,6 +558,8 @@ class _KeyLossDestructionDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 6,
+                              characterLimit:
+                              Constants.characterLimitDescTextFormField,
                               initialValue: state.model.additionalInformation,
                               textFormKey: Keys.additionInitiativesKey,
                               hintText: Constants.informationhere,

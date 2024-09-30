@@ -1373,6 +1373,8 @@ class _GuardingMasterDataDetailsViewState
                                     height * 0.001),
                                 FlutterInputField(
                                   lineHeight: 6,
+                                  characterLimit:
+                                  Constants.characterLimitDescTextFormField,
                                   initialValue: state.model.securityExperience,
                                   textFormKey: Keys.securityExperienceKey,
                                   hintText: Constants.informationhere,
@@ -1491,6 +1493,8 @@ class _GuardingMasterDataDetailsViewState
                                     height * 0.001),
                                 FlutterInputField(
                                   lineHeight: 6,
+                                  characterLimit:
+                                  Constants.characterLimitDescTextFormField,
                                   initialValue: state.model.permanentAddress,
                                   textFormKey: Keys.permanentAddressKey,
                                   showBorder: true,
@@ -1580,6 +1584,8 @@ class _GuardingMasterDataDetailsViewState
                                     height * 0.001),
                                 FlutterInputField(
                                   lineHeight: 6,
+                                  characterLimit:
+                                  Constants.characterLimitDescTextFormField,
                                   initialValue: state.model.localAddress,
                                   textFormKey: Keys.localAddressKey,
                                   hintText: Constants.informationhere,
