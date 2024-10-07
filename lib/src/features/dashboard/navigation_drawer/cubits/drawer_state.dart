@@ -56,3 +56,14 @@ class PassMgmtSetDrawerItemChange extends DrawerState {
 class PassMgmtGetDrawerItemChange extends DrawerState {
   const PassMgmtGetDrawerItemChange(super.index);
 }
+
+class TicketingSystemSetDrawerItemChange extends DrawerState {
+  const TicketingSystemSetDrawerItemChange(this.index) : super(index);
+
+  @override
+  final int index;
+}
+
+class TicketingSystemGetDrawerItemChange extends DrawerState {
+  const TicketingSystemGetDrawerItemChange(super.index);
+}

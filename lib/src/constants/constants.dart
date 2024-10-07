@@ -218,7 +218,7 @@ class Constants {
       'Create Outward Material Movement';
   static const String materialMovementOutwardEdit =
       'Edit Outward Material Movement';
-
+  static const String ticketingSystem = 'Ticketing System';
   static const String dayPassManagement = 'Day Pass Management';
   static const String daypassregister = 'Day Pass Register';
   static const String visitorpassmgmt = 'Visitor Pass Management';
@@ -234,6 +234,7 @@ class Constants {
   static const String name = 'Name';
   static const String state = 'State';
   static const String key = 'Key';
+  static const String tickets = "Tickets";
 
   // Create Found
   static const String createFound = 'Create Found';

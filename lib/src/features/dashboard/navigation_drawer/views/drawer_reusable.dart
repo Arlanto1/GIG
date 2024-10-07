@@ -97,6 +97,10 @@ class NavigationDrawer1 extends StatelessWidget {
       expansionTileDrawerItems
           .add(const MenuItem(vVipVisitorsTitle, AppIcon.vvipVisitorIcon, 0));
     }
+
+    expansionTileDrawerItems
+        .add(const MenuItem(ticketingSystemsTitle, AppIcon.vvipVisitorIcon, 0));
+
     return expansionTileDrawerItems;
   }
 
@@ -134,6 +138,7 @@ class NavigationDrawer1 extends StatelessWidget {
   late int _opearationsLastSelectedItem = 10;
   late int _passlastSelectedItem = 10;
   late int _securityfunfunctionslastSelectedItem = 10;
+  late int _ticketingSystemlastSelectedItem = 1;
 
   Future<void> getIndeifydrawerIndex() async {
     _lastSelectedItem = await SharedPrefs.getIdentifymenuindex();
@@ -146,6 +151,7 @@ class NavigationDrawer1 extends StatelessWidget {
   static const String keyManagementDataTitle = Constants.keyManagementData;
   static const String vVipVisitorsTitle = Constants.vVipVisitorsTitle;
   static const String securitySystemsTitle = Constants.securitySystems;
+  static const String ticketingSystemsTitle = Constants.ticketingSystem;
 
   @override
   Widget build(BuildContext context) {
@@ -179,6 +185,10 @@ class NavigationDrawer1 extends StatelessWidget {
                 case PassMgmtGetDrawerItemChange:
                   _passlastSelectedItem =
                       (state as PassMgmtGetDrawerItemChange).index;
+                  break;
+                case TicketingSystemGetDrawerItemChange:
+                  _ticketingSystemlastSelectedItem =
+                      (state as TicketingSystemGetDrawerItemChange).index;
                   break;
                 default:
                   break;
@@ -280,6 +290,11 @@ class NavigationDrawer1 extends StatelessWidget {
                   _onSecurityFunctionsItemSelected(i, context);
                   break;
 
+
+                case Constants.ticketingSystem:
+                  _onTicketingSystemItemSelected(i, context);
+                  break;
+
                 /// 3nd Level Menu
                 case Constants.guardingOperations:
                   _onGuardingOperationItemSelected(i, context, drawerItem);
@@ -311,6 +326,7 @@ class NavigationDrawer1 extends StatelessWidget {
                 case shiftSchedulingTitle:
                   _onShiftScheduleItemSelected(i, context);
                   break;
+
 
                 // case 'Guarding Operations':
                 //   log('----_genericExpandableDrawer--case keyManagementMaster--title----$title--');
@@ -372,6 +388,17 @@ class NavigationDrawer1 extends StatelessWidget {
     // _menuScaffoldKey.currentState!.closeDrawer();
     _passlastSelectedItem = index;
     context.read<DrawerCubit>().getPassMgmtIndexChange(index);
+    if (index == 0) {
+      Navigator.pushNamed(
+        context,
+        sstIncidentListRoute,
+      );
+    }
+  }
+  _onTicketingSystemItemSelected(int index, BuildContext context) async {
+    // _menuScaffoldKey.currentState!.closeDrawer();
+    _ticketingSystemlastSelectedItem = index;
+    context.read<DrawerCubit>().getTicketingSystemIndexChange(index);
     if (index == 0) {
       Navigator.pushNamed(
         context,
@@ -626,7 +653,7 @@ class NavigationDrawer1 extends StatelessWidget {
                           context
                               .read<DrawerCubit>()
                               .getIndexChange(_lastSelectedItem);
-                        } else {
+                        } else{
                           _securityfunfunctionslastSelectedItem = 10;
                           context
                               .read<DrawerCubit>()
@@ -636,7 +663,7 @@ class NavigationDrawer1 extends StatelessWidget {
                       trailing: const Icon(Icons.arrow_drop_down_rounded),
                       // trailing: const SizedBox.shrink(),
                       title: Text(
-                        Constants.securityFunctions,
+                        drawerItem.title,
                         style: TextStyle(
                             fontSize: 16,
                             fontFamily: Constants.customFontSemiBoldFamily,
@@ -649,14 +676,14 @@ class NavigationDrawer1 extends StatelessWidget {
                       leading: SizedBox(
                           width: 20,
                           height: 20,
-                          child: Image.asset(AppIcon.securityFunctionsIcon,
+                          child: Image.asset(drawerItem.imageName,
                               fit: BoxFit.cover,
                               color: (i == _lastSelectedItem)
                                   ? AppColors.navigationSkyBlueColor
                                   : AppColors.textGreyThemeColor)),
                       childrenPadding: const EdgeInsets.only(left: 20),
                       //children padding
-                      children: _buildOperationsFromSecurity(context, state)),
+                      children: drawerItem.title == Constants.securityFunctions ? _buildOperationsFromSecurity(context, state) : _buildTicketingSystemFromSecurity(context,state)),
                 ),
               ),
       );
@@ -665,115 +692,162 @@ class NavigationDrawer1 extends StatelessWidget {
     return children;
   }
 
-  List<Widget> _buildOperationsFromSecurity(
+    List<Widget> _buildOperationsFromSecurity(
+        BuildContext context, DrawerState state) {
+      List<Widget> children = [];
+
+      List<MenuItem> menuItems = [];
+      menuItems
+          .add(const MenuItem(Constants.operations, AppIcon.operationsIcon, 1));
+      if (displayMenu?.gR ?? false) {
+        menuItems.add(
+            const MenuItem(Constants.costAndBilling, AppIcon.costBillingIcon, 1));
+      }
+      if (displayMenu?.sSSLA ?? false) {
+        menuItems.add(const MenuItem(
+            Constants.securitySystems, AppIcon.securitySystemIcon, 1));
+      }
+
+      for (int i = 0; i < menuItems.length; i++) {
+        MenuItem drawerItem = menuItems[i];
+        children.add(
+          drawerItem.numberOfChildren == 0
+              ? Container(
+                  decoration: const BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(color: AppColors.divideLineGreyColor)),
+                  ),
+                  child: ListTile(
+                    leading: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: Image.asset(
+                          drawerItem.imageName,
+                          //fit: BoxFit.cover,
+                          color: (i == _securityfunfunctionslastSelectedItem)
+                              ? AppColors.navigationSkyBlueColor
+                              : AppColors.geryLightBackground,
+                        )),
+                    title: Text(drawerItem.title,
+                        //style: Styles.textStyleBlack16,
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: Constants.customFontSemiBoldFamily,
+                            fontWeight: FontWeight.w600,
+                            color: (i == _securityfunfunctionslastSelectedItem)
+                                ? AppColors.navigationSkyBlueColor
+                                : AppColors.textGreyThemeColor)),
+                    //selected: i == _lastSelectedItem,
+                    onTap: () => _onSecurityExpansionSelectItem(i, context),
+                  ),
+                )
+              : Theme(
+                  data: Theme.of(context)
+                      .copyWith(dividerColor: Colors.transparent),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      border: Border(
+                          bottom:
+                              BorderSide(color: AppColors.divideLineGreyColor)),
+                    ),
+                    child: ExpansionTile(
+                      onExpansionChanged: (value) {
+                        if (value == true) {
+                          _securityfunfunctionslastSelectedItem = i;
+                          //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
+                          //state = const DrawerInitial();
+                          context.read<DrawerCubit>().getSecurityIndexChange(
+                              _securityfunfunctionslastSelectedItem);
+                        } else {
+                          _securityfunfunctionslastSelectedItem = 10;
+                          context.read<DrawerCubit>().getSecurityIndexChange(
+                              _securityfunfunctionslastSelectedItem);
+                        }
+                      },
+                      trailing: const Icon(Icons.arrow_drop_down_rounded),
+                      title: Text(
+                        drawerItem.title,
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: Constants.customFontSemiBoldFamily,
+                            fontWeight: FontWeight.w600,
+                            color: (i == _lastSelectedItem)
+                                ? AppColors.navigationSkyBlueColor
+                                : AppColors.textGreyThemeColor),
+                        // style: Styles.textStyleBlack16,
+                      ),
+                      leading: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: Image.asset(
+                            i == 0
+                                ? AppIcon.operationsIcon
+                                : i == 1
+                                    ? AppIcon.costBillingIcon
+                                    : AppIcon.securitySystemIcon,
+                            fit: BoxFit.cover,
+                            color: (i == _lastSelectedItem)
+                                ? AppColors.navigationSkyBlueColor
+                                : AppColors.textGreyThemeColor),
+                      ),
+                      childrenPadding: const EdgeInsets.only(left: 20),
+                      //children padding
+                      children: selectedChild(drawerItem, context),
+                    ),
+                  ),
+                ),
+        );
+      }
+
+      return children;
+    }
+
+  List<Widget> _buildTicketingSystemFromSecurity(
       BuildContext context, DrawerState state) {
     List<Widget> children = [];
 
     List<MenuItem> menuItems = [];
     menuItems
-        .add(const MenuItem(Constants.operations, AppIcon.operationsIcon, 1));
-    if (displayMenu?.gR ?? false) {
-      menuItems.add(
-          const MenuItem(Constants.costAndBilling, AppIcon.costBillingIcon, 1));
-    }
-    if (displayMenu?.sSSLA ?? false) {
-      menuItems.add(const MenuItem(
-          Constants.securitySystems, AppIcon.securitySystemIcon, 1));
-    }
+        .add(const MenuItem(Constants.tickets, AppIcon.ticketsIcon, 1));
 
     for (int i = 0; i < menuItems.length; i++) {
       MenuItem drawerItem = menuItems[i];
       children.add(
-        drawerItem.numberOfChildren == 0
-            ? Container(
-                decoration: const BoxDecoration(
-                  border: Border(
-                      bottom: BorderSide(color: AppColors.divideLineGreyColor)),
-                ),
-                child: ListTile(
-                  leading: SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: Image.asset(
-                        drawerItem.imageName,
-                        //fit: BoxFit.cover,
-                        color: (i == _securityfunfunctionslastSelectedItem)
-                            ? AppColors.navigationSkyBlueColor
-                            : AppColors.geryLightBackground,
-                      )),
-                  title: Text(drawerItem.title,
-                      //style: Styles.textStyleBlack16,
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: Constants.customFontSemiBoldFamily,
-                          fontWeight: FontWeight.w600,
-                          color: (i == _securityfunfunctionslastSelectedItem)
-                              ? AppColors.navigationSkyBlueColor
-                              : AppColors.textGreyThemeColor)),
-                  //selected: i == _lastSelectedItem,
-                  onTap: () => _onSecurityExpansionSelectItem(i, context),
-                ),
-              )
-            : Theme(
-                data: Theme.of(context)
-                    .copyWith(dividerColor: Colors.transparent),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    border: Border(
-                        bottom:
-                            BorderSide(color: AppColors.divideLineGreyColor)),
-                  ),
-                  child: ExpansionTile(
-                    onExpansionChanged: (value) {
-                      if (value == true) {
-                        _securityfunfunctionslastSelectedItem = i;
-                        //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
-                        //state = const DrawerInitial();
-                        context.read<DrawerCubit>().getSecurityIndexChange(
-                            _securityfunfunctionslastSelectedItem);
-                      } else {
-                        _securityfunfunctionslastSelectedItem = 10;
-                        context.read<DrawerCubit>().getSecurityIndexChange(
-                            _securityfunfunctionslastSelectedItem);
-                      }
-                    },
-                    trailing: const Icon(Icons.arrow_drop_down_rounded),
-                    title: Text(
-                      drawerItem.title,
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: Constants.customFontSemiBoldFamily,
-                          fontWeight: FontWeight.w600,
-                          color: (i == _securityfunfunctionslastSelectedItem)
-                              ? AppColors.navigationSkyBlueColor
-                              : AppColors.textGreyThemeColor),
-                      // style: Styles.textStyleBlack16,
-                    ),
-                    leading: SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: Image.asset(
-                          i == 0
-                              ? AppIcon.operationsIcon
-                              : i == 1
-                                  ? AppIcon.costBillingIcon
-                                  : AppIcon.securitySystemIcon,
-                          fit: BoxFit.cover,
-                          color: (i == _securityfunfunctionslastSelectedItem)
-                              ? AppColors.navigationSkyBlueColor
-                              : AppColors.textGreyThemeColor),
-                    ),
-                    childrenPadding: const EdgeInsets.only(left: 20),
-                    //children padding
-                    children: selectedChild(drawerItem, context),
-                  ),
-                ),
-              ),
+      Container(
+          decoration: const BoxDecoration(
+            border: Border(
+                bottom: BorderSide(color: AppColors.divideLineGreyColor)),
+          ),
+          child: ListTile(
+            leading: SizedBox(
+                width: 20,
+                height: 20,
+                child: Image.asset(
+                  drawerItem.imageName,
+                  //fit: BoxFit.cover,
+                  color: (i == _ticketingSystemlastSelectedItem)
+                      ? AppColors.navigationSkyBlueColor
+                      : AppColors.textGreyThemeColor,
+                )),
+            title: Text(drawerItem.title,
+                //style: Styles.textStyleBlack16,
+                style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: Constants.customFontSemiBoldFamily,
+                    fontWeight: FontWeight.w600,
+                    color: (i == _ticketingSystemlastSelectedItem)
+                        ? AppColors.navigationSkyBlueColor
+                        : AppColors.textGreyThemeColor)),
+            //selected: i == _lastSelectedItem,
+            onTap: () => _onSecurityExpansionSelectItem(i, context),
+          ),
+        )
       );
     }
 
     return children;
   }
+
 
   List<Widget> selectedChild(MenuItem drawerItem, BuildContext context) {
     switch (drawerItem.title) {
@@ -796,6 +870,12 @@ class NavigationDrawer1 extends StatelessWidget {
           context,
           securitySystemTicketsItems,
           Constants.securitySystems,
+        );
+      case ticketingSystemsTitle:
+        return _genericItemExpandable(
+          context,
+          expansionTileDrawerItems,
+          ticketingSystemsTitle,
         );
       default:
         return [];
