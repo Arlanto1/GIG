@@ -796,7 +796,7 @@ class _KeyManagementMasterDetailsViewState
                           ],
 
                           /// Lock Change History
-                          if (state.model.total > 0 &&
+                          if (state.model.total!=null && state.model.total > 0 &&
                               state.model.status != null &&
                               state.model.status != 0 &&
                               widget.model?.id != null) ...[
