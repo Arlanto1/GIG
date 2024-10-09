@@ -5,19 +5,33 @@ part 'ticketing_system_model.g.dart';
 @JsonSerializable()
 class TicketingSystemModel extends BaseObject {
   int? id;
-  String? statusName;
-  String? assigneeName;
   String? priorityName;
   String? title;
   String? projectName;
+  User? assignee;
+  Organisation? tracker;
+  Organisation? project;
+  Organisation? priority;
+  String? createdOn;
+  String? startDate;
+  String? updatedOn;
+  int? status;
+  String? description;
 
   TicketingSystemModel({
     this.id,
-    this.statusName,
-    this.assigneeName,
     this.priorityName,
     this.title,
     this.projectName,
+    this.assignee,
+    this.tracker,
+    this.project,
+    this.priority,
+    this.createdOn,
+    this.startDate,
+    this.updatedOn,
+    this.status,
+    this.description,
   });
 
   factory TicketingSystemModel.fromJson(Map<String, dynamic> json) =>
