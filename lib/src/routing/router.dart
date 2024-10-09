@@ -104,3 +104,8 @@ const String shiftScheduleDetailsRoute = '/shiftScheduleDetailsRoute';
 const String vipVisitorsListRoute = '/vipVisitorsListRoute';
 const String vipVisitorsDetailsRoute = '/vipVisitorsDetailsRoute';
 const String vipVisitorsRecordsRoute = '/vipVisitorsRecordsRoute';
+
+const String ticketingSystemListRoute = '/ticketingSystemListRoute';
+const String ticketingSystemDetailsRoute = '/ticketingSystemDetailsRoute';
+
+

@@ -973,6 +973,14 @@ class Constants {
   static const String attendanceMessage = 'Confirm';
   static const String attendanceSubmissionMessage =
       'Please confirm the submission of attendance starts the shift and ends the previous shift.';
+
+///Ticketing System
+  static const String assigneeName = 'Assignee';
+  static const String priority = 'Priority';
+  static const String title = 'Title';
+  static const String project = 'Project';
+
+
 }
 
 //static const String height = 'Height(cm)';
