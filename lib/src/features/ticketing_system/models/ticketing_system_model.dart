@@ -1,16 +1,15 @@
-
 import 'package:db_atom/index.dart';
 
 part 'ticketing_system_model.g.dart';
 
 @JsonSerializable()
-class TicketingSystemModel extends BaseObject  {
-  final int? id;
-  final String? statusName;
-  final String? assigneeName;
-  final String? priorityName;
-  final String? title;
-  final String? projectName;
+class TicketingSystemModel extends BaseObject {
+  int? id;
+  String? statusName;
+  String? assigneeName;
+  String? priorityName;
+  String? title;
+  String? projectName;
 
   TicketingSystemModel({
     this.id,

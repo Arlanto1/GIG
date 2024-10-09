@@ -29,7 +29,7 @@ MaterialMovementModel _$MaterialMovementModelFromJson(
       entities: json['entities'] as List<dynamic>?,
       returnQuantity: (json['returnQuantity'] as num?)?.toInt(),
       inwardMovement: json['inwardMovement'] as bool? ?? false,
-      returnable: json['returnable'] as bool? ?? false,
+      returnable: json['returnable'] as bool?,
       challanNo: json['challanNo'] as String?,
       materialComingFrom: json['materialComingFrom'] as String?,
       materialFromAddress: json['materialFromAddress'] as String?,
