@@ -260,7 +260,19 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                   (widget.userItem?.companyName ?? '').isNotEmpty
               ? CommonWidgets.verticalSpacerWidget(8)
               : Container(),
-
+          widget.userItem?.escortedBy != null &&
+                  widget.userItem?.escortedByHost == false
+              ? Row(
+                  children: [
+                    textHandling(
+                        state.labels?.locale.escortedBy ??
+                            state.labels?.defaultLocale.escortedBy ??
+                            'Escorted By : ',
+                        widget.userItem?.escortedBy ?? ''),
+                  ],
+                )
+              : Container(),
+          CommonWidgets.verticalSpacerWidget(8),
           widget.userItem?.startTime != null
               ? Row(
                   children: [
@@ -340,7 +352,6 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                   ],
                 )
               : Container(),
-
           widget.userItem?.status != null
               ? Row(
                   children: [
