@@ -10,6 +10,7 @@ class AppIcon {
   static const String usercircle = 'assets/images/user-circle.svg';
   static const String tasklist = 'assets/images/task-list.png';
   static const String settings = 'assets/images/settings.png';
+  static const String bug = 'assets/images/bug-solid.png';
   static const String operatingsystem = 'assets/images/operating-system.png';
   static const String maninsuitandtie = 'assets/images/man-in-suit-and-tie.png';
   static const String logout = 'assets/images/logout.png';

@@ -808,7 +808,7 @@ class NavigationDrawer1 extends StatelessWidget {
 
     List<MenuItem> menuItems = [];
     menuItems
-        .add(const MenuItem(Constants.tickets, AppIcon.ticketsIcon, 1));
+        .add(const MenuItem(Constants.tickets, AppIcon.bug, 1));
 
     for (int i = 0; i < menuItems.length; i++) {
       MenuItem drawerItem = menuItems[i];
@@ -839,7 +839,7 @@ class NavigationDrawer1 extends StatelessWidget {
                         ? AppColors.navigationSkyBlueColor
                         : AppColors.textGreyThemeColor)),
             //selected: i == _lastSelectedItem,
-            onTap: () => _onTicketingSystemExpansionSelectItem(i, context),
+            onTap: () => _onTicketingSystemItemSelected(i, context),
           ),
         )
       );
@@ -1187,16 +1187,6 @@ class NavigationDrawer1 extends StatelessWidget {
     }
   }
 
-  _onTicketingSystemExpansionSelectItem(int index, BuildContext context) async {
-    // _menuScaffoldKey.currentState!.closeDrawer();
-    _securityfunfunctionslastSelectedItem = index;
-    //BlocProvider.of<DrawerCubit>(context).getindexChange(index);
-    //state = const DrawerInitial();
-    context.read<DrawerCubit>().getSecurityIndexChange(index);
-    if (index == 0) {
-      Navigator.pushNamed(context, ticketingSystemListRoute);
-    }
-  }
   _onSelectItem(
     int index,
     BuildContext context,

@@ -18,6 +18,8 @@ class TicketingSystemModel extends BaseObject {
   int? status;
   String? description;
 
+  List<ImageContent>? attachments;
+
   TicketingSystemModel({
     this.id,
     this.priorityName,
@@ -32,6 +34,7 @@ class TicketingSystemModel extends BaseObject {
     this.updatedOn,
     this.status,
     this.description,
+    this.attachments,
   });
 
   factory TicketingSystemModel.fromJson(Map<String, dynamic> json) =>

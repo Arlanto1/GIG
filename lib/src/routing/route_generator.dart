@@ -76,6 +76,9 @@ import 'package:db_atom/src/features/passmanagement/pass_management_list/views/p
 import 'package:db_atom/src/features/security_systems/services/sst_incident_services.dart';
 import 'package:db_atom/src/features/security_systems/sst_incident_list/bloc/sst_incident_bloc.dart'
     as sv;
+import 'package:db_atom/src/features/ticketing_system/services/ticketing_system_services.dart';
+import 'package:db_atom/src/features/ticketing_system/ticketing_system_details/cubits/ticketing_system_details_cubit.dart';
+import 'package:db_atom/src/features/ticketing_system/ticketing_system_details/views/ticketing_system_details_view.dart';
 import 'package:db_atom/src/features/ticketing_system/ticketing_systems/bloc/ticketing_system_bloc.dart';
 import 'package:db_atom/src/features/ticketing_system/ticketing_systems/views/ticketing_system_view.dart';
 
@@ -551,6 +554,26 @@ class RouteGenerator {
             ),
           ),
         );
+
+        // case ticketingSystemDetailsRoute:
+        // String id = '';
+        // ExtraProperties? extraProperties;
+        // if (settings.arguments != null) {
+        //   Map<String, dynamic> arguments =
+        //       settings.arguments as Map<String, dynamic>;
+        //   id = arguments['id'] ?? '';
+        //   extraProperties = arguments[ConstantsArgument.extraProperties];
+        // }
+        //
+        // return MaterialPageRoute(
+        //   builder: (context) => BlocProvider<TicketingSystemDetailsCubit>(
+        //     create: (_) => TicketingSystemDetailsCubit(
+        //       services: TicketingSystemServices(),
+        //       commonServices: CommonServices(),
+        //     ),
+        //     child: const TicketingSystemDetailsView(),
+        //   ),
+        // );
       case shiftOccurrenceRoute:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ocb.OccurrencesBloc>(
@@ -1758,6 +1781,26 @@ class RouteGenerator {
           ),
         );
 
+
+      case ticketingSystemDetailsRoute:
+        String id = '';
+        ExtraProperties? extraProperties;
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+          id = arguments['id'] ?? '';
+          extraProperties = arguments[ConstantsArgument.extraProperties];
+        }
+
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<TicketingSystemDetailsCubit>(
+            create: (_) => TicketingSystemDetailsCubit(
+              services: TicketingSystemServices(),
+              commonServices: CommonServices(),
+            ),
+            child: const TicketingSystemDetailsView(),
+          ),
+        );
 
       case ticketingSystemListRoute:
         return MaterialPageRoute(

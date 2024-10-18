@@ -89,14 +89,13 @@ class _TicketingSystemView extends State<TicketingSystemView> {
             backgroundColor: AppColors.navigationSkyBlueColor,
             foregroundColor: AppColors.backgroundWhiteColor,
             onPressed: () => {
-              // Navigator.pushNamed(
-              //   context,
-              //   sstIncidentDetailsRoute,
-              //   arguments: {
-              //     "isInternal": '',
-              //     "title": Constants.ticketLifeCycle
-              //   },
-              // )
+              Navigator.pushNamed(
+                context,
+                ticketingSystemDetailsRoute,
+                arguments: {
+                  "title": Constants.ticketLifeCycle
+                },
+              )
             },
           ),
           appBar: BaseAppBar().buildAppHeader(
@@ -287,7 +286,6 @@ class _TicketingSystemView extends State<TicketingSystemView> {
     //   sstIncidentDetailsRoute,
     //   arguments: {
     //     'id': id.toString(),
-    //     'isInternal': widget.isInternal,
     //     "title": widget.isInternal
     //         ? Constants.externalVendor
     //         : Constants.ticketLifeCycle,
