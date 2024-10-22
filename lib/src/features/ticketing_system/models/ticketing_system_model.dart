@@ -17,6 +17,7 @@ class TicketingSystemModel extends BaseObject {
   String? updatedOn;
   int? status;
   String? description;
+  String? history;
 
   List<ImageContent>? attachments;
 
@@ -35,6 +36,7 @@ class TicketingSystemModel extends BaseObject {
     this.status,
     this.description,
     this.attachments,
+    this.history,
   });
 
   factory TicketingSystemModel.fromJson(Map<String, dynamic> json) =>

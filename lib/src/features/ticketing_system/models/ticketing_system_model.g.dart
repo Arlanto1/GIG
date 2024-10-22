@@ -30,6 +30,10 @@ TicketingSystemModel _$TicketingSystemModelFromJson(
       updatedOn: json['updatedOn'] as String?,
       status: (json['status'] as num?)?.toInt(),
       description: json['description'] as String?,
+      attachments: (json['attachments'] as List<dynamic>?)
+          ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      history: json['history'] as String?,
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$TicketingSystemModelToJson(
@@ -49,4 +53,6 @@ Map<String, dynamic> _$TicketingSystemModelToJson(
       'updatedOn': instance.updatedOn,
       'status': instance.status,
       'description': instance.description,
+      'history': instance.history,
+      'attachments': instance.attachments,
     };

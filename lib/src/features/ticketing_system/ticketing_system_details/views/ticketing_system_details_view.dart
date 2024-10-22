@@ -45,7 +45,6 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
   void initState() {
     super.initState();
     BlocProvider.of<TicketingSystemDetailsCubit>(context).initializeValues();
-    initializeDates();
   }
 
   @override
@@ -135,11 +134,22 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
-  void initializeDates() {
-    // TODO: Maybe we can remove this
+    void initializeDates(TicketingSystemDetailsState state) {
+      startDateTextController.text = state.model.startDate != null
+          ? Utils.timestampToDateConversion(
+          int.tryParse(state.model.startDate ?? '0'),
+          Constants.fulldateFormat)
+          : '';
+
+      dueDateTextController.text = state.model.updatedOn != null
+          ? Utils.timestampToDateConversion(
+          int.tryParse(state.model.updatedOn ?? '0'),
+          Constants.fulldateFormat)
+          : '';
   }
 
   getBodybuilder(TicketingSystemDetailsState state, height) {
+    initializeDates(state);
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
@@ -227,23 +237,6 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                             ),
 
                             /// Priority
-                            // CommonWidgets.textDisplay(
-                            // Constants.priority,
-                            //   Styles.textStyleBlack14,
-                            //   isMandatory: true,
-                            // ),
-                            // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            // FlutterInputField(
-                            //   isEnable: false,
-                            //   isDisableColor: true,
-                            //   textFormKey: Keys.statusTextController,
-                            //   hintText: '',
-                            //   initialValue:
-                            //   getStatusString(state.model.status ?? 0),
-                            //   onChange: (String value) {},
-                            //   validateTextField: (String? user) {},
-                            // ),
-                            // CommonWidgets.verticalSpacerWidget(height * 0.01),
                             CommonWidgets.textDisplay(
                               Constants.priority,
                               Styles.textStyleBlack14,
@@ -254,7 +247,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               height: 70,
                               isDisableColor: isReadOnly,
                               onTap: () {
-                                if (!isReadOnly) {
+                                // if (!isReadOnly) {
                                   FocusScope.of(context)
                                       .requestFocus(FocusNode());
 
@@ -266,25 +259,26 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                             department.name;
 
                                         BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
+                                            TicketingSystemDetailsCubit>(
                                                 context)
                                             .updateDropdownValues(
-                                                receiverDepartment: department);
+                                            priority: department);
                                         FocusScope.of(context)
                                             .requestFocus(receivedByFocusNode);
                                       },
-                                      orgName: 'EMPLOYEE_DEPARTMENTS',
-                                      createEntity: false,
-                                      title: 'Add Department',
-                                      functionToCall: () {
-                                        // refresh the list
-                                        BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
-                                                context)
-                                            .refreshList();
-                                      });
+                                      // orgName: 'EMPLOYEE_DEPARTMENTS',
+                                      // createEntity: false,
+                                      // title: 'Add Department',
+                                      // functionToCall: () {
+                                      //   // refresh the list
+                                      //   BlocProvider.of<
+                                      //               MaterialMovementDetailsCubit>(
+                                      //           context)
+                                      //       .refreshList();
+                                      // }
+                                      );
                                   // leodepartmentsDialog(stat
-                                }
+                                // }
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -317,48 +311,61 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Assignee
-                            CommonWidgets.textDisplay(
-                              Constants.assigneeName,
-                              Styles.textStyleBlack14,
-                              isMandatory: true,
-                            ),
-                            TextFieldAddButton(
-                              title: state.model.priorityName,
-                              height: 70,
-                              isDisableColor: isReadOnly,
-                              onTap: () {
-                                if (!isReadOnly) {
-                                  FocusScope.of(context)
-                                      .requestFocus(FocusNode());
-
-                                  BaseOrganisationDialog().departmentDialog(
-                                      context: context,
-                                      organisations: state.priorities,
-                                      onTap: (Organisation department) {
-                                        state.model.priorityName =
-                                            department.name;
-
-                                        BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
+                            Column(
+                              children: [
+                                CommonWidgets.textDisplay(
+                                  // state.labels?.locale.otherReceiverName ??
+                                  //     state.labels?.defaultLocale
+                                  //         .otherReceiverName ??
+                                      Constants.assigneeName,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                ),
+                                TextFieldAddButton(
+                                    title: state.model.assignee?.name,
+                                    height: 70,
+                                    isDisableColor: isReadOnly,
+                                    onTap: () {
+                                      if (!isReadOnly) {
+                                        BaseOrganisationDialog().userDialog(
+                                          context: context,
+                                          users: state.assignee,
+                                          isDbUser: true,
+                                          onTap: (BaseUser user) {
+                                            BlocProvider.of<
+                                                TicketingSystemDetailsCubit>(
                                                 context)
-                                            .updateDropdownValues(
-                                                receiverDepartment: department);
-                                        FocusScope.of(context)
-                                            .requestFocus(receivedByFocusNode);
-                                      },
-                                      orgName: 'EMPLOYEE_DEPARTMENTS',
-                                      createEntity: false,
-                                      title: 'Add Department',
-                                      functionToCall: () {
-                                        // refresh the list
-                                        BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
-                                                context)
-                                            .refreshList();
-                                      });
-                                  // leodepartmentsDialog(stat
-                                }
-                              },
+                                                .updateDropdownValues(
+                                                assignee:
+                                                user);
+                                            // FocusScope.of(context).requestFocus(
+                                            //     receivedForEmployeeIdFocusNode);
+                                          },
+                                          roleName: ConstantUserRoles
+                                              .atomStaticUser, locationId: 0,
+                                          // locationId:
+                                          // state.model.location!.id!,
+                                          // functionToCall: (BaseUser user) {
+                                          //   BlocProvider.of<
+                                          //       TicketingSystemDetailsCubit>(
+                                          //       context)
+                                          //       .updateDropdownValues(
+                                          //       receiverEmailUser:
+                                          //       user);
+                                          //   FocusScope.of(context).requestFocus(
+                                          //       receivedForEmployeeIdFocusNode);
+                                          //   // refresh the list
+                                          //   BlocProvider.of<
+                                          //       MaterialMovementDetailsCubit>(
+                                          //       context)
+                                          //       .refreshList();
+                                          // },
+                                        );
+                                      }
+                                    }),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                              ],
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -428,7 +435,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               isMandatory: true,
                             ),
                             TextFieldAddButton(
-                              title: state.model.priorityName,
+                              title: state.model.tracker?.name,
                               height: 70,
                               isDisableColor: isReadOnly,
                               onTap: () {
@@ -438,79 +445,141 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
 
                                   BaseOrganisationDialog().departmentDialog(
                                       context: context,
-                                      organisations: state.priorities,
+                                      organisations: state.trackers,
                                       onTap: (Organisation department) {
-                                        state.model.priorityName =
+                                        state.model.tracker?.name =
                                             department.name;
 
                                         BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
+                                            TicketingSystemDetailsCubit>(
                                                 context)
                                             .updateDropdownValues(
-                                                receiverDepartment: department);
+                                                trackers: department);
                                         FocusScope.of(context)
                                             .requestFocus(receivedByFocusNode);
                                       },
-                                      orgName: 'EMPLOYEE_DEPARTMENTS',
-                                      createEntity: false,
-                                      title: 'Add Department',
-                                      functionToCall: () {
-                                        // refresh the list
-                                        BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
-                                                context)
-                                            .refreshList();
-                                      });
+                                      // orgName: 'EMPLOYEE_DEPARTMENTS',
+                                      // createEntity: false,
+                                      // title: 'Add Department',
+                                      // functionToCall: () {
+                                      //   // refresh the list
+                                      //   BlocProvider.of<
+                                      //               MaterialMovementDetailsCubit>(
+                                      //           context)
+                                      //       .refreshList();
+                                      // }
+                                      );
                                   // leodepartmentsDialog(stat
                                 }
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            // /// Description
+                            // CommonWidgets.textDisplay(
+                            //     Constants.description, Styles.textStyleBlack14),
+                            // CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            // FlutterInputField(
+                            //   showBorder: true,
+                            //   lineHeight: 6,
+                            //   characterLimit:
+                            //       Constants.characterLimitDescTextFormField,
+                            //   controller: additionalInformationTextController,
+                            //   textFormKey:
+                            //       Keys.additionalinformationTextController,
+                            //   hintText: Constants.informationhere,
+                            //   isEnable: (widget.model?.status == 0 ||
+                            //               widget.model == null) &&
+                            //           state.model.lock.isEmptyOrNull
+                            //       ? true
+                            //       : false,
+                            //   isDisableColor: (widget.model?.status == 0 ||
+                            //               widget.model == null) &&
+                            //           state.model.lock.isEmptyOrNull
+                            //       ? false
+                            //       : true,
+                            //   onChange: (String username) {
+                            //     // additionalinformationTextController.text += '\n';
+                            //     setState(() {});
+                            //   },
+                            //   validateTextField: (String? user) {},
+                            //   onFieldSubmitted: (String value) {
+                            //     additionalInformationTextController.value =
+                            //         TextEditingValue(
+                            //       text:
+                            //           '${additionalInformationTextController.text}\n',
+                            //       selection: TextSelection.collapsed(
+                            //         offset: additionalInformationTextController
+                            //                 .text.length +
+                            //             1,
+                            //       ),
+                            //     );
+                            //     FocusScope.of(context)
+                            //         .requestFocus(quantityFocusNode);
+                            //   },
+                            // ),
+                            // CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+
                             /// Description
                             CommonWidgets.textDisplay(
-                                Constants.description, Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                // state.labels?.locale.detailDes ??
+                                //     state.labels?.defaultLocale.detailDes ??
+                                    Constants.description,
+                                isMandatory: true,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.001),
                             FlutterInputField(
-                              showBorder: true,
                               lineHeight: 6,
                               characterLimit:
-                                  Constants.characterLimitDescTextFormField,
-                              controller: additionalInformationTextController,
-                              textFormKey:
-                                  Keys.additionalinformationTextController,
+                              Constants.characterLimitDescTextFormField,
+                              initialValue: state.model.description,
+                              showBorder: true,
+                              textFormKey: Keys.incidentDescription,
                               hintText: Constants.informationhere,
-                              isEnable: (widget.model?.status == 0 ||
-                                          widget.model == null) &&
-                                      state.model.lock.isEmptyOrNull
-                                  ? true
-                                  : false,
-                              isDisableColor: (widget.model?.status == 0 ||
-                                          widget.model == null) &&
-                                      state.model.lock.isEmptyOrNull
-                                  ? false
-                                  : true,
-                              onChange: (String username) {
-                                // additionalinformationTextController.text += '\n';
-                                setState(() {});
+                              // isEnable: state.model.status != 2,
+                              // isDisableColor:
+                              // state.model.status == 2 || disableForm,
+                              onChange: (String value) {
+                                state.model.description = value;
+                                context
+                                    .read<TicketingSystemDetailsCubit>()
+                                    .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
-                              onFieldSubmitted: (String value) {
-                                additionalInformationTextController.value =
-                                    TextEditingValue(
-                                  text:
-                                      '${additionalInformationTextController.text}\n',
-                                  selection: TextSelection.collapsed(
-                                    offset: additionalInformationTextController
-                                            .text.length +
-                                        1,
-                                  ),
-                                );
-                                FocusScope.of(context)
-                                    .requestFocus(quantityFocusNode);
-                              },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// History
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.detailDes ??
+                              //     state.labels?.defaultLocale.detailDes ??
+                                Constants.history,
+                                isMandatory: true,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.001),
+                            FlutterInputField(
+                              lineHeight: 6,
+                              characterLimit:
+                              Constants.characterLimitDescTextFormField,
+                              initialValue: state.model.history,
+                              showBorder: true,
+                              textFormKey: Keys.incidentDescription,
+                              hintText: Constants.informationhere,
+                              // isEnable: state.model.status != 2,
+                              // isDisableColor:
+                              // state.model.status == 2 || disableForm,
+                              onChange: (String value) {
+                                state.model.description = value;
+                                context
+                                    .read<TicketingSystemDetailsCubit>()
+                                    .onModelValueChange(state.model);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// upload
                             widget.model?.status == null ||

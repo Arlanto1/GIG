@@ -2,8 +2,11 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/ticketing_system/models/assignee_model.dart';
+import 'package:db_atom/src/features/ticketing_system/models/priority_model.dart';
 import 'package:db_atom/src/features/ticketing_system/models/projects_model.dart';
 import 'package:db_atom/src/features/ticketing_system/models/requestModel/ticketing_system_request_model.dart';
+import 'package:db_atom/src/features/ticketing_system/models/trackers_model.dart';
 import 'package:intl/intl.dart';
 
 // import '../../models/requestModels/ticketing_system_request_model.dart';
@@ -28,7 +31,9 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
             users: const [],
             errorMessage: '',
             priorities: const [],
-            loadAttachments: const [], projects: [],
+            loadAttachments: const [],
+            projects: const [],
+            trackers: const [],
           ),
         );
 
@@ -69,7 +74,9 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
       // Perform multiple asynchronous operations concurrently
       final List<dynamic> results = await Future.wait([
         services.getProjects(),
-        services.getAssigneeList(),
+        services.getPriorities(),
+        services.getAssignee(),
+        services.getTrackers(),
         // commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         // // TODO: remove the and change the number
         // SharedPrefs.getDefaultLocation(),
@@ -100,6 +107,10 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
 
       // Assign results to variables with explicit data types
       Projects projects = results[0];
+      Priorities priorities = results[1];
+      Assignee assignee = results[2];
+      Trackers trackers = results[3];
+
       // List<BaseUser>? emailUsers = results[1];
       // Locations getLocationsData = results[0];
       // Organisation? defaultLocationRemove =
@@ -108,7 +119,6 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
       // // Analyst users = results[4];
       // List<BaseUser>? emailUsers = results[4];
       // List<Organisation>? entities = results[5];
-      // Vendors vendors = results[6];
       // List<User> entrySecurities = results[7];
       // EmployeeDepartments departments = results[8];
       // List<BaseUser>? srh = results[9];
@@ -128,19 +138,14 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
       // Update the model and emit the updated state
       emit(state.copyWith(
         model: model,
-        // locations: getLocationsData,
-        // loggedInUserDetails: loggedInUserDetails,
         status: FormStatus.initial,
-        // srh: srh,
+        projects: projects.items,
+        priorities: priorities.items,
+        assignee: assignee.items,
+        trackers: trackers.items,
         // lsm: lsm,
         // users: emailUsers,
         // epOfficers: emailUsers,
-        // departments: departments.employeeDepartments,
-        projects: projects.items,
-        // entrySecurities: entrySecurities,
-        // listOfEntities: entities,
-        // getEntitiesResponse: entities,
-        // labels: EpUiLabels.fromJson(responseLabels),
       ));
     } catch (e) {
       log('initialization issue', error: e, name: 'General Information Cubit');
@@ -156,8 +161,10 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
 
   Future<void> updateDropdownValues({
     Organisation? location,
-    BaseUser? user,
     Organisation? projects,
+    Organisation? priority,
+    Organisation? trackers,
+    BaseUser? assignee,
   }) async {
     emit(
       state.copyWith(
@@ -181,17 +188,20 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
     //   state.model.slNo = slNo.serialNo;
     // }
 
-    state.model.project =
-        projects ?? state.model.project;
-    if (user != null) {
+    state.model.project = projects ?? state.model.project;
+
+    state.model.priority = priority ?? state.model.priority;
+    state.model.tracker = trackers ?? state.model.tracker;
+    // state.model.assignee = trackers ?? state.model.assignee;
+
+    if (assignee != null) {
       User userDetails = User(
-        name: user.name,
-        userId: user.id,
-        userName: user.name,
+        name: assignee.name,
+        userId: assignee.id,
+        userName: assignee.name,
       );
       state.model.assignee = userDetails;
     }
-
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,

@@ -10,6 +10,8 @@ class TicketingSystemDetailsState extends Equatable {
   final List<Organisation> priorities;
   final List<ImageContent> loadAttachments;
   final List<Organisation> projects;
+  final List<Organisation> trackers;
+  final List<BaseUser>? assignee;
 
 
   factory TicketingSystemDetailsState.initial({
@@ -20,6 +22,8 @@ class TicketingSystemDetailsState extends Equatable {
     required List<Organisation> priorities,
     required List<ImageContent> loadAttachments,
     required final List<Organisation> projects,
+    required final List<Organisation> trackers,
+    List<BaseUser>? assignee,
 
   }) {
     return TicketingSystemDetailsState(
@@ -29,9 +33,10 @@ class TicketingSystemDetailsState extends Equatable {
       users: users,
       message: errorMessage,
       priorities: priorities,
-        loadAttachments: loadAttachments,
+      loadAttachments: loadAttachments,
       projects: projects,
-
+      trackers: trackers,
+        assignee:assignee,
     );
   }
 
@@ -60,7 +65,6 @@ class TicketingSystemDetailsState extends Equatable {
     //       status: false, message: 'Description cannot be blank');
     // }
 
-
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -88,31 +92,33 @@ class TicketingSystemDetailsState extends Equatable {
     required this.priorities,
     required this.loadAttachments,
     required this.projects,
-
+    required this.trackers,
+    this.assignee,
   });
 
   TicketingSystemDetailsState copyWith({
     FormStatus? status,
     TicketingSystemModel? model,
     User? loggedInUserDetails,
-    List<BaseUser>? users,
+    List<BaseUser>? assignee,
     String? message,
     SlaUiLabels? labels,
     List<Organisation>? priorities,
     List<ImageContent>? loadAttachments,
     List<Organisation>? projects,
-
+    List<Organisation>? trackers,
   }) {
     return TicketingSystemDetailsState(
       status: status ?? this.status,
       model: model ?? this.model,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
-      users: users ?? this.users,
-      projects :projects?? this.projects,
+      assignee: assignee ?? this.assignee,
+      projects: projects ?? this.projects,
       message: message ?? this.message,
       labels: labels ?? this.labels,
       priorities: priorities ?? this.priorities,
       loadAttachments: loadAttachments ?? this.loadAttachments,
+      trackers: trackers ?? this.trackers,
     );
   }
 }

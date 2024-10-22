@@ -14,14 +14,14 @@ class Projects {
   });
 
   factory Projects.fromJson(Map<String, dynamic> json) => Projects(
-        items: json["Projects"] == null
+        items: json["projects"] == null
             ? []
             : List<Organisation>.from(
-                json["Projects"]!.map((x) => Organisation.fromJson(x))),
+                json["projects"]!.map((x) => Organisation.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "Projects": items == null
+        "projects": items == null
             ? []
             : List<dynamic>.from(items!.map((x) => x.toJson())),
       };
