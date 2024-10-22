@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/ticketing_system/models/projects_model.dart';
 import 'package:db_atom/src/features/ticketing_system/models/requestModel/ticketing_system_request_model.dart';
 import 'package:intl/intl.dart';
 
@@ -21,16 +22,15 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
     required this.commonServices,
     this.model,
   }) : super(
-    TicketingSystemDetailsState.initial(
-      model: model ?? TicketingSystemModel(),
-      loggedInUserDetails: User(),
-      users: const [],
-      emailUsers: const [],
-      errorMessage: '',
-      priorities: const [],
-      loadAttachments: const [],
-    ),
-  );
+          TicketingSystemDetailsState.initial(
+            model: model ?? TicketingSystemModel(),
+            loggedInUserDetails: User(),
+            users: const [],
+            errorMessage: '',
+            priorities: const [],
+            loadAttachments: const [], projects: [],
+          ),
+        );
 
   void onModelValueChange(TicketingSystemModel model) {
     emit(state.copyWith(model: model, status: FormStatus.initial));
@@ -44,62 +44,106 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
 
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
-    //Show Loader and emit loading state
-    emit(
-      state.copyWith(
-        status: FormStatus.loading,
-        loadAttachments: state.model.attachments,
-      ),
-    );
+    // Show Loader and emit loading state
+    emit(state.copyWith(status: FormStatus.loading));
+
     var userId = await SharedPrefs.getUserId();
+
+    // Initialize model outside of Future.wait
+    // AnnualPowerShutdownListModel model = id.isNotEmpty
+    //     ? await services.getById(id)
+    //     : AnnualPowerShutdownListModel();
+
     try {
-      User loggedInUserDetails =
-      await commonServices.getUserDetails(userId: userId);
-
-      // state.model.inputDate = state.model.inputDate == null
-      //     ? Utils().getCurrentDate()
-      //     : Utils.timestampToDateConversion(
-      //     int.tryParse(state.model.inputDate ?? '0'),
-      //     Constants.fulldateFormat);
+      // Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
       //
-      // // Get Date of Creation
-      // // state.model.inputDate = Utils().getCurrentDate();
-      // state.model.modifiedDate = Utils().getCurrentDate();
-
-      // state.model.inputDate =
-      //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-      dynamic responseLabels = await commonServices.getUiLabels(
-          language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
-      SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
-
-      // if (state.model.location == null) {
-      //   Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
-      //   if (defaultLocation != null) {
-      //     SerialNumberModel slNo = await commonServices.getSlNo(
-      //       locationId: defaultLocation.id.toString(),
-      //       moduleCode: Constants.vipVisitorsDetailsModule,
-      //     );
-      //     state.model.location = defaultLocation;
-      //     state.model.slNo = slNo.serialNo;
-      //   }
+      // if (model.location == null && defaultLocation != null) {
+      //   SerialNumberModel slNo = await commonServices.getSlNo(
+      //     locationId: defaultLocation.id.toString(),
+      //     moduleCode: Constants.annualPowerShutDownModuleCode,
+      //   );
+      //   model.location = defaultLocation;
+      //   model.slNo = slNo.serialNo;
       // }
 
-      // state.model.entrySecurity ??= loggedInUserDetails;
-      // state.model.modifiedBy ??= (loggedInUserDetails.firstName ?? "") +
-      //     (loggedInUserDetails.lastName ?? "");
+      // Perform multiple asynchronous operations concurrently
+      final List<dynamic> results = await Future.wait([
+        services.getTrackers(),
+        services.getAssigneeList(),
+        // commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
+        // // TODO: remove the and change the number
+        // SharedPrefs.getDefaultLocation(),
+        // commonServices.getUserDetails(userId: userId),
+        // commonServices.getUiLabels(
+        //     language: await SharedPrefs.getLanguageCode(),
+        //     moduleCode: Constants.eventProtectionModuleCode),
+        // // commonServices.getUsersByRole(roleName: 'T1_Analyst'),
+        // commonServices.getBaseUsers(
+        //     roleName: ConstantUserRoles.atomStaticUser,
+        //     isDbUser: true,
+        //     locationId: model.location!.id!),
+        // commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
+        // commonServices.getVendors(name: 'ATOM_VENDORS'),
+        // commonServices.getUsers(),
+        // commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
+        // commonServices.getBaseUsers(
+        //     roleName: ConstantUserRoles.atomSubRegionalHeadUser,
+        //     isDbUser: true,
+        //     locationId: model.location!.id!),
+        // commonServices.getBaseUsers(
+        //     roleName:
+        //     ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+        //     isDbUser: true,
+        //
+        //     locationId: model.location!.id!),
+      ]);
 
-      emit(
-        state.copyWith(
-          loggedInUserDetails: loggedInUserDetails,
-          status: FormStatus.initial,
-          model: state.model,
-          labels: labels,
-          loadAttachments: state.model.attachments,
-        ),
-      );
+      // Assign results to variables with explicit data types
+      Projects projects = results[0];
+      List<BaseUser>? emailUsers = results[1];
+      // Locations getLocationsData = results[0];
+      // Organisation? defaultLocationRemove =
+      // results[1]; // TODO: remove the and change the number
+      // User loggedInUserDetails = results[2];
+      // // Analyst users = results[4];
+      // List<BaseUser>? emailUsers = results[4];
+      // List<Organisation>? entities = results[5];
+      // Vendors vendors = results[6];
+      // List<User> entrySecurities = results[7];
+      // EmployeeDepartments departments = results[8];
+      // List<BaseUser>? srh = results[9];
+      // List<BaseUser>? lsm = results[10];
+
+      // model.inputDate = model.inputDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
+
+      // model.inputDate = model.inputDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils.timestampToDateConversion(
+      //     int.tryParse(model.inputDate ?? '0'), Constants.fulldateFormat);
+      //
+      // model.createdBy ??= loggedInUserDetails;
+      // state.model.proposedVendors ??= [];
+      // Update the model and emit the updated state
+      emit(state.copyWith(
+        model: model,
+        // locations: getLocationsData,
+        // loggedInUserDetails: loggedInUserDetails,
+        status: FormStatus.initial,
+        // srh: srh,
+        // lsm: lsm,
+        users: emailUsers,
+        // epOfficers: emailUsers,
+        // departments: departments.employeeDepartments,
+        projects: projects.items,
+        // entrySecurities: entrySecurities,
+        // listOfEntities: entities,
+        // getEntitiesResponse: entities,
+        // labels: EpUiLabels.fromJson(responseLabels),
+      ));
     } catch (e) {
-      log('initialization issue', error: e, name: 'VVIP Visitor Details Cubit');
+      log('initialization issue', error: e, name: 'General Information Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -113,6 +157,7 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
   Future<void> updateDropdownValues({
     Organisation? location,
     BaseUser? user,
+    Organisation? projects,
   }) async {
     emit(
       state.copyWith(
@@ -136,6 +181,8 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
     //   state.model.slNo = slNo.serialNo;
     // }
 
+    state.model.project =
+        projects ?? state.model.project;
     if (user != null) {
       User userDetails = User(
         name: user.name,
@@ -173,7 +220,8 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
       state.model.createdOn = inputDate.toString();
     }
     // Create/Update API Call
-    TicketingSystemRequest request = TicketingSystemRequest(ticketingSystemModel: state.model);
+    TicketingSystemRequest request =
+        TicketingSystemRequest(ticketingSystemModel: state.model);
 
     // TODO: Need to change from Backend- Status should be handled from backend
     state.model.status ??= 0;
@@ -185,8 +233,8 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
           state.model.createdOn = state.model.createdOn == null
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
-              int.tryParse(state.model.createdOn ?? '0'),
-              Constants.fulldateFormat);
+                  int.tryParse(state.model.createdOn ?? '0'),
+                  Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.formError,
@@ -195,16 +243,15 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
           );
           return false;
         }
-        response =
-        await services.createTicketingSystem(body: request);
+        response = await services.createTicketingSystem(body: request);
       } else {
         //Validating Fields
         if (!state.isValid.status) {
           state.model.createdOn = state.model.createdOn == null
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
-              int.tryParse(state.model.createdOn ?? '0'),
-              Constants.fulldateFormat);
+                  int.tryParse(state.model.createdOn ?? '0'),
+                  Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.formError,
@@ -213,8 +260,7 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
           );
           return false;
         }
-        response =
-        await services.createTicketingSystem(body: request);
+        response = await services.createTicketingSystem(body: request);
       }
 
       log('---response--msg--${response.message}---');
@@ -237,23 +283,23 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
       state.model.createdOn = state.model.createdOn == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.createdOn ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.createdOn ?? '0'),
+              Constants.fulldateFormat);
       return true;
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.createdOn = state.model.createdOn == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.createdOn ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.createdOn ?? '0'),
+              Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {
       state.model.createdOn = state.model.createdOn == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.createdOn ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.createdOn ?? '0'),
+              Constants.fulldateFormat);
       emit(
         state.copyWith(
           message: e.toString(),
@@ -269,7 +315,7 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
         id: id, module: Constants.vipVisitorsDetailsModule);
   }
 
-  void addAttchment(List<ImageContent>? data) async {
+  void addAttachment(List<ImageContent>? data) async {
     log('--state.status-1---${state.status}----');
     emit(
       state.copyWith(

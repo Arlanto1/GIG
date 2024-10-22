@@ -555,25 +555,25 @@ class RouteGenerator {
           ),
         );
 
-        // case ticketingSystemDetailsRoute:
-        // String id = '';
-        // ExtraProperties? extraProperties;
-        // if (settings.arguments != null) {
-        //   Map<String, dynamic> arguments =
-        //       settings.arguments as Map<String, dynamic>;
-        //   id = arguments['id'] ?? '';
-        //   extraProperties = arguments[ConstantsArgument.extraProperties];
-        // }
-        //
-        // return MaterialPageRoute(
-        //   builder: (context) => BlocProvider<TicketingSystemDetailsCubit>(
-        //     create: (_) => TicketingSystemDetailsCubit(
-        //       services: TicketingSystemServices(),
-        //       commonServices: CommonServices(),
-        //     ),
-        //     child: const TicketingSystemDetailsView(),
-        //   ),
-        // );
+      // case ticketingSystemDetailsRoute:
+      // String id = '';
+      // ExtraProperties? extraProperties;
+      // if (settings.arguments != null) {
+      //   Map<String, dynamic> arguments =
+      //       settings.arguments as Map<String, dynamic>;
+      //   id = arguments['id'] ?? '';
+      //   extraProperties = arguments[ConstantsArgument.extraProperties];
+      // }
+      //
+      // return MaterialPageRoute(
+      //   builder: (context) => BlocProvider<TicketingSystemDetailsCubit>(
+      //     create: (_) => TicketingSystemDetailsCubit(
+      //       services: TicketingSystemServices(),
+      //       commonServices: CommonServices(),
+      //     ),
+      //     child: const TicketingSystemDetailsView(),
+      //   ),
+      // );
       case shiftOccurrenceRoute:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ocb.OccurrencesBloc>(
@@ -1781,15 +1781,12 @@ class RouteGenerator {
           ),
         );
 
-
       case ticketingSystemDetailsRoute:
-        String id = '';
-        ExtraProperties? extraProperties;
+        // ExtraProperties? extraProperties;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
-          id = arguments['id'] ?? '';
-          extraProperties = arguments[ConstantsArgument.extraProperties];
+              settings.arguments as Map<String, dynamic>;
+          // extraProperties = arguments[ConstantsArgument.extraProperties];
         }
 
         return MaterialPageRoute(
@@ -1805,14 +1802,14 @@ class RouteGenerator {
       case ticketingSystemListRoute:
         return MaterialPageRoute(
             builder: (context) => BlocProvider<TicketingSystemBloc>(
-              create: (_) => TicketingSystemBloc()
-                ..add(FetchTicketingSystemData(
-                    startPos: 0,
-                    maxPos: Constants.maxResults,
-                    newSearch: true,
-                    filters: BaseFilterModel())),
-              child: const TicketingSystemView(),
-            ));
+                  create: (_) => TicketingSystemBloc()
+                    ..add(FetchTicketingSystemData(
+                        startPos: 0,
+                        maxPos: Constants.maxResults,
+                        newSearch: true,
+                        filters: BaseFilterModel())),
+                  child: const TicketingSystemView(),
+                ));
 
       default:
         log('--default---${settings.name}-');

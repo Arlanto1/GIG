@@ -9,15 +9,18 @@ class TicketingSystemDetailsState extends Equatable {
   final SlaUiLabels? labels;
   final List<Organisation> priorities;
   final List<ImageContent> loadAttachments;
+  final List<Organisation> projects;
+
 
   factory TicketingSystemDetailsState.initial({
     required TicketingSystemModel model,
     required User loggedInUserDetails,
     required List<BaseUser>? users,
-    final List<BaseUser>? emailUsers,
     required String errorMessage,
     required List<Organisation> priorities,
     required List<ImageContent> loadAttachments,
+    required final List<Organisation> projects,
+
   }) {
     return TicketingSystemDetailsState(
       status: FormStatus.initial,
@@ -27,6 +30,8 @@ class TicketingSystemDetailsState extends Equatable {
       message: errorMessage,
       priorities: priorities,
         loadAttachments: loadAttachments,
+      projects: projects,
+
     );
   }
 
@@ -81,7 +86,9 @@ class TicketingSystemDetailsState extends Equatable {
     this.message,
     this.labels,
     required this.priorities,
-    required this.loadAttachments
+    required this.loadAttachments,
+    required this.projects,
+
   });
 
   TicketingSystemDetailsState copyWith({
@@ -93,12 +100,15 @@ class TicketingSystemDetailsState extends Equatable {
     SlaUiLabels? labels,
     List<Organisation>? priorities,
     List<ImageContent>? loadAttachments,
+    List<Organisation>? projects,
+
   }) {
     return TicketingSystemDetailsState(
       status: status ?? this.status,
       model: model ?? this.model,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
+      projects :projects?? this.projects,
       message: message ?? this.message,
       labels: labels ?? this.labels,
       priorities: priorities ?? this.priorities,

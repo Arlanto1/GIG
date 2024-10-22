@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 
-class CommonApis {
+class   CommonApis {
   static final String baseUrl = Environment().config.apiHost;
   static const String v2 = '';
 
@@ -34,6 +34,7 @@ class CommonApis {
   static final String _logout = '$baseUrl/logout';
 
   static const String exportDetailPagePDF = 'exportDeatilPagePDF?id=';
+
 }
 
 class CommonServices {
