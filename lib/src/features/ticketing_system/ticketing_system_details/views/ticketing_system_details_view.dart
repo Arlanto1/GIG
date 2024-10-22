@@ -7,10 +7,13 @@ import '../cubits/ticketing_system_details_cubit.dart';
 
 class TicketingSystemDetailsView extends StatefulWidget {
   final TicketingSystemModel? model;
+  final String title;
+
 
   const TicketingSystemDetailsView({
     super.key,
     this.model,
+    required this.title,
   });
 
   @override
@@ -31,6 +34,8 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
   final FocusNode quantityFocusNode = FocusNode();
 
   TextEditingController dueDateTextController = TextEditingController();
+  TextEditingController startDateTextController = TextEditingController();
+
   TextEditingController additionalInformationTextController =
       TextEditingController();
 
@@ -56,6 +61,9 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
         TicketingSystemDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
+
+        log('-projects--${state.model.projectName}----');
+
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
@@ -190,7 +198,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.project?.name,
+                              title: widget.model?.project?.name,
                               height: 60,
                               // isDisableColor: disableForm,
                               onTap: () {
@@ -354,15 +362,39 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            // /// Start Date
+                            // CommonWidgets.textDisplay(
+                            //   Constants.startDate,
+                            //   Styles.textStyleBlack14,
+                            //   isMandatory: true,
+                            // ),
+                            // CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            // datecreateWidgetdisplay(
+                            //     state.model.startDate ?? ''),
+                            // CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                             /// Start Date
                             CommonWidgets.textDisplay(
-                              Constants.startDate,
-                              Styles.textStyleBlack14,
-                              isMandatory: true,
-                            ),
+                                Constants.startDate, Styles.textStyleBlack14,
+                                isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            datecreateWidgetdisplay(
-                                state.model.createdOn ?? ''),
+                            BaseDate().datePickerWidgetLoading(
+                              showFutureDate: true,
+                              showPastDate: false,
+                              textController: startDateTextController,
+                              // isDisabled: (widget.model?.status !=
+                              //     ConstantsIntValue
+                              //         .articleFoundStatusFound &&
+                              //     widget.model?.status != null)
+                              //     ? true
+                              //     : false,
+                              //initialDate: DateTime.now().subtract(Duration(days: 1)),
+                              onChange: (String value) {
+                                widget.model?.startDate =
+                                    Utils().formatTime(value);
+                              },
+                              context: context,
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Due Date

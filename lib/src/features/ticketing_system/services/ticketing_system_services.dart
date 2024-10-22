@@ -17,6 +17,8 @@ class Apis {
   static final String _getAssigneeList = '$baseUrl/getAssigneeList';
 
   static final String _getTrackers = '$baseUrl/getTrackerList';
+  static final String _getProjects = '$baseUrl/getProjectList';
+
 }
 
 class TicketingSystemServices {
@@ -64,12 +66,13 @@ class TicketingSystemServices {
     return BaseUser.fromJson(response);
   }
 
-  Future<Projects> getTrackers() async {
-    String url = Apis._getTrackers;
+  Future<Projects> getProjects() async {
+    String url = Apis._getProjects;
     final response = await BaseApiService().getRequest(
       url: url,
     );
     return Projects.fromJson(response);
   }
+
 
 }

@@ -226,9 +226,9 @@ class _TicketingSystemViewState extends State<TicketingSystemView> {
                                       showEditButton: true,
                                       onEditTap: (selectedIndex) {
                                         getById(
-                                            state.extraProperties
-                                                    ?.hasWritePermission ??
-                                                false,
+                                            // state.extraProperties
+                                            //         ?.hasWritePermission ??
+                                            //     false,
                                             state.items[index].id ?? 0);
                                       },
                                       onViewTap: (selectedIndex) {
@@ -269,19 +269,19 @@ class _TicketingSystemViewState extends State<TicketingSystemView> {
     );
   }
 
-  getById(bool hasWritePermission, int id) async {
+  getById(int id) async {
     showLoadingDialog(context);
 
     TicketingSystemModel ticketingSystemModel =
         await TicketingSystemServices().getById(id);
 
-    editDataLoading(ticketingSystemModel, hasWritePermission);
+    editDataLoading(ticketingSystemModel);
   }
 
-  Future<void> editDataLoading(TicketingSystemModel? ticketingSystemModel,
-      bool hasWritePermission) async {
+  Future<void> editDataLoading(TicketingSystemModel? ticketingSystemModel) async {
     dismissLoadingDialog(context);
     Navigator.pushNamed(context, ticketingSystemDetailsRoute, arguments: {
+      "redmineIssue": ticketingSystemModel,
       "title": 'Edit Ticketing System',
     });
   }

@@ -68,7 +68,7 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
 
       // Perform multiple asynchronous operations concurrently
       final List<dynamic> results = await Future.wait([
-        services.getTrackers(),
+        services.getProjects(),
         services.getAssigneeList(),
         // commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         // // TODO: remove the and change the number
@@ -100,7 +100,7 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
 
       // Assign results to variables with explicit data types
       Projects projects = results[0];
-      List<BaseUser>? emailUsers = results[1];
+      // List<BaseUser>? emailUsers = results[1];
       // Locations getLocationsData = results[0];
       // Organisation? defaultLocationRemove =
       // results[1]; // TODO: remove the and change the number
@@ -133,7 +133,7 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
         status: FormStatus.initial,
         // srh: srh,
         // lsm: lsm,
-        users: emailUsers,
+        // users: emailUsers,
         // epOfficers: emailUsers,
         // departments: departments.employeeDepartments,
         projects: projects.items,
@@ -212,13 +212,19 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
     // state.model.inputDate =
     //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
-    DateTime dateTime;
-    if (!Utils().isTimestamp(state.model.createdOn!)) {
-      dateTime =
-          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.createdOn!);
-      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
-      state.model.createdOn = inputDate.toString();
-    }
+    // DateTime dateTime;
+    // if (!Utils().isTimestamp(state.model.startDate!)) {
+    //   dateTime =
+    //       DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.startDate!);
+    //   int startDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    //   state.model.startDate = startDate.toString();
+    // }
+
+    state.model.startDate =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    state.model.updatedOn =
+        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
     // Create/Update API Call
     TicketingSystemRequest request =
         TicketingSystemRequest(ticketingSystemModel: state.model);

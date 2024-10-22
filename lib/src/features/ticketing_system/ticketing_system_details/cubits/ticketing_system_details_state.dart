@@ -36,29 +36,29 @@ class TicketingSystemDetailsState extends Equatable {
   }
 
   ErrorResponse get isValidDraft {
-    if (model.status == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Status');
-    }
-    if (model.title == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter a valid title');
-    }
-    if (model.startDate == null) {
-      return const ErrorResponse(
-          status: false, message: 'Start Date is required');
-    }
-    if (model.assignee == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please select an assignee');
-    }
-    if (model.priority == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please select a priority');
-    }
-    if (model.description == null) {
-      return const ErrorResponse(
-          status: false, message: 'Description cannot be blank');
-    }
+    // if (model.status == null) {
+    //   return const ErrorResponse(status: false, message: 'Please enter Status');
+    // }
+    // if (model.title == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter a valid title');
+    // }
+    // if (model.startDate == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Start Date is required');
+    // }
+    // if (model.assignee == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please select an assignee');
+    // }
+    // if (model.priority == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please select a priority');
+    // }
+    // if (model.description == null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Description cannot be blank');
+    // }
 
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
