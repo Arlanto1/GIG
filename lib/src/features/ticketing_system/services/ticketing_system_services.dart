@@ -16,9 +16,6 @@ class Apis {
   static final String _getTicketingSystemById = '$baseUrl/getIssueById';
 
   static final String _createTicketingSystem = '$baseUrl/createIssue';
-
-  static final String _getAssigneeList = '$baseUrl/getAssigneeList';
-
   static final String _getTrackers = '$baseUrl/getTrackerList';
   static final String _getProjects = '$baseUrl/getProjectList';
   static final String _getPriority = '$baseUrl/getPriorityList';

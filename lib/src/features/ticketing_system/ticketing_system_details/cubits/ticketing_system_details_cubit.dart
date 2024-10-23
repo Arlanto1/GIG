@@ -52,57 +52,22 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
     // Show Loader and emit loading state
     emit(state.copyWith(status: FormStatus.loading));
 
+log('StartDate ${state.model.startDate}');
+    log('StartDate1 ${Utils().getCurrentDate()}');
+
+    // state.model.startDate = state.model.startDate ?? Utils().getCurrentDate();
+    state.model.startDate = state.model.startDate == null
+        ? Utils().getCurrentDate()
+        : Utils().formatUnixTimestamp(state.model.startDate ?? '');
+
     var userId = await SharedPrefs.getUserId();
-
-    // Initialize model outside of Future.wait
-    // AnnualPowerShutdownListModel model = id.isNotEmpty
-    //     ? await services.getById(id)
-    //     : AnnualPowerShutdownListModel();
-
     try {
-      // Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
-      //
-      // if (model.location == null && defaultLocation != null) {
-      //   SerialNumberModel slNo = await commonServices.getSlNo(
-      //     locationId: defaultLocation.id.toString(),
-      //     moduleCode: Constants.annualPowerShutDownModuleCode,
-      //   );
-      //   model.location = defaultLocation;
-      //   model.slNo = slNo.serialNo;
-      // }
-
       // Perform multiple asynchronous operations concurrently
       final List<dynamic> results = await Future.wait([
         services.getProjects(),
         services.getPriorities(),
         services.getAssignee(),
         services.getTrackers(),
-        // commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
-        // // TODO: remove the and change the number
-        // SharedPrefs.getDefaultLocation(),
-        // commonServices.getUserDetails(userId: userId),
-        // commonServices.getUiLabels(
-        //     language: await SharedPrefs.getLanguageCode(),
-        //     moduleCode: Constants.eventProtectionModuleCode),
-        // // commonServices.getUsersByRole(roleName: 'T1_Analyst'),
-        // commonServices.getBaseUsers(
-        //     roleName: ConstantUserRoles.atomStaticUser,
-        //     isDbUser: true,
-        //     locationId: model.location!.id!),
-        // commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
-        // commonServices.getVendors(name: 'ATOM_VENDORS'),
-        // commonServices.getUsers(),
-        // commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
-        // commonServices.getBaseUsers(
-        //     roleName: ConstantUserRoles.atomSubRegionalHeadUser,
-        //     isDbUser: true,
-        //     locationId: model.location!.id!),
-        // commonServices.getBaseUsers(
-        //     roleName:
-        //     ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
-        //     isDbUser: true,
-        //
-        //     locationId: model.location!.id!),
       ]);
 
       // Assign results to variables with explicit data types
@@ -110,32 +75,6 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
       Priorities priorities = results[1];
       Assignee assignee = results[2];
       Trackers trackers = results[3];
-
-      // List<BaseUser>? emailUsers = results[1];
-      // Locations getLocationsData = results[0];
-      // Organisation? defaultLocationRemove =
-      // results[1]; // TODO: remove the and change the number
-      // User loggedInUserDetails = results[2];
-      // // Analyst users = results[4];
-      // List<BaseUser>? emailUsers = results[4];
-      // List<Organisation>? entities = results[5];
-      // List<User> entrySecurities = results[7];
-      // EmployeeDepartments departments = results[8];
-      // List<BaseUser>? srh = results[9];
-      // List<BaseUser>? lsm = results[10];
-
-      // model.inputDate = model.inputDate == null
-      //     ? Utils().getCurrentDate()
-      //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
-
-      // model.inputDate = model.inputDate == null
-      //     ? Utils().getCurrentDate()
-      //     : Utils.timestampToDateConversion(
-      //     int.tryParse(model.inputDate ?? '0'), Constants.fulldateFormat);
-      //
-      // model.createdBy ??= loggedInUserDetails;
-      // state.model.proposedVendors ??= [];
-      // Update the model and emit the updated state
       emit(state.copyWith(
         model: model,
         status: FormStatus.initial,
@@ -143,9 +82,6 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
         priorities: priorities.items,
         assignee: assignee.items,
         trackers: trackers.items,
-        // lsm: lsm,
-        // users: emailUsers,
-        // epOfficers: emailUsers,
       ));
     } catch (e) {
       log('initialization issue', error: e, name: 'General Information Cubit');
@@ -171,34 +107,31 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
         status: FormStatus.loading,
       ),
     );
-    // Get Sl No from API
-    // if (location != null) {
-    //   SerialNumberModel slNo = await commonServices.getSlNo(
-    //     locationId: location.id.toString(),
-    //     moduleCode: Constants.vipVisitorsDetailsModule,
-    //   );
-    //   state.model.location = location;
-    //   state.model.slNo = slNo.serialNo;
-    // }
-    // if (location != null) {
-    //   SerialNumberModel slNo = await commonServices.getSlNo(
-    //       locationId: location.id.toString(),
-    //       moduleCode: Constants.vipVisitorsDetailsModule);
-    //   state.model.location = location;
-    //   state.model.slNo = slNo.serialNo;
-    // }
 
     state.model.project = projects ?? state.model.project;
+    if (projects == null && state.model.project == null) {
+      state.model.project =
+          Organisation(id: 8); // Set default Organisation if needed
+    }
 
     state.model.priority = priority ?? state.model.priority;
+
+    if (priority == null && state.model.priority == null) {
+      state.model.priority =
+          Organisation(id: 1); // Set default Organisation if needed
+    }
     state.model.tracker = trackers ?? state.model.tracker;
-    // state.model.assignee = trackers ?? state.model.assignee;
+
+    if (trackers == null && state.model.tracker == null) {
+      state.model.tracker =
+          Organisation(id: 1); // Set default Organisation if needed
+    }
 
     if (assignee != null) {
       User userDetails = User(
         name: assignee.name,
         userId: assignee.id,
-        userName: assignee.name,
+        // userName: assignee.name,
       );
       state.model.assignee = userDetails;
     }
@@ -208,109 +141,64 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
     ));
   }
 
-  Future<bool> submitForm({
-    bool isSaveOnly = false,
-    bool navigateToNextScreen = false,
-  }) async {
+  void submitForm() async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
-    state.model.startDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-    state.model.updatedOn =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    if (state.model.status == 0 || state.model.status == null) {
+      state.model.status = 0;
+    }
+    // Setting time in milliseconds
+
+    // state.model.startDate = state.model.startDate == null
+    //     ? Utils().getCurrentDate()
+    //     : Utils().formatUnixTimestamp(state.model.startDate ?? '');
+
+    state.model.startDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
 
     // Create/Update API Call
     TicketingSystemRequest request =
         TicketingSystemRequest(ticketingSystemModel: state.model);
 
-    // TODO: Need to change from Backend- Status should be handled from backend
-    state.model.status ??= 0;
+    GenericResponse response = GenericResponse();
     try {
-      GenericResponse response = GenericResponse();
-      if (isSaveOnly) {
-        //Validating Fields
-        if (!state.isValidDraft.status) {
-          state.model.createdOn = state.model.createdOn == null
-              ? Utils().getCurrentDate()
-              : Utils.timestampToDateConversion(
-                  int.tryParse(state.model.createdOn ?? '0'),
-                  Constants.fulldateFormat);
-          emit(
-            state.copyWith(
-              status: FormStatus.formError,
-              message: state.isValidDraft.message,
-            ),
-          );
-          return false;
-        }
-        response = await services.createTicketingSystem(body: request);
-      } else {
-        //Validating Fields
-        if (!state.isValid.status) {
-          state.model.createdOn = state.model.createdOn == null
-              ? Utils().getCurrentDate()
-              : Utils.timestampToDateConversion(
-                  int.tryParse(state.model.createdOn ?? '0'),
-                  Constants.fulldateFormat);
-          emit(
-            state.copyWith(
-              status: FormStatus.formError,
-              message: state.isValid.message,
-            ),
-          );
-          return false;
-        }
-        response = await services.createTicketingSystem(body: request);
+      if (!state.isValidDraft.status) {
+        emit(
+          state.copyWith(
+            status: FormStatus.formError,
+            message: state.isValidDraft.message,
+          ),
+        );
+        return;
       }
-
-      log('---response--msg--${response.message}---');
-
-      if (response.id != null) {
-        int? id = int.tryParse(response.id!);
-        if (id != null) {
-          state.model.id = id;
-        }
-      }
+      response = (await services.createTicketingSystem(body: request));
+    } on GenericResponse catch (e) {
       emit(
         state.copyWith(
-          model: state.model,
-          message: response.message,
-          status: navigateToNextScreen
-              ? FormStatus.navigateToNextScreen
-              : FormStatus.success,
+          message: e.message,
+          status: FormStatus.formError,
         ),
       );
-      state.model.createdOn = state.model.createdOn == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
-              int.tryParse(state.model.createdOn ?? '0'),
-              Constants.fulldateFormat);
-      return true;
-    } on GenericResponse catch (e) {
-      Utils().emitErrorState(e, emit, state);
-      state.model.createdOn = state.model.createdOn == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
-              int.tryParse(state.model.createdOn ?? '0'),
-              Constants.fulldateFormat);
-      return false;
+      return;
     } on Exception catch (e) {
-      state.model.createdOn = state.model.createdOn == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
-              int.tryParse(state.model.createdOn ?? '0'),
-              Constants.fulldateFormat);
       emit(
         state.copyWith(
           message: e.toString(),
           status: FormStatus.error,
         ),
       );
-      return false;
     }
+
+    emit(
+      state.copyWith(
+        message: response.message,
+        status: FormStatus.success,
+      ),
+    );
   }
 
   void updateStatus({required String id}) {

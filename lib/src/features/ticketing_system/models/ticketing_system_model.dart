@@ -14,6 +14,7 @@ class TicketingSystemModel extends BaseObject {
   Organisation? priority;
   String? createdOn;
   String? startDate;
+  String? dueDate;
   String? updatedOn;
   int? status;
   String? description;
@@ -32,6 +33,7 @@ class TicketingSystemModel extends BaseObject {
     this.priority,
     this.createdOn,
     this.startDate,
+    this.dueDate,
     this.updatedOn,
     this.status,
     this.description,

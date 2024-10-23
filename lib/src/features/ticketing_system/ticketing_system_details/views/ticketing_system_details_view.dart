@@ -86,34 +86,29 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
         //     !widget.extraProperties!.hasWritePermission!) {
         //   isReadOnly = true;
         // }
-        showSaveSubmitButton = state.model.status != -1 &&
-            state.model.status != 1 &&
-            !isReadOnly &&
-            state.model.lock.isEmptyOrNull;
+        showSaveSubmitButton =
+            state.model.status != 9 && state.model.lock.isEmptyOrNull;
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: Constants.ticketingSystem,
             showPopUp: false,
             showSaveButton: showSaveSubmitButton ? true : false,
-            showSubmitButton: showSaveSubmitButton ? true : false,
+            showSubmitButton: false,
             showDisLikeButton: false,
             showLikeButton: false,
             // pdfAPIName:
             // '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.vipVisitorsDetailsModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<TicketingSystemDetailsCubit>(context).submitForm(
-                isSaveOnly: true,
-                navigateToNextScreen: false,
-              );
+              BlocProvider.of<TicketingSystemDetailsCubit>(context)
+                  .submitForm();
             },
             onTapSubmit: () {
-              FocusScope.of(context).unfocus();
-              BlocProvider.of<TicketingSystemDetailsCubit>(context).submitForm(
-                isSaveOnly: false,
-                navigateToNextScreen: false,
-              );
+              // FocusScope.of(context).unfocus();
+              // BlocProvider.of<TicketingSystemDetailsCubit>(context).submitForm(
+              //   isSaveOnly: false,
+              // );
             },
           ),
           backgroundColor: AppColors.backgroundWhiteColor,
@@ -128,12 +123,11 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
         ? Utils.timestampToDateConversion(
             int.tryParse(state.model.startDate ?? '0'),
             Constants.fulldateFormat)
-        : '';
+        : Utils().getCurrentDate();
 
-    dueDateTextController.text = state.model.updatedOn != null
+    dueDateTextController.text = state.model.dueDate != null
         ? Utils.timestampToDateConversion(
-            int.tryParse(state.model.updatedOn ?? '0'),
-            Constants.fulldateFormat)
+            int.tryParse(state.model.dueDate ?? '0'), Constants.fulldateFormat)
         : '';
   }
 
@@ -161,7 +155,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                 ),
               ),
               child: AbsorbPointer(
-                absorbing: false,
+                absorbing: state.model.status == 9,
                 child: Form(
                   key: _formKey,
                   autovalidateMode: isReadOnly
@@ -197,7 +191,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.project?.name,
+                              title: state.model.projectName ?? 'dbatom-uat',
                               height: 60,
                               // isDisableColor: disableForm,
                               onTap: () {
@@ -232,41 +226,41 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               isMandatory: true,
                             ),
                             TextFieldAddButton(
-                              title: state.model.priorityName,
+                              title:
+                                  state.model.priorityName ?? 'PO(Immediate)',
                               height: 70,
-                              isDisableColor: isReadOnly,
+                              isDisableColor: state.model.status == 9,
                               onTap: () {
-                                // if (!isReadOnly) {
-                                FocusScope.of(context)
-                                    .requestFocus(FocusNode());
-
-                                BaseOrganisationDialog().departmentDialog(
-                                  context: context,
-                                  organisations: state.priorities,
-                                  onTap: (Organisation department) {
-                                    state.model.priorityName = department.name;
-
-                                    BlocProvider.of<
-                                                TicketingSystemDetailsCubit>(
-                                            context)
-                                        .updateDropdownValues(
-                                            priority: department);
-                                    // FocusScope.of(context)
-                                    //     .requestFocus(receivedByFocusNode);
-                                  },
-                                  // orgName: 'EMPLOYEE_DEPARTMENTS',
-                                  // createEntity: false,
-                                  // title: 'Add Department',
-                                  // functionToCall: () {
-                                  //   // refresh the list
-                                  //   BlocProvider.of<
-                                  //               MaterialMovementDetailsCubit>(
-                                  //           context)
-                                  //       .refreshList();
-                                  // }
-                                );
-                                // leodepartmentsDialog(stat
-                                // }
+                                if (state.model.status != 9) {
+                                  FocusScope.of(context)
+                                      .requestFocus(FocusNode());
+                                  BaseOrganisationDialog().departmentDialog(
+                                    context: context,
+                                    organisations: state.priorities,
+                                    onTap: (Organisation department) {
+                                      state.model.priorityName =
+                                          department.name;
+                                      BlocProvider.of<
+                                                  TicketingSystemDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              priority: department);
+                                      // FocusScope.of(context)
+                                      //     .requestFocus(receivedByFocusNode);
+                                    },
+                                    // orgName: 'EMPLOYEE_DEPARTMENTS',
+                                    // createEntity: false,
+                                    // title: 'Add Department',
+                                    // functionToCall: () {
+                                    //   // refresh the list
+                                    //   BlocProvider.of<
+                                    //               MaterialMovementDetailsCubit>(
+                                    //           context)
+                                    //       .refreshList();
+                                    // }
+                                  );
+                                  // leodepartmentsDialog(stat
+                                }
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -411,8 +405,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               showPastDate: false,
                               onChange: (String value) {
                                 dueDateTextController.text = value;
-                                state.model.updatedOn =
-                                    Utils().formatTime(value);
+                                state.model.dueDate = Utils().formatTime(value);
                                 BlocProvider.of<TicketingSystemDetailsCubit>(
                                         context)
                                     .onModelValueChange(state.model);
@@ -429,7 +422,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               isMandatory: true,
                             ),
                             TextFieldAddButton(
-                              title: state.model.tracker?.name,
+                              title: state.model.tracker?.name ?? 'Sept_Sprint',
                               height: 70,
                               isDisableColor: isReadOnly,
                               onTap: () {
@@ -580,11 +573,9 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           cancelButtonDisplay(),
-                          if ((state.model.status != -1 &&
-                                      state.model.status != 1) &&
-                                  showSaveSubmitButton
-                              ? true
-                              : false) ...[submitButtonDisplay()],
+                          if ((state.model.status != 9) ? true : false) ...[
+                            submitButtonDisplay()
+                          ],
                         ],
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
@@ -617,7 +608,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
     return AppButton(
       width: 150,
       key: const Key(Keys.submitButton),
-      buttonText: Constants.submit,
+      buttonText: Constants.save,
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
