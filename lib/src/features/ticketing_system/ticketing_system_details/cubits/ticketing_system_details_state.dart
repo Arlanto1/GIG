@@ -8,10 +8,11 @@ class TicketingSystemDetailsState extends Equatable {
   final String? message;
   final SlaUiLabels? labels;
   final List<Organisation> priorities;
-  final List<ImageContent> loadAttachments;
+  final List<ImageContent>? attachments;
   final List<Organisation> projects;
   final List<Organisation> trackers;
   final List<BaseUser>? assignee;
+
 
 
   factory TicketingSystemDetailsState.initial({
@@ -20,7 +21,7 @@ class TicketingSystemDetailsState extends Equatable {
     required List<BaseUser>? users,
     required String errorMessage,
     required List<Organisation> priorities,
-    required List<ImageContent> loadAttachments,
+    required List<ImageContent> attachments,
     required final List<Organisation> projects,
     required final List<Organisation> trackers,
     List<BaseUser>? assignee,
@@ -33,7 +34,7 @@ class TicketingSystemDetailsState extends Equatable {
       users: users,
       message: errorMessage,
       priorities: priorities,
-      loadAttachments: loadAttachments,
+      attachments: attachments,
       projects: projects,
       trackers: trackers,
         assignee:assignee,
@@ -90,7 +91,7 @@ class TicketingSystemDetailsState extends Equatable {
     this.message,
     this.labels,
     required this.priorities,
-    required this.loadAttachments,
+    required this.attachments,
     required this.projects,
     required this.trackers,
     this.assignee,
@@ -104,7 +105,7 @@ class TicketingSystemDetailsState extends Equatable {
     String? message,
     SlaUiLabels? labels,
     List<Organisation>? priorities,
-    List<ImageContent>? loadAttachments,
+    List<ImageContent>? attachments,
     List<Organisation>? projects,
     List<Organisation>? trackers,
   }) {
@@ -117,7 +118,7 @@ class TicketingSystemDetailsState extends Equatable {
       message: message ?? this.message,
       labels: labels ?? this.labels,
       priorities: priorities ?? this.priorities,
-      loadAttachments: loadAttachments ?? this.loadAttachments,
+      attachments: attachments ?? this.attachments,
       trackers: trackers ?? this.trackers,
     );
   }

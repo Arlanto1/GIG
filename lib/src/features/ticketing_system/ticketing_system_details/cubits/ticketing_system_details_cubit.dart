@@ -31,7 +31,7 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
             users: const [],
             errorMessage: '',
             priorities: const [],
-            loadAttachments: const [],
+            attachments: const [],
             projects: const [],
             trackers: const [],
           ),
@@ -217,19 +217,6 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
         status: FormStatus.loading,
       ),
     );
-
-    // Setting time in milliseconds
-    // state.model.inputDate =
-    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-
-    // DateTime dateTime;
-    // if (!Utils().isTimestamp(state.model.startDate!)) {
-    //   dateTime =
-    //       DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.startDate!);
-    //   int startDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
-    //   state.model.startDate = startDate.toString();
-    // }
-
     state.model.startDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     state.model.updatedOn =
@@ -331,7 +318,8 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
         id: id, module: Constants.vipVisitorsDetailsModule);
   }
 
-  void addAttachment(List<ImageContent>? data) async {
+  void addAttachment(
+      {List<ImageContent>? data, List<ImageContent>? attachment}) async {
     log('--state.status-1---${state.status}----');
     emit(
       state.copyWith(
@@ -340,21 +328,17 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
     );
     int eventIds = math.Random.secure().nextInt(5);
     if (data != null) {
-      for (ImageContent image in data) {
-        image.type = 0;
-      }
-      log('--data----${data.length}----');
-
+      // for (ImageContent image in data) {
+      //   image.type = 0;
+      // }
       state.model.attachments = data;
       emit(
         state.copyWith(
           model: state.model,
-          loadAttachments: data,
+          attachments: data,
           status: FormStatus.initial,
         ),
       );
-
-      log('--state.status--3--${state.status}----');
     }
   }
 }

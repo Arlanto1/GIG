@@ -9,7 +9,6 @@ class TicketingSystemDetailsView extends StatefulWidget {
   final TicketingSystemModel? model;
   final String title;
 
-
   const TicketingSystemDetailsView({
     super.key,
     this.model,
@@ -124,18 +123,18 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
-    void initializeDates(TicketingSystemDetailsState state) {
-      startDateTextController.text = state.model.startDate != null
-          ? Utils.timestampToDateConversion(
-          int.tryParse(state.model.startDate ?? '0'),
-          Constants.fulldateFormat)
-          : '';
+  void initializeDates(TicketingSystemDetailsState state) {
+    startDateTextController.text = state.model.startDate != null
+        ? Utils.timestampToDateConversion(
+            int.tryParse(state.model.startDate ?? '0'),
+            Constants.fulldateFormat)
+        : '';
 
-      dueDateTextController.text = state.model.updatedOn != null
-          ? Utils.timestampToDateConversion(
-          int.tryParse(state.model.updatedOn ?? '0'),
-          Constants.fulldateFormat)
-          : '';
+    dueDateTextController.text = state.model.updatedOn != null
+        ? Utils.timestampToDateConversion(
+            int.tryParse(state.model.updatedOn ?? '0'),
+            Constants.fulldateFormat)
+        : '';
   }
 
   getBodybuilder(TicketingSystemDetailsState state, height) {
@@ -198,7 +197,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: widget.model?.project?.name,
+                              title: state.model.project?.name,
                               height: 60,
                               // isDisableColor: disableForm,
                               onTap: () {
@@ -238,36 +237,35 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               isDisableColor: isReadOnly,
                               onTap: () {
                                 // if (!isReadOnly) {
-                                  FocusScope.of(context)
-                                      .requestFocus(FocusNode());
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
 
-                                  BaseOrganisationDialog().departmentDialog(
-                                      context: context,
-                                      organisations: state.priorities,
-                                      onTap: (Organisation department) {
-                                        state.model.priorityName =
-                                            department.name;
+                                BaseOrganisationDialog().departmentDialog(
+                                  context: context,
+                                  organisations: state.priorities,
+                                  onTap: (Organisation department) {
+                                    state.model.priorityName = department.name;
 
-                                        BlocProvider.of<
-                                            TicketingSystemDetailsCubit>(
-                                                context)
-                                            .updateDropdownValues(
+                                    BlocProvider.of<
+                                                TicketingSystemDetailsCubit>(
+                                            context)
+                                        .updateDropdownValues(
                                             priority: department);
-                                        // FocusScope.of(context)
-                                        //     .requestFocus(receivedByFocusNode);
-                                      },
-                                      // orgName: 'EMPLOYEE_DEPARTMENTS',
-                                      // createEntity: false,
-                                      // title: 'Add Department',
-                                      // functionToCall: () {
-                                      //   // refresh the list
-                                      //   BlocProvider.of<
-                                      //               MaterialMovementDetailsCubit>(
-                                      //           context)
-                                      //       .refreshList();
-                                      // }
-                                      );
-                                  // leodepartmentsDialog(stat
+                                    // FocusScope.of(context)
+                                    //     .requestFocus(receivedByFocusNode);
+                                  },
+                                  // orgName: 'EMPLOYEE_DEPARTMENTS',
+                                  // createEntity: false,
+                                  // title: 'Add Department',
+                                  // functionToCall: () {
+                                  //   // refresh the list
+                                  //   BlocProvider.of<
+                                  //               MaterialMovementDetailsCubit>(
+                                  //           context)
+                                  //       .refreshList();
+                                  // }
+                                );
+                                // leodepartmentsDialog(stat
                                 // }
                               },
                             ),
@@ -305,7 +303,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                   // state.labels?.locale.otherReceiverName ??
                                   //     state.labels?.defaultLocale
                                   //         .otherReceiverName ??
-                                      Constants.assigneeName,
+                                  Constants.assigneeName,
                                   Styles.textStyleBlack14,
                                   isMandatory: true,
                                 ),
@@ -315,40 +313,40 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                     isDisableColor: isReadOnly,
                                     onTap: () {
                                       // if (!isReadOnly) {
-                                        BaseOrganisationDialog().userDialog(
-                                          context: context,
-                                          users: state.assignee,
-                                          isDbUser: true,
-                                          onTap: (BaseUser user) {
-                                            BlocProvider.of<
-                                                TicketingSystemDetailsCubit>(
-                                                context)
-                                                .updateDropdownValues(
-                                                assignee:
-                                                user);
-                                            // FocusScope.of(context).requestFocus(
-                                            //     receivedForEmployeeIdFocusNode);
-                                          },
-                                          roleName: ConstantUserRoles
-                                              .atomStaticUser, locationId: 0,
-                                          // locationId:
-                                          // state.model.location!.id!,
-                                          // functionToCall: (BaseUser user) {
-                                          //   BlocProvider.of<
-                                          //       TicketingSystemDetailsCubit>(
-                                          //       context)
-                                          //       .updateDropdownValues(
-                                          //       receiverEmailUser:
-                                          //       user);
-                                          //   FocusScope.of(context).requestFocus(
-                                          //       receivedForEmployeeIdFocusNode);
-                                          //   // refresh the list
-                                          //   BlocProvider.of<
-                                          //       MaterialMovementDetailsCubit>(
-                                          //       context)
-                                          //       .refreshList();
-                                          // },
-                                        );
+                                      BaseOrganisationDialog().userDialog(
+                                        context: context,
+                                        users: state.assignee,
+                                        isDbUser: true,
+                                        onTap: (BaseUser user) {
+                                          BlocProvider.of<
+                                                      TicketingSystemDetailsCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  assignee: user);
+                                          // FocusScope.of(context).requestFocus(
+                                          //     receivedForEmployeeIdFocusNode);
+                                        },
+                                        roleName:
+                                            ConstantUserRoles.atomStaticUser,
+                                        locationId: 0,
+                                        // locationId:
+                                        // state.model.location!.id!,
+                                        // functionToCall: (BaseUser user) {
+                                        //   BlocProvider.of<
+                                        //       TicketingSystemDetailsCubit>(
+                                        //       context)
+                                        //       .updateDropdownValues(
+                                        //       receiverEmailUser:
+                                        //       user);
+                                        //   FocusScope.of(context).requestFocus(
+                                        //       receivedForEmployeeIdFocusNode);
+                                        //   // refresh the list
+                                        //   BlocProvider.of<
+                                        //       MaterialMovementDetailsCubit>(
+                                        //       context)
+                                        //       .refreshList();
+                                        // },
+                                      );
                                       // }
                                     }),
                                 CommonWidgets.verticalSpacerWidget(
@@ -359,23 +357,35 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
 
                             /// Start Date
                             CommonWidgets.textDisplay(
-                                Constants.startDate, Styles.textStyleBlack14,
-                                isMandatory: true),
+                              // state.labels?.locale.keyHandOverDue ??
+                              //     state.labels?.defaultLocale
+                              //         .keyHandOverDue ??
+                              Constants.startDate,
+                              isMandatory: true,
+                              Styles.textStyleBlack14,
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
+
                             BaseDate().datePickerWidgetLoading(
-                              showFutureDate: true,
-                              showPastDate: false,
                               textController: startDateTextController,
-                              // isDisabled: (widget.model?.status !=
-                              //     ConstantsIntValue
-                              //         .articleFoundStatusFound &&
-                              //     widget.model?.status != null)
-                              //     ? true
-                              //     : false,
-                              //initialDate: DateTime.now().subtract(Duration(days: 1)),
+                              // isDisabled:
+                              // state.model.keyHandingOverDuration == 2 &&
+                              //     (state.model.status == null ||
+                              //         state.model.status ==
+                              //             ConstantsIntValue
+                              //                 .issuanceDraftStatus)
+                              //     ? false
+                              //     : true,
+                              onlyDate: false,
+                              showPastDate: false,
                               onChange: (String value) {
-                                widget.model?.startDate =
+                                startDateTextController.text = value;
+                                state.model.startDate =
                                     Utils().formatTime(value);
+                                BlocProvider.of<TicketingSystemDetailsCubit>(
+                                        context)
+                                    .onModelValueChange(state.model);
+                                //},
                               },
                               context: context,
                             ),
@@ -386,20 +396,27 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                 Constants.duedate, Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
+
                             BaseDate().datePickerWidgetLoading(
-                              showFutureDate: true,
-                              showPastDate: false,
                               textController: dueDateTextController,
-                              isDisabled: (widget.model?.status !=
-                                          ConstantsIntValue
-                                              .articleFoundStatusFound &&
-                                      widget.model?.status != null)
-                                  ? true
-                                  : false,
-                              //initialDate: DateTime.now().subtract(Duration(days: 1)),
+                              // isDisabled:
+                              // state.model.keyHandingOverDuration == 2 &&
+                              //     (state.model.status == null ||
+                              //         state.model.status ==
+                              //             ConstantsIntValue
+                              //                 .issuanceDraftStatus)
+                              //     ? false
+                              //     : true,
+                              onlyDate: false,
+                              showPastDate: false,
                               onChange: (String value) {
-                                widget.model?.createdOn =
+                                dueDateTextController.text = value;
+                                state.model.updatedOn =
                                     Utils().formatTime(value);
+                                BlocProvider.of<TicketingSystemDetailsCubit>(
+                                        context)
+                                    .onModelValueChange(state.model);
+                                //},
                               },
                               context: context,
                             ),
@@ -417,36 +434,35 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               isDisableColor: isReadOnly,
                               onTap: () {
                                 // if (!isReadOnly) {
-                                  FocusScope.of(context)
-                                      .requestFocus(FocusNode());
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
 
-                                  BaseOrganisationDialog().departmentDialog(
-                                      context: context,
-                                      organisations: state.trackers,
-                                      onTap: (Organisation department) {
-                                        state.model.tracker?.name =
-                                            department.name;
+                                BaseOrganisationDialog().departmentDialog(
+                                  context: context,
+                                  organisations: state.trackers,
+                                  onTap: (Organisation department) {
+                                    state.model.tracker?.name = department.name;
 
-                                        BlocProvider.of<
-                                            TicketingSystemDetailsCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                                trackers: department);
-                                        // FocusScope.of(context)
-                                        //     .requestFocus(receivedByFocusNode);
-                                      },
-                                      // orgName: 'EMPLOYEE_DEPARTMENTS',
-                                      // createEntity: false,
-                                      // title: 'Add Department',
-                                      // functionToCall: () {
-                                      //   // refresh the list
-                                      //   BlocProvider.of<
-                                      //               MaterialMovementDetailsCubit>(
-                                      //           context)
-                                      //       .refreshList();
-                                      // }
-                                      );
-                                  // leodepartmentsDialog(stat
+                                    BlocProvider.of<
+                                                TicketingSystemDetailsCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                            trackers: department);
+                                    // FocusScope.of(context)
+                                    //     .requestFocus(receivedByFocusNode);
+                                  },
+                                  // orgName: 'EMPLOYEE_DEPARTMENTS',
+                                  // createEntity: false,
+                                  // title: 'Add Department',
+                                  // functionToCall: () {
+                                  //   // refresh the list
+                                  //   BlocProvider.of<
+                                  //               MaterialMovementDetailsCubit>(
+                                  //           context)
+                                  //       .refreshList();
+                                  // }
+                                );
+                                // leodepartmentsDialog(stat
                                 // }
                               },
                             ),
@@ -456,15 +472,14 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                             CommonWidgets.textDisplay(
                                 // state.labels?.locale.detailDes ??
                                 //     state.labels?.defaultLocale.detailDes ??
-                                    Constants.description,
+                                Constants.description,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 6,
                               characterLimit:
-                              Constants.characterLimitDescTextFormField,
+                                  Constants.characterLimitDescTextFormField,
                               initialValue: state.model.description,
                               showBorder: true,
                               textFormKey: Keys.incidentDescription,
@@ -484,17 +499,16 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
 
                             /// History
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.detailDes ??
-                              //     state.labels?.defaultLocale.detailDes ??
+                                // state.labels?.locale.detailDes ??
+                                //     state.labels?.defaultLocale.detailDes ??
                                 Constants.history,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 6,
                               characterLimit:
-                              Constants.characterLimitDescTextFormField,
+                                  Constants.characterLimitDescTextFormField,
                               initialValue: state.model.history,
                               showBorder: true,
                               textFormKey: Keys.incidentDescription,
@@ -503,7 +517,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               // isDisableColor:
                               // state.model.status == 2 || disableForm,
                               onChange: (String value) {
-                                state.model.description = value;
+                                state.model.history = value;
                                 context
                                     .read<TicketingSystemDetailsCubit>()
                                     .onModelValueChange(state.model);
@@ -513,30 +527,42 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// upload
-                            widget.model?.status == null ||
-                                    widget.model?.status == 0
-                                ? CommonWidgets.textDisplay(
-                                    Constants.attachments,
-                                    Styles.textStyleBlack14)
-                                : Container(),
-                            widget.model?.status == null ||
-                                    widget.model?.status == 0
-                                ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001)
-                                : Container(),
-                            (widget.model?.status == null ||
-                                        widget.model?.status == 0) &&
-                                    state.model.lock.isEmptyOrNull
-                                ? uploadWidget(state)
-                                : Container(),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            CommonWidgets.textDisplay(
+                                Constants.uploadPhoto, Styles.textStyleBlack14),
+                            // widget.guardingMasterData == null
+                            //     ? CommonWidgets.verticalSpacerWidget(
+                            //     height * 0.001)
+                            //     : Container(),
+                            // AbsorbPointer(
+                            BaseImageUpload().uploadWidget(
+                              isDisabled: false,
+                              context: context,
+                              loggedInUserDetails:
+                                  state.loggedInUserDetails ?? User(),
+                              getFiles: getFiles,
+                              onImageSelected: (ImageContent data) {
+                                log('-------function---onImageSelected---------');
+                                List<ImageContent>? files = [];
+                                getFiles = [data];
+                                files.add(data);
+                                for (ImageContent image in getFiles ?? []) {
+                                  files.add(image);
+                                }
+                                BlocProvider.of<TicketingSystemDetailsCubit>(
+                                        context)
+                                    .addAttachment(
+                                  data: files,
+                                  attachment: getFiles,
+                                );
+                              },
+                            ),
+                            // ),
 
                             /// Attachments
                             BaseImageUpload().getAttachment(
                               height: height,
-                              attachments: [],
-                              files: [],
+                              attachments: state.attachments,
+                              files: getFiles,
                               showDeleteIcon: true,
                               moduleCode: '',
                             ),
@@ -595,77 +621,8 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-
         BlocProvider.of<TicketingSystemDetailsCubit>(context).submitForm();
       },
     );
-  }
-
-  Widget uploadWidget(TicketingSystemDetailsState state) {
-    return widget.model?.status == null ||
-            widget.model?.status == 0 ||
-            widget.model?.status == 1
-        ? Container(
-            height: 60,
-            decoration: BoxDecoration(
-                border: Border.all(
-                  color: const Color(0xFFCACACA),
-                  width: 1.0,
-                ),
-                borderRadius: const BorderRadius.all(Radius.circular(8))),
-            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 5.0),
-                child: ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(140, 50),
-                    backgroundColor: !isReadOnly && true
-                        ? AppColors.navigationSkyBlueColor
-                        : AppColors.geryLightBackground,
-                  ),
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return UploadAttachment(
-                            userdetails: state.loggedInUserDetails ?? User(),
-                            getFiles: getFiles,
-                            onImageSelected: (ImageContent data) {
-                              log('-------function---onImageSelected---------');
-                              List<ImageContent>? files = [];
-                              files.add(data);
-                              for (ImageContent image in getFiles.toList()) {
-                                files.add(image);
-                              }
-                              BlocProvider.of<TicketingSystemDetailsCubit>(
-                                      context)
-                                  .addAttachment(files);
-                            },
-                          );
-                        });
-                  },
-
-                  icon: SvgPicture.asset(
-                    //AppIcon.dropdownicon,
-                    AppIcon.uploadicon,
-                    //fit: BoxFit.,
-                    colorFilter: const ColorFilter.mode(
-                      AppColors.backgroundWhiteColor,
-                      BlendMode.srcIn,
-                    ),
-                    // color: AppColors.backgroundWhiteColor,
-                    width: 13,
-                    height: 13,
-                    key: const Key(Keys.userIcon),
-                  ),
-                  label: const Text(
-                    Constants.clicktoupload,
-                    style: Styles.textStyleRegularNormalWhite12,
-                  ), // <-- Text
-                ),
-              ),
-            ]),
-          )
-        : Container();
   }
 }
