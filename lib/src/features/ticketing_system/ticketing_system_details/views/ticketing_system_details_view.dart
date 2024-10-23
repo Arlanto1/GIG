@@ -30,9 +30,6 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
   List<ImageContent> getFiles = [];
   List<ImageContent> getAttachments = [];
 
-  final FocusNode receivedByFocusNode = FocusNode();
-  final FocusNode quantityFocusNode = FocusNode();
-
   TextEditingController dueDateTextController = TextEditingController();
   TextEditingController startDateTextController = TextEditingController();
 
@@ -59,15 +56,11 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
     return BlocConsumer<TicketingSystemDetailsCubit,
         TicketingSystemDetailsState>(
       listener: (context, state) {
-        log('-state.status---${state.status}----');
-
-        log('-projects--${state.model.projectName}----');
-
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
-            title: 'Ticketing System',
+            title: Constants.ticketingSystem,
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
             onPositivePressed: () {
@@ -87,9 +80,6 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
         }
       },
       builder: (context, state) {
-        // if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
-        //   isReadOnly = true;
-        // }
         if (state.model.status == null) {
           isReadOnly = false;
         }
@@ -104,7 +94,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
-            title: 'Ticketing System',
+            title: Constants.ticketingSystem,
             showPopUp: false,
             showSaveButton: showSaveSubmitButton ? true : false,
             showSubmitButton: showSaveSubmitButton ? true : false,
@@ -263,8 +253,8 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                                 context)
                                             .updateDropdownValues(
                                             priority: department);
-                                        FocusScope.of(context)
-                                            .requestFocus(receivedByFocusNode);
+                                        // FocusScope.of(context)
+                                        //     .requestFocus(receivedByFocusNode);
                                       },
                                       // orgName: 'EMPLOYEE_DEPARTMENTS',
                                       // createEntity: false,
@@ -298,8 +288,6 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               isEnable: true,
                               isDisableColor: false,
                               onChange: (String value) {
-                                log('--value---$value');
-
                                 state.model.title = value;
 
                                 context
@@ -326,7 +314,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                     height: 70,
                                     isDisableColor: isReadOnly,
                                     onTap: () {
-                                      if (!isReadOnly) {
+                                      // if (!isReadOnly) {
                                         BaseOrganisationDialog().userDialog(
                                           context: context,
                                           users: state.assignee,
@@ -361,24 +349,13 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                           //       .refreshList();
                                           // },
                                         );
-                                      }
+                                      // }
                                     }),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
                               ],
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            // /// Start Date
-                            // CommonWidgets.textDisplay(
-                            //   Constants.startDate,
-                            //   Styles.textStyleBlack14,
-                            //   isMandatory: true,
-                            // ),
-                            // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            // datecreateWidgetdisplay(
-                            //     state.model.startDate ?? ''),
-                            // CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Start Date
                             CommonWidgets.textDisplay(
@@ -439,7 +416,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               height: 70,
                               isDisableColor: isReadOnly,
                               onTap: () {
-                                if (!isReadOnly) {
+                                // if (!isReadOnly) {
                                   FocusScope.of(context)
                                       .requestFocus(FocusNode());
 
@@ -455,8 +432,8 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                                 context)
                                             .updateDropdownValues(
                                                 trackers: department);
-                                        FocusScope.of(context)
-                                            .requestFocus(receivedByFocusNode);
+                                        // FocusScope.of(context)
+                                        //     .requestFocus(receivedByFocusNode);
                                       },
                                       // orgName: 'EMPLOYEE_DEPARTMENTS',
                                       // createEntity: false,
@@ -470,56 +447,10 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                       // }
                                       );
                                   // leodepartmentsDialog(stat
-                                }
+                                // }
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            // /// Description
-                            // CommonWidgets.textDisplay(
-                            //     Constants.description, Styles.textStyleBlack14),
-                            // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            // FlutterInputField(
-                            //   showBorder: true,
-                            //   lineHeight: 6,
-                            //   characterLimit:
-                            //       Constants.characterLimitDescTextFormField,
-                            //   controller: additionalInformationTextController,
-                            //   textFormKey:
-                            //       Keys.additionalinformationTextController,
-                            //   hintText: Constants.informationhere,
-                            //   isEnable: (widget.model?.status == 0 ||
-                            //               widget.model == null) &&
-                            //           state.model.lock.isEmptyOrNull
-                            //       ? true
-                            //       : false,
-                            //   isDisableColor: (widget.model?.status == 0 ||
-                            //               widget.model == null) &&
-                            //           state.model.lock.isEmptyOrNull
-                            //       ? false
-                            //       : true,
-                            //   onChange: (String username) {
-                            //     // additionalinformationTextController.text += '\n';
-                            //     setState(() {});
-                            //   },
-                            //   validateTextField: (String? user) {},
-                            //   onFieldSubmitted: (String value) {
-                            //     additionalInformationTextController.value =
-                            //         TextEditingValue(
-                            //       text:
-                            //           '${additionalInformationTextController.text}\n',
-                            //       selection: TextSelection.collapsed(
-                            //         offset: additionalInformationTextController
-                            //                 .text.length +
-                            //             1,
-                            //       ),
-                            //     );
-                            //     FocusScope.of(context)
-                            //         .requestFocus(quantityFocusNode);
-                            //   },
-                            // ),
-                            // CommonWidgets.verticalSpacerWidget(height * 0.02),
-
 
                             /// Description
                             CommonWidgets.textDisplay(
@@ -642,19 +573,6 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
     );
   }
 
-  String getStatusString(int status) {
-    switch (status) {
-      case -1:
-        return 'Cancelled';
-      case 0:
-        return 'Created';
-      case 1:
-        return 'Submitted';
-      default:
-        return '';
-    }
-  }
-
   Widget cancelButtonDisplay() {
     return AppButton(
       width: Constants.cancelButtonWidth,
@@ -669,50 +587,6 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
     );
   }
 
-  // Widget cancelButtonDisplay(VVIPVisitorDetailsState state) {
-  //   bool condition = widget.model?.id == null ||
-  //       widget.model?.status == ConstantsIntValue.cancelledStatus ||
-  //       widget.model?.status == 1 ||
-  //       !state.model.lock.isEmptyOrNull;
-  //   return AppButton(
-  //     width: Constants.cancelButtonWidth,
-  //     backgroundColor: Colors.white,
-  //     key: const Key(Keys.cancelButton),
-  //     buttonText: condition ? Constants.close : Constants.cancelRecord,
-  //     buttonTextKey: Keys.cancelButton,
-  //     onTap: () {
-  //       if (condition) {
-  //         Navigator.pop(context);
-  //         return;
-  //       }
-  //       var dialog = CustomAlertDialog(
-  //           title: Constants.cancelRecord,
-  //           message: Constants.cancelRecordWarningMessage,
-  //           onPositivePressed: () {
-  //             Navigator.pop(context);
-  //             Navigator.pop(context);
-  //             updateRecordStatus(state);
-  //           },
-  //           positiveBtnText: Constants.yes,
-  //           negativeBtnText: Constants.no);
-  //       showDialog(context: context, builder: (BuildContext context) => dialog);
-  //     },
-  //   );
-  // }
-
-  // void updateRecordStatus(VVIPVisitorDetailsState state) {
-  //   if (state.model.id != null) {
-  //     BlocProvider.of<VVIPVisitorDetailsCubit>(context)
-  //         .updateStatus(id: state.model.id.toString());
-  //     Navigator.popAndPushNamed(
-  //       context,
-  //       vipVisitorsListRoute,
-  //     );
-  //   } else {
-  //     Navigator.pop(context);
-  //   }
-  // }
-
   Widget submitButtonDisplay() {
     return AppButton(
       width: 150,
@@ -724,43 +598,6 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
 
         BlocProvider.of<TicketingSystemDetailsCubit>(context).submitForm();
       },
-    );
-  }
-
-  Widget locationWidgetdislay(TicketingSystemDetailsState state) {
-    return GestureDetector(
-      onTap: () {
-        if ((state.model.status == 0 || state.model.status == null) &&
-            state.model.lock.isEmptyOrNull) {
-          showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) {
-              return CustomExpansionListTexts(
-                onTap: (Organisation? list) async {
-                  Organisation location = Organisation();
-                  location.id = list?.id;
-                  location.name = list?.name;
-
-                  BlocProvider.of<TicketingSystemDetailsCubit>(context)
-                      .updateDropdownValues(location: location);
-                },
-              );
-            },
-          );
-        }
-      },
-    );
-  }
-
-  Widget datecreateWidgetdisplay(String date) {
-    return FlutterInputField(
-      textFormKey: Keys.dateofcreationTextController,
-      initialValue: date,
-      hintText: '',
-      isEnable: false,
-      isDisableColor: true,
-      onChange: (String value) {},
-      validateTextField: (String? user) {},
     );
   }
 
