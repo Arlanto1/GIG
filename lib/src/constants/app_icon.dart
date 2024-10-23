@@ -129,5 +129,4 @@ class AppIcon {
   static const String incidentIcon = 'assets/images/incident.png';
   static const String ticketingSystemIcon = 'assets/images/ticketingSystem.png';
   static const String ticketsIcon = 'assets/images/tickets.png';
-
 }

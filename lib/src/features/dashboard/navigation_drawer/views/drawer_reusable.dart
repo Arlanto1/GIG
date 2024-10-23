@@ -808,7 +808,7 @@ class NavigationDrawer1 extends StatelessWidget {
 
     List<MenuItem> menuItems = [];
     menuItems
-        .add(const MenuItem(Constants.tickets, AppIcon.bug, 1));
+        .add(const MenuItem(Constants.tickets, AppIcon.ticketsIcon, 1));
 
     for (int i = 0; i < menuItems.length; i++) {
       MenuItem drawerItem = menuItems[i];
