@@ -12,6 +12,7 @@ class TicketingSystemDetailsState extends Equatable {
   final List<Organisation> projects;
   final List<Organisation> trackers;
   final List<BaseUser>? assignee;
+  final List<ImageContent>? uploadAttachments;
 
 
 
@@ -25,6 +26,8 @@ class TicketingSystemDetailsState extends Equatable {
     required final List<Organisation> projects,
     required final List<Organisation> trackers,
     List<BaseUser>? assignee,
+    List<ImageContent>? uploadAttachments,
+
 
   }) {
     return TicketingSystemDetailsState(
@@ -38,6 +41,8 @@ class TicketingSystemDetailsState extends Equatable {
       projects: projects,
       trackers: trackers,
         assignee:assignee,
+      uploadAttachments: uploadAttachments,
+
     );
   }
 
@@ -95,6 +100,8 @@ class TicketingSystemDetailsState extends Equatable {
     required this.projects,
     required this.trackers,
     this.assignee,
+    this.uploadAttachments,
+
   });
 
   TicketingSystemDetailsState copyWith({
@@ -108,6 +115,8 @@ class TicketingSystemDetailsState extends Equatable {
     List<ImageContent>? attachments,
     List<Organisation>? projects,
     List<Organisation>? trackers,
+    List<ImageContent>? uploadAttachments,
+
   }) {
     return TicketingSystemDetailsState(
       status: status ?? this.status,
@@ -120,6 +129,7 @@ class TicketingSystemDetailsState extends Equatable {
       priorities: priorities ?? this.priorities,
       attachments: attachments ?? this.attachments,
       trackers: trackers ?? this.trackers,
+      uploadAttachments: uploadAttachments ?? this.uploadAttachments,
     );
   }
 }

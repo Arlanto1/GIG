@@ -26,7 +26,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
   User? userDetails;
   bool isReadOnly = false;
   bool showSaveSubmitButton = false;
-  List<ImageContent> getFiles = [];
+  List<ImageContent> uploadFiles = [];
   List<ImageContent> getAttachments = [];
 
   TextEditingController dueDateTextController = TextEditingController();
@@ -135,6 +135,17 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
     initializeDates(state);
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
+    }
+
+    log('uploadFiles ${uploadFiles}');
+    log('image ${state.attachments}');
+
+
+    if (state.status == FormStatus.addAttachment ||
+        state.status == FormStatus.initial) {
+      uploadFiles = state.uploadAttachments ?? [];
+      log('upload ${state.uploadAttachments}');
+
     }
 
     return Container(
@@ -528,39 +539,39 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                             //     : Container(),
                             // AbsorbPointer(
                             BaseImageUpload().uploadWidget(
-                              isDisabled: false,
                               context: context,
+                              // isDisabled: disableForm,
                               loggedInUserDetails:
-                                  state.loggedInUserDetails ?? User(),
-                              getFiles: getFiles,
+                              state.loggedInUserDetails ?? User(),
+                              getFiles: uploadFiles,
                               onImageSelected: (ImageContent data) {
-                                log('-------function---onImageSelected---------');
                                 List<ImageContent>? files = [];
-                                getFiles = [data];
                                 files.add(data);
-                                for (ImageContent image in getFiles ?? []) {
+                                for (ImageContent image
+                                in uploadFiles) {
                                   files.add(image);
                                 }
-                                BlocProvider.of<TicketingSystemDetailsCubit>(
-                                        context)
+                                BlocProvider.of<
+                                    TicketingSystemDetailsCubit>(
+                                    context)
                                     .addAttachment(
                                   data: files,
-                                  attachment: getFiles,
+                                  images: files,
                                 );
                               },
                             ),
                             // ),
-
-                            /// Attachments
-                            BaseImageUpload().getAttachment(
-                              height: height,
-                              attachments: state.attachments,
-                              files: getFiles,
-                              showDeleteIcon: true,
-                              moduleCode: '',
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-                            // ],
+                      /// Attachments
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: BaseImageUpload().getAttachment(
+                          height: height,
+                          attachments:  state.uploadAttachments,
+                          files: uploadFiles,
+                          moduleCode:'',
+                          // isDisabled: disableForm,
+                        ),
+                      ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ],

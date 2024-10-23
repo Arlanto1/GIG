@@ -206,9 +206,10 @@ log('StartDate ${state.model.startDate}');
         id: id, module: Constants.vipVisitorsDetailsModule);
   }
 
-  void addAttachment(
-      {List<ImageContent>? data, List<ImageContent>? attachment}) async {
-    log('--state.status-1---${state.status}----');
+  void addAttachment({
+    List<ImageContent>? data,
+    List<ImageContent>? images,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -217,16 +218,27 @@ log('StartDate ${state.model.startDate}');
     int eventIds = math.Random.secure().nextInt(5);
     if (data != null) {
       // for (ImageContent image in data) {
-      //   image.type = 0;
+      //   image.type = 1;
       // }
+      // log('--data----${data.length}----');
+
       state.model.attachments = data;
       emit(
         state.copyWith(
+          // eventId: eventIds,
           model: state.model,
-          attachments: data,
+          uploadAttachments: data,
           status: FormStatus.initial,
         ),
       );
     }
+
+    emit(
+      state.copyWith(
+        // eventId: eventIds,
+        model: state.model,
+        status: FormStatus.initial,
+      ),
+    );
   }
 }
