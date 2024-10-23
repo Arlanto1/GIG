@@ -3117,10 +3117,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           return CustomListTexts(
             duplicatedayPassReason:
                 state.dayPassReason?.dayPassReasonElement ?? [],
-            leftImageName: widget.passId == ConstantsIntValue.passIdDayPass ||
-                    widget.passId == ConstantsIntValue.passIdVendor
-                ? AppIcon.addicon
-                : null,
+            // leftImageName: widget.passId == ConstantsIntValue.passIdDayPass ||
+            //         widget.passId == ConstantsIntValue.passIdVendor
+            //     ? AppIcon.addicon
+            //     : null,
             onLeftButtonTap: () {
               if (widget.passId == ConstantsIntValue.passIdDayPass ||
                   widget.passId == ConstantsIntValue.passIdVendor) {
@@ -3175,9 +3175,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           return CustomListTexts(
             duplicatedayPassReason:
                 state.vendorPassReason?.vendorPassReason ?? [],
-            leftImageName: widget.passId == ConstantsIntValue.passIdVendor
-                ? AppIcon.addicon
-                : null,
+            // leftImageName: widget.passId == ConstantsIntValue.passIdVendor
+            //     ? AppIcon.addicon
+            //     : null,
             onLeftButtonTap: () {
               if (widget.passId == ConstantsIntValue.passIdVendor) {
                 Navigator.pop(context);
