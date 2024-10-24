@@ -986,6 +986,7 @@ class Constants {
   static const String tracker = 'Tracker';
   static const String description = 'Description';
   static const String history = 'History';
+  static const String notes = 'Notes';
 
 
 }

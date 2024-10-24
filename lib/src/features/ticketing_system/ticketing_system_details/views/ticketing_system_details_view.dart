@@ -140,12 +140,10 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
     log('uploadFiles ${uploadFiles}');
     log('image ${state.uploadAttachments}');
 
-
     if (state.status == FormStatus.addAttachment ||
         state.status == FormStatus.initial) {
       uploadFiles = state.uploadAttachments ?? [];
-      log('upload ${state.uploadAttachments??[]}');
-
+      log('upload ${state.uploadAttachments ?? []}');
     }
 
     return Container(
@@ -501,34 +499,63 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// History
-                            CommonWidgets.textDisplay(
-                                // state.labels?.locale.detailDes ??
-                                //     state.labels?.defaultLocale.detailDes ??
-                                Constants.history,
-                                isMandatory: true,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              lineHeight: 6,
-                              characterLimit:
-                                  Constants.characterLimitDescTextFormField,
-                              initialValue: state.model.history,
-                              showBorder: true,
-                              textFormKey: Keys.incidentDescription,
-                              hintText: Constants.informationhere,
-                              // isEnable: state.model.status != 2,
-                              // isDisableColor:
-                              // state.model.status == 2 || disableForm,
-                              onChange: (String value) {
-                                state.model.history = value;
-                                context
-                                    .read<TicketingSystemDetailsCubit>()
-                                    .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            if (state.model.id != null) ...[
+                              /// History
+                              CommonWidgets.textDisplay(
+                                  // state.labels?.locale.detailDes ??
+                                  //     state.labels?.defaultLocale.detailDes ??
+                                  Constants.history,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                lineHeight: 6,
+                                characterLimit:
+                                    Constants.characterLimitDescTextFormField,
+                                initialValue: state.model.history,
+                                showBorder: true,
+                                textFormKey: Keys.incidentDescription,
+                                hintText: Constants.informationhere,
+                                isEnable: false,
+                                isDisableColor: true,
+                                onChange: (String value) {
+                                  // state.model.history = value;
+                                  // context
+                                  //     .read<TicketingSystemDetailsCubit>()
+                                  //     .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Notes
+                              CommonWidgets.textDisplay(
+                                  Constants.notes,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                lineHeight: 6,
+                                characterLimit:
+                                    Constants.characterLimitDescTextFormField,
+                                // initialValue: state.model.history,
+                                showBorder: true,
+                                textFormKey: Keys.incidentDescription,
+                                hintText: Constants.informationhere,
+                                isEnable: state.model.status != 9,
+                                isDisableColor: state.model.status == 9,
+                                onChange: (String value) {
+                                  state.model.history = value;
+                                  context
+                                      .read<TicketingSystemDetailsCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
 
                             /// upload
                             CommonWidgets.textDisplay(
@@ -542,18 +569,16 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               context: context,
                               // isDisabled: disableForm,
                               loggedInUserDetails:
-                              state.loggedInUserDetails ?? User(),
+                                  state.loggedInUserDetails ?? User(),
                               getFiles: uploadFiles,
                               onImageSelected: (ImageContent data) {
                                 List<ImageContent>? files = [];
                                 files.add(data);
-                                for (ImageContent image
-                                in uploadFiles) {
+                                for (ImageContent image in uploadFiles) {
                                   files.add(image);
                                 }
-                                BlocProvider.of<
-                                    TicketingSystemDetailsCubit>(
-                                    context)
+                                BlocProvider.of<TicketingSystemDetailsCubit>(
+                                        context)
                                     .addAttachment(
                                   data: files,
                                   images: files,
@@ -561,17 +586,18 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               },
                             ),
                             // ),
-                      /// Attachments
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: BaseImageUpload().getAttachment(
-                          height: height,
-                          attachments:  state.uploadAttachments,
-                          files: uploadFiles,
-                          moduleCode:'',
-                          // isDisabled: disableForm,
-                        ),
-                      ),
+                            /// Attachments
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: BaseImageUpload().getAttachment(
+                                height: height,
+                                attachments: state.uploadAttachments,
+                                files: uploadFiles,
+                                moduleCode: '',
+                                // isDisabled: disableForm,
+                              ),
+                            ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ],
