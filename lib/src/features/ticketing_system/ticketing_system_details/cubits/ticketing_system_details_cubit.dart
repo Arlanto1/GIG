@@ -34,6 +34,7 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
             attachments: const [],
             projects: const [],
             trackers: const [],
+            eventId: null,
           ),
         );
 
@@ -225,7 +226,7 @@ log('StartDate ${state.model.startDate}');
       state.model.attachments = data;
       emit(
         state.copyWith(
-          // eventId: eventIds,
+          eventId: eventIds,
           model: state.model,
           uploadAttachments: data,
           status: FormStatus.initial,
@@ -235,7 +236,7 @@ log('StartDate ${state.model.startDate}');
 
     emit(
       state.copyWith(
-        // eventId: eventIds,
+        eventId: eventIds,
         model: state.model,
         status: FormStatus.initial,
       ),

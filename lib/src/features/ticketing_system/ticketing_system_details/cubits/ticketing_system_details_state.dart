@@ -13,6 +13,7 @@ class TicketingSystemDetailsState extends Equatable {
   final List<Organisation> trackers;
   final List<BaseUser>? assignee;
   final List<ImageContent>? uploadAttachments;
+  final int? eventId;
 
 
 
@@ -27,6 +28,7 @@ class TicketingSystemDetailsState extends Equatable {
     required final List<Organisation> trackers,
     List<BaseUser>? assignee,
     List<ImageContent>? uploadAttachments,
+    required int? eventId,
 
 
   }) {
@@ -42,6 +44,7 @@ class TicketingSystemDetailsState extends Equatable {
       trackers: trackers,
         assignee:assignee,
       uploadAttachments: uploadAttachments,
+      eventId: eventId,
 
     );
   }
@@ -101,6 +104,7 @@ class TicketingSystemDetailsState extends Equatable {
     required this.trackers,
     this.assignee,
     this.uploadAttachments,
+    this.eventId,
 
   });
 
@@ -116,6 +120,7 @@ class TicketingSystemDetailsState extends Equatable {
     List<Organisation>? projects,
     List<Organisation>? trackers,
     List<ImageContent>? uploadAttachments,
+    int? eventId,
 
   }) {
     return TicketingSystemDetailsState(
@@ -130,6 +135,8 @@ class TicketingSystemDetailsState extends Equatable {
       attachments: attachments ?? this.attachments,
       trackers: trackers ?? this.trackers,
       uploadAttachments: uploadAttachments ?? this.uploadAttachments,
+      eventId: eventId ?? this.eventId,
+
     );
   }
 }

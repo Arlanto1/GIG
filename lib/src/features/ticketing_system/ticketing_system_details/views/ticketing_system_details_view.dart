@@ -138,13 +138,13 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
     }
 
     log('uploadFiles ${uploadFiles}');
-    log('image ${state.attachments}');
+    log('image ${state.uploadAttachments}');
 
 
     if (state.status == FormStatus.addAttachment ||
         state.status == FormStatus.initial) {
       uploadFiles = state.uploadAttachments ?? [];
-      log('upload ${state.uploadAttachments}');
+      log('upload ${state.uploadAttachments??[]}');
 
     }
 
