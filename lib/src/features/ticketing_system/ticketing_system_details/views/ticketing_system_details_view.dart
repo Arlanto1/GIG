@@ -137,6 +137,13 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
       return const BaseLoader();
     }
 
+
+    if (state.status == FormStatus.addAttachment ||
+        state.status == FormStatus.initial) {
+      // uploadFiles = state.uploadAttachments;
+      uploadFiles = state.uploadAttachments ?? [];
+    }
+
     log('uploadFiles ${uploadFiles}');
     log('image ${state.uploadAttachments}');
 
@@ -544,8 +551,9 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                 showBorder: true,
                                 textFormKey: Keys.incidentDescription,
                                 hintText: Constants.informationhere,
-                                isEnable: state.model.status != 9,
-                                isDisableColor: state.model.status == 9,
+                                isEnable:
+                                    state.model.status != 9 ? false : true,
+                                isDisableColor: false,
                                 onChange: (String value) {
                                   state.model.history = value;
                                   context

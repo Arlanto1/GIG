@@ -8,14 +8,11 @@ class TicketingSystemDetailsState extends Equatable {
   final String? message;
   final SlaUiLabels? labels;
   final List<Organisation> priorities;
-  final List<ImageContent>? attachments;
   final List<Organisation> projects;
   final List<Organisation> trackers;
   final List<BaseUser>? assignee;
-  final List<ImageContent>? uploadAttachments;
   final int? eventId;
-
-
+  final List<ImageContent>? uploadAttachments;
 
   factory TicketingSystemDetailsState.initial({
     required TicketingSystemModel model,
@@ -23,14 +20,11 @@ class TicketingSystemDetailsState extends Equatable {
     required List<BaseUser>? users,
     required String errorMessage,
     required List<Organisation> priorities,
-    required List<ImageContent> attachments,
     required final List<Organisation> projects,
     required final List<Organisation> trackers,
     List<BaseUser>? assignee,
-    List<ImageContent>? uploadAttachments,
     required int? eventId,
-
-
+    List<ImageContent>? uploadAttachments,
   }) {
     return TicketingSystemDetailsState(
       status: FormStatus.initial,
@@ -39,13 +33,11 @@ class TicketingSystemDetailsState extends Equatable {
       users: users,
       message: errorMessage,
       priorities: priorities,
-      attachments: attachments,
       projects: projects,
       trackers: trackers,
-        assignee:assignee,
-      uploadAttachments: uploadAttachments,
+      assignee: assignee,
       eventId: eventId,
-
+      uploadAttachments: uploadAttachments,
     );
   }
 
@@ -74,6 +66,17 @@ class TicketingSystemDetailsState extends Equatable {
           status: false, message: 'Description cannot be blank');
     }
 
+    if (model.dueDate != null && model.startDate != null) {
+      final dueDate = DateTime.parse(model.dueDate!);
+      final startDate = DateTime.parse(model.startDate!);
+
+      if (dueDate.isBefore(startDate) || dueDate.isAtSameMomentAs(startDate)) {
+        return const ErrorResponse(
+            status: false,
+            message: 'Due Date should be greater than Start Date');
+      }
+    }
+
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -99,13 +102,11 @@ class TicketingSystemDetailsState extends Equatable {
     this.message,
     this.labels,
     required this.priorities,
-    required this.attachments,
     required this.projects,
     required this.trackers,
     this.assignee,
-    this.uploadAttachments,
     this.eventId,
-
+    this.uploadAttachments,
   });
 
   TicketingSystemDetailsState copyWith({
@@ -116,12 +117,10 @@ class TicketingSystemDetailsState extends Equatable {
     String? message,
     SlaUiLabels? labels,
     List<Organisation>? priorities,
-    List<ImageContent>? attachments,
     List<Organisation>? projects,
     List<Organisation>? trackers,
-    List<ImageContent>? uploadAttachments,
     int? eventId,
-
+    List<ImageContent>? uploadAttachments,
   }) {
     return TicketingSystemDetailsState(
       status: status ?? this.status,
@@ -132,11 +131,9 @@ class TicketingSystemDetailsState extends Equatable {
       message: message ?? this.message,
       labels: labels ?? this.labels,
       priorities: priorities ?? this.priorities,
-      attachments: attachments ?? this.attachments,
       trackers: trackers ?? this.trackers,
-      uploadAttachments: uploadAttachments ?? this.uploadAttachments,
       eventId: eventId ?? this.eventId,
-
+      uploadAttachments: uploadAttachments ?? this.uploadAttachments,
     );
   }
 }

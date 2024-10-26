@@ -31,7 +31,6 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
             users: const [],
             errorMessage: '',
             priorities: const [],
-            attachments: const [],
             projects: const [],
             trackers: const [],
             eventId: null,
@@ -207,6 +206,7 @@ log('StartDate ${state.model.startDate}');
         id: id, module: Constants.vipVisitorsDetailsModule);
   }
 
+
   void addAttachment({
     List<ImageContent>? data,
     List<ImageContent>? images,
@@ -218,10 +218,10 @@ log('StartDate ${state.model.startDate}');
     );
     int eventIds = math.Random.secure().nextInt(5);
     if (data != null) {
-      // for (ImageContent image in data) {
-      //   image.type = 1;
-      // }
-      // log('--data----${data.length}----');
+      for (ImageContent image in data) {
+        image.type = 1;
+      }
+      log('--data----${data.length}----');
 
       state.model.attachments = data;
       emit(
@@ -241,5 +241,8 @@ log('StartDate ${state.model.startDate}');
         status: FormStatus.initial,
       ),
     );
+
+    log('--state.status--3--${state.status}----');
   }
+
 }

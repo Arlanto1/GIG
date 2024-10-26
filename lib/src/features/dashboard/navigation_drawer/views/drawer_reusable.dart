@@ -98,9 +98,6 @@ class NavigationDrawer1 extends StatelessWidget {
           .add(const MenuItem(vVipVisitorsTitle, AppIcon.vvipVisitorIcon, 0));
     }
 
-    expansionTileDrawerItems
-        .add(const MenuItem(ticketingSystemsTitle, AppIcon.vvipVisitorIcon, 0));
-
     return expansionTileDrawerItems;
   }
 
