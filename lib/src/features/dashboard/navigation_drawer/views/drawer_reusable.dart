@@ -656,6 +656,7 @@ class NavigationDrawer1 extends StatelessWidget {
                               .read<DrawerCubit>()
                               .getSecurityIndexChange(10);
                         }
+
                       },
                       trailing: const Icon(Icons.arrow_drop_down_rounded),
                       // trailing: const SizedBox.shrink(),
@@ -1189,7 +1190,7 @@ class NavigationDrawer1 extends StatelessWidget {
     BuildContext context,
   ) async {
     //Navigator.pop(context)
-    if (index != 4) {
+    if (index != 5) {
       // _menuScaffoldKey.currentState!.closeDrawer();
     }
     _lastSelectedItem = index;
@@ -1206,14 +1207,12 @@ class NavigationDrawer1 extends StatelessWidget {
     if (index == 0) {
     } else if (index == 1) {
       // _logout(context);
-    } else if (index == 2) {
+    } else if (index == 3) {
       Navigator.pushNamed(
         context,
         resetPwdScreenRoute,
         arguments: {'viaNavigationDrawer': true},
       );
-    } else if (index == 3) {
-      // _logout(context);
     } else if (index == 4) {}
   }
 
