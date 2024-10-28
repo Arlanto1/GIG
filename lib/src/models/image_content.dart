@@ -8,6 +8,7 @@ class ImageContent {
   String? title;
   int? fileSize;
   String? imageContent;
+  String? contentURL;
 
   ImageContent({
     this.id,
@@ -19,6 +20,7 @@ class ImageContent {
     this.fileSize,
     this.type,
     this.imageContent,
+    this.contentURL,
   });
 
   factory ImageContent.fromJson(Map<String, dynamic> json) => ImageContent(
@@ -31,6 +33,7 @@ class ImageContent {
         type: json["type"],
         fileSize: json["fileSize"],
         imageContent: json["imageContent"],
+        contentURL: json["contentURL"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -43,5 +46,6 @@ class ImageContent {
         "type": type,
         "fileSize": fileSize,
         "imageContent": imageContent,
+        "contentURL": contentURL,
       };
 }

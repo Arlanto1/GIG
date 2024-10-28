@@ -27,9 +27,14 @@ TicketingSystemModel _$TicketingSystemModelFromJson(
           : Organisation.fromJson(json['priority'] as Map<String, dynamic>),
       createdOn: json['createdOn'] as String?,
       startDate: json['startDate'] as String?,
+      dueDate: json['dueDate'] as String?,
       updatedOn: json['updatedOn'] as String?,
       status: (json['status'] as num?)?.toInt(),
       description: json['description'] as String?,
+      attachments: (json['attachments'] as List<dynamic>?)
+          ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      history: json['history'] as String?,
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$TicketingSystemModelToJson(
@@ -46,7 +51,10 @@ Map<String, dynamic> _$TicketingSystemModelToJson(
       'priority': instance.priority,
       'createdOn': instance.createdOn,
       'startDate': instance.startDate,
+      'dueDate': instance.dueDate,
       'updatedOn': instance.updatedOn,
       'status': instance.status,
       'description': instance.description,
+      'history': instance.history,
+      'attachments': instance.attachments,
     };

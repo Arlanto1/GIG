@@ -159,6 +159,8 @@ class Constants {
   static const String copyrightText = "Copyright © 2024 Arlanto.";
   static const String submit = "Submit";
 
+  static const String ticketingSystem = "Ticketing System";
+
   static const String locationPermissionError =
       'Please enable location services!';
 
@@ -218,7 +220,7 @@ class Constants {
       'Create Outward Material Movement';
   static const String materialMovementOutwardEdit =
       'Edit Outward Material Movement';
-  static const String ticketingSystem = 'Ticketing System';
+  // static const String ticketingSystem = 'Ticketing System';
   static const String dayPassManagement = 'Day Pass Management';
   static const String daypassregister = 'Day Pass Register';
   static const String visitorpassmgmt = 'Visitor Pass Management';
@@ -256,6 +258,7 @@ class Constants {
   static const String createOn = 'Create On';
   static const String assetype = 'Asset Type';
   static const String founddate = 'Found Date';
+  static const String duedate = 'Due Date';
   static const String articlename = 'Article Name';
   static const String handedoverdate = 'Handed over Date';
   static const String isdepositordbemployee = 'Is Depositor DB Employee';
@@ -925,6 +928,7 @@ class Constants {
   static const String baseLocationOfVisitors = 'Base Location of Visitor';
   static const String startDateVisit = 'Start Date of Visit';
   static const String endDateVisit = 'End Date of Visit';
+  static const String startDate = 'Start Date';
 
   /// Ticket Life Cycle
   static const String sentReminder = 'Reminder Sent';
@@ -979,6 +983,10 @@ class Constants {
   static const String priority = 'Priority';
   static const String title = 'Title';
   static const String project = 'Project';
+  static const String tracker = 'Tracker';
+  static const String description = 'Description';
+  static const String history = 'History';
+  static const String notes = 'Notes';
 
 
 }

@@ -76,6 +76,10 @@ import 'package:db_atom/src/features/passmanagement/pass_management_list/views/p
 import 'package:db_atom/src/features/security_systems/services/sst_incident_services.dart';
 import 'package:db_atom/src/features/security_systems/sst_incident_list/bloc/sst_incident_bloc.dart'
     as sv;
+import 'package:db_atom/src/features/ticketing_system/models/ticketing_system_model.dart';
+import 'package:db_atom/src/features/ticketing_system/services/ticketing_system_services.dart';
+import 'package:db_atom/src/features/ticketing_system/ticketing_system_details/cubits/ticketing_system_details_cubit.dart';
+import 'package:db_atom/src/features/ticketing_system/ticketing_system_details/views/ticketing_system_details_view.dart';
 import 'package:db_atom/src/features/ticketing_system/ticketing_systems/bloc/ticketing_system_bloc.dart';
 import 'package:db_atom/src/features/ticketing_system/ticketing_systems/views/ticketing_system_view.dart';
 
@@ -551,6 +555,26 @@ class RouteGenerator {
             ),
           ),
         );
+
+      // case ticketingSystemDetailsRoute:
+      // String id = '';
+      // ExtraProperties? extraProperties;
+      // if (settings.arguments != null) {
+      //   Map<String, dynamic> arguments =
+      //       settings.arguments as Map<String, dynamic>;
+      //   id = arguments['id'] ?? '';
+      //   extraProperties = arguments[ConstantsArgument.extraProperties];
+      // }
+      //
+      // return MaterialPageRoute(
+      //   builder: (context) => BlocProvider<TicketingSystemDetailsCubit>(
+      //     create: (_) => TicketingSystemDetailsCubit(
+      //       services: TicketingSystemServices(),
+      //       commonServices: CommonServices(),
+      //     ),
+      //     child: const TicketingSystemDetailsView(),
+      //   ),
+      // );
       case shiftOccurrenceRoute:
         return MaterialPageRoute(
           builder: (context) => BlocProvider<ocb.OccurrencesBloc>(
@@ -1758,18 +1782,60 @@ class RouteGenerator {
           ),
         );
 
+      // case ticketingSystemDetailsRoute:
+      //   // ExtraProperties? extraProperties;
+      //   if (settings.arguments != null) {
+      //     Map<String, dynamic> arguments =
+      //         settings.arguments as Map<String, dynamic>;
+      //     // extraProperties = arguments[ConstantsArgument.extraProperties];
+      //   }
+      //
+      //   return MaterialPageRoute(
+      //     builder: (context) => BlocProvider<TicketingSystemDetailsCubit>(
+      //       create: (_) => TicketingSystemDetailsCubit(
+      //         services: TicketingSystemServices(),
+      //         commonServices: CommonServices(),
+      //       ),
+      //       child: const TicketingSystemDetailsView(),
+      //     ),
+      //   );
 
       case ticketingSystemListRoute:
         return MaterialPageRoute(
             builder: (context) => BlocProvider<TicketingSystemBloc>(
-              create: (_) => TicketingSystemBloc()
-                ..add(FetchTicketingSystemData(
-                    startPos: 0,
-                    maxPos: Constants.maxResults,
-                    newSearch: true,
-                    filters: BaseFilterModel())),
-              child: const TicketingSystemView(),
-            ));
+                  create: (_) => TicketingSystemBloc()
+                    ..add(FetchTicketingSystemData(
+                        startPos: 0,
+                        maxPos: Constants.maxResults,
+                        newSearch: true,
+                        filters: BaseFilterModel())),
+                  child: const TicketingSystemView(),
+                ));
+
+      case ticketingSystemDetailsRoute:
+        TicketingSystemServices services = TicketingSystemServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        ExtraProperties? extraProperties;
+        Map<String, dynamic> arguments =
+            settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        TicketingSystemModel? ticketingSystemModel = arguments["redmineIssue"];
+        extraProperties = arguments[ConstantsArgument.extraProperties];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<TicketingSystemDetailsCubit>(
+            create: (_) => TicketingSystemDetailsCubit(
+              services: services,
+              model: ticketingSystemModel,
+              commonServices: commonServices,
+            ),
+            child: TicketingSystemDetailsView(
+              model: ticketingSystemModel,
+              title: title,
+              // extraProperties: extraProperties,
+            ),
+          ),
+        );
 
       default:
         log('--default---${settings.name}-');

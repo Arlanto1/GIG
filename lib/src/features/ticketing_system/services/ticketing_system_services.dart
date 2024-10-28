@@ -1,16 +1,25 @@
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/ticketing_system/models/assignee_model.dart';
+import 'package:db_atom/src/features/ticketing_system/models/priority_model.dart';
+import 'package:db_atom/src/features/ticketing_system/models/projects_model.dart';
 import 'package:db_atom/src/features/ticketing_system/models/requestModel/ticketing_system_request_model.dart';
 import 'package:db_atom/src/features/ticketing_system/models/ticketing_system_list_model.dart';
 import 'package:db_atom/src/features/ticketing_system/models/ticketing_system_model.dart';
+import 'package:db_atom/src/features/ticketing_system/models/trackers_model.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
-  static final String _getTicketingSystemList = '$baseUrl/getRedmineIssuesList?';
+  static final String _getTicketingSystemList =
+      '$baseUrl/getRedmineIssuesList?';
 
   static final String _getTicketingSystemById = '$baseUrl/getIssueById';
 
   static final String _createTicketingSystem = '$baseUrl/createIssue';
+  static final String _getTrackers = '$baseUrl/getTrackerList';
+  static final String _getProjects = '$baseUrl/getProjectList';
+  static final String _getPriority = '$baseUrl/getPriorityList';
+  static final String _getAssignee = '$baseUrl/getAssigneeList';
 }
 
 class TicketingSystemServices {
@@ -20,8 +29,7 @@ class TicketingSystemServices {
     required BaseFilterModel filters,
   }) async {
     String url =
-        '${Apis
-        ._getTicketingSystemList}&startPos=$startPosition&maxResults=$maximumRecords';
+        '${Apis._getTicketingSystemList}&startPos=$startPosition&maxResults=$maximumRecords';
     var response = await BaseApiService().postRequest(
       requestedData: filters.toJson(),
       isAuthenticated: true,
@@ -49,5 +57,40 @@ class TicketingSystemServices {
       requestedData: body.toJson(),
     );
     return GenericResponse.fromJson(response);
+  }
+
+
+  Future<Projects> getProjects() async {
+    String url = Apis._getProjects;
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return Projects.fromJson(response);
+  }
+
+  Future<Priorities> getPriorities() async {
+    String url = Apis._getPriority;
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return Priorities.fromJson(response);
+  }
+
+  Future<Trackers> getTrackers() async {
+    String url = Apis._getTrackers;
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return Trackers.fromJson(response);
+  }
+
+
+  Future<Assignee> getAssignee() async {
+    String url = Apis._getAssignee;
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return Assignee.fromJson(response);
   }
 }
