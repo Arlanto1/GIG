@@ -141,17 +141,17 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
     if (state.status == FormStatus.addAttachment ||
         state.status == FormStatus.initial) {
       // uploadFiles = state.uploadAttachments;
-      uploadFiles = state.uploadAttachments ?? [];
+      uploadFiles = state.model.attachments ?? [];
     }
 
     log('uploadFiles ${uploadFiles}');
-    log('image ${state.uploadAttachments}');
+    log('image ${state.model.attachments}');
 
-    if (state.status == FormStatus.addAttachment ||
-        state.status == FormStatus.initial) {
-      uploadFiles = state.uploadAttachments ?? [];
-      log('upload ${state.uploadAttachments ?? []}');
-    }
+    // if (state.status == FormStatus.addAttachment ||
+    //     state.status == FormStatus.initial) {
+    //   uploadFiles = state.uploadAttachments ?? [];
+    //   log('upload ${state.uploadAttachments ?? []}');
+    // }
 
     return Container(
       color: AppColors.navigationSkyBlueColor,
@@ -600,7 +600,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                   const EdgeInsets.symmetric(horizontal: 20.0),
                               child: BaseImageUpload().getAttachment(
                                 height: height,
-                                attachments: state.uploadAttachments,
+                                attachments: state.model.attachments,
                                 files: uploadFiles,
                                 moduleCode: '',
                                 // isDisabled: disableForm,
