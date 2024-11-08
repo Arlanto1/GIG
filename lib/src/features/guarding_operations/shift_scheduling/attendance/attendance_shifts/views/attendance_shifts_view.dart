@@ -276,7 +276,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           MediaQuery.of(context).size.height * 0.01),
       buildTextWithLabel(
           'Attendance Status:',
-          Utils().buildAttendanceStatusRow(
+          Utils().buildAttendanceShiftStatusRow(
               status: state.model.attdStatus ?? 0, returnTextOnly: true)),
       OpacityAbsorbInkWellWidget(
         absorbing: isReadOnly,

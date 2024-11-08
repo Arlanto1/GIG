@@ -468,6 +468,39 @@ class Utils {
     );
   }
 
+  dynamic buildAttendanceShiftStatusRow(
+      {required int status, bool? returnTextOnly}) {
+    String statusText;
+
+    switch (status) {
+      case 0:
+        statusText = 'Draft';
+        break;
+      case 1:
+        statusText = 'Active';
+        break;
+      case 2:
+        statusText = 'Submitted';
+        break;
+      case 3:
+        statusText = 'Closed';
+        break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+    if (returnTextOnly ?? false) {
+      return statusText;
+    }
+    return Row(
+      children: [
+        textHandling('Status : ', statusText),
+      ],
+    );
+  }
+
   dynamic buildGuardRank({required int guardRank, bool? returnTextOnly}) {
     String guardRankText;
 
@@ -1585,10 +1618,8 @@ class Utils {
 
     log('STATUS: ${state.status}');
     if (state.status == FormStatus.error && context.mounted) {
-      UtilsCommon().logCustomEvent(
-        msg: state.message,
-        customKey: 'ERROR_AND_LOGOUT'
-      );
+      UtilsCommon()
+          .logCustomEvent(msg: state.message, customKey: 'ERROR_AND_LOGOUT');
       InactivityFunctions().logoutUser(navigatorKey);
       Validator().showToast(
         context,
