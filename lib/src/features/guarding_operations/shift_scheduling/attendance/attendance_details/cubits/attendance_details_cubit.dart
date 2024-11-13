@@ -164,7 +164,10 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
     ));
   }
 
-  void submitForm({bool isSaveOnly = false}) async {
+  Future<bool> submitForm({
+    bool isSaveOnly = false,
+    bool navigateToNextScreen = false,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -172,7 +175,7 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
     );
 
     if (state.model.status == 0 || state.model.status == null) {
-      state.model.status = 1;
+      state.model.status = 0;
     }
     // Setting time in milliseconds
     // state.model.inputDate =
@@ -190,6 +193,7 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
 
     GenericResponse response = GenericResponse();
     try {
+      GenericResponse response = GenericResponse();
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {
           emit(
@@ -198,10 +202,10 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
               message: state.isValidDraft.message,
             ),
           );
-          return;
+          return false;
         }
         response =
-            (await services.createAttendanceGi(body: request, isSubmit: false));
+        (await services.createAttendanceGi(body: request, isSubmit: false));
       } else {
         //Validating Fields
         if (!state.isValid.status) {
@@ -211,43 +215,58 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
               message: state.isValid.message,
             ),
           );
-          return;
+          return false;
         }
         response =
-            (await services.createAttendanceGi(body: request, isSubmit: true));
+        (await services.createAttendanceGi(body: request, isSubmit: true));
       }
+
+      log('---response--msg--${response.message}---');
+
+      if (response.id != null) {
+        int? id = int.tryParse(response.id!);
+        if (id != null) {
+          state.model.id = id;
+        }
+      }
+      emit(
+        state.copyWith(
+          model: state.model,
+          message: response.message,
+          status: navigateToNextScreen
+              ? FormStatus.navigateToNextScreen
+              : FormStatus.success,
+        ),
+      );
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'),
-              Constants.fulldateFormat);
+          int.tryParse(state.model.inputDate ?? '0'),
+          Constants.fulldateFormat);
+      return true;
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'),
-              Constants.fulldateFormat);
-      return;
+          int.tryParse(state.model.inputDate ?? '0'),
+          Constants.fulldateFormat);
+      return false;
     } on Exception catch (e) {
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.inputDate ?? '0'),
+          Constants.fulldateFormat);
       emit(
         state.copyWith(
           message: e.toString(),
           status: FormStatus.error,
         ),
       );
+      return false;
     }
-
-    log('---response--msg--${response.message}---');
-
-    emit(
-      state.copyWith(
-        message: response.message,
-        status: FormStatus.success,
-      ),
-    );
   }
-
   Future<void> navigateToNextScreen({
     required int dutyPostNameId,
     required DutyPostModel dutyPostModel,

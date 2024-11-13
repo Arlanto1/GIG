@@ -480,7 +480,7 @@ class Utils {
         statusText = 'Active';
         break;
       case 2:
-        statusText = 'Submitted';
+        statusText = 'Attendance Submitted';
         break;
       case 3:
         statusText = 'Closed';

@@ -439,16 +439,45 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
 
                     /// List of Duty Posts
                     DutyPostListWidget(
-                      dutyPosts: state.dutyPosts ?? [],
-                      onTap: (int? thisVariableIsOfNoUseDoNotDeleteThis,
-                          int? dutyPostNameId, DutyPostModel dutyPostModel) {
-                        BlocProvider.of<AttendanceDetailsCubit>(context)
-                            .navigateToNextScreen(
-                          dutyPostNameId: dutyPostNameId!,
-                          dutyPostModel: dutyPostModel,
-                        );
-                      },
-                    ),
+                        dutyPosts: state.dutyPosts ?? [],
+                        onTap: (int? thisVariableIsOfNoUseDoNotDeleteThis,
+                            int? dutyPostNameId,
+                            DutyPostModel dutyPostModel) async {
+                          bool isSaveSuccess =
+                              await BlocProvider.of<AttendanceDetailsCubit>(
+                                      context)
+                                  .submitForm(
+                                      isSaveOnly: true,
+                                      navigateToNextScreen: true);
+
+                          if (!isSaveSuccess) {
+                            return;
+                          }
+                          BlocProvider.of<AttendanceDetailsCubit>(context)
+                              .navigateToNextScreen(
+                            dutyPostNameId: dutyPostNameId!,
+                            dutyPostModel: dutyPostModel,
+                          );
+                          NavigatorState nav = Navigator.of(context);
+                          nav.pushNamed(
+                            attendanceShiftsRoute,
+                            arguments: {
+                              ConstantsArgument.parentId: state.parentId,
+                              ConstantsArgument.selectedDutyPostNameId:
+                                  state.selectedDutyPostNameId,
+                              ConstantsArgument.location: state.model.location,
+                              ConstantsArgument.locationRegion:
+                                  state.model.locationRegion,
+                              ConstantsArgument.vendor: state.model.vendor,
+                              ConstantsArgument.selectedDutyPostModel:
+                                  state.selectedDutyPostModel,
+                              ConstantsArgument.isReadOnly: isReadOnly,
+                              ConstantsArgument.isEligibleToEdit:
+                                  state.model.isEligibleToEdit
+                            },
+                          );
+                          log('--state.model.id---${state.model.id}--');
+                        }),
                     CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                     /// SubmitButton
