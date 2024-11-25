@@ -47,6 +47,7 @@ class AttendanceModel extends BaseObject {
   bool isEligibleToEdit;
   String? modifiedBy;
   String? modifiedDate;
+  Organisation? shiftInfo;
 
   AttendanceModel({
     this.id,
@@ -62,6 +63,7 @@ class AttendanceModel extends BaseObject {
     this.isEligibleToEdit = false,
     this.modifiedBy,
     this.modifiedDate,
+    this.shiftInfo
   });
 
   factory AttendanceModel.fromJson(Map<String, dynamic> json) =>

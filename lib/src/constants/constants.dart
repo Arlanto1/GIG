@@ -917,6 +917,8 @@ class Constants {
   static const String reason = 'Reason';
   static const String poc = 'POC';
   static const String addPOC = 'Add POC';
+  static const String shiftScheduleId = 'Shift Schedule Id';
+
 
   /// VVIP Visitors
   static const String vVipVisitorsTitle = 'VVIP Visitor';
