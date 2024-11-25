@@ -186,7 +186,7 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                                 state.items[index].fromDate ??
                                                     '0'),
                                             Constants
-                                                .twentyFourHourDateTimeFormat)
+                                                .dateFormat)
                                         : ''));
                                 labels.add(Label(
                                     key: state.labels?.locale.toDate ??
@@ -198,7 +198,7 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                                 state.items[index].toDate ??
                                                     '0'),
                                             Constants
-                                                .twentyFourHourDateTimeFormat)
+                                                .dateFormat)
                                         : ''));
 
                                 return index >= state.items.length
