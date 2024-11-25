@@ -28,6 +28,9 @@ AttendanceModel _$AttendanceModelFromJson(Map<String, dynamic> json) =>
       isEligibleToEdit: json['isEligibleToEdit'] as bool? ?? false,
       modifiedBy: json['modifiedBy'] as String?,
       modifiedDate: json['modifiedDate'] as String?,
+      shiftInfo: json['shiftInfo'] == null
+          ? null
+          : Organisation.fromJson(json['shiftInfo'] as Map<String, dynamic>),
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$AttendanceModelToJson(AttendanceModel instance) =>
@@ -46,4 +49,5 @@ Map<String, dynamic> _$AttendanceModelToJson(AttendanceModel instance) =>
       'isEligibleToEdit': instance.isEligibleToEdit,
       'modifiedBy': instance.modifiedBy,
       'modifiedDate': instance.modifiedDate,
+      'shiftInfo': instance.shiftInfo,
     };

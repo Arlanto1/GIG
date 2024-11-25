@@ -163,6 +163,12 @@ class _AttendanceViewState extends State<AttendanceView> {
                                                 '0'),
                                         Constants.twentyFourHourDateTimeFormat)
                                     : ''));
+                            labels.add(Label(
+                                key:
+                                    Constants.shiftScheduleId,
+                                value:
+                                (state.items[index].shiftInfo?.id ??
+                                    '').toString()));
                             return index >= state.items.length
                                 ? null
                                 : BaseListTileItem(

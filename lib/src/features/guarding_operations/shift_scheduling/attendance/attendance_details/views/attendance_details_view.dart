@@ -437,6 +437,8 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                       ),
                     ),
 
+
+                    if(state.model.shiftInfo?.id != null)...[
                     /// List of Duty Posts
                     DutyPostListWidget(
                         dutyPosts: state.dutyPosts ?? [],
@@ -477,7 +479,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                             },
                           );
                           log('--state.model.id---${state.model.id}--');
-                        }),
+                        }),],
                     CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                     /// SubmitButton
