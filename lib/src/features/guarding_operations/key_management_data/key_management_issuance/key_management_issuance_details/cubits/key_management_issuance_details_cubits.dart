@@ -444,6 +444,11 @@ class KeyManagementIssuanceDetailsCubit
           : Utils.timestampToDateConversion(
               int.tryParse(state.model.keyHandOverDate ?? '0'),
               Constants.fulldateFormat);
+      state.model.keyReturnDateTime = state.model.keyReturnDateTime == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.keyReturnDateTime ?? '0'),
+          Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.createdDate = state.model.createdDate == null
