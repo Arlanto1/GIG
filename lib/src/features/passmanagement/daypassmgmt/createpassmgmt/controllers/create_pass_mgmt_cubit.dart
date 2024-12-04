@@ -87,7 +87,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           await commonServices.getAtomStaticUsers(
               roleName: ConstantUserRoles.atomStaticUser,
               isDbUser: true,
-              locationId: state.model.location?.id);
+              locationId: state.location?.id);
 
       emit(
         state.copyWith(
@@ -1087,6 +1087,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   Future<void> refreshList() async {
+    log('state.model.location?.id ${state.model.location?.id}');
     emit(state.copyWith(stateType: CreatePassMgmtStateType.loading));
     // List<Organisation>? entities =
     //     await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
@@ -1100,6 +1101,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     getUserByRoleDepositor();
     emit(
       state.copyWith(
+        // location: state.model.location,
         // getEntitiesResponse: entities,
         // listOfEntities: entities,
         stateType: CreatePassMgmtStateType.initial,
