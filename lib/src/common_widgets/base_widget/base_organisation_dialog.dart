@@ -54,7 +54,7 @@ class BaseOrganisationDialog {
     final Function(BaseUser newCreatedUser)? functionToCall,
     bool enabled = true,
     String? roleName,
-    required int? locationId,
+    required int locationId,
     bool isDbUser = false,
   }) {
     FocusManager.instance.primaryFocus?.unfocus();

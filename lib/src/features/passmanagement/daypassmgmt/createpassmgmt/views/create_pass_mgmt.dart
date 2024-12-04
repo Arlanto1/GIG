@@ -3230,7 +3230,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             context: context,
             users: state.getDepositorResponse,
             roleName: ConstantUserRoles.atomStaticUser,
-            locationId: widget.model?.location?.id,
+            locationId: widget.model!.location!.id!,
             isDbUser: true,
             functionToCall: (BaseUser user) {
               createPassMgmtCubit.getNameUsersResponseData(user);
