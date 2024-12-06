@@ -170,7 +170,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           log('-state.stateType---${state.stateType}----');
           // Utils().formError(state, context);
           // Utils().errorAndLogout(state, context);
-
+// log('widget.extraProperties!.hasWritePermission! ${widget.extraProperties!.hasWritePermission!}');
           if (state.stateType == CreatePassMgmtStateType.successFormSubmit) {
             var dialog = CustomAlertDialog(
               title: widget.title,
@@ -3230,7 +3230,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             context: context,
             users: state.getDepositorResponse,
             roleName: ConstantUserRoles.atomStaticUser,
-            locationId: widget.model!.location!.id!,
+            locationId: state.location!.id!,
             isDbUser: true,
             functionToCall: (BaseUser user) {
               createPassMgmtCubit.getNameUsersResponseData(user);

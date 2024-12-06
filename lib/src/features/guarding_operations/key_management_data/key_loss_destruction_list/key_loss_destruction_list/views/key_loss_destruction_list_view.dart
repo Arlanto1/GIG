@@ -45,7 +45,7 @@ class _KeyLossDestructionListViewState
       context.read<KeyLossDestructionListBloc>().add(FetchKeyLossList(
           startPos: pageNumber,
           maxPos: Constants.maxResults,
-          newSearch: true,
+          newSearch: false,
           filters: BaseFilterModel()));
     }
   }

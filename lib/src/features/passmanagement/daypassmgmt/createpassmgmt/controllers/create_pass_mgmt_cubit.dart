@@ -87,7 +87,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           await commonServices.getAtomStaticUsers(
               roleName: ConstantUserRoles.atomStaticUser,
               isDbUser: true,
-              locationId: state.location?.id);
+              locationId: state.location!.id);
 
       emit(
         state.copyWith(
@@ -177,7 +177,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           stateType: CreatePassMgmtStateType.success,
         ),
       );
-      await createPassMgmtCubit.getAnalysts();
+      // await createPassMgmtCubit.getAnalysts();
       dismissLoadingDialog(context);
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         Utils.dynamicAlert(context, Constants.userAddedUpdatedSuccessfully,
@@ -318,7 +318,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         isDbUser: true,
           roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
 
-      getAnalysts();
+      // getAnalysts();
 
       emit(
         state.copyWith(
@@ -584,26 +584,26 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   // Get analysts response
-  Future<void> getAnalysts() async {
-    try {
-      Analyst analysts = await commonServices.getUsersByRole(
-          roleName: ConstantUserRoles.atomStaticUser,
-          locationId: state.location?.id);
-      emit(
-        state.copyWith(
-          analyst: analysts,
-          stateType: CreatePassMgmtStateType.success,
-        ),
-      );
-    } catch (e) {
-      emit(
-        state.copyWith(
-          message: Constants.errorText,
-          stateType: CreatePassMgmtStateType.failure,
-        ),
-      );
-    }
-  }
+  // Future<void> getAnalysts() async {
+  //   try {
+  //     Analyst analysts = await commonServices.getUsersByRole(
+  //         roleName: ConstantUserRoles.atomStaticUser,
+  //         locationId: state.location?.id);
+  //     emit(
+  //       state.copyWith(
+  //         analyst: analysts,
+  //         stateType: CreatePassMgmtStateType.success,
+  //       ),
+  //     );
+  //   } catch (e) {
+  //     emit(
+  //       state.copyWith(
+  //         message: Constants.errorText,
+  //         stateType: CreatePassMgmtStateType.failure,
+  //       ),
+  //     );
+  //   }
+ // }
 
   getnameanalystsResponseData(BaseUser? companytypeResponse) async {
     try {
@@ -1096,7 +1096,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
         roleNames: ConstantUserRoles.atomStaticUser,
         isDbUser: true,
-        locationId: state.model.location?.id);
+        locationId: state.location?.id);
 
     getUserByRoleDepositor();
     emit(

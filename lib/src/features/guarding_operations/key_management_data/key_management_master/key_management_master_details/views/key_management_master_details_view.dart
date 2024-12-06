@@ -106,8 +106,8 @@ class _KeyManagementMasterDetailsViewState
         // }
 
         log('isEligible ${state.model.isEligibleToEdit}');
-        if (!state.model.isEligibleToEdit && state.model.status != null) {
-          isReadOnly = true;
+        if (state.model.isEligibleToEdit == true) {
+          isReadOnly = false;
         }
 
         showSaveSubmitButton = state.model.status != 2 &&
@@ -796,7 +796,8 @@ class _KeyManagementMasterDetailsViewState
                           ],
 
                           /// Lock Change History
-                          if (state.model.total!=null && state.model.total > 0 &&
+                          if (state.model.total != null &&
+                              state.model.total > 0 &&
                               state.model.status != null &&
                               state.model.status != 0 &&
                               widget.model?.id != null) ...[
@@ -898,7 +899,8 @@ class _KeyManagementMasterDetailsViewState
                                         ConstantsIntValue.keyLostHistoryInt,
                                     ConstantsArgument.isLocked:
                                         state.model.lock,
-                                    ConstantsArgument.isEligibleToEdit : state.model.isEligibleToEdit
+                                    ConstantsArgument.isEligibleToEdit:
+                                        state.model.isEligibleToEdit
                                   },
                                 );
                               },
@@ -963,7 +965,8 @@ class _KeyManagementMasterDetailsViewState
                                         ConstantsIntValue.keyDamageHistoryInt,
                                     ConstantsArgument.isLocked:
                                         state.model.lock,
-                                    ConstantsArgument.isEligibleToEdit: state.model.isEligibleToEdit,
+                                    ConstantsArgument.isEligibleToEdit:
+                                        state.model.isEligibleToEdit,
                                   },
                                 );
                               },
