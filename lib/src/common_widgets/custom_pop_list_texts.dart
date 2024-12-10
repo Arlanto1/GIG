@@ -566,7 +566,7 @@ class CustomListTextsState extends State<CustomListTexts> {
               } else {
                 articleItem = widget.duplicateDepostorList?[index];
               }
-              return ListTile(
+              return articleItem?.employeeId?.isNotEmpty == true ?ListTile(
                   onTap: () {
                     widget.onTap!(articleItem);
                     Navigator.of(context).pop();
@@ -593,15 +593,15 @@ class CustomListTextsState extends State<CustomListTexts> {
                   title: Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      articleItem!.email.isEmptyOrNull
-                          ? '${articleItem.name}'
-                          : ' ${articleItem.name} (${articleItem.email})',
+                      !(articleItem!.employeeId.isEmptyOrNull)
+                          ? '${articleItem.employeeId}'
+                          : '',
                       //articleItem?.name ?? '',
                       // ('${articleItem?.name ?? ''} (${articleItem?.email ?? ''})'),
                       style: Styles.textStyleRegularGrey16,
                       textAlign: TextAlign.left,
                     ),
-                  ));
+                  )): const SizedBox.shrink();
             } else if (widget.duplicateEntityList != null) {
               Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty && entityList.isNotEmpty)) {

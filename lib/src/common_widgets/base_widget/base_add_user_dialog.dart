@@ -29,6 +29,7 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
   TextEditingController firstnameTextController = TextEditingController();
   TextEditingController lastnameTextController = TextEditingController();
   TextEditingController emailTextController = TextEditingController();
+  TextEditingController employeeIdTextController = TextEditingController();
 
   @override
   void initState() {
@@ -171,6 +172,26 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
                             ],
                           )
                         ],
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: const Text(
+                            Constants.employeeid,
+                            style: Styles.textStyleRegularGrey16,
+                          ),
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        FlutterInputField(
+                          controller: employeeIdTextController,
+                          textFormKey: Keys.lastnameTextController,
+                          hintText: '',
+                          onChange: (String username) {
+                            //this.username = username;
+                            setState(() {});
+                          },
+                          validateTextField: (String? user) {},
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
                         CommonWidgets.verticalSpacerWidget(height * 0.03),
                         buttonViews(context, width),
                       ],
@@ -215,7 +236,7 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
         FocusScope.of(context).unfocus();
         if (firstnameTextController.text.isEmpty ||
             lastnameTextController.text.isEmpty ||
-            emailTextController.text.isEmpty) {
+            emailTextController.text.isEmpty ||employeeIdTextController.text.isEmpty) {
           Validator().showToast(
             context,
             "Please enter all the required fields",
@@ -239,6 +260,7 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
               lastName: lastnameTextController.text,
               email:
                   widget.isDbUser == true ? dbEmail : emailTextController.text,
+              employeeId: employeeIdTextController.text,
               role: widget.roleName,
               locationId: widget.locationId,
               context: context,
@@ -249,6 +271,7 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
               email: createUserData.email,
               name: createUserData.name,
               id: createUserData.userId,
+              employeeId: createUserData.employeeId,
             ));
 
             sca.showSnackBar(

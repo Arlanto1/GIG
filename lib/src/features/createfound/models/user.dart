@@ -14,6 +14,7 @@ class User {
   String? name;
   String? userInfo;
   String? userStatus;
+  String? employeeId;
 
   User({
     this.userId,
@@ -29,6 +30,7 @@ class User {
     this.name,
     this.userInfo,
     this.userStatus,
+    this.employeeId,
   });
 
   User.fromJson(Map<String, dynamic> json)
@@ -49,7 +51,8 @@ class User {
         notApprovedRoleExtensions = json['notApprovedRoleExtensions'] as List?,
         name = json['name'] as String?,
         userInfo = json['userInfo'] as String?,
-        userStatus = json['userStatus'] as String?;
+        userStatus = json['userStatus'] as String?,
+        employeeId = json['employeeId'] as String?;
 
   Map<String, dynamic> toJson() => {
         'userId': userId,
@@ -64,6 +67,7 @@ class User {
         'notApprovedRoleExtensions': notApprovedRoleExtensions,
         'name': name,
         'userInfo': userInfo,
-        'userStatus': userStatus
+        'userStatus': userStatus,
+        'employeeId': employeeId
       };
 }
