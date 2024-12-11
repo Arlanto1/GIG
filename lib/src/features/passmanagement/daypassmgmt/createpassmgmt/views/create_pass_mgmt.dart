@@ -448,7 +448,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     ),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
-                                    locationWidgetdislay(state),
+                                    locationWidgetDisplay(state),
                                     // BaseLocationDropdown().locationWidgetDisplay(
                                     //     context: context,
                                     //     locations: state.getLocationsResponse ??
@@ -793,6 +793,45 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           height * 0.01),
                                     ],
 
+                                    /// Employee Id
+                                    widget.passId ==
+                                        ConstantsIntValue
+                                            .passIdDayPass &&
+                                        (state.selectedCompanyType
+                                            ?.name ??
+                                            '')
+                                            .toLowerCase() !=
+                                            'exceptions' ||
+                                        widget.passId ==
+                                            ConstantsIntValue.passIdSez
+                                        ? CommonWidgets
+                                        .textDisplay(
+                                        state.labels?.locale
+                                            .employeeId ??
+                                            state.labels?.defaultLocale
+                                                .employeeId ??
+                                            Constants.employeeid,
+                                        isMandatory:
+                                        passCategoryTextController
+                                            .text ==
+                                            'Temporary'
+                                            ? false
+                                            : true,
+                                        Styles.textStyleBlack14)
+                                        : Container(),
+
+                                    widget.passId ==
+                                        ConstantsIntValue
+                                            .passIdDayPass &&
+                                        (state.selectedCompanyType
+                                            ?.name ??
+                                            '')
+                                            .toLowerCase() !=
+                                            'exceptions' ||
+                                        widget.passId ==
+                                            ConstantsIntValue.passIdSez
+                                        ? nameAddButtonWidgetLoading(state)
+                                        : Container(),
                                     /// Name
                                     if (widget.passId ==
                                         ConstantsIntValue.passIdSez) ...[
@@ -824,21 +863,17 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 state.labels?.defaultLocale
                                                     .employeeName ??
                                                 Constants.name
-                                            : widget
-                                                        .passId ==
-                                                    ConstantsIntValue.passIdSez
-                                                ? state
-                                                        .labels?.locale.email ??
-                                                    state.labels?.defaultLocale
-                                                        .email ??
-                                                    Constants.email
-                                                : state.labels?.locale
+                                                :  widget
+                                            .passId ==
+                                            ConstantsIntValue.passIdVisitor ?state.labels?.locale
                                                         .contactNo ??
                                                     state.labels?.defaultLocale
                                                         .contactNo ??
-                                                    Constants.contactNo,
+                                                    Constants.contactNo : '',
                                         Styles.textStyleBlack14,
-                                        isMandatory:
+                                        isMandatory: widget
+                                            .passId !=
+                                            ConstantsIntValue.passIdVisitor ||
                                             passCategoryTextController.text ==
                                                     'Temporary'
                                                 ? false
@@ -855,119 +890,118 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 (state.selectedCompanyType
                                                         ?.name ==
                                                     null)
-                                            ? nameAddButtonWidgetLoading(state)
+                                            ?textFieldWidgetLoad(
+                                      controller: nameTextController,
+                                      index: 0,
+                                      state: state,
+                                    )
                                             : textFieldWidgetLoad(
                                                 controller: nameTextController,
                                                 index: 0,
                                                 state: state,
                                               ))
-                                        : widget.passId ==
-                                                ConstantsIntValue.passIdSez
-                                            ? textFieldWidgetLoad(
-                                                controller: emailTextController,
-                                                index: 0,
-                                                state: state,
-                                                isDbUser: true,
-                                              )
-                                            : textFieldWidgetLoad(
+                                            :  widget.passId ==
+                                        ConstantsIntValue.passIdVisitor ? textFieldWidgetLoad(
                                                 controller:
                                                     contactnoTextController,
                                                 index: 0,
                                                 state: state,
-                                              ),
+                                              ): Container(),
 
-                                    CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                    // CommonWidgets.verticalSpacerWidget(
+                                    //     height * 0.01),
 
-                                    /// Employee Id
-                                    widget.passId ==
-                                                    ConstantsIntValue
-                                                        .passIdDayPass &&
-                                                (state.selectedCompanyType
-                                                                ?.name ??
-                                                            '')
-                                                        .toLowerCase() !=
-                                                    'exceptions' ||
-                                            widget.passId ==
-                                                ConstantsIntValue.passIdSez
-                                        ? CommonWidgets
-                                            .textDisplay(
-                                                state.labels?.locale
-                                                        .employeeId ??
-                                                    state.labels?.defaultLocale
-                                                        .employeeId ??
-                                                    Constants.employeeid,
-                                                isMandatory:
-                                                    passCategoryTextController
-                                                                .text ==
-                                                            'Temporary'
-                                                        ? false
-                                                        : true,
-                                                Styles.textStyleBlack14)
-                                        : Container(),
+                                    // /// Employee Id
+                                    // widget.passId ==
+                                    //                 ConstantsIntValue
+                                    //                     .passIdDayPass &&
+                                    //             (state.selectedCompanyType
+                                    //                             ?.name ??
+                                    //                         '')
+                                    //                     .toLowerCase() !=
+                                    //                 'exceptions' ||
+                                    //         widget.passId ==
+                                    //             ConstantsIntValue.passIdSez
+                                    //     ? CommonWidgets
+                                    //         .textDisplay(
+                                    //             state.labels?.locale
+                                    //                     .employeeId ??
+                                    //                 state.labels?.defaultLocale
+                                    //                     .employeeId ??
+                                    //                 Constants.employeeid,
+                                    //             isMandatory:
+                                    //                 passCategoryTextController
+                                    //                             .text ==
+                                    //                         'Temporary'
+                                    //                     ? false
+                                    //                     : true,
+                                    //             Styles.textStyleBlack14)
+                                    //     : Container(),
+                                    //
+                                    // widget.passId ==
+                                    //                 ConstantsIntValue
+                                    //                     .passIdDayPass &&
+                                    //             (state.selectedCompanyType
+                                    //                             ?.name ??
+                                    //                         '')
+                                    //                     .toLowerCase() !=
+                                    //                 'exceptions' ||
+                                    //         widget.passId ==
+                                    //             ConstantsIntValue.passIdSez
+                                    //     ? textFieldWidgetLoad(
+                                    //         controller:
+                                    //             employeeIdTextController,
+                                    //         index: 0,
+                                    //         state: state,
+                                    //       )
+                                    //     : Container(),
+                                    //
 
-                                    widget.passId ==
-                                                    ConstantsIntValue
-                                                        .passIdDayPass &&
-                                                (state.selectedCompanyType
-                                                                ?.name ??
-                                                            '')
-                                                        .toLowerCase() !=
-                                                    'exceptions' ||
-                                            widget.passId ==
-                                                ConstantsIntValue.passIdSez
-                                        ? textFieldWidgetLoad(
-                                            controller:
-                                                employeeIdTextController,
-                                            index: 0,
-                                            state: state,
-                                          )
-                                        : Container(),
+                                    // /// email
+                                    // widget.passId ==
+                                    //             ConstantsIntValue
+                                    //                 .passIdDayPass &&
+                                    //         (state.selectedCompanyType?.name ??
+                                    //                     '')
+                                    //                 .toLowerCase() ==
+                                    //             'cwr t1'
+                                    //     ? CommonWidgets.textDisplay(
+                                    //         state.labels?.locale.email ??
+                                    //             state.labels?.defaultLocale
+                                    //                 .email ??
+                                    //             Constants.email,
+                                    //         Styles.textStyleBlack14,
+                                    //         isMandatory: true,
+                                    //       )
+                                    //     : Container(),
+                                    //
+                                    // widget.passId ==
+                                    //             ConstantsIntValue
+                                    //                 .passIdDayPass &&
+                                    //         (state.selectedCompanyType?.name ??
+                                    //                     '')
+                                    //                 .toLowerCase() ==
+                                    //             'cwr t1'
+                                    //     ? textFieldWidgetLoad(
+                                    //         controller: emailTextController,
+                                    //         index: 0,
+                                    //         state: state,
+                                    //         isDbUser: true,
+                                    //       )
+                                    //     : Container(),
+                                    //
+                                    // widget.passId ==
+                                    //             ConstantsIntValue
+                                    //                 .passIdDayPass &&
+                                    //         (state.selectedCompanyType?.name ??
+                                    //                     '')
+                                    //                 .toLowerCase() ==
+                                    //             'cwr t1'
+                                    //     ? CommonWidgets.verticalSpacerWidget(
+                                    //         height * 0.01)
+                                    //     : Container(),
 
-                                    widget.passId ==
-                                                ConstantsIntValue
-                                                    .passIdDayPass &&
-                                            (state.selectedCompanyType?.name ??
-                                                        '')
-                                                    .toLowerCase() ==
-                                                'cwr t1'
-                                        ? CommonWidgets.textDisplay(
-                                            state.labels?.locale.email ??
-                                                state.labels?.defaultLocale
-                                                    .email ??
-                                                Constants.email,
-                                            Styles.textStyleBlack14,
-                                            isMandatory: true,
-                                          )
-                                        : Container(),
-
-                                    widget.passId ==
-                                                ConstantsIntValue
-                                                    .passIdDayPass &&
-                                            (state.selectedCompanyType?.name ??
-                                                        '')
-                                                    .toLowerCase() ==
-                                                'cwr t1'
-                                        ? textFieldWidgetLoad(
-                                            controller: emailTextController,
-                                            index: 0,
-                                            state: state,
-                                            isDbUser: true,
-                                          )
-                                        : Container(),
-
-                                    widget.passId ==
-                                                ConstantsIntValue
-                                                    .passIdDayPass &&
-                                            (state.selectedCompanyType?.name ??
-                                                        '')
-                                                    .toLowerCase() ==
-                                                'cwr t1'
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01)
-                                        : Container(),
-
-                                    /// DB sponsor
+                                    /// DB sponsor Employee Id
                                     widget.passId ==
                                                 ConstantsIntValue
                                                     .passIdDayPass &&
@@ -984,7 +1018,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             state.labels?.locale.cwrSponsor ??
                                                 state.labels?.defaultLocale
                                                     .cwrSponsor ??
-                                                Constants.dbSponsor,
+                                                Constants.dbSponsorEmployeeId,
                                             isMandatory: true,
                                             Styles.textStyleBlack14)
                                         : Container(),
@@ -1017,7 +1051,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                             '')
                                                         .toLowerCase() ==
                                                     'cwr t2')
-                                        ? dbsponsoraddButtonwidgetLoading(state)
+                                        ? dbSponsorAddButtonWidgetLoading(state)
                                         : Container(),
 
                                     widget.passId ==
@@ -1036,7 +1070,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             height * 0.01)
                                         : Container(),
 
-                                    /// db sponsor employee id
+                                    /// db sponsor
                                     widget.passId ==
                                                 ConstantsIntValue
                                                     .passIdDayPass &&
@@ -1053,11 +1087,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         ? CommonWidgets
                                             .textDisplay(
                                                 state.labels?.locale
-                                                        .cwrSponsorEmployeeId ??
+                                                        .cwrSponsor ??
                                                     state.labels?.defaultLocale
-                                                        .cwrSponsorEmployeeId ??
+                                                        .cwrSponsor ??
                                                     Constants
-                                                        .dbSponsorEmployeeId,
+                                                        .dbSponsor,
                                                 isMandatory: true,
                                                 Styles.textStyleBlack14)
                                         : Container(),
@@ -1079,22 +1113,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             index: 0,
                                             state: state,
                                           )
-                                        : Container(),
-
-                                    widget.passId ==
-                                                ConstantsIntValue
-                                                    .passIdDayPass &&
-                                            ((state.selectedCompanyType?.name ??
-                                                            '')
-                                                        .toLowerCase() ==
-                                                    'cwr t1' ||
-                                                (state.selectedCompanyType
-                                                                ?.name ??
-                                                            '')
-                                                        .toLowerCase() ==
-                                                    'cwr t2')
-                                        ? CommonWidgets.verticalSpacerWidget(
-                                            height * 0.01)
                                         : Container(),
 
                                     /// SEZ Pass Info
@@ -1279,20 +1297,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             height * 0.01)
                                         : Container(),
 
-                                    /// Host
+                                    /// Host Employee Id
                                     (((state.selectedCompanyType?.name ?? '')
-                                                            .toLowerCase() ==
-                                                        'exceptions' ||
-                                                    (state.selectedCompanyType
-                                                                    ?.name ??
-                                                                '')
-                                                            .toLowerCase() ==
-                                                        'developer' ||
-                                                    (state.selectedCompanyType
-                                                                    ?.name ??
-                                                                '')
-                                                            .toLowerCase() ==
-                                                        'tester') &&
+                                                        .toLowerCase() ==
+                                                    'exceptions') &&
                                                 widget.passId ==
                                                     ConstantsIntValue
                                                         .passIdDayPass) ||
@@ -1301,32 +1309,19 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     .passIdVisitor ||
                                             widget.passId ==
                                                 ConstantsIntValue.passIdVendor
-                                        // widget.passId == ConstantsIntValue.passIdSez ||
-                                        // (state.selectedCompanyType?.name ==
-                                        //         null &&
-                                        //     widget.passId == ConstantsIntValue.passIdDayPass)
                                         ? CommonWidgets.textDisplay(
-                                            state.labels?.locale.host ??
+                                            state.labels?.locale
+                                                    .hostEmployeeId ??
                                                 state.labels?.defaultLocale
-                                                    .host ??
-                                                Constants.host,
+                                                    .hostEmployeeId ??
+                                                Constants.hostemployeeid,
                                             isMandatory: true,
                                             Styles.textStyleBlack14)
                                         : Container(),
 
                                     (((state.selectedCompanyType?.name ?? '')
-                                                            .toLowerCase() ==
-                                                        'exceptions' ||
-                                                    (state.selectedCompanyType
-                                                                    ?.name ??
-                                                                '')
-                                                            .toLowerCase() ==
-                                                        'developer' ||
-                                                    (state.selectedCompanyType
-                                                                    ?.name ??
-                                                                '')
-                                                            .toLowerCase() ==
-                                                        'tester') &&
+                                                        .toLowerCase() ==
+                                                    'exceptions') &&
                                                 widget.passId ==
                                                     ConstantsIntValue
                                                         .passIdDayPass) ||
@@ -1335,27 +1330,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     .passIdVisitor ||
                                             widget.passId ==
                                                 ConstantsIntValue.passIdVendor
-                                        //   widget.passId == ConstantsIntValue.passIdSez ||
-                                        // (state.selectedCompanyType?.name ==
-                                        //         null &&
-                                        //     widget.passId == ConstantsIntValue.passIdDayPass)
                                         ? CommonWidgets.verticalSpacerWidget(
                                             height * 0.001)
                                         : Container(),
                                     // articleaddButtonwidgetLoading(state),
                                     (((state.selectedCompanyType?.name ?? '')
-                                                            .toLowerCase() ==
-                                                        'exceptions' ||
-                                                    (state.selectedCompanyType
-                                                                    ?.name ??
-                                                                '')
-                                                            .toLowerCase() ==
-                                                        'developer' ||
-                                                    (state.selectedCompanyType
-                                                                    ?.name ??
-                                                                '')
-                                                            .toLowerCase() ==
-                                                        'tester') &&
+                                                        .toLowerCase() ==
+                                                    'exceptions') &&
                                                 widget.passId ==
                                                     ConstantsIntValue
                                                         .passIdDayPass) ||
@@ -1364,25 +1345,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     .passIdVisitor ||
                                             widget.passId ==
                                                 ConstantsIntValue.passIdVendor
-                                        // widget.passId == ConstantsIntValue.passIdSez ||
-                                        // (state.selectedCompanyType?.name ==
-                                        //         null &&
-                                        //     widget.passId == ConstantsIntValue.passIdDayPass)
-                                        ? hostaddButtonwidgetLoading(state)
+                                        ? hostAddButtonWidgetLoading(state)
                                         : Container(),
                                     (((state.selectedCompanyType?.name ?? '')
-                                                            .toLowerCase() ==
-                                                        'exceptions' ||
-                                                    (state.selectedCompanyType
-                                                                    ?.name ??
-                                                                '')
-                                                            .toLowerCase() ==
-                                                        'developer' ||
-                                                    (state.selectedCompanyType
-                                                                    ?.name ??
-                                                                '')
-                                                            .toLowerCase() ==
-                                                        'tester') &&
+                                                        .toLowerCase() ==
+                                                    'exceptions') &&
                                                 widget.passId ==
                                                     ConstantsIntValue
                                                         .passIdDayPass) ||
@@ -1399,56 +1366,29 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             height * 0.01)
                                         : Container(),
 
-                                    /// Host Employee Id
+                                    /// Host
                                     (((state.selectedCompanyType?.name ?? '')
-                                                            .toLowerCase() ==
-                                                        'exceptions' ||
-                                                    (state.selectedCompanyType
-                                                                    ?.name ??
-                                                                '')
-                                                            .toLowerCase() ==
-                                                        'developer' ||
-                                                    (state.selectedCompanyType
-                                                                    ?.name ??
-                                                                '')
-                                                            .toLowerCase() ==
-                                                        'tester') &&
+                                                        .toLowerCase() ==
+                                                    'exceptions') &&
                                                 widget.passId ==
                                                     ConstantsIntValue
                                                         .passIdDayPass) ||
-                                            widget
-                                                    .passId ==
+                                            widget.passId ==
                                                 ConstantsIntValue
                                                     .passIdVisitor ||
-                                            widget
-                                                    .passId ==
+                                            widget.passId ==
                                                 ConstantsIntValue.passIdVendor
-                                        // widget.passId == ConstantsIntValue.passIdSez ||
-                                        // (state.selectedCompanyType?.name ==
-                                        //         null &&
-                                        //     widget.passId == ConstantsIntValue.passIdDayPass)
                                         ? CommonWidgets.textDisplay(
-                                            state.labels?.locale
-                                                    .hostEmployeeId ??
+                                            state.labels?.locale.host ??
                                                 state.labels?.defaultLocale
-                                                    .hostEmployeeId ??
-                                                Constants.hostemployeeid,
+                                                    .host ??
+                                                Constants.host,
                                             isMandatory: true,
                                             Styles.textStyleBlack14)
                                         : Container(),
                                     (((state.selectedCompanyType?.name ?? '')
-                                                            .toLowerCase() ==
-                                                        'exceptions' ||
-                                                    (state.selectedCompanyType
-                                                                    ?.name ??
-                                                                '')
-                                                            .toLowerCase() ==
-                                                        'developer' ||
-                                                    (state.selectedCompanyType
-                                                                    ?.name ??
-                                                                '')
-                                                            .toLowerCase() ==
-                                                        'tester') &&
+                                                        .toLowerCase() ==
+                                                    'exceptions') &&
                                                 widget.passId ==
                                                     ConstantsIntValue
                                                         .passIdDayPass) ||
@@ -1457,27 +1397,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     .passIdVisitor ||
                                             widget.passId ==
                                                 ConstantsIntValue.passIdVendor
-                                        // widget.passId == ConstantsIntValue.passIdSez ||
-                                        // (state.selectedCompanyType?.name ==
-                                        //         null &&
-                                        //     widget.passId == ConstantsIntValue.passIdDayPass)
                                         ? CommonWidgets.verticalSpacerWidget(
                                             height * 0.001)
                                         : Container(),
 
                                     (((state.selectedCompanyType?.name ?? '')
-                                                            .toLowerCase() ==
-                                                        'exceptions' ||
-                                                    (state.selectedCompanyType
-                                                                    ?.name ??
-                                                                '')
-                                                            .toLowerCase() ==
-                                                        'developer' ||
-                                                    (state.selectedCompanyType
-                                                                    ?.name ??
-                                                                '')
-                                                            .toLowerCase() ==
-                                                        'tester') &&
+                                                        .toLowerCase() ==
+                                                    'exceptions') &&
                                                 widget.passId ==
                                                     ConstantsIntValue
                                                         .passIdDayPass) ||
@@ -1486,10 +1412,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     .passIdVisitor ||
                                             widget.passId ==
                                                 ConstantsIntValue.passIdVendor
-                                        //  widget.passId == ConstantsIntValue.passIdSez ||
-                                        // (state.selectedCompanyType?.name ==
-                                        //         null &&
-                                        //     widget.passId == ConstantsIntValue.passIdDayPass)
                                         ? textfieldWidgetLoad1(
                                             hostEmployeeIdTextController,
                                             0,
@@ -2256,7 +2178,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       if (widget.model!.escortedByHost ?? false) {
         value = 1;
       }
-
       createPassMgmtCubit.getRadioButtonSelected(value);
 
       if (widget.model?.companyType?.name?.toLowerCase() == 'fte') {
@@ -2283,26 +2204,30 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       escortedByTextController.text = widget.model?.escortedByName != null
           ? widget.model?.escortedByName.toString() ?? ""
           : '';
-      hostEmployeeIdTextController.text = widget.model?.hostEmployeeId != null
-          ? widget.model?.hostEmployeeId.toString() ?? ""
-          : '';
+      // hostEmployeeIdTextController.text = widget.model?.host?.employeeId !=null
+      //     ? widget.model?.host?.name ??''
+      //     : 'dfgfd';
+
+      hostEmployeeIdTextController.text =
+          (widget.model?.host?.name ?? '');
       var userId = await SharedPrefs.getUserId();
       // BaseUser host1 = widget.dayPassItem?.host != null
 
-      hostTextController.text = widget.model?.hostName != null
-          ? widget.model?.hostName.toString() ?? ""
+      hostTextController.text = widget.model?.host?.employeeId != null
+          ? widget.model?.host?.employeeId.toString() ?? ""
           : '';
       User? host1 = widget.model?.host ??
           User(
               userId: widget.model?.host?.userId,
-              name: hostTextController.text);
+              name: widget.model?.host?.name,
+              employeeId: widget.model?.host?.employeeId);
 
       createPassMgmtCubit.gethostanalystsResponseData(host1);
       createPassMgmtCubit.getdbsponsoranalystsResponseData(host1);
       createPassMgmtCubit.gethostUsersResponseData(host1);
 
-      dbsponsorTextController.text = widget.model?.hostName != null
-          ? widget.model?.hostName.toString() ?? ""
+      dbsponsorTextController.text = widget.model?.host?.name != null
+          ? widget.model?.host?.name ?? ''
           : '';
       // BaseUser dbSponsor1 = dbsponsorTextController.text.isNotEmpty
       //     ? BaseUser(id: int.parse(userId), name: dbsponsorTextController.text)
@@ -2310,7 +2235,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       User? dbSponsor1 = widget.model?.host ??
           User(
               userId: widget.model?.host?.userId,
-              name: dbsponsorTextController.text);
+              name: dbsponsorTextController.text,
+          employeeId: widget.model?.host?.employeeId);
 
       createPassMgmtCubit.getdbsponsorUsersResponseData(dbSponsor1);
       nameTextController.text =
@@ -2319,12 +2245,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? widget.model?.employeeName ?? ''
               : widget.model?.employeeName.toString() ?? '';
       var userid = await SharedPrefs.getUserId();
-      BaseUser name1 = nameTextController.text.isNotEmpty
-          ? BaseUser(
-              id: widget.model?.employee?.userId, name: nameTextController.text)
-          : BaseUser();
-      //createpassmgmtCubit.getnameanalystsResponseData(name1);
-      createPassMgmtCubit.getNameUsersResponseData(name1);
+
+      User? name1 = widget.model?.employee??
+          User(
+              userId: widget.model?.employee?.userId,
+              name: nameTextController.text,
+              employeeId: widget.model?.employee?.employeeId);
+
+      createPassMgmtCubit.getdbsponsorUsersResponseData(name1);
 
       log('-widget.model?.inputDate---${widget.model?.inputDate}--');
 
@@ -2501,7 +2429,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       employeeIdTextController.text = widget.model?.employeeId ?? '';
       sezpassinfoTextController.text = widget.model?.passNo ?? '';
       //sezpassinfoTextController.text = widget.model?.passNo ?? '';
-      dbsponsorTextController.text = widget.model?.hostEmployeeId ?? '';
+      dbsponsorTextController.text = widget.model?.host?.name ?? '';
     }
   }
 
@@ -3204,7 +3132,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   Widget nameAddButtonWidgetLoading(CreatePassMgmtState state) {
     return TextFieldAddButton(
-      title: state.nameResponse?.name ?? '', //state.t1nameanalyst?.name ?? '',
+      title: state.nameResponse?.employeeId ?? state.nameResponse?.employeeId,
       height: 60,
       isDisableColor: widget.model?.status == 0 ||
               widget.model == null ||
@@ -3242,6 +3170,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               //   locationSecurityManager1: state.getDepositorResponse?.atomStaticUser,
               // );
               createPassMgmtCubit.getNameUsersResponseData(user);
+              nameTextController.text = user.name ?? '';
+
             },
           );
         }
@@ -3288,9 +3218,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         });
   }
 
-  Widget hostaddButtonwidgetLoading(CreatePassMgmtState state) {
+  Widget hostAddButtonWidgetLoading(CreatePassMgmtState state) {
     return TextFieldAddButton(
-      title: state.hostResponse?.userInfo ?? state.hostResponse?.name,
+      title: state.hostResponse?.employeeId ?? state.hostResponse?.employeeId,
       height: 60,
       isDisableColor: widget.model?.status == 0 ||
               widget.model?.status == null &&
@@ -3309,8 +3239,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             locationId: state.location!.id!,
             isDbUser: true,
             functionToCall: (BaseUser user) {
-              createPassMgmtCubit.gethostUsersResponseData(
-                  User(userId: user.id, name: user.name));
+              createPassMgmtCubit.gethostUsersResponseData(User(
+                  userId: user.id,
+                  name: user.name,
+                  employeeId: user.employeeId));
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },
             onTap: (BaseUser user) {
@@ -3318,25 +3250,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               //     .updateDropdownValues(
               //   locationSecurityManager1: state.getDepositorResponse?.atomStaticUser,
               // );
-              createPassMgmtCubit.gethostUsersResponseData(
-                  User(userId: user.id, name: user.name));
+              createPassMgmtCubit.gethostUsersResponseData(User(
+                  userId: user.id,
+                  name: user.name,
+                  employeeId: user.employeeId));
+              hostEmployeeIdTextController.text = user.name ?? '';
             },
           );
         }
       },
     );
-    // return TextFieldAddButton(
-    //   title: state.hostResponse?.name, //state.t1hostanalyst?.name ?? '',
-    //   height: 60,
-    //   isDisableColor: widget.model?.status == 0 || widget.model?.status == null
-    //       ? false
-    //       : true,
-    //   onTap: () {
-    //     if (widget.model?.status == 0 || widget.model?.status == null) {
-    //       hostTypeDialog(state);
-    //     }
-    //   },
-    // );
   }
 
   hostTypeDialog(CreatePassMgmtState state) {
@@ -3363,16 +3286,19 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             onTap: (BaseUser baseUser) {
               //log(list.name);
 
-              createPassMgmtCubit.gethostUsersResponseData(
-                  User(userId: baseUser.id, name: baseUser.name));
+              createPassMgmtCubit.gethostUsersResponseData(User(
+                  userId: baseUser.id,
+                  name: baseUser.name,
+                  employeeId: baseUser.employeeId));
+
             },
           );
         });
   }
 
-  Widget dbsponsoraddButtonwidgetLoading(CreatePassMgmtState state) {
+  Widget dbSponsorAddButtonWidgetLoading(CreatePassMgmtState state) {
     return TextFieldAddButton(
-      title: state.dbsponsorResponse?.userInfo ?? state.dbsponsorResponse?.name,
+      title: state.dbsponsorResponse?.employeeId,
       height: 60,
       isDisableColor: widget.model?.status == 0 ||
               widget.model == null ||
@@ -3392,16 +3318,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             isDbUser: true,
             functionToCall: (BaseUser user) {
               createPassMgmtCubit.getdbsponsorUsersResponseData(
-                  User(userId: user.id, name: user.name));
+                  User(userId: user.id, name: user.name, employeeId: user.employeeId));
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },
             onTap: (BaseUser user) {
-              // BlocProvider.of<CreatePassMgmtCubit>(context)
-              //     .updateDropdownValues(
-              //   locationSecurityManager1: state.getDepositorResponse?.atomStaticUser,
-              // );
               createPassMgmtCubit.getdbsponsorUsersResponseData(
-                  User(userId: user.id, name: user.name));
+                  User(userId: user.id, name: user.name, employeeId: user.employeeId));
+              dbsponsorTextController.text = user.name ?? '';
+
+
             },
           );
         }
@@ -3414,36 +3339,36 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     );
   }
 
-  dbsponsorTypeDialog(CreatePassMgmtState state) {
-    showDialog(
-        context: context,
-        builder: (BuildContext dialogContext) {
-          return CustomListTexts(
-            //duplicatet1Analyst:
-            duplicateDepostorList: state.getDepositorResponse ?? [],
-            leftImageName: AppIcon.addicon,
-            onLeftButtonTap: () {
-              Navigator.pop(context);
-              showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return CreateFoundNewUser(
-                      title: Constants.createnewuser,
-                      createpassmgmtstate: state,
-                      locationId: state.location!.id!,
-                    );
-                  });
-            },
-            onTap: (BaseUser baseUser) {
-              //log(list.name);
-              //dbsponsorTextController.text = list.name??'';
-              createPassMgmtCubit.getdbsponsorUsersResponseData(
-                  User(userId: baseUser.id, name: baseUser.name));
-            },
-          );
-        });
-  }
+  // dbSponsorTypeDialog(CreatePassMgmtState state) {
+  //   showDialog(
+  //       context: context,
+  //       builder: (BuildContext dialogContext) {
+  //         return CustomListTexts(
+  //           //duplicatet1Analyst:
+  //           duplicateDepostorList: state.getDepositorResponse ?? [],
+  //           leftImageName: AppIcon.addicon,
+  //           onLeftButtonTap: () {
+  //             Navigator.pop(context);
+  //             showDialog(
+  //                 barrierDismissible: false,
+  //                 context: context,
+  //                 builder: (BuildContext dialogContext) {
+  //                   return CreateFoundNewUser(
+  //                     title: Constants.createnewuser,
+  //                     createpassmgmtstate: state,
+  //                     locationId: state.location!.id!,
+  //                   );
+  //                 });
+  //           },
+  //           onTap: (BaseUser baseUser) {
+  //             //log(list.name);
+  //             //dbsponsorTextController.text = list.name??'';
+  //             createPassMgmtCubit.getdbsponsorUsersResponseData(
+  //                 User(userId: baseUser.id, name: baseUser.name));
+  //           },
+  //         );
+  //       });
+  // }
 
   // Widget passnumberaddButtonwidgetLoading(CreatePassMgmtState state) {
   //   return TextfieldAddButton(
@@ -3519,7 +3444,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   //   );
   // }
 
-  Widget locationWidgetdislay(CreatePassMgmtState state) {
+  Widget locationWidgetDisplay(CreatePassMgmtState state) {
     return GestureDetector(
       onTap: () {
         if ((widget.model?.status == 0 || widget.model?.status == null) &&
@@ -3545,6 +3470,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                       widget.passId, location.id!);
                   createPassMgmtCubit.getlocationsResponseData(location);
                   daypassnoTextController.text = '';
+                  hostEmployeeIdTextController.text = '';
+                  dbsponsorTextController.text ='';
+                  nameTextController.text='';
                 },
               );
             },
@@ -3864,13 +3792,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         employeeName: state.nameResponse?.name == null
             ? (nameTextController.text)
             : state.nameResponse?.name ?? '',
-        employeeId: employeeIdTextController.text,
-        employee: widget.passId == ConstantsIntValue.passIdDayPass &&
-                companyType?.name == 'FTE'
+        employeeId: state.nameResponse?.employeeId,
+        employee: widget.passId == ConstantsIntValue.passIdDayPass
             ? User(
                 userId: state.nameResponse?.id,
                 firstName: state.nameResponse?.name,
                 email: state.nameResponse?.email,
+          employeeId: state.nameResponse?.employeeId,
               )
             : null,
         passType: passInfo.passType,
@@ -3878,9 +3806,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         passNo: passInfo.passNo,
         escortedBy: escortedByTextController.text,
         escortedEmployeeId: escortedEmployeeIdByTextController.text,
-        hostEmployeeId: hostEmployeeIdTextController.text.isNotEmpty
-            ? hostEmployeeIdTextController.text
-            : dbsponsorTextController.text,
+        hostEmployeeId: widget.model?.host?.employeeId,
         mifareNo: mtpApplicationNoTextController.text,
         passIssuedOn: passValidFromDate.toString(),
         endTime: endTime,
@@ -3934,13 +3860,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           employeeName: state.nameResponse?.name == null
               ? (nameTextController.text)
               : state.nameResponse?.name ?? '',
-          employeeId: employeeIdTextController.text,
+          employeeId: state.nameResponse?.employeeId,
           employee: widget.passId == ConstantsIntValue.passIdDayPass &&
                   companyType?.name == 'FTE'
               ? User(
                   userId: state.nameResponse?.id,
                   name: state.nameResponse?.name,
                   email: state.nameResponse?.email,
+            employeeId: state.nameResponse?.employeeId,
                 )
               : null,
           passType: passInfo.passType,
@@ -3949,9 +3876,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           escortedBy: escortedByTextController.text,
           escortedEmployeeId: escortedEmployeeIdByTextController.text,
           mifareNo: mtpApplicationNoTextController.text,
-          hostEmployeeId: hostEmployeeIdTextController.text.isNotEmpty
-              ? hostEmployeeIdTextController.text
-              : dbsponsorTextController.text,
+          hostEmployeeId: widget.model?.host?.employeeId,
           passIssuedOn: passValidFromDate.toString(),
           endTime: endTime,
           startTime: passValidFromDate.toString(),
@@ -4421,8 +4346,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                               widget.model?.status == 0
                           ? isFTECompanyNameEditable
                           : isEditable) ||
-                      isEditable,
-                  isDisableColor: isEditable,
+                      isEditable && controller != dbsponsorTextController,
+                  isDisableColor: isEditable || controller == nameTextController,
                   hintText: '',
                   onChange: (String value) {
                     //this.username = username;
@@ -4457,8 +4382,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                         widget.model?.status == 0
                     ? isFTECompanyNameEditable
                     : isEditable) ||
-                isEditable,
-            isDisableColor: isEditable,
+                isEditable &&  controller != dbsponsorTextController &&  controller != nameTextController,
+            isDisableColor: isEditable || controller == dbsponsorTextController || controller == nameTextController,
             hintText: '',
             onChange: (String value) {
               //this.username = username;
@@ -4482,7 +4407,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               textController == hostEmployeeIdTextController
           ? TextInputType.number
           : TextInputType.text,
-      isEnable: widget.model?.status == null || widget.model?.status == 0
+      isEnable: widget.model?.status == null ||
+              widget.model?.status == 0 &&
+                  (textController != hostEmployeeIdTextController)
           ? true
           : false,
       isDisableColor: widget.model?.status == null || widget.model?.status == 0
