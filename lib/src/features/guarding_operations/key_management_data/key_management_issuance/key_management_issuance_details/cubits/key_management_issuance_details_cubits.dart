@@ -234,19 +234,44 @@ class KeyManagementIssuanceDetailsCubit
       state.model.createdBy = userDetails;
     }
 
+    // if (handedOverTo != null) {
+    //   User userDetails = User(
+    //     name: handedOverTo.name,
+    //     userId: handedOverTo.id,
+    //     userName: handedOverTo.name,
+    //   );
+    //   state.model.handedOverTo = userDetails;
+    // }
+
     if (handedOverTo != null) {
+      // Ensure employeeId is explicitly assigned to receiverEmployeeId
+      state.model.employeeID = handedOverTo.employeeId;
+
+      // Log to verify the correct value is assigned
+      log('--receiverEmployeeId-${state.model.employeeID}-');
+
+      // Format the name and email for receiverEmail
+      String name = handedOverTo.name ?? '';
+      String email = handedOverTo.email ?? '';
       User userDetails = User(
-        name: handedOverTo.name,
-        userId: handedOverTo.id,
-        userName: handedOverTo.name,
+            name:name,
+            userId: handedOverTo.id,
+            email: email,
+          );
+          state.model.handedOverTo = userDetails;
+      emit(
+        state.copyWith(
+          model: state.model,
+          status: FormStatus.initial,
+        ),
       );
-      state.model.handedOverTo = userDetails;
     }
     if (dbSponsorCwrT2 != null) {
       User userDetails = User(
         name: dbSponsorCwrT2.name,
         userId: dbSponsorCwrT2.id,
         userName: dbSponsorCwrT2.name,
+        employeeId: dbSponsorCwrT2.employeeId,
       );
       state.model.dbSponsorCwrT2 = userDetails;
     }
