@@ -2220,7 +2220,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           User(
               userId: widget.model?.host?.userId,
               name: widget.model?.host?.name,
-              employeeId: widget.model?.host?.employeeId);
+            employeeId:  widget.model?.host?.employeeId,
+            );
 
       createPassMgmtCubit.gethostanalystsResponseData(host1);
       createPassMgmtCubit.getdbsponsoranalystsResponseData(host1);
@@ -2236,7 +2237,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           User(
               userId: widget.model?.host?.userId,
               name: dbsponsorTextController.text,
-          employeeId: widget.model?.host?.employeeId);
+              employeeId: widget.model?.host?.employeeId,
+         );
 
       createPassMgmtCubit.getdbsponsorUsersResponseData(dbSponsor1);
       nameTextController.text =
@@ -2250,9 +2252,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           User(
               userId: widget.model?.employee?.userId,
               name: nameTextController.text,
-              employeeId: widget.model?.employee?.employeeId);
+              );
 
-      createPassMgmtCubit.getdbsponsorUsersResponseData(name1);
+      // createPassMgmtCubit.getNameUsersResponseData(name1);
 
       log('-widget.model?.inputDate---${widget.model?.inputDate}--');
 
@@ -3220,7 +3222,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   Widget hostAddButtonWidgetLoading(CreatePassMgmtState state) {
     return TextFieldAddButton(
-      title: state.hostResponse?.employeeId ?? state.hostResponse?.employeeId,
+      title: state.hostResponse?.employeeId,
       height: 60,
       isDisableColor: widget.model?.status == 0 ||
               widget.model?.status == null &&
@@ -3806,7 +3808,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         passNo: passInfo.passNo,
         escortedBy: escortedByTextController.text,
         escortedEmployeeId: escortedEmployeeIdByTextController.text,
-        hostEmployeeId: widget.model?.host?.employeeId,
+        hostEmployeeId: state.hostResponse?.employeeId,
         mifareNo: mtpApplicationNoTextController.text,
         passIssuedOn: passValidFromDate.toString(),
         endTime: endTime,
@@ -3876,7 +3878,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           escortedBy: escortedByTextController.text,
           escortedEmployeeId: escortedEmployeeIdByTextController.text,
           mifareNo: mtpApplicationNoTextController.text,
-          hostEmployeeId: widget.model?.host?.employeeId,
+          hostEmployeeId: state.hostResponse?.employeeId,
           passIssuedOn: passValidFromDate.toString(),
           endTime: endTime,
           startTime: passValidFromDate.toString(),
@@ -4320,6 +4322,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }) {
     bool isEditable =
         (widget.model?.status == null || widget.model?.status == 0);
+
     return isDbUser
         ? Row(
             children: [
@@ -4346,8 +4349,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                               widget.model?.status == 0
                           ? isFTECompanyNameEditable
                           : isEditable) ||
-                      isEditable && controller != dbsponsorTextController,
-                  isDisableColor: isEditable || controller == nameTextController,
+                      isEditable,
+                  isDisableColor: isEditable ,
                   hintText: '',
                   onChange: (String value) {
                     //this.username = username;
@@ -4382,8 +4385,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                         widget.model?.status == 0
                     ? isFTECompanyNameEditable
                     : isEditable) ||
-                isEditable &&  controller != dbsponsorTextController &&  controller != nameTextController,
-            isDisableColor: isEditable || controller == dbsponsorTextController || controller == nameTextController,
+                isEditable,
+            isDisableColor: isEditable ,
             hintText: '',
             onChange: (String value) {
               //this.username = username;
