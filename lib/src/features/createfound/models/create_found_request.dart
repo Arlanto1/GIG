@@ -54,7 +54,7 @@ class Found extends BaseObject {
   bool? claimantDbEmp;
   bool? claimantNoSign;
   bool? claimantConfirmByEmail;
-  int? claimantEmployeeId;
+  String? claimantEmployeeId;
 
   ImageContent? claimantSign;
 

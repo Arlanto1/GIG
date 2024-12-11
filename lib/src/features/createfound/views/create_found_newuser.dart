@@ -32,6 +32,7 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
   TextEditingController firstnameTextController = TextEditingController();
   TextEditingController lastnameTextController = TextEditingController();
   TextEditingController emailTextController = TextEditingController();
+  TextEditingController employeeIdTextController = TextEditingController();
 
   CreatePassMgmtService createpassmgmtServices = CreatePassMgmtService();
 
@@ -42,19 +43,19 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
     //_getFoundNewuser();
   }
 
-  void _getFoundNewuser(
-      String firstname, String lastname, String email, int locationId) async {
+  void _getFoundNewuser(String firstname, String lastname, String email,
+      int locationId, String employeeId) async {
     showLoadingDialog(context);
     if (widget.createoundstate != null) {
       log('---_getFoundNewuser------');
-      await createFoundArticleCubit.createUser(
-          firstname, lastname, email, 'ATOM_STATIC_USER', locationId, context);
+      await createFoundArticleCubit.createUser(firstname, lastname, email,
+          'ATOM_STATIC_USER', locationId, employeeId, context);
     } else if (widget.createpassmgmtstate != null) {
       CreatePassMgmtCubit createPassMgmtCubit = CreatePassMgmtCubit(
           createpassmgmtServices:
               createpassmgmtServices); // Instantiate CreatePassMgmtCubit
-      await createPassMgmtCubit.createUser(
-          firstname, lastname, email, 'ATOM_STATIC_USER', locationId, context);
+      await createPassMgmtCubit.createUser(firstname, lastname, email,
+          'ATOM_STATIC_USER', locationId, employeeId, context);
     } else if (widget.lawstate != null) {
       await lawEnforcementCubit.createUser(
           firstname, lastname, email, 'ATOM_STATIC_USER', locationId, context);
@@ -195,6 +196,26 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
                             ],
                           )
                         ],
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: const Text(
+                            Constants.employeeid,
+                            style: Styles.textStyleRegularGrey16,
+                          ),
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        FlutterInputField(
+                          controller: employeeIdTextController,
+                          textFormKey: Keys.firstnameTextController,
+                          hintText: '',
+                          onChange: (String username) {
+                            //this.username = username;
+                            setState(() {});
+                          },
+                          validateTextField: (String? user) {},
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
                         CommonWidgets.verticalSpacerWidget(height * 0.03),
                         buttonViews(context, width),
                       ],
@@ -229,7 +250,6 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {
-
         late String dbEmail;
         if (widget.isDbUser) {
           dbEmail = '${emailTextController.text}@db.com';
@@ -244,7 +264,6 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
             context,
             "Please enter all the required fields",
           );
-
         } else if (widget.isDbUser && !Validator.isValidEmail(dbEmail)) {
           Validator().showToast(context, Constants.enterValidEmail);
         } else if (!widget.isDbUser &&
@@ -257,7 +276,8 @@ class CreateFoundNewUserState extends State<CreateFoundNewUser> {
                 firstnameTextController.text,
                 lastnameTextController.text,
                 widget.isDbUser == true ? dbEmail : emailTextController.text,
-                widget.locationId);
+                widget.locationId,
+                employeeIdTextController.text);
           } catch (e) {
             // present userwith error message
           }

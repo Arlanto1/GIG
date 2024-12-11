@@ -450,7 +450,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
 
   // Create user call
   Future<void> createUser(String firstName, String lastName, String email,
-      String role, int locationId, BuildContext context) async {
+      String role, int locationId, String employeeId, BuildContext context) async {
     try {
       // CreateUserModel createUserData = await createFoundServices.createUser(
       //     firstName, lastName, email, role, context);
@@ -459,6 +459,7 @@ class CreateFoundArticleCubit extends Cubit<CreateFoundState> {
         firstName: firstName,
         lastName: lastName,
         email: email,
+        employeeId: employeeId,
         role: role,
         locationId: locationId,
         context: context,
