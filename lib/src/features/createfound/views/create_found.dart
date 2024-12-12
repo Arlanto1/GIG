@@ -639,6 +639,7 @@ class _CreateFoundState extends State<CreateFound> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
+            isEmployeeId: true,
             duplicateDepostorList:
                 state.getDepositorResponse?.atomStaticUser ?? [],
             leftImageName: AppIcon.addicon,

@@ -985,6 +985,7 @@ class _MaterialMovementDetailsViewState
                                             ? true
                                             : false) {
                                           BaseOrganisationDialog().userDialog(
+                                            employeeId: true,
                                             context: context,
                                             users: state.requestorEmailUsers!,
                                             isDbUser: true,
@@ -2333,6 +2334,7 @@ class _MaterialMovementDetailsViewState
                                         onTap: () {
                                           if (!isReadOnly) {
                                             BaseOrganisationDialog().userDialog(
+                                              employeeId: true,
                                               context: context,
                                               users: state.receiverEmailUsers!,
                                               isDbUser: true,
@@ -2473,6 +2475,7 @@ class _MaterialMovementDetailsViewState
                                         onTap: () {
                                           if (!isReadOnly) {
                                             BaseOrganisationDialog().userDialog(
+                                              employeeId: true,
                                               context: context,
                                               users: state.receiverEmailUsers!,
                                               isDbUser: true,
@@ -2562,6 +2565,7 @@ class _MaterialMovementDetailsViewState
                                         onTap: () {
                                           if (!isReadOnly) {
                                             BaseOrganisationDialog().userDialog(
+                                              employeeId: true,
                                               context: context,
                                               users: state.receiverEmailUsers!,
                                               isDbUser: true,
