@@ -563,6 +563,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 isDisableColor: disableForm,
                                 onTap: () {
                                   BaseOrganisationDialog().userDialog(
+                                    employeeId: true,
                                     context: context,
                                     enabled: !disableForm,
                                     users: state.emailUsers!,

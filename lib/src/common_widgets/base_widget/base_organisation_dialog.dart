@@ -57,6 +57,7 @@ class BaseOrganisationDialog {
     String? roleName,
     required int locationId,
     bool isDbUser = false,
+    bool employeeId = false,
   }) {
     FocusManager.instance.primaryFocus?.unfocus();
     showDialog(
@@ -65,6 +66,7 @@ class BaseOrganisationDialog {
         return CustomListTexts(
           duplicateDepostorList: users,
           duplicateEntityList: entities,
+          isEmployeeId: employeeId,
           leftImageName: functionToCall != null &&
                   roleName == ConstantUserRoles.atomStaticUser
               ? AppIcon.addicon
