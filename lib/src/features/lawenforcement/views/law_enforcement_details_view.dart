@@ -1550,6 +1550,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
+            isEmployeeId: false,
             duplicateDepostorList: state.getDepositorResponse ?? [],
             leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
