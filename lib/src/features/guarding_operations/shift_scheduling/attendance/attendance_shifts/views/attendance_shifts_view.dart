@@ -364,7 +364,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             /// Briefing Points
             CommonWidgets.textDisplay(
               'Briefing Points:',
-              isMandatory: false,
+              isMandatory: true,
               Styles.textStyleBlack14,
             ),
             MultiSelectDropdown(

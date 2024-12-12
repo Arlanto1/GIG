@@ -2292,14 +2292,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               : widget.model?.employeeName.toString() ?? '';
       var userid = await SharedPrefs.getUserId();
 
-      BaseUser? name1 = (widget.model?.employee ??
-          User(
-            userId: widget.model?.employee?.userId,
-            name: nameTextController.text,
-            employeeId: widget.model?.employee?.employeeId
-          )) as BaseUser?;
-
-      createPassMgmtCubit.getNameUsersResponseData(name1);
+      // BaseUser? name1 = (widget.model?.employee ??
+      //     User(
+      //       userId: widget.model?.employee?.userId,
+      //       name: nameTextController.text,
+      //       employeeId: widget.model?.employee?.employeeId
+      //     )) as BaseUser?;
+      //
+      // createPassMgmtCubit.getNameUsersResponseData(host1);
 
 
       // createPassMgmtCubit.getNameUsersResponseData(name1);
