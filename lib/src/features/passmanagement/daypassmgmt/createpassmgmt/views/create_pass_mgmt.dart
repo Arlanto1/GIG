@@ -741,33 +741,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
 
-
                                     /// Company Name
                                     if (widget.passId ==
                                             ConstantsIntValue.passIdDayPass ||
                                         widget.passId ==
                                             ConstantsIntValue.passIdSez) ...[
-                                      FlutterInputField(
-                                        controller: companyNameTextController,
-                                        textInputType: TextInputType.text,
-                                        textFormKey: Keys.nameKey,
-                                        hintText: '',
-                                        focusNode: companyNameFocusNode,
-                                        isEnable: isFTECompanyNameEditable &&
-                                            (widget.model?.status == null ||
-                                                widget.model?.status ==
-                                                    ConstantsIntValue
-                                                        .passStatusCreated) &&
-                                            !(widget.extraProperties != null &&
-                                                !widget.extraProperties!
-                                                    .hasWritePermission!),
-                                        isDisableColor: false,
-                                        onChange: (String value) {
-                                          companyNameTextController.text =
-                                              value;
-                                        },
-                                        validateTextField: (String? user) {},
-                                      )
+                                      textFieldWidgetLoad(
+                                          controller: companyNameTextController,
+                                          index: 0,
+                                          state: state),
                                     ] else ...[
                                       textFieldWidgetLoad(
                                           controller: nameTextController,
@@ -853,8 +835,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       //     state: state),
                                       FlutterInputField(
                                         controller: nameTextController,
-                                        textInputType:
-                                        TextInputType.text,
+                                        textInputType: TextInputType.text,
                                         textFormKey: Keys.nameKey,
                                         hintText: '',
                                         focusNode: companyNameFocusNode,
@@ -864,8 +845,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           // nameTextController.text =
                                           //     value;
                                         },
-                                        validateTextField:
-                                            (String? user) {},
+                                        validateTextField: (String? user) {},
                                       )
                                     ],
 
@@ -2271,7 +2251,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //     ? widget.model?.host?.name ??''
       //     : 'dfgfd';
 
-      hostEmployeeIdTextController.text = ('${widget.model?.host?.name} (${widget.model?.host?.email})' ?? '');
+      hostEmployeeIdTextController.text =
+          ('${widget.model?.host?.name} (${widget.model?.host?.email})' ?? '');
       var userId = await SharedPrefs.getUserId();
       // BaseUser host1 = widget.dayPassItem?.host != null
 
@@ -2318,7 +2299,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //     )) as BaseUser?;
       //
       // createPassMgmtCubit.getNameUsersResponseData(host1);
-
 
       // createPassMgmtCubit.getNameUsersResponseData(name1);
 
@@ -3323,7 +3303,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   userId: user.id,
                   name: user.name,
                   employeeId: user.employeeId));
-              hostEmployeeIdTextController.text = '${user.name} (${user.email}})' ?? '';
+              hostEmployeeIdTextController.text =
+                  '${user.name} (${user.email}})' ?? '';
             },
           );
         }
@@ -3862,7 +3843,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         companyName: companyNameTextController.text,
         employeeName: state.nameResponse?.name == null
             ? (nameTextController.text)
-            : '${state.nameResponse?.name} (${state.nameResponse?.email})' ?? '',
+            : '${state.nameResponse?.name} (${state.nameResponse?.email})' ??
+                '',
         employeeId: state.nameResponse?.employeeId,
         employee: widget.passId == ConstantsIntValue.passIdDayPass
             ? User(
@@ -3890,8 +3872,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 ? passReturnedOn.toString()
                 : null,
         hostName: dbsponsorTextController.text.isEmpty
-            ? '${state.hostResponse?.userInfo} ${state.hostResponse?.email}' ?? ''
-            :  '${state.dbsponsorResponse?.userInfo} (${state.dbsponsorResponse?.email})' ?? '',
+            ? '${state.hostResponse?.userInfo} ${state.hostResponse?.email}' ??
+                ''
+            : '${state.dbsponsorResponse?.userInfo} (${state.dbsponsorResponse?.email})' ??
+                '',
         companyType: companyType,
         evidenceDocuments: evidenceDocuments,
         entities: entities,
@@ -3954,8 +3938,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           returnedTime:
               widget.model?.status == 1 ? passReturnedOn.toString() : null,
           hostName: dbsponsorTextController.text.isEmpty
-              ? '${state.hostResponse?.userInfo} (${state.hostResponse?.email})' ?? ''
-              : '${state.dbsponsorResponse?.userInfo} (${state.dbsponsorResponse?.email})' ?? '',
+              ? '${state.hostResponse?.userInfo} (${state.hostResponse?.email})' ??
+                  ''
+              : '${state.dbsponsorResponse?.userInfo} (${state.dbsponsorResponse?.email})' ??
+                  '',
           companyType: companyType,
           evidenceDocuments: evidenceDocuments,
           entities: entities,
@@ -4414,11 +4400,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   characterLimit: controller == contactnoTextController
                       ? Constants.characterLimitContactNo
                       : Constants.characterLimitIdTextFormField,
-                  isEnable: (controller == companyNameTextController &&
-                              widget.model?.status == 0
-                          ? isFTECompanyNameEditable
-                          : isEditable) ||
-                      isEditable,
+                  isEnable: isFTECompanyNameEditable && isEditable,
                   isDisableColor: isEditable,
                   hintText: '',
                   onChange: (String value) {
@@ -4450,11 +4432,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             characterLimit: controller == contactnoTextController
                 ? Constants.characterLimitContactNo
                 : Constants.characterLimitIdTextFormField,
-            isEnable: (controller == companyNameTextController &&
-                        widget.model?.status == 0
-                    ? isFTECompanyNameEditable
-                    : isEditable) ||
-                isEditable,
+            isEnable: isFTECompanyNameEditable && isEditable,
             isDisableColor: isEditable,
             hintText: '',
             onChange: (String value) {
