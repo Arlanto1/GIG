@@ -3201,6 +3201,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             (widget.extraProperties != null &&
                 !widget.extraProperties!.hasWritePermission!)) {
           BaseOrganisationDialog().userDialog(
+            employeeId: true,
             context: context,
             users: state.getDepositorResponse,
             roleName: ConstantUserRoles.atomStaticUser,
@@ -3278,6 +3279,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             !(widget.extraProperties != null &&
                 !widget.extraProperties!.hasWritePermission!)) {
           BaseOrganisationDialog().userDialog(
+            employeeId: true,
             context: context,
             users: state.getDepositorResponse!,
             roleName: ConstantUserRoles.atomStaticUser,
@@ -3355,6 +3357,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             !(widget.extraProperties != null &&
                 !widget.extraProperties!.hasWritePermission!)) {
           BaseOrganisationDialog().userDialog(
+            employeeId: true,
             context: context,
             users: state.getDepositorResponse,
             roleName: ConstantUserRoles.atomStaticUser,
