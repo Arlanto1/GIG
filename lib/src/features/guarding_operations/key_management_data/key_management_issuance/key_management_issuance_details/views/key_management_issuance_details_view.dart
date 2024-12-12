@@ -914,7 +914,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     onTap: () {
                                       if (isEnabled) {
                                         BaseOrganisationDialog().userDialog(
-                                          employeeId: true,
+                                          employeeId: false,
                                           context: context,
                                           enabled: isEnabled,
                                           users: state.emailUsers!,
