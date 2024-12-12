@@ -598,7 +598,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     child: Text(
                       !(articleItem!.employeeId.isEmptyOrNull)
                           ? '${articleItem.name} (${articleItem.email}, ${articleItem.employeeId})'
-                          : '${articleItem.name} (${articleItem.email})',
+                          : !(articleItem.email.isEmptyOrNull)?'${articleItem.name} (${articleItem.email})':'${articleItem.name}',
                       style: Styles.textStyleRegularGrey16,
                       textAlign: TextAlign.left,
                     ),

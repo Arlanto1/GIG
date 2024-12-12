@@ -309,7 +309,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                           // state.labels?.locale.guardRank ??
                           //    state.labels?.defaultLocale.guardRank ??
                           Constants.replacementBy,
-                          isMandatory: false,
+                          isMandatory: true,
                           Styles.textStyleBlack14),
 
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -512,10 +512,10 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
       }
     }
 
-    // if (replacementByController.text.isEmptyOrNull) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Replacement By');
-    // }
+    if (replacementByController.text.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Replacement By');
+    }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }

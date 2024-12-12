@@ -278,6 +278,9 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           'Attendance Status:',
           Utils().buildAttendanceShiftStatusRow(
               status: state.model.attdStatus ?? 0, returnTextOnly: true)),
+      CommonWidgets.verticalSpacerWidget(
+          MediaQuery.of(context).size.height * 0.01),
+
       OpacityAbsorbInkWellWidget(
         absorbing: isReadOnly,
         child: Column(
@@ -693,28 +696,63 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
   }
 
   // Helper method to create a RichText widget with label and value
+  // Widget buildTextWithLabel(String label, String? value) {
+  //   return RichText(
+  //     text: TextSpan(
+  //       children: [
+  //         TextSpan(
+  //           text: '$label ',
+  //           style: const TextStyle(
+  //             fontSize: 16,
+  //             // backgroundColor: Colors.red,
+  //             fontWeight: FontWeight.normal,
+  //             color: Colors.black, // You can adjust the color as needed
+  //           ),
+  //         ),
+  //         TextSpan(
+  //           text: value,
+  //           style: const TextStyle(
+  //             color: AppColors.black,
+  //             fontSize: 16,
+  //             fontWeight: FontWeight.bold,
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
   Widget buildTextWithLabel(String label, String? value) {
-    return RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: '$label ',
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.normal,
-              color: Colors.black, // You can adjust the color as needed
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: '$label ',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black, // You can adjust the color as needed
+                ),
+              ),
+              TextSpan(
+                text: value, // Default value if 'value' is null
+                style: const TextStyle(
+                  color: AppColors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
-          TextSpan(
-            text: value,
-            style: const TextStyle(
-              color: AppColors.black,
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
+        ),
+        const Divider(
+          color: Colors.grey, // Line color
+          thickness: 1.2, // Line thickness
+          height: 10, // Space between text and line
+        ),
+      ],
     );
   }
 
