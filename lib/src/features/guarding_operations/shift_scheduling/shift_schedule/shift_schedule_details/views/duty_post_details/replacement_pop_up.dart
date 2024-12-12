@@ -309,7 +309,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                           // state.labels?.locale.guardRank ??
                           //    state.labels?.defaultLocale.guardRank ??
                           Constants.replacementBy,
-                          isMandatory: true,
+                          isMandatory: false,
                           Styles.textStyleBlack14),
 
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
