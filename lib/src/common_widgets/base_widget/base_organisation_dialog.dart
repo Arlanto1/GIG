@@ -80,7 +80,7 @@ class BaseOrganisationDialog {
                   return BaseAddUserDialog(
                     title: Constants.createnewuser,
                     roleName: roleName ?? '',
-                    locationId: locationId!,
+                    locationId: locationId,
                     isDbUser: isDbUser,
                     functionToCall:
                         functionToCall ?? (BaseUser newCreatedUser) {},

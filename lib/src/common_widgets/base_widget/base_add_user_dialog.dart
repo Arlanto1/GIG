@@ -183,6 +183,7 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                         FlutterInputField(
                           controller: employeeIdTextController,
+                          textInputType: TextInputType.number,
                           textFormKey: Keys.lastnameTextController,
                           hintText: '',
                           onChange: (String username) {
