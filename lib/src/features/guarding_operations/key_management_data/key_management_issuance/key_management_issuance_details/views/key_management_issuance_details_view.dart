@@ -111,8 +111,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
         }
       },
       builder: (context, state) {
-        handedOverToController.text =
-            '${state.model.handedOverTo?.name ?? ''} (${state.model.handedOverTo?.email ?? ''})';
+        handedOverToController.text = state.model.employeeID!=null?
+            '${state.model.handedOverTo?.name ?? ''} (${state.model.handedOverTo?.email ?? ''})':'';
 
         if (state.model.status == -1 ||
             state.model.status == 3 ||

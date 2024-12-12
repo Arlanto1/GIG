@@ -741,6 +741,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
 
+
+                                    /// Company Name
                                     if (widget.passId ==
                                             ConstantsIntValue.passIdDayPass ||
                                         widget.passId ==
@@ -845,10 +847,26 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           Styles.textStyleBlack14),
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
-                                      textFieldWidgetLoad(
-                                          controller: nameTextController,
-                                          index: 0,
-                                          state: state),
+                                      // textFieldWidgetLoad(
+                                      //     controller: nameTextController,
+                                      //     index: 0,
+                                      //     state: state),
+                                      FlutterInputField(
+                                        controller: nameTextController,
+                                        textInputType:
+                                        TextInputType.text,
+                                        textFormKey: Keys.nameKey,
+                                        hintText: '',
+                                        focusNode: companyNameFocusNode,
+                                        isEnable: false,
+                                        isDisableColor: true,
+                                        onChange: (String value) {
+                                          // nameTextController.text =
+                                          //     value;
+                                        },
+                                        validateTextField:
+                                            (String? user) {},
+                                      )
                                     ],
 
                                     /// Contact No / Email
@@ -2253,7 +2271,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //     ? widget.model?.host?.name ??''
       //     : 'dfgfd';
 
-      hostEmployeeIdTextController.text = (widget.model?.host?.name ?? '');
+      hostEmployeeIdTextController.text = ('${widget.model?.host?.name} (${widget.model?.host?.email})' ?? '');
       var userId = await SharedPrefs.getUserId();
       // BaseUser host1 = widget.dayPassItem?.host != null
 
@@ -3221,7 +3239,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               //   locationSecurityManager1: state.getDepositorResponse?.atomStaticUser,
               // );
               createPassMgmtCubit.getNameUsersResponseData(user);
-              nameTextController.text = user.name ?? '';
+              nameTextController.text = '${user.name} (${user.email})' ?? '';
             },
           );
         }
@@ -3305,7 +3323,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   userId: user.id,
                   name: user.name,
                   employeeId: user.employeeId));
-              hostEmployeeIdTextController.text = user.name ?? '';
+              hostEmployeeIdTextController.text = '${user.name} (${user.email}})' ?? '';
             },
           );
         }
@@ -3844,7 +3862,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         companyName: companyNameTextController.text,
         employeeName: state.nameResponse?.name == null
             ? (nameTextController.text)
-            : state.nameResponse?.name ?? '',
+            : '${state.nameResponse?.name} (${state.nameResponse?.email})' ?? '',
         employeeId: state.nameResponse?.employeeId,
         employee: widget.passId == ConstantsIntValue.passIdDayPass
             ? User(
@@ -3872,8 +3890,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 ? passReturnedOn.toString()
                 : null,
         hostName: dbsponsorTextController.text.isEmpty
-            ? state.hostResponse?.userInfo ?? ''
-            : state.dbsponsorResponse?.userInfo ?? '',
+            ? '${state.hostResponse?.userInfo} ${state.hostResponse?.email}' ?? ''
+            :  '${state.dbsponsorResponse?.userInfo} (${state.dbsponsorResponse?.email})' ?? '',
         companyType: companyType,
         evidenceDocuments: evidenceDocuments,
         entities: entities,
@@ -3936,8 +3954,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           returnedTime:
               widget.model?.status == 1 ? passReturnedOn.toString() : null,
           hostName: dbsponsorTextController.text.isEmpty
-              ? state.hostResponse?.userInfo ?? ''
-              : state.dbsponsorResponse?.userInfo ?? '',
+              ? '${state.hostResponse?.userInfo} (${state.hostResponse?.email})' ?? ''
+              : '${state.dbsponsorResponse?.userInfo} (${state.dbsponsorResponse?.email})' ?? '',
           companyType: companyType,
           evidenceDocuments: evidenceDocuments,
           entities: entities,
