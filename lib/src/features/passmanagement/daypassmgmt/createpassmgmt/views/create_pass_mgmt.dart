@@ -2292,11 +2292,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               : widget.model?.employeeName.toString() ?? '';
       var userid = await SharedPrefs.getUserId();
 
-      User? name1 = widget.model?.employee ??
+      BaseUser? name1 = (widget.model?.employee ??
           User(
             userId: widget.model?.employee?.userId,
             name: nameTextController.text,
-          );
+            employeeId: widget.model?.employee?.employeeId
+          )) as BaseUser?;
+
+      createPassMgmtCubit.getNameUsersResponseData(name1);
+
 
       // createPassMgmtCubit.getNameUsersResponseData(name1);
 
@@ -3178,7 +3182,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   Widget nameAddButtonWidgetLoading(CreatePassMgmtState state) {
     return TextFieldAddButton(
-      title: state.nameResponse?.employeeId ?? state.nameResponse?.employeeId,
+      title: state.nameResponse?.employeeId,
       height: 60,
       isDisableColor: widget.model?.status == 0 ||
               widget.model == null ||
