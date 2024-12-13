@@ -486,6 +486,7 @@ class _CreateFoundState extends State<CreateFound> {
       Validator().showToast(
         context,
         "Please enter found location",
+
       );
     } else if (quantityTextController.text.isEmpty) {
       Validator().showToast(
@@ -500,22 +501,19 @@ class _CreateFoundState extends State<CreateFound> {
     } else if (isDepositorDBEmployeeSelected == 0 &&
         depositorTextController.text.isEmpty) {
       Validator().showToast(context, "Please enter depositor");
-    } else if (isDepositorDBEmployeeSelected == 1 &&
-        (((selectedDepositorUser?.name ?? "").isEmpty) ||
-            (depositorEmpIdTextController.text.isEmpty) ||
-            ((selectedEmployeeDepartment?.name ?? "").isEmpty))) {
-      if ((selectedDepositorUser?.name ?? "").isEmpty) {
+    } else if (isDepositorDBEmployeeSelected == 1) {
+      if ((selectedDepositorUser?.employeeId ?? "").isEmpty) {
         Validator().showToast(
           context,
-          "Please enter depositor",
+          "Please enter depositor employee id",
         );
-      } else if (isClaimantAcceptedToSignSelected == 0) {
+      } else if (isClaimantAcceptedToSignSelected == 0 && widget.model?.status != 0) {
         Validator().showToast(context,
             "Please Save instead of initiate Claimant confirmation process");
       } else if (depositorEmpIdTextController.text.isEmpty) {
         Validator().showToast(
           context,
-          "Please enter depositor employee id",
+          "Please enter depositor",
         );
       } else if ((selectedEmployeeDepartment?.name ?? "").isEmpty) {
         Validator().showToast(
@@ -586,7 +584,7 @@ class _CreateFoundState extends State<CreateFound> {
           return CustomListTexts(
             duplicateArticleList:
             state.getArticleTypeResponse?.articleList ?? [],
-            leftImageName: AppIcon.addicon,
+            leftImageName: null,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
