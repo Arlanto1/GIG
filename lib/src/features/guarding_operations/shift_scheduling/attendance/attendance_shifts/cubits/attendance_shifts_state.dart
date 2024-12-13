@@ -30,10 +30,10 @@ class AttendanceShiftsState extends Equatable {
 
   ErrorResponse get isValidDraft {
 
-    if (model.briefingPoints == null && model.attdStatus == 1) {
-      return const ErrorResponse(
-          status: false, message: 'Please select/enter Briefing Points');
-    }
+    // if (model.briefingPoints == null && model.attdStatus == 1) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please select/enter Briefing Points');
+    // }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 

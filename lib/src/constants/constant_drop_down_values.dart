@@ -304,7 +304,7 @@ const List<Label> attendanceTypeDropDownValues = [
 const List<Label> attendanceStatusDropDownValues = [
   Label(key: 'Draft', value: '0'),
   Label(key: 'Active', value: '1'),
-  Label(key: 'InActive', value: '2'),
+  Label(key: 'Closed', value: '2'),
   Label(key: 'Cancelled', value: '-1'),
 ];
 
