@@ -635,7 +635,7 @@ class _CreateFoundState extends State<CreateFound> {
             isEmployeeId: true,
             duplicateDepostorList:
             state.getDepositorResponse?.atomStaticUser ?? [],
-            leftImageName: AppIcon.addicon,
+            leftImageName: null,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(

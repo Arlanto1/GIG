@@ -40,7 +40,6 @@ class BaseOrganisationDialog {
                 });
           },
           onTap: enabled ? onTap : null,
-
         );
       },
     );
@@ -67,10 +66,11 @@ class BaseOrganisationDialog {
           duplicateDepostorList: users,
           duplicateEntityList: entities,
           isEmployeeId: employeeId,
-          leftImageName: functionToCall != null &&
-                  roleName == ConstantUserRoles.atomStaticUser
-              ? AppIcon.addicon
-              : null,
+          // leftImageName: functionToCall != null &&
+          //         roleName == ConstantUserRoles.atomStaticUser
+          //     ? AppIcon.addicon
+          //     : null,
+          leftImageName: null,
           onLeftButtonTap: () {
             Navigator.pop(context);
             showDialog(
