@@ -123,7 +123,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
             title: Constants.attendanceDetails,
             showPopUp: false,
             showSubmitButton: !isReadOnly,
-            showSaveButton: !isReadOnly,
+            showSaveButton: false,
             showDisLikeButton: false,
             showLikeButton: false,
             pdfAPIName:

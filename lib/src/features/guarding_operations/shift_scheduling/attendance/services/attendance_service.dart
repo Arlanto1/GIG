@@ -107,8 +107,9 @@ class AttendanceServices {
   Future<GenericResponse> createAttendanceShiftDutyPost({
     required AttendanceShiftDutyPostRequest body,
     required bool isSubmit,
+    required bool isRemove,
   }) async {
-    final String url = "${Apis._updateAttendance}&isSubmit=$isSubmit";
+    final String url = "${Apis._updateAttendance}&isSubmit=$isSubmit&isRemove=$isRemove";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),

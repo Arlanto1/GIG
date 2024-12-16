@@ -209,14 +209,16 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
   }
 
   Future<void> submitAndRefreshScreen(
-      {BuildContext? context, bool? checkValidations}) async {
+      {BuildContext? context, bool? checkValidations, required bool isRemove,required bool isSaveOnly,required bool isSubmit}) async {
     /// Saving the record
     await submitForm(
-      isSaveOnly: true,
+      isSaveOnly: isSaveOnly,
+      isSubmit: isSubmit,
       // model: state.model,
       status: FormStatus.initial,
       // newSelectedShift: state.selectedShift!,
       // checkValidations: checkValidations,
+      isRemove: isRemove,
     );
 
     /// For Adding Replacement
@@ -236,7 +238,10 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
   Future<void> updateReplacement(
     BuildContext context,
     Replacement updatedReplacement,
-  ) async {
+      bool isRemove,
+      bool isSubmit,
+      bool isSaveOnly,
+      ) async {
     emit(state.copyWith(status: FormStatus.loading));
 
     if (updatedReplacement.id != null) {
@@ -264,10 +269,10 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     ));
 
     /// Saving and Refresh the record
-    await submitAndRefreshScreen(context: context, checkValidations: false);
+    await submitAndRefreshScreen(context: context, checkValidations: false, isRemove: isRemove,isSaveOnly:isSaveOnly,isSubmit:isSubmit);
   }
 
-  Future<void> submitForm({bool isSaveOnly = false, FormStatus? status}) async {
+  Future<void> submitForm({bool isSaveOnly = false, FormStatus? status, required bool isRemove,required bool isSubmit}) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -292,8 +297,9 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
           return;
         }
         response = (await services.createAttendanceShiftDutyPost(
-            body: request, isSubmit: false));
-      } else {
+            body: request, isSubmit: false, isRemove: isRemove));
+      }
+      if(isSubmit) {
         //Validating Fields
         if (!state.isValid.status) {
           emit(
@@ -305,7 +311,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
           return;
         }
         response = (await services.createAttendanceShiftDutyPost(
-            body: request, isSubmit: true));
+            body: request, isSubmit: true, isRemove: isRemove));
       }
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);

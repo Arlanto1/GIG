@@ -57,10 +57,11 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
-              Navigator.pop(context);
+              // Navigator.pop(context);
               Navigator.popAndPushNamed(
                 context,
                 attendanceListRoute,
+                arguments: {},
               );
             },
           );
@@ -94,18 +95,24 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           isReadOnly = false;
         }
         // isReadOnly = false; // TODO: remove this
-
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
               context: context,
               title: widget.selectedDutyPostModel.name ?? '',
               showPopUp: false,
-              showSaveButton: widget.isReadOnly ? false : true,
-              showSubmitButton: widget.isReadOnly ? false : true,
+              showSaveButton: false,
+              // showSubmitButton: widget.isReadOnly ? false : true,
+              showSubmitButton: state.model.activeShift == true ? true : false,
               showDisLikeButton: false,
               showLikeButton: false,
-              onTapSave: () => BlocProvider.of<AttendanceShiftsCubit>(context)
-                  .submitAndRefreshScreen(),
+              popAndReplace: () {
+                log('popAndReplace');
+                Navigator.pop(context);
+                // Navigator.pop(context);
+              },
+
+              // onTapSave: () => BlocProvider.of<AttendanceShiftsCubit>(context)
+              //     .submitAndRefreshScreen(isRemove: isRemove),
               // onTapSubmit: () => submitDutyPost(context, isSaveOnly: false),
 
               /// On Click on Submit it will show the confirmation dialogue box
@@ -127,16 +134,26 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
 
                         /// on click ok, it will submit the record
                         TextButton(
-                            child: const Text(Constants.ok),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              submitDutyPost(this.context, isSaveOnly: false);
-                            }),
+                          child: const Text(Constants.ok),
+                          onPressed: () {
+                            FocusScope.of(context).unfocus();
+                            // Close the dialog
+                            Navigator.of(context).pop();
+                            // Submit and refresh data
+                            BlocProvider.of<AttendanceShiftsCubit>(this.context)
+                                .submitAndRefreshScreen(
+                                    isSubmit: true,
+                                    isSaveOnly: false,
+                                    isRemove: false);
+                          },
+                        ),
                       ],
                     );
                   },
                 );
-              }),
+              }
+
+              ),
           body: Padding(
             padding: const EdgeInsets.all(20),
             child: SingleChildScrollView(
@@ -152,11 +169,17 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     );
   }
 
-  void submitDutyPost(BuildContext context, {required bool isSaveOnly}) {
+  void submitDutyPost(BuildContext context,
+      {required bool isSaveOnly,
+      required bool isRemove,
+      required bool isSubmit}) {
     FocusScope.of(context).unfocus();
     log('----onTap${isSaveOnly ? 'Save' : 'Submit'}--');
     BlocProvider.of<AttendanceShiftsCubit>(context).submitForm(
-        isSaveOnly: isSaveOnly, status: isSaveOnly ? FormStatus.initial : null);
+        isSaveOnly: isSaveOnly,
+        status: isSaveOnly ? FormStatus.initial : null,
+        isRemove: isRemove,
+        isSubmit: isSubmit);
   }
 
   Widget getBody(
@@ -282,84 +305,118 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           MediaQuery.of(context).size.height * 0.01),
 
       OpacityAbsorbInkWellWidget(
-        absorbing: isReadOnly,
+        absorbing: false,
         child: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                buildShiftColumn(
-                  shift: state.model,
-                  guards: state.model.selectForAttendance ?? {},
-                  destinationList: state.model.attended ?? {},
-                  isSourceList: true,
-                  label:
-                      'Select For \nAttendance: \n${state.model.shift} (Planned: ${state.model.allowed})',
+                Opacity(
+                  opacity: state.model.attdStatus != 1 ? 0.5 : 1.0,
+                  child: AbsorbPointer(
+                    absorbing: state.model.attdStatus != 1,
+                    child: buildShiftColumn(
+                      shift: state.model,
+                      guards: state.model.selectForAttendance ?? {},
+                      destinationList: state.model.attended ?? {},
+                      isSourceList: true,
+                      label:
+                          'Select for Attendance: \n${state.model.shift} (Planned: ${state.model.allowed})',
+                    ),
+                  ),
                 ),
                 Column(
                   children: [
-                    buildArrowButton(
-                      state: state,
-                      icon: Icons.arrow_right,
-                      destinationList: state.model.attended ?? {},
-                      onAdd: (BaseUser guard) {
-                        state.model.attended?.add(guard);
-                        state.model.selectForAttendance?.remove(guard);
-                      },
+                    Opacity(
+                      opacity: state.model.attdStatus != 1 ? 0.5 : 1.0,
+                      child: AbsorbPointer(
+                        absorbing: state.model.attdStatus != 1,
+                        child: buildArrowButton(
+                          state: state,
+                          icon: Icons.arrow_right,
+                          destinationList: state.model.attended ?? {},
+                          onAdd: (BaseUser guard) {
+                            state.model.attended?.add(guard);
+                            state.model.selectForAttendance?.remove(guard);
+                          },
+                          isRemove: false,
+                        ),
+                      ),
                     ),
-                    buildArrowButton(
-                      state: state,
-                      icon: Icons.arrow_left,
-                      destinationList: state.model.selectForAttendance ?? {},
-                      onAdd: (BaseUser guard) {
-                        state.model.selectForAttendance?.add(guard);
-                        state.model.attended?.remove(guard);
-                      },
-                    ),
-                  ],
-                ),
-                buildShiftColumn(
-                  shift: state.model,
-                  guards: state.model.attended ?? {},
-                  destinationList: state.model.attended ?? {},
-                  isSourceList: false,
-                  label: 'Attended\n\n',
-                ),
-                Column(
-                  children: [
-                    buildArrowButton(
-                      state: state,
-                      icon: Icons.arrow_right,
-                      destinationList: state.model.previousShift ?? {},
-                      onAdd: (BaseUser guard) {
-                        state.model.previousShift?.add(guard);
-                        state.model.attended?.remove(guard);
-                      },
-                    ),
-                    buildArrowButton(
-                      state: state,
-                      icon: Icons.arrow_left,
-                      destinationList: state.model.attended ?? {},
-                      onAdd: (BaseUser guard) {
-                        state.model.attended?.add(guard);
-                        state.model.previousShift?.remove(guard);
-                      },
+                    Opacity(
+                      opacity: state.model.attdStatus != 1 ? 0.5 : 1.0,
+                      child: AbsorbPointer(
+                        absorbing: state.model.attdStatus != 1,
+                        child: buildArrowButton(
+                          state: state,
+                          icon: Icons.arrow_left,
+                          destinationList:
+                              state.model.selectForAttendance ?? {},
+                          onAdd: (BaseUser guard) {
+                            state.model.selectForAttendance?.add(guard);
+                            state.model.attended?.remove(guard);
+                          },
+                          isRemove: true,
+                        ),
+                      ),
                     ),
                   ],
                 ),
-                buildShiftColumn(
-                  shift: state.model,
-                  destinationList: state.model.attended ?? {},
-                  guards: state.model.previousShift ?? {},
-                  isSourceList: false,
-                  label: 'Select From\nPrevious Shift\n',
+                Opacity(
+                  opacity: state.model.attdStatus != 1 ? 0.5 : 1.0,
+                  child: AbsorbPointer(
+                    absorbing: state.model.attdStatus != 1,
+                    child: buildShiftColumn(
+                      shift: state.model,
+                      guards: state.model.attended ?? {},
+                      destinationList: state.model.attended ?? {},
+                      isSourceList: false,
+                      label: '           Attended\n',
+                    ),
+                  ),
                 ),
+                // Column(
+                //  children: [
+                // buildArrowButton(
+                //   state: state,
+                //   icon: Icons.arrow_right,
+                //   destinationList: state.model.previousShift ?? {},
+                //   onAdd: (BaseUser guard) {
+                //     state.model.previousShift?.add(guard);
+                //     state.model.attended?.remove(guard);
+                //   },
+                // ),
+                // buildArrowButton(
+                //   state: state,
+                //   icon: Icons.arrow_left,
+                //   destinationList: state.model.attended ?? {},
+                //   onAdd: (BaseUser guard) {
+                //     state.model.attended?.add(guard);
+                //     state.model.previousShift?.remove(guard);
+                //   },
+                // ),
+                //  ],
+                // ),
+                // buildShiftColumn(
+                //   shift: state.model,
+                //   destinationList: state.model.attended ?? {},
+                //   guards: state.model.previousShift ?? {},
+                //   isSourceList: false,
+                //   label: 'Select From\nPrevious Shift\n',
+                // )   ,
               ],
             ),
             CommonWidgets.verticalSpacerWidget(
                 MediaQuery.of(context).size.height * 0.01),
+            // if (!state.model.selectForAttendance.isEmptyOrNull) ...[
+            //   buildReplacementColumn(state),
+            // ],
             if (!state.model.selectForAttendance.isEmptyOrNull) ...[
-              buildReplacementColumn(state),
+              AbsorbPointer(
+                absorbing: state.model.activeShift == false,
+                // Disable interaction if inactive
+                child: buildReplacementColumn(state),
+              ),
             ],
             CommonWidgets.verticalSpacerWidget(
                 MediaQuery.of(context).size.height * 0.01),
@@ -370,18 +427,26 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               isMandatory: true,
               Styles.textStyleBlack14,
             ),
-            MultiSelectDropdown(
-              briefingPoints: state.briefingPoints ?? [],
-              selectedPoints: state.model.briefingPoints?.split(',') ?? [],
-              onSelectedBriefingPointsChanged: (List<String> points) {
-                log('-points--$points--');
-                state.model.briefingPoints = Utils().joinListWithComma(points);
+            Opacity(
+              opacity: state.model.attdStatus != 1 ? 0.5 : 1.0,
+              child: AbsorbPointer(
+                absorbing: isReadOnly,
+                child: MultiSelectDropdown(
+                  briefingPoints: state.briefingPoints ?? [],
+                  selectedPoints: state.model.briefingPoints?.split(',') ?? [],
+                  onSelectedBriefingPointsChanged: (List<String> points) {
+                    log('-points--$points--');
+                    state.model.briefingPoints =
+                        Utils().joinListWithComma(points);
 
-                BlocProvider.of<AttendanceShiftsCubit>(context)
-                    .submitAndRefreshScreen();
-                // Update the points in your Bloc or state management accordingly
-                // BlocProvider.of<AttendanceShiftsCubit>(context).updateBriefingPoints();
-              },
+                    BlocProvider.of<AttendanceShiftsCubit>(context)
+                        .submitAndRefreshScreen(
+                            isRemove: true, isSubmit: false, isSaveOnly: true);
+                    // Update the points in your Bloc or state management accordingly
+                    // BlocProvider.of<AttendanceShiftsCubit>(context).updateBriefingPoints();
+                  },
+                ),
+              ),
             ),
             CommonWidgets.verticalSpacerWidget(
                 MediaQuery.of(context).size.height * 0.01),
@@ -393,9 +458,12 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             //   Styles.textStyleBlack14,
             // ),
 
-            buildSlaListColumn(
-              state: state,
-              shift: state.model,
+            AbsorbPointer(
+              absorbing: state.model.activeShift == false,
+              child: buildSlaListColumn(
+                state: state,
+                shift: state.model,
+              ),
             ),
             CommonWidgets.verticalSpacerWidget(
                 MediaQuery.of(context).size.height * 0.02),
@@ -410,6 +478,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     required IconData icon,
     required Set<BaseUser> destinationList,
     required void Function(BaseUser guard) onAdd,
+    required bool isRemove,
   }) {
     return IconButton(
       iconSize: 30,
@@ -420,9 +489,9 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           log('----@@@--${state.status}-----');
           log('------${state.status}-----');
           onAdd(selectedGuard!);
-
           BlocProvider.of<AttendanceShiftsCubit>(context)
-              .submitAndRefreshScreen();
+              .submitAndRefreshScreen(
+                  isRemove: isRemove, isSubmit: false, isSaveOnly: true);
           setState(() {});
         }
       },
@@ -441,7 +510,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.max,
       children: [
         CommonWidgets.textDisplay(
           label,
@@ -495,7 +564,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                 ConstantsArgument.vendor: widget.vendor,
               },
             ).then((_) => BlocProvider.of<AttendanceShiftsCubit>(context)
-                .submitAndRefreshScreen());
+                .submitAndRefreshScreen(
+                    isRemove: false, isSubmit: false, isSaveOnly: true));
           },
           child: Row(
             children: <Widget>[
@@ -679,8 +749,10 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                     state.model.replacements?.remove(replacement);
                     BlocProvider.of<AttendanceShiftsCubit>(context)
                         .submitAndRefreshScreen(
-                      checkValidations: false,
-                    );
+                            checkValidations: false,
+                            isRemove: false,
+                            isSubmit: false,
+                            isSaveOnly: true);
                     setState(() {});
                   },
                   child: Card(
@@ -768,20 +840,25 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
   }) {
     double width = MediaQuery.of(context).size.width;
     double columnWidth;
-    if (width > Constants.tabletScreenWidth) {
-      /// TABLET
-      columnWidth = width / 3.6;
-    } else {
-      /// Mobile
-      columnWidth = width / 4.67;
-    }
+    // if (width > Constants.tabletScreenWidth) {
+    //   /// TABLET
+    //   // columnWidth = width / 3.6;
+    //   columnWidth = width / 1.6;
+    //
+    // } else {
+    //   /// Mobile
+    //   // columnWidth = width / 4.67;
+    //   columnWidth = width / 2.67;
+    //
+    // }
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         color: AppColors.disableTextFieldBackground,
       ),
       height: MediaQuery.of(context).size.height / 3.3,
-      width: columnWidth,
+      width: MediaQuery.of(context).size.width / 2.6,
       child: ListView.builder(
         itemCount: availableGuards.length,
         shrinkWrap: true,
