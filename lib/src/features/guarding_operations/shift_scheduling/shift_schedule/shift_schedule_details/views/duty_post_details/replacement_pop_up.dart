@@ -440,7 +440,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
 
         if (widget.viaAttendance) {
           BlocProvider.of<AttendanceShiftsCubit>(widget.mainContext)
-              .updateReplacement(context, widget.model,false,false,false);
+              .updateReplacement(context, widget.model,false,false,true);
         } else {
           BlocProvider.of<DutyPostDetailsCubit>(widget.mainContext)
               .updateReplacement(context, widget.model);
