@@ -581,7 +581,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                           'Reason:',
                           Utils().getKeyFromValue(
                             value: replacement.status!,
-                            dropdownValues: shiftScheduleReasonDropDownValues,
+                            dropdownValues: attendanceReasonDropDownValues,
                           )),
                       buildTextWithLabel(
                           'Replacement By:', replacement.replacementBy?.name),
