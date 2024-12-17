@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/opacity_absorb_widget.dart';
 
+import '../../attendance_details/views/attendance_details_view.dart';
+
 class AttendanceShiftsView extends StatefulWidget {
   const AttendanceShiftsView({
     super.key,
@@ -110,21 +112,16 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               // onTapSubmit: () => submitDutyPost(context, isSaveOnly: false),
 
               popAndReplace: () {
-                //   AttendanceDetailsView attendanceDetailsView;
-                // }
-                //   // log('--popAndReplace-----');
-                //   bool isFirstDutyPost = state.dutyPosts?.isNotEmpty == true &&
-                //       state.dutyPosts?.first.id == dutyPostNameId;
-                //
-                //   if (isFirstDutyPost) {
-                //     log('--popAndReplace (first duty post)-----');
-                //     Navigator.pop(context);
-                //   } else {
-                //     log('--popAndReplace (not first duty post)-----');
-                Navigator.pop(context);
-                Navigator.pop(context);
-                Navigator.pop(context);
-                // }
+                int flag = AttendanceDetailsView.flag;
+
+                // log('flagValueinShiftsView----${flag}');
+                if (flag == 1) {
+                  Navigator.pop(context);
+                } else {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                }
               },
               /// On Click on Submit it will show the confirmation dialogue box
               onTapSubmit: () {

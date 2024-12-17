@@ -534,10 +534,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     GestureDetector(
                                       onTap: () {
                                         if ((widget.model == null ||
-                                            widget.model?.status == 0) &&
-                                            !(widget.extraProperties != null &&
-                                                !widget.extraProperties!
-                                                    .hasWritePermission!)) {
+                                            widget.model?.status == 0)
+                                            // &&
+                                            // !(widget.extraProperties != null &&
+                                            //     !widget.extraProperties!
+                                            //         .hasWritePermission!)
+                                        ) {
                                           passTypeDialog(state);
                                         }
                                       },
@@ -555,11 +557,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           if ((widget.model?.status == 0 ||
                                               widget.model?.status ==
                                                   null ||
-                                              widget.model?.status != 1) ||
-                                              !(widget.extraProperties !=
-                                                  null &&
-                                                  !widget.extraProperties!
-                                                      .hasWritePermission!)) {
+                                              widget.model?.status != 1)
+                                              // ||
+                                              // !(widget.extraProperties !=
+                                              //     null &&
+                                              //     !widget.extraProperties!
+                                              //         .hasWritePermission!)
+                                          ) {
                                             passTypeDialog(state);
                                           }
                                         },
@@ -575,11 +579,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 widget.model?.status ==
                                                     null ||
                                                 widget.model?.status !=
-                                                    1) &&
-                                                !(widget.extraProperties !=
-                                                    null &&
-                                                    !widget.extraProperties!
-                                                        .hasWritePermission!)) {
+                                                    1)
+                                                // &&
+                                                // !(widget.extraProperties !=
+                                                //     null &&
+                                                //     !widget.extraProperties!
+                                                //         .hasWritePermission!)
+                                            ) {
                                               passTypeDialog(state);
                                             }
                                           },
@@ -605,11 +611,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       GestureDetector(
                                         onTap: () {
                                           if ((widget.model == null ||
-                                              widget.model?.status == 0) &&
-                                              !(widget.extraProperties !=
-                                                  null &&
-                                                  !widget.extraProperties!
-                                                      .hasWritePermission!)) {
+                                              widget.model?.status == 0)
+                                              // &&
+                                              // !(widget.extraProperties !=
+                                              //     null &&
+                                              //     !widget.extraProperties!
+                                              //         .hasWritePermission!)
+                                          ) {
                                             if (!isDisabled) {
                                               //daypassNoDialog();
                                               //passnumberaddButtonwidgetLoading(state);
@@ -644,11 +652,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                   daypassnoTextController
                                                       .text.isEmpty ||
                                                   widget.model?.status ==
-                                                      0) &&
-                                                  !(widget.extraProperties !=
-                                                      null &&
-                                                      !widget.extraProperties!
-                                                          .hasWritePermission!)) {
+                                                      0)
+                                                  // &&
+                                                  // !(widget.extraProperties !=
+                                                  //     null &&
+                                                  //     !widget.extraProperties!
+                                                  //         .hasWritePermission!)
+                                              ) {
                                                 //passnumberaddButtonwidgetLoading(state);
                                                 // if (widget.passId == ConstantsIntValue.passIdSez) {
                                                 passCategoryDialog(
@@ -672,13 +682,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                   if ((widget.model == null ||
                                                       widget.model
                                                           ?.status ==
-                                                          0) &&
-                                                      !(widget
-                                                          .extraProperties !=
-                                                          null &&
-                                                          !widget
-                                                              .extraProperties!
-                                                              .hasWritePermission!)) {
+                                                          0)
+                                                      // &&
+                                                      // !(widget
+                                                      //     .extraProperties !=
+                                                      //     null &&
+                                                      //     !widget
+                                                      //         .extraProperties!
+                                                      //         .hasWritePermission!)
+                                                  ) {
                                                     //passnumberaddButtonwidgetLoading(state);
                                                     // if (widget.passId == ConstantsIntValue.passIdSez) {
                                                     passCategoryDialog(
@@ -828,10 +840,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             (widget.model?.status == null ||
                                                 widget.model?.status ==
                                                     ConstantsIntValue
-                                                        .passStatusCreated) &&
-                                            !(widget.extraProperties != null &&
-                                                !widget.extraProperties!
-                                                    .hasWritePermission!),
+                                                        .passStatusCreated)
+                                            // &&
+                                            // !(widget.extraProperties != null &&
+                                            //     !widget.extraProperties!
+                                            //         .hasWritePermission!)
+                                        ,
                                         isDisableColor: false,
                                         onChange: (String value) {
                                           companyNameTextController.text =
@@ -1179,11 +1193,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       onTap: () {
                                         if ((widget.model?.status == 0 ||
                                             widget.model?.status ==
-                                                null) &&
-                                            !(widget.extraProperties !=
-                                                null &&
-                                                !widget.extraProperties!
-                                                    .hasWritePermission!)) {
+                                                null)
+                                            // &&
+                                            // !(widget.extraProperties !=
+                                            //     null &&
+                                            //     !widget.extraProperties!
+                                            //         .hasWritePermission!)
+                                        ) {
                                           photoIdentityTypeDialog();
                                         }
                                       },
@@ -1210,12 +1226,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 0 ||
                                                 widget.model
                                                     ?.status ==
-                                                    null) &&
-                                                !(widget.extraProperties !=
-                                                    null &&
-                                                    !widget
-                                                        .extraProperties!
-                                                        .hasWritePermission!)) {
+                                                    null)
+                                                // &&
+                                                // !(widget.extraProperties !=
+                                                //     null &&
+                                                //     !widget
+                                                //         .extraProperties!
+                                                //         .hasWritePermission!)
+                                            ) {
                                               photoIdentityTypeDialog();
                                             }
                                           },
@@ -1235,12 +1253,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     0 ||
                                                     widget.model
                                                         ?.status ==
-                                                        null) &&
-                                                    !(widget.extraProperties !=
-                                                        null &&
-                                                        !widget
-                                                            .extraProperties!
-                                                            .hasWritePermission!)) {
+                                                        null)
+                                                    // &&
+                                                    // !(widget.extraProperties !=
+                                                    //     null &&
+                                                    //     !widget
+                                                    //         .extraProperties!
+                                                    //         .hasWritePermission!)
+                                                ) {
                                                   photoIdentityTypeDialog();
                                                 }
                                               })),
@@ -1517,11 +1537,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       GestureDetector(
                                         onTap: () {
                                           if ((widget.model == null ||
-                                              widget.model?.status == 0) &&
-                                              !(widget.extraProperties !=
-                                                  null &&
-                                                  !widget.extraProperties!
-                                                      .hasWritePermission!)) {
+                                              widget.model?.status == 0)
+                                              // &&
+                                              // !(widget.extraProperties !=
+                                              //     null &&
+                                              //     !widget.extraProperties!
+                                              //         .hasWritePermission!)
+                                          ) {
                                             if (!isDisabled) {
                                               //daypassNoDialog();
                                               //passnumberaddButtonwidgetLoading(state);
@@ -2650,15 +2672,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     return TextFieldAddButton(
       title: state.selectedDepartment?.name ?? '',
       height: 60,
-      isDisableColor: (widget.model == null || widget.model?.status == 0) &&
-          !(widget.extraProperties != null &&
-              !widget.extraProperties!.hasWritePermission!)
+      isDisableColor: (widget.model == null || widget.model?.status == 0)
           ? false
           : true,
       onTap: () {
-        if ((widget.model == null || widget.model?.status == 0) &&
-            !(widget.extraProperties != null &&
-                !widget.extraProperties!.hasWritePermission!)) {
+        if ((widget.model == null || widget.model?.status == 0) ) {
           //  articleTypeDialog(state);
           departmentsDialog(state);
         }
@@ -2805,9 +2823,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   Widget uploadWidget(CreatePassMgmtState state, bool isPhotoType) {
     return // upload
       widget.model == null ||
-          widget.model?.status == 0 &&
-              !(widget.extraProperties != null &&
-                  !widget.extraProperties!.hasWritePermission!)
+          widget.model?.status == 0
           ? Container(
         height: 60,
         decoration: BoxDecoration(
@@ -2932,13 +2948,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           ? "FTE"
           : state.selectedCompanyType?.name ?? '',
       height: 60,
-      isDisableColor: !((widget.model == null || widget.model?.status == 0) &&
-          !(widget.extraProperties != null &&
-              !widget.extraProperties!.hasWritePermission!)),
+      isDisableColor: !((widget.model == null || widget.model?.status == 0) ),
       onTap: () {
-        if ((widget.model == null || widget.model?.status == 0) &&
-            !(widget.extraProperties != null &&
-                !widget.extraProperties!.hasWritePermission!)) {
+        if ((widget.model == null || widget.model?.status == 0) ) {
           companyTypeDialog(state);
         }
 
@@ -3086,25 +3098,19 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       title: state.nameResponse?.employeeId,
       height: 60,
       isDisableColor: widget.model?.status == 0 ||
-          widget.model == null ||
-          (widget.extraProperties != null &&
-              !widget.extraProperties!.hasWritePermission!) &&
+          widget.model == null  &&
               (state.selectedCompanyType?.name ?? '').toLowerCase() != 'fte'
           ? false
           : true,
       onTap: () {
         if ((state.selectedCompanyType?.name ?? '').toLowerCase() == 'fte' &&
             state.model.status ==
-                ConstantsIntValue.articleFoundStatusHandedOverOrClaimed ||
-            (widget.extraProperties != null &&
-                !widget.extraProperties!.hasWritePermission!)) {
+                ConstantsIntValue.articleFoundStatusHandedOverOrClaimed) {
           return;
         }
 
         if (widget.model?.status == 0 ||
-            widget.model == null ||
-            (widget.extraProperties != null &&
-                !widget.extraProperties!.hasWritePermission!)) {
+            widget.model == null ) {
           BaseOrganisationDialog().userDialog(
             employeeId: true,
             context: context,
@@ -3174,15 +3180,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       title: state.hostResponse?.employeeId,
       height: 60,
       isDisableColor: widget.model?.status == 0 ||
-          widget.model?.status == null &&
-              !(widget.extraProperties != null &&
-                  !widget.extraProperties!.hasWritePermission!)
+          widget.model?.status == null
           ? false
           : true,
       onTap: () {
-        if ((widget.model == null || widget.model?.status == 0) &&
-            !(widget.extraProperties != null &&
-                !widget.extraProperties!.hasWritePermission!)) {
+        if ((widget.model == null || widget.model?.status == 0) ) {
           BaseOrganisationDialog().userDialog(
             employeeId: true,
             context: context,
@@ -3253,15 +3255,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       title: state.dbsponsorResponse?.employeeId,
       height: 60,
       isDisableColor: widget.model?.status == 0 ||
-          widget.model == null ||
-          (widget.extraProperties != null &&
-              !widget.extraProperties!.hasWritePermission!)
+          widget.model == null
           ? false
           : true,
       onTap: () {
-        if ((widget.model == null || widget.model?.status == 0) &&
-            !(widget.extraProperties != null &&
-                !widget.extraProperties!.hasWritePermission!)) {
+        if ((widget.model == null || widget.model?.status == 0) ) {
           BaseOrganisationDialog().userDialog(
             employeeId: true,
             context: context,
