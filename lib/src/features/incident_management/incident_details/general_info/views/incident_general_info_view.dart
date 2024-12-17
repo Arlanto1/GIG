@@ -38,6 +38,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
   TextEditingController assetTypeController = TextEditingController();
   TextEditingController assetController = TextEditingController();
   TextEditingController incidentTypeController = TextEditingController();
+  TextEditingController claimantController = TextEditingController();
+
   bool disableForm = false;
   final FocusNode complainantFocusNode = FocusNode();
   final FocusNode incidentLocationFocusNode = FocusNode();
@@ -126,6 +128,9 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
         log('--state.message-----${state.message}-');
       },
       builder: (context, state) {
+        claimantController.text = state.model.employeeId !=null ?'${state.model.complainant?.name ?? ''} (${state.model.complainant?.email ?? ''})':'';
+
+
         state.model.status ??= 0;
         if (state.model.status! > 0 || !state.model.lock.isEmptyOrNull) {
           disableForm = true;
@@ -544,21 +549,21 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   : null,
                             ),
 
-                            /// Complainant
+                            /// Complainant Employee Id
                             if (state.model.complainantDbEmp == true) ...[
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.complainant ??
-                                      state.labels?.defaultLocale.complainant ??
-                                      Constants.complaint,
+                                  state.labels?.locale.employeeId ??
+                                      state.labels?.defaultLocale.employeeId ??
+                                      Constants.claimantemployeeid,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.complainant?.userInfo ??
-                                    state.model.complainant?.name,
+                                title: state.model.employeeId,
                                 height: 70,
                                 isDisableColor: disableForm,
                                 onTap: () {
                                   BaseOrganisationDialog().userDialog(
+                                    employeeId: true,
                                     context: context,
                                     enabled: !disableForm,
                                     users: state.emailUsers!,
@@ -606,8 +611,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: MediaQuery.of(context).size.width - 105,
-
+                                    width:
+                                        MediaQuery.of(context).size.width - 105,
                                     child: FlutterInputField(
                                       lineHeight: 1,
                                       initialValue: state.model.complainantName,
@@ -617,7 +622,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       isEnable: state.model.status == 0,
                                       isDisableColor: state.model.status != 0,
                                       onChange: (String value) {
-                                        state.model.complainantName = value + dbEmailId;
+                                        state.model.complainantName =
+                                            value + dbEmailId;
                                         context
                                             .read<IncidentGeneralInfoCubit>()
                                             .onModelValueChange(state.model);
@@ -626,34 +632,34 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     ),
                                   ),
                                   const Text('@db.com')
-
                                 ],
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
 
                             if (state.model.complainantDbEmp) ...[
-                              /// Complainant Employee Id
+                              /// Complainant
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.employeeId ??
-                                      state.labels?.defaultLocale.employeeId ??
-                                      Constants.complaintEmployeeId,
+                                  state.labels?.locale.complainant ??
+                                      state.labels?.defaultLocale.complainant ??
+                                      Constants.claimant,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
 
                               FlutterInputField(
-                                initialValue: state.model.employeeId,
+                                // initialValue: state.model.employeeId,
+                                controller: claimantController,
                                 textFormKey: Keys.claimantEmpIdTextController,
-                                textInputType: TextInputType.number,
-                                isEnable: state.model.status != 39,
-                                isDisableColor: state.model.status == 39,
+                                textInputType: TextInputType.text,
+                                isEnable: false,
+                                isDisableColor: true,
                                 hintText: '',
                                 focusNode: complainantEmpIdFocusNode,
                                 onChange: (String value) {
-                                  state.model.employeeId = value;
-                                  context
-                                      .read<IncidentGeneralInfoCubit>()
-                                      .onModelValueChange(state.model);
+                                  // state.model.employeeId = value;
+                                  // context
+                                  //     .read<IncidentGeneralInfoCubit>()
+                                  //     .onModelValueChange(state.model);
                                 },
                                 validateTextField: (String? user) {},
                               ),
@@ -925,7 +931,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               showBorder: true,
                               lineHeight: 6,
                               characterLimit:
-                              Constants.characterLimitDescTextFormField,
+                                  Constants.characterLimitDescTextFormField,
                               initialValue: state.model.description,
                               textFormKey: Keys.incidentDescription,
                               hintText: Constants.informationhere,

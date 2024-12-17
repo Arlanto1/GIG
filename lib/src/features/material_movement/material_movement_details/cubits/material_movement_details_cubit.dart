@@ -115,8 +115,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       String moduleCode = isInward ?? false
           ? Constants.materialMovementInwardReturnableModule
           : (returnable ?? false
-          ? Constants.materialMovementOutwardReturnableModule
-          : Constants.materialMovementOutwardNonReturnableModule);
+              ? Constants.materialMovementOutwardReturnableModule
+              : Constants.materialMovementOutwardNonReturnableModule);
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: defaultLocation.id.toString(),
         moduleCode: moduleCode,
@@ -281,7 +281,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   Future<void> updateDropdownValues({
     BaseUser? user,
     BaseUser? receiverEmailUser,
-    BaseUser? receiverEmail,
+    BaseUser? receiverByEmail,
     BaseUser? requesterEmailUser,
     BaseUser? returnReceiverMailId,
     Organisation? requesterDepartment,
@@ -311,19 +311,19 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     //   state.model.slNo = slNo.serialNo;
     // }
 
-    if (user != null) {
-      state.model.receiverEmail = user.email;
-    }
-
-    if (receiverEmailUser != null) {
-      state.model.receiverEmail =
-          '${receiverEmailUser.name} (${receiverEmailUser.email})';
-    }
-
-    if (receiverEmail != null) {
-      state.model.receiverEmail =
-          '${receiverEmail.name} (${receiverEmail.email})';
-    }
+    // if (user != null) {
+    //   state.model.receiverEmail = user.employeeId;
+    // }
+    //
+    // if (receiverEmailUser != null) {
+    //   state.model.receiverEmployeeId =
+    //       '${receiverEmailUser.name}';
+    // }
+    //
+    // if (receiverEmail != null) {
+    //   state.model.receiverEmployeeId =
+    //       '${receiverEmail.employeeId}';
+    // }
 
     // if (requesterEmailUser != null) {
     //   state.model.requestorEmail =
@@ -364,6 +364,44 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.returnable = isReturnable;
     }
 
+    if (receiverEmailUser != null) {
+      // Ensure employeeId is explicitly assigned to receiverEmployeeId
+      state.model.receiverEmployeeId = receiverEmailUser.employeeId;
+
+      // Log to verify the correct value is assigned
+      log('--receiverEmployeeId-${state.model.receiverEmployeeId}-');
+
+      // Format the name and email for receiverEmail
+      String name = receiverEmailUser.name ?? '';
+      String email = receiverEmailUser.email ?? '';
+      state.model.receiverEmail = '$name ($email)';
+      emit(
+        state.copyWith(
+          model: state.model,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    if (receiverByEmail != null) {
+      // Ensure employeeId is explicitly assigned to receiverEmployeeId
+      state.model.otherReceiverEmployeeId = receiverByEmail.employeeId;
+
+      // Log to verify the correct value is assigned
+      log('--receiverEmployeeId-${state.model.receiverEmployeeId}-');
+
+      // Format the name and email for receiverEmail
+      String name = receiverByEmail.name ?? '';
+      String email = receiverByEmail.email ?? '';
+      state.model.otherReceiverName = '$name ($email)';
+      emit(
+        state.copyWith(
+          model: state.model,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,
@@ -382,15 +420,24 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     );
 
     if (requesterEmailUser != null) {
-      if (state.model.requestorEmail != null) {
-        BaseUser preSelectedUser = BaseUser(
-          name: state.model.requestorEmail,
-          // email:state.model.requestorEmail,
-        );
-        state.approver1Users?.add(preSelectedUser);
-      }
-      state.model.requestorEmail =
-          '${requesterEmailUser.name} ${requesterEmailUser.email != null ? '(${requesterEmailUser.email})' : ''}';
+      // if (state.model.requestorEmail != null) {
+      //   BaseUser preSelectedUser = BaseUser(
+      //     name: state.model.requestorEmail,
+      //     // email:state.model.requestorEmail,
+      //   );
+      //   state.approver1Users?.add(preSelectedUser);
+      // }
+      state.model.requestorEmployeeId = requesterEmailUser.employeeId;
+
+      // Log to verify the correct value is assigned
+      log('--receiverEmployeeId-${state.model.receiverEmployeeId}-');
+
+      // Format the name and email for receiverEmail
+      String name = requesterEmailUser.name ?? '';
+      String email = requesterEmailUser.email ?? '';
+      state.model.requestorEmail = '$name ($email)';
+      // state.model.requestorEmail =
+      //     '${requesterEmailUser.name} ${requesterEmailUser.email != null ? '(${requesterEmailUser.email})' : ''}';
       state.approver1Users?.remove(requesterEmailUser);
       state.approver2Users?.remove(requesterEmailUser);
       emit(
@@ -677,8 +724,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.approvedDate = state.model.approvedDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.approvedDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.approvedDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.inputDate = state.model.inputDate == null
@@ -694,8 +741,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.approvedDate = state.model.approvedDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.approvedDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.approvedDate ?? '0'),
+              Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
       state.model.inputDate = state.model.inputDate == null
@@ -711,8 +758,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.approvedDate = state.model.approvedDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.approvedDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.approvedDate ?? '0'),
+              Constants.fulldateFormat);
       emit(
         state.copyWith(
           message: e.toString(),

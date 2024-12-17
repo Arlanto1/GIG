@@ -21,6 +21,7 @@ class CustomListTexts extends StatefulWidget {
     this.duplicatet1Analyst,
     this.duplicateactivePassInfoList,
     this.duplicateQuantityUnitList,
+    this.isEmployeeId,
   });
 
   final String? imageName;
@@ -40,6 +41,7 @@ class CustomListTexts extends StatefulWidget {
   List<Organisation>? duplicateactivePassInfoList;
 
   List<Organisation>? duplicateQuantityUnitList;
+  bool? isEmployeeId;
 
   @override
   State<CustomListTexts> createState() => CustomListTextsState();
@@ -557,7 +559,8 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            } else if (widget.duplicateDepostorList != null) {
+            } else if (widget.duplicateDepostorList != null &&
+                widget.isEmployeeId == false) {
               BaseUser? articleItem;
               if ((_searchCtrl.text.isNotEmpty && depostorList.isNotEmpty)) {
                 articleItem = depostorList[index];
@@ -593,15 +596,60 @@ class CustomListTextsState extends State<CustomListTexts> {
                   title: Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      articleItem!.email.isEmptyOrNull
-                          ? '${articleItem.name}'
-                          : ' ${articleItem.name} (${articleItem.email})',
-                      //articleItem?.name ?? '',
-                      // ('${articleItem?.name ?? ''} (${articleItem?.email ?? ''})'),
+                      !(articleItem!.employeeId.isEmptyOrNull)
+                          ? '${articleItem.name} (${articleItem.email}, ${articleItem.employeeId})'
+                          : !(articleItem.email.isEmptyOrNull)?'${articleItem.name} (${articleItem.email})':'${articleItem.name}',
                       style: Styles.textStyleRegularGrey16,
                       textAlign: TextAlign.left,
                     ),
                   ));
+            } else if (widget.duplicateDepostorList != null &&
+                widget.isEmployeeId == true) {
+              BaseUser? articleItem;
+              if ((_searchCtrl.text.isNotEmpty && depostorList.isNotEmpty)) {
+                articleItem = depostorList[index];
+
+                log('--articleItem--ddd-${articleItem.name}--');
+              } else {
+                articleItem = widget.duplicateDepostorList?[index];
+              }
+              return !articleItem!.employeeId.isEmptyOrNull
+                  ? ListTile(
+                      onTap: () {
+                        widget.onTap!(articleItem);
+                        Navigator.of(context).pop();
+                      },
+                      contentPadding: EdgeInsets.zero,
+                      minLeadingWidth: 5,
+                      horizontalTitleGap:
+                          (widget.imageName != null && widget.imageName != '')
+                              ? 20
+                              : 0,
+                      dense: true,
+                      visualDensity: const VisualDensity(vertical: 0),
+                      // to expand
+                      leading:
+                          (widget.imageName != null && widget.imageName != '')
+                              ? SvgPicture.asset(
+                                  //AppIcon.dropdownicon,
+                                  AppIcon.apple,
+                                  //fit: BoxFit.,
+                                  //color: AppColors.textColor,
+                                  width: 20,
+                                  height: 20,
+                                )
+                              : const SizedBox.shrink(),
+                      title: Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          !(articleItem!.employeeId.isEmptyOrNull)
+                              ? '${articleItem.employeeId}'
+                              : '${articleItem.name} (${articleItem.email})',
+                          style: Styles.textStyleRegularGrey16,
+                          textAlign: TextAlign.left,
+                        ),
+                      ))
+                  : const SizedBox.shrink();
             } else if (widget.duplicateEntityList != null) {
               Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty && entityList.isNotEmpty)) {

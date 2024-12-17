@@ -7,7 +7,7 @@ import '../cubits/attendance_details_cubit.dart';
 class AttendanceDetailsView extends StatefulWidget {
   final AttendanceModel? model;
   final ExtraProperties? extraProperties;
-
+   static int flag = 0;
   const AttendanceDetailsView({
     super.key,
     this.model,
@@ -28,11 +28,13 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
 
   bool isDisabled = true;
   bool isReadOnly = false;
-
+  int flag= 0;
+  // AttendanceDetailsView.flag = 0;
   @override
   void initState() {
     super.initState();
     BlocProvider.of<AttendanceDetailsCubit>(context).initializeValues();
+    AttendanceDetailsView.flag =0;
   }
 
   @override
@@ -123,7 +125,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
             title: Constants.attendanceDetails,
             showPopUp: false,
             showSubmitButton: !isReadOnly,
-            showSaveButton: !isReadOnly,
+            showSaveButton: false,
             showDisLikeButton: false,
             showLikeButton: false,
             pdfAPIName:
@@ -445,12 +447,20 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                         onTap: (int? thisVariableIsOfNoUseDoNotDeleteThis,
                             int? dutyPostNameId,
                             DutyPostModel dutyPostModel) async {
+                          log('flagValue---${AttendanceDetailsView.flag}');
+                          // flag =   widget.flag;
+                          // AttendanceDetailsView.flag++;
+                          log('flagValue---${AttendanceDetailsView.flag}');
                           bool isSaveSuccess =
                               await BlocProvider.of<AttendanceDetailsCubit>(
                                       context)
                                   .submitForm(
                                       isSaveOnly: true,
                                       navigateToNextScreen: true);
+
+                          log('flagValue---${AttendanceDetailsView.flag}');
+                          AttendanceDetailsView.flag++;
+                          log('flagValue---${AttendanceDetailsView.flag}');
 
                           if (!isSaveSuccess) {
                             return;

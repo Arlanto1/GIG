@@ -14,6 +14,8 @@ class KeyManagementIssuanceDetailsState extends Equatable {
   final bool isReceiverSignEditable;
   final bool isSecuritySignatureSignEditable;
 
+    List<BaseUser>? handedOverToUsers;
+
   factory KeyManagementIssuanceDetailsState.initial({
     required KeyManagementIssuanceModel model,
     required Locations locations,
@@ -25,6 +27,7 @@ class KeyManagementIssuanceDetailsState extends Equatable {
     final List<BaseUser>? emailUsers,
     required String errorMessage,
     final List<String>? pocs,
+     List<BaseUser>? handedOverToUsers,
   }) {
     return KeyManagementIssuanceDetailsState(
       status: FormStatus.initial,
@@ -36,6 +39,7 @@ class KeyManagementIssuanceDetailsState extends Equatable {
       typeOfServices: typeOfServices,
       message: errorMessage,
       emailUsers: emailUsers,
+      handedOverToUsers: handedOverToUsers,
     );
   }
 
@@ -189,8 +193,8 @@ class KeyManagementIssuanceDetailsState extends Equatable {
   @override
   List<Object?> get props => [model, status];
 
-  const KeyManagementIssuanceDetailsState({
-    required this.status,
+   KeyManagementIssuanceDetailsState({
+     required this.status,
     required this.model,
     this.locations,
     this.loggedInUserDetails,
@@ -202,6 +206,7 @@ class KeyManagementIssuanceDetailsState extends Equatable {
     this.emailUsers,
     this.isReceiverSignEditable = false,
     this.isSecuritySignatureSignEditable = false,
+     this.handedOverToUsers,
   });
 
   KeyManagementIssuanceDetailsState copyWith({
@@ -217,22 +222,23 @@ class KeyManagementIssuanceDetailsState extends Equatable {
     KMUiLabels? labels,
     bool? isReceiverSignEditable,
     bool? isSecuritySignatureSignEditable,
+    List<BaseUser>? handedOverToUsers,
   }) {
     return KeyManagementIssuanceDetailsState(
-      status: status ?? this.status,
-      model: model ?? this.model,
-      locations: locations ?? this.locations,
-      loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
-      listOfEntities: listOfEntities ?? this.listOfEntities,
-      departments: departments ?? this.departments,
-      typeOfServices: typeOfServices ?? this.typeOfServices,
-      message: message ?? this.message,
-      emailUsers: emailUsers ?? this.emailUsers,
-      labels: labels ?? this.labels,
-      isReceiverSignEditable:
-          isReceiverSignEditable ?? this.isReceiverSignEditable,
-      isSecuritySignatureSignEditable: isSecuritySignatureSignEditable ??
-          this.isSecuritySignatureSignEditable,
-    );
+        status: status ?? this.status,
+        model: model ?? this.model,
+        locations: locations ?? this.locations,
+        loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
+        listOfEntities: listOfEntities ?? this.listOfEntities,
+        departments: departments ?? this.departments,
+        typeOfServices: typeOfServices ?? this.typeOfServices,
+        message: message ?? this.message,
+        emailUsers: emailUsers ?? this.emailUsers,
+        labels: labels ?? this.labels,
+        isReceiverSignEditable:
+            isReceiverSignEditable ?? this.isReceiverSignEditable,
+        isSecuritySignatureSignEditable: isSecuritySignatureSignEditable ??
+            this.isSecuritySignatureSignEditable,
+        handedOverToUsers: handedOverToUsers ?? this.handedOverToUsers);
   }
 }

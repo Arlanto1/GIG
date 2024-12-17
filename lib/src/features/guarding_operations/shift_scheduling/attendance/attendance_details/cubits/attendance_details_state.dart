@@ -69,9 +69,9 @@ class AttendanceDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
 
-    if (model.attendanceType == null ||model.attendanceType == 0) {
-      return const ErrorResponse(status: false, message: 'Please select Attendance Type');
-    }
+    // if (model.attendanceType == null ||model.attendanceType == 0) {
+    //   return const ErrorResponse(status: false, message: 'Please select Attendance Type');
+    // }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }

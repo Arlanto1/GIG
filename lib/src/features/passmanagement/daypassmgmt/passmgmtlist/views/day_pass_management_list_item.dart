@@ -98,7 +98,7 @@ class _DayPassManagementListItemState extends State<DayPassManagementListItem> {
                             state.labels?.locale.entrySecurity ??
                                 state.labels?.defaultLocale.entrySecurity ??
                                 'Created By : ',
-                            '${widget.userItem.entrySecurity?.firstName ?? ''}${widget.userItem.entrySecurity?.lastName ?? ''}'),
+                            '${widget.userItem.entrySecurity?.firstName ?? ''} ${widget.userItem.entrySecurity?.lastName ?? ''}'),
                       ],
                     ),
                   ],

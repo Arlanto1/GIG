@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/opacity_absorb_widget.dart';
 
+import '../../attendance_details/views/attendance_details_view.dart';
+
 class AttendanceShiftsView extends StatefulWidget {
   const AttendanceShiftsView({
     super.key,
@@ -110,21 +112,16 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               // onTapSubmit: () => submitDutyPost(context, isSaveOnly: false),
 
               popAndReplace: () {
-              //   AttendanceDetailsView attendanceDetailsView;
-              // }
-              //   // log('--popAndReplace-----');
-              //   bool isFirstDutyPost = state.dutyPosts?.isNotEmpty == true &&
-              //       state.dutyPosts?.first.id == dutyPostNameId;
-              //
-              //   if (isFirstDutyPost) {
-              //     log('--popAndReplace (first duty post)-----');
-              //     Navigator.pop(context);
-              //   } else {
-              //     log('--popAndReplace (not first duty post)-----');
+                int flag = AttendanceDetailsView.flag;
+
+                // log('flagValueinShiftsView----${flag}');
+                if (flag == 1) {
+                  Navigator.pop(context);
+                } else {
                   Navigator.pop(context);
                   Navigator.pop(context);
                   Navigator.pop(context);
-                // }
+                }
               },
               /// On Click on Submit it will show the confirmation dialogue box
               onTapSubmit: () {
@@ -192,10 +189,10 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
   }
 
   Widget getBody(
-    AttendanceShiftsState state,
-    double height,
-    ShiftModel model,
-  ) {
+      AttendanceShiftsState state,
+      double height,
+      ShiftModel model,
+      ) {
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
@@ -266,7 +263,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           setState(() {
             selectedRank = value;
             selectedShift =
-                null; // set selectedShift to null, when we select the rank
+            null; // set selectedShift to null, when we select the rank
             state.model.selectForAttendance = null;
             state.model.shift = null;
           });
@@ -310,6 +307,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           'Attendance Status:',
           Utils().buildAttendanceShiftStatusRow(
               status: state.model.attdStatus ?? 0, returnTextOnly: true)),
+      CommonWidgets.verticalSpacerWidget(
+          MediaQuery.of(context).size.height * 0.01),
       OpacityAbsorbInkWellWidget(
         absorbing: false,
         child: Column(
@@ -418,11 +417,11 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             //   buildReplacementColumn(state),
             // ],
             // if (!state.model.selectForAttendance.isEmptyOrNull) ...[
-              AbsorbPointer(
-                absorbing: state.model.activeShift == false,
-                // Disable interaction if inactive
-                child: buildReplacementColumn(state),
-              ),
+            AbsorbPointer(
+              absorbing: state.model.activeShift == false,
+              // Disable interaction if inactive
+              child: buildReplacementColumn(state),
+            ),
             // ],
             CommonWidgets.verticalSpacerWidget(
                 MediaQuery.of(context).size.height * 0.01),
@@ -721,9 +720,9 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                         'From Date:',
                         replacement.fromDate != null
                             ? Utils.timestampToDateConversion(
-                                int.tryParse(replacement.fromDate ?? '0'),
-                                Constants.dateFormat,
-                              )
+                          int.tryParse(replacement.fromDate ?? '0'),
+                          Constants.dateFormat,
+                        )
                             : '',
                       ),
                       // buildTextWithLabel(
@@ -764,7 +763,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                   },
                   child: Card(
                     elevation: 5,
-                    child:  state.model.replacements== null && state.model.attdStatus==1 ?BaseIcons().closeIcon():SizedBox.fromSize(),
+                    child: ( state.model.attdStatus == 1) || ( state.model.attdStatus == 2)?BaseIcons().closeIcon():SizedBox.fromSize(),
                   ),
                 ),
               ),

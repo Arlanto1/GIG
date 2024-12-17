@@ -331,12 +331,13 @@ class CommonServices {
     required String firstName,
     required String lastName,
     required String email,
+    required String employeeId,
     required String role,
     required int locationId,
     BuildContext? context,
   }) async {
     final String url =
-        "${CommonApis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role&locationId=$locationId";
+        "${CommonApis._createUser}firstName=$firstName&lastName=$lastName&email=$email&role=$role&locationId=$locationId&employeeId=$employeeId";
     final response =
         await BaseApiService().postRequest(url: url, requestedData: {});
     return User.fromJson(response);

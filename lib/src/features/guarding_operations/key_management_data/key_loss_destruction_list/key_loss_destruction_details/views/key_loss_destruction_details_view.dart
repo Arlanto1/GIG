@@ -79,9 +79,18 @@ class _KeyLossDestructionDetailsViewState
         }
       },
       builder: (context, state) {
-        // if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
-        //   isReadOnly = true;
-        // }
+        if (state.model.status == 2 || !state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
+        if (state.model.status == 3 || !state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
+        if (state.model.status == 7 || !state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
+        if (state.model.status == 10 || !state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
         isReadOnly = state.isReadOnly ?? true;
         // if (widget.extraProperties != null &&
         //     !widget.extraProperties!.hasWritePermission!) {
@@ -178,7 +187,7 @@ class _KeyLossDestructionDetailsViewState
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
               child: AbsorbPointer(
-                absorbing: !isReadOnly,
+                absorbing: isReadOnly,
                 child: Form(
                   key: _formKey,
                   autovalidateMode: state.model.status == 4
@@ -287,7 +296,7 @@ class _KeyLossDestructionDetailsViewState
                               Styles.textStyleBlack14,
                             ),
                             BaseDropDown().getDropDown(
-                                isDisabled: false,
+                                isDisabled: isReadOnly,
                                 textController: keyTypeController,
                                 items: keyTypeDropDownValues,
                                 initialValue: state.model.keyType.toString(),

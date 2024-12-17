@@ -56,9 +56,9 @@ class ReviewSignaturePage extends StatelessWidget {
     final result = await SaverGallery.saveImage(
       signature,
       // quality: 60,
-      name: name,
+      fileName: name,
       // androidRelativePath: "Pictures/appName/xx",
-      androidExistNotSave: false,
+      skipIfExists: false,
     );
     _toastInfo("$result");
 

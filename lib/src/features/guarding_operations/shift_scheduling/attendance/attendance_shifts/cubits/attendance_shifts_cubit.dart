@@ -20,11 +20,11 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     required this.selectedDutyPostNameId,
     required this.slaServices,
   }) : super(
-    AttendanceShiftsState.initial(
-      model: ShiftModel(),
-      errorMessage: '',
-    ),
-  );
+          AttendanceShiftsState.initial(
+            model: ShiftModel(),
+            errorMessage: '',
+          ),
+        );
 
   Future<void> initializeValues() async {
     log('--initializeValues-@@@-');
@@ -54,10 +54,10 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       selectedRank = state.selectedRank ?? ranks.first;
 
       List<Organisation> shifts =
-      await services.getAttendanceShiftByByDutyPostIdAndRankId(
-          dutyPostId: selectedDutyPostNameId,
-          attendanceId: attInfoId,
-          rankId: selectedRank.id!);
+          await services.getAttendanceShiftByByDutyPostIdAndRankId(
+              dutyPostId: selectedDutyPostNameId,
+              attendanceId: attInfoId,
+              rankId: selectedRank.id!);
       Organisation selectedShift = state.selectedShift ?? shifts.first;
 
       ShiftModel model = await services.getDutyPostById(
@@ -85,7 +85,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       List<SlaList> slaList = [];
 
       SLAViolationPenaltyResponseModel list =
-      await SLAViolationPenaltyServices().getSvpList(
+          await SLAViolationPenaltyServices().getSvpList(
         startPosition: '0',
         maximumRecords: '100',
         attdInfoId: model.attendanceShiftId!,
@@ -143,10 +143,10 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     );
 
     List<Organisation> shifts =
-    await services.getAttendanceShiftByByDutyPostIdAndRankId(
-        dutyPostId: selectedDutyPostNameId,
-        attendanceId: attInfoId,
-        rankId: rank.id!);
+        await services.getAttendanceShiftByByDutyPostIdAndRankId(
+            dutyPostId: selectedDutyPostNameId,
+            attendanceId: attInfoId,
+            rankId: rank.id!);
 
     Organisation? selectedShift;
 
@@ -179,7 +179,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     List<SlaList> slaList = [];
 
     SLAViolationPenaltyResponseModel list =
-    await SLAViolationPenaltyServices().getSvpList(
+        await SLAViolationPenaltyServices().getSvpList(
       startPosition: '0',
       maximumRecords: '100',
       attdInfoId: model.attendanceShiftId!,
@@ -236,8 +236,8 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
   }
 
   Future<void> updateReplacement(
-      BuildContext context,
-      Replacement updatedReplacement,
+    BuildContext context,
+    Replacement updatedReplacement,
       bool isRemove,
       bool isSubmit,
       bool isSaveOnly,
@@ -248,8 +248,8 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       log('Updating Existing Replacement');
       state.model.replacements = state.model.replacements
           ?.map((existing) => existing.id == updatedReplacement.id
-          ? updatedReplacement
-          : existing)
+              ? updatedReplacement
+              : existing)
           .toSet();
     } else {
       /// Handle new replacements
@@ -258,7 +258,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
         log('Creating/Updating new Replacement with tempId: ${updatedReplacement.tempId}');
         // Remove any existing replacement with the same tempId before adding
         state.model.replacements!.removeWhere((existingReplacement) =>
-        existingReplacement.tempId == updatedReplacement.tempId);
+            existingReplacement.tempId == updatedReplacement.tempId);
       }
       state.model.replacements!.add(updatedReplacement);
     }
@@ -281,7 +281,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
 
     // Create/Update API Call
     AttendanceShiftDutyPostRequest request =
-    AttendanceShiftDutyPostRequest(requestModel: ShiftModel());
+        AttendanceShiftDutyPostRequest(requestModel: ShiftModel());
 
     request.requestModel = state.model;
     GenericResponse response = GenericResponse();

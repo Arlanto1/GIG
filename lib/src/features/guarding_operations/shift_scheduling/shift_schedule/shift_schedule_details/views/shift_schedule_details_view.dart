@@ -215,31 +215,31 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               items: shiftScheduleStatusDropDownValues,
                               initialValue: '${state.model.status ?? 0}',
                               onTap: () {
-                                if (!isReadOnly) {
-                                  BaseDropDown().assetTypeDialog(
-                                    context: context,
-                                    dropDownValues:
-                                        shiftScheduleStatusDropDownValues
-                                            .map((label) => label.key)
-                                            .toList(),
-                                    onTap: (String value) {
-                                      Label? selectedLabel;
-                                      selectedLabel =
-                                          shiftScheduleStatusDropDownValues
-                                              .firstWhere(
-                                        (label) => label.key == value,
-                                        orElse: () =>
-                                            const Label(key: '', value: ''),
-                                      );
-                                      BlocProvider.of<
-                                                  ShiftScheduleDetailsCubit>(
-                                              context)
-                                          .updateDropdownValues(
-                                              status: int.tryParse(
-                                                  selectedLabel.value));
-                                    },
-                                  );
-                                }
+                                // if (!isReadOnly) {
+                                //   BaseDropDown().assetTypeDialog(
+                                //     context: context,
+                                //     dropDownValues:
+                                //         shiftScheduleStatusDropDownValues
+                                //             .map((label) => label.key)
+                                //             .toList(),
+                                //     onTap: (String value) {
+                                //       Label? selectedLabel;
+                                //       selectedLabel =
+                                //           shiftScheduleStatusDropDownValues
+                                //               .firstWhere(
+                                //         (label) => label.key == value,
+                                //         orElse: () =>
+                                //             const Label(key: '', value: ''),
+                                //       );
+                                //       BlocProvider.of<
+                                //                   ShiftScheduleDetailsCubit>(
+                                //               context)
+                                //           .updateDropdownValues(
+                                //               status: int.tryParse(
+                                //                   selectedLabel.value));
+                                //     },
+                                //   );
+                                // }
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),

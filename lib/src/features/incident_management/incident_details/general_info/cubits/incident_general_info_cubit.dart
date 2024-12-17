@@ -328,28 +328,67 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       ),
     );
 
+    // if (complainant != null) {
+    //   User userDetails = User(
+    //     name: complainant.name,
+    //     userId: complainant.id,
+    //     email: complainant.email,
+    //   );
+    //   if (state.model.complainant != null) {
+    //     BaseUser preselectedUser = BaseUser(
+    //       id: state.model.complainant?.userId,
+    //       name: state.model.complainant?.name,
+    //       email: state.model.complainant?.email,
+    //     );
+    //     state.complainantHr?.add(preselectedUser);
+    //   }
+    //   state.model.complainant = userDetails;
+    //   state.complainantHr?.remove(complainant);
+    // }
+    // emit(state.copyWith(
+    //   model: state.model,
+    //   complainantHr: state.complainantHr,
+    //   status: FormStatus.initial,
+    // ));
+
+
     if (complainant != null) {
+      // Ensure employeeId is explicitly assigned to receiverEmployeeId
+      state.model.employeeId = complainant.employeeId;
+
+      // Log to verify the correct value is assigned
+      log('--receiverEmployeeId-${state.model.employeeId}-');
+
+      // Format the name and email for receiverEmail
+      String name = complainant.name ?? '';
+      String email = complainant.email ?? '';
       User userDetails = User(
-        name: complainant.name,
+        name:name,
         userId: complainant.id,
-        email: complainant.email,
+        email: email,
       );
+      state.model.complainant = userDetails;
+
+
       if (state.model.complainant != null) {
         BaseUser preselectedUser = BaseUser(
           id: state.model.complainant?.userId,
           name: state.model.complainant?.name,
           email: state.model.complainant?.email,
+          employeeId: state.model.complainant?.employeeId,
         );
         state.complainantHr?.add(preselectedUser);
       }
       state.model.complainant = userDetails;
       state.complainantHr?.remove(complainant);
+      emit(
+        state.copyWith(
+          model: state.model,
+          complainantHr: state.complainantHr,
+          status: FormStatus.initial,
+        ),
+      );
     }
-    emit(state.copyWith(
-      model: state.model,
-      complainantHr: state.complainantHr,
-      status: FormStatus.initial,
-    ));
     if (complainantHr != null) {
       User userDetails = User(
         name: complainantHr.name,

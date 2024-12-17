@@ -1550,6 +1550,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
+            isEmployeeId: false,
             duplicateDepostorList: state.getDepositorResponse ?? [],
             leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
@@ -1764,7 +1765,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           return CustomListTexts(
             duplicateLeoPurposeVisits:
                 state.purposeList?.atomLeoPurposeVisit ?? [],
-            leftImageName: AppIcon.addicon,
+            // leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
@@ -1820,7 +1821,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           return CustomListTexts(
             duplicateLeoDepartments:
                 state.departmentResponse?.atomLeoDepartments ?? [],
-            leftImageName: AppIcon.addicon,
+            // leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(

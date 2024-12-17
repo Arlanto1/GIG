@@ -56,6 +56,7 @@ class BaseOrganisationDialog {
     String? roleName,
     required int locationId,
     bool isDbUser = false,
+    bool employeeId = false,
   }) {
     FocusManager.instance.primaryFocus?.unfocus();
     showDialog(
@@ -64,10 +65,12 @@ class BaseOrganisationDialog {
         return CustomListTexts(
           duplicateDepostorList: users,
           duplicateEntityList: entities,
-          leftImageName: functionToCall != null &&
-                  roleName == ConstantUserRoles.atomStaticUser
-              ? AppIcon.addicon
-              : null,
+          isEmployeeId: employeeId,
+          // leftImageName: functionToCall != null &&
+          //         roleName == ConstantUserRoles.atomStaticUser
+          //     ? AppIcon.addicon
+          //     : null,
+          leftImageName: null,
           onLeftButtonTap: () {
             Navigator.pop(context);
             showDialog(
@@ -77,7 +80,7 @@ class BaseOrganisationDialog {
                   return BaseAddUserDialog(
                     title: Constants.createnewuser,
                     roleName: roleName ?? '',
-                    locationId: locationId!,
+                    locationId: locationId,
                     isDbUser: isDbUser,
                     functionToCall:
                         functionToCall ?? (BaseUser newCreatedUser) {},

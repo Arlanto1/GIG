@@ -53,6 +53,7 @@ class _CreateFoundState extends State<CreateFound> {
   TextEditingController statusTextController = TextEditingController();
   TextEditingController depositorTextController = TextEditingController();
   TextEditingController claimantTextController = TextEditingController();
+  TextEditingController employeeIdTextController = TextEditingController();
 
   // String isDepositorDBEmployee = "";
 
@@ -126,7 +127,15 @@ class _CreateFoundState extends State<CreateFound> {
           ? BaseUser(
               email: widget.model?.depositor?.email ?? "",
               id: widget.model?.depositor?.userId ?? 0,
-              name: widget.model?.depositor?.userInfo ?? "")
+              name: widget.model?.depositor?.userInfo ?? "",
+              employeeId: widget.model?.depositor?.employeeId ?? "")
+          : BaseUser();
+      selectedClaimList = widget.model?.claimant != null
+          ? BaseUser(
+              email: widget.model?.claimant?.email ?? "",
+              id: widget.model?.claimant?.userId ?? 0,
+              name: widget.model?.claimant?.userInfo ?? "",
+              employeeId: widget.model?.claimant?.employeeId ?? '')
           : BaseUser();
       selectedArtclelist = widget.model?.typeOfArticle != null
           ? Organisation(
@@ -201,9 +210,13 @@ class _CreateFoundState extends State<CreateFound> {
           ((widget.model?.claimantConfirmByEmail ?? false) == true) ? 1 : 0;
       isClaimantDBEmployeeSelected =
           ((widget.model?.claimantDbEmp ?? false) == true) ? 1 : 0;
-      depositorEmpIdTextController.text = widget.model?.employeeId != null
-          ? widget.model?.employeeId ?? ''
-          : '';
+      employeeIdTextController.text = (widget.model?.employeeId != null
+          ? '${selectedDepositorUser?.name} (${selectedDepositorUser?.email})'
+          : '');
+      claimantEmpIdTextController.text =
+          (widget.model?.claimant?.employeeId != null
+              ? '${selectedClaimList?.name} (${selectedClaimList?.email})'
+              : '');
       selectedEmployeeDepartment = widget.model?.depositorDepartment != null
           ? Organisation(
               id: widget.model?.depositorDepartment?.id ?? 0,
@@ -221,10 +234,13 @@ class _CreateFoundState extends State<CreateFound> {
           : handedOverDateDateTextController.text.isEmpty
               ? ''
               : handedOverDateDateTextController.text;
-      claimantEmpIdTextController.text = widget.model?.claimantEmployeeId ?? '';
-      claimant = widget.model?.claimant?.lastName != null
-          ? widget.model?.claimant?.lastName ?? ''
-          : '';
+      // claimantEmpIdTextController.text = widget.model?.claimantEmployeeId !=
+      //     null
+      //     ? '${selectedClaimList?.name} (${selectedClaimList?.email})'
+      //     : '';
+      // claimant = widget.model?.claimant?.employeeId != null
+      //     ?'${selectedClaimList?.name} (${selectedClaimList?.email})'
+      //     : '';
       log('---widget.model?.claimant?.lastName-----${widget.model?.claimant?.lastName}----');
       claimantTextController.text = widget.model?.claimant?.userInfo != null
           ? widget.model?.claimant?.userInfo ?? ''
@@ -237,12 +253,6 @@ class _CreateFoundState extends State<CreateFound> {
               id: widget.model?.claimantDepartment?.id ?? 0,
               name: widget.model?.claimantDepartment?.name ?? '')
           : Organisation();
-      selectedClaimList = widget.model?.claimant != null
-          ? BaseUser(
-              email: widget.model?.claimant?.email ?? "",
-              id: widget.model?.claimant?.userId ?? 0,
-              name: widget.model?.claimant?.userInfo ?? "")
-          : BaseUser();
     }
   }
 
@@ -297,6 +307,7 @@ class _CreateFoundState extends State<CreateFound> {
 
     User? depositor = User(
         userId: selectedDepositorUser?.id ?? widget.model?.depositor?.userId);
+
     // Organisation? location =
     //     Organisation(id: selectedLocation?.id ?? widget.model?.location?.id);
     Organisation? depositorDepartment =
@@ -309,13 +320,14 @@ class _CreateFoundState extends State<CreateFound> {
     await pushSignature(controller: claimantSignatureController);
 
     // isClaimantDBEmployeeSelected;
-    User? claimant = widget.model?.claimant;
-    if (selectedClaimList != null) {
-      claimant = User(
-        userId: selectedClaimList?.id,
-        name: selectedClaimList?.name,
-      );
-    }
+    User? claimant =
+        User(userId: selectedClaimList?.id ?? widget.model?.claimant?.userId);
+    // if (selectedClaimList != null) {
+    //   claimant = User(
+    //     userId: selectedClaimList?.id,
+    //     name: selectedClaimList?.name,
+    //   );
+    // }
 
     log('--state?.slno--${state.slno}---');
     log('--state.location--${state.location?.name}---');
@@ -329,7 +341,7 @@ class _CreateFoundState extends State<CreateFound> {
         // Passing signature
         claimantSign: widget.model?.claimantSign,
         handoverDate: handoverDate,
-        claimantEmployeeId: int.tryParse(claimantEmpIdTextController.text),
+        claimantEmployeeId: selectedClaimList?.employeeId,
         slNo: state.slno ?? '',
         images: images,
         typeOfAsset: !assetTypeTextController.text.isEmptyOrNull
@@ -369,9 +381,7 @@ class _CreateFoundState extends State<CreateFound> {
                 : '',
         depositor: depositor,
         depositorDepartment: depositorDepartment,
-        employeeId: depositorEmpIdTextController.text.isNotEmpty
-            ? depositorEmpIdTextController.text
-            : '');
+        employeeId: selectedDepositorUser?.employeeId);
     found.eventProtection = widget.eventId;
 
     log('--${widget.eventId}-found.eventProtection--${found.eventProtection}-');
@@ -429,130 +439,132 @@ class _CreateFoundState extends State<CreateFound> {
   }
 
   createFoundValidations(BuildContext context, CreateFoundState state) {
-    if (statusTextController.text.isEmpty &&
-        createdByValue.isEmpty &&
-        (selectedLocation?.name ?? "").isEmpty &&
-        dateOfCreationTextController.text.isEmpty &&
-        assetTypeTextController.text.isEmpty &&
-        (selectedArtclelist?.name ?? "").isEmpty &&
-        foundDateTextController.text.isEmpty &&
-        foundLocationTextController.text.isEmpty &&
-        additionalInformationTextController.text.isEmpty &&
-        // quantityTextController.text.isEmpty &&
-        (((isDepositorDBEmployeeSelected == 1 &&
-                    (selectedDepositorUser?.name ?? "").isEmpty) &&
-                depositorEmpIdTextController.text.isEmpty &&
-                (selectedEmployeeDepartment?.name ?? "").isEmpty) ||
-            (isDepositorDBEmployeeSelected == 0 &&
-                depositorTextController.text.isEmpty))) {
-      Validator().showToast(
-        context,
-        "Please fill all required fields",
-      );
-    } else if ((selectedLocation?.name ?? "").isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter location",
-      );
-    } else if (dateOfCreationTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter creator date",
-      );
-    } else if (assetTypeTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter asset type",
-      );
-    } else if ((selectedArtclelist?.name ?? "").isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter article type",
-      );
-    } else if (foundDateTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter found date",
-      );
-    } else if (foundLocationTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter found location",
-      );
-    } else if (quantityTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter quantity",
-      );
-    } else if (colorTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter colour",
-      );
-    } else if (isDepositorDBEmployeeSelected == 0 &&
-        depositorTextController.text.isEmpty) {
-      Validator().showToast(context, "Please enter depositor");
-    } else if (isDepositorDBEmployeeSelected == 1 &&
-        (((selectedDepositorUser?.name ?? "").isEmpty) ||
-            (depositorEmpIdTextController.text.isEmpty) ||
-            ((selectedEmployeeDepartment?.name ?? "").isEmpty))) {
-      if ((selectedDepositorUser?.name ?? "").isEmpty) {
-        Validator().showToast(
-          context,
-          "Please enter depositor",
-        );
-      } else if (isClaimantAcceptedToSignSelected == 0) {
-        Validator().showToast(context,
-            "Please Save instead of initiate Claimant confirmation process");
-      } else if (depositorEmpIdTextController.text.isEmpty) {
-        Validator().showToast(
-          context,
-          "Please enter depositor employee id",
-        );
-      } else if ((selectedEmployeeDepartment?.name ?? "").isEmpty) {
-        Validator().showToast(
-          context,
-          "Please enter employee department",
-        );
-      }
-    } else {
-      //createNewuserBody(true, widget.listuser?.id ?? 0);
-      if (widget.model != null && widget.model?.status != 0) {
-        if (isClaimantDBEmployeeSelected == 1 &&
-            ((claimant.isEmpty) ||
-                (claimantEmpIdTextController.text.isEmpty) ||
-                (claimantDepartmentName.isEmpty))) {
-          if (claimant.isEmpty) {
-            Validator().showToast(
-              context,
-              "Please enter claimant",
-            );
-          } else if (claimantEmpIdTextController.text.isEmpty) {
-            Validator().showToast(
-              context,
-              "Please enter claimant employee id",
-            );
-          } else if ((selectedClaimDepartment?.name ?? '').isEmpty) {
-            Validator().showToast(
-              context,
-              "Please enter claimant department",
-            );
-          }
-        } else if (widget.model?.status !=
-                ConstantsIntValue.articleFoundStatusFound &&
-            isClaimantDBEmployeeSelected == 0 &&
-            claimantTextController.text.isEmpty) {
-          log('--isClaimantDBEmployeeSelected--$isClaimantDBEmployeeSelected-------');
-          if (claimant.isEmptyOrNull) {
-            Validator().showToast(context, "Please enter claimant");
-          }
-        } else {
-          submitForm(true, widget.model?.id ?? 0, state: state);
-        }
-      } else {
-        submitForm(true, widget.model?.id ?? 0, state: state);
-      }
-    }
+    // if (statusTextController.text.isEmpty &&
+    //     createdByValue.isEmpty &&
+    //     (selectedLocation?.name ?? "").isEmpty &&
+    //     dateOfCreationTextController.text.isEmpty &&
+    //     assetTypeTextController.text.isEmpty &&
+    //     (selectedArtclelist?.name ?? "").isEmpty &&
+    //     foundDateTextController.text.isEmpty &&
+    //     foundLocationTextController.text.isEmpty &&
+    //     additionalInformationTextController.text.isEmpty &&
+    //     // quantityTextController.text.isEmpty &&
+    //     (((isDepositorDBEmployeeSelected == 1 &&
+    //         (selectedDepositorUser?.name ?? "").isEmpty) &&
+    //         depositorEmpIdTextController.text.isEmpty &&
+    //         (selectedEmployeeDepartment?.name ?? "").isEmpty) ||
+    //         (isDepositorDBEmployeeSelected == 0 &&
+    //             depositorTextController.text.isEmpty))) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please fill all required fields",
+    //   );
+    // } else if ((selectedLocation?.name ?? "").isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter location",
+    //   );
+    // } else if (dateOfCreationTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter creator date",
+    //   );
+    // } else if (assetTypeTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter asset type",
+    //   );
+    // } else if ((selectedArtclelist?.name ?? "").isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter article type",
+    //   );
+    // } else if (foundDateTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter found date",
+    //   );
+    // } else if (foundLocationTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter found location",
+    //
+    //   );
+    // } else if (quantityTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter quantity",
+    //   );
+    // } else if (colorTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter colour",
+    //   );
+    // } else if (isDepositorDBEmployeeSelected == 0 &&
+    //     depositorTextController.text.isEmpty) {
+    //   Validator().showToast(context, "Please enter depositor");
+    // } else if (isDepositorDBEmployeeSelected == 1) {
+    //   if ((selectedDepositorUser?.employeeId ?? "").isEmpty) {
+    //     Validator().showToast(
+    //       context,
+    //       "Please enter depositor employee id",
+    //     );
+    //   } else if (isClaimantAcceptedToSignSelected == 0 && widget.model?.status != 0) {
+    //     Validator().showToast(context,
+    //         "Please Save instead of initiate Claimant confirmation process");
+    //   } else if (depositorEmpIdTextController.text.isEmpty) {
+    //     Validator().showToast(
+    //       context,
+    //       "Please enter depositor",
+    //     );
+    //   } else if ((selectedEmployeeDepartment?.name ?? "").isEmpty) {
+    //     Validator().showToast(
+    //       context,
+    //       "Please enter employee department",
+    //     );
+    //   }
+    // } else {
+    //   //createNewuserBody(true, widget.listuser?.id ?? 0);
+    //   if (widget.model != null && widget.model?.status != 0) {
+    //     if (isClaimantDBEmployeeSelected == 1 &&
+    //         ((claimant.isEmpty) ||
+    //             (claimantEmpIdTextController.text.isEmpty) ||
+    //             (claimantDepartmentName.isEmpty))) {
+    //       if (claimant.isEmpty) {
+    //         Validator().showToast(
+    //           context,
+    //           "Please enter claimant",
+    //         );
+    //       } else if (claimantEmpIdTextController.text.isEmpty) {
+    //         Validator().showToast(
+    //           context,
+    //           "Please enter claimant employee id",
+    //         );
+    //       } else if ((selectedClaimDepartment?.name ?? '').isEmpty) {
+    //         Validator().showToast(
+    //           context,
+    //           "Please enter claimant department",
+    //         );
+    //       }
+    //     } else if (widget.model?.status !=
+    //         ConstantsIntValue.articleFoundStatusFound &&
+    //         isClaimantDBEmployeeSelected == 0 &&
+    //         claimantTextController.text.isEmpty) {
+    //       log(
+    //           '--isClaimantDBEmployeeSelected--$isClaimantDBEmployeeSelected-------');
+    //       if (claimant.isEmptyOrNull) {
+    //         Validator().showToast(context, "Please enter claimant");
+    //       }
+    //     } else {
+    //       submitForm(true, widget.model?.id ?? 0, state: state);
+    //     }
+    //   } else {
+    //     submitForm(true, widget.model?.id ?? 0, state: state);
+    //   }
+    // }
+    // else {
+    submitForm(true, widget.model?.id ?? 0, state: state);
+    // }
   }
 
   assetTypeDialog() {
@@ -577,7 +589,7 @@ class _CreateFoundState extends State<CreateFound> {
           return CustomListTexts(
             duplicateArticleList:
                 state.getArticleTypeResponse?.articleList ?? [],
-            leftImageName: AppIcon.addicon,
+            leftImageName: null,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
@@ -625,9 +637,10 @@ class _CreateFoundState extends State<CreateFound> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
+            isEmployeeId: true,
             duplicateDepostorList:
                 state.getDepositorResponse?.atomStaticUser ?? [],
-            leftImageName: AppIcon.addicon,
+            leftImageName: null,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
@@ -645,8 +658,18 @@ class _CreateFoundState extends State<CreateFound> {
             onTap: (BaseUser user) {
               if (name.toLowerCase() == 'depositor') {
                 selectedDepositorUser = user;
+                employeeIdTextController.text = (selectedDepositorUser
+                            ?.employeeId !=
+                        null
+                    ? '${selectedDepositorUser?.name} (${selectedDepositorUser?.email})'
+                    : '');
               } else {
                 selectedClaimList = user;
+                claimantEmpIdTextController.text = (selectedClaimList
+                            ?.employeeId !=
+                        null
+                    ? '${selectedClaimList?.name} (${selectedClaimList?.email})'
+                    : '');
               }
               setState(() {});
             },
@@ -1346,16 +1369,22 @@ class _CreateFoundState extends State<CreateFound> {
                                                   state.model.lock.isEmptyOrNull
                                               ? false
                                               : true),
-
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
 
-                                  /// depositor
+                                  /// Depositor Employee Id
                                   CommonWidgets.textDisplay(
-                                      state.labels?.locale.foundDepositor ??
-                                          state.labels?.defaultLocale
-                                              .foundDepositor ??
-                                          Constants.depositor,
+                                      isDepositorDBEmployeeSelected == 1
+                                          ? state.labels?.locale
+                                                  .foundEmployeeId ??
+                                              state.labels?.defaultLocale
+                                                  .foundEmployeeId ??
+                                              Constants.depositoremployeeid
+                                          : state.labels?.locale
+                                                  .foundDepositor ??
+                                              state.labels?.defaultLocale
+                                                  .foundDepositor ??
+                                              Constants.depositor,
                                       Styles.textStyleBlack14,
                                       isMandatory: true),
                                   CommonWidgets.verticalSpacerWidget(
@@ -1365,7 +1394,9 @@ class _CreateFoundState extends State<CreateFound> {
                                       ? TextFieldAddButton(
                                           title: selectedDepositorUser?.name !=
                                                   null
-                                              ? ('${selectedDepositorUser?.name ?? ''}(${selectedDepositorUser?.email ?? ''})')
+                                              ? (selectedDepositorUser
+                                                      ?.employeeId ??
+                                                  '')
                                               : '',
                                           height: 70,
                                           isDisableColor: widget
@@ -1410,17 +1441,15 @@ class _CreateFoundState extends State<CreateFound> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
 
-                                  /// Depositor Employee id
+                                  /// Depositor
                                   isDepositorDBEmployeeSelected == 1
-                                      ? CommonWidgets
-                                          .textDisplay(
-                                              state.labels?.locale
-                                                      .foundEmployeeId ??
-                                                  state.labels?.defaultLocale
-                                                      .foundEmployeeId ??
-                                                  Constants.depositoremployeeid,
-                                              Styles.textStyleBlack14,
-                                              isMandatory: true)
+                                      ? CommonWidgets.textDisplay(
+                                          state.labels?.locale.foundDepositor ??
+                                              state.labels?.defaultLocale
+                                                  .foundDepositor ??
+                                              Constants.depositor,
+                                          Styles.textStyleBlack14,
+                                          isMandatory: true)
                                       : Container(),
                                   isDepositorDBEmployeeSelected == 1
                                       ? CommonWidgets.verticalSpacerWidget(
@@ -1429,22 +1458,13 @@ class _CreateFoundState extends State<CreateFound> {
 
                                   isDepositorDBEmployeeSelected == 1
                                       ? FlutterInputField(
-                                          textInputType: TextInputType.number,
-                                          controller:
-                                              depositorEmpIdTextController,
+                                          textInputType: TextInputType.text,
+                                          controller: employeeIdTextController,
                                           textFormKey:
                                               Keys.depositorEmpIdTextController,
                                           hintText: '',
-                                          isEnable: (widget.model?.status ==
-                                                          0 ||
-                                                      widget.model == null) &&
-                                                  state.model.lock.isEmptyOrNull
-                                              ? true
-                                              : false,
-                                          isDisableColor:
-                                              widget.model?.status != 0
-                                                  ? false
-                                                  : true,
+                                          isEnable: false,
+                                          isDisableColor: true,
                                           focusNode: depositorEmployeeFocusNode,
                                           onChange: (String username) {
                                             //this.username = username;
@@ -1542,22 +1562,31 @@ class _CreateFoundState extends State<CreateFound> {
                                           )
                                         : Container(),
 
-                                    /// claimant
+                                    /// Claimant Employee Id
                                     CommonWidgets.textDisplay(
-                                        state.labels?.locale.foundClaimant ??
-                                            state.labels?.defaultLocale
-                                                .foundClaimant ??
-                                            Constants.claimant,
+                                        isClaimantDBEmployeeSelected == 1
+                                            ? state.labels?.locale
+                                                    .foundClaimantEmployeeId ??
+                                                state.labels?.defaultLocale
+                                                    .foundClaimantEmployeeId ??
+                                                Constants.claimantemployeeid
+                                            : state.labels?.locale
+                                                    .foundClaimant ??
+                                                state.labels?.defaultLocale
+                                                    .foundClaimant ??
+                                                Constants.claimant,
                                         Styles.textStyleBlack14,
                                         isMandatory: true),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.001),
                                     isClaimantDBEmployeeSelected == 1
                                         ? TextFieldAddButton(
-                                            title: selectedClaimList?.name !=
-                                                    null
-                                                ? ('${selectedClaimList?.name ?? ''}(${selectedClaimList?.email ?? ''})')
-                                                : '',
+                                            title:
+                                                selectedClaimList?.name != null
+                                                    ? (selectedClaimList
+                                                            ?.employeeId ??
+                                                        '')
+                                                    : '',
                                             height: 70,
                                             isDisableColor: (widget.model
                                                                 ?.status !=
@@ -1575,12 +1604,15 @@ class _CreateFoundState extends State<CreateFound> {
                                                 depositorDialog(
                                                     state,
                                                     state.labels?.locale
-                                                            .foundClaimant ??
+                                                            .foundClaimantEmployeeId ??
                                                         state
                                                             .labels
                                                             ?.defaultLocale
-                                                            .foundClaimant ??
-                                                        Constants.claimant);
+                                                            .foundClaimantEmployeeId ??
+                                                        Constants
+                                                            .claimantemployeeid);
+                                                FocusScope.of(context).requestFocus(
+                                                    depositorEmployeeFocusNode);
                                               }
                                             })
                                         : FlutterInputField(
@@ -1610,18 +1642,21 @@ class _CreateFoundState extends State<CreateFound> {
                                             validateTextField:
                                                 (String? user) {},
                                           ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
 
-                                    /// Claimant employee id
+                                    /// Claimant
                                     widget.model != null &&
                                             isClaimantDBEmployeeSelected == 1
-                                        ? CommonWidgets.textDisplay(
-                                            state.labels?.locale
-                                                    .foundClaimantEmployeeId ??
-                                                state.labels?.defaultLocale
-                                                    .foundClaimantEmployeeId ??
-                                                Constants.claimantemployeeid,
-                                            Styles.textStyleBlack14,
-                                            isMandatory: true)
+                                        ? CommonWidgets
+                                            .textDisplay(
+                                                state.labels?.locale
+                                                        .foundClaimant ??
+                                                    state.labels?.defaultLocale
+                                                        .foundClaimant ??
+                                                    Constants.claimant,
+                                                Styles.textStyleBlack14,
+                                                isMandatory: true)
                                         : Container(),
                                     widget.model != null &&
                                             isClaimantDBEmployeeSelected == 1
@@ -1637,22 +1672,8 @@ class _CreateFoundState extends State<CreateFound> {
                                                 claimantEmpIdTextController,
                                             textFormKey: Keys
                                                 .claimantEmpIdTextController,
-                                            isEnable: widget.model?.status !=
-                                                        2 &&
-                                                    isClaimantAcceptedByEmail ==
-                                                        0
-                                                ? true
-                                                : (widget.model != null &&
-                                                        (widget.model
-                                                                    ?.claimantEmployeeId ??
-                                                                '')
-                                                            .isEmpty)
-                                                    ? true
-                                                    : false,
-                                            isDisableColor:
-                                                (widget.model?.status != 2)
-                                                    ? false
-                                                    : true,
+                                            isEnable: false,
+                                            isDisableColor: true,
                                             hintText: '',
                                             onChange: (String username) {
                                               //this.username = username;
