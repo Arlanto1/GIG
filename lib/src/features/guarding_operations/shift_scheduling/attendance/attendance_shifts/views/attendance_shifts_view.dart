@@ -766,7 +766,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                   },
                   child: Card(
                     elevation: 5,
-                    child:  state.model.replacements== null && state.model.attdStatus==1 ?BaseIcons().closeIcon():SizedBox.fromSize(),
+                    child: ( state.model.attdStatus == 1) || ( state.model.attdStatus == 2)?BaseIcons().closeIcon():SizedBox.fromSize(),
                   ),
                 ),
               ),
