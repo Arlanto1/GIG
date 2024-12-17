@@ -63,19 +63,24 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
         setDateRange(widget.model.replacedFor!);
       }
     }
-
+    log('reason1 ${reasonController.text}----');
     log('widget.model.status--${widget.model.status}----');
     if (widget.model.status != null) {
       Label matchingLabel = shiftScheduleReasonDropDownValues
           .firstWhere((label) => label.value == widget.model.status.toString());
-
       reasonController.text = matchingLabel.key;
     }
-    log('reasonController.text---${reasonController.text}----');
+    // if (widget.model.status != null &&  widget.viaAttendance) {
+    //   Label matchingLabel =attendanceReasonDropDownValues
+    //       .firstWhere((label) => label.value == widget.model.status.toString());
+    //
+    //   reasonController.text = matchingLabel.key;
+    // }
+    log('reason2${reasonController.text}----');
 
     reasonList = widget.viaAttendance
-        ? attendanceReasonDropDownValues
-        : shiftScheduleReasonDropDownValues;
+        ? shiftScheduleReasonDropDownValues
+        : attendanceReasonDropDownValues;
 
     if (widget.viaAttendance) {
       fromDateController.text = Utils().getCurrentDate();
@@ -213,11 +218,20 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
                             dropDownValues:
                                 reasonList.map((label) => label.key).toList(),
                             onTap: (String value) {
-                              selectedReason =
-                                  shiftScheduleReasonDropDownValues.firstWhere(
-                                (label) => label.key == value,
-                                orElse: () => const Label(key: '', value: ''),
-                              );
+                              if (widget.viaAttendance) {
+                                selectedReason =
+                                    shiftScheduleReasonDropDownValues
+                                        .firstWhere(
+                                  (label) => label.key == value,
+                                  orElse: () => const Label(key: '', value: ''),
+                                );
+                              } else {
+                                selectedReason =
+                                    attendanceReasonDropDownValues.firstWhere(
+                                  (label) => label.key == value,
+                                  orElse: () => const Label(key: '', value: ''),
+                                );
+                              }
 
                               if (widget.viaAttendance) {
                                 getReplacementByUserListForAttendance();
@@ -440,7 +454,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
 
         if (widget.viaAttendance) {
           BlocProvider.of<AttendanceShiftsCubit>(widget.mainContext)
-              .updateReplacement(context, widget.model);
+              .updateReplacement(context, widget.model, false, false, true);
         } else {
           BlocProvider.of<DutyPostDetailsCubit>(widget.mainContext)
               .updateReplacement(context, widget.model);
@@ -512,10 +526,10 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
       }
     }
 
-    // if (replacementByController.text.isEmptyOrNull) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Replacement By');
-    // }
+    if (replacementByController.text.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Replacement By');
+    }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }

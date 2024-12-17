@@ -47,6 +47,9 @@ ShiftModel _$ShiftModelFromJson(Map<String, dynamic> json) => ShiftModel(
       replacements: (json['replacements'] as List<dynamic>?)
           ?.map((e) => Replacement.fromJson(e as Map<String, dynamic>))
           .toSet(),
+      selectForReplacements: (json['selectForReplacements'] as List<dynamic>?)
+          ?.map((e) => BaseUser.fromJson(e as Map<String, dynamic>))
+          .toSet(),
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$ShiftModelToJson(ShiftModel instance) =>
@@ -61,6 +64,7 @@ Map<String, dynamic> _$ShiftModelToJson(ShiftModel instance) =>
       'availableGuards': instance.availableGuards?.toList(),
       'replacements': instance.replacements?.toList(),
       'selectForAttendance': instance.selectForAttendance?.toList(),
+      'selectForReplacements': instance.selectForReplacements?.toList(),
       'attended': instance.attended?.toList(),
       'previousShift': instance.previousShift?.toList(),
       'briefingPoints': instance.briefingPoints,

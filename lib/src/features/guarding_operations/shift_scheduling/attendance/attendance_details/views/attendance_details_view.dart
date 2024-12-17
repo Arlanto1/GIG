@@ -455,6 +455,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                           if (!isSaveSuccess) {
                             return;
                           }
+
                           BlocProvider.of<AttendanceDetailsCubit>(context)
                               .navigateToNextScreen(
                             dutyPostNameId: dutyPostNameId!,

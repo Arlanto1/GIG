@@ -20,11 +20,11 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     required this.selectedDutyPostNameId,
     required this.slaServices,
   }) : super(
-          AttendanceShiftsState.initial(
-            model: ShiftModel(),
-            errorMessage: '',
-          ),
-        );
+    AttendanceShiftsState.initial(
+      model: ShiftModel(),
+      errorMessage: '',
+    ),
+  );
 
   Future<void> initializeValues() async {
     log('--initializeValues-@@@-');
@@ -54,10 +54,10 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       selectedRank = state.selectedRank ?? ranks.first;
 
       List<Organisation> shifts =
-          await services.getAttendanceShiftByByDutyPostIdAndRankId(
-              dutyPostId: selectedDutyPostNameId,
-              attendanceId: attInfoId,
-              rankId: selectedRank.id!);
+      await services.getAttendanceShiftByByDutyPostIdAndRankId(
+          dutyPostId: selectedDutyPostNameId,
+          attendanceId: attInfoId,
+          rankId: selectedRank.id!);
       Organisation selectedShift = state.selectedShift ?? shifts.first;
 
       ShiftModel model = await services.getDutyPostById(
@@ -85,7 +85,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
       List<SlaList> slaList = [];
 
       SLAViolationPenaltyResponseModel list =
-          await SLAViolationPenaltyServices().getSvpList(
+      await SLAViolationPenaltyServices().getSvpList(
         startPosition: '0',
         maximumRecords: '100',
         attdInfoId: model.attendanceShiftId!,
@@ -143,10 +143,10 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     );
 
     List<Organisation> shifts =
-        await services.getAttendanceShiftByByDutyPostIdAndRankId(
-            dutyPostId: selectedDutyPostNameId,
-            attendanceId: attInfoId,
-            rankId: rank.id!);
+    await services.getAttendanceShiftByByDutyPostIdAndRankId(
+        dutyPostId: selectedDutyPostNameId,
+        attendanceId: attInfoId,
+        rankId: rank.id!);
 
     Organisation? selectedShift;
 
@@ -179,7 +179,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     List<SlaList> slaList = [];
 
     SLAViolationPenaltyResponseModel list =
-        await SLAViolationPenaltyServices().getSvpList(
+    await SLAViolationPenaltyServices().getSvpList(
       startPosition: '0',
       maximumRecords: '100',
       attdInfoId: model.attendanceShiftId!,
@@ -209,14 +209,16 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
   }
 
   Future<void> submitAndRefreshScreen(
-      {BuildContext? context, bool? checkValidations}) async {
+      {BuildContext? context, bool? checkValidations, required bool isRemove,required bool isSaveOnly,required bool isSubmit}) async {
     /// Saving the record
     await submitForm(
-      isSaveOnly: true,
+      isSaveOnly: isSaveOnly,
+      isSubmit: isSubmit,
       // model: state.model,
       status: FormStatus.initial,
       // newSelectedShift: state.selectedShift!,
       // checkValidations: checkValidations,
+      isRemove: isRemove,
     );
 
     /// For Adding Replacement
@@ -234,17 +236,20 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
   }
 
   Future<void> updateReplacement(
-    BuildContext context,
-    Replacement updatedReplacement,
-  ) async {
+      BuildContext context,
+      Replacement updatedReplacement,
+      bool isRemove,
+      bool isSubmit,
+      bool isSaveOnly,
+      ) async {
     emit(state.copyWith(status: FormStatus.loading));
 
     if (updatedReplacement.id != null) {
       log('Updating Existing Replacement');
       state.model.replacements = state.model.replacements
           ?.map((existing) => existing.id == updatedReplacement.id
-              ? updatedReplacement
-              : existing)
+          ? updatedReplacement
+          : existing)
           .toSet();
     } else {
       /// Handle new replacements
@@ -253,7 +258,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
         log('Creating/Updating new Replacement with tempId: ${updatedReplacement.tempId}');
         // Remove any existing replacement with the same tempId before adding
         state.model.replacements!.removeWhere((existingReplacement) =>
-            existingReplacement.tempId == updatedReplacement.tempId);
+        existingReplacement.tempId == updatedReplacement.tempId);
       }
       state.model.replacements!.add(updatedReplacement);
     }
@@ -264,10 +269,10 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     ));
 
     /// Saving and Refresh the record
-    await submitAndRefreshScreen(context: context, checkValidations: false);
+    await submitAndRefreshScreen(context: context, checkValidations: false, isRemove: isRemove,isSaveOnly:isSaveOnly,isSubmit:isSubmit);
   }
 
-  Future<void> submitForm({bool isSaveOnly = false, FormStatus? status}) async {
+  Future<void> submitForm({bool isSaveOnly = false, FormStatus? status, required bool isRemove,required bool isSubmit}) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -276,7 +281,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
 
     // Create/Update API Call
     AttendanceShiftDutyPostRequest request =
-        AttendanceShiftDutyPostRequest(requestModel: ShiftModel());
+    AttendanceShiftDutyPostRequest(requestModel: ShiftModel());
 
     request.requestModel = state.model;
     GenericResponse response = GenericResponse();
@@ -292,8 +297,9 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
           return;
         }
         response = (await services.createAttendanceShiftDutyPost(
-            body: request, isSubmit: false));
-      } else {
+            body: request, isSubmit: false, isRemove: isRemove));
+      }
+      if(isSubmit) {
         //Validating Fields
         if (!state.isValid.status) {
           emit(
@@ -305,7 +311,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
           return;
         }
         response = (await services.createAttendanceShiftDutyPost(
-            body: request, isSubmit: true));
+            body: request, isSubmit: true, isRemove: isRemove));
       }
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
