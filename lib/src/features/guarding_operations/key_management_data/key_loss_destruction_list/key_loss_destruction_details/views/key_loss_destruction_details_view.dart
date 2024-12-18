@@ -710,11 +710,9 @@ class _KeyLossDestructionDetailsViewState
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                cancelButtonDisplay(),
-                                if (!isReadOnly) ...[submitButtonDisplay()],
+                                if (!isReadOnly) ...[cancelButtonDisplay(),submitButtonDisplay()],
                               ],
                             ),
-
                             CommonWidgets.verticalSpacerWidget(height * 0.04),
                           ],
                         ),
@@ -723,7 +721,27 @@ class _KeyLossDestructionDetailsViewState
                   ),
                 ),
               ),
+
             ),
+            if (isReadOnly) ...[
+              Container(
+                padding: const EdgeInsets.all(5.0),
+                decoration: const ShapeDecoration(
+                  color: AppColors.backgroundWhiteColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(00.0)),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    cancelButtonDisplay(),
+                  ],
+                ),
+              ),
+              CommonWidgets.verticalSpacerWidget(height * 0.03),
+            ],
           ],
         ),
       ),
