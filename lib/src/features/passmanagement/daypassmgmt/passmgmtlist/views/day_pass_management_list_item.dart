@@ -124,21 +124,25 @@ class _DayPassManagementListItemState extends State<DayPassManagementListItem> {
                     Row(
                       children: [
                         Utils().textHandling(
-                            widget.userItem.passType ==
-                                    ConstantsIntValue.passIdDayPass
-                                ? (state.labels?.locale.dayPassInfo ??
-                                    state.labels?.defaultLocale.dayPassInfo ??
-                                    'Day Pass No: ')
-                                : widget.userItem.passType ==
-                                        ConstantsIntValue.passIdVendor
-                                    ? (state.labels?.locale.vendorPassInfo ??
+                            widget.userItem.passType == 3
+                                ? state.labels?.locale.sezPassInfo ??
+                                    state.labels?.defaultLocale.sezPassInfo ??
+                                    'SEZ Pass No  : '
+                                : widget.userItem.passType == 2
+                                    ? state.labels?.locale.vendorPassInfo ??
                                         state.labels?.defaultLocale
                                             .vendorPassInfo ??
-                                        'Vendor Pass No: ')
-                                    : (state.labels?.locale.visitorPassInfo ??
-                                        state.labels?.defaultLocale
-                                            .visitorPassInfo ??
-                                        'Visitor Pass No: '),
+                                        'Vendor Pass No  : '
+                                    : widget.userItem.passType == 1
+                                        ? state.labels?.locale
+                                                .visitorPassInfo ??
+                                            state.labels?.defaultLocale
+                                                .visitorPassInfo ??
+                                            'Visitor Pass No  : '
+                                        : state.labels?.locale.dayPassInfo ??
+                                            state.labels?.defaultLocale
+                                                .dayPassInfo ??
+                                            'Day Pass No : ',
                             widget.userItem.passInfo?.passNo?.toString() ??
                                 " "),
                       ],
