@@ -843,7 +843,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           state.labels?.defaultLocale
                                               .employeeID ??
                                           Constants.employeeid,
-                                      isMandatory: true,
+                                      isMandatory: false,
                                       Styles.textStyleBlack14),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
