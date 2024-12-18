@@ -647,7 +647,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        GestureDetector(
+    GestureDetector(
           onTap: () => showReplacementPopUp(
             context: context,
             model: Replacement(),
@@ -698,14 +698,14 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     return [
       for (Replacement replacement in state.model.replacements ?? [])
         InkWell(
-          onTap: () => showReplacementPopUp(
+          onTap: () => ( state.model.attdStatus == 1 && replacement.statusActive == true) || ( state.model.attdStatus == 2 && replacement.statusActive == true) ?showReplacementPopUp(
             context: context,
             model: replacement,
             selectedGuards: state.model.selectForReplacements ?? {},
             state: state,
             rankId: state.selectedRank!.id!,
             shiftId: state.selectedShift!.id!,
-          ),
+          ): null,
           child: Stack(
             children: [
               Card(
