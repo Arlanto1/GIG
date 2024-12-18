@@ -682,12 +682,12 @@ class _KeyHistoryRecordsDetailsViewState
                                   srh ||
                                   initialStatus ||
                                   lockChangeInitiatedAndUser)) &&
-                              state.model.status != ConstantsIntValue.closed,
+                              state.model.status != ConstantsIntValue.closed && state.model.status != ConstantsIntValue.lockChangeInitiated,
                           isDisableColor: !((securityManager ||
                                       srh ||
                                       initialStatus) ||
                                   lockChangeInitiatedAndUser) ||
-                              state.model.status == ConstantsIntValue.closed,
+                              state.model.status == ConstantsIntValue.closed ||  state.model.status == ConstantsIntValue.lockChangeInitiated,
                           onChange: (String value) {
                             state.model.additionalInformation = value;
                             context
