@@ -450,7 +450,7 @@ class Utils {
         statusText = 'Active';
         break;
       case 2:
-        statusText = 'InActive';
+        statusText = 'Closed';
         break;
       case -1:
         statusText = 'Cancelled';
