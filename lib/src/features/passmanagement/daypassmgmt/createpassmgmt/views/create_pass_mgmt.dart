@@ -3995,14 +3995,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter employee id",
       );
-    } else if (widget.passId == ConstantsIntValue.passIdSez &&
-        employeeIdTextController.text.isEmpty &&
+    }
+    else if (widget.passId == ConstantsIntValue.passIdSez &&
+        state.nameResponse?.employeeId ==null &&
         (state.selectedCompanyType?.name ?? '').toLowerCase() == 'fte') {
       Validator().showToast(
         context,
         "Please enter employee id",
       );
-    } else if ((widget.passId == ConstantsIntValue.passIdDayPass &&
+    }
+    else if ((widget.passId == ConstantsIntValue.passIdDayPass &&
         (state.selectedCompanyType?.name ?? '').toLowerCase() == 'cwr t1' &&
         emailTextController.text.isEmpty)) {
       Validator().showToast(
@@ -4010,14 +4012,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         "Please enter email",
       );
     }
-    if ((widget.passId == ConstantsIntValue.passIdSez &&
-        emailTextController.text.isEmpty &&
-        (state.selectedCompanyType?.name ?? '').toLowerCase() == 'fte')) {
-      Validator().showToast(
-        context,
-        "Please enter email",
-      );
-    } else if ((widget.passId == ConstantsIntValue.passIdSez &&
+    // if ((widget.passId == ConstantsIntValue.passIdSez &&
+    //     emailTextController.text.isEmpty &&
+    //     (state.selectedCompanyType?.name ?? '').toLowerCase() == 'fte')) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter email",
+    //   );
+    // }
+    else if ((widget.passId == ConstantsIntValue.passIdSez &&
         !emailTextController.text.isEmptyOrNull &&
         !Validator.isValidEmail(emailTextController.text))) {
       log('-widget.model?.email--${widget.model?.email}-222--${emailTextController.text}---');
