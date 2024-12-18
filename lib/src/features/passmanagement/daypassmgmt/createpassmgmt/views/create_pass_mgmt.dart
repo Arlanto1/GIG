@@ -855,11 +855,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         textFormKey: Keys.nameKey,
                                         hintText: '',
                                         // focusNode: companyNameFocusNode,
-                                        isEnable:
-                                            companyNameTextController.text ==
-                                                    Constants.deutscheBank
-                                                ? false
-                                                : true,
+                                        isEnable:widget.model?.status == 0 || widget.model == null ?isFTECompanyNameEditable: false,
                                         isDisableColor: false,
                                         onChange: (String value) {
                                           companyNameTextController.text =
@@ -941,8 +937,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         textFormKey: Keys.nameKey,
                                         hintText: '',
                                         // focusNode: companyNameFocusNode,
-                                        isEnable:
-                                            (state.selectedCompanyType?.name ??
+                                        isEnable: (state.model.status != 0 && widget.model != null )
+                                           || (state.selectedCompanyType?.name ??
                                                             '')
                                                         .toLowerCase() !=
                                                     'exceptions'
@@ -2974,11 +2970,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               //log(list.name);
               // isEditable = true;
               companyNameTextController.text = "";
-              if ((organisation.name ?? '').toLowerCase() == 'fte') {
-                companyNameTextController.text = "Deutsche Bank";
-                isFTECompanyNameEditable = false;
-              } else {
-                isFTECompanyNameEditable = true;
+              if(widget.model?.status == 0 || widget.model == null) {
+                if ((organisation.name ?? '').toLowerCase() == 'fte') {
+                  companyNameTextController.text = "Deutsche Bank";
+                  isFTECompanyNameEditable = false;
+                } else {
+                  isFTECompanyNameEditable = true;
+                }
               }
               log('--organisation.name ---${organisation.name}---');
               if ((organisation.name ?? '').toLowerCase() != 'exceptions') {
@@ -3091,8 +3089,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       title: state.nameResponse?.employeeId,
       height: 60,
       isDisableColor: widget.model?.status == 0 ||
-              widget.model == null &&
-                  (state.selectedCompanyType?.name ?? '').toLowerCase() != 'fte'
+              widget.model == null
           ? false
           : true,
       onTap: () {
