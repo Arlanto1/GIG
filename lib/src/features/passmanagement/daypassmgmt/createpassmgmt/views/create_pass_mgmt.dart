@@ -3746,7 +3746,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         passNo: passInfo.passNo,
         escortedBy: escortedByTextController.text,
         escortedEmployeeId: escortedEmployeeIdByTextController.text,
-        hostEmployeeId: state.hostResponse?.employeeId,
+        hostEmployeeId: dbsponsorTextController.text.isEmpty  ? host2?.employeeId : dbSponsor?.employeeId,
         mifareNo: mtpApplicationNoTextController.text,
         passIssuedOn: passValidFromDate.toString(),
         endTime: endTime,
@@ -3818,7 +3818,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           escortedBy: escortedByTextController.text,
           escortedEmployeeId: escortedEmployeeIdByTextController.text,
           mifareNo: mtpApplicationNoTextController.text,
-          hostEmployeeId: state.hostResponse?.employeeId,
+          hostEmployeeId: dbsponsorTextController.text.isEmpty  ? host2?.employeeId : dbSponsor?.employeeId,
           passIssuedOn: passValidFromDate.toString(),
           endTime: endTime,
           startTime: passValidFromDate.toString(),
@@ -3988,9 +3988,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter purpose of visit",
       );
-    } else if (widget.passId == ConstantsIntValue.passIdDayPass &&
+    }
+    else if (widget.passId == ConstantsIntValue.passIdDayPass &&
         (state.selectedCompanyType?.name ?? '').toLowerCase() != 'exceptions' &&
-        employeeIdTextController.text.isEmpty) {
+        state.nameResponse?.employeeId ==null) {
       Validator().showToast(
         context,
         "Please enter employee id",
@@ -4004,14 +4005,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         "Please enter employee id",
       );
     }
-    else if ((widget.passId == ConstantsIntValue.passIdDayPass &&
-        (state.selectedCompanyType?.name ?? '').toLowerCase() == 'cwr t1' &&
-        emailTextController.text.isEmpty)) {
-      Validator().showToast(
-        context,
-        "Please enter email",
-      );
-    }
+    // else if ((widget.passId == ConstantsIntValue.passIdDayPass &&
+    //     (state.selectedCompanyType?.name ?? '').toLowerCase() == 'cwr t1' &&
+    //     emailTextController.text.isEmpty)) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter email",
+    //   );
+    // }
     // if ((widget.passId == ConstantsIntValue.passIdSez &&
     //     emailTextController.text.isEmpty &&
     //     (state.selectedCompanyType?.name ?? '').toLowerCase() == 'fte')) {
