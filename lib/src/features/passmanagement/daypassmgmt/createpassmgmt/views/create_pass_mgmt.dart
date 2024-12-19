@@ -904,15 +904,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         hintText: '',
                                         // focusNode: companyNameFocusNode,
                                         isEnable:
-                                            passCategoryTextController.text ==
-                                                    "Permanent"
-                                                ? false
-                                                : true,
+                                           false,
                                         isDisableColor:
-                                            passCategoryTextController.text ==
-                                                    "Permanent"
-                                                ? true
-                                                : false,
+                                             true,
                                         onChange: (String value) {
                                           // nameTextController.text =
                                           //     value;
