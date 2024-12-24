@@ -45,9 +45,9 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       final futures = await Future.wait([
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'), // 0
         commonServices.getUserDetails(userId: userId), // 1
-        commonServices.getUsersByRole(roleName: 'T1_Analyst'), // 2
+        // commonServices.getUsersByRole(roleName: 'T1_Analyst'), // 2
         // commonServices.getUsers(), // 3
-        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'), // 3
+        // commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'), // 3
         commonServices.getVendors(name: 'ATOM_VENDORS'), // 4
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
@@ -58,13 +58,13 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
 
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
-      Analyst users = futures[2];
+      // Analyst users = futures[2];
       // List<User> entrySecurities = futures[3];
-      GetDepositor emailUsers = futures[3];
-      Vendors vendors = futures[4];
-      dynamic responseLabels = futures[5];
-      Organisation? defaultLocation = futures[6];
-      List<DutyPostModel> dutyPosts = futures[7];
+      // GetDepositor emailUsers = futures[3];
+      Vendors vendors = futures[2];
+      dynamic responseLabels = futures[3];
+      Organisation? defaultLocation = futures[4];
+      List<DutyPostModel> dutyPosts = futures[5];
 
       if (model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
@@ -103,9 +103,9 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
           status: FormStatus.initial,
           model: model,
           vendors: vendors.items,
-          users: users.t1Analyst,
+          // users: users.t1Analyst,
           // entrySecurities: entrySecurities,
-          emailUsers: emailUsers.atomStaticUser,
+          // emailUsers: emailUsers.atomStaticUser,
           dutyPosts: dutyPosts,
           labels: labels,
         ),
