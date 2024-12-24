@@ -74,7 +74,7 @@ class KeyManagementMasterDetailsCubit
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
         commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
-        commonServices.getUsers(),
+        // commonServices.getUsers(),
         commonServices.getAtomStaticUsers(
             roleName: 'ATOM_STATIC_USER', locationId: state.model.location?.id),
         commonServices.getKeyType(name: 'KEY_MANAGEMENT_DOOR_TYPE'),

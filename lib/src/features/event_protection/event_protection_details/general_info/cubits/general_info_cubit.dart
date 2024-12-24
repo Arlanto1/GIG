@@ -103,7 +103,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
             roleName: 'ATOM_STATIC_USER', locationId: model.location?.id),
         commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
-        commonServices.getUsers(),
+        // commonServices.getUsers(),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getBaseUsersByRoles(
             isDbUser: true,
@@ -125,10 +125,10 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
       List<BaseUser>? emailUsers = results[4];
       List<Organisation>? entities = results[5];
       Vendors vendors = results[6];
-      List<User> entrySecurities = results[7];
-      EmployeeDepartments departments = results[8];
-      List<BaseUser>? epm = results[9];
-      List<BaseUser>? lsm = results[10];
+      // List<User> entrySecurities = results[7];
+      EmployeeDepartments departments = results[7];
+      List<BaseUser>? epm = results[8];
+      List<BaseUser>? lsm = results[9];
 
       log('input date ---${model.inputDate}');
       // model.inputDate =
@@ -167,7 +167,7 @@ class GeneralInfoCubit extends Cubit<GeneralInfoState> {
         epOfficers: emailUsers,
         departments: departments.employeeDepartments,
         vendors: vendors.items,
-        entrySecurities: entrySecurities,
+        // entrySecurities: entrySecurities,
         listOfEntities: entities,
         getEntitiesResponse: entities,
         labels: EpUiLabels.fromJson(responseLabels),

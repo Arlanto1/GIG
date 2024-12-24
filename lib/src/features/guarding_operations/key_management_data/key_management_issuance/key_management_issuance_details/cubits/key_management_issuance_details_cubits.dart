@@ -86,7 +86,7 @@ class KeyManagementIssuanceDetailsCubit
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
-        commonServices.getUsers(),
+        // commonServices.getUsers(),
         commonServices.getBaseUsers(
             isDbUser: true,
             roleName: 'ATOM_STATIC_USER',

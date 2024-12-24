@@ -119,7 +119,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
-      List<User> entrySecurities = await commonServices.getUsers();
+      // List<User> entrySecurities = await commonServices.getUsers();
       bool isOnGoingPowerFailure = false;
 
       if (model.location == null) {
@@ -179,7 +179,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           status: FormStatus.initial,
           shiftTakenOverBy: shiftTakenOverBy,
           departments: departments.employeeDepartments,
-          entrySecurities: entrySecurities,
+          // entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,
           isOnGoingPowerFailure: isOnGoingPowerFailure,

@@ -149,7 +149,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
             locationId: model.location!.id!),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getArticleType(name: 'ARTICLE_LIST'),
-        commonServices.getUsers(),
+        // commonServices.getUsers(),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
       ]);
 
@@ -161,8 +161,8 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       final List<BaseUser> incidentOwner = results[4] as List<BaseUser>;
       final AddEntities entities = results[5] as AddEntities;
       final GetArticleType getArticleType = results[6] as GetArticleType;
-      final List<User> entrySecurities = results[7] as List<User>;
-      final EmployeeDepartments departments = results[8] as EmployeeDepartments;
+      // final List<User> entrySecurities = results[7] as List<User>;
+      final EmployeeDepartments departments = results[7] as EmployeeDepartments;
 
       model.entrySecurity ??= loggedInUserDetails;
 
@@ -179,7 +179,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           incidentManager: incidentManager,
           emailUsers: emailUsers,
           departments: departments.employeeDepartments,
-          entrySecurities: entrySecurities,
+          // entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities.atomEntities,
         ),

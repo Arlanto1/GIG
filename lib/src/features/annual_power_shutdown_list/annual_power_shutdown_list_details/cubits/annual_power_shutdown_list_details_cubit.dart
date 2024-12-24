@@ -121,7 +121,7 @@ class AnnualPowerShutdownListDetailsCubit
             locationId: model.location!.id!),
         commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
         commonServices.getVendors(name: 'ATOM_VENDORS'),
-        commonServices.getUsers(),
+        // commonServices.getUsers(),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getBaseUsers(
             roleName: ConstantUserRoles.atomSubRegionalHeadUser,
@@ -144,10 +144,10 @@ class AnnualPowerShutdownListDetailsCubit
       List<BaseUser>? emailUsers = results[4];
       List<Organisation>? entities = results[5];
       Vendors vendors = results[6];
-      List<User> entrySecurities = results[7];
-      EmployeeDepartments departments = results[8];
-      List<BaseUser>? srh = results[9];
-      List<BaseUser>? lsm = results[10];
+      // List<User> entrySecurities = results[7];
+      EmployeeDepartments departments = results[7];
+      List<BaseUser>? srh = results[8];
+      List<BaseUser>? lsm = results[9];
 
       // model.inputDate = model.inputDate == null
       //     ? Utils().getCurrentDate()
@@ -172,7 +172,7 @@ class AnnualPowerShutdownListDetailsCubit
         epOfficers: emailUsers,
         departments: departments.employeeDepartments,
         vendors: vendors.items,
-        entrySecurities: entrySecurities,
+        // entrySecurities: entrySecurities,
         listOfEntities: entities,
         getEntitiesResponse: entities,
         // labels: EpUiLabels.fromJson(responseLabels),

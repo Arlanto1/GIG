@@ -88,7 +88,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
-      List<User> entrySecurities = await commonServices.getUsers();
+      // List<User> entrySecurities = await commonServices.getUsers();
       AddQualifications qualifications =
           await commonServices.getQualification(name: 'GUARD_QUALIFICATIONS');
 
@@ -106,7 +106,7 @@ class ContactInfoCubit extends Cubit<ContactInfoState> {
           status: FormStatus.initial,
           users: users.t1Analyst,
           departments: departments.employeeDepartments,
-          entrySecurities: entrySecurities,
+          // entrySecurities: entrySecurities,
           emailUsers: emailUsers.atomStaticUser,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities,

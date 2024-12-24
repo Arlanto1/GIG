@@ -98,7 +98,7 @@ class GuardingMasterDataDetailsCubit
         commonServices.getUserDetails(userId: userId),
         // commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
-        commonServices.getUsers(),
+        // commonServices.getUsers(),
         commonServices.getQualification(name: 'GUARD_QUALIFICATIONS'),
         commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
         commonServices.getDepartments(name: 'ATOM_VENDORS'),
@@ -119,12 +119,12 @@ class GuardingMasterDataDetailsCubit
       User loggedInUserDetails = futures[1];
       // Analyst users = futures[2];
       List<Organisation>? entities = futures[2];
-      List<User> entrySecurities = futures[3];
-      AddQualifications qualifications = futures[4];
-      GetDepositor emailUsers = futures[5];
-      Vendors vendors = futures[7];
-      dynamic responseLabels = futures[8];
-      Organisation? defaultLocation = futures[9];
+      // List<User> entrySecurities = futures[3];
+      AddQualifications qualifications = futures[3];
+      GetDepositor emailUsers = futures[4];
+      Vendors vendors = futures[6];
+      dynamic responseLabels = futures[7];
+      Organisation? defaultLocation = futures[8];
       if (state.model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
@@ -153,7 +153,7 @@ class GuardingMasterDataDetailsCubit
           model: state.model,
           // users: users.t1Analyst,
           vendors: vendors.items,
-          entrySecurities: entrySecurities,
+          // entrySecurities: entrySecurities,
           emailUsers: emailUsers.atomStaticUser,
           listOfEntities: entities,
           getEntitiesResponse: entities,

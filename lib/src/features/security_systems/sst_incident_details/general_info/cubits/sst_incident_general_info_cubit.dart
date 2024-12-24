@@ -138,7 +138,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
         commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
-        commonServices.getUsers(),
+        // commonServices.getUsers(),
         commonServices.getOrganisations(name: 'ATOM_VENDORS'),
         commonServices.getBaseUsersByRoles(
           isDbUser: true,
@@ -167,12 +167,12 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       final Locations getLocationsData = futures[0] as Locations;
       final User loggedInUserDetails = futures[1] as User;
       final List<Organisation> entities = futures[2] as List<Organisation>;
-      final List<User> entrySecurities = futures[3] as List<User>;
-      final List<Organisation> vendors = futures[4] as List<Organisation>;
-      final List<BaseUser> securityLeads = futures[5] as List<BaseUser>;
-      final List<BaseUser> securityManagers = futures[6] as List<BaseUser>;
-      final List<BaseUser> locationTeamUsers = futures[7] as List<BaseUser>;
-      final List<BaseUser> systemManagers = futures[8] as List<BaseUser>;
+      // final List<User> entrySecurities = futures[3] as List<User>;
+      final List<Organisation> vendors = futures[3] as List<Organisation>;
+      final List<BaseUser> securityLeads = futures[4] as List<BaseUser>;
+      final List<BaseUser> securityManagers = futures[5] as List<BaseUser>;
+      final List<BaseUser> locationTeamUsers = futures[6] as List<BaseUser>;
+      final List<BaseUser> systemManagers = futures[7] as List<BaseUser>;
 
       model.createdDate = model.createdDate == null
           ? Utils().getCurrentDate()
@@ -206,7 +206,7 @@ model.modifiedDate = model.modifiedDate == null
           securityManagers: securityManagers,
           locationTeamUsers: locationTeamUsers,
           vendors: vendors,
-          entrySecurities: entrySecurities,
+          // entrySecurities: entrySecurities,
           listOfEntities: entities,
           getEntitiesResponse: entities,
           uploadAttachments: model.attachments,

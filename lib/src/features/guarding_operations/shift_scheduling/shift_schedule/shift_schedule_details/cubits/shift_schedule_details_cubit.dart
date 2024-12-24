@@ -110,30 +110,30 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
-        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
-        commonServices.getUserDetails(userId: userId),
-        commonServices.getUsersByRole(roleName: 'T1_Analyst'),
-        commonServices.getEntities(name: 'ATOM_ENTITIES'),
-        commonServices.getUsers(),
-        services.getDutyPostsById(id: model.id, dutyType: model.dutyType),
-        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),
-        commonServices.getDepartments(name: 'ATOM_VENDORS'),
-        commonServices.getVendors(name: 'ATOM_VENDORS'),
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),//0
+        commonServices.getUserDetails(userId: userId),//1
+        // commonServices.getUsersByRole(roleName: 'T1_Analyst'),
+        // commonServices.getEntities(name: 'ATOM_ENTITIES'),
+        // commonServices.getUsers(),
+        services.getDutyPostsById(id: model.id, dutyType: model.dutyType),//2
+        commonServices.getAtomStaticUsers(roleName: 'ATOM_STATIC_USER'),//3
+        // commonServices.getDepartments(name: 'ATOM_VENDORS'),
+        commonServices.getVendors(name: 'ATOM_VENDORS'),//4
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
-            moduleCode: Constants.shiftScheduleModuleCode),
-        SharedPrefs.getDefaultLocation(),
+            moduleCode: Constants.shiftScheduleModuleCode),//5
+        SharedPrefs.getDefaultLocation(),//6
       ]);
 
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
-      Analyst users = futures[2];
-      List<User> entrySecurities = futures[4];
-      List<DutyPostModel> dutyPosts = futures[5];
-      GetDepositor emailUsers = futures[6];
-      Vendors vendors = futures[8];
-      dynamic responseLabels = futures[9];
-      Organisation? defaultLocation = futures[10];
+      // Analyst users = futures[2];
+      // List<User> entrySecurities = futures[4];
+      List<DutyPostModel> dutyPosts = futures[2];
+      GetDepositor emailUsers = futures[3];
+      Vendors vendors = futures[4];
+      dynamic responseLabels = futures[5];
+      Organisation? defaultLocation = futures[6];
       log('--model.inputDate--${model.inputDate == null ? Utils().getCurrentDate() : Utils().formatUnixTimestamp(model.inputDate ?? '')}--');
 
       log('--model.location--${model.location?.id}--');
@@ -172,9 +172,9 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: model,
-          users: users.t1Analyst,
+          // users: users.t1Analyst,
           vendors: vendors.items,
-          entrySecurities: entrySecurities,
+          // entrySecurities: entrySecurities,
           dutyPosts: dutyPosts,
           emailUsers: emailUsers.atomStaticUser,
           labels: labels,
