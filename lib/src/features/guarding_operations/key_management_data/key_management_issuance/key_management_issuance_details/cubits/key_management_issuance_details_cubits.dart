@@ -101,8 +101,8 @@ class KeyManagementIssuanceDetailsCubit
       User loggedInUserDetails = futures[1];
       AddEntities entities = futures[2];
       // List<User> entrySecurities = futures[3];
-      List<BaseUser> emailUsers = futures[4];
-      EmployeeDepartments departments = futures[5];
+      List<BaseUser> emailUsers = futures[3];
+      EmployeeDepartments departments = futures[4];
       // dynamic responseLabels = futures[6];
 
       state.model.createdBy ??= loggedInUserDetails;

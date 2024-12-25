@@ -88,9 +88,9 @@ class KeyManagementMasterDetailsCubit
       User loggedInUserDetails = futures[1];
       List<Organisation>? entities = futures[2];
       // List<User> createdBy = futures[3];
-      GetDepositor emailUsers = futures[4];
-      KeyType departments = futures[5];
-      dynamic responseLabels = futures[7];
+      GetDepositor emailUsers = futures[3];
+      KeyType departments = futures[4];
+      dynamic responseLabels = futures[6];
 
       state.model.createdBy ??= loggedInUserDetails;
       state.model.modifiedBy ??= loggedInUserDetails;
