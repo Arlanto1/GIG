@@ -173,7 +173,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                                   FocusScope.of(context)
                                       .requestFocus(officeAddressFocusNode);
                                 },
-                                leftImage: true,
+                                leftImage: false,
                                 orgName: 'ATOM_LEO_DEPARTMENTS',
                                 createEntity: true,
                                 title: Constants.department,
