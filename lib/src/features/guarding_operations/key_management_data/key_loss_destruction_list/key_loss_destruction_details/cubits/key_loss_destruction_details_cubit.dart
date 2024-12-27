@@ -72,23 +72,23 @@ class KeyLossDestructionDetailsCubit
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
-        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
-        commonServices.getUserDetails(userId: userId),
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),//0
+        commonServices.getUserDetails(userId: userId),//1
         // commonServices.getUsersByRole(roleName: 'T1_Analyst'),
-        commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
+        commonServices.getOrganisations(name: 'ATOM_ENTITIES'),//2
         // commonServices.getUsers(),
         // commonServices.getQualification(name: 'GUARD_QUALIFICATIONS'),
-        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER'),
-        commonServices.getKeyType(name: 'KEY_MANAGEMENT_DOOR_TYPE'),
-        commonServices.getVendors(name: 'ATOM_VENDORS'),
+        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER'),//3
+        commonServices.getKeyType(name: 'KEY_MANAGEMENT_DOOR_TYPE'),//4
+        commonServices.getVendors(name: 'ATOM_VENDORS'),//5
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
-            moduleCode: Constants.keyManagementMasterModule),
-        SharedPrefs.getDefaultLocation(),
+            moduleCode: Constants.keyManagementMasterModule),//6
+        SharedPrefs.getDefaultLocation(),//7
         commonServices.getBaseUsersByRoles(
             roleNames:
-                ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser),
-        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head'),
+                ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser),//8
+        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head'),//9
       ]);
 
       Locations getLocationsData = futures[0];
@@ -96,12 +96,12 @@ class KeyLossDestructionDetailsCubit
       // Analyst users = futures[2];
       List<Organisation>? entities = futures[2];
       // List<User> createdBy = futures[3];
-      List<BaseUser> emailUsers = futures[5];
-      KeyType departments = futures[6];
-      dynamic responseLabels = futures[8];
+      List<BaseUser> emailUsers = futures[3];
+      KeyType departments = futures[4];
+      dynamic responseLabels = futures[6];
       // Organisation? defaultLocation = futures[9];
-      List<BaseUser> securityManager = futures[10];
-      List<BaseUser> srh = futures[11];
+      List<BaseUser> securityManager = futures[8];
+      List<BaseUser> srh = futures[9];
 
       state.model.createdBy ??= loggedInUserDetails;
       state.model.modifiedBy ??= loggedInUserDetails.userName;
