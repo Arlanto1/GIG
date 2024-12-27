@@ -325,9 +325,7 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                         state.labels?.locale.handoverSecurity ??
                             state.labels?.defaultLocale.handoverSecurity ??
                             'Pass Collected By : ',
-                        widget.userItem?.handoverSecurity?.userName
-                                .toString() ??
-                            " "),
+                        '${widget.userItem?.handoverSecurity?.firstName.toString() ?? " "} ${widget.userItem?.handoverSecurity?.lastName.toString() ?? " "}'),
                   ],
                 )
               : Container(),
