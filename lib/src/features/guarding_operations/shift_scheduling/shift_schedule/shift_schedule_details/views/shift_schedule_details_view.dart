@@ -316,9 +316,9 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             TextFieldAddButton(
                               title: state.model.vendor?.name,
                               height: 60,
-                              isDisableColor: isReadOnly,
+                              isDisableColor: isReadOnly || state.model.status == ConstantsIntValue.shiftScheduleActive,
                               onTap: () {
-                                if (!isReadOnly) {
+                                if (!isReadOnly && state.model.status != ConstantsIntValue.shiftScheduleActive) {
                                   BaseOrganisationDialog().departmentDialog(
                                       context: context,
                                       organisations: state.vendors,
@@ -395,7 +395,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            if (!isReadOnly) ...[
+                            if (!isReadOnly && state.model.status != ConstantsIntValue.shiftScheduleActive) ...[
                               GestureDetector(
                                 onTap: () {
                                   log('--onTap------');
@@ -455,7 +455,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               onlyDate: true,
                               showPastDate: false,
                               startDate: state.availableDate?.fromDate,
-                              isDisabled: isReadOnly,
+                              isDisabled: isReadOnly || state.model.status == ConstantsIntValue.shiftScheduleActive,
                               onChange: (String value) {
                                 state.model.fromDate =
                                     Utils().formatTime(value);
@@ -482,7 +482,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               onlyDate: true,
                               showPastDate: false,
                               startDate: state.model.fromDate,
-                              isDisabled: isReadOnly,
+                              isDisabled: isReadOnly || state.model.status == ConstantsIntValue.shiftScheduleActive,
                               onChange: (String value) {
                                 state.model.toDate = Utils().formatTime(value);
                                 BlocProvider.of<ShiftScheduleDetailsCubit>(
