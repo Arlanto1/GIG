@@ -138,6 +138,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         SharedPrefs.getDefaultLocation(),
         commonServices.getBaseUsers(
             roleName: ConstantUserRoles.atomStaticUser,
+            isDbUser: true,
             locationId: state.model.location!.id!),
         commonServices.getOrganisations(name: 'ATOM_MATERIAL_MOVEMENT_UNIT'),
       ]);
@@ -248,6 +249,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
       emailUsers = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomStaticUser,
+          isDbUser: true,
           locationId: state.model.location!.id!);
     }
     if (location != null && isInward == false) {

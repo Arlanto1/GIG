@@ -22,6 +22,8 @@ class CustomListTexts extends StatefulWidget {
     this.duplicateactivePassInfoList,
     this.duplicateQuantityUnitList,
     this.isEmployeeId,
+    this.location,
+    this.roleName,
   });
 
   final String? imageName;
@@ -42,6 +44,8 @@ class CustomListTexts extends StatefulWidget {
 
   List<Organisation>? duplicateQuantityUnitList;
   bool? isEmployeeId;
+  int? location;
+  String? roleName;
 
   @override
   State<CustomListTexts> createState() => CustomListTextsState();
@@ -187,13 +191,13 @@ class CustomListTextsState extends State<CustomListTexts> {
         setState(() {});
         return;
       }
-
       for (var userDetail in widget.duplicateEmployeeDepartments!) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           employeeDepartments.add(userDetail);
         }
       }
-    } else if (widget.duplicateArticleList != null) {
+    }
+    else if (widget.duplicateArticleList != null) {
       articleList.clear();
       if (text.isEmpty) {
         setState(() {});
@@ -205,19 +209,43 @@ class CustomListTextsState extends State<CustomListTexts> {
           articleList.add(userDetail);
         }
       }
-    } else if (widget.duplicateDepostorList != null) {
+    }
+
+    else if (widget.duplicateDepostorList != null) {
       depostorList.clear();
       if (text.isEmpty) {
         setState(() {});
         return;
       }
 
-      for (var userDetail in widget.duplicateDepostorList!) {
-        if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
-          log('--userDetail--ddd-${userDetail.name}--');
+      // for (var userDetail in widget.duplicateDepostorList!) {
+      if (text.length > 2) {
+        // Call the API only once when the search text length is greater than 2
+        try {
+          final response = await CommonServices().getBaseUsers(
+            roleName: 'ATOM_STATIC_USER', // Replace with actual role
+            locationId: widget.location, // Replace with actual location ID
+            isDbUser: true, // Set based on your use case
+            search: int.tryParse(text), // Passthe search parameter
+          );
 
-          depostorList.add(userDetail);
+          depostorList.clear(); // Clear the existing list
+          if (response.isNotEmpty) {
+            depostorList.addAll(response); // Add API response to the list
+          }
+        } catch (e) {
+          log('Error while fetching users: $e');
         }
+      } else {
+        // Perform local filtering for shorter text
+        depostorList.clear(); // Clear the existing list
+        for (var userDetail in widget.duplicateDepostorList!) {
+          if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
+            log('--userDetail--ddd-${userDetail.name}--');
+            depostorList.add(userDetail);
+          }
+        }
+        // }
       }
     } else if (widget.duplicateEntityList != null) {
       entityList.clear();
@@ -598,7 +626,9 @@ class CustomListTextsState extends State<CustomListTexts> {
                     child: Text(
                       !(articleItem!.employeeId.isEmptyOrNull)
                           ? '${articleItem.name} (${articleItem.email}, ${articleItem.employeeId})'
-                          : !(articleItem.email.isEmptyOrNull)?'${articleItem.name} (${articleItem.email})':'${articleItem.name}',
+                          : !(articleItem.email.isEmptyOrNull)
+                              ? '${articleItem.name} (${articleItem.email})'
+                              : '${articleItem.name}',
                       style: Styles.textStyleRegularGrey16,
                       textAlign: TextAlign.left,
                     ),
