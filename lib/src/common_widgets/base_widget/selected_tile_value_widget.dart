@@ -42,7 +42,7 @@ class TileWidget extends StatelessWidget {
     return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
       SizedBox(
         height: 50,
-        width: width ?? 150,
+        width: width ?? 180,
         child: Padding(
           padding: const EdgeInsets.only(left: 5.0),
           child: TextButton(

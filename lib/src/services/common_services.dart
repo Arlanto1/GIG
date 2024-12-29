@@ -257,7 +257,6 @@ class CommonServices {
     required String roleNames,
     int? locationId,
     bool? isDbUser,
-    int? search,
   }) async {
     String url = '${CommonApis._getUsersByRoles}$roleNames';
     if (locationId != null) {
@@ -265,12 +264,6 @@ class CommonServices {
     }
     if (isDbUser != null) {
       url = '$url&isDbUser=$isDbUser';
-    }
-    if (search != null) {
-      url = '$url&search=$search';
-    }
-    if (search == null) {
-      url = '$url&search=0';
     }
     final response = await BaseApiService().getRequest(
       url: url,

@@ -1972,7 +1972,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               : Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                   SizedBox(
                     height: 50,
-                    width: 150,
+                    width: 180,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 5.0),
                       child: TextButton(
