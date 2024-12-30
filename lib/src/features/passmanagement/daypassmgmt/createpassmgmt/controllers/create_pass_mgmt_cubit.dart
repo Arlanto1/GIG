@@ -83,11 +83,10 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   // get depositor user by role API call
   Future<void> getUserByRoleDepositor() async {
     try {
-      GetDepositor getDepositorData =
-          await commonServices.getAtomStaticUsers(
-              roleName: ConstantUserRoles.atomStaticUser,
-              isDbUser: true,
-              locationId: state.location!.id);
+      GetDepositor getDepositorData = await commonServices.getAtomStaticUsers(
+          roleName: ConstantUserRoles.atomStaticUser,
+          isDbUser: true,
+          locationId: state.location!.id);
 
       emit(
         state.copyWith(
@@ -160,8 +159,14 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   }
 
   // Create user call
-  Future<void> createUser(String firstName, String lastName, String email,
-      String role, int locationId, String employeeId, BuildContext context) async {
+  Future<void> createUser(
+      String firstName,
+      String lastName,
+      String email,
+      String role,
+      int locationId,
+      String employeeId,
+      BuildContext context) async {
     try {
       User createUserData = await CommonServices().createUser(
         firstName: firstName,
@@ -316,8 +321,9 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       );
 
       List<BaseUser>? getDepositorData = await commonServices.getBaseUsers(
-        isDbUser: true,
-          roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
+          isDbUser: true,
+          roleName: ConstantUserRoles.atomStaticUser,
+          locationId: location.id);
 
       // getAnalysts();
 
@@ -604,7 +610,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   //       ),
   //     );
   //   }
- // }
+  // }
 
   getnameanalystsResponseData(BaseUser? companytypeResponse) async {
     try {
@@ -762,7 +768,6 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     required int passId,
   }) async {
     log('---initializeValues----');
-
     emit(
       state.copyWith(
         model: PassManagementModel(),
@@ -772,25 +777,16 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     );
 
     Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
-    if (state.model.location == null) {
-      Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
-      if (defaultLocation != null) {
-        SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.passManagementModuleCode,
-        );
-        state.model.location = defaultLocation;
-        state.model.slNo = slNo.serialNo;
-      }
-    }
 
     try {
       SerialNumberModel serialNumberResponse = SerialNumberModel();
       List<Organisation> passTypes = [];
       DayPassNumberLists companyTypes = DayPassNumberLists();
       if (passId != ConstantsIntValue.passIdSez) {
+        log('---passId != ConstantsIntValue.passIdSez-- ${passId == ConstantsIntValue.passIdSez}--');
         if (model.location == null) {
           defaultLocation = await SharedPrefs.getDefaultLocation();
+          log('---defaultLocation-- ${defaultLocation?.name}--');
         } else {
           defaultLocation = model.location;
         }
@@ -823,6 +819,22 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
             passId: passId, locationId: defaultLocation.id!);
         companyTypes = await createpassmgmtServices.getPassNo(
             passType: passId, locationId: defaultLocation.id!);
+      }
+      if (passId == ConstantsIntValue.passIdSez) {
+        if (model.location == null) {
+          defaultLocation = Organisation(
+            id: 6,
+            name: 'MTP',
+          );
+        } else {
+          defaultLocation = model.location;
+        }
+        if (model.slNo.isEmptyOrNull) {
+          serialNumberResponse = await commonServices.getSlNo(
+            locationId: defaultLocation!.id.toString(),
+            moduleCode: Constants.passManagementSEZModule,
+          );
+        }
       }
 
       List<Organisation> updateStatuses = [];
