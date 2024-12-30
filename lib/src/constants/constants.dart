@@ -248,8 +248,8 @@ class Constants {
   static const String quantity = 'Quantity';
   static const String colour = 'Colour';
   static const String depositoremployeeid = 'Depositor Employee Id';
-  static const String claimantemployeeid = 'Claimant Employee Id';
-  static const String claimant = 'Claimant';
+  static const String claimantemployeeid = 'Complainant Employee Id';
+  static const String claimant = 'Complainant';
   static const String status = 'Status';
   static const String updatestatus = 'Update Status';
   static const String dateofcreation = 'Date of Creation';
@@ -268,9 +268,9 @@ class Constants {
   static const String articleType = 'Article Type';
   static const String depositor = 'Depositor';
   static const String employeedepartment = 'Employee Department';
-  static const String claimantdepartment = 'Claimant Department';
+  static const String claimantdepartment = 'Complainant Department';
   static const String additionalinformation = 'Additional Information';
-  static const String claimantSignature = 'Claimant Signature';
+  static const String claimantSignature = 'Complainant Signature';
   static const String informationhere = 'Information here';
   static const String location = 'Location';
   static const String height = 'Height (cm)';

@@ -616,6 +616,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     child: FlutterInputField(
                                       lineHeight: 1,
                                       initialValue: state.model.complainantName,
+                                      // controller: claimantController,
                                       textFormKey: Keys.claimantTextController,
                                       hintText: Constants.informationhere,
                                       focusNode: complainantFocusNode,
