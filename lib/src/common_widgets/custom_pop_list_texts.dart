@@ -672,7 +672,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                       title: Align(
                         alignment: Alignment.topLeft,
                         child: Text(
-                          !(articleItem!.employeeId.isEmptyOrNull)
+                          !(articleItem.employeeId.isEmptyOrNull)
                               ? '${articleItem.employeeId}'
                               : '${articleItem.name} (${articleItem.email})',
                           style: Styles.textStyleRegularGrey16,

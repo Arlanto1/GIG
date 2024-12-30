@@ -239,9 +239,6 @@ class CommonServices {
     if (search != null) {
       url = '$url&search=$search';
     }
-    if (search == null) {
-      url = '$url&search=0';
-    }
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -288,9 +285,6 @@ class CommonServices {
     }
     if (search != null) {
       url = '$url&search=$search';
-    }
-    if (search == null) {
-      url = '$url&search=0';
     }
     final response = await BaseApiService().getRequest(
       url: url,

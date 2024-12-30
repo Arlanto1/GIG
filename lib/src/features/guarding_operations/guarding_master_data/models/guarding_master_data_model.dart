@@ -4,6 +4,35 @@ import 'package:db_atom/index.dart';
 
 part 'guarding_master_data_model.g.dart';
 
+// class GuardingMasterDataResponse {
+//   List<GuardingMastersDataModel>? items;
+//   int? totalCount;
+//   int? currentPageNo;
+//   int? totalPageCount;
+//
+//   GuardingMasterDataResponse({
+//     this.items,
+//     this.totalCount,
+//     this.currentPageNo,
+//     this.totalPageCount,
+//   });
+//
+//   GuardingMasterDataResponse.fromJson(Map<String, dynamic> json)
+//       : items = (json['data'] as List?)
+//             ?.map((dynamic e) =>
+//                 GuardingMastersDataModel.fromJson(e as Map<String, dynamic>))
+//             .toList(),
+//         totalCount = json['totalCount'] as int?,
+//         currentPageNo = json['currentPageNo'] as int?,
+//         totalPageCount = json['totalPageCount'] as int?;
+//
+//   Map<String, dynamic> toJson() => {
+//         'data': items?.map((e) => e.toJson()).toList(),
+//         'totalCount': totalCount,
+//         'currentPageNo': currentPageNo,
+//         'totalPageCount': totalPageCount
+//       };
+// }
 class GuardingMasterDataResponse {
   List<GuardingMastersDataModel>? items;
   int? totalCount;
@@ -17,21 +46,47 @@ class GuardingMasterDataResponse {
     this.totalPageCount,
   });
 
-  GuardingMasterDataResponse.fromJson(Map<String, dynamic> json)
-      : items = (json['data'] as List?)
-            ?.map((dynamic e) =>
-                GuardingMastersDataModel.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        totalCount = json['totalCount'] as int?,
-        currentPageNo = json['currentPageNo'] as int?,
-        totalPageCount = json['totalPageCount'] as int?;
+  GuardingMasterDataResponse.fromJson(Map<String, dynamic> json) {
+    List data = json['data'] as List;
+    List<GuardingMastersDataModel> modellist = data.map((e) {
+      try {
+        return GuardingMastersDataModel.fromJson(e as Map<String, dynamic>);
+      } catch (e) {
+        // Handle the exception, you can log it or take any appropriate action.
+        // For example, you can log the error and return a default value.
+        log('Error parsing Guarding Master Data: $e');
+        return GuardingMastersDataModel(); // Return a default instance of MaterialMovementModel.
+      }
+    }).toList();
+
+    log('--modellist---${modellist.length}');
+
+    try {
+      if (json['data'] is List) {
+        items = (json['data'] as List)
+            .map((dynamic e) =>
+            GuardingMastersDataModel.fromJson(e as Map<String, dynamic>))
+            .toList();
+      } else {
+        // Handle the case where 'list' is not a List
+        items = [];
+      }
+      totalCount = json['totalCount'] as int?;
+      currentPageNo = json['currentPageNo'] as int?;
+      totalPageCount = json['totalPageCount'] as int?;
+    } catch (e) {
+      // Print debug information
+      log('Error parsing Guarding Master Data: $e');
+      log('json: $json');
+    }
+  }
 
   Map<String, dynamic> toJson() => {
-        'data': items?.map((e) => e.toJson()).toList(),
-        'totalCount': totalCount,
-        'currentPageNo': currentPageNo,
-        'totalPageCount': totalPageCount
-      };
+    'data': items?.map((e) => e.toJson()).toList(),
+    'totalCount': totalCount,
+    'currentPageNo': currentPageNo,
+    'totalPageCount': totalPageCount
+  };
 }
 
 @JsonSerializable()
@@ -190,22 +245,27 @@ class GuardingMastersDataModel extends BaseObject {
     this.modifiedDate,
   });
 
-  factory GuardingMastersDataModel.fromJson(Map<String, dynamic> json) {
-    try {
-      return _$GuardingMastersDataModelFromJson(json);
-    } catch (e) {
-      if (e is CheckedFromJsonException) {
-        // Access the information about the error
-        log('Error during deserialization: ${e.message}, path: ${e.key}');
-      } else {
-        // Handle other types of exceptions if needed
-        log('Unexpected error during deserialization: $e');
-      }
+  // factory GuardingMastersDataModel.fromJson(Map<String, dynamic> json) {
+  //   try {
+  //     return _$GuardingMastersDataModelFromJson(json);
+  //   } catch (e) {
+  //     if (e is CheckedFromJsonException) {
+  //       // Access the information about the error
+  //       log('Error during deserialization: ${e.message}, path: ${e.key}');
+  //     } else {
+  //       // Handle other types of exceptions if needed
+  //       log('Unexpected error during deserialization: $e');
+  //     }
+  //
+  //     // Return a default instance or handle differently based on your needs.
+  //     return GuardingMastersDataModel();
+  //   }
+  // }
 
-      // Return a default instance or handle differently based on your needs.
-      return GuardingMastersDataModel();
-    }
-  }
+  @override
+  // Map<String, dynamic> toJson() => _$GuardingMastersDataModelToJson(this);
+  factory GuardingMastersDataModel.fromJson(Map<String, dynamic> json) =>
+      _$GuardingMastersDataModelFromJson(json);
 
   @override
   Map<String, dynamic> toJson() => _$GuardingMastersDataModelToJson(this);
