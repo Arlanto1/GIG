@@ -1553,7 +1553,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             isEmployeeId: false,
             location: state.locationSelectedlist?.id,
             duplicateDepostorList: state.getDepositorResponse ?? [],
-            leftImageName: AppIcon.addicon,
+            // leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
