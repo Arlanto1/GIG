@@ -2794,7 +2794,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
     if (widget.passId != ConstantsIntValue.passIdSez) {
       passValidFromTextController.text = currentFormattedDate;
-
       String nextFormattedDate = DateFormat(Constants.fulldateFormat)
           .format(currentDate.add(const Duration(hours: 12)));
       log('---nextFormattedDate----$nextFormattedDate------');
@@ -2973,7 +2972,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 }
               }
               log('--organisation.name ---${organisation.name}---');
-              if ((organisation.name ?? '').toLowerCase() != 'exceptions') {
+              if ((organisation.name ?? '').toLowerCase() != 'exceptions' && widget.passId != ConstantsIntValue.passIdSez) {
                 log('--if----organisation.name ---${organisation.name}---');
                 String nextFormattedDate = DateFormat(Constants.fulldateFormat)
                     .format(currentDate.add(const Duration(hours: 12)));

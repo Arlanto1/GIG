@@ -50,11 +50,11 @@ class DutyPostNameMasterDetailsCubit
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
-        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
-        commonServices.getUserDetails(userId: userId),
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),//0
+        commonServices.getUserDetails(userId: userId),//1
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
-            moduleCode: Constants.guardingMasterModuleCode),
+            moduleCode: Constants.guardingMasterModuleCode),//2
         //SharedPrefs.getDefaultLocation(),
       ]);
 

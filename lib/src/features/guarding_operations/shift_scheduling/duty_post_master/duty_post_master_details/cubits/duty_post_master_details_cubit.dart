@@ -56,23 +56,23 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
-        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
-        commonServices.getUserDetails(userId: userId),
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),//0
+        commonServices.getUserDetails(userId: userId),//1
         // commonServices.getUsers(),
         commonServices.getAtomStaticUsers(
-            roleName: ConstantUserRoles.atomStaticUser),
+            roleName: ConstantUserRoles.atomStaticUser),//2
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
-            moduleCode: Constants.guardingMasterModuleCode),
-        SharedPrefs.getDefaultLocation(),
+            moduleCode: Constants.guardingMasterModuleCode),//3
+        SharedPrefs.getDefaultLocation(),//4
       ]);
 
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
       // List<User> entrySecurities = futures[2];
-      GetDepositor emailUsers = futures[3];
-      dynamic responseLabels = futures[4];
-      Organisation? defaultLocation = futures[5];
+      GetDepositor emailUsers = futures[2];
+      dynamic responseLabels = futures[3];
+      Organisation? defaultLocation = futures[4];
       List<Organisation> dutyPosts = [];
       // Organisation? location = state.model.location;
 

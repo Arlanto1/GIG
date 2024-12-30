@@ -778,6 +778,13 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
 
     Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
 
+    if (passId == ConstantsIntValue.passIdSez) {
+      if (model.location == null) {
+        defaultLocation = null;
+      } else {
+        defaultLocation = model.location;
+      }
+    }
     try {
       SerialNumberModel serialNumberResponse = SerialNumberModel();
       List<Organisation> passTypes = [];
@@ -819,22 +826,6 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
             passId: passId, locationId: defaultLocation.id!);
         companyTypes = await createpassmgmtServices.getPassNo(
             passType: passId, locationId: defaultLocation.id!);
-      }
-      if (passId == ConstantsIntValue.passIdSez) {
-        if (model.location == null) {
-          defaultLocation = Organisation(
-            id: 6,
-            name: 'MTP',
-          );
-        } else {
-          defaultLocation = model.location;
-        }
-        if (model.slNo.isEmptyOrNull) {
-          serialNumberResponse = await commonServices.getSlNo(
-            locationId: defaultLocation!.id.toString(),
-            moduleCode: Constants.passManagementSEZModule,
-          );
-        }
       }
 
       List<Organisation> updateStatuses = [];
