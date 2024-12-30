@@ -436,7 +436,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.bu2ContactNOKey,
                         controller: returnedKeysController,
                         hintText: '',
-                        isEnable: editableFieldsHandOverStatus,
+                        isEnable: editableFieldsHandOverStatus && widget.lock.isEmptyOrNull,
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.returned = int.tryParse(value);
@@ -459,7 +459,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.addressKey,
                         controller: notReturnedKeysController,
                         hintText: '',
-                        isEnable: editableFieldsHandOverStatus,
+                        isEnable: editableFieldsHandOverStatus && widget.lock.isEmptyOrNull,
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.notReturned = int.tryParse(value);
@@ -483,7 +483,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.phoneNumberKey,
                         controller: lostKeysController,
                         hintText: '',
-                        isEnable: editableFieldsHandOverStatus,
+                        isEnable: editableFieldsHandOverStatus && widget.lock.isEmptyOrNull,
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.lost = int.tryParse(value);
@@ -507,7 +507,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textFormKey: Keys.phoneNumberKey,
                         controller: damagedKeysController,
                         hintText: '',
-                        isEnable: editableFieldsHandOverStatus,
+                        isEnable: editableFieldsHandOverStatus && widget.lock.isEmptyOrNull,
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.damaged = int.tryParse(value);
