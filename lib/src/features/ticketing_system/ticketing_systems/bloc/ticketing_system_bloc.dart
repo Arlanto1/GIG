@@ -29,11 +29,11 @@ class TicketingSystemBloc
     try {
       emit(state.copyWith(status: FormStatus.loading));
 
-      ExtraProperties extraProperties =
-      await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.shiftScheduleModuleCode,
-        commonServices: commonServices,
-      );
+      // ExtraProperties extraProperties =
+      // await UtilsCommon().checkWritePermission(
+      //   moduleCode: Constants.shiftScheduleModuleCode,
+      //   commonServices: commonServices,
+      // );
 
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
           module: Constants.shiftScheduleModuleCode);
@@ -61,7 +61,7 @@ class TicketingSystemBloc
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
-          extraProperties: extraProperties,
+          // extraProperties: extraProperties,
         ),
       );
     } on GenericResponse catch (e) {
