@@ -3982,22 +3982,22 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         "Please enter purpose of visit",
       );
     }
-    else if (widget.passId == ConstantsIntValue.passIdDayPass &&
-        (state.selectedCompanyType?.name ?? '').toLowerCase() != 'exceptions' &&
-        state.nameResponse?.employeeId ==null) {
-      Validator().showToast(
-        context,
-        "Please enter employee id",
-      );
-    }
-    else if (widget.passId == ConstantsIntValue.passIdSez &&
-        state.nameResponse?.employeeId ==null &&
-        (state.selectedCompanyType?.name ?? '').toLowerCase() == 'fte') {
-      Validator().showToast(
-        context,
-        "Please enter employee id",
-      );
-    }
+    // else if (widget.passId == ConstantsIntValue.passIdDayPass &&
+    //     (state.selectedCompanyType?.name ?? '').toLowerCase() != 'exceptions' &&
+    //     state.nameResponse?.employeeId ==null) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter employee id",
+    //   );
+    // }
+    // else if (widget.passId == ConstantsIntValue.passIdSez &&
+    //     state.nameResponse?.employeeId ==null &&
+    //     (state.selectedCompanyType?.name ?? '').toLowerCase() == 'fte') {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter employee id",
+    //   );
+    // }
     // else if ((widget.passId == ConstantsIntValue.passIdDayPass &&
     //     (state.selectedCompanyType?.name ?? '').toLowerCase() == 'cwr t1' &&
     //     emailTextController.text.isEmpty)) {
