@@ -965,8 +965,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         textFormKey: Keys.nameKey,
                                         hintText: '',
                                         // focusNode: companyNameFocusNode,
-                                        isEnable: (state.model.status == 0 || widget.model == null )
-                                           ||
+                                        isEnable: (isEditable)
+                                           &&
                                             ((state.selectedCompanyType?.name ??
                                                             '')
                                                         .toLowerCase() ==
@@ -977,8 +977,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 ? true
                                                 : false,
                                         isDisableColor:
-                                        (state.model.status == 0
-                                        || widget.model == null )
+                                        (isEditable)
                                             && ((state.selectedCompanyType?.name ??
                                             '')
                                             .toLowerCase() ==
