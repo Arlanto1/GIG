@@ -589,18 +589,18 @@ class _CreateFoundState extends State<CreateFound> {
           return CustomListTexts(
             duplicateArticleList:
                 state.getArticleTypeResponse?.articleList ?? [],
-            leftImageName: null,
+            // leftImageName: null,
             onLeftButtonTap: () {
-              Navigator.pop(context);
-              showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (BuildContext dialogContext) {
-                    return AddEmployeeDepartment(
-                      title: Constants.addarticletype,
-                      createFoundState: state,
-                    );
-                  });
+              // Navigator.pop(context);
+              // showDialog(
+              //     barrierDismissible: false,
+              //     context: context,
+              //     builder: (BuildContext dialogContext) {
+              //       return AddEmployeeDepartment(
+              //         title: Constants.addarticletype,
+              //         createFoundState: state,
+              //       );
+              //     });
             },
             onTap: (Organisation list) {
               selectedArtclelist = list;
