@@ -873,7 +873,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             ConstantsIntValue.passIdDayPass && (state.selectedCompanyType?.name ??
                                             '')
                                                 .toLowerCase() !=
-                                            'exceptions' )||
+                                            'exceptions' && (state.selectedCompanyType?.name ??
+                                        '')
+                                        .toLowerCase() !=
+                                        'cwr t2' )||
                                         widget.passId ==
                                             ConstantsIntValue.passIdSez) ...[
                                       CommonWidgets.textDisplay(
@@ -918,6 +921,34 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       )
                                     ],
 
+                                    ///Day Pass CWR T2 Employee Id
+                                    if (widget.passId ==
+                                        ConstantsIntValue.passIdDayPass && (state.selectedCompanyType?.name ??
+                                        '')
+                                        .toLowerCase() ==
+                                        'cwr t2') ...[
+                                      CommonWidgets.textDisplay(
+                                          state.labels?.locale.employeeId ??
+                                              state.labels?.defaultLocale
+                                                  .employeeId ??
+                                              Constants.employeeid,
+                                          isMandatory: true,
+                                          Styles.textStyleBlack14),
+                                      FlutterInputField(
+                                        controller: employeeIdTextController,
+                                        textInputType: TextInputType.number,
+                                        textFormKey: Keys.nameKey,
+                                        hintText: '',
+                                        // focusNode: companyNameFocusNode,
+                                        isEnable:isEditable,
+                                        isDisableColor: !isEditable,
+                                        onChange: (String value) {
+                                          employeeIdTextController.text =
+                                              value;
+                                        },
+                                        validateTextField: (String? user) {},
+                                      )
+                                    ],
                                     ///Day Pass Name
                                     if (widget.passId ==
                                         ConstantsIntValue.passIdDayPass) ...[
@@ -934,20 +965,29 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         textFormKey: Keys.nameKey,
                                         hintText: '',
                                         // focusNode: companyNameFocusNode,
-                                        isEnable: (state.model.status != 0 && widget.model != null )
-                                           || (state.selectedCompanyType?.name ??
+                                        isEnable: (state.model.status == 0 || widget.model == null )
+                                           ||
+                                            ((state.selectedCompanyType?.name ??
                                                             '')
-                                                        .toLowerCase() !=
-                                                    'exceptions'
-                                                ? false
-                                                : true,
-                                        isDisableColor:
-                                            (state.selectedCompanyType?.name ??
-                                                            '')
-                                                        .toLowerCase() !=
-                                                    'exceptions'
+                                                        .toLowerCase() ==
+                                                    'exceptions' || (state.selectedCompanyType?.name ??
+                                            '')
+                                            .toLowerCase() ==
+                                            'cwr t2')
                                                 ? true
                                                 : false,
+                                        isDisableColor:
+                                        (state.model.status == 0
+                                        || widget.model == null )
+                                            && ((state.selectedCompanyType?.name ??
+                                            '')
+                                            .toLowerCase() ==
+                                            'exceptions' || (state.selectedCompanyType?.name ??
+                                            '')
+                                            .toLowerCase() ==
+                                            'cwr t2')
+                                            ? false
+                                            : true,
                                         onChange: (String value) {
                                           nameTextController.text =
                                               value;
@@ -2204,8 +2244,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //     ? widget.model?.host?.name ??''
       //     : 'dfgfd';
 
-      hostEmployeeIdTextController.text =
-          ('${widget.model?.host?.name} (${widget.model?.host?.email})' ?? '');
+      hostEmployeeIdTextController.text = widget.model?.host?.name !=null?
+          ('${widget.model?.host?.name} (${widget.model?.host?.email})' ?? ''):'';
       var userId = await SharedPrefs.getUserId();
       // BaseUser host1 = widget.dayPassItem?.host != null
 
@@ -3728,7 +3768,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             ? (nameTextController.text)
             : '${state.nameResponse?.name} (${state.nameResponse?.email})' ??
                 '',
-        employeeId: state.nameResponse?.employeeId,
+        employeeId: companyType?.name != 'CWR T2' ? state.nameResponse?.employeeId : employeeIdTextController.text,
         employee: widget.passId == ConstantsIntValue.passIdDayPass
             ? User(
                 userId: state.nameResponse?.id,
@@ -3798,7 +3838,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           employeeName: state.nameResponse?.name == null
               ? (nameTextController.text)
               : state.nameResponse?.name ?? '',
-          employeeId: state.nameResponse?.employeeId,
+          employeeId: companyType?.name != 'CWR T2' ? state.nameResponse?.employeeId : employeeIdTextController.text,
           employee: widget.passId == ConstantsIntValue.passIdDayPass &&
                   companyType?.name == 'FTE'
               ? User(
@@ -3927,21 +3967,23 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter company name",
       );
-    } else if ((widget.passId == ConstantsIntValue.passIdDayPass &&
-        (state.selectedCompanyType?.name ?? '').toLowerCase() == 'fte' &&
-        (state.nameResponse?.name ?? '').isEmpty)) {
-      Validator().showToast(
-        context,
-        "Please enter name",
-      );
-    } else if ((widget.passId == ConstantsIntValue.passIdDayPass &&
-            (state.selectedCompanyType?.name ?? '').toLowerCase() != 'fte') &&
-        nameTextController.text.isEmpty) {
-      Validator().showToast(
-        context,
-        "Please enter name",
-      );
-    } else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
+    }
+    // else if ((widget.passId == ConstantsIntValue.passIdDayPass &&
+    //     (state.selectedCompanyType?.name ?? '').toLowerCase() == 'fte' &&
+    //     (state.nameResponse?.name ?? '').isEmpty)) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter name",
+    //   );
+    // } else if ((widget.passId == ConstantsIntValue.passIdDayPass &&
+    //         (state.selectedCompanyType?.name ?? '').toLowerCase() != 'fte') &&
+    //     nameTextController.text.isEmpty) {
+    //   Validator().showToast(
+    //     context,
+    //     "Please enter name",
+    //   );
+    // }
+    else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
             widget.passId == ConstantsIntValue.passIdVendor) &&
         nameTextController.text.isEmpty) {
       Validator().showToast(
