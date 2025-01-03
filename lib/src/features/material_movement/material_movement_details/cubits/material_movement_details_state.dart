@@ -111,17 +111,17 @@ class MaterialMovementDetailsState extends Equatable {
             status: false, message: 'Please enter Received for Employee Id');
       }
 
-      if (model.originalReceiver && model.receiverEmployeeId.isEmptyOrNull) {
-        return const ErrorResponse(
-            status: false, message: 'Please enter Received by Employee Id');
-      }
+      // if (model.originalReceiver && model.receiverEmployeeId.isEmptyOrNull) {
+      //   return const ErrorResponse(
+      //       status: false, message: 'Please enter Received by Employee Id');
+      // }
       if (!model.originalReceiver &&
           model.otherReceiverEmployeeId.isEmptyOrNull) {
         return const ErrorResponse(
             status: false, message: 'Please enter Received by Employee Id');
       }
 
-      if (model.receiverEmail.isEmptyOrNull) {
+      if (!model.originalReceiver && model.receiverEmail.isEmptyOrNull) {
         return const ErrorResponse(
             status: false, message: 'Please enter Received by');
       }

@@ -2555,7 +2555,7 @@ class _MaterialMovementDetailsViewState
                                               .otherReceiverEmployeeId ??
                                           Constants.receiverEmployeeId,
                                       Styles.textStyleBlack14,
-                                      isMandatory: true,
+                                      isMandatory: false,
                                     ),
                                     TextFieldAddButton(
                                         title:
@@ -2611,7 +2611,7 @@ class _MaterialMovementDetailsViewState
                                           .labels?.defaultLocale.receiverName ??
                                       Constants.receivedBy,
                                   Styles.textStyleBlack14,
-                                  isMandatory: true,
+                                  isMandatory: false,
                                 ),
 
                                 FlutterInputField(
