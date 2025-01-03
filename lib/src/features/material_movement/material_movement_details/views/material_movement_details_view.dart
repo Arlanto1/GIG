@@ -2546,87 +2546,87 @@ class _MaterialMovementDetailsViewState
 
                               if (state.model.originalReceiver == false) ...[
                                 /// Received by Employee Id
-                                Column(
-                                  children: [
-                                    CommonWidgets.textDisplay(
-                                      state.labels?.locale
-                                              .otherReceiverEmployeeId ??
-                                          state.labels?.defaultLocale
-                                              .otherReceiverEmployeeId ??
-                                          Constants.receiverEmployeeId,
-                                      Styles.textStyleBlack14,
-                                      isMandatory: true,
-                                    ),
-                                    TextFieldAddButton(
-                                        title:
-                                            state.model.otherReceiverEmployeeId,
-                                        height: 70,
-                                        isDisableColor: isReadOnly,
-                                        onTap: () {
-                                          if (!isReadOnly) {
-                                            BaseOrganisationDialog().userDialog(
-                                              employeeId: true,
-                                              context: context,
-                                              users: state.receiverEmailUsers!,
-                                              isDbUser: true,
-                                              onTap: (BaseUser user) {
-                                                BlocProvider.of<
-                                                            MaterialMovementDetailsCubit>(
-                                                        context)
-                                                    .updateDropdownValues(
-                                                        receiverByEmail: user);
-                                                FocusScope.of(context).requestFocus(
-                                                    receivedForEmployeeIdFocusNode);
-                                              },
-                                              roleName: ConstantUserRoles
-                                                  .atomStaticUser,
-                                              locationId:
-                                                  state.model.location!.id!,
-                                              functionToCall: (BaseUser user) {
-                                                BlocProvider.of<
-                                                            MaterialMovementDetailsCubit>(
-                                                        context)
-                                                    .updateDropdownValues(
-                                                        receiverByEmail: user);
-                                                FocusScope.of(context).requestFocus(
-                                                    receivedForEmployeeIdFocusNode);
-                                                // refresh the list
-                                                BlocProvider.of<
-                                                            MaterialMovementDetailsCubit>(
-                                                        context)
-                                                    .refreshList();
-                                              },
-                                            );
-                                          }
-                                        }),
-                                  ],
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                // Column(
+                                //   children: [
+                                    // CommonWidgets.textDisplay(
+                                    //   state.labels?.locale
+                                    //           .otherReceiverEmployeeId ??
+                                    //       state.labels?.defaultLocale
+                                    //           .otherReceiverEmployeeId ??
+                                    //       Constants.receiverEmployeeId,
+                                    //   Styles.textStyleBlack14,
+                                    //   isMandatory: false,
+                                    // ),
+                                    // TextFieldAddButton(
+                                    //     title:
+                                    //         state.model.otherReceiverEmployeeId,
+                                    //     height: 70,
+                                    //     isDisableColor: isReadOnly,
+                                    //     onTap: () {
+                                    //       if (!isReadOnly) {
+                                    //         BaseOrganisationDialog().userDialog(
+                                    //           employeeId: true,
+                                    //           context: context,
+                                    //           users: state.receiverEmailUsers!,
+                                    //           isDbUser: true,
+                                    //           onTap: (BaseUser user) {
+                                    //             BlocProvider.of<
+                                    //                         MaterialMovementDetailsCubit>(
+                                    //                     context)
+                                    //                 .updateDropdownValues(
+                                    //                     receiverByEmail: user);
+                                    //             FocusScope.of(context).requestFocus(
+                                    //                 receivedForEmployeeIdFocusNode);
+                                    //           },
+                                    //           roleName: ConstantUserRoles
+                                    //               .atomStaticUser,
+                                    //           locationId:
+                                    //               state.model.location!.id!,
+                                    //           functionToCall: (BaseUser user) {
+                                    //             BlocProvider.of<
+                                    //                         MaterialMovementDetailsCubit>(
+                                    //                     context)
+                                    //                 .updateDropdownValues(
+                                    //                     receiverByEmail: user);
+                                    //             FocusScope.of(context).requestFocus(
+                                    //                 receivedForEmployeeIdFocusNode);
+                                    //             // refresh the list
+                                    //             BlocProvider.of<
+                                    //                         MaterialMovementDetailsCubit>(
+                                    //                     context)
+                                    //                 .refreshList();
+                                    //           },
+                                    //         );
+                                    //       }
+                                    //     }),
+                                //   ],
+                                // ),
+                                // CommonWidgets.verticalSpacerWidget(
+                                //     height * 0.01),
 
                                 /// Received by
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.receiverName ??
-                                      state
-                                          .labels?.defaultLocale.receiverName ??
-                                      Constants.receivedBy,
-                                  Styles.textStyleBlack14,
-                                  isMandatory: true,
-                                ),
-
-                                FlutterInputField(
-                                  // initialValue: state.model.otherReceiverName,
-                                  controller: receiverByEmailController,
-                                  textFormKey: Keys.claimantEmpIdTextController,
-                                  isEnable: false,
-                                  isDisableColor: true,
-                                  hintText: '',
-                                  focusNode: receivedByFocusNode,
-                                  onChange: (String value) {},
-                                  validateTextField: (String? user) {},
-                                ),
-                              ],
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              //   CommonWidgets.textDisplay(
+                              //     state.labels?.locale.receiverName ??
+                              //         state
+                              //             .labels?.defaultLocale.receiverName ??
+                              //         Constants.receivedBy,
+                              //     Styles.textStyleBlack14,
+                              //     isMandatory: false,
+                              //   ),
+                              //
+                              //   FlutterInputField(
+                              //     // initialValue: state.model.otherReceiverName,
+                              //     controller: receiverByEmailController,
+                              //     textFormKey: Keys.claimantEmpIdTextController,
+                              //     isEnable: false,
+                              //     isDisableColor: true,
+                              //     hintText: '',
+                              //     focusNode: receivedByFocusNode,
+                              //     onChange: (String value) {},
+                              //     validateTextField: (String? user) {},
+                              //   ),
+                              // //],
+                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               //],
                               // if (state.model.originalReceiver == true) ...[
@@ -2685,34 +2685,65 @@ class _MaterialMovementDetailsViewState
                               //           }),
                               //     ],
                               //   ),
-                              //   // CommonWidgets.textDisplay(
-                              //   //   state.labels?.locale.otherReceiverEmployeeId ??
-                              //   //       state.labels?.defaultLocale
-                              //   //           .otherReceiverEmployeeId ??
-                              //   //       Constants.receiverEmployeeId,
-                              //   //   Styles.textStyleBlack14,
-                              //   //   isMandatory: true,
-                              //   // ),
-                              //   // CommonWidgets.verticalSpacerWidget(
-                              //   //     height * 0.01),
-                              //   // FlutterInputField(
-                              //   //   initialValue: state.model.receiverEmployeeId,
-                              //   //   textFormKey: Keys.claimantEmpIdTextController,
-                              //   //   isEnable: !isReadOnly,
-                              //   //   isDisableColor: isReadOnly,
-                              //   //   textInputType: TextInputType.number,
-                              //   //   hintText: '',
-                              //   //   onChange: (String value) {
-                              //   //     state.model.receiverEmployeeId = value;
-                              //   //     context
-                              //   //         .read<MaterialMovementDetailsCubit>()
-                              //   //         .onModelValueChange(state.model);
-                              //   //   },
-                              //   //   validateTextField: (String? user) {},
-                              //   // ),
-                              //   // CommonWidgets.verticalSpacerWidget(
-                              //   //     height * 0.01),
-                              // ],
+                            ///Received Employee Id
+                                CommonWidgets.textDisplay(
+                                  state.labels?.locale.otherReceiverEmployeeId ??
+                                      state.labels?.defaultLocale
+                                          .otherReceiverEmployeeId ??
+                                      Constants.receiverEmployeeId,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                                FlutterInputField(
+                                  initialValue: state.model.otherReceiverEmployeeId,
+                                  textFormKey: Keys.claimantEmpIdTextController,
+                                  isEnable: !isReadOnly,
+                                  isDisableColor: isReadOnly,
+                                  textInputType: TextInputType.number,
+                                  hintText: '',
+                                  onChange: (String value) {
+                                    state.model.otherReceiverEmployeeId = value;
+                                    context
+                                        .read<MaterialMovementDetailsCubit>()
+                                        .onModelValueChange(state.model);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+
+                              ///Received By
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.receiverName ??
+                                    state
+                                        .labels?.defaultLocale.receiverName ??
+                                    Constants.receivedBy,
+                                Styles.textStyleBlack14,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.01),
+                              FlutterInputField(
+                                initialValue: state.model.otherReceiverName,
+                                textFormKey: Keys.claimantEmpIdTextController,
+                                isEnable: !isReadOnly,
+                                isDisableColor: isReadOnly,
+                                textInputType: TextInputType.text,
+                                hintText: '',
+                                onChange: (String value) {
+                                  state.model.otherReceiverName = value;
+                                  context
+                                      .read<MaterialMovementDetailsCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.01),
+                            ],
 
                               /// Receiver Signature test
                               buildSignature(
