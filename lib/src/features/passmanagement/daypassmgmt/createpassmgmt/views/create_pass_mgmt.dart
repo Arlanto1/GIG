@@ -870,7 +870,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     /// Employee Id
 
                                     if ((widget.passId ==
-                                            ConstantsIntValue.passIdDayPass && state.selectedCompanyType?.name ??
+                                            ConstantsIntValue.passIdDayPass && (state.selectedCompanyType?.name ??
                                             '')
                                                 .toLowerCase() !=
                                             'exceptions' )||
