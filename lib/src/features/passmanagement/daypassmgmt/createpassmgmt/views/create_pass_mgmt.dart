@@ -869,8 +869,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     /// Employee Id
 
-                                    if (widget.passId ==
-                                            ConstantsIntValue.passIdDayPass ||
+                                    if ((widget.passId ==
+                                            ConstantsIntValue.passIdDayPass && state.selectedCompanyType?.name ??
+                                            '')
+                                                .toLowerCase() !=
+                                            'exceptions' )||
                                         widget.passId ==
                                             ConstantsIntValue.passIdSez) ...[
                                       CommonWidgets.textDisplay(
@@ -946,8 +949,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 ? true
                                                 : false,
                                         onChange: (String value) {
-                                          // nameTextController.text =
-                                          //     value;
+                                          nameTextController.text =
+                                              value;
                                         },
                                         validateTextField: (String? user) {},
                                       )
