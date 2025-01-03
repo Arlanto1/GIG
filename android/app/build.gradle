@@ -30,7 +30,7 @@ android {
     signingConfigs {
         debug {
 //            storeFile file('C:\\apps\\Arlanto-App-Codebase-main\\android\\Atomedgekeystore/atomedge')
-            storeFile file('/Users/anurag/StudioProjects/Arlanto-App-Codebase/android/Atomedgekeystore/atomedge')
+            storeFile file('/Users/arlanto/StudioProjects/Arlanto-App-Codebase/android/Atomedgekeystore/atomedge')
             storePassword 'Bnaren@513'
             keyAlias 'AtomEdge'
             keyPassword 'Bvineela@513'
@@ -42,7 +42,7 @@ android {
 //            storeFile file(keystoreProperties['storeFile'])
 //            storePassword keystoreProperties['storePassword']
 
-            storeFile file('/Users/anurag/StudioProjects/Arlanto-App-Codebase/android/Atomedgekeystore/atomedge')
+            storeFile file('/Users/arlanto/StudioProjects/Arlanto-App-Codebase/android/Atomedgekeystore/atomedge')
             storePassword 'Bnaren@513'
             keyAlias 'AtomEdge'
             keyPassword 'Bvineela@513'
@@ -131,7 +131,7 @@ android {
 //        defaultConfig {
 //            compileSdk 34
 //        }
-        versionCode 39
+        versionCode 56
         versionName flutterVersionName
         multiDexEnabled true
         resValue "string", "app_name", "AtomEdge"

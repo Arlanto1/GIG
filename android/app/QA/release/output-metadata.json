@@ -11,8 +11,8 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 39,
-      "versionName": "1.0.31",
+      "versionCode": 55,
+      "versionName": "1.0.41",
       "outputFile": "app-QA-release.apk"
     }
   ],

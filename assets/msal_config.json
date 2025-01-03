@@ -12,7 +12,7 @@
   "authorization_user_agent": "DEFAULT",
   "minimum_required_broker_protocol_version": "3.0",
   "multiple_clouds_supported": false,
-  "redirect_uri": "msauth://com.arlanto.atomedge/%2B3vXNEvHgIj0mgMdygQMfRjiAy4%3D",
+  "redirect_uri": "msauth://com.example.msal_auth_example/p2QKLOScLtHTc5gLdqticmOgM7s%3D",
   "web_view_zoom_controls_enabled": true,
   "web_view_zoom_enabled": true,
   "environment": "Production",

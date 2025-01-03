@@ -6,7 +6,7 @@ import 'package:db_atom/src/constants/constant_crashlytics_keys.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
 import 'package:db_atom/src/utils/web_sso_msal_handler.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
-import 'package:msal_auth/models/msal_exception.dart';
+import 'package:msal_auth/msal_auth.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -95,6 +95,13 @@ class _LoginState extends State<Login> {
             });
           } else if (state is LoginLoadingState) {
             showLoadingDialog(context);
+          }
+          else if(state is LoginVerifyOtpActionState){
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              dashboardViewRoute,
+                  (route) => false,
+            );
           }
         },
         builder: (context, state) {
@@ -299,7 +306,19 @@ class _LoginState extends State<Login> {
                                       );
                                       bloc.add(LoginSsoVerifyEvent(
                                         user: user,
-                                      ));
+                                          isFromLogin:false
+                                      )
+                                      );
+                                      log('state1 ${state is LoginVerifyOtpActionState}');
+                                      if(state is LoginVerifyOtpActionState) {                         dismissLoadingDialog(context);
+                                      // Add a short delay to ensure the dialog is fully dismissed
+                                      await Future.delayed(const Duration(milliseconds: 20));
+                                        Navigator.pushNamedAndRemoveUntil(
+                                          context,
+                                          dashboardViewRoute,
+                                              (route) => false,
+                                        );
+                                        }
                                     }
                                   } on MsalException catch (e) {
                                     log('MSAL error: ${e.errorMessage}');
