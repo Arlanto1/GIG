@@ -964,7 +964,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         textFormKey: Keys.nameKey,
                                         hintText: '',
                                         // focusNode: companyNameFocusNode,
-                                        isEnable: (widget.model?.status == 0 || widget.model == null
+                                        isEnable: ((widget.model?.status == 0 || widget.model == null)
                                            &&
                                             ((state.selectedCompanyType?.name ??
                                                             '')
@@ -2260,7 +2260,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       // createPassMgmtCubit.gethostanalystsResponseData(host1);
       // createPassMgmtCubit.getdbsponsoranalystsResponseData(host1);
       createPassMgmtCubit.gethostUsersResponseData(host1);
-      // createPassMgmtCubit.getNameUsersResponseData(employee);
 
       dbsponsorTextController.text = widget.model?.host?.name != null
           ? widget.model?.host?.name ?? ''
@@ -2281,18 +2280,18 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   widget.model?.employeeName != null
               ? widget.model?.employeeName ?? ''
               : widget.model?.employeeName.toString() ?? '';
+
       var userid = await SharedPrefs.getUserId();
 
-      BaseUser? name1 = (widget.model?.employee ??
-          User(
-            userId: widget.model?.employee?.userId,
+      BaseUser? name1 = (widget.model?.employee !=null ?
+          BaseUser(
+            id: widget.model?.employee?.userId,
             name: nameTextController.text,
             employeeId: widget.model?.employee?.employeeId
-          )) as BaseUser?;
+          ): null);
+      createPassMgmtCubit.getNameUsersResponseData(name1);
 
       // createPassMgmtCubit.getNameUsersResponseData(host1);
-
-      createPassMgmtCubit.getNameUsersResponseData(name1);
 
       log('-widget.model?.inputDate---${widget.model?.inputDate}--');
 
