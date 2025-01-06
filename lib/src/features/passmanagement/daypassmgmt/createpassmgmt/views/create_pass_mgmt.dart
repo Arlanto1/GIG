@@ -2166,9 +2166,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   Widget radioButtonHandling(int selectedValue) {
     bool isEditable =
-        (widget.model?.status == null || widget.model?.status == 0) &&
-            !(widget.extraProperties != null &&
-                !widget.extraProperties!.hasWritePermission!);
+        (widget.model?.status == null || widget.model?.status == 0);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
