@@ -2253,7 +2253,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       User? host1 = widget.model?.host ??
           User(
             userId: widget.model?.host?.userId,
-            name: widget.model?.host?.name,
+            name: widget.model?.host?.userInfo,
             employeeId: widget.model?.host?.employeeId,
           );
 
@@ -2261,8 +2261,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       // createPassMgmtCubit.getdbsponsoranalystsResponseData(host1);
       createPassMgmtCubit.gethostUsersResponseData(host1);
 
-      dbsponsorTextController.text = widget.model?.host?.name != null
-          ? widget.model?.host?.name ?? ''
+      dbsponsorTextController.text = widget.model?.host?.userInfo != null
+          ? widget.model?.host?.userInfo ?? ''
           : '';
       // BaseUser dbSponsor1 = dbsponsorTextController.text.isNotEmpty
       //     ? BaseUser(id: int.parse(userId), name: dbsponsorTextController.text)
@@ -2468,7 +2468,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       employeeIdTextController.text = widget.model?.employeeId ?? '';
       sezpassinfoTextController.text = widget.model?.passNo ?? '';
       //sezpassinfoTextController.text = widget.model?.passNo ?? '';
-      dbsponsorTextController.text = widget.model?.host?.name ?? '';
+      dbsponsorTextController.text = widget.model?.host?.userInfo ?? '';
     }
   }
 
