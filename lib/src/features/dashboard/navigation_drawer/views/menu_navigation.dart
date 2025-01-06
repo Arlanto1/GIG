@@ -14,7 +14,7 @@ class MenuNavigation {
         break;
       case 1:
         Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
-          "passMngDetails": PassMngArguments(3, 'Sez Pass Management', false)
+          "passMngDetails": PassMngArguments(3, 'SEZ Pass Management', false)
         });
         break;
       case 2:
