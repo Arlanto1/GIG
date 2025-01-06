@@ -119,7 +119,7 @@ class SLAViolationPenaltyListBloc
         SLAViolationPenaltyResponseModel response;
         response = await services.getGSvp(
           startPosition: '${event.startPos}',
-          maximumRecords: '${event.maxPos}',
+          maximumRecords: '5',
           filters: event.filters,
         );
         log('-_state.status--333-${state.status}--');
