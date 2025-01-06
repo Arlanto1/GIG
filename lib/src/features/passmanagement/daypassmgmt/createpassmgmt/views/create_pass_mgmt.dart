@@ -868,7 +868,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     ],
 
                                     /// Employee Id
-
                                     if ((widget.passId ==
                                             ConstantsIntValue.passIdDayPass && (state.selectedCompanyType?.name ??
                                             '')
@@ -940,7 +939,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         textFormKey: Keys.nameKey,
                                         hintText: '',
                                         // focusNode: companyNameFocusNode,
-                                        isEnable:isEditable,
+                                        isEnable: widget.model?.status == 0 || widget.model == null,
                                         isDisableColor: !isEditable,
                                         onChange: (String value) {
                                           employeeIdTextController.text =
@@ -965,20 +964,19 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         textFormKey: Keys.nameKey,
                                         hintText: '',
                                         // focusNode: companyNameFocusNode,
-                                        isEnable: (state.model.status == 0 || widget.model == null )
-                                           ||
+                                        isEnable: ((widget.model?.status == 0 || widget.model == null)
+                                           &&
                                             ((state.selectedCompanyType?.name ??
                                                             '')
                                                         .toLowerCase() ==
                                                     'exceptions' || (state.selectedCompanyType?.name ??
                                             '')
                                             .toLowerCase() ==
-                                            'cwr t2')
+                                            'cwr t2'))
                                                 ? true
                                                 : false,
                                         isDisableColor:
-                                        (state.model.status == 0
-                                        || widget.model == null )
+                                        (isEditable)
                                             && ((state.selectedCompanyType?.name ??
                                             '')
                                             .toLowerCase() ==
@@ -1368,7 +1366,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     .passIdVisitor ||
                                             widget.passId ==
                                                 ConstantsIntValue.passIdVendor
-                                        ? hostAddButtonWidgetLoading(state)
+                                        ? dbSponsorAddButtonWidgetLoading(state)
                                         : Container(),
                                     (((state.selectedCompanyType?.name ?? '')
                                                         .toLowerCase() ==
@@ -1770,7 +1768,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           : true,
                                       onChange: (String value) {
                                         /// Make Pass Valid Date Editable if the Company Type is 'Exceptions'
-                                        if (widget.model != null &&
+                                        if (
                                             !widget.model!.companyType!.name!
                                                 .contains('Exceptions')) {
                                           passValidUntilTextController.text =
@@ -2249,22 +2247,22 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       var userId = await SharedPrefs.getUserId();
       // BaseUser host1 = widget.dayPassItem?.host != null
 
-      hostTextController.text = widget.model?.host?.employeeId != null
+      hostTextController.text = widget.model?.employeeId != null
           ? widget.model?.host?.employeeId.toString() ?? ""
           : '';
       User? host1 = widget.model?.host ??
           User(
             userId: widget.model?.host?.userId,
-            name: widget.model?.host?.name,
+            name: widget.model?.host?.userInfo,
             employeeId: widget.model?.host?.employeeId,
           );
 
-      createPassMgmtCubit.gethostanalystsResponseData(host1);
-      createPassMgmtCubit.getdbsponsoranalystsResponseData(host1);
+      // createPassMgmtCubit.gethostanalystsResponseData(host1);
+      // createPassMgmtCubit.getdbsponsoranalystsResponseData(host1);
       createPassMgmtCubit.gethostUsersResponseData(host1);
 
-      dbsponsorTextController.text = widget.model?.host?.name != null
-          ? widget.model?.host?.name ?? ''
+      dbsponsorTextController.text = widget.model?.host?.userInfo != null
+          ? widget.model?.host?.userInfo ?? ''
           : '';
       // BaseUser dbSponsor1 = dbsponsorTextController.text.isNotEmpty
       //     ? BaseUser(id: int.parse(userId), name: dbsponsorTextController.text)
@@ -2282,18 +2280,18 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   widget.model?.employeeName != null
               ? widget.model?.employeeName ?? ''
               : widget.model?.employeeName.toString() ?? '';
+
       var userid = await SharedPrefs.getUserId();
 
-      // BaseUser? name1 = (widget.model?.employee ??
-      //     User(
-      //       userId: widget.model?.employee?.userId,
-      //       name: nameTextController.text,
-      //       employeeId: widget.model?.employee?.employeeId
-      //     )) as BaseUser?;
-      //
-      // createPassMgmtCubit.getNameUsersResponseData(host1);
+      BaseUser? name1 = (widget.model?.employee !=null ?
+          BaseUser(
+            id: widget.model?.employee?.userId,
+            name: nameTextController.text,
+            employeeId: widget.model?.employee?.employeeId
+          ): null);
+      createPassMgmtCubit.getNameUsersResponseData(name1);
 
-      // createPassMgmtCubit.getNameUsersResponseData(name1);
+      // createPassMgmtCubit.getNameUsersResponseData(host1);
 
       log('-widget.model?.inputDate---${widget.model?.inputDate}--');
 
@@ -2470,7 +2468,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       employeeIdTextController.text = widget.model?.employeeId ?? '';
       sezpassinfoTextController.text = widget.model?.passNo ?? '';
       //sezpassinfoTextController.text = widget.model?.passNo ?? '';
-      dbsponsorTextController.text = widget.model?.host?.name ?? '';
+      dbsponsorTextController.text = widget.model?.host?.userInfo ?? '';
     }
   }
 
@@ -2979,7 +2977,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         if ((widget.model == null || widget.model?.status == 0)) {
           companyTypeDialog(state);
         }
-
         FocusScope.of(context).requestFocus(companyNameFocusNode);
       },
     );
@@ -3782,7 +3779,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         passNo: passInfo.passNo,
         escortedBy: escortedByTextController.text,
         escortedEmployeeId: escortedEmployeeIdByTextController.text,
-        hostEmployeeId: dbsponsorTextController.text.isEmpty  ? host2?.employeeId : dbSponsor?.employeeId,
+        hostEmployeeId:  dbSponsor?.employeeId,
         mifareNo: mtpApplicationNoTextController.text,
         passIssuedOn: passValidFromDate.toString(),
         endTime: endTime,
@@ -3803,7 +3800,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         evidenceDocuments: evidenceDocuments,
         entities: entities,
         department: department,
-        host: dbsponsorTextController.text.isEmpty ? host2 : dbSponsor,
+        host:dbSponsor,
         email: emailTextController.text,
         contactNo: contactnoTextController.text,
         visitingDepartment: department,
@@ -3812,7 +3809,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         visitorComingFrom: visitorcomingfromTextController.text,
         visitingPurpose: purposeofvisitTextController.text,
         escortedByHost: state.escortedbyhost == 0 ? false : true,
-        exceptionalApproval: state.exceptionalApproval == 0 ? true : false,
+        exceptionalApproval: state.exceptionalApproval == 0 ? false : true,
         idValidationType: idValidationType,
         //mifareNo: mtpapplicationnoTextController.text ?? '',
         category: category,
@@ -3879,7 +3876,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           visitorComingFrom: visitorcomingfromTextController.text,
           visitingPurpose: purposeofvisitTextController.text,
           escortedByHost: state.escortedbyhost == 0 ? false : true,
-          exceptionalApproval: state.exceptionalApproval == 0 ? true : false,
+          exceptionalApproval: state.exceptionalApproval == 0 ? false : true,
           idValidationType: idValidationType,
           // mifareNo: mtpapplicationnoTextController.text ?? '',
           category: category,
