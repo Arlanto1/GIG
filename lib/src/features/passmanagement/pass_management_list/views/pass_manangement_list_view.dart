@@ -101,7 +101,13 @@ class _PassManagementListViewState extends State<PassManagementListView> {
                   : const SizedBox(),
           appBar: BaseAppBar().buildAppHeader(
             context: context,
-            title: widget.title,
+            title:  widget.passId == 0
+          ? 'Day Pass Management List'
+              : widget.passId == 1
+          ? 'Visitor Pass Management List'
+              : widget.passId == 2
+          ? 'Vendor Pass Management List'
+              : 'SEZ Pass Management List',
             showPopUp: true,
             showSaveButton: false,
             showSubmitButton: false,
