@@ -1,0 +1,19 @@
+import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
+
+class PassManagementRequest {
+  PassManagementRequest({
+    required this.materialMovement,
+  });
+
+  late final MaterialMovementModel materialMovement;
+
+  PassManagementRequest.fromJson(Map<String, dynamic> json) {
+    materialMovement = MaterialMovementModel.fromJson(json['materialMovement']);
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['materialMovement'] = materialMovement.toJson();
+    return data;
+  }
+}

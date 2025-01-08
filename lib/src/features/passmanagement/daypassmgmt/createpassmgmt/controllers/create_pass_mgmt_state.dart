@@ -1,5 +1,5 @@
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/models/pm_ui_labels.dart';
+import 'package:db_atom/src/features/passmanagement/models/pm_ui_labels.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 
 enum CreatePassMgmtStateType {

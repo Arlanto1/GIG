@@ -33,19 +33,20 @@ GuardingMastersDataModel _$GuardingMastersDataModelFromJson(
       inputDate: json['inputDate'] as String?,
       status: (json['status'] as num?)?.toInt(),
       guardRank: (json['guardRank'] as num?)?.toInt(),
-      localAddressProof: json['localAddressProof'] is Map<String, dynamic>
-          ? ImageContent.fromJson(json['localAddressProof'])
-          : null,
-      permanentAddressProof:
-          json['permanentAddressProof'] is Map<String, dynamic>
-              ? ImageContent.fromJson(json['permanentAddressProof'])
-              : null,
-      bioData: json['bioData'] is Map<String, dynamic>
-          ? ImageContent.fromJson(json['bioData'])
-          : null,
-      photoGraph: json['photoGraph'] is Map<String, dynamic>
-          ? ImageContent.fromJson(json['photoGraph'])
-          : null,
+      localAddressProof: json['localAddressProof'] == null
+          ? null
+          : ImageContent.fromJson(
+              json['localAddressProof'] as Map<String, dynamic>),
+      permanentAddressProof: json['permanentAddressProof'] == null
+          ? null
+          : ImageContent.fromJson(
+              json['permanentAddressProof'] as Map<String, dynamic>),
+      bioData: json['bioData'] == null
+          ? null
+          : ImageContent.fromJson(json['bioData'] as Map<String, dynamic>),
+      photoGraph: json['photoGraph'] == null
+          ? null
+          : ImageContent.fromJson(json['photoGraph'] as Map<String, dynamic>),
       employeeCode: json['employeeCode'] as String?,
       dbEmployeeId: json['dbEmployeeId'] as String?,
       dutyType: (json['dutyType'] as num?)?.toInt(),
