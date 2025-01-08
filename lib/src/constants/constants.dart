@@ -160,6 +160,7 @@ class Constants {
   static const String submit = "Submit";
 
   static const String ticketingSystem = "Ticketing System";
+  static const String ticketingSystemListTitle = "Bugs";
 
   static const String locationPermissionError =
       'Please enable location services!';
@@ -184,7 +185,7 @@ class Constants {
   static const String annualPowerShutdownListDetails =
       'Annual Power Shutdown List Details';
   static const String sCRI = 'SCRI';
-  static const String incidentManagementTitle = 'Incident Management List';
+  static const String incidentManagementTitle = 'Incident Management';
   static const String shiftOccurrence = 'Shift Occurrence';
   static const String occurrenceListTitle = 'Occurrence List';
   static const String materialMovement = 'Material Movement';
@@ -682,8 +683,9 @@ class Constants {
   static const String eventEndDate = 'Event End Date';
   static const String isAnnualPowerShutdown = 'Is Annual Power Shutdown';
 
+  static const String incidentManagementListTitle = 'Incident Management List';
   static const String incident = 'Incident';
-  static const String ticketLifeCycle = 'Ticket Life Cycle';
+  static const String ticketLifeCycle = 'Internal Staff Incident SLA';
   static const String externalVendor = 'External Vendor';
   static const String incidentType = 'Incident Type';
   static const String dbComplaint = 'DB Complainant';
@@ -884,6 +886,8 @@ class Constants {
 
   /// Duty Post Master
   static const String dutyPostMaster = 'Duty Post Master';
+  static const String dutyPostMasterListTitle = 'Guard Duty Post Master';
+
   static const String editDutyPostMaster = 'Edit Duty Post Master';
   static const String createDutyPostMaster = 'Create Duty Post Master';
   static const String dutyPostName = 'Duty Post Name';
@@ -895,6 +899,8 @@ class Constants {
 
   /// Duty Post Name Master
   static const String dutyPostNameMaster = 'Duty Post Name Master';
+  static const String dutyPostNameMasterListTitle = 'Duty Post Location Name';
+
   static const String editDutyPostNameMaster = 'Edit Duty Post Name Master';
   static const String createDutyPostNameMaster = 'Create Duty Post Name Master';
   static const String dutyPostLocationName = 'Post Location Name';
@@ -904,6 +910,7 @@ class Constants {
 
   ///Attendance
   static const String attendance = 'Attendance';
+  static const String attendanceListTitle = 'Attendance List';
   static const String attendanceReportBilling = 'Attendance Report and Billing';
   static const String editAttendance = 'Edit Attendance';
   static const String attendanceDetails = 'Attendance Details';
@@ -926,6 +933,7 @@ class Constants {
 
   /// VVIP Visitors
   static const String vVipVisitorsTitle = 'VVIP Visitor';
+  static const String vVipVisitorsListTitle = 'VVIP Visitor List';
   static const String listVvipVisitors = 'List of VVIP Visitor';
   static const String visitorsName = 'Visitor Name';
   static const String visitorsEmailId = 'Visitor Email ID';

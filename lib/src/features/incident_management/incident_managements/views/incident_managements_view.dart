@@ -104,7 +104,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                 : const SizedBox(),
             appBar: BaseAppBar().buildAppHeader(
               context: context,
-              title: Constants.incidentManagementTitle,
+              title: Constants.incidentManagementListTitle,
               showPopUp: true,
               showSaveButton: false,
               showSubmitButton: false,
