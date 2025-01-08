@@ -184,7 +184,7 @@ class Constants {
   static const String annualPowerShutdownListDetails =
       'Annual Power Shutdown List Details';
   static const String sCRI = 'SCRI';
-  static const String incidentManagementTitle = 'Incident Management';
+  static const String incidentManagementTitle = 'Incident Management List';
   static const String shiftOccurrence = 'Shift Occurrence';
   static const String occurrenceListTitle = 'Occurrence List';
   static const String materialMovement = 'Material Movement';
@@ -325,6 +325,8 @@ class Constants {
       'List is Updated(Search with the email).';
 
   // Law enforcement
+  static const String lawEnforcementListTitle =
+      'Law Enforcement List';
   static const String createlawenforcement =
       'Create Law Enforcement Official Visit';
   static const String editlawenforcement =
@@ -540,8 +542,8 @@ class Constants {
   static const String fromDate = 'From Date';
   static const String toDate = 'To Date';
 
-  static const String guardingMasterReportTitle = 'Guarding Master Report List';
-  static const String guardingMasterDataTitle = 'Guarding Master Data List';
+  static const String guardingMasterReportTitle = 'Guarding Master Report';
+  static const String guardingMasterDataTitle = 'Guarding Master Data';
 
   /// Guarding Master Data
   static const String createGuardingMasterData = 'Create Guarding Master Data';
@@ -621,7 +623,7 @@ class Constants {
   static const String addQualificationType = 'Add Qualification';
 
   // Event Protection
-  static const String eventProtectionTitle = 'Event Protection';
+  static const String eventProtectionTitle = 'Event Protection List';
   static const String generalInformation = 'General Information';
   static const String guardInformation = 'Guard Information';
   static const String beforeEventInformation = 'Before the Event Information';
@@ -793,6 +795,7 @@ class Constants {
   static const String keyLossDestructionList = 'Key Loss Destruction List';
 
   /// KeyManagementMaster
+  static const String keyManagementMasterTitle = 'Key Management Info List';
   static const String editkeyManagementMaster = 'Edit Key Management Master';
   static const String createkeyManagementMaster =
       'Create Key Management Master';
@@ -853,6 +856,7 @@ class Constants {
   static const String keyDestroyHistoryType = 'KEY_DESTROY_HISTORY';
 
   ///KeyManagementIssuance
+  static const String keyManagementIssuanceTitle = 'Key Management Issuance List';
   static const String createKeyManagementIssuance =
       'Create Key Management Issuance';
   static const String editKeyManagementIssuance =

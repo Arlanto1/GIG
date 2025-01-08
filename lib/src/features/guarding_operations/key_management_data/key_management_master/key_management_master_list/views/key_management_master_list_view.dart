@@ -87,7 +87,7 @@ class _KeyManagementMasterListViewState
                     : const SizedBox(),
             appBar: BaseAppBar().buildAppHeader(
               context: context,
-              title: Constants.keyManagementMaster,
+              title: Constants.keyManagementMasterTitle,
               showPopUp: true,
               showSaveButton: false,
               showSubmitButton: false,
