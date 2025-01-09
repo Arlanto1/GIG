@@ -3017,6 +3017,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 log('---nextFormattedDate----$nextFormattedDate------');
                 passValidUntilTextController.text = nextFormattedDate;
               }
+              state.nameResponse?.employeeId = null;
+              state.dbsponsorResponse?.employeeId = null;
+              widget.model?.host?.userInfo = null;
+              nameTextController.text = '';
+              dbsponsorTextController.text = '';
               createPassMgmtCubit.selectedCompanyType(organisation);
             },
           );

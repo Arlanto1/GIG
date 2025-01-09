@@ -2238,7 +2238,11 @@ class _MaterialMovementDetailsViewState
                                             .showFields(
                                           isOriginalReceiverReceiving: true,
                                         );
-                                      },
+                                        state.model.receiverEmail = null;
+                                        state.model.receiverEmployeeId = null;
+                                        state.model.otherReceiverEmployeeId = null;
+                                        state.model.receiverDepartmenttName = null;
+                                },
                                 onChangedNo: widget.model?.status == 6 ||
                                         widget.model?.status == -1 ||
                                         widget.model?.status == 10 ||
@@ -2253,6 +2257,10 @@ class _MaterialMovementDetailsViewState
                                             .showFields(
                                           isOriginalReceiverReceiving: false,
                                         );
+                                        state.model.receiverEmail = null;
+                                        state.model.receiverEmployeeId = null;
+                                        state.model.otherReceiverEmployeeId = null;
+                                        state.model.receiverDepartmenttName = null;
                                       },
                               ),
 
@@ -2527,14 +2535,15 @@ class _MaterialMovementDetailsViewState
                                 ),
 
                                 FlutterInputField(
-                                  initialValue: state.model.otherReceiverName,
+                                  controller: receiverEmailController,
+                                  // initialValue: state.model.receiverEmail,
                                   textFormKey: Keys.claimantEmpIdTextController,
                                   isEnable: false,
                                   isDisableColor: true,
                                   hintText: '',
                                   focusNode: receivedByFocusNode,
                                   onChange: (String value) {
-                                    state.model.otherReceiverName = value;
+                                    // state.model.receiverEmail = value;
                                     context
                                         .read<MaterialMovementDetailsCubit>()
                                         .onModelValueChange(state.model);
