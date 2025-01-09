@@ -532,6 +532,11 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               onChangedYes: state.model.status == 0
                                   ? (val) {
                                       state.model.complainantDbEmp = true;
+                                      state.model.complainantName = null;
+                                      state.model.employeeId = null;
+                                      state.model.complainantDepartment = null;
+                                      state.model.complainantHr = null;
+
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
                                           .onCheckBoxChange(state.model);
@@ -540,6 +545,11 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               onChangedNo: state.model.status == 0
                                   ? (val) {
                                       state.model.complainantDbEmp = false;
+                                      state.model.complainantName = null;
+                                      state.model.employeeId = null;
+                                      state.model.complainantDepartment = null;
+                                      state.model.complainantHr = null;
+
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
                                           .onCheckBoxChange(state.model);
