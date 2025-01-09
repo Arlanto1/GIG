@@ -408,6 +408,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.premisesRoundTkn = true;
+                                          state.model.premisesRoundTknComments = null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -420,6 +421,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.premisesRoundTkn = false;
+                                          state.model.premisesRoundTknComments = null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -472,6 +474,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.medicalEmrgncy = true;
+                                          state.model.medicalEmrgncyComments = null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -483,6 +486,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.medicalEmrgncy = false;
+                                          state.model.medicalEmrgncyComments = null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -599,6 +603,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.socialEnggIncdnt = true;
+                                          state.model.socialEnggIncdntComments = null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -611,6 +616,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.socialEnggIncdnt = false;
+                                          state.model.socialEnggIncdntComments = null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -792,6 +798,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.infraIssue = true;
+                                          state.model.infraIssueComments = null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -803,6 +810,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.infraIssue = false;
+                                          state.model.infraIssueComments = null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -938,6 +946,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.fireAlarmEmrgncy = true;
+                                          state.model.fireAlarmEmrgncyComments = null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -948,6 +957,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.fireAlarmEmrgncy = false;
+                                          state.model.fireAlarmEmrgncyComments = null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -1000,6 +1010,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.landlordIssue = true;
+                                          state.model.landlordIssueComments = null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -1009,6 +1020,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.landlordIssue = false;
+                                          state.model.landlordIssueComments = null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -1148,6 +1160,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   ? null
                                   : (val) {
                                       state.model.sysAlarmRcvd = true;
+                                      state.model.sysAlarmRcvdComments = null;
                                       BlocProvider.of<
                                                   OccurrenceGeneralInfoCubit>(
                                               context)
@@ -1157,6 +1170,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   ? null
                                   : (val) {
                                       state.model.sysAlarmRcvd = false;
+                                      state.model.sysAlarmRcvdComments = null;
                                       BlocProvider.of<
                                                   OccurrenceGeneralInfoCubit>(
                                               context)
@@ -1202,6 +1216,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 ? null
                                 : (val) {
                                     state.model.transportIncdnt = true;
+                                    state.model.transportIncdntComments = null;
                                     BlocProvider.of<OccurrenceGeneralInfoCubit>(
                                             context)
                                         .showFields(transportIncdnt: true);
@@ -1210,6 +1225,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 ? null
                                 : (val) {
                                     state.model.transportIncdnt = false;
+                                    state.model.transportIncdntComments = null;
                                     BlocProvider.of<OccurrenceGeneralInfoCubit>(
                                             context)
                                         .showFields(transportIncdnt: false);
@@ -1255,6 +1271,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 ? null
                                 : (val) {
                                     state.model.anyEvent = true;
+                                    state.model.notifyScri= null;
                                     BlocProvider.of<OccurrenceGeneralInfoCubit>(
                                             context)
                                         .showFields(anyEvent: true);
@@ -1265,6 +1282,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 ? null
                                 : (val) {
                                     state.model.anyEvent = false;
+                                    state.model.notifyScri = null;
                                     BlocProvider.of<OccurrenceGeneralInfoCubit>(
                                             context)
                                         .showFields(anyEvent: false);
