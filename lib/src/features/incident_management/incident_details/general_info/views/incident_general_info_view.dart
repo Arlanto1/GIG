@@ -536,6 +536,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       state.model.employeeId = null;
                                       state.model.complainantDepartment = null;
                                       state.model.complainantHr = null;
+                                      state.model.complainant = null;
 
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
@@ -549,6 +550,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       state.model.employeeId = null;
                                       state.model.complainantDepartment = null;
                                       state.model.complainantHr = null;
+                                      state.model.complainant = null;
 
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
