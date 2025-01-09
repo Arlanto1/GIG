@@ -176,7 +176,7 @@ class Constants {
   static const String settings = "Settings";
   static const String administration = "Administration";
   static const String profile = 'Profile';
-  static const String articleFoundRegisterListTitle = 'Article Found Register';
+  static const String articleFoundRegisterListTitle = 'Article Found';
   static const String lawEnforcementVisitsListTitle =
       'Law Enforcement Visits List';
   static const String eventProtectionList = 'Event Protection List';
@@ -189,7 +189,7 @@ class Constants {
   static const String shiftOccurrence = 'Shift Occurrence';
   static const String occurrenceListTitle = 'Occurrence List';
   static const String materialMovement = 'Material Movement';
-  static const String passManagement = 'Non-Magnetic Pass Management';
+  static const String passManagement = 'Pass Management';
   static const String guardingOperations = 'Guarding Operations';
   static const String logout = 'Logout';
   static const String deleteAllNotifications = 'Delete All';
@@ -206,13 +206,13 @@ class Constants {
 
   static const String notifications = 'Notifications';
 
-  static const String materialMovementInward = 'Material Movement Inward';
+  static const String materialMovementInward = 'Inward Material Movement';
   static const String materialMovementInwardCreate =
       'Create Inward Material Movement';
   static const String materialMovementInwardEdit =
       'Edit Inward Material Movement';
 
-  static const String materialMovementOutward = 'Material Movement Outward';
+  static const String materialMovementOutward = 'Outward Material Movement';
   static const String materialMovementOutwardReturnable =
       'Material Movement Outward - Returnable';
   static const String materialMovementOutwardNonReturnable =
