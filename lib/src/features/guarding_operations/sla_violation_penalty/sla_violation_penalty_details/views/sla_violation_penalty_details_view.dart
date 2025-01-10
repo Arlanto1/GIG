@@ -64,6 +64,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
             onPositivePressed: () {
               Navigator.pop(context);
               Navigator.pop(context);
+              // Navigator.pop(context);
               return;
             },
           );
