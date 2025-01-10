@@ -339,9 +339,9 @@ class SLAViolationPenaltyDetailsCubit
       state.model.inputDate = inputDate.toString();
     }
 
-    // if (attdInfoId != null) {
-    //   state.model.attdShiftInfoId = attdInfoId.toString();
-    // }
+    if (attdInfoId != null) {
+      state.model.attdShiftInfoId = attdInfoId.toString();
+    }
     log('-attdInfoId-111-$attdInfoId--');
     // Create/Update API Call
     SLAViolationPenaltyRequest request =
@@ -405,7 +405,8 @@ class SLAViolationPenaltyDetailsCubit
       if (attdInfoId != null) {
         log('--!attdInfoId.isEmptyOrNull--$attdInfoId-');
         status = FormStatus.popOnly;
-      } else if (navigateToNextScreen) {
+      } else if
+      (navigateToNextScreen) {
         log('--navigateToNextScreen---');
         status = FormStatus.navigateToNextScreen;
       } else {

@@ -543,14 +543,14 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
 
     log('----state.shiftSlaList--${state.shiftSlaList?.length}-');
 
-    // if (!state.shiftSlaList.isEmptyOrNull) {
-    //   SlaList? sla = state.shiftSlaList?.firstWhere(
-    //     (element) => element.attInfoId == shift.attendanceShiftId,
-    //     orElse: () => SlaList(),
-    //   );
-    //
-    //   slaList = sla?.items ?? [];
-    // }
+    if (!state.shiftSlaList.isEmptyOrNull) {
+      SlaList? sla = state.shiftSlaList?.firstWhere(
+        (element) => element.attInfoId == shift.attendanceShiftId,
+        orElse: () => SlaList(),
+      );
+
+      slaList = sla?.items ?? [];
+    }
     slaList = state.shiftSlaList?.first.items ?? [];
 
     return Column(
@@ -566,7 +566,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                 ConstantsArgument.attdInfoId: state.model.attendanceShiftId,
                 ConstantsArgument.location: widget.location,
                 ConstantsArgument.locationRegion: widget.locationRegion,
-                ConstantsArgument.vendor: widget.vendor,
+                // ConstantsArgument.vendor: widget.vendor,
               },
             ).then((_) => BlocProvider.of<AttendanceShiftsCubit>(context)
                 .submitAndRefreshScreen(
