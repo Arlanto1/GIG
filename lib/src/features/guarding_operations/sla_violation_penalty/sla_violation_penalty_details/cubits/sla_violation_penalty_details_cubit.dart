@@ -339,9 +339,12 @@ class SLAViolationPenaltyDetailsCubit
       state.model.inputDate = inputDate.toString();
     }
 
+    log('-attdInfoId-000-$attdInfoId--');
+
     if (attdInfoId != null) {
       state.model.attdShiftInfoId = attdInfoId.toString();
     }
+
     log('-attdInfoId-111-$attdInfoId--');
     // Create/Update API Call
     SLAViolationPenaltyRequest request =
