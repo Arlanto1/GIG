@@ -99,6 +99,9 @@ class SLAViolationPenaltyDetailsCubit
 
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
+    log('-attId-1-${state.model.attdShiftInfoId}--');
+
+
     //Show Loader and emit loading state
     emit(
       state.copyWith(
@@ -116,7 +119,7 @@ class SLAViolationPenaltyDetailsCubit
           model: model,
         ),
       );
-    }
+     }
 
     if (state.model.location == null) {
       Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
@@ -342,7 +345,7 @@ class SLAViolationPenaltyDetailsCubit
     log('-attdInfoId-000-$attdInfoId--');
 
     if (attdInfoId != null) {
-      state.model.attdShiftInfoId = attdInfoId.toString();
+      state.model.attdShiftInfoId = attdInfoId;
     }
 
     log('-attdInfoId-111-$attdInfoId--');

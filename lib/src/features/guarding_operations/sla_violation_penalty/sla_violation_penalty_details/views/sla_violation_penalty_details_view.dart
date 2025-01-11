@@ -54,12 +54,28 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
         log('-state.status---${state.status}----');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
-        if (state.status == FormStatus.popOnly) {
+        if (state.status == FormStatus.popOnly ) {
           Navigator.pop(context);
           return;
 
         }
-        if (state.status == FormStatus.success) {
+        if (state.status == FormStatus.success &&  state.model.attdShiftInfoId !=null) {
+          var dialog = CustomAlertDialog(
+            title: 'SLA Violation Penalty',
+            message: state.message ?? '',
+            positiveBtnText: Constants.ok,
+            onPositivePressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              return;
+            },
+          );
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) => dialog);
+        }
+          if (state.status == FormStatus.success && state.model.attdShiftInfoId ==null) {
           var dialog = CustomAlertDialog(
             title: 'SLA Violation Penalty',
             message: state.message ?? '',
@@ -286,7 +302,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               context: context,
                               selectedValues: state.model.vendor ?? [],
                               all: state.vendors,
-                              enabled: !widget.viaAttendance && !isReadOnly,
+                              enabled: !widget.viaAttendance && !isReadOnly && state.model.attdShiftInfoId ==null,
                               onTap: (List<Organisation> selectedVendors) {
                                 BlocProvider.of<
                                             SLAViolationPenaltyDetailsCubit>(
