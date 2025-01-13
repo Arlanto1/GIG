@@ -339,7 +339,7 @@ class Utils {
         statusText = 'Inward Waiting';
         break;
       case 10:
-        statusText = 'Closed/Finalize';
+        statusText = 'Closed/Finalized';
         break;
       case -1:
         statusText = 'Cancelled';

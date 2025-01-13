@@ -79,7 +79,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                 );
               }
               if (widget.viaOccurrence) {
-                Navigator.pushNamed(
+                Navigator.popAndPushNamed(
                   context,
                   shiftOccurrenceDetailsRoute,
                   arguments: {
@@ -87,7 +87,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                     "title": Constants.editOccurrence,
                   },
                 );
-                return;
+                // return;
               }
 
               log('--widget.viaKeyIssuance-${state.model.keyLossGi?.id}--');

@@ -1,38 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-
-part 'guarding_master_data_model.g.dart';
-
-// class GuardingMasterDataResponse {
-//   List<GuardingMastersDataModel>? items;
-//   int? totalCount;
-//   int? currentPageNo;
-//   int? totalPageCount;
-//
-//   GuardingMasterDataResponse({
-//     this.items,
-//     this.totalCount,
-//     this.currentPageNo,
-//     this.totalPageCount,
-//   });
-//
-//   GuardingMasterDataResponse.fromJson(Map<String, dynamic> json)
-//       : items = (json['data'] as List?)
-//             ?.map((dynamic e) =>
-//                 GuardingMastersDataModel.fromJson(e as Map<String, dynamic>))
-//             .toList(),
-//         totalCount = json['totalCount'] as int?,
-//         currentPageNo = json['currentPageNo'] as int?,
-//         totalPageCount = json['totalPageCount'] as int?;
-//
-//   Map<String, dynamic> toJson() => {
-//         'data': items?.map((e) => e.toJson()).toList(),
-//         'totalCount': totalCount,
-//         'currentPageNo': currentPageNo,
-//         'totalPageCount': totalPageCount
-//       };
-// }
 class GuardingMasterDataResponse {
   List<GuardingMastersDataModel>? items;
   int? totalCount;
@@ -88,8 +56,6 @@ class GuardingMasterDataResponse {
     'totalPageCount': totalPageCount
   };
 }
-
-@JsonSerializable()
 class GuardingMastersDataModel extends BaseObject {
   int? id;
   String? slNo;
@@ -245,31 +211,208 @@ class GuardingMastersDataModel extends BaseObject {
     this.modifiedDate,
   });
 
-  // factory GuardingMastersDataModel.fromJson(Map<String, dynamic> json) {
-  //   try {
-  //     return _$GuardingMastersDataModelFromJson(json);
-  //   } catch (e) {
-  //     if (e is CheckedFromJsonException) {
-  //       // Access the information about the error
-  //       log('Error during deserialization: ${e.message}, path: ${e.key}');
-  //     } else {
-  //       // Handle other types of exceptions if needed
-  //       log('Unexpected error during deserialization: $e');
-  //     }
-  //
-  //     // Return a default instance or handle differently based on your needs.
-  //     return GuardingMastersDataModel();
-  //   }
-  // }
+  factory GuardingMastersDataModel.fromJson(Map<String, dynamic> json) {
+    return GuardingMastersDataModel(
+      id: json['id'] as int?,
+      slNo: json['slNo'] as String?,
+      location: json['location'] == null
+          ? null
+          : Organisation.fromJson(json['location'] as Map<String, dynamic>),
+      locationRegion: json['locationRegion'] == null
+          ? null
+          : Organisation.fromJson(
+          json['locationRegion'] as Map<String, dynamic>),
+      vendor: json['vendor'] == null
+          ? null
+          : Organisation.fromJson(json['vendor'] as Map<String, dynamic>),
+      entrySecurity: json['entrySecurity'] == null
+          ? null
+          : User.fromJson(json['entrySecurity'] as Map<String, dynamic>),
+      guard: json['guard'] == null
+          ? null
+          : User.fromJson(json['guard'] as Map<String, dynamic>),
+      entity: json['entity'] == null
+          ? null
+          : Organisation.fromJson(json['entity'] as Map<String, dynamic>),
+      inputDate: json['inputDate'] as String?,
+      status: json['status'] as int?,
+      guardRank: json['guardRank'] as int?,
 
+      localAddressProof: json['localAddressProof'] is Map<String, dynamic>
+          ? ImageContent.fromJson(json['localAddressProof'])
+          : null,
+      permanentAddressProof:
+      json['permanentAddressProof'] is Map<String, dynamic>
+          ? ImageContent.fromJson(json['permanentAddressProof'])
+          : null,
+      bioData: json['bioData'] is Map<String, dynamic>
+          ? ImageContent.fromJson(json['bioData'])
+          : null,
+      photoGraph: json['photoGraph'] is Map<String, dynamic>
+          ? ImageContent.fromJson(json['photoGraph'])
+          : null,
+      employeeCode: json['employeeCode'] as String?,
+      dbEmployeeId: json['dbEmployeeId'] as String?,
+      dutyType: json['dutyType'] as int?,
+      gender: json['gender'] as int?,
+      contactNo: json['contactNo'] as String?,
+      dateOfBirth: json['dateOfBirth'] as String?,
+      maritalStatus: json['maritalStatus'] as int?,
+      typeOfDeployment: json['typeOfDeployment'] as int?,
+      deploymentOrderSubmitted: json['deploymentOrderSubmitted'] as bool? ??
+          false,
+      deploymentOrders: (json['deploymentOrders'] as List<dynamic>?)
+          ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dateOfJoining: json['dateOfJoining'] as String?,
+      physicallyFit: json['physicallyFit'] as bool? ?? false,
+      localLanguage: json['localLanguage'] as String?,
+      localLangProficiencyR: json['localLangProficiencyR'] as bool?,
+      hindiLangProficiencyR: json['hindiLangProficiencyR'] as bool?,
+      englishLangProficiencyR: json['englishLangProficiencyR'] as bool?,
+      localLangProficiencyW: json['localLangProficiencyW'] as bool?,
+      hindiLangProficiencyW: json['hindiLangProficiencyW'] as bool?,
+      englishLangProficiencyW: json['englishLangProficiencyW'] as bool?,
+      localLangProficiencyS: json['localLangProficiencyS'] as bool?,
+      hindiLangProficiencyS: json['hindiLangProficiencyS'] as bool?,
+      englishLangProficiencyS: json['englishLangProficiencyS'] as bool?,
+      securityExperience: json['securityExperience'] as String?,
+      permanentAddress: json['permanentAddress'] as String?,
+      localAddress: json['localAddress'] as String?,
+      qualifications: (json['qualifications'] as List<dynamic>?)
+          ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pvcIssuedDate: json['pvcIssuedDate'] as String?,
+      pvcExpiryDate: json['pvcExpiryDate'] as String?,
+      pvc: (json['pvc'] as List<dynamic>?)
+          ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      trainingCertificateProvided: json['trainingCertificateProvided'] as bool? ??
+          false,
+      showMsgbData: json['showMsgbData'] as bool?,
+      trainingCertificates: (json['trainingCertificates'] as List<dynamic>?)
+          ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      medicalCertificateValidUntil: json['medicalCertificateValidUntil'] as String?,
+      medicalCertificates: (json['medicalCertificates'] as List<dynamic>?)
+          ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      systemAccess: json['systemAccess'] as int?,
+      onboarded: json['onboarded'] as bool? ?? false,
+      esicNo: json['esicNo'] as String?,
+      uanNo: json['uanNo'] as String?,
+      msgbExempted: json['msgbExempted'] as bool? ?? false,
+      msgbFormBSubmitted: json['msgbFormBSubmitted'] as int?,
+      staffMsgbCompliant: json['staffMsgbCompliant'] as int?,
+      guardingPOC: json['guardingPOC'] as String?,
+      csrParticipations: (json['csrParticipations'] as List<dynamic>?)
+          ?.map((e) =>
+          GuardingMasterDataExtraDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      additionalInitiatives: (json['additionalInitiatives'] as List<dynamic>?)
+          ?.map((e) =>
+          GuardingMasterDataExtraDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      additionalQualifications: (json['additionalQualifications'] as List<
+          dynamic>?)
+          ?.map((e) =>
+          GuardingMasterDataExtraDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      specialAchievements: (json['specialAchievements'] as List<dynamic>?)
+          ?.map((e) =>
+          GuardingMasterDataExtraDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      entrySecurityName: json['entrySecurityName'] as String?,
+      guardName: json['guardName'] as String?,
+      covidFirstDoseDate: json['covidFirstDoseDate'] as String?,
+      covidSecondDoseDate: json['covidSecondDoseDate'] as String?,
+      covidPrecautionaryDoseDate: json['covidPrecautionaryDoseDate'] as String?,
+      ertCertificationDate: json['ertCertificationDate'] as String?,
+      firstAidTrainingCompletionDate: json['firstAidTrainingCompletionDate'] as String?,
+      height: json['height'] as num?,
+      weight: json['weight'] as num?,
+      chest: json['chest'] as num?,
+      dependentsNo: json['dependentsNo'] as int?,
+      msgbExemptionDate: json['msgbExemptionDate'] as String?,
+      modifiedBy: json['modifiedBy'] as String?,
+      modifiedDate: json['modifiedDate'] as String?,
+    );
+  }
   @override
-  // Map<String, dynamic> toJson() => _$GuardingMastersDataModelToJson(this);
-  factory GuardingMastersDataModel.fromJson(Map<String, dynamic> json) =>
-      _$GuardingMastersDataModelFromJson(json);
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'slNo': slNo,
+      'location': location?.toJson(),
+      'locationRegion': locationRegion?.toJson(),
+      'vendor': vendor?.toJson(),
+      'entrySecurity': entrySecurity?.toJson(),
+      'guard': guard?.toJson(),
+      'entity': entity?.toJson(),
+      'inputDate': inputDate,
+      'status': status,
+      'guardRank': guardRank,
+      'localAddressProof': localAddressProof?.toJson(),
+      'permanentAddressProof': permanentAddressProof?.toJson(),
+      'bioData': bioData?.toJson(),
+      'photoGraph': photoGraph?.toJson(),
+      'employeeCode': employeeCode,
+      'dbEmployeeId': dbEmployeeId,
+      'dutyType': dutyType,
+      'gender': gender,
+      'contactNo': contactNo,
+      'dateOfBirth': dateOfBirth,
+      'maritalStatus': maritalStatus,
+      'typeOfDeployment': typeOfDeployment,
+      'deploymentOrderSubmitted': deploymentOrderSubmitted,
+      'deploymentOrders': deploymentOrders?.map((e) => e.toJson()).toList(),
+      'dateOfJoining': dateOfJoining,
+      'physicallyFit': physicallyFit,
+      'localLanguage': localLanguage,
+      'localLangProficiencyR': localLangProficiencyR,
+      'hindiLangProficiencyR': hindiLangProficiencyR,
+      'englishLangProficiencyR': englishLangProficiencyR,
+      'localLangProficiencyW': localLangProficiencyW,
+      'hindiLangProficiencyW': hindiLangProficiencyW,
+      'englishLangProficiencyW': englishLangProficiencyW,
+      'localLangProficiencyS': localLangProficiencyS,
+      'hindiLangProficiencyS': hindiLangProficiencyS,
+      'englishLangProficiencyS': englishLangProficiencyS,
+      'securityExperience': securityExperience,
+      'permanentAddress': permanentAddress,
+      'localAddress': localAddress,
+      'qualifications': qualifications?.map((e) => e.toJson()).toList(),
+      'pvcIssuedDate': pvcIssuedDate,
+      'pvcExpiryDate': pvcExpiryDate,
+      'pvc': pvc?.map((e) => e.toJson()).toList(),
+      'trainingCertificateProvided': trainingCertificateProvided,
+      'trainingCertificates': trainingCertificates?.map((e) => e.toJson()).toList(),
+      'medicalCertificateValidUntil': medicalCertificateValidUntil,
+      'medicalCertificates': medicalCertificates?.map((e) => e.toJson()).toList(),
+      'systemAccess': systemAccess,
+      'onboarded': onboarded,
+      'esicNo': esicNo,
+      'uanNo': uanNo,
+      'msgbExempted': msgbExempted,
+      'msgbFormBSubmitted': msgbFormBSubmitted,
+      'staffMsgbCompliant': staffMsgbCompliant,
+      'guardingPOC': guardingPOC,
+      'csrParticipations': csrParticipations?.map((e) => e.toJson()).toList(),
+      'additionalInitiatives': additionalInitiatives?.map((e) => e.toJson()).toList(),
+      'additionalQualifications': additionalQualifications?.map((e) => e.toJson()).toList(),
+      'specialAchievements': specialAchievements?.map((e) => e.toJson()).toList(),
+      'entrySecurityName': entrySecurityName,
+      'guardName': guardName,
+      'dependentsNo': dependentsNo,
+      'msgbExemptionDate': msgbExemptionDate,
+      'modifiedBy': modifiedBy,
+      'modifiedDate': modifiedDate,
+    };
+  }
 
-  @override
-  Map<String, dynamic> toJson() => _$GuardingMastersDataModelToJson(this);
 }
+
+
 
 class GuardingMasterDataExtraDetails {
   final int? id;
@@ -293,3 +436,4 @@ class GuardingMasterDataExtraDetails {
   Map<String, dynamic> toJson() =>
       {'id': id, 'description': description, 'date': date, 'type': type};
 }
+

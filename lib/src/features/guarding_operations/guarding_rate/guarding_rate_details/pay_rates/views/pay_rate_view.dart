@@ -120,21 +120,21 @@ class _PayRateViewState extends State<PayRateView> {
                   );
                 }
 
-                if (state.items.isEmptyOrNull) {
-                  return Center(
-                    child: AppButton(
-                      width: 150,
-                      backgroundColor: AppColors.navigationSkyBlueColor,
-                      key: const Key(Keys.cancelButton),
-                      buttonText: Constants.add,
-                      buttonTextKey: Keys.cancelButton,
-                      onTap: () {
-                        addSecurityGuardPopUp(
-                            context: context, payRate: PayRate());
-                      },
-                    ),
-                  );
-                }
+                // if (state.items.isEmptyOrNull) {
+                //   return Center(
+                    // child: AppButton(
+                    //   width: 150,
+                    //   backgroundColor: AppColors.navigationSkyBlueColor,
+                    //   key: const Key(Keys.cancelButton),
+                    //   buttonText: Constants.add,
+                    //   buttonTextKey: Keys.cancelButton,
+                    //   onTap: () {
+                    //     addSecurityGuardPopUp(
+                    //         context: context, payRate: PayRate());
+                    //   },
+                    // ),
+                //   );
+                // }
                 return Container(
                   margin: allMargin16,
                   decoration: const ShapeDecoration(
@@ -230,10 +230,11 @@ class _PayRateViewState extends State<PayRateView> {
       children: [
         if (widget.title == Constants.createOthers)
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               cancelButtonDisplay(),
               const SizedBox(
-                width: 70,
               ),
             ],
           )

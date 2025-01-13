@@ -411,6 +411,10 @@ class SLAViolationPenaltyDetailsCubit
       if (attdInfoId != null) {
         log('--!attdInfoId.isEmptyOrNull--$attdInfoId-');
         status = FormStatus.popOnly;
+            if (navigateToNextScreen) {
+          log('--navigateToNextScreen---');
+          status = FormStatus.navigateToNextScreen;
+        }
       } else if
       (navigateToNextScreen) {
         log('--navigateToNextScreen---');
