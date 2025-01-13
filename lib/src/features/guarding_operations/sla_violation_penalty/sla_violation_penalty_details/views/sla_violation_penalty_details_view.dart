@@ -54,7 +54,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
         log('-state.status---${state.status}----');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
-        if (state.status == FormStatus.popOnly ) {
+        if (state.status == FormStatus.popOnly && state.status != FormStatus.navigateToNextScreen) {
           log('000${state.status == FormStatus.popOnly }');
           var dialog = CustomAlertDialog(
             title: 'SLA Violation Penalty',
