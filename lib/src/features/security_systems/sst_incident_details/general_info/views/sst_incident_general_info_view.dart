@@ -93,7 +93,7 @@ class _SstIncidentGeneralInfoViewState
                 // arguments: {"isInternal": widget.isInternal},
               );
               if (widget.viaOccurrence) {
-                Navigator.pushNamed(
+                Navigator.popAndPushNamed(
                   context,
                   shiftOccurrenceDetailsRoute,
                   arguments: {
