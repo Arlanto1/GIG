@@ -87,7 +87,7 @@ class _DutyPostNameMasterListViewState
                     : const SizedBox(),
             appBar: BaseAppBar().buildAppHeader(
               context: context,
-              title: Constants.dutyPostNameMaster,
+              title: Constants.dutyPostNameMasterListTitle,
               showPopUp: true,
               showSaveButton: false,
               showSubmitButton: false,

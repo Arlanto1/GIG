@@ -54,11 +54,43 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
         log('-state.status---${state.status}----');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
-        if (state.status == FormStatus.popOnly) {
-          Navigator.pop(context);
-          return;
+        if (state.status == FormStatus.popOnly ) {
+          log('000${state.status == FormStatus.popOnly }');
+          var dialog = CustomAlertDialog(
+            title: 'SLA Violation Penalty',
+            message: state.message ?? '',
+            positiveBtnText: Constants.ok,
+            onPositivePressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              return;
+            },
+          );
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) => dialog);
+
         }
-        if (state.status == FormStatus.success) {
+        if (state.status == FormStatus.success && state.model.id != null) {
+          log('100${state.status == FormStatus.success && widget.viaAttendance}');
+          var dialog = CustomAlertDialog(
+            title: 'SLA Violation Penalty',
+            message: state.message ?? '',
+            positiveBtnText: Constants.ok,
+            onPositivePressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              return;
+            },
+          );
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) => dialog);
+        }
+          if (state.status == FormStatus.success && !widget.viaAttendance && state.model.attdShiftInfoId == null) {
+            log('200${state.status == FormStatus.success && !widget.viaAttendance && state.model.attdShiftInfoId == null}');
           var dialog = CustomAlertDialog(
             title: 'SLA Violation Penalty',
             message: state.message ?? '',
@@ -192,6 +224,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             // General Information Fields
+                            ///Created By
                             CommonWidgets.verticalTextHandling(
                               state.labels?.locale.entrySecurity ??
                                   state.labels?.defaultLocale.entrySecurity ??
@@ -201,6 +234,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            ///Status
                             CommonWidgets.textDisplay(
                               state.labels?.locale.status ??
                                   state.labels?.defaultLocale.status ??
@@ -222,6 +256,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            ///Date of Creation
                             CommonWidgets.textDisplay(
                               state.labels?.locale.inputDate ??
                                   state.labels?.defaultLocale.inputDate ??
@@ -234,6 +269,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                 state.model.inputDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            ///Location
                             CommonWidgets.textDisplay(
                               state.labels?.locale.location ??
                                   state.labels?.defaultLocale.location ??
@@ -257,6 +293,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                 }),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            ///Sl no
                             CommonWidgets.horizentaltextHandling(
                               state.labels?.locale.slNo ??
                                   state.labels?.defaultLocale.slNo ??
@@ -266,6 +303,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            ///Vendor
                             CommonWidgets.textDisplay(
                               state.labels?.locale.vendor ??
                                   state.labels?.defaultLocale.vendor ??
@@ -279,7 +317,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               context: context,
                               selectedValues: state.model.vendor ?? [],
                               all: state.vendors,
-                              enabled: !widget.viaAttendance && !isReadOnly,
+                              enabled: !widget.viaAttendance && !isReadOnly && state.model.attdShiftInfoId ==null,
                               onTap: (List<Organisation> selectedVendors) {
                                 BlocProvider.of<
                                             SLAViolationPenaltyDetailsCubit>(
@@ -300,6 +338,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            ///Entity
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.entity ??
                                     state.labels?.defaultLocale.entity ??
@@ -332,6 +371,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            ///Type of Service
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.typeOfService ??
                                     state.labels?.defaultLocale.typeOfService ??
@@ -409,6 +449,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            ///Guarding Agency POC
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.poc ??
                                     state.labels?.defaultLocale.poc ??

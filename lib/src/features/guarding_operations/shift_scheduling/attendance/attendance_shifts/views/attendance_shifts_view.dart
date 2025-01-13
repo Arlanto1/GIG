@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/opacity_absorb_widget.dart';
+import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
 
 import '../../attendance_details/views/attendance_details_view.dart';
 
@@ -543,14 +544,14 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
 
     log('----state.shiftSlaList--${state.shiftSlaList?.length}-');
 
-    // if (!state.shiftSlaList.isEmptyOrNull) {
-    //   SlaList? sla = state.shiftSlaList?.firstWhere(
-    //     (element) => element.attInfoId == shift.attendanceShiftId,
-    //     orElse: () => SlaList(),
-    //   );
-    //
-    //   slaList = sla?.items ?? [];
-    // }
+    if (!state.shiftSlaList.isEmptyOrNull) {
+      SlaList? sla = state.shiftSlaList?.firstWhere(
+        (element) => element.attInfoId == shift.attendanceShiftId,
+        orElse: () => SlaList(),
+      );
+
+      slaList = sla?.items ?? [];
+    }
     slaList = state.shiftSlaList?.first.items ?? [];
 
     return Column(
@@ -566,7 +567,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                 ConstantsArgument.attdInfoId: state.model.attendanceShiftId,
                 ConstantsArgument.location: widget.location,
                 ConstantsArgument.locationRegion: widget.locationRegion,
-                ConstantsArgument.vendor: widget.vendor,
+                // ConstantsArgument.vendor: widget.vendor,
               },
             ).then((_) => BlocProvider.of<AttendanceShiftsCubit>(context)
                 .submitAndRefreshScreen(
@@ -610,12 +611,12 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     );
   }
 
-  Widget buildSlaCard(SLAViolationPenaltyModel model) {
+  Widget buildSlaCard(SLAViolationPenaltyModel models) {
     return InkWell(
       onTap: () async {
         var nav = Navigator.of(context);
-        // SLAViolationPenaltyModel model =
-        //     await SLAViolationPenaltyServices().getGvpById(model.id??0);
+        SLAViolationPenaltyModel model =
+            await SLAViolationPenaltyServices().getGvpById(models.id??0);
         nav.pushNamed(
           slaViolationPenaltyDetailsRoute,
           arguments: {
@@ -631,10 +632,10 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                buildTextWithLabel('Id:', model.id.toString()),
-                buildTextWithLabel('Region:', model.locationRegion?.name),
-                buildTextWithLabel('Location:', model.location?.name),
-                buildTextWithLabel('Created By:', model.entrySecurity?.name),
+                buildTextWithLabel('Id:', models.id.toString()),
+                buildTextWithLabel('Region:', models.locationRegion?.name),
+                buildTextWithLabel('Location:', models.location?.name),
+                buildTextWithLabel('Created By:', models.entrySecurity?.name),
               ],
             ),
           ),

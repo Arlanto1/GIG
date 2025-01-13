@@ -678,6 +678,7 @@ class RouteGenerator {
               title: title,
               viaAttendance: viaAttendance,
               extraProperties: extraProperties,
+
             ),
           ),
         );

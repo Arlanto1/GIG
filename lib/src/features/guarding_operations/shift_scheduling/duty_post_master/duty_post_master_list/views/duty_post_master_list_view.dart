@@ -79,7 +79,7 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                   : const SizedBox(),
               appBar: BaseAppBar().buildAppHeader(
                 context: context,
-                title: Constants.dutyPostMaster,
+                title: Constants.dutyPostMasterListTitle,
                 showPopUp: true,
                 showSaveButton: false,
                 showSubmitButton: false,

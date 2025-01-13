@@ -99,6 +99,9 @@ class SLAViolationPenaltyDetailsCubit
 
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
+    log('-attId-1-${state.model.attdShiftInfoId}--');
+
+
     //Show Loader and emit loading state
     emit(
       state.copyWith(
@@ -116,7 +119,7 @@ class SLAViolationPenaltyDetailsCubit
           model: model,
         ),
       );
-    }
+     }
 
     if (state.model.location == null) {
       Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
@@ -339,9 +342,12 @@ class SLAViolationPenaltyDetailsCubit
       state.model.inputDate = inputDate.toString();
     }
 
-    // if (attdInfoId != null) {
-    //   state.model.attdShiftInfoId = attdInfoId.toString();
-    // }
+    log('-attdInfoId-000-$attdInfoId--');
+
+    if (attdInfoId != null) {
+      state.model.attdShiftInfoId = attdInfoId;
+    }
+
     log('-attdInfoId-111-$attdInfoId--');
     // Create/Update API Call
     SLAViolationPenaltyRequest request =
@@ -405,7 +411,8 @@ class SLAViolationPenaltyDetailsCubit
       if (attdInfoId != null) {
         log('--!attdInfoId.isEmptyOrNull--$attdInfoId-');
         status = FormStatus.popOnly;
-      } else if (navigateToNextScreen) {
+      } else if
+      (navigateToNextScreen) {
         log('--navigateToNextScreen---');
         status = FormStatus.navigateToNextScreen;
       } else {

@@ -36,7 +36,7 @@ SLAViolationPenaltyModel _$SLAViolationPenaltyModelFromJson(
       approver: json['approver'] == null
           ? null
           : User.fromJson(json['approver'] as Map<String, dynamic>),
-      attdShiftInfoId: json['attdShiftInfoId'] as String?,
+      attdShiftInfoId: (json['attdShiftInfoId'] as num?)?.toInt(),
       entitiesInfo: json['entitiesInfo'] as String?,
       vendorInfo: json['vendorInfo'] as String?,
       typeOfServiceInfo: json['typeOfServiceInfo'] as String?,
