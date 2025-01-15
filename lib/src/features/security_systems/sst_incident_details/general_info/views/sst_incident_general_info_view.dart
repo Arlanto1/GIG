@@ -109,9 +109,6 @@ class _SstIncidentGeneralInfoViewState
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
-
-          // Utils.dynamicAlert(
-          //     context, state.message ?? '', 'Material Movement', '');
         }
         if (state.status == FormStatus.error) {
           log('-if error-state.status---${state.status}---');
