@@ -333,10 +333,10 @@ class Utils {
         statusText = 'Rejected';
         break;
       case 8:
-        statusText = 'Return Waiting';
+        statusText = 'Return Pending';
         break;
       case 9:
-        statusText = 'Inward Waiting';
+        statusText = 'Inward Pending';
         break;
       case 10:
         statusText = 'Closed/Finalized';

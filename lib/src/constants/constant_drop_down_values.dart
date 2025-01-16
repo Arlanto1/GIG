@@ -318,8 +318,8 @@ const List<Label> materialMovementStatusValues = [
   Label(key: 'Security Rejected', value: '5'),
   Label(key: 'Outward Pending', value: '6'),
   Label(key: 'Rejected', value: '7'),
-  Label(key: 'Return Waiting', value: '8'),
-  Label(key: 'Inward Waiting', value: '9'),
+  Label(key: 'Return Pending', value: '8'),
+  Label(key: 'Inward Pending', value: '9'),
   Label(key: 'Closed/Finalized', value: '10'),
   Label(key: 'Cancelled', value: '-1'),
 ];
