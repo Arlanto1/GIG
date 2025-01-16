@@ -318,25 +318,25 @@ class Utils {
         statusText = 'Submitted';
         break;
       case 3:
-        statusText = 'LSM Review';
+        statusText = 'Security Review';
         break;
       case 4:
-        statusText = 'LSM Approved';
+        statusText = 'Approval from Approver is awaited';
         break;
       case 5:
-        statusText = 'LSM Rejected';
+        statusText = 'Security Rejected';
         break;
       case 6:
-        statusText = 'Approved';
+        statusText = 'Outward Pending';
         break;
       case 7:
         statusText = 'Rejected';
         break;
       case 8:
-        statusText = 'Outward Waiting';
+        statusText = 'Return Pending';
         break;
       case 9:
-        statusText = 'Inward Waiting';
+        statusText = 'Inward Pending';
         break;
       case 10:
         statusText = 'Closed/Finalized';

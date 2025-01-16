@@ -1660,21 +1660,6 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
   //   );
   // }
 
-  String getStatusString(int status) {
-    switch (status) {
-      case 1:
-        return 'Active';
-      case 2:
-        return 'InActive';
-      case 3:
-        return 'Leave';
-      case 4:
-        return 'Week Off ';
-      default:
-        return 'Unknown Status';
-    }
-  }
-
   Widget cancelButtonDisplay() {
     return AppButton(
       width: Constants.cancelButtonWidth,

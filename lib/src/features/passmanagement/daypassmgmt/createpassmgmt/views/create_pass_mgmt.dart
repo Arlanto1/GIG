@@ -782,12 +782,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           height * 0.01),
                                     ],
 
-                                    /// Vendor/Visitor Company Name
+                                    /// Vendor Company Name
                                     if (widget.passId ==
-                                            ConstantsIntValue.passIdVendor ||
-                                        widget.passId ==
-                                            ConstantsIntValue
-                                                .passIdVisitor) ...[
+                                            ConstantsIntValue.passIdVendor) ...[
                                       CommonWidgets.textDisplay(
                                           state.labels?.locale.companyName ??
                                               state.labels?.defaultLocale
