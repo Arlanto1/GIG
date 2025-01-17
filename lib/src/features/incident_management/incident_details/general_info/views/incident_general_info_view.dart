@@ -303,6 +303,15 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 state.model.inputDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            /// Created By
+                            CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.entrySecurity ??
+                                    state.labels?.defaultLocale.entrySecurity ??
+                                    Constants.createdby,
+                                isMandatory: true,
+                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                             /// Location
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.location ??
@@ -764,15 +773,6 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 );
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Created By
-                            CommonWidgets.horizentaltextHandling(
-                                state.labels?.locale.entrySecurity ??
-                                    state.labels?.defaultLocale.entrySecurity ??
-                                    Constants.createdby,
-                                isMandatory: true,
-                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Incident Date and Time
