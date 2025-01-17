@@ -603,18 +603,33 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          cancelButtonDisplay(),
                           if ((state.model.status != 9) ? true : false) ...[
+                            cancelButtonDisplay(),
                             submitButtonDisplay()
                           ],
                         ],
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ],
                   ),
                 ),
               ),
             ),
+          Container(
+          padding: const EdgeInsets.all(5.0),
+      decoration: const ShapeDecoration(
+        color: AppColors.backgroundWhiteColor,
+        shape: RoundedRectangleBorder(
+          borderRadius:
+          BorderRadius.vertical(top: Radius.circular(00.0)),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          cancelButtonDisplay(),
+        ],
+      ),
+    ),
           ],
         ),
       ),

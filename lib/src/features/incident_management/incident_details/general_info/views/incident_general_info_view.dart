@@ -138,6 +138,12 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
         if (state.model.status! < 0 || !state.model.lock.isEmptyOrNull) {
           disableForm = true;
         }
+        log('EntrySecurity ${state.model.entrySecurity?.name}');
+        log('EntrySecurity1 ${state.loggedInUserDetails?.name}');
+        log('111${state.model.entrySecurity?.name == state.loggedInUserDetails?.name}');
+        if(state.model.status == 0 && state.model.entrySecurity?.name != state.loggedInUserDetails?.name){
+          disableForm = true;
+        }
         // if (widget.extraProperties != null &&
         //     !widget.extraProperties!.hasWritePermission!) {
         //   disableForm = true;
