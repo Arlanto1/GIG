@@ -209,7 +209,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                             TextFieldAddButton(
                               title: state.model.projectName ?? 'dbatom-uat',
                               height: 60,
-                              // isDisableColor: disableForm,
+                              isDisableColor: !showSaveSubmitButton,
                               onTap: () {
                                 BaseOrganisationDialog().departmentDialog(
                                   context: context,
@@ -294,7 +294,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               initialValue: state.model.title,
                               hintText: '',
                               isEnable: true,
-                              isDisableColor: false,
+                              isDisableColor: !showSaveSubmitButton,
                               onChange: (String value) {
                                 state.model.title = value;
 
@@ -320,7 +320,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                 TextFieldAddButton(
                                     title: state.model.assignee?.name,
                                     height: 70,
-                                    isDisableColor: isReadOnly,
+                                    isDisableColor: !showSaveSubmitButton,
                                     onTap: () {
                                       // if (!isReadOnly) {
                                       BaseOrganisationDialog().userDialog(
@@ -378,16 +378,10 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: startDateTextController,
-                              // isDisabled:
-                              // state.model.keyHandingOverDuration == 2 &&
-                              //     (state.model.status == null ||
-                              //         state.model.status ==
-                              //             ConstantsIntValue
-                              //                 .issuanceDraftStatus)
-                              //     ? false
-                              //     : true,
+                              isDisabled: !showSaveSubmitButton,
                               onlyDate: false,
-                              showPastDate: false,
+                              showPastDate: true,
+                              showFutureDate: false,
                               onChange: (String value) {
                                 startDateTextController.text = value;
                                 state.model.startDate =
@@ -409,14 +403,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: dueDateTextController,
-                              // isDisabled:
-                              // state.model.keyHandingOverDuration == 2 &&
-                              //     (state.model.status == null ||
-                              //         state.model.status ==
-                              //             ConstantsIntValue
-                              //                 .issuanceDraftStatus)
-                              //     ? false
-                              //     : true,
+                              isDisabled: !showSaveSubmitButton,
                               onlyDate: false,
                               showPastDate: false,
                               onChange: (String value) {
@@ -425,7 +412,6 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                 BlocProvider.of<TicketingSystemDetailsCubit>(
                                         context)
                                     .onModelValueChange(state.model);
-                                //},
                               },
                               context: context,
                             ),
@@ -440,7 +426,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                             TextFieldAddButton(
                               title: state.model.tracker?.name ?? 'Sept_Sprint',
                               height: 70,
-                              isDisableColor: isReadOnly,
+                              isDisableColor: !showSaveSubmitButton,
                               onTap: () {
                                 // if (!isReadOnly) {
                                 FocusScope.of(context)
@@ -493,9 +479,9 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               showBorder: true,
                               textFormKey: Keys.incidentDescription,
                               hintText: Constants.informationhere,
-                              // isEnable: state.model.status != 2,
-                              // isDisableColor:
-                              // state.model.status == 2 || disableForm,
+                              isEnable: showSaveSubmitButton,
+                              isDisableColor:
+                              !showSaveSubmitButton,
                               onChange: (String value) {
                                 state.model.description = value;
                                 context
@@ -553,7 +539,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                 hintText: Constants.informationhere,
                                 isEnable:
                                     state.model.status != 9 ? false : true,
-                                isDisableColor: false,
+                                isDisableColor: !showSaveSubmitButton,
                                 onChange: (String value) {
                                   state.model.history = value;
                                   context
@@ -575,7 +561,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                             // AbsorbPointer(
                             BaseImageUpload().uploadWidget(
                               context: context,
-                              // isDisabled: disableForm,
+                              isDisabled: !showSaveSubmitButton,
                               loggedInUserDetails:
                                   state.loggedInUserDetails ?? User(),
                               getFiles: uploadFiles,
