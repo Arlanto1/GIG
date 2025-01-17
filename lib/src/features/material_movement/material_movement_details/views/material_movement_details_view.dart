@@ -2982,6 +2982,7 @@ class _MaterialMovementDetailsViewState
                                         .actualDateOfReturn ??
                                     Constants.actualDateOfReturn,
                                 Styles.textStyleBlack14,
+                                isMandatory: true,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),

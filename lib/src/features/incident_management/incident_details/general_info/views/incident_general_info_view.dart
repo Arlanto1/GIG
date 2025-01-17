@@ -138,6 +138,12 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
         if (state.model.status! < 0 || !state.model.lock.isEmptyOrNull) {
           disableForm = true;
         }
+        log('EntrySecurity ${state.model.entrySecurity?.name}');
+        log('EntrySecurity1 ${state.loggedInUserDetails?.name}');
+        log('111${state.model.entrySecurity?.name == state.loggedInUserDetails?.name}');
+        if(state.model.status == 0 && state.model.entrySecurity?.name != state.loggedInUserDetails?.name){
+          disableForm = true;
+        }
         // if (widget.extraProperties != null &&
         //     !widget.extraProperties!.hasWritePermission!) {
         //   disableForm = true;
@@ -301,6 +307,15 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDate().creationDateDisplay(
                                 state.model.inputDate ?? ''),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Created By
+                            CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.entrySecurity ??
+                                    state.labels?.defaultLocale.entrySecurity ??
+                                    Constants.createdby,
+                                isMandatory: true,
+                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Location
@@ -764,15 +779,6 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 );
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Created By
-                            CommonWidgets.horizentaltextHandling(
-                                state.labels?.locale.entrySecurity ??
-                                    state.labels?.defaultLocale.entrySecurity ??
-                                    Constants.createdby,
-                                isMandatory: true,
-                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Incident Date and Time
