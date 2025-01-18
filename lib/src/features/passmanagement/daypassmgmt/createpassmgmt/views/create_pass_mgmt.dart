@@ -2376,9 +2376,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
       log('--widget.model?.slNo--serialnumber---@@---222-${widget.model?.slNo}----');
 
-      // if (widget.model?.slNo !=null) {
-      //   serialnumber = widget.model?.slNo;
-      // }
+      if (widget.model?.slNo !=null) {
+        serialnumber = widget.model?.slNo;
+      }
       if (serialnumber.isEmptyOrNull) {
         widget.model?.slNo ??
             await createPassMgmtCubit.getSerialnumberDetails(
