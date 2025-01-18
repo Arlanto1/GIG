@@ -35,6 +35,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   TextEditingController escortedEmployeeIdByTextController =
       TextEditingController();
   TextEditingController nameTextController = TextEditingController();
+  TextEditingController vendorVisitorNameTextController = TextEditingController();
+
   TextEditingController hostTextController = TextEditingController();
   TextEditingController emailTextController = TextEditingController();
   TextEditingController dbsponsorTextController = TextEditingController();
@@ -268,9 +270,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   ) {
                 isShowSaveAndSubmitButton = true;
               }
+              log('slno ${state.getSerialnumberResponse?.serialNo}');
+              log('slno1${serialnumber}');
               if (state.getSerialnumberResponse != null &&
-                  !state.getSerialnumberResponse!.serialNo.isEmptyOrNull) {
-                serialnumber = state.getSerialnumberResponse?.serialNo ?? "";
+                  !state.getSerialnumberResponse!.serialNo.isEmptyOrNull && widget.model?.slNo ==null) {
+                serialnumber = state.getSerialnumberResponse?.serialNo;
               }
               globalState = state;
               if (state.stateType == CreatePassMgmtStateType.addattachment) {
@@ -775,7 +779,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.001),
                                       textFieldWidgetLoad(
-                                          controller: nameTextController,
+                                          controller: vendorVisitorNameTextController,
                                           index: 0,
                                           state: state),
                                       CommonWidgets.verticalSpacerWidget(
@@ -2251,7 +2255,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             name: widget.model?.host?.userInfo,
             employeeId: widget.model?.host?.employeeId,
           );
-
       // createPassMgmtCubit.gethostanalystsResponseData(host1);
       // createPassMgmtCubit.getdbsponsoranalystsResponseData(host1);
       createPassMgmtCubit.gethostUsersResponseData(host1);
@@ -2271,11 +2274,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
       createPassMgmtCubit.getdbsponsorUsersResponseData(dbSponsor1);
       nameTextController.text =
-          widget.passId == ConstantsIntValue.passIdVisitor &&
+          widget.passId == ConstantsIntValue.passIdDayPass &&
                   widget.model?.employeeName != null
               ? widget.model?.employeeName ?? ''
               : widget.model?.employeeName.toString() ?? '';
-
+      vendorVisitorNameTextController.text = (widget.passId == ConstantsIntValue.passIdVisitor && widget.model?.employeeName != null ? widget.model?.employeeName??'' :  widget.model?.employeeName.toString()??'');
       var userid = await SharedPrefs.getUserId();
 
       BaseUser? name1 = (widget.model?.employee !=null ?
@@ -2283,10 +2286,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             id: widget.model?.employee?.userId,
             name: nameTextController.text,
             employeeId: widget.model?.employee?.employeeId
-          ): null);
+          ): BaseUser(
+          id: widget.model?.employee?.userId,
+          name: nameTextController.text,
+          employeeId: widget.model?.employeeId
+      ));
       createPassMgmtCubit.getNameUsersResponseData(name1);
-
-      // createPassMgmtCubit.getNameUsersResponseData(host1);
+      log('---employeeId---${widget.model?.employee?.employeeId}--');
 
       log('-widget.model?.inputDate---${widget.model?.inputDate}--');
 
@@ -2371,8 +2377,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //     : Organisation();
 
       log('--widget.model?.slNo--serialnumber---@@---222-${widget.model?.slNo}----');
+      log('slno2--${serialnumber}----');
 
-      serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
+      if (widget.model?.slNo !=null) {
+         serialnumber = widget.model?.slNo;
+         log('slno2--${serialnumber}----');
+
+      }
       if (serialnumber.isEmptyOrNull) {
         widget.model?.slNo ??
             await createPassMgmtCubit.getSerialnumberDetails(
@@ -2460,8 +2471,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       visitorcomingfromTextController.text =
           widget.model?.visitorComingFrom ?? '';
       contactnoTextController.text = widget.model?.contactNo ?? '';
-      employeeIdTextController.text = widget.model?.employeeId ?? '';
+      employeeIdTextController.text = widget.model?.employee?.employeeId ?? '';
       sezpassinfoTextController.text = widget.model?.passNo ?? '';
+      //sezpassinfoTextController.text = widget.model?.passNo ?? '';
       //sezpassinfoTextController.text = widget.model?.passNo ?? '';
       dbsponsorTextController.text = widget.model?.host?.userInfo ?? '';
     }
@@ -3763,11 +3775,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         status: widget.model?.status ?? 0,
         locationRegion: widget.model?.locationRegion,
         companyName: companyNameTextController.text,
-        employeeName: state.nameResponse?.name == null
-            ? (nameTextController.text)
-            : '${state.nameResponse?.name} (${state.nameResponse?.email})' ??
-                '',
-        employeeId: companyType?.name != 'CWR T2' ? state.nameResponse?.employeeId : employeeIdTextController.text,
+        employeeName: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
+            ? (state.nameResponse?.name == null
+            ? nameTextController.text
+            : '${state.nameResponse?.name} (${state.nameResponse?.email})')
+            : vendorVisitorNameTextController.text,
+          employeeId: widget.passId == ConstantsIntValue.passIdDayPass
+            ? (companyType?.name != 'CWR T2'
+            ? state.nameResponse?.employeeId
+            : employeeIdTextController.text)
+            : null,
         employee: widget.passId == ConstantsIntValue.passIdDayPass
             ? User(
                 userId: state.nameResponse?.id,
@@ -3806,7 +3823,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         email: emailTextController.text,
         contactNo: contactnoTextController.text,
         visitingDepartment: department,
-        visitorName: nameTextController.text,
+        visitorName: vendorVisitorNameTextController.text,
         visitorImage: photoImages,
         visitorComingFrom: visitorcomingfromTextController.text,
         visitingPurpose: purposeofvisitTextController.text,
@@ -3834,10 +3851,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           status: widget.model?.status ?? 0,
           locationRegion: locationRegion,
           companyName: companyNameTextController.text,
-          employeeName: state.nameResponse?.name == null
-              ? (nameTextController.text)
-              : state.nameResponse?.name ?? '',
-          employeeId: companyType?.name != 'CWR T2' ? state.nameResponse?.employeeId : employeeIdTextController.text,
+          employeeName: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
+              ? (state.nameResponse?.name == null
+              ? nameTextController.text
+              : '${state.nameResponse?.name} (${state.nameResponse?.email})')
+              : vendorVisitorNameTextController.text,
+          employeeId: widget.passId == ConstantsIntValue.passIdDayPass
+              ? (companyType?.name != 'CWR T2'
+              ? state.nameResponse?.employeeId
+              : employeeIdTextController.text)
+              : null,
           employee: widget.passId == ConstantsIntValue.passIdDayPass &&
                   companyType?.name == 'FTE'
               ? User(
@@ -3873,7 +3896,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           host: dbsponsorTextController.text.isEmpty ? host2 : dbSponsor,
           contactNo: contactnoTextController.text,
           visitingDepartment: department,
-          visitorName: nameTextController.text,
+          visitorName: vendorVisitorNameTextController.text,
           visitorImage: photoImages,
           visitorComingFrom: visitorcomingfromTextController.text,
           visitingPurpose: purposeofvisitTextController.text,
@@ -3984,7 +4007,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     // }
     else if ((widget.passId == ConstantsIntValue.passIdVisitor ||
             widget.passId == ConstantsIntValue.passIdVendor) &&
-        nameTextController.text.isEmpty) {
+        vendorVisitorNameTextController.text.isEmpty) {
       Validator().showToast(
         context,
         widget.passId == ConstantsIntValue.passIdVendor
