@@ -2253,7 +2253,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             name: widget.model?.host?.userInfo,
             employeeId: widget.model?.host?.employeeId,
           );
-
       // createPassMgmtCubit.gethostanalystsResponseData(host1);
       // createPassMgmtCubit.getdbsponsoranalystsResponseData(host1);
       createPassMgmtCubit.gethostUsersResponseData(host1);
@@ -2285,10 +2284,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             id: widget.model?.employee?.userId,
             name: nameTextController.text,
             employeeId: widget.model?.employee?.employeeId
-          ): null);
+          ): BaseUser(
+          id: widget.model?.employee?.userId,
+          name: nameTextController.text,
+          employeeId: widget.model?.employeeId
+      ));
       createPassMgmtCubit.getNameUsersResponseData(name1);
-
-      // createPassMgmtCubit.getNameUsersResponseData(host1);
+      log('---employeeId---${widget.model?.employee?.employeeId}--');
 
       log('-widget.model?.inputDate---${widget.model?.inputDate}--');
 
@@ -2374,7 +2376,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
       log('--widget.model?.slNo--serialnumber---@@---222-${widget.model?.slNo}----');
 
-      serialnumber = widget.model?.slNo != null ? widget.model?.slNo ?? '' : '';
+      // if (widget.model?.slNo !=null) {
+      //   serialnumber = widget.model?.slNo;
+      // }
       if (serialnumber.isEmptyOrNull) {
         widget.model?.slNo ??
             await createPassMgmtCubit.getSerialnumberDetails(
@@ -2462,8 +2466,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       visitorcomingfromTextController.text =
           widget.model?.visitorComingFrom ?? '';
       contactnoTextController.text = widget.model?.contactNo ?? '';
-      employeeIdTextController.text = widget.model?.employeeId ?? '';
+      employeeIdTextController.text = widget.model?.employee?.employeeId ?? '';
       sezpassinfoTextController.text = widget.model?.passNo ?? '';
+      //sezpassinfoTextController.text = widget.model?.passNo ?? '';
       //sezpassinfoTextController.text = widget.model?.passNo ?? '';
       dbsponsorTextController.text = widget.model?.host?.userInfo ?? '';
     }
