@@ -270,9 +270,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   ) {
                 isShowSaveAndSubmitButton = true;
               }
+              log('slno ${state.getSerialnumberResponse?.serialNo}');
+              log('slno1${serialnumber}');
               if (state.getSerialnumberResponse != null &&
-                  !state.getSerialnumberResponse!.serialNo.isEmptyOrNull) {
-                serialnumber = state.getSerialnumberResponse?.serialNo ?? "";
+                  !state.getSerialnumberResponse!.serialNo.isEmptyOrNull && widget.model?.slNo ==null) {
+                serialnumber = state.getSerialnumberResponse?.serialNo;
               }
               globalState = state;
               if (state.stateType == CreatePassMgmtStateType.addattachment) {
@@ -2375,9 +2377,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //     : Organisation();
 
       log('--widget.model?.slNo--serialnumber---@@---222-${widget.model?.slNo}----');
+      log('slno2--${serialnumber}----');
 
       if (widget.model?.slNo !=null) {
-        serialnumber = widget.model?.slNo;
+         serialnumber = widget.model?.slNo;
+         log('slno2--${serialnumber}----');
+
       }
       if (serialnumber.isEmptyOrNull) {
         widget.model?.slNo ??
