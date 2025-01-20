@@ -2220,7 +2220,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
       employeeIdTextController.text = widget.model?.employeeId != null
           ? widget.model?.employeeId.toString() ?? ""
-          : '';
+          : widget.model?.employeeId.toString() ?? "";
       sezpassinfoTextController.text = widget.model?.passInfo != null
           ? widget.model?.passInfo.toString() ?? ""
           : '';
@@ -2471,7 +2471,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       visitorcomingfromTextController.text =
           widget.model?.visitorComingFrom ?? '';
       contactnoTextController.text = widget.model?.contactNo ?? '';
-      employeeIdTextController.text = widget.model?.employee?.employeeId ?? '';
+      employeeIdTextController.text = companyType.name == 'CWR T2'?widget.model?.employeeId ?? '' :widget.model?.employee?.employeeId ?? '' ;
       sezpassinfoTextController.text = widget.model?.passNo ?? '';
       //sezpassinfoTextController.text = widget.model?.passNo ?? '';
       //sezpassinfoTextController.text = widget.model?.passNo ?? '';
