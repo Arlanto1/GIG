@@ -305,7 +305,7 @@ class _SstIncidentGeneralInfoViewState
         ? Utils.timestampToDateConversion(
             int.tryParse(state.model.acknowledgeDate ?? '0'),
             Constants.fulldateFormat)
-        : '';
+        :  (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     escalation1Controller.text = state.model.escalation1 != null
         ? Utils.timestampToDateConversion(
             int.tryParse(state.model.escalation1 ?? '0'),
