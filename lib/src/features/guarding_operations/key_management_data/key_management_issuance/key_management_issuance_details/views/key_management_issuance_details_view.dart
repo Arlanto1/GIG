@@ -1104,23 +1104,24 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                         NavigatorState nav = Navigator.of(context);
 
                         log('----1---');
-                        bool isSaveSuccess = await BlocProvider.of<
-                            KeyManagementIssuanceDetailsCubit>(
-                          context,
-                        ).submitForm(
-                          isSaveOnly: true,
-                          navigateToNextScreen: true,
-                          receiverSignatureController:
-                              receiverSignatureController,
-                          securitySignatureController:
-                              securitySignatureController,
-                        );
-                        log('----2---');
-                        if (!isSaveSuccess) {
-                          return;
+                        if(showSaveSubmitButton) {
+                          bool isSaveSuccess = await BlocProvider.of<
+                              KeyManagementIssuanceDetailsCubit>(
+                            context,
+                          ).submitForm(
+                            isSaveOnly: true,
+                            navigateToNextScreen: true,
+                            receiverSignatureController:
+                            receiverSignatureController,
+                            securitySignatureController:
+                            securitySignatureController,
+                          );
+                          log('----2---');
+                          if (!isSaveSuccess) {
+                            return;
+                          }
+                          log('----3---');
                         }
-                        log('----3---');
-
                         // Now, this code will execute only after the completion of submitForm
                         nav.pushNamed(
                           keyManagementIssuanceProcessRecordsRoute,

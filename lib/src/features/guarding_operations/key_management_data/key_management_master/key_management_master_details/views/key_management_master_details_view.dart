@@ -84,7 +84,7 @@ class _KeyManagementMasterDetailsViewState
         }
       },
       builder: (context, state) {
-        if (state.model.status == -1 || !state.model.lock.isEmptyOrNull) {
+        if (state.model.status == -1) {
           isReadOnly = true;
         }
         if (state.model.status == 2 || !state.model.lock.isEmptyOrNull) {
@@ -292,7 +292,7 @@ class _KeyManagementMasterDetailsViewState
                             context: context,
                             selectedValues: state.model.entities ?? [],
                             all: state.listOfEntities ?? [],
-                            enabled: !isReadOnly,
+                            enabled: !isReadOnly && state.model.status != -1,
                             onTap: (List<Organisation> selectedEntities) {
                               log('--selectedEntities----${selectedEntities.length}');
                               BlocProvider.of<KeyManagementMasterDetailsCubit>(
@@ -337,7 +337,7 @@ class _KeyManagementMasterDetailsViewState
                             initialValue: state.model.floor,
                             textFormKey: Keys.guardingPOCKey,
                             hintText: '',
-                            isEnable: !isReadOnly,
+                            isEnable: !isReadOnly && state.model.status != -1,
                             focusNode: floorFocusNode,
                             isDisableColor: false,
                             onChange: (String value) {
@@ -361,7 +361,7 @@ class _KeyManagementMasterDetailsViewState
                           TextFieldAddButton(
                             title: state.model.doorType?.name,
                             height: 70,
-                            isDisableColor: isReadOnly,
+                            isDisableColor: isReadOnly || state.model.status == -1,
                             onTap: () {
                               if (showSaveSubmitButton) {
                                 BaseOrganisationDialog().departmentDialog(
@@ -412,7 +412,7 @@ class _KeyManagementMasterDetailsViewState
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
                             focusNode: keyDescriptionFocusNode,
-                            isEnable: !isReadOnly,
+                            isEnable: !isReadOnly && state.model.status != -1,
                             isDisableColor: isReadOnly,
                             onChange: (String value) {
                               state.model.doorName = value;
@@ -497,7 +497,7 @@ class _KeyManagementMasterDetailsViewState
                             initialValue: state.model.keyNo,
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
-                            isEnable: !isReadOnly,
+                            isEnable: !isReadOnly && state.model.status != -1,
                             isDisableColor: isReadOnly,
                             onChange: (String value) {
                               state.model.keyNo = value;
@@ -524,7 +524,7 @@ class _KeyManagementMasterDetailsViewState
                               items: keyTaggingDropDownValues,
                               initialValue: state.model.keyTagging.toString(),
                               onTap: () {
-                                if (!isReadOnly) {
+                                if (!isReadOnly && state.model.status != -1) {
                                   BaseDropDown().assetTypeDialog(
                                       context: context,
                                       dropDownValues: keyTaggingDropDownValues
@@ -565,7 +565,7 @@ class _KeyManagementMasterDetailsViewState
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
                             focusNode: noOfKeysFocusNode,
-                            isEnable: !isReadOnly,
+                            isEnable: !isReadOnly && state.model.status != -1,
                             isDisableColor: isReadOnly,
                             onChange: (String value) {
                               state.model.noKeys = int.tryParse(value);
@@ -597,7 +597,7 @@ class _KeyManagementMasterDetailsViewState
                             initialValue: '${state.model.noMasterKey ?? ''}',
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
-                            isEnable: !isReadOnly,
+                            isEnable: !isReadOnly  && state.model.status != -1,
                             isDisableColor: isReadOnly,
                             onChange: (String value) {
                               state.model.noMasterKey = int.tryParse(value);
@@ -658,7 +658,7 @@ class _KeyManagementMasterDetailsViewState
                             initialValue: state.model.keysStored,
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
-                            isEnable: !isReadOnly,
+                            isEnable: !isReadOnly && state.model.status != -1,
                             isDisableColor: isReadOnly,
                             onChange: (String value) {
                               state.model.keysStored = value;
@@ -813,15 +813,17 @@ class _KeyManagementMasterDetailsViewState
                             GestureDetector(
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess = await BlocProvider.of<
-                                            KeyManagementMasterDetailsCubit>(
-                                        context)
-                                    .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
-                                if (!isSaveSuccess) {
-                                  return;
+                                if(showSaveSubmitButton) {
+                                  bool isSaveSuccess = await BlocProvider.of<
+                                      KeyManagementMasterDetailsCubit>(
+                                      context)
+                                      .submitForm(
+                                    isSaveOnly: true,
+                                    navigateToNextScreen: true,
+                                  );
+                                  if (!isSaveSuccess) {
+                                    return;
+                                  }
                                 }
                                 nav.pushNamed(
                                   keyHistoryRecordsViewRoute,
@@ -835,6 +837,7 @@ class _KeyManagementMasterDetailsViewState
                                         state.model.lock,
                                     ConstantsArgument.isEligibleToEdit:
                                         state.model.isEligibleToEdit,
+                                    ConstantsArgument.parentStatus: state.model.status,
                                   },
                                 );
                               },
@@ -876,17 +879,20 @@ class _KeyManagementMasterDetailsViewState
                             GestureDetector(
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess = await BlocProvider.of<
-                                            KeyManagementMasterDetailsCubit>(
-                                        context)
-                                    .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
+                                if(showSaveSubmitButton) {
+                                  bool isSaveSuccess = await BlocProvider.of<
+                                      KeyManagementMasterDetailsCubit>(
+                                      context)
+                                      .submitForm(
+                                    isSaveOnly: true,
+                                    navigateToNextScreen: true,
+                                  );
 
-                                log('-Key Lost History-isSaveSuccess--$isSaveSuccess---');
-                                if (!isSaveSuccess) {
-                                  return;
+                                  log(
+                                      '-Key Lost History-isSaveSuccess--$isSaveSuccess---');
+                                  if (!isSaveSuccess) {
+                                    return;
+                                  }
                                 }
 
                                 nav.pushNamed(
@@ -900,7 +906,8 @@ class _KeyManagementMasterDetailsViewState
                                     ConstantsArgument.isLocked:
                                         state.model.lock,
                                     ConstantsArgument.isEligibleToEdit:
-                                        state.model.isEligibleToEdit
+                                        state.model.isEligibleToEdit,
+                                    ConstantsArgument.parentStatus:state.model.status,
                                   },
                                 );
                               },
@@ -940,19 +947,21 @@ class _KeyManagementMasterDetailsViewState
                             GestureDetector(
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess = await BlocProvider.of<
-                                            KeyManagementMasterDetailsCubit>(
-                                        context)
-                                    .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
-                                log('-Key Damage History-isSaveSuccess--$isSaveSuccess---');
+                                if(showSaveSubmitButton) {
+                                  bool isSaveSuccess = await BlocProvider.of<
+                                      KeyManagementMasterDetailsCubit>(
+                                      context)
+                                      .submitForm(
+                                    isSaveOnly: true,
+                                    navigateToNextScreen: true,
+                                  );
+                                  log(
+                                      '-Key Damage History-isSaveSuccess--$isSaveSuccess---');
 
-                                if (!isSaveSuccess) {
-                                  return;
+                                  if (!isSaveSuccess) {
+                                    return;
+                                  }
                                 }
-
                                 log('--state.model.id---${state.model.id}---');
 
                                 nav.pushNamed(
@@ -967,6 +976,7 @@ class _KeyManagementMasterDetailsViewState
                                         state.model.lock,
                                     ConstantsArgument.isEligibleToEdit:
                                         state.model.isEligibleToEdit,
+                                    ConstantsArgument.parentStatus:state.model.status,
                                   },
                                 );
                               },
@@ -1006,18 +1016,19 @@ class _KeyManagementMasterDetailsViewState
                             GestureDetector(
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess = await BlocProvider.of<
-                                            KeyManagementMasterDetailsCubit>(
-                                        context)
-                                    .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
+                                if(showSaveSubmitButton) {
+                                  bool isSaveSuccess = await BlocProvider.of<
+                                      KeyManagementMasterDetailsCubit>(
+                                      context)
+                                      .submitForm(
+                                    isSaveOnly: true,
+                                    navigateToNextScreen: true,
+                                  );
 
-                                if (!isSaveSuccess) {
-                                  return;
+                                  if (!isSaveSuccess) {
+                                    return;
+                                  }
                                 }
-
                                 nav.pushNamed(
                                   keyHistoryRecordsViewRoute,
                                   arguments: {
@@ -1030,6 +1041,7 @@ class _KeyManagementMasterDetailsViewState
                                         state.model.lock,
                                     ConstantsArgument.isEligibleToEdit:
                                         state.model.isEligibleToEdit,
+                                    ConstantsArgument.parentStatus:state.model.status,
                                   },
                                 );
                               },

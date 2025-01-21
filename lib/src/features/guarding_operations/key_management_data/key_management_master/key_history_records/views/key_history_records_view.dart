@@ -14,6 +14,7 @@ class KeyHistoryRecordsView extends StatefulWidget {
     this.lock,
     this.kipId,
     required this.parentIsEligibleToEdit,
+    required this.parentStatus,
   });
 
   final int id;
@@ -23,6 +24,7 @@ class KeyHistoryRecordsView extends StatefulWidget {
   final String? lock;
   final int? kipId;
   final bool parentIsEligibleToEdit;
+  final int parentStatus;
 
   @override
   State<KeyHistoryRecordsView> createState() => _KeyHistoryRecordsViewState();
@@ -101,8 +103,8 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
             floatingActionButton: widget.parentIsEligibleToEdit &&
                     !hasPermission &&
                     lockEmpty &&
-                    widget.model?.status != -1 &&
-                    widget.model?.status != 0 &&
+                    widget.parentStatus != -1 &&
+                    widget.parentStatus != 0 &&
                     !keyLostHistoryScreen &&
                     !keyDamageHistoryScreen
                 ? Flutterfloatingbutton(

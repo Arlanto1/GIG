@@ -519,15 +519,17 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                         GestureDetector(
                           onTap: () async {
                             NavigatorState nav = Navigator.of(context);
-                            bool isSaveSuccess = await BlocProvider.of<
-                                    SLAViolationPenaltyDetailsCubit>(context)
-                                .submitForm(
-                              isSaveOnly: true,
-                              navigateToNextScreen: true,
-                            );
+                            if(state.model.status == null || state.model.status == 0 || state.model.status ==1) {
+                              bool isSaveSuccess = await BlocProvider.of<
+                                  SLAViolationPenaltyDetailsCubit>(context)
+                                  .submitForm(
+                                isSaveOnly: true,
+                                navigateToNextScreen: true,
+                              );
 
-                            if (!isSaveSuccess) {
-                              return;
+                              if (!isSaveSuccess) {
+                                return;
+                              }
                             }
                             log('--state.model.id---${state.model.id}--');
                             List<Organisation> violationDescriptions =
