@@ -2216,6 +2216,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   populateData() async {
+    log('Radio ${widget.model?.exceptionalApproval}');
     if (widget.model != null) {
       int value = 0;
       if (widget.model!.escortedByHost ?? false) {
@@ -2227,6 +2228,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         isFTECompanyNameEditable = false;
       }
       await SharedPrefs.setFoundId(widget.model?.id ?? 0);
+
 
       employeeIdTextController.text = widget.model?.employeeId != null
           ? widget.model?.employeeId.toString() ?? ""
@@ -2423,7 +2425,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //     context);
       createPassMgmtCubit.getPassNumber(0, widget.model?.location?.id ?? 0);
       createPassMgmtCubit.getlocationsResponseData(widget.model?.location);
-
+      createPassMgmtCubit.getRadioButtonSelected(widget.model?.exceptionalApproval == true ? 1 :0);
       if ((widget.model?.entities?.length ?? 0) > 0) {
         List<Organisation> entities = [];
         for (int i = 0; i < widget.model!.entities!.length; i++) {

@@ -303,6 +303,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 //       log('initialisedFromDate--- $initialisedFromDate');
 //       log('keyHandOverTimestamp--- $keyHandOverTimestamp');
 //     }
+    log('keyReturnDueDateControllerValue --- ${keyReturnDueDateController.text}');
 
     if (state.model.keyHandOverDue.isEmptyOrNull) {
       if (!isDateSelectedByUser) {
@@ -329,7 +330,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
               DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
           keyReturnDueDateController.text = Utils.timestampToDateConversion(
               dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
-        } else {
+        }
+        else {
           dateTime = DateTime.fromMillisecondsSinceEpoch(
               DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
           keyReturnDueDateController.text = Utils.timestampToDateConversion(
@@ -689,6 +691,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           : true,
                                   onlyDate: false,
                                   showPastDate: false,
+                                  toDate: keyReturnDueDateController.text,
                                   onChange: (String value) {
                                     isDateSelectedByUser = true;
                                     keyReturnDueDateController.text = value;
@@ -1038,7 +1041,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   datecreateWidgetdisplay(
-                                      state.model.keyReturnDateTime ?? ''),
+                                      state.model.status! > 1 ? state.model.keyReturnDateTime ?? '' : ''),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
 // ],
