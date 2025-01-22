@@ -3310,7 +3310,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   userId: user.id,
                   name: user.name,
                   employeeId: user.employeeId));
-              dbsponsorTextController.text = user.name ?? '';
+              dbsponsorTextController.text = '${user.name} (${user.email})' ?? '';
               hostEmployeeIdTextController.text =
                   '${user.name} (${user.email})' ?? '';
             },
@@ -3777,16 +3777,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         locationRegion: widget.model?.locationRegion,
         companyName: companyNameTextController.text,
         employeeName: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
-            ? (state.nameResponse?.name == null
+            ? (state.nameResponse?.name == null && state.nameResponse?.email == null
             ? nameTextController.text
-            : '${state.nameResponse?.name} (${state.nameResponse?.email})')
+            : '${state.nameResponse?.name}')
             : vendorVisitorNameTextController.text,
         employeeId: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
             ? ((widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2') || widget.passId == ConstantsIntValue.passIdSez
             ? state.nameResponse?.employeeId
             : employeeIdTextController.text)
             : null,
-        employee: widget.passId == ConstantsIntValue.passIdDayPass
+        employee: widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2'
             ? User(
                 userId: state.nameResponse?.id,
                 firstName: state.nameResponse?.name,
@@ -3853,7 +3853,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           locationRegion: locationRegion,
           companyName: companyNameTextController.text,
           employeeName: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
-              ? (state.nameResponse?.name == null
+              ? (state.nameResponse?.name == null && state.nameResponse?.email == null
               ? nameTextController.text
               : '${state.nameResponse?.name} (${state.nameResponse?.email})')
               : vendorVisitorNameTextController.text,
