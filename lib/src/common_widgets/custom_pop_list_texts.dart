@@ -309,13 +309,20 @@ class CustomListTextsState extends State<CustomListTexts> {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           companyTypes.add(userDetail);
         }
-        if (userDetail.keyDescription!
-            .toLowerCase()
-            .contains(text.toLowerCase())) {
-          companyTypes.add(userDetail);
-        }
+        // if (userDetail.keyDescription
+        //     !.toLowerCase()
+        //     .contains(text.toLowerCase())) {
+        //   companyTypes.add(userDetail);
+        // }
+        // for (var userDetail in widget.duplicateatomCompanyTypes!) {
+        //   if (userDetail.keyDescription!.toLowerCase().contains(text.toLowerCase())) {
+        //     companyTypes.add(userDetail);
+        //   }
+        // }
       }
     } else if (widget.duplicatedayPassReason != null) {
+      log('-text---$text--');
+
       dayPassReason.clear();
       if (text.isEmpty) {
         setState(() {});
@@ -323,6 +330,8 @@ class CustomListTextsState extends State<CustomListTexts> {
       }
 
       for (var userDetail in widget.duplicatedayPassReason!) {
+        log('-text---$text--');
+
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           dayPassReason.add(userDetail);
         }
@@ -918,7 +927,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                   ));
             } else if (widget.duplicatedayPassReason != null) {
               Organisation? articleItem;
-              if ((_searchCtrl.text.isNotEmpty && companyTypes.isNotEmpty)) {
+              if ((_searchCtrl.text.isNotEmpty && dayPassReason.isNotEmpty)) {
                 articleItem = dayPassReason[index];
               } else {
                 articleItem = widget.duplicatedayPassReason?[index];
