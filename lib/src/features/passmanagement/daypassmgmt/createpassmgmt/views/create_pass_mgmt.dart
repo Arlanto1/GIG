@@ -3780,8 +3780,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             ? nameTextController.text
             : '${state.nameResponse?.name} (${state.nameResponse?.email})')
             : vendorVisitorNameTextController.text,
-          employeeId: widget.passId == ConstantsIntValue.passIdDayPass
-            ? (companyType?.name != 'CWR T2'
+        employeeId: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
+            ? ((widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2') || widget.passId == ConstantsIntValue.passIdSez
             ? state.nameResponse?.employeeId
             : employeeIdTextController.text)
             : null,
@@ -3856,8 +3856,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? nameTextController.text
               : '${state.nameResponse?.name} (${state.nameResponse?.email})')
               : vendorVisitorNameTextController.text,
-          employeeId: widget.passId == ConstantsIntValue.passIdDayPass
-              ? (companyType?.name != 'CWR T2'
+          employeeId: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
+              ? ( (widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2') || widget.passId == ConstantsIntValue.passIdSez
               ? state.nameResponse?.employeeId
               : employeeIdTextController.text)
               : null,
