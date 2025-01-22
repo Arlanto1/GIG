@@ -3729,7 +3729,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
     User? handoverSecurity =
         widget.model?.status == ConstantsIntValue.passStatusHandedOver
-            ? widget.model?.handoverSecurity
+            ? widget.model?.handoverSecurity ??
+            User(userId: state.getUserDetailsResponse?.userId ?? 1)
             : null;
     if (statusTextController.text.isEmptyOrNull) {
       Validator().showToast(
@@ -3823,7 +3824,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         email: emailTextController.text,
         contactNo: contactnoTextController.text,
         visitingDepartment: department,
-        visitorName: vendorVisitorNameTextController.text,
+        visitorName: widget.passId == ConstantsIntValue.passIdVisitor ?vendorVisitorNameTextController.text:null,
         visitorImage: photoImages,
         visitorComingFrom: visitorcomingfromTextController.text,
         visitingPurpose: purposeofvisitTextController.text,
@@ -3896,7 +3897,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           host: dbsponsorTextController.text.isEmpty ? host2 : dbSponsor,
           contactNo: contactnoTextController.text,
           visitingDepartment: department,
-          visitorName: vendorVisitorNameTextController.text,
+          visitorName: widget.passId == ConstantsIntValue.passIdVisitor ?vendorVisitorNameTextController.text:null,
           visitorImage: photoImages,
           visitorComingFrom: visitorcomingfromTextController.text,
           visitingPurpose: purposeofvisitTextController.text,
