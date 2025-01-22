@@ -1038,7 +1038,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   datecreateWidgetdisplay(
-                                      state.model.keyReturnDateTime ?? ''),
+                                      state.model.status! > 1 ? state.model.keyReturnDateTime ?? '' :''),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
 // ],
