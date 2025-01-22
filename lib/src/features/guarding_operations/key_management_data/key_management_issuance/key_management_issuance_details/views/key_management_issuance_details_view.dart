@@ -282,27 +282,27 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
   void initializeDates(KeyManagementIssuanceDetailsState state) {
     DateTime dateTime;
 
-    String keyHandOverDateString = state.model.keyHandOverDate.toString();
+    // String keyHandOverDateString = state.model.keyHandOverDate.toString();
 
 // Check if the input is a timestamp (numeric) or a formatted date string
-    if (RegExp(r'^\d+$').hasMatch(keyHandOverDateString)) {
-      int keyHandOverTimestamp = int.parse(keyHandOverDateString);
-      DateTime keyHandOverDateTime =
-          DateTime.fromMillisecondsSinceEpoch(keyHandOverTimestamp * 1000);
-
-      DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
-      initialisedFromDate = dateFormat.format(keyHandOverDateTime);
-    } else {
-      DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
-      DateTime keyHandOverDateTime = dateFormat.parse(keyHandOverDateString);
-
-      int keyHandOverTimestamp = keyHandOverDateTime.millisecondsSinceEpoch;
-      initialisedFromDate =
-          keyHandOverDateTime.toString(); // Or format to a string if needed
-      // Logging the results
-      log('initialisedFromDate--- $initialisedFromDate');
-      log('keyHandOverTimestamp--- $keyHandOverTimestamp');
-    }
+//     if (RegExp(r'^\d+$').hasMatch(keyHandOverDateString)) {
+//       int keyHandOverTimestamp = int.parse(keyHandOverDateString);
+//       DateTime keyHandOverDateTime =
+//           DateTime.fromMillisecondsSinceEpoch(keyHandOverTimestamp * 1000);
+//
+//       DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
+//       initialisedFromDate = dateFormat.format(keyHandOverDateTime);
+//     } else {
+//       DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
+//       DateTime keyHandOverDateTime = dateFormat.parse(keyHandOverDateString);
+//
+//       int keyHandOverTimestamp = keyHandOverDateTime.millisecondsSinceEpoch;
+//       initialisedFromDate =
+//           keyHandOverDateTime.toString(); // Or format to a string if needed
+//       // Logging the results
+//       log('initialisedFromDate--- $initialisedFromDate');
+//       log('keyHandOverTimestamp--- $keyHandOverTimestamp');
+//     }
 
     if (state.model.keyHandOverDue.isEmptyOrNull) {
       if (!isDateSelectedByUser) {
@@ -1038,7 +1038,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   datecreateWidgetdisplay(
-                                      state.model.status! > 1 ? state.model.keyReturnDateTime ?? '' :''),
+                                      state.model.keyReturnDateTime ?? ''),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
 // ],
@@ -1104,24 +1104,23 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                         NavigatorState nav = Navigator.of(context);
 
                         log('----1---');
-                        if(showSaveSubmitButton) {
-                          bool isSaveSuccess = await BlocProvider.of<
-                              KeyManagementIssuanceDetailsCubit>(
-                            context,
-                          ).submitForm(
-                            isSaveOnly: true,
-                            navigateToNextScreen: true,
-                            receiverSignatureController:
-                            receiverSignatureController,
-                            securitySignatureController:
-                            securitySignatureController,
-                          );
-                          log('----2---');
-                          if (!isSaveSuccess) {
-                            return;
-                          }
-                          log('----3---');
+                        bool isSaveSuccess = await BlocProvider.of<
+                            KeyManagementIssuanceDetailsCubit>(
+                          context,
+                        ).submitForm(
+                          isSaveOnly: true,
+                          navigateToNextScreen: true,
+                          receiverSignatureController:
+                              receiverSignatureController,
+                          securitySignatureController:
+                              securitySignatureController,
+                        );
+                        log('----2---');
+                        if (!isSaveSuccess) {
+                          return;
                         }
+                        log('----3---');
+
                         // Now, this code will execute only after the completion of submitForm
                         nav.pushNamed(
                           keyManagementIssuanceProcessRecordsRoute,

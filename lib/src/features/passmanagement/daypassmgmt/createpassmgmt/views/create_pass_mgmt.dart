@@ -114,9 +114,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
         action: [
           if (((widget.model?.status == null ||
-                          widget.model?.status == 0 ||
-                          widget.model?.status == 1 ||
-                          widget.model?.status == 3) &&
+                          widget.model?.status == 0) &&
                       (widget.model != null &&
                           widget.model!.lock.isEmptyOrNull)) ||
                   widget.model == null
@@ -135,6 +133,18 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 ),
               ),
             ),
+            ],
+          if (((widget.model?.status == null ||
+              widget.model?.status == 0 ||
+              widget.model?.status == 1 ||
+              widget.model?.status == 3) &&
+              (widget.model != null &&
+                  widget.model!.lock.isEmptyOrNull)) ||
+              widget.model == null
+          // ||
+          // (widget.extraProperties != null &&
+          //     !widget.extraProperties!.hasWritePermission!)
+          ) ...[
             GestureDetector(
               onTap: () {
                 passValidations(context, globalState);
