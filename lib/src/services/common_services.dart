@@ -26,7 +26,7 @@ class   CommonApis {
 
   static final String _updateRecordStatus = '$baseUrl/updateStatus/';
 
-  static final String _getLocations = '$baseUrl/getLocations/';
+  static final String _getLocations = '$baseUrl/getLocations';
   static final String _getStatusesByModuleId = '$baseUrl/getStatus?';
   static final String _getModuleAccessByUserRole =
       '$baseUrl/getModuleAccessByUserRole?';
@@ -388,10 +388,13 @@ class CommonServices {
   /// id '2' is for Fetching only Regions
   /// otherwise pass Region Id to get Locations By Region Id
   Future<List<Organisation>> getRegionsOrLocationsByRegionId({
-    int? id = 2,
+    int? id,
     BuildContext? context,
   }) async {
-    String url = '${CommonApis._getLocations}$id';
+    String url = CommonApis._getLocations;
+    if(id !=null) {
+      url = '$url?id=$id';
+    }
     final response = await BaseApiService().getRequest(
       url: url,
     );
