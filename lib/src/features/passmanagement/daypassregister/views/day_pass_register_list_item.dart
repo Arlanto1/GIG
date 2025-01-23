@@ -122,6 +122,12 @@ class _DayPassRegisterListItemState extends State<DayPassRegisterListItem> {
                               (widget.userItem.passNo ?? '').toString()),
                         ],
                       ),
+                      CommonWidgets.verticalSpacerWidget(5),
+                      Row(
+                        children: [
+                          Utils().buildPassManagementStatusRow(widget.userItem.status ?? 0),
+                        ],
+                      ),
                       Container(
                         alignment: Alignment.topCenter,
                         child: Row(

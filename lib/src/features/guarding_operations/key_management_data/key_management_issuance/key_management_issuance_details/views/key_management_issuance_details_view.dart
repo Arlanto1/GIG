@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_cubits.dart';
-import 'package:intl/intl.dart';
 
 class KeyManagementIssuanceDetailsView extends StatefulWidget {
   final KeyManagementIssuanceModel? model;
@@ -41,6 +40,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
   TextEditingController handedOverToController = TextEditingController();
   SignatureController receiverSignatureController = SignatureController();
   SignatureController securitySignatureController = SignatureController();
+  TextEditingController keyReturnDueDateToController = TextEditingController();
 
   bool isReadOnly = false;
   bool showSaveSubmitButton = false;
@@ -111,6 +111,15 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
         }
       },
       builder: (context, state) {
+        DateTime now = DateTime.now();
+        DateTime sixMonthsFromNow = now.add(const Duration(days: 180));
+         initialisedToDate = sixMonthsFromNow.toString();
+        // initialisedToDate = DateTime.fromMillisecondsSinceEpoch(
+        //     (int.tryParse('${180}') ?? 0) * 1000)
+        //     .toString();
+        initialisedStartDate = DateTime.now().toString();
+        log('initialisedStartDate ${initialisedStartDate}');
+        log('initialisedToDate ${initialisedToDate}');
         handedOverToController.text = state.model.employeeID!=null?
             '${state.model.handedOverTo?.name ?? ''} (${state.model.handedOverTo?.email ?? ''})':'';
 
@@ -365,7 +374,6 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       return const BaseLoader();
     }
     initializeDates(state);
-
     return Container(
       color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
@@ -690,8 +698,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           ? false
                                           : true,
                                   onlyDate: false,
-                                  showPastDate: false,
-                                  toDate: keyReturnDueDateController.text,
+                                  // showPastDate: false,
+                                  fromDate: initialisedStartDate,
+                                  toDate: initialisedToDate,
                                   onChange: (String value) {
                                     isDateSelectedByUser = true;
                                     keyReturnDueDateController.text = value;
