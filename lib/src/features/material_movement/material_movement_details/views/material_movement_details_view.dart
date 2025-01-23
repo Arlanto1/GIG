@@ -3419,7 +3419,7 @@ class _MaterialMovementDetailsViewState
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             duplicateQuantityUnitList: quantityUnits,
-            leftImageName: AppIcon.addicon,
+            // leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
