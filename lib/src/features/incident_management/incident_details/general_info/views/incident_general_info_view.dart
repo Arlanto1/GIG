@@ -128,7 +128,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
         log('--state.message-----${state.message}-');
       },
       builder: (context, state) {
-        claimantController.text = state.model.employeeId !=null ?'${state.model.complainant?.name ?? ''} (${state.model.complainant?.email ?? ''})':'';
+        claimantController.text = state.model.complainant?.employeeId !=null ?'${state.model.complainant?.name ?? ''} (${state.model.complainant?.email ?? ''})':'';
 
 
         state.model.status ??= 0;
