@@ -1719,11 +1719,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         isDisabled: (widget.model?.status ==
                                                         0 ||
                                                     widget.model?.status ==
-                                                        null) &&
-                                                !(widget.extraProperties !=
-                                                        null &&
-                                                    !widget.extraProperties!
-                                                        .hasWritePermission!)
+                                                        null)
                                             ? false
                                             : true,
                                         showFutureDate: false,
@@ -3788,11 +3784,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         status: widget.model?.status ?? 0,
         locationRegion: widget.model?.locationRegion,
         companyName: companyNameTextController.text,
-        employeeName: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
-            ? (state.nameResponse?.name == null && state.nameResponse?.email == null
-            ? nameTextController.text
-            : '${state.nameResponse?.name}')
-            : vendorVisitorNameTextController.text,
+          employeeName: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
+              ? (state.nameResponse?.name != null && state.nameResponse?.email != null
+              ? '${state.nameResponse?.name}'
+              : nameTextController.text)
+              : vendorVisitorNameTextController.text,
+
         employeeId: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
             ? ((widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2') || widget.passId == ConstantsIntValue.passIdSez
             ? state.nameResponse?.employeeId
@@ -3844,7 +3841,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         exceptionalApproval: state.exceptionalApproval == 0 ? false : true,
         idValidationType: idValidationType,
         //mifareNo: mtpapplicationnoTextController.text ?? '',
-        category: category,
+        category: widget.model?.companyType!=null ?category : null,
         dayPassReason: dayPass,
         vendorPassReason: vendorPass,
         entrySecurity: entrySecurity,
@@ -3865,9 +3862,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           locationRegion: locationRegion,
           companyName: companyNameTextController.text,
           employeeName: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
-              ? (state.nameResponse?.name == null && state.nameResponse?.email == null
-              ? nameTextController.text
-              : '${state.nameResponse?.name} (${state.nameResponse?.email})')
+              ? (state.nameResponse?.name != null && state.nameResponse?.email != null
+              ? '${state.nameResponse?.name}'
+              : nameTextController.text)
               : vendorVisitorNameTextController.text,
           employeeId: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
               ? ( (widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2') || widget.passId == ConstantsIntValue.passIdSez
@@ -3917,7 +3914,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           exceptionalApproval: state.exceptionalApproval == 0 ? false : true,
           idValidationType: idValidationType,
           // mifareNo: mtpapplicationnoTextController.text ?? '',
-          category: category,
+          category: widget.model?.companyType!=null ?category : null,
           dayPassReason: dayPass,
           vendorPassReason: vendorPass,
           email: emailTextController.text,
