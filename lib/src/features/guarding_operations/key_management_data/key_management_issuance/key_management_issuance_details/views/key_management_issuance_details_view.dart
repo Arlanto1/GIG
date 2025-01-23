@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_cubits.dart';
-import 'package:intl/intl.dart';
 
 class KeyManagementIssuanceDetailsView extends StatefulWidget {
   final KeyManagementIssuanceModel? model;
@@ -41,6 +40,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
   TextEditingController handedOverToController = TextEditingController();
   SignatureController receiverSignatureController = SignatureController();
   SignatureController securitySignatureController = SignatureController();
+  TextEditingController keyReturnDueDateToController = TextEditingController();
 
   bool isReadOnly = false;
   bool showSaveSubmitButton = false;
@@ -111,6 +111,15 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
         }
       },
       builder: (context, state) {
+        DateTime now = DateTime.now();
+        DateTime sixMonthsFromNow = now.add(const Duration(days: 180));
+         initialisedToDate = sixMonthsFromNow.toString();
+        // initialisedToDate = DateTime.fromMillisecondsSinceEpoch(
+        //     (int.tryParse('${180}') ?? 0) * 1000)
+        //     .toString();
+        initialisedStartDate = DateTime.now().toString();
+        log('initialisedStartDate ${initialisedStartDate}');
+        log('initialisedToDate ${initialisedToDate}');
         handedOverToController.text = state.model.employeeID!=null?
             '${state.model.handedOverTo?.name ?? ''} (${state.model.handedOverTo?.email ?? ''})':'';
 
@@ -282,27 +291,28 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
   void initializeDates(KeyManagementIssuanceDetailsState state) {
     DateTime dateTime;
 
-    String keyHandOverDateString = state.model.keyHandOverDate.toString();
+    // String keyHandOverDateString = state.model.keyHandOverDate.toString();
 
 // Check if the input is a timestamp (numeric) or a formatted date string
-    if (RegExp(r'^\d+$').hasMatch(keyHandOverDateString)) {
-      int keyHandOverTimestamp = int.parse(keyHandOverDateString);
-      DateTime keyHandOverDateTime =
-          DateTime.fromMillisecondsSinceEpoch(keyHandOverTimestamp * 1000);
-
-      DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
-      initialisedFromDate = dateFormat.format(keyHandOverDateTime);
-    } else {
-      DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
-      DateTime keyHandOverDateTime = dateFormat.parse(keyHandOverDateString);
-
-      int keyHandOverTimestamp = keyHandOverDateTime.millisecondsSinceEpoch;
-      initialisedFromDate =
-          keyHandOverDateTime.toString(); // Or format to a string if needed
-      // Logging the results
-      log('initialisedFromDate--- $initialisedFromDate');
-      log('keyHandOverTimestamp--- $keyHandOverTimestamp');
-    }
+//     if (RegExp(r'^\d+$').hasMatch(keyHandOverDateString)) {
+//       int keyHandOverTimestamp = int.parse(keyHandOverDateString);
+//       DateTime keyHandOverDateTime =
+//           DateTime.fromMillisecondsSinceEpoch(keyHandOverTimestamp * 1000);
+//
+//       DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
+//       initialisedFromDate = dateFormat.format(keyHandOverDateTime);
+//     } else {
+//       DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
+//       DateTime keyHandOverDateTime = dateFormat.parse(keyHandOverDateString);
+//
+//       int keyHandOverTimestamp = keyHandOverDateTime.millisecondsSinceEpoch;
+//       initialisedFromDate =
+//           keyHandOverDateTime.toString(); // Or format to a string if needed
+//       // Logging the results
+//       log('initialisedFromDate--- $initialisedFromDate');
+//       log('keyHandOverTimestamp--- $keyHandOverTimestamp');
+//     }
+    log('keyReturnDueDateControllerValue --- ${keyReturnDueDateController.text}');
 
     if (state.model.keyHandOverDue.isEmptyOrNull) {
       if (!isDateSelectedByUser) {
@@ -329,7 +339,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
               DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
           keyReturnDueDateController.text = Utils.timestampToDateConversion(
               dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
-        } else {
+        }
+        else {
           dateTime = DateTime.fromMillisecondsSinceEpoch(
               DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
           keyReturnDueDateController.text = Utils.timestampToDateConversion(
@@ -363,7 +374,6 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       return const BaseLoader();
     }
     initializeDates(state);
-
     return Container(
       color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
@@ -688,7 +698,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           ? false
                                           : true,
                                   onlyDate: false,
-                                  showPastDate: false,
+                                  // showPastDate: false,
+                                  fromDate: initialisedStartDate,
+                                  toDate: initialisedToDate,
                                   onChange: (String value) {
                                     isDateSelectedByUser = true;
                                     keyReturnDueDateController.text = value;
@@ -1038,7 +1050,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   datecreateWidgetdisplay(
-                                      state.model.keyReturnDateTime ?? ''),
+                                      state.model.status! > 1 ? state.model.keyReturnDateTime ?? '' : ''),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
 // ],

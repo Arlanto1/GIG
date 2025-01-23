@@ -277,34 +277,33 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                             GestureDetector(
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
-                                bool isSaveSuccess = await BlocProvider.of<
-                                        VVIPVisitorDetailsCubit>(context)
-                                    .submitForm(
-                                  isSaveOnly: true,
-                                  navigateToNextScreen: true,
-                                );
+                                if (state.model.status == 0 || state.model.status == null) {
+                                  bool isSaveSuccess = await BlocProvider.of<
+                                      VVIPVisitorDetailsCubit>(context)
+                                      .submitForm(
+                                    isSaveOnly: true,
+                                    navigateToNextScreen: true,
+                                  );
 
-                                if (!isSaveSuccess) {
-                                  return;
+                                  if (!isSaveSuccess) {
+                                    return;
+                                  }
+                                  log('--state.model.id---${state.model.id}--');
                                 }
-                                log('--state.model.id---${state.model.id}--');
-
-                                nav.pushNamed(
-                                  vipVisitorsRecordsRoute,
-                                  arguments: {
-                                    ConstantsArgument.title:
-                                        Constants.vVipVisitorsTitle,
-                                    ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.isLocked:
-                                        state.model.lock,
-                                    ConstantsArgument.parentStatus:
-                                        state.model.status,
-
-                                    // ConstantsArgument.violationDescription:
-                                    //     Constants.slaViolation,
-                                  },
-                                );
-                                //}
+                                  nav.pushNamed(
+                                    vipVisitorsRecordsRoute,
+                                    arguments: {
+                                      ConstantsArgument.title:
+                                      Constants.vVipVisitorsTitle,
+                                      ConstantsArgument.id: state.model.id,
+                                      ConstantsArgument.isLocked:
+                                      state.model.lock,
+                                      ConstantsArgument.parentStatus:
+                                      state.model.status,
+                                      // ConstantsArgument.violationDescription:
+                                      //     Constants.slaViolation,
+                                    },
+                                  );
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,

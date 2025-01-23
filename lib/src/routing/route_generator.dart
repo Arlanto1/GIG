@@ -1283,6 +1283,7 @@ class RouteGenerator {
         int id = 0;
         int type = 0;
         String? lock;
+        int parentStatus = 0;
         ExtraProperties? extraProperties;
         bool isEligibleToEdit = false;
         if (settings.arguments != null) {
@@ -1294,6 +1295,7 @@ class RouteGenerator {
           extraProperties = arguments[ConstantsArgument.extraProperties];
           lock = arguments[ConstantsArgument.isLocked];
           isEligibleToEdit = arguments[ConstantsArgument.isEligibleToEdit];
+          parentStatus = arguments[ConstantsArgument.parentStatus];
         }
         log('route----type--$type--');
         return MaterialPageRoute(
@@ -1310,6 +1312,7 @@ class RouteGenerator {
                 type: type,
                 extraProperties: extraProperties,
                 parentIsEligibleToEdit: isEligibleToEdit,
+                parentStatus: parentStatus,
                 lock: lock),
           ),
         );

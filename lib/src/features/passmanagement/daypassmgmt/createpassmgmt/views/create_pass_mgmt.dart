@@ -114,9 +114,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
         action: [
           if (((widget.model?.status == null ||
-                          widget.model?.status == 0 ||
-                          widget.model?.status == 1 ||
-                          widget.model?.status == 3) &&
+                          widget.model?.status == 0) &&
                       (widget.model != null &&
                           widget.model!.lock.isEmptyOrNull)) ||
                   widget.model == null
@@ -135,6 +133,18 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 ),
               ),
             ),
+            ],
+          if (((widget.model?.status == null ||
+              widget.model?.status == 0 ||
+              widget.model?.status == 1 ||
+              widget.model?.status == 3) &&
+              (widget.model != null &&
+                  widget.model!.lock.isEmptyOrNull)) ||
+              widget.model == null
+          // ||
+          // (widget.extraProperties != null &&
+          //     !widget.extraProperties!.hasWritePermission!)
+          ) ...[
             GestureDetector(
               onTap: () {
                 passValidations(context, globalState);
@@ -2206,6 +2216,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   populateData() async {
+    log('Radio ${widget.model?.exceptionalApproval}');
     if (widget.model != null) {
       int value = 0;
       if (widget.model!.escortedByHost ?? false) {
@@ -2218,9 +2229,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       }
       await SharedPrefs.setFoundId(widget.model?.id ?? 0);
 
+
       employeeIdTextController.text = widget.model?.employeeId != null
           ? widget.model?.employeeId.toString() ?? ""
-          : '';
+          : widget.model?.employeeId.toString() ?? "";
       sezpassinfoTextController.text = widget.model?.passInfo != null
           ? widget.model?.passInfo.toString() ?? ""
           : '';
@@ -2413,7 +2425,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //     context);
       createPassMgmtCubit.getPassNumber(0, widget.model?.location?.id ?? 0);
       createPassMgmtCubit.getlocationsResponseData(widget.model?.location);
-
+      createPassMgmtCubit.getRadioButtonSelected(widget.model?.exceptionalApproval == true ? 1 :0);
       if ((widget.model?.entities?.length ?? 0) > 0) {
         List<Organisation> entities = [];
         for (int i = 0; i < widget.model!.entities!.length; i++) {
@@ -2471,7 +2483,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       visitorcomingfromTextController.text =
           widget.model?.visitorComingFrom ?? '';
       contactnoTextController.text = widget.model?.contactNo ?? '';
-      employeeIdTextController.text = widget.model?.employee?.employeeId ?? '';
+      employeeIdTextController.text = companyType.name == 'CWR T2'?widget.model?.employeeId ?? '' :widget.model?.employee?.employeeId ?? '' ;
       sezpassinfoTextController.text = widget.model?.passNo ?? '';
       //sezpassinfoTextController.text = widget.model?.passNo ?? '';
       //sezpassinfoTextController.text = widget.model?.passNo ?? '';
@@ -3310,7 +3322,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   userId: user.id,
                   name: user.name,
                   employeeId: user.employeeId));
-              dbsponsorTextController.text = user.name ?? '';
+              dbsponsorTextController.text = '${user.name} (${user.email})' ?? '';
               hostEmployeeIdTextController.text =
                   '${user.name} (${user.email})' ?? '';
             },
@@ -3729,7 +3741,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
     User? handoverSecurity =
         widget.model?.status == ConstantsIntValue.passStatusHandedOver
-            ? widget.model?.handoverSecurity
+            ? widget.model?.handoverSecurity ??
+            User(userId: state.getUserDetailsResponse?.userId ?? 1)
             : null;
     if (statusTextController.text.isEmptyOrNull) {
       Validator().showToast(
@@ -3776,16 +3789,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         locationRegion: widget.model?.locationRegion,
         companyName: companyNameTextController.text,
         employeeName: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
-            ? (state.nameResponse?.name == null
+            ? (state.nameResponse?.name == null && state.nameResponse?.email == null
             ? nameTextController.text
-            : '${state.nameResponse?.name} (${state.nameResponse?.email})')
+            : '${state.nameResponse?.name}')
             : vendorVisitorNameTextController.text,
-          employeeId: widget.passId == ConstantsIntValue.passIdDayPass
-            ? (companyType?.name != 'CWR T2'
+        employeeId: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
+            ? ((widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2') || widget.passId == ConstantsIntValue.passIdSez
             ? state.nameResponse?.employeeId
             : employeeIdTextController.text)
             : null,
-        employee: widget.passId == ConstantsIntValue.passIdDayPass
+        employee: widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2'
             ? User(
                 userId: state.nameResponse?.id,
                 firstName: state.nameResponse?.name,
@@ -3823,11 +3836,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         email: emailTextController.text,
         contactNo: contactnoTextController.text,
         visitingDepartment: department,
-        visitorName: vendorVisitorNameTextController.text,
+        visitorName: widget.passId == ConstantsIntValue.passIdVisitor ?vendorVisitorNameTextController.text:null,
         visitorImage: photoImages,
         visitorComingFrom: visitorcomingfromTextController.text,
         visitingPurpose: purposeofvisitTextController.text,
-        escortedByHost: state.escortedbyhost == 0 ? false : true,
+        escortedByHost: widget.passId == ConstantsIntValue.passIdVendor || widget.passId == ConstantsIntValue.passIdVisitor ? state.escortedbyhost == 0 ? false : true : null,
         exceptionalApproval: state.exceptionalApproval == 0 ? false : true,
         idValidationType: idValidationType,
         //mifareNo: mtpapplicationnoTextController.text ?? '',
@@ -3852,12 +3865,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           locationRegion: locationRegion,
           companyName: companyNameTextController.text,
           employeeName: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
-              ? (state.nameResponse?.name == null
+              ? (state.nameResponse?.name == null && state.nameResponse?.email == null
               ? nameTextController.text
               : '${state.nameResponse?.name} (${state.nameResponse?.email})')
               : vendorVisitorNameTextController.text,
-          employeeId: widget.passId == ConstantsIntValue.passIdDayPass
-              ? (companyType?.name != 'CWR T2'
+          employeeId: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
+              ? ( (widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2') || widget.passId == ConstantsIntValue.passIdSez
               ? state.nameResponse?.employeeId
               : employeeIdTextController.text)
               : null,
@@ -3896,11 +3909,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           host: dbsponsorTextController.text.isEmpty ? host2 : dbSponsor,
           contactNo: contactnoTextController.text,
           visitingDepartment: department,
-          visitorName: vendorVisitorNameTextController.text,
+          visitorName: widget.passId == ConstantsIntValue.passIdVisitor ?vendorVisitorNameTextController.text:null,
           visitorImage: photoImages,
           visitorComingFrom: visitorcomingfromTextController.text,
           visitingPurpose: purposeofvisitTextController.text,
-          escortedByHost: state.escortedbyhost == 0 ? false : true,
+          escortedByHost: widget.passId == ConstantsIntValue.passIdVendor || widget.passId == ConstantsIntValue.passIdVisitor ? state.escortedbyhost == 0 ? false : true : null,
           exceptionalApproval: state.exceptionalApproval == 0 ? false : true,
           idValidationType: idValidationType,
           // mifareNo: mtpapplicationnoTextController.text ?? '',

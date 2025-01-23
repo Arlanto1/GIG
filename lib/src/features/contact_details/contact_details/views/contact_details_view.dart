@@ -318,17 +318,17 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                           GestureDetector(
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
-                              bool isSaveSuccess =
-                                  await BlocProvider.of<ContactDetailsCubit>(
-                                          context)
-                                      .submitForm(
-                                isSaveOnly: true,
-                                navigateToNextScreen: true,
-                              );
-
-                              if (!isSaveSuccess) {
-                                return;
-                              }
+                              // bool isSaveSuccess =
+                              //     await BlocProvider.of<ContactDetailsCubit>(
+                              //             context)
+                              //         .submitForm(
+                              //   isSaveOnly: true,
+                              //   navigateToNextScreen: true,
+                              // );
+                              //
+                              // if (!isSaveSuccess) {
+                              //   return;
+                              // }
                               log('--state.model.id---${state.model.id}--');
                               List<Organisation> ranks = await CommonServices()
                                   .getOrganisations(
@@ -390,17 +390,17 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                           GestureDetector(
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
-                              bool isSaveSuccess =
-                                  await BlocProvider.of<ContactDetailsCubit>(
-                                          context)
-                                      .submitForm(
-                                isSaveOnly: true,
-                                navigateToNextScreen: true,
-                              );
-
-                              if (!isSaveSuccess) {
-                                return;
-                              }
+                              // bool isSaveSuccess =
+                              //     await BlocProvider.of<ContactDetailsCubit>(
+                              //             context)
+                              //         .submitForm(
+                              //   isSaveOnly: true,
+                              //   navigateToNextScreen: true,
+                              // );
+                              //
+                              // if (!isSaveSuccess) {
+                              //   return;
+                              // }
                               log('--state.model.id---${state.model.id}--');
                               List<Organisation> ranks = await CommonServices()
                                   .getOrganisations(
@@ -462,17 +462,17 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                           GestureDetector(
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
-                              bool isSaveSuccess =
-                                  await BlocProvider.of<ContactDetailsCubit>(
-                                          context)
-                                      .submitForm(
-                                isSaveOnly: true,
-                                navigateToNextScreen: true,
-                              );
-
-                              if (!isSaveSuccess) {
-                                return;
-                              }
+                              // bool isSaveSuccess =
+                              //     await BlocProvider.of<ContactDetailsCubit>(
+                              //             context)
+                              //         .submitForm(
+                              //   isSaveOnly: true,
+                              //   navigateToNextScreen: true,
+                              // );
+                              //
+                              // if (!isSaveSuccess) {
+                              //   return;
+                              // }
                               log('--state.model.id---${state.model.id}--');
                               List<Organisation> ranks = await CommonServices()
                                   .getOrganisations(
@@ -533,17 +533,17 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                           GestureDetector(
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
-                              bool isSaveSuccess =
-                                  await BlocProvider.of<ContactDetailsCubit>(
-                                          context)
-                                      .submitForm(
-                                isSaveOnly: true,
-                                navigateToNextScreen: true,
-                              );
-
-                              if (!isSaveSuccess) {
-                                return;
-                              }
+                              // bool isSaveSuccess =
+                              //     await BlocProvider.of<ContactDetailsCubit>(
+                              //             context)
+                              //         .submitForm(
+                              //   isSaveOnly: true,
+                              //   navigateToNextScreen: true,
+                              // );
+                              //
+                              // if (!isSaveSuccess) {
+                              //   return;
+                              // }
                               log('--state.model.id---${state.model.id}--');
                               List<Organisation> ranks = await CommonServices()
                                   .getOrganisations(
@@ -604,17 +604,17 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                           GestureDetector(
                             onTap: () async {
                               NavigatorState nav = Navigator.of(context);
-                              bool isSaveSuccess =
-                                  await BlocProvider.of<ContactDetailsCubit>(
-                                          context)
-                                      .submitForm(
-                                isSaveOnly: true,
-                                navigateToNextScreen: true,
-                              );
-
-                              if (!isSaveSuccess) {
-                                return;
-                              }
+                              // bool isSaveSuccess =
+                              //     await BlocProvider.of<ContactDetailsCubit>(
+                              //             context)
+                              //         .submitForm(
+                              //   isSaveOnly: true,
+                              //   navigateToNextScreen: true,
+                              // );
+                              //
+                              // if (!isSaveSuccess) {
+                              //   return;
+                              // }
                               log('--state.model.id---${state.model.id}--');
                               List<Organisation> ranks = await CommonServices()
                                   .getOrganisations(
