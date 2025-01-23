@@ -85,7 +85,7 @@ class IncidentGeneralInfoState extends Equatable {
     }
 
     if (model.entities == null || model.entities!.isEmpty) {
-      return const ErrorResponse(status: false, message: 'Please add Entities');
+      return const ErrorResponse(status: false, message: 'Please add Entity');
     }
     // if (model.incidentType == null) {
     //   return const ErrorResponse(
