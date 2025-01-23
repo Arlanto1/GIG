@@ -129,9 +129,14 @@ class IncidentGeneralInfoState extends Equatable {
     //   return const ErrorResponse(
     //       status: false, message: 'Please Article Type');
     // }
-    if (model.complainantHr == null) {
+    if (model.complainantDbEmp && model.complainantHr == null) {
       return const ErrorResponse(
           status: false, message: 'Please add Complainant Manager/Host');
+    }
+
+    if(model.complainantDbEmp && model.complainantHr == null){
+      return const ErrorResponse(
+          status: false, message: 'Please add Complainant HR');
     }
     if (model.incidentDate == null || model.incidentDate!.isEmpty) {
       return const ErrorResponse(
