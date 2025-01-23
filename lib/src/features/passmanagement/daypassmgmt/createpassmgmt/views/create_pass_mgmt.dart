@@ -2218,6 +2218,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       if (widget.model!.escortedByHost ?? false) {
         value = 1;
       }
+      if(widget.model!.exceptionalApproval?? false){
+        value = 1;
+      }
       createPassMgmtCubit.getRadioButtonSelected(value);
 
       if (widget.model?.companyType?.name?.toLowerCase() == 'fte') {
@@ -2421,7 +2424,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //     context);
       createPassMgmtCubit.getPassNumber(0, widget.model?.location?.id ?? 0);
       createPassMgmtCubit.getlocationsResponseData(widget.model?.location);
-      createPassMgmtCubit.getRadioButtonSelected(widget.model?.exceptionalApproval == true ? 1 :0);
+      // createPassMgmtCubit.getRadioButtonSelected(widget.model?.exceptionalApproval == true ? 1 :0);
       if ((widget.model?.entities?.length ?? 0) > 0) {
         List<Organisation> entities = [];
         for (int i = 0; i < widget.model!.entities!.length; i++) {
