@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/common_widgets/signature/review_signature_page.dart';
 import 'package:intl/intl.dart';
 
 part 'material_movement_details_state.dart';
@@ -623,8 +622,13 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.inputDate = inputDate.toString();
     }
 
-    state.model.approvedDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    // if(state.model.approvedDate !=null) {
+    //   state.model.approvedDate =
+    //       (DateTime
+    //           .now()
+    //           .millisecondsSinceEpoch ~/ 1000).toString();
+    // }
     state.model.rejectedDate =
         (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
@@ -723,11 +727,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           : Utils.timestampToDateConversion(
               int.tryParse(state.model.modifiedDate ?? '0'),
               Constants.fulldateFormat);
-      state.model.approvedDate = state.model.approvedDate == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
+      state.model.approvedDate = state.model.approvedDate != null
+          ? Utils.timestampToDateConversion(
               int.tryParse(state.model.approvedDate ?? '0'),
-              Constants.fulldateFormat);
+              Constants.fulldateFormat) : null ;
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.inputDate = state.model.inputDate == null
@@ -740,11 +743,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           : Utils.timestampToDateConversion(
               int.tryParse(state.model.modifiedDate ?? '0'),
               Constants.fulldateFormat);
-      state.model.approvedDate = state.model.approvedDate == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
+      state.model.approvedDate = state.model.approvedDate != null
+          ? Utils.timestampToDateConversion(
               int.tryParse(state.model.approvedDate ?? '0'),
-              Constants.fulldateFormat);
+              Constants.fulldateFormat) : null;
       return;
     } on Exception catch (e) {
       state.model.inputDate = state.model.inputDate == null
@@ -757,11 +759,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           : Utils.timestampToDateConversion(
               int.tryParse(state.model.modifiedDate ?? '0'),
               Constants.fulldateFormat);
-      state.model.approvedDate = state.model.approvedDate == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
+      state.model.approvedDate = state.model.approvedDate != null
+          ? Utils.timestampToDateConversion(
               int.tryParse(state.model.approvedDate ?? '0'),
-              Constants.fulldateFormat);
+              Constants.fulldateFormat) : null;
       emit(
         state.copyWith(
           message: e.toString(),
