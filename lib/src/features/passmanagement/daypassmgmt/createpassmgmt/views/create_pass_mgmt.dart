@@ -3729,7 +3729,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     } else if (photofidentityextController.text == "Voter Card") {
       idValidationType = 4;
     }
-    int category = 0;
+    int category = 1;
     if (passCategoryTextController.text == "Permanent") {
       category = 1;
     } else if (passCategoryTextController.text == "Temporary") {
@@ -3840,7 +3840,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         entities: entities,
         department: department,
         host:dbSponsor,
-        email: emailTextController.text,
+        email: widget.passId == ConstantsIntValue.passIdSez ? emailTextController.text : state.nameResponse?.email,
         contactNo: contactnoTextController.text,
         visitingDepartment: department,
         visitorName: widget.passId == ConstantsIntValue.passIdVisitor ?vendorVisitorNameTextController.text:null,
@@ -3851,7 +3851,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         exceptionalApproval: state.exceptionalApproval == 0 ? false : true,
         idValidationType: idValidationType,
         //mifareNo: mtpapplicationnoTextController.text ?? '',
-        category: widget.model?.companyType!=null ?category : null,
+        category: !passCategoryTextController.text.isEmptyOrNull ? category : null,
         dayPassReason: dayPass,
         vendorPassReason: vendorPass,
         entrySecurity: entrySecurity,
@@ -3924,10 +3924,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           exceptionalApproval: state.exceptionalApproval == 0 ? false : true,
           idValidationType: idValidationType,
           // mifareNo: mtpapplicationnoTextController.text ?? '',
-          category: widget.model?.companyType!=null ?category : null,
+          category: !passCategoryTextController.text.isEmptyOrNull ? category : null,
           dayPassReason: dayPass,
           vendorPassReason: vendorPass,
-          email: emailTextController.text,
+          email: widget.passId == ConstantsIntValue.passIdSez ? emailTextController.text : state.nameResponse?.email,
           entrySecurity: entrySecurity,
           handoverSecurity: handoverSecurity);
     }
