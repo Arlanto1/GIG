@@ -3251,7 +3251,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               createPassMgmtCubit.gethostUsersResponseData(User(
                   userId: user.id,
                   name: user.name,
-                  employeeId: user.employeeId));
+                  employeeId: user.employeeId,email: user.email));
               hostEmployeeIdTextController.text =
                   '${user.name} (${user.email}})' ?? '';
             },
@@ -3288,7 +3288,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               createPassMgmtCubit.gethostUsersResponseData(User(
                   userId: baseUser.id,
                   name: baseUser.name,
-                  employeeId: baseUser.employeeId));
+                  employeeId: baseUser.employeeId,
+              email: baseUser.email));
             },
           );
         });
@@ -3320,7 +3321,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               createPassMgmtCubit.getdbsponsorUsersResponseData(User(
                   userId: user.id,
                   name: user.name,
-                  employeeId: user.employeeId));
+                  employeeId: user.employeeId,
+              email: user.email));
               dbsponsorTextController.text = '${user.name} (${user.email})' ?? '';
               hostEmployeeIdTextController.text =
                   '${user.name} (${user.email})' ?? '';
@@ -3695,7 +3697,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     User? host2 = state.hostResponse;
     //userName: state.hostResponse?.userName ?? '');
 
-    User? dbSponsor = state.dbsponsorResponse;
+    User? dbSponsor = User(
+      userId: state.dbsponsorResponse?.userId,
+      firstName: state.dbsponsorResponse?.name,
+      email: state.dbsponsorResponse?.email,
+      employeeId: state.dbsponsorResponse?.employeeId,
+    );
+
 
     // Organisation? companyType = widget.model?.companyType;
     // log('--state.locationSelectedlist?.id--${state.location?.id}----');
@@ -3723,9 +3731,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     }
     int category = 0;
     if (passCategoryTextController.text == "Permanent") {
-      category = 0;
-    } else if (passCategoryTextController.text == "Temporary") {
       category = 1;
+    } else if (passCategoryTextController.text == "Temporary") {
+      category = 2;
     }
 
     List<ImageContent>? evidenceDocuments =
@@ -3792,7 +3800,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? '${state.nameResponse?.name}'
               : nameTextController.text)
               : vendorVisitorNameTextController.text,
-
         employeeId: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
             ? ((widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2') || widget.passId == ConstantsIntValue.passIdSez
             ? state.nameResponse?.employeeId
