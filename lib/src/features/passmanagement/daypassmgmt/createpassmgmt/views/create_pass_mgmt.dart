@@ -3446,9 +3446,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   Widget locationWidgetDisplay(CreatePassMgmtState state) {
     return GestureDetector(
       onTap: () {
-        if ((widget.model?.status == 0 || widget.model?.status == null) &&
-            !(widget.extraProperties != null &&
-                !widget.extraProperties!.hasWritePermission!)) {
+        if ((widget.model?.status == 0 || widget.model?.status == null)) {
           showDialog(
             context: context,
             builder: (BuildContext dialogContext) {
