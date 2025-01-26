@@ -1884,8 +1884,7 @@ class _MaterialMovementDetailsViewState
                                           .expectedDateOfReturn ??
                                       Constants.expectedDateOfReturn,
                                   Styles.textStyleBlack14,
-                                  isMandatory:
-                                      widget.model == null ? false : true,
+                                  isMandatory: true,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -3419,7 +3418,7 @@ class _MaterialMovementDetailsViewState
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             duplicateQuantityUnitList: quantityUnits,
-            leftImageName: AppIcon.addicon,
+            // leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(

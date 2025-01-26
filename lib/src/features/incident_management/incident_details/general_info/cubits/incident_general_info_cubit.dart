@@ -510,6 +510,11 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       log('---isSaveOnly-$isSaveOnly---');
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
           return emit(
             state.copyWith(
               status: FormStatus.formError,
@@ -523,6 +528,11 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       } else {
         //Validating Fields
         if (!state.isValid.status) {
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
           log('---submit-1---');
           emit(
             state.copyWith(
