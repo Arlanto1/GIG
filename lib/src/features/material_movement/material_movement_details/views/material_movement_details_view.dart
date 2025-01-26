@@ -1884,8 +1884,7 @@ class _MaterialMovementDetailsViewState
                                           .expectedDateOfReturn ??
                                       Constants.expectedDateOfReturn,
                                   Styles.textStyleBlack14,
-                                  isMandatory:
-                                      widget.model == null ? false : true,
+                                  isMandatory: true,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),

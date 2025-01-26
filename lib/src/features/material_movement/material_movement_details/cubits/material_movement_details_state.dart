@@ -85,7 +85,7 @@ class MaterialMovementDetailsState extends Equatable {
     }
     if (model.challanNo.isEmptyOrNull) {
       return const ErrorResponse(
-          status: false, message: 'Please enter Challan No');
+          status: false, message: 'Please enter Challan/Invoice Nos/Gate Pass');
     }
 
     /// For Inward Movement Only
@@ -156,6 +156,11 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Quantity cannot be zero!');
     }
+
+    if (model.quantity != null && model.quantity! < 0 ) {
+      return const ErrorResponse(
+          status: false, message: 'Only positive number are allowed');
+    }
     if (model.unit == null && model.status != 0) {
       return const ErrorResponse(status: false, message: 'Please enter Unit');
     }
@@ -200,9 +205,7 @@ class MaterialMovementDetailsState extends Equatable {
           status: false, message: 'Please enter Prepared By Department');
     }
     if (model.expectedDateOfReturn == null &&
-        model.returnable! &&
-        model.status != 0 &&
-        model.status != null) {
+        model.returnable!) {
       return const ErrorResponse(
           status: false, message: 'Please enter Expected date of Return');
     }
