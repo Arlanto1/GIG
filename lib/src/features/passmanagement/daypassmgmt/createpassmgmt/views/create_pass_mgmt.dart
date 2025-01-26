@@ -866,7 +866,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         textFormKey: Keys.nameKey,
                                         hintText: '',
                                         // focusNode: companyNameFocusNode,
-                                        isEnable:widget.model?.status == 0 || widget.model == null ?isFTECompanyNameEditable: false,
+                                        isEnable:widget.model?.status == 0 || widget.model == null ? isFTECompanyNameEditable: false,
                                         isDisableColor: false,
                                         onChange: (String value) {
                                           companyNameTextController.text =
@@ -1618,11 +1618,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                         passCategoryTextController
                                                             .text.isEmpty ||
                                                         widget.model?.status ==
-                                                            0) &&
-                                                    !(widget.extraProperties !=
-                                                            null &&
-                                                        !widget.extraProperties!
-                                                            .hasWritePermission!)
+                                                            0)
                                                 ? false
                                                 : true,
                                             controller: daypassnoTextController,
@@ -1638,11 +1634,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                       daypassnoTextController
                                                           .text.isEmpty ||
                                                       widget.model?.status ==
-                                                          0) &&
-                                                  !(widget.extraProperties !=
-                                                          null &&
-                                                      !widget.extraProperties!
-                                                          .hasWritePermission!)) {
+                                                          0) ) {
                                                 //passnumberaddButtonwidgetLoading(state);
                                                 // if (widget.passId == ConstantsIntValue.passIdSez) {
                                                 //   passCategoryDialog(state: state);
@@ -2408,7 +2400,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           name: widget.model?.passInfo?.passNo ?? '');
       if (widget.passId == ConstantsIntValue.passIdSez) {
         passCategoryTextController.text =
-            widget.model?.category == 1 ? 'Temporary' : 'Permanent';
+            widget.model?.category == 1 ? 'Permanent' : widget.model?.category == 2 ? 'Temporary' :'';
         log('-passCategoryTextController.text----${passCategoryTextController.text}-');
       }
       // daypassnoTextController.text =
@@ -2683,7 +2675,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               passValidUntilTextController.text = passValidUntilDate;
               companyNameTextController.text =
                   widget.model?.companyName.toString() ?? "";
-              widget.model?.status == 0 || widget.model?.status == null
+              (widget.model?.status == 0 || widget.model?.status == null) && value.equalsIgnoreCase('Temporary')
                   ? isFTECompanyNameEditable = true
                   : isFTECompanyNameEditable = false;
             }
