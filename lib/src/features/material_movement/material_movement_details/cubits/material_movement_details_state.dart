@@ -198,6 +198,14 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Purpose');
     }
+
+    if (model.preparedBy.isEmptyOrNull &&
+        model.status != 0 &&
+        model.status != null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Prepared By');
+    }
+
     if (model.preparedByDepartment == null &&
         model.status != 0 &&
         model.status != null) {
