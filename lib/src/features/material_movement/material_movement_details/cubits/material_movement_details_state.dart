@@ -88,6 +88,28 @@ class MaterialMovementDetailsState extends Equatable {
           status: false, message: 'Please enter Challan/Invoice Nos/Gate Pass');
     }
 
+    if (model.requestorEmployeeId.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Requestor Employee Id');
+    }
+
+    if (model.approver1Email.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Approver1 Email');
+    }
+    if (model.approver1Department == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Approver1 Department');
+    }
+
+    if (model.approver2Email.isEmptyOrNull) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Approver2 Email');
+    }
+    if (model.approver2Department == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Approver2 Department');
+    }
     /// For Inward Movement Only
     if (model.inwardMovement ?? false) {
       if (model.materialComingFrom.isEmptyOrNull) {
@@ -136,6 +158,8 @@ class MaterialMovementDetailsState extends Equatable {
             status: false, message: 'Please enter Receiver Department');
       }
     }
+
+
     if (model.status == 2 && model.materialPhysicallyChecked == false) {
       return const ErrorResponse(
           status: false,
