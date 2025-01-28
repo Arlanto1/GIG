@@ -3796,7 +3796,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             ? state.nameResponse?.employeeId
             : employeeIdTextController.text)
             : null,
-        employee: widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2'
+        employee: (widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2') || widget.passId == ConstantsIntValue.passIdSez
             ? User(
                 userId: state.nameResponse?.id,
                 firstName: state.nameResponse?.name,
@@ -3831,7 +3831,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         entities: entities,
         department: department,
         host:dbSponsor,
-        email: widget.passId == ConstantsIntValue.passIdSez ? emailTextController.text : widget.model?.employee?.email,
+        email: widget.passId == ConstantsIntValue.passIdSez ? emailTextController.text : null,
         contactNo: contactnoTextController.text,
         visitingDepartment: department,
         visitorName: widget.passId == ConstantsIntValue.passIdVisitor ? vendorVisitorNameTextController.text:null,
@@ -3873,7 +3873,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? state.nameResponse?.employeeId
               : employeeIdTextController.text)
               : null,
-          employee: widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2'
+          employee: (widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2') || widget.passId == ConstantsIntValue.passIdSez
               ? User(
             userId: state.nameResponse?.id,
             firstName: state.nameResponse?.name,
@@ -3918,7 +3918,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           category: !passCategoryTextController.text.isEmptyOrNull ? category : null,
           dayPassReason: dayPass,
           vendorPassReason: vendorPass,
-          email: widget.passId == ConstantsIntValue.passIdSez ? emailTextController.text : state.nameResponse?.email,
+          email: widget.passId == ConstantsIntValue.passIdSez ? emailTextController.text : null,
           entrySecurity: entrySecurity,
           handoverSecurity: handoverSecurity);
     }
