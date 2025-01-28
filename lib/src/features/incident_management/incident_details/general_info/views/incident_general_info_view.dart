@@ -128,7 +128,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
         log('--state.message-----${state.message}-');
       },
       builder: (context, state) {
-        claimantController.text = state.model.complainant?.employeeId !=null ?'${state.model.complainant?.name ?? ''} (${state.model.complainant?.email ?? ''})':'';
+        claimantController.text = state.model.complainant?.userInfo !=null ? state.model.complainant?.userInfo ?? '' : state.model.complainant?.name ?? '';
 
 
         state.model.status ??= 0;
@@ -581,7 +581,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.employeeId ??
                                       state.labels?.defaultLocale.employeeId ??
-                                      Constants.claimantemployeeid,
+                                      Constants.complaintEmployeeId,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
@@ -670,7 +670,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.complainant ??
                                       state.labels?.defaultLocale.complainant ??
-                                      Constants.claimant,
+                                      Constants.complaint,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
 
