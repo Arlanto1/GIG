@@ -88,78 +88,96 @@ class MaterialMovementDetailsState extends Equatable {
           status: false, message: 'Please enter Challan/Invoice Nos/Gate Pass');
     }
 
-    if (model.requestorEmployeeId.isEmptyOrNull) {
+    if (model.inwardMovement == false && model.requestorEmployeeId.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Requestor Employee Id');
     }
 
-    if (model.approver1Email.isEmptyOrNull) {
+    if (model.inwardMovement == false &&  model.approver1Email.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Approver1 Email');
     }
-    if (model.approver1Department == null) {
+    if ( model.inwardMovement == false && model.approver1Department == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Approver1 Department');
     }
 
-    if (model.approver2Email.isEmptyOrNull) {
+    if (model.inwardMovement == false && model.approver2Email.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please enter Approver2 Email');
     }
-    if (model.approver2Department == null) {
+    if (model.inwardMovement == false &&  model.approver2Department == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Approver2 Department');
     }
     /// For Inward Movement Only
     if (model.inwardMovement ?? false) {
+      if (model.materialDescription.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Material Brief Description');
+      }
+      if (model.quantity == null) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Quantity');
+      }
+      if (model.quantity == 0) {
+        return const ErrorResponse(
+            status: false, message: 'Quantity cannot be zero!');
+      }
+
+      if (model.quantity != null && model.quantity! < 0 ) {
+        return const ErrorResponse(
+            status: false, message: 'Only positive number are allowed');
+      }
+      if (model.unit == null) {
+        return const ErrorResponse(status: false, message: 'Please enter Unit');
+      }
       if (model.materialComingFrom.isEmptyOrNull) {
         return const ErrorResponse(
             status: false, message: 'Please enter Sender\'s Name');
       }
-      if (model.materialFromAddress.isEmptyOrNull &&
-          model.status != 0 &&
-          model.status != null) {
+      if (model.materialFromAddress.isEmptyOrNull) {
         return const ErrorResponse(
             status: false,
             message: 'Please enter Material coming from (Brief address)');
-      }
-
-      if (!model.originalReceiver && model.receiverEmail.isEmptyOrNull) {
-        return const ErrorResponse(
-            status: false, message: 'Please enter Received For');
       }
       if (!model.originalReceiver && model.receiverEmployeeId.isEmptyOrNull) {
         return const ErrorResponse(
             status: false, message: 'Please enter Received for Employee Id');
       }
 
-      // if (model.originalReceiver && model.receiverEmployeeId.isEmptyOrNull) {
-      //   return const ErrorResponse(
-      //       status: false, message: 'Please enter Received by Employee Id');
-      // }
-      if (!model.originalReceiver &&
-          model.otherReceiverEmployeeId.isEmptyOrNull) {
-        return const ErrorResponse(
-            status: false, message: 'Please enter Received by Employee Id');
-      }
-
       if (!model.originalReceiver && model.receiverEmail.isEmptyOrNull) {
         return const ErrorResponse(
-            status: false, message: 'Please enter Received by');
+            status: false, message: 'Please enter Received For');
       }
 
       if (model.receiverDepartmenttName.isEmptyOrNull) {
         return const ErrorResponse(
             status: false, message: 'Please enter Receiver Department');
       }
+      if (!model.originalReceiver &&
+          model.otherReceiverEmployeeId.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Received by Employee Id');
+      }
+
+      if (!model.originalReceiver && model.otherReceiverName.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Received by');
+      }
 
       if (model.receiverDepartment == null) {
         return const ErrorResponse(
             status: false, message: 'Please enter Receiver Department');
       }
+
+      if (model.materialPhysicallyChecked== false && model.materialNotCheckedComment.isEmptyOrNull) {
+        return const ErrorResponse(
+            status: false, message: 'Please enter Physically not checked comment');
+      }
     }
 
-
+///Outward
     if (model.status == 2 && model.materialPhysicallyChecked == false) {
       return const ErrorResponse(
           status: false,
