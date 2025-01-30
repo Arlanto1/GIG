@@ -3310,14 +3310,24 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },
             onTap: (BaseUser user) {
-              createPassMgmtCubit.getdbsponsorUsersResponseData(User(
-                  userId: user.id,
-                  name: user.name,
-                  employeeId: user.employeeId,
-              email: user.email));
-              dbsponsorTextController.text = '${user.name} (${user.email})' ?? '';
-              hostEmployeeIdTextController.text =
-                  '${user.name} (${user.email})' ?? '';
+              if(user.employeeId != state.nameResponse?.employeeId) {
+                createPassMgmtCubit.getdbsponsorUsersResponseData(User(
+                    userId: user.id,
+                    name: user.name,
+                    employeeId: user.employeeId,
+                    email: user.email));
+                dbsponsorTextController.text =
+                    '${user.name} (${user.email})' ?? '';
+                hostEmployeeIdTextController.text =
+                    '${user.name} (${user.email})' ?? '';
+              }
+              else if(user.employeeId == state.nameResponse?.employeeId){
+                Validator().showToast(
+                    context,
+                    "Same user selected in multiple lists",
+                  );
+                }
+              return;
             },
           );
         }
