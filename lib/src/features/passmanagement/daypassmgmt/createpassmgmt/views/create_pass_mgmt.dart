@@ -1163,7 +1163,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           )
                                         : Container(),
 
-                                    /// SEZ Pass Info
+                                    /// SEZ Pass
                                     if (widget.passId ==
                                             ConstantsIntValue.passIdVisitor ||
                                         widget.passId ==
@@ -2516,6 +2516,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     );
     //await createpassmgmtCubit.getAnalysts('T1_Analyst');
     await createPassMgmtCubit.getUserByRoleDepositor();
+
+    await CommonServices().getUiLabels(
+        language: await SharedPrefs.getLanguageCode(),
+        moduleCode: Constants.passManagementRolesModuleCode);
   }
 
   Widget submitButtonDisplay() {
@@ -4115,13 +4119,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         sezpassinfoTextController.text.isEmpty)) {
       Validator().showToast(
         context,
-        "Please enter SEZ pass info",
+        "Please enter SEZ Pass",
       );
     } else if ((widget.passId == ConstantsIntValue.passIdSez &&
         mtpApplicationNoTextController.text.isEmpty)) {
       Validator().showToast(
         context,
-        "Please enter MTP application no",
+        "Please enter MTP Application No",
       );
     } else if ((widget.passId == ConstantsIntValue.passIdDayPass ||
             widget.passId == ConstantsIntValue.passIdVisitor ||

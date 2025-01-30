@@ -405,7 +405,7 @@ class Constants {
   static const String reasonfordaypass = 'Reason for Day Pass';
   static const String daypassno = 'Day Pass No';
   static const String passtype = 'Pass Type';
-  static const String sezPass = 'Sez Pass';
+  static const String sezPass = 'SEZ Pass';
   static const String passValidUntil = '31/03/2023';
 
   //List page - Found Article
