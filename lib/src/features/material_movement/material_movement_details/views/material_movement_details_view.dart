@@ -165,11 +165,11 @@ class _MaterialMovementDetailsViewState
         }
         String? requesterEmailUser = state.model.requestorEmail;
 
+        log('123 ${state.model.requestorEmail}');
         if ((state.model.status == ConstantsIntValue.businessUserReview ||
                 state.model.status == ConstantsIntValue.mmStatusLSMRejected) &&
-            requesterEmailUser != null &&
-            requesterEmailUser
-                .contains('${state.loggedInUserDetails?.email}')) {
+            (requesterEmailUser != null &&
+                requesterEmailUser == '${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email})')) {
           isReadOnly = false;
         }
 
@@ -186,9 +186,13 @@ class _MaterialMovementDetailsViewState
                     ConstantsIntValue.businessUserReview ||
                 state.model.status == ConstantsIntValue.mmStatusLSMRejected) &&
             (requesterEmailUser != null &&
-                requesterEmailUser
-                    .contains('${state.loggedInUserDetails?.email}')));
+                requesterEmailUser == '${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email})'));
 
+
+        log('editByRequester ${requesterEmailUser != null &&
+            requesterEmailUser == '${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email})'}');
+        log('req ${requesterEmailUser}');
+        log('req1 ${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email})');
         editByCreatedByUser =
             ((state.model.status == ConstantsIntValue.mmStatusApproved ||
                     state.model.status ==

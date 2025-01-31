@@ -98,18 +98,27 @@ class IncidentGeneralInfoState extends Equatable {
           status: false, message: 'Please add Asset Type');
     }
     if ((model.incidentType == 0 || model.incidentType == 1) &&
+        model.typeOfArticle == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Article Type');
+    }
+    if ((model.incidentType == 0 || model.incidentType == 1) &&
         model.color == null) {
       return const ErrorResponse(
           status: false, message: 'Please add Colour/Make/Model');
     }
     if (model.complainantName == null && model.complainantDbEmp == false) {
       return const ErrorResponse(
-          status: false, message: 'Please add Complainant Name');
+          status: false, message: 'Please enter Complainant');
     }
 
     if (model.complainantDbEmp && model.complainant == null) {
       return const ErrorResponse(
           status: false, message: 'Please add Complainant');
+    }
+    if (model.complainantDbEmp == false && model.complainantHr == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please add Complainant Manager/Host');
     }
 
     if (!model.complainantDbEmp && model.complainantName == null) {
@@ -129,10 +138,6 @@ class IncidentGeneralInfoState extends Equatable {
     //   return const ErrorResponse(
     //       status: false, message: 'Please Article Type');
     // }
-    if (model.complainantDbEmp && model.complainantHr == null) {
-      return const ErrorResponse(
-          status: false, message: 'Please add Complainant Manager/Host');
-    }
 
     if(model.complainantDbEmp && model.complainantHr == null){
       return const ErrorResponse(
@@ -157,7 +162,7 @@ class IncidentGeneralInfoState extends Equatable {
           status: false, message: 'Please add Incident Owner');
     }
 
-    if (model.description == null) {
+    if (model.description.isEmptyOrNull) {
       return const ErrorResponse(
           status: false, message: 'Please add Incident Description');
     }

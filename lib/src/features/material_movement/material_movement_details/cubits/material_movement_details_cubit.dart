@@ -622,15 +622,29 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.inputDate = inputDate.toString();
     }
 
-
-    // if(state.model.approvedDate !=null) {
-    //   state.model.approvedDate =
-    //       (DateTime
-    //           .now()
-    //           .millisecondsSinceEpoch ~/ 1000).toString();
+    // if (!Utils().isTimestamp(state.model.approvedDate!)) {
+    //   dateTime =
+    //       DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.approvedDate!);
+    //   int approvedDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    //   state.model.approvedDate = approvedDate.toString();
     // }
-    state.model.rejectedDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    if(state.model.approvedDate !=null) {
+      DateTime date =
+      DateFormat("dd/MM/yyyy a HH:mm:ss").parse(state.model.approvedDate!);
+      int approvedDate = date
+          .toUtc()
+          .millisecondsSinceEpoch ~/ 1000;
+      state.model.approvedDate = approvedDate.toString();
+    }
+    if(state.model.rejectedDate !=null) {
+      DateTime date =
+      DateFormat("dd/MM/yyyy a HH:mm:ss").parse(state.model.rejectedDate!);
+      int rejectedDate = date
+          .toUtc()
+          .millisecondsSinceEpoch ~/ 1000;
+      state.model.rejectedDate = rejectedDate.toString();
+    }
 
     /// Adding Signature to request Body
     await pushSignature(

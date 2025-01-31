@@ -1163,7 +1163,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           )
                                         : Container(),
 
-                                    /// SEZ Pass Info
+                                    /// SEZ Pass
                                     if (widget.passId ==
                                             ConstantsIntValue.passIdVisitor ||
                                         widget.passId ==
@@ -1554,7 +1554,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             isMandatory: true,
                                           ),
                                           radioButtonHandling(
-                                              state.exceptionalApproval ?? 0),
+                                              state.exceptionalApproval),
                                         ],
                                       ),
                                     ],
@@ -2210,7 +2210,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       if (widget.model!.escortedByHost ?? false) {
         value = 1;
       }
-      if(widget.model!.exceptionalApproval?? false){
+      if(widget.model!.exceptionalApproval?? true){
         value = 1;
       }
       createPassMgmtCubit.getRadioButtonSelected(value);
@@ -2516,6 +2516,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     );
     //await createpassmgmtCubit.getAnalysts('T1_Analyst');
     await createPassMgmtCubit.getUserByRoleDepositor();
+
+    await CommonServices().getUiLabels(
+        language: await SharedPrefs.getLanguageCode(),
+        moduleCode: Constants.passManagementRolesModuleCode);
   }
 
   Widget submitButtonDisplay() {
@@ -3310,14 +3314,24 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               BlocProvider.of<CreatePassMgmtCubit>(context).refreshList();
             },
             onTap: (BaseUser user) {
-              createPassMgmtCubit.getdbsponsorUsersResponseData(User(
-                  userId: user.id,
-                  name: user.name,
-                  employeeId: user.employeeId,
-              email: user.email));
-              dbsponsorTextController.text = '${user.name} (${user.email})' ?? '';
-              hostEmployeeIdTextController.text =
-                  '${user.name} (${user.email})' ?? '';
+              if(user.employeeId != state.nameResponse?.employeeId) {
+                createPassMgmtCubit.getdbsponsorUsersResponseData(User(
+                    userId: user.id,
+                    name: user.name,
+                    employeeId: user.employeeId,
+                    email: user.email));
+                dbsponsorTextController.text =
+                    '${user.name} (${user.email})' ?? '';
+                hostEmployeeIdTextController.text =
+                    '${user.name} (${user.email})' ?? '';
+              }
+              else if(user.employeeId == state.nameResponse?.employeeId){
+                Validator().showToast(
+                    context,
+                    "Same user selected in multiple lists",
+                  );
+                }
+              return;
             },
           );
         }
@@ -3776,6 +3790,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     log('--pass info id--${passInfo.id}---');
     if (widget.model != null) {
       log('--passinfo type--${passInfo.passType}--------');
+      log('111${widget.model?.employee?.email}');
       passMgmtBody = PassManagement(
         id: isFoundId,
         updatedStatus: state.model.updatedStatus,
@@ -3795,11 +3810,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             ? state.nameResponse?.employeeId
             : employeeIdTextController.text)
             : null,
-        employee: widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2'
+        employee: (widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2') || widget.passId == ConstantsIntValue.passIdSez
             ? User(
                 userId: state.nameResponse?.id,
                 firstName: state.nameResponse?.name,
-                email: state.nameResponse?.email,
+                email: widget.model?.employee?.email,
                 employeeId: state.nameResponse?.employeeId,
               )
             : null,
@@ -3808,9 +3823,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         passNo: passInfo.passNo,
         escortedBy: escortedByTextController.text,
         escortedEmployeeId: escortedEmployeeIdByTextController.text,
-        hostEmployeeId:  dbSponsor?.employeeId,
+        hostEmployeeId:  dbSponsor.employeeId,
         mifareNo: mtpApplicationNoTextController.text,
-        passIssuedOn: passValidFromDate.toString(),
+        passIssuedOn: widget.passId == ConstantsIntValue.passIdSez ? passValidFromDate.toString():'',
         endTime: endTime,
         // endTime: widget.passId == ConstantsIntValue.passIdSez && widget.model?.category == 0
         //     ? passValidUntilDatePermanent.toString()
@@ -3830,15 +3845,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         entities: entities,
         department: department,
         host:dbSponsor,
-        email: widget.passId == ConstantsIntValue.passIdSez ? emailTextController.text : state.nameResponse?.email,
+        email: widget.passId == ConstantsIntValue.passIdSez ? emailTextController.text : null,
         contactNo: contactnoTextController.text,
         visitingDepartment: department,
-        visitorName: widget.passId == ConstantsIntValue.passIdVisitor ?vendorVisitorNameTextController.text:null,
+        visitorName: widget.passId == ConstantsIntValue.passIdVisitor ? vendorVisitorNameTextController.text:null,
         visitorImage: photoImages,
         visitorComingFrom: visitorcomingfromTextController.text,
         visitingPurpose: purposeofvisitTextController.text,
         escortedByHost: widget.passId == ConstantsIntValue.passIdVendor || widget.passId == ConstantsIntValue.passIdVisitor ? state.escortedbyhost == 0 ? false : true : null,
-        exceptionalApproval: state.exceptionalApproval == 0 ? false : true,
+        exceptionalApproval: state.exceptionalApproval == 1 ? true : false,
         idValidationType: idValidationType,
         //mifareNo: mtpapplicationnoTextController.text ?? '',
         category: !passCategoryTextController.text.isEmptyOrNull ? category : null,
@@ -3853,6 +3868,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       );
     } else {
       log('--passinfo type--333----${passInfo.passType}--------');
+      log('222 ${state.nameResponse?.email}');
       passMgmtBody = PassManagement(
           // id: isFoundId ?? 0,
           inputDate: inputDate.toString(),
@@ -3871,14 +3887,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               ? state.nameResponse?.employeeId
               : employeeIdTextController.text)
               : null,
-          employee: widget.passId == ConstantsIntValue.passIdDayPass &&
-                  companyType?.name == 'FTE'
+          employee: (widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2') || widget.passId == ConstantsIntValue.passIdSez
               ? User(
-                  userId: state.nameResponse?.id,
-                  name: state.nameResponse?.name,
-                  email: state.nameResponse?.email,
-                  employeeId: state.nameResponse?.employeeId,
-                )
+            userId: state.nameResponse?.id,
+            firstName: state.nameResponse?.name,
+            email: state.nameResponse?.email,
+            employeeId: state.nameResponse?.employeeId,
+          )
               : null,
           passType: passInfo.passType,
           //0,
@@ -3887,7 +3902,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           escortedEmployeeId: escortedEmployeeIdByTextController.text,
           mifareNo: mtpApplicationNoTextController.text,
           hostEmployeeId: dbsponsorTextController.text.isEmpty  ? host2?.employeeId : dbSponsor?.employeeId,
-          passIssuedOn: passValidFromDate.toString(),
+          passIssuedOn: widget.passId == ConstantsIntValue.passIdSez ? passValidFromDate.toString():'',
           endTime: endTime,
           startTime: passValidFromDate.toString(),
           returnedTime:
@@ -3911,13 +3926,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           visitorComingFrom: visitorcomingfromTextController.text,
           visitingPurpose: purposeofvisitTextController.text,
           escortedByHost: widget.passId == ConstantsIntValue.passIdVendor || widget.passId == ConstantsIntValue.passIdVisitor ? state.escortedbyhost == 0 ? false : true : null,
-          exceptionalApproval: state.exceptionalApproval == 0 ? false : true,
+          exceptionalApproval: state.exceptionalApproval == 1 ? true : false,
           idValidationType: idValidationType,
           // mifareNo: mtpapplicationnoTextController.text ?? '',
           category: !passCategoryTextController.text.isEmptyOrNull ? category : null,
           dayPassReason: dayPass,
           vendorPassReason: vendorPass,
-          email: widget.passId == ConstantsIntValue.passIdSez ? emailTextController.text : state.nameResponse?.email,
+          email: widget.passId == ConstantsIntValue.passIdSez ? emailTextController.text : null,
           entrySecurity: entrySecurity,
           handoverSecurity: handoverSecurity);
     }
@@ -4104,13 +4119,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         sezpassinfoTextController.text.isEmpty)) {
       Validator().showToast(
         context,
-        "Please enter SEZ pass info",
+        "Please enter SEZ Pass",
       );
     } else if ((widget.passId == ConstantsIntValue.passIdSez &&
         mtpApplicationNoTextController.text.isEmpty)) {
       Validator().showToast(
         context,
-        "Please enter MTP application no",
+        "Please enter MTP Application No",
       );
     } else if ((widget.passId == ConstantsIntValue.passIdDayPass ||
             widget.passId == ConstantsIntValue.passIdVisitor ||

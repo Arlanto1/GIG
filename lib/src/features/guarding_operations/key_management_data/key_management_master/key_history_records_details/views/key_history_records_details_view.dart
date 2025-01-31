@@ -95,11 +95,12 @@ class _KeyHistoryRecordsDetailsViewState
                   widget.keyLostType != ConstantsIntValue.keyDamageHistoryInt) {
                 Navigator.popAndPushNamed(context, keyHistoryRecordsViewRoute,
                     arguments: {
+                      ConstantsArgument.title: widget.title,
                       ConstantsArgument.id: widget.parentId,
                       ConstantsArgument.keyLostType: widget.keyLostType,
-                      ConstantsArgument.title: widget.title,
                       ConstantsArgument.isEligibleToEdit:
-                          widget.parentIsEligibleToEdit
+                          widget.parentIsEligibleToEdit,
+                      ConstantsArgument.parentStatus: state.model.status,
                     });
               }
               // Navigator.pop(context);
