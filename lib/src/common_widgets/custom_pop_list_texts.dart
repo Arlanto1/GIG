@@ -219,8 +219,8 @@ class CustomListTextsState extends State<CustomListTexts> {
       }
 
       // for (var userDetail in widget.duplicateDepostorList!) {
-      if (text.length > 2) {
-        // Call the API only once when the search text length is greater than 2
+      if (text.isEmpty) {
+        // Call the API only once when the search text length empty
         try {
           final response = await CommonServices().getBaseUsers(
             roleName: 'ATOM_STATIC_USER', // Replace with actual role
