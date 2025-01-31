@@ -3814,7 +3814,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
             ? User(
                 userId: state.nameResponse?.id,
                 firstName: state.nameResponse?.name,
-                email: state.nameResponse?.email,
+                email: widget.model?.employee?.email,
                 employeeId: state.nameResponse?.employeeId,
               )
             : null,
