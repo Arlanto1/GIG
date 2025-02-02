@@ -128,7 +128,7 @@ class KeyManagementIssuanceDetailsCubit
             int.tryParse(state.model.keyReturnDateTime ?? '0'),
             Constants.fulldateFormat);
       }
-      if (state.model.status != 0) {
+      if (state.model.status != 0 && state.model.status !=null) {
         state.model.keyHandOverDate = state.model.keyHandOverDate == null
             ? Utils().getCurrentDate()
             : Utils.timestampToDateConversion(
