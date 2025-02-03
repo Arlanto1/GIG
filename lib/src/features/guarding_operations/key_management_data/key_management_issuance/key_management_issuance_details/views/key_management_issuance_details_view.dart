@@ -322,6 +322,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
               DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
           keyReturnDueDateController.text = Utils.timestampToDateConversion(
               dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+          state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
         } else if (state.model.keyHandingOverDuration == 2 &&
             !isDateSelectedByUser) {
           if (DateTime.now().month < 6) {
@@ -333,18 +334,24 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
           }
           keyReturnDueDateController.text = Utils.timestampToDateConversion(
               dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+          state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
+
         } else if (state.model.keyHandingOverDuration == 1 &&
             !isDateSelectedByUser) {
           dateTime = DateTime.fromMillisecondsSinceEpoch(
               DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
           keyReturnDueDateController.text = Utils.timestampToDateConversion(
               dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+          state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
+
         }
         else {
           dateTime = DateTime.fromMillisecondsSinceEpoch(
               DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
           keyReturnDueDateController.text = Utils.timestampToDateConversion(
               dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+          state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
+
         }
         //
         // state.model.keyHandOverDue =
@@ -356,6 +363,22 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
           DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
       keyReturnDueDateController.text = Utils.timestampToDateConversion(
           dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+      state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
+
+    }
+    else if (state.model.keyHandingOverDuration == 2 &&
+        !isDateSelectedByUser) {
+      if (DateTime.now().month < 6) {
+        // Set to June 30th of the current year
+        dateTime = DateTime(DateTime.now().year, 6, 30);
+      } else {
+        // Set to December 31st of the current year
+        dateTime = DateTime(DateTime.now().year, 12, 31);
+      }
+      keyReturnDueDateController.text = Utils.timestampToDateConversion(
+          dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+      state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
+
     } else {
       keyReturnDueDateController.text = Utils.timestampToDateConversion(
           int.tryParse(state.model.keyHandOverDue ?? '0'),
@@ -704,7 +727,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   onChange: (String value) {
                                     isDateSelectedByUser = true;
                                     keyReturnDueDateController.text = value;
-                                    log('keyReturnDueDateControllerValue --- $value');
+                                    log('keyReturnDueDateControllerValue22 --- $value');
                                     state.model.keyHandOverDue =
                                         Utils().formatTime(value);
                                     BlocProvider.of<
@@ -985,6 +1008,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     spaceHeight: height,
                                     state: state,
                                     isMandatory: false),
+
                                 if (state.model.status != 0 &&
                                     state.model.status != null) ...[
                                   /// Total Allocated
@@ -1116,23 +1140,26 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                         NavigatorState nav = Navigator.of(context);
 
                         log('----1---');
-                        bool isSaveSuccess = await BlocProvider.of<
-                            KeyManagementIssuanceDetailsCubit>(
-                          context,
-                        ).submitForm(
-                          isSaveOnly: true,
-                          navigateToNextScreen: true,
-                          receiverSignatureController:
-                              receiverSignatureController,
-                          securitySignatureController:
-                              securitySignatureController,
-                        );
-                        log('----2---');
-                        if (!isSaveSuccess) {
-                          return;
-                        }
-                        log('----3---');
+                        if (state.model.status == 0 || state.model.status == null ||state.model.status == 1) {
 
+
+                          bool isSaveSuccess = await BlocProvider.of<
+                              KeyManagementIssuanceDetailsCubit>(
+                            context,
+                          ).submitForm(
+                            isSaveOnly: true,
+                            navigateToNextScreen: true,
+                            receiverSignatureController:
+                            receiverSignatureController,
+                            securitySignatureController:
+                            securitySignatureController,
+                          );
+                          log('----2---');
+                          if (!isSaveSuccess) {
+                            return;
+                          }
+                          log('----3---');
+                        }
                         // Now, this code will execute only after the completion of submitForm
                         nav.pushNamed(
                           keyManagementIssuanceProcessRecordsRoute,
@@ -1282,8 +1309,12 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
     log('---------');
     return AbsorbPointer(
-      absorbing: !state.model.lock.isEmptyOrNull &&
-          state.model.status != ConstantsIntValue.issuanceDraftStatus,
+      absorbing: !state.model.lock.isEmptyOrNull ||
+          state.model.status == 1 ||
+          state.model.status == -1 || state.model.status == 12,
+
+      // state.model.status == ConstantsIntValue.closed ||
+      //     state.model.status == ConstantsIntValue.issuanceHandedOverStatus,
       child: Column(
         children: [
           Row(
