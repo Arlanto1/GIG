@@ -31,7 +31,7 @@ class QaConfig implements BaseConfig {
   String get keyClockRealm => 'Atom';
 
   @override
-  String get aadClientId => '2fb9224b-0062-4e8d-a91b-8a34adcd312b';
+  String get aadClientId => 'de402f9d-d2b7-4660-8eaf-5bda3efed464';
 
   @override
   String get aadTenantId => 'c188bbd2-2eb1-416a-9245-2f9fffb7a00f';

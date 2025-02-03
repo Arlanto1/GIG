@@ -32,8 +32,8 @@ class ProdConfig implements BaseConfig {
   String get keyClockRealm => 'Atom';
 
   @override
-  String get aadClientId => '1b099789-de9b-4384-9925-b299f67b6c9c';
+  String get aadClientId => 'de402f9d-d2b7-4660-8eaf-5bda3efed464';
 
   @override
-  String get aadTenantId => 'c188bbd2-2eb1-416a-9245-2f9fffb7a00f';
+  String get aadTenantId => 'f18ecf29-68a6-4697-92fa-0ce29009c210';
 }
