@@ -382,8 +382,9 @@ class KeyManagementIssuanceDetailsCubit
       state.model.keyReturnDateTime =
           (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     }
-    state.model.keyHandOverDue ??=
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+      // state.model.keyHandOverDue ??=
+      //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
     // Create/Update API Call
     KeyManagementIssuanceRequest request =
         KeyManagementIssuanceRequest(keyIssuanceGi: state.model);
