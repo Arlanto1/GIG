@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/key_clock_services.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
+import 'package:msal_auth/msal_auth.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -91,7 +92,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
           emit(UpdatePasswordState());
         } else {
-          emit(LoginVerifyOtpActionState());
+          emit(LoginVerifyOtpActionState(
+            message: loginData.message ?? '',
+            status: FormStatus.success,
+          ));
         }
       } else {
         emit(LoginSuccessState(
@@ -99,6 +103,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           status: FormStatus.success,
         ));
       }
+
     } catch (e) {
       // Handle API errors here
 
@@ -152,7 +157,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       log('--loginData---${loginData.toString()}----');
 
       var data = event.user;
-      userName = data.username.trim();
+      userName = data.userName.trim();
 
       deviceToken = await SharedPrefs.getDeviceToken();
 
@@ -191,7 +196,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
         emit(UpdatePasswordState());
       } else {
-        emit(LoginVerifyOtpActionState());
+        emit(LoginVerifyOtpActionState(
+          message: loginData.message ?? '',
+          status: FormStatus.success,
+        ));
       }
     } catch (e) {
       // Handle API errors here
