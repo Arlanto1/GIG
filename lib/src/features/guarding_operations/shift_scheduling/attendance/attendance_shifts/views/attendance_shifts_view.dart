@@ -419,7 +419,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             // ],
             // if (!state.model.selectForAttendance.isEmptyOrNull) ...[
             AbsorbPointer(
-              absorbing: state.model.activeShift == false || state.model.attdStatus == 3,
+              absorbing: state.model.activeShift == false,
               // Disable interaction if inactive
               child: buildReplacementColumn(state),
             ),
@@ -465,7 +465,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             // ),
 
             AbsorbPointer(
-              absorbing: state.model.activeShift == false || state.model.attdStatus == 3,
+              absorbing: state.model.activeShift == false,
               child: buildSlaListColumn(
                 state: state,
                 shift: state.model,
