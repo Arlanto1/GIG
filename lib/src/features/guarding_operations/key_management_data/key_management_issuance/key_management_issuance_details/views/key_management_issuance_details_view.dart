@@ -314,6 +314,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 //     }
     log('keyReturnDueDateControllerValue --- ${keyReturnDueDateController.text}');
 
+    log('state.model.keyHandOverDue ${state.model.keyHandOverDue}');
     if (state.model.keyHandOverDue.isEmptyOrNull) {
       if (!isDateSelectedByUser) {
         log('state.model.keyHandOverDue----${state.model.keyHandOverDue}');
@@ -361,15 +362,15 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
         // state.model.keyHandOverDue =
         //     Utils().formatTime(keyReturnDueDateController.text);
       }
-    } else if (state.model.keyHandingOverDuration == 1 &&
-        !isDateSelectedByUser) {
+    }
+    else if (state.model.keyHandingOverDuration == 1 &&
+        !isDateSelectedByUser && state.model.keyHandOverDue == null) {
       dateTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
 
       keyReturnDueDateController.text = Utils.timestampToDateConversion(
           dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
       state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
       log('444 ${keyReturnDueDateController.text}');
-
     }
     else if (state.model.keyHandingOverDuration == 2 &&
         !isDateSelectedByUser) {
