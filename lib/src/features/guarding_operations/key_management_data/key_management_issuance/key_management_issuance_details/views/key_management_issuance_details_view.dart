@@ -318,10 +318,11 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       if (!isDateSelectedByUser) {
         log('state.model.keyHandOverDue----${state.model.keyHandOverDue}');
         if (state.model.keyHandingOverDuration == 1 && !isDateSelectedByUser) {
-          dateTime = DateTime.fromMillisecondsSinceEpoch(
-              DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+          dateTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
+
           keyReturnDueDateController.text = Utils.timestampToDateConversion(
               dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+          log('111 ${keyReturnDueDateController.text}');
           state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
         } else if (state.model.keyHandingOverDuration == 2 &&
             !isDateSelectedByUser) {
@@ -338,19 +339,22 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
         } else if (state.model.keyHandingOverDuration == 1 &&
             !isDateSelectedByUser) {
-          dateTime = DateTime.fromMillisecondsSinceEpoch(
-              DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+          dateTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
+
           keyReturnDueDateController.text = Utils.timestampToDateConversion(
               dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
           state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
+          log('222 ${keyReturnDueDateController.text}');
+
 
         }
         else {
-          dateTime = DateTime.fromMillisecondsSinceEpoch(
-              DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+          dateTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
+
           keyReturnDueDateController.text = Utils.timestampToDateConversion(
               dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
           state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
+          log('333 ${keyReturnDueDateController.text}');
 
         }
         //
@@ -359,11 +363,12 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       }
     } else if (state.model.keyHandingOverDuration == 1 &&
         !isDateSelectedByUser) {
-      dateTime = DateTime.fromMillisecondsSinceEpoch(
-          DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+      dateTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
+
       keyReturnDueDateController.text = Utils.timestampToDateConversion(
           dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
       state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
+      log('444 ${keyReturnDueDateController.text}');
 
     }
     else if (state.model.keyHandingOverDuration == 2 &&
