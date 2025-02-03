@@ -1008,6 +1008,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     spaceHeight: height,
                                     state: state,
                                     isMandatory: false),
+
                                 if (state.model.status != 0 &&
                                     state.model.status != null) ...[
                                   /// Total Allocated
@@ -1139,23 +1140,26 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                         NavigatorState nav = Navigator.of(context);
 
                         log('----1---');
-                        bool isSaveSuccess = await BlocProvider.of<
-                            KeyManagementIssuanceDetailsCubit>(
-                          context,
-                        ).submitForm(
-                          isSaveOnly: true,
-                          navigateToNextScreen: true,
-                          receiverSignatureController:
-                              receiverSignatureController,
-                          securitySignatureController:
-                              securitySignatureController,
-                        );
-                        log('----2---');
-                        if (!isSaveSuccess) {
-                          return;
-                        }
-                        log('----3---');
+                        if (state.model.status == 0 || state.model.status == null ||state.model.status == 1) {
 
+
+                          bool isSaveSuccess = await BlocProvider.of<
+                              KeyManagementIssuanceDetailsCubit>(
+                            context,
+                          ).submitForm(
+                            isSaveOnly: true,
+                            navigateToNextScreen: true,
+                            receiverSignatureController:
+                            receiverSignatureController,
+                            securitySignatureController:
+                            securitySignatureController,
+                          );
+                          log('----2---');
+                          if (!isSaveSuccess) {
+                            return;
+                          }
+                          log('----3---');
+                        }
                         // Now, this code will execute only after the completion of submitForm
                         nav.pushNamed(
                           keyManagementIssuanceProcessRecordsRoute,
@@ -1305,8 +1309,12 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
     log('---------');
     return AbsorbPointer(
-      absorbing: !state.model.lock.isEmptyOrNull &&
-          state.model.status != ConstantsIntValue.issuanceDraftStatus,
+      absorbing: !state.model.lock.isEmptyOrNull ||
+          state.model.status == 1 ||
+          state.model.status == -1 || state.model.status == 12,
+
+      // state.model.status == ConstantsIntValue.closed ||
+      //     state.model.status == ConstantsIntValue.issuanceHandedOverStatus,
       child: Column(
         children: [
           Row(
