@@ -1147,8 +1147,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                         NavigatorState nav = Navigator.of(context);
 
                         log('----1---');
-                        if (state.model.status == 0 || state.model.status == null ||state.model.status == 1) {
-
+                        if ((state.model.status == 0 || state.model.status == null ||state.model.status == 1) && state.model.lock.isEmptyOrNull) {
 
                           bool isSaveSuccess = await BlocProvider.of<
                               KeyManagementIssuanceDetailsCubit>(
