@@ -51,11 +51,10 @@ class CreatePassMgmtState extends Equatable {
   User? t1dbsponsoranalyst;
   Organisation? selectedPassInfo;
   DayPassNumberLists? passnumbelistresponse;
-  int? escortedbyhost;
+  int escortedbyhost;
   int exceptionalApproval;
   String? passValidUntilDate = '';
   List<Organisation>? passTypes;
-
   User? createUserResponse;
   User? hostResponse;
   User? dbsponsorResponse;
@@ -103,7 +102,7 @@ class CreatePassMgmtState extends Equatable {
     this.t1dbsponsoranalyst,
     this.selectedPassInfo,
     this.passnumbelistresponse,
-    this.escortedbyhost,
+    this.escortedbyhost = 0,
     this.exceptionalApproval = 0,
     this.photoAttachments,
     this.createUserResponse,
