@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/models/login_model.dart';
 import 'package:db_atom/src/features/login/models/login_request_model.dart';
+import 'package:msal_auth/msal_auth.dart';
 
 import '../../../configurations/base_api_service.dart';
 import '../../../configurations/environment_config.dart';

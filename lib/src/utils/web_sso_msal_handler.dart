@@ -51,7 +51,7 @@ class WebSsoMsalHandler {
   Future<MsalUser?> getToken(BuildContext context) async {
     log('getToken');
     try {
-      final MsalAuth msalAuth = await getMsalAuth();
+      final  msalAuth = await getMsalAuth();
       final MsalUser? user = await msalAuth.acquireToken();
 
       log('User data: ${user?.toJson()}');

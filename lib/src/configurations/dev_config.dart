@@ -2,7 +2,7 @@ import 'package:db_atom/src/configurations/base_config.dart';
 
 class DevConfig implements BaseConfig {
   @override
-  String get apiHost => "https://api.qa.dbatom.arlanto.com/api/atomrestservice";
+  String get apiHost => "https://api.integration.dbatom.com/api/atomrestservice";
 
   @override
   bool get reportErrors => false;
@@ -14,7 +14,7 @@ class DevConfig implements BaseConfig {
   bool get useHttps => false;
 
   @override
-  Duration get inactivityDuration => const Duration(minutes: 5);
+  Duration get inactivityDuration => const Duration(minutes: 30);
 
   @override
   String get keyClockApiHost => "https://websso.uat.dbatom.com";
@@ -23,13 +23,13 @@ class DevConfig implements BaseConfig {
   String get keyClockClientId => 'atom';
 
   @override
-  String get keyClockClientSecret => 'JbU8TZf8juktrQgsDjBwjb2W3FehRtPl';
+  String get keyClockClientSecret => 'pEreyh84RiyY6at0deM3V8MGjlMzZgAO';
 
   @override
-  String get keyClockRealm => 'Atom';
+  String get keyClockRealm => 'Atom-UAT';
 
   @override
-  String get aadClientId => '1e94a7ec-9f9b-43b8-943f-5ba4dfe2e021';
+  String get aadClientId => 'de402f9d-d2b7-4660-8eaf-5bda3efed464';
 
   @override
   String get aadTenantId => 'f18ecf29-68a6-4697-92fa-0ce29009c210';
