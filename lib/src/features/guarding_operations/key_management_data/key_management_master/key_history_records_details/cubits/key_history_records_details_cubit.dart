@@ -220,7 +220,7 @@ class KeyHistoryRecordsDetailsCubit
       User userDetails = User(
         name: srh.name,
         userId: srh.id,
-        userName: srh.email,
+        email: srh.email,
       );
       state.model.srh = userDetails;
     }
@@ -228,7 +228,7 @@ class KeyHistoryRecordsDetailsCubit
       User userDetails = User(
         name: securityManager.name,
         userId: securityManager.id,
-        userName: securityManager.email,
+        email: securityManager.email,
       );
       state.model.securityManager = userDetails;
     }
