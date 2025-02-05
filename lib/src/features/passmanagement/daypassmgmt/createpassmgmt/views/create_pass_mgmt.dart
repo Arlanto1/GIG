@@ -3753,7 +3753,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     User? handoverSecurity =
         widget.model?.status == ConstantsIntValue.passStatusHandedOver
             ? widget.model?.handoverSecurity ??
-            User(userId: state.getUserDetailsResponse?.userId ?? 1)
+            User(userId: state.getUserDetailsResponse?.userId)
             : null;
     if (statusTextController.text.isEmptyOrNull) {
       Validator().showToast(
