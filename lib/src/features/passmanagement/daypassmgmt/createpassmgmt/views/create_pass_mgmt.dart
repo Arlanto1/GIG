@@ -3751,7 +3751,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         User(userId: state.getUserDetailsResponse?.userId ?? 1);
 
     User? handoverSecurity =
-        widget.model?.status == ConstantsIntValue.passStatusHandedOver
+        widget.model?.status == ConstantsIntValue.passStatusHandedOver && (updateStatusTextController.text == "Returned" || updateStatusTextController.text == "Returned/Damaged" || updateStatusTextController.text == "Returned/Defaced")
             ? widget.model?.handoverSecurity ??
             User(userId: state.getUserDetailsResponse?.userId)
             : null;
