@@ -78,9 +78,9 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
       Utils().formError(state, context);
       Utils().errorAndLogout(state, context);
 
-      if (state.status == FormStatus.popOnly) {
-        Navigator.pop(context);
-      }
+      // if (state.status == FormStatus.popOnly) {
+      //   Navigator.pop(context);
+      // }
     }, builder: (context, state) {
       log('-k desc--${state.keyDescriptions?.length}---');
 

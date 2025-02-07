@@ -591,7 +591,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
 
         // log('-widget.model.totalPenaltyAmount--${widget.model.totalPenaltyAmount}-----');
         onSubmit(widget.model);
-        // Navigator.pop(context);
+        Navigator.pop(context);
       },
     );
   }
