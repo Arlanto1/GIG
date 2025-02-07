@@ -530,6 +530,7 @@ class Utils {
         guardRankText = ''; // Handle the default case if needed
     }
 
+
     if (returnTextOnly ?? false) {
       return guardRankText;
     }
@@ -543,6 +544,40 @@ class Utils {
     );
   }
 
+
+  Widget dutyGuardRank({required int dutyGuardRank}) {
+    String guardRankText;
+
+    switch (dutyGuardRank) {
+      case 1:
+        guardRankText = 'Security Guard';
+        break;
+      case 2:
+        guardRankText = 'Security Officer';
+        break;
+      case 3:
+        guardRankText = 'Security Supervisor';
+        break;
+      case 4:
+        guardRankText = 'Security Facilitator';
+        break;
+      case 5:
+        guardRankText = 'Gun Man';
+        break;
+      case 6:
+        guardRankText = 'Lady Security Guard';
+        break;
+      default:
+        guardRankText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Rank : ', guardRankText),
+        ],
+      ),
+    );
+  }
   Widget buildMaritalStatus(int maritalStatus) {
     String maritalStatusText;
 
