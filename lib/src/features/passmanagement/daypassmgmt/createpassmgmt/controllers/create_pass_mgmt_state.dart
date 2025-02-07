@@ -319,7 +319,7 @@ class CreatePassMgmtState extends Equatable {
     Organisation? selectedPassInfo,
     DayPassNumberLists? passnumbelistresponse,
     String? radioButtonItem,
-    int? escortedbyhost,
+    int? escortedbyhost = 0,
     int? exceptionalApproval,
     String? passValidUntilDate,
     List<Organisation>? passTypes,
