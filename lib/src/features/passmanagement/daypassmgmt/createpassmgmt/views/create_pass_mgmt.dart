@@ -222,6 +222,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (context, state) {
           return BlocBuilder<CreatePassMgmtCubit, CreatePassMgmtState>(
             builder: (context, state) {
+              log('state.escortedbyhost ${state.escortedbyhost}');
               log('-builder-state.stateType---${state.stateType}---');
               if (state.stateType == CreatePassMgmtStateType.loading) {
                 return const BaseLoader();
@@ -1798,9 +1799,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         : Container(),
                                     widget.passId ==
                                             ConstantsIntValue.passIdVisitor
-                                        ? radioButtonHandling(
-                                            state.escortedbyhost ?? 0,
-                                          )
+                                        ? radioButtonHandling(state.escortedbyhost ?? 0)
                                         : Container(),
                                     // Text('state.escortedbyhost--- ${widget.model?.escortedByHost}'),
                                     // Text('state.email--- ${state.escorted}'),
@@ -1843,7 +1842,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             (widget.passId ==
                                                     ConstantsIntValue
                                                         .passIdVisitor &&
-                                                (state.escortedbyhost ?? 0) ==
+                                                (state.escortedbyhost) ==
                                                     0)
                                         ? CommonWidgets.verticalSpacerWidget(
                                             height * 0.001)
@@ -2205,14 +2204,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
   populateData() async {
     log('Radio ${widget.model?.exceptionalApproval}');
+    log('escortedByHost1 ${widget.model?.escortedByHost}');
     if (widget.model != null) {
       int value = 0;
-      if (widget.model!.escortedByHost ?? false) {
+      if (widget.model?.escortedByHost ?? true) {
         value = 1;
       }
       if(widget.model!.exceptionalApproval?? true){
         value = 1;
       }
+      log('value ${value}');
       createPassMgmtCubit.getRadioButtonSelected(value);
 
       if (widget.model?.companyType?.name?.toLowerCase() == 'fte') {
@@ -2516,7 +2517,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     );
     //await createpassmgmtCubit.getAnalysts('T1_Analyst');
     await createPassMgmtCubit.getUserByRoleDepositor();
-
+    if (widget.model == null) {
+      int value = 0;
+      widget.model?.escortedByHost == false;
+      createPassMgmtCubit.getRadioButtonSelected(value);
+    }
     await CommonServices().getUiLabels(
         language: await SharedPrefs.getLanguageCode(),
         moduleCode: Constants.passManagementRolesModuleCode);
@@ -3852,7 +3857,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         visitorImage: photoImages,
         visitorComingFrom: visitorcomingfromTextController.text,
         visitingPurpose: purposeofvisitTextController.text,
-        escortedByHost:widget.passId == ConstantsIntValue.passIdVisitor ? state.escortedbyhost == 0 ? false : true : null,
+        escortedByHost:widget.passId == ConstantsIntValue.passIdVisitor ? state.escortedbyhost == 1 ? true : false : null,
         exceptionalApproval: state.exceptionalApproval == 1 ? true : false,
         idValidationType: idValidationType,
         //mifareNo: mtpapplicationnoTextController.text ?? '',
@@ -3870,6 +3875,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       log('--passinfo type--333----${passInfo.passType}--------');
       log('222 ${state.nameResponse?.email}');
       passMgmtBody = PassManagement(
+
           // id: isFoundId ?? 0,
           inputDate: inputDate.toString(),
           slNo: serialnumber ?? '',
@@ -3925,7 +3931,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           visitorImage: photoImages,
           visitorComingFrom: visitorcomingfromTextController.text,
           visitingPurpose: purposeofvisitTextController.text,
-          escortedByHost: widget.passId == ConstantsIntValue.passIdVisitor ? state.escortedbyhost == 0 ? false : true : null,
+          escortedByHost:widget.passId == ConstantsIntValue.passIdVisitor ? state.escortedbyhost == 1 ? true : false : null,
           exceptionalApproval: state.exceptionalApproval == 1 ? true : false,
           idValidationType: idValidationType,
           // mifareNo: mtpapplicationnoTextController.text ?? '',
