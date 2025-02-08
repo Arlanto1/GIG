@@ -252,7 +252,7 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                                 id: state.list[selectedIndex].id
                                                     .toString(),
                                                 labels: labels,
-                                                guardRank: state
+                                                dutyGuardRank: state
                                                     .list[selectedIndex].rankId,
                                                 isMasterGuard: true,
                                               );
