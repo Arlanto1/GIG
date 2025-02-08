@@ -2484,6 +2484,11 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   }
 
   getPassManagementList() async {
+    if (widget.model == null) {
+      int value = 0;
+      widget.model?.escortedByHost == false;
+      createPassMgmtCubit.getRadioButtonSelected(value);
+    }
     if (widget.passId == ConstantsIntValue.passIdSez) {
       await createPassMgmtCubit.getLocations('ATOM_LOCATIONS', 1, context,
           isSezLocations: true);
@@ -2517,11 +2522,6 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     );
     //await createpassmgmtCubit.getAnalysts('T1_Analyst');
     await createPassMgmtCubit.getUserByRoleDepositor();
-    if (widget.model == null) {
-      int value = 0;
-      widget.model?.escortedByHost == false;
-      createPassMgmtCubit.getRadioButtonSelected(value);
-    }
     await CommonServices().getUiLabels(
         language: await SharedPrefs.getLanguageCode(),
         moduleCode: Constants.passManagementRolesModuleCode);
