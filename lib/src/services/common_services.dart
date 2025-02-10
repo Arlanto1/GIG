@@ -224,10 +224,10 @@ class CommonServices {
   }
 
   Future<List<BaseUser>> getBaseUsers({
-    required String roleName,
+    required String? roleName,
     int? locationId,
     bool? isDbUser,
-    int? search
+    dynamic? search
   }) async {
     String url = '${CommonApis._getUsersByRole}$roleName';
     if (locationId != null) {
@@ -254,6 +254,7 @@ class CommonServices {
     required String roleNames,
     int? locationId,
     bool? isDbUser,
+    int? search
   }) async {
     String url = '${CommonApis._getUsersByRoles}$roleNames';
     if (locationId != null) {
@@ -262,10 +263,15 @@ class CommonServices {
     if (isDbUser != null) {
       url = '$url&isDbUser=$isDbUser';
     }
+    if (search != null) {
+      url = '$url&search=$search';
+    }
     final response = await BaseApiService().getRequest(
       url: url,
     );
-
+    if (response == null || response[roleNames] == null) {
+      return [];
+    }
     return List<BaseUser>.from(
         response['users'].map((x) => BaseUser.fromJson(x)));
   }

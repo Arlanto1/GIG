@@ -70,8 +70,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
 
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
-    List<BaseUser>? shiftTakenOverBy = await commonServices.getBaseUsersByRoles(
-        roleNames: ConstantUserRoles.atomGuardingStaffUser,
+    List<BaseUser>? shiftTakenOverBy = await commonServices.getBaseUsers(
+        roleName: ConstantUserRoles.atomGuardingStaffUser,
         locationId: model!.location!.id!);
 
     emit(
@@ -157,8 +157,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       }
       model.entrySecurity ??= loggedInUserDetails;
       List<BaseUser>? shiftTakenOverBy =
-          await commonServices.getBaseUsersByRoles(
-              roleNames: ConstantUserRoles.atomGuardingStaffUser,
+          await commonServices.getBaseUsers(
+              roleName: ConstantUserRoles.atomGuardingStaffUser,
               locationId: model.location!.id!);
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');

@@ -67,6 +67,7 @@ class BaseOrganisationDialog {
           duplicateEntityList: entities,
           isEmployeeId: employeeId,
           location: locationId,
+          roleName: roleName,
           // leftImageName: functionToCall != null &&
           //         roleName == ConstantUserRoles.atomStaticUser
           //     ? AppIcon.addicon
