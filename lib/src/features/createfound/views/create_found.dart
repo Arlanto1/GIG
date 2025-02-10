@@ -641,6 +641,7 @@ class _CreateFoundState extends State<CreateFound> {
             location: state.location?.id,
             duplicateDepostorList:
                 state.getDepositorResponse?.atomStaticUser ?? [],
+            roleName: "ATOM_STATIC_USER",
             leftImageName: null,
             onLeftButtonTap: () {
               Navigator.pop(context);
