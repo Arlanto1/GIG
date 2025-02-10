@@ -72,7 +72,10 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     emit(state.copyWith(status: FormStatus.loading));
     List<BaseUser>? shiftTakenOverBy = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomGuardingStaffUser,
-        locationId: model!.location!.id!);
+         isDbUser: false,
+        locationId: model!.location!.id!,
+        );
+
 
     emit(
       state.copyWith(
@@ -159,7 +162,9 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       List<BaseUser>? shiftTakenOverBy =
           await commonServices.getBaseUsers(
               roleName: ConstantUserRoles.atomGuardingStaffUser,
-              locationId: model.location!.id!);
+              locationId: model.location!.id!,
+            isDbUser: false,
+            );
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
       model.status ?? 0;
@@ -216,7 +221,9 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       state.model.slNo = slNo.serialNo ?? '';
       shiftTakenOverBy = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomGuardingStaffUser,
-          locationId: location.id!);
+        isDbUser: false,
+          locationId: location.id!,
+      );
     }
     state.model.handoverSecurity = null;
 

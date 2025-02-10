@@ -485,6 +485,7 @@ class _KeyHistoryRecordsDetailsViewState
                                   roleName:
                                       ConstantUserRoles.atomSubRegionalHeadUser,
                                   locationId: 0,
+                                  isDbUser: false,
                                   functionToCall: (BaseUser user) {
                                     BlocProvider.of<
                                                 KeyHistoryRecordsDetailsCubit>(
@@ -536,6 +537,7 @@ class _KeyHistoryRecordsDetailsViewState
                                   roleName:
                                       ConstantUserRoles.atomSecurityManagerUser,
                                   locationId: 0,
+                                  isDbUser: false,
                                   functionToCall: (BaseUser user) {
                                     BlocProvider.of<
                                                 KeyHistoryRecordsDetailsCubit>(

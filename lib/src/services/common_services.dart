@@ -226,8 +226,8 @@ class CommonServices {
   Future<List<BaseUser>> getBaseUsers({
     required String? roleName,
     int? locationId,
-    bool? isDbUser,
-    dynamic? search
+     bool? isDbUser,
+    dynamic search
   }) async {
     String url = '${CommonApis._getUsersByRole}$roleName';
     if (locationId != null) {
@@ -254,7 +254,7 @@ class CommonServices {
     required String roleNames,
     int? locationId,
     bool? isDbUser,
-    int? search
+    dynamic search
   }) async {
     String url = '${CommonApis._getUsersByRoles}$roleNames';
     if (locationId != null) {

@@ -42,11 +42,14 @@ class KeyLossDestructionDetailsCubit
     EmployeeDepartments departments =
         await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser> emailUsers =
-        await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER');
+        await commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER',
+            isDbUser: false);
     List<BaseUser> securityManager = await commonServices.getBaseUsersByRoles(
-        roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser);
+        roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+    isDbUser: false);
     List<BaseUser> srh = await commonServices.getBaseUsersByRoles(
-        roleNames: 'ATOM_Sub_Regional_Head');
+        roleNames: 'ATOM_Sub_Regional_Head',
+        isDbUser: false);
     emit(
       state.copyWith(
         getEntitiesResponse: entities,
@@ -78,7 +81,7 @@ class KeyLossDestructionDetailsCubit
         commonServices.getOrganisations(name: 'ATOM_ENTITIES'),//2
         // commonServices.getUsers(),
         // commonServices.getQualification(name: 'GUARD_QUALIFICATIONS'),
-        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER'),//3
+        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_STATIC_USER', isDbUser: false),//3
         commonServices.getKeyType(name: 'KEY_MANAGEMENT_DOOR_TYPE'),//4
         commonServices.getVendors(name: 'ATOM_VENDORS'),//5
         commonServices.getUiLabels(
@@ -87,8 +90,8 @@ class KeyLossDestructionDetailsCubit
         SharedPrefs.getDefaultLocation(),//7
         commonServices.getBaseUsersByRoles(
             roleNames:
-                ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser),//8
-        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head'),//9
+                ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser, isDbUser: false),//8
+        commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head', isDbUser: false),//9
       ]);
 
       Locations getLocationsData = futures[0];

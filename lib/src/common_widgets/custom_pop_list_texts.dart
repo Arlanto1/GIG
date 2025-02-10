@@ -225,7 +225,7 @@ class CustomListTextsState extends State<CustomListTexts> {
           final response = await CommonServices().getBaseUsers(
             roleName: widget.roleName, // Replace with actual role
             locationId: widget.location, // Replace with actual location ID
-            isDbUser: true, // Set based on your use case
+            isDbUser: (widget.roleName == "ATOM_Guarding_Staff" ) ? false : true, // Set based on your use case
             search: int.tryParse(text) ?? text, // Passthe search parameter
           );
 
