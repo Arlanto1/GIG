@@ -85,7 +85,6 @@ class KeyHistoryRecordsDetailsCubit
             roleNames:
                 ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
             locationId: parentModel.location!.id!,
-          isDbUser: false,
         ),
         commonServices.getOrganisations(
             name: 'KEY_MANAGEMENT_DESTRUCTION_REASON'),
@@ -96,7 +95,6 @@ class KeyHistoryRecordsDetailsCubit
         commonServices.getBaseUsersByRoles(
             roleNames: ConstantUserRoles.atomSubRegionalHeadUser,
             locationId: parentModel.location!.id!,
-          isDbUser: false,
         ),
       ]);
 

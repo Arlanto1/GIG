@@ -263,15 +263,15 @@ class CommonServices {
     if (isDbUser != null) {
       url = '$url&isDbUser=$isDbUser';
     }
-    if (search != null) {
-      url = '$url&search=$search';
-    }
+    // if (search != null) {
+    //   url = '$url&search=$search';
+    // }
     final response = await BaseApiService().getRequest(
       url: url,
     );
-    if (response == null || response[roleNames] == null) {
-      return [];
-    }
+    // if (response == null || response[roleNames] == null) {
+    //   return [];
+    // }
     return List<BaseUser>.from(
         response['users'].map((x) => BaseUser.fromJson(x)));
   }
