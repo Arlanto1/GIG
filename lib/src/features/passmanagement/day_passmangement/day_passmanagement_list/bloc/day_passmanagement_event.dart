@@ -8,13 +8,13 @@ abstract class DayPassManagementEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class FetchData extends DayPassManagementEvent {
+class FetchDayPassData extends DayPassManagementEvent {
   final int startPos;
   final int maxPos;
   final bool newSearch;
   final BaseFilterModel filters;
 
-  const FetchData(
+  const FetchDayPassData(
       {required this.startPos,
         required this.maxPos,
         required this.newSearch,
@@ -25,6 +25,6 @@ class InitializeValues extends DayPassManagementEvent {
   const InitializeValues();
 }
 
-class RefreshList extends DayPassManagementEvent {
-  const RefreshList();
+class RefreshDayPassList extends DayPassManagementEvent {
+  const RefreshDayPassList();
 }

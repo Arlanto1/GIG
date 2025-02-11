@@ -20,11 +20,11 @@ class DayPassManagementBloc
     this.returnable,
   }) : super(const DayPassManagementState()) {
     on<InitializeValues>(_initializeValues);
-    on<FetchData>(
+    on<FetchDayPassData>(
       _fetchDayPassManagements,
       transformer: droppable(),
     );
-    on<RefreshList>(
+    on<RefreshDayPassList>(
       _refreshList,
       transformer: droppable(),
     );
@@ -89,7 +89,7 @@ class DayPassManagementBloc
   }
 
   FutureOr<void> _refreshList(
-      RefreshList event, Emitter<DayPassManagementState> emit) async {
+      RefreshDayPassList event, Emitter<DayPassManagementState> emit) async {
     try {
       final PassManagementResponseModel response =
       await services.getPassManagementList(
@@ -112,7 +112,7 @@ class DayPassManagementBloc
   }
 
   FutureOr<void> _fetchDayPassManagements(
-      FetchData event, Emitter<DayPassManagementState> emit) async {
+      FetchDayPassData event, Emitter<DayPassManagementState> emit) async {
     log('-_fetchMaterialMovements--');
 
     emit(
