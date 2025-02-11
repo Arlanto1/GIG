@@ -15,6 +15,7 @@ class KeyHistoryRecordsDetailsView extends StatefulWidget {
   final String? lock;
   final int? keyType;
   final bool parentIsEligibleToEdit;
+  final int locationId;
 
   const KeyHistoryRecordsDetailsView({
     super.key,
@@ -27,6 +28,7 @@ class KeyHistoryRecordsDetailsView extends StatefulWidget {
     this.lock,
     this.keyType,
     required this.parentIsEligibleToEdit,
+    required this.locationId,
   });
 
   @override
@@ -484,7 +486,7 @@ class _KeyHistoryRecordsDetailsViewState
                                   },
                                   roleName:
                                       ConstantUserRoles.atomSubRegionalHeadUser,
-                                  locationId: 0,
+                                  locationId: widget.locationId,
                                   isDbUser: false,
                                   functionToCall: (BaseUser user) {
                                     BlocProvider.of<

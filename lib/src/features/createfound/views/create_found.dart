@@ -637,6 +637,7 @@ class _CreateFoundState extends State<CreateFound> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
+            isDbUser: true,
             isEmployeeId: true,
             location: state.location?.id,
             duplicateDepostorList:

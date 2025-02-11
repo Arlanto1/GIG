@@ -539,7 +539,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     try {
       List<BaseUser>? getDepositorData = await commonServices.getBaseUsers(
         roleName: roleName,
-        locationId: locationId,
+        locationId:state.locationSelectedlist?.id,
         isDbUser: true,
       );
       emit(

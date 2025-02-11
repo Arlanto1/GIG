@@ -17,6 +17,7 @@ class KeyHistoryRecordsDetailsCubit
   final int? keyIssuanceId;
   final KeyManagementIssuanceServices keyIssuanceServices;
   final int? keyType;
+  final int locationId;
 
   KeyHistoryRecordsDetailsCubit({
     required this.services,
@@ -29,6 +30,7 @@ class KeyHistoryRecordsDetailsCubit
     this.keyIssuanceId,
     required this.keyIssuanceServices,
     this.keyType,
+    required this.locationId,
   }) : super(
           KeyHistoryRecordsDetailsState.initial(
             model: model ?? KeyHistoryModel(),
@@ -85,6 +87,7 @@ class KeyHistoryRecordsDetailsCubit
             roleNames:
                 ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
             locationId: parentModel.location!.id!,
+            isDbUser: false
         ),
         commonServices.getOrganisations(
             name: 'KEY_MANAGEMENT_DESTRUCTION_REASON'),
@@ -95,6 +98,7 @@ class KeyHistoryRecordsDetailsCubit
         commonServices.getBaseUsersByRoles(
             roleNames: ConstantUserRoles.atomSubRegionalHeadUser,
             locationId: parentModel.location!.id!,
+          isDbUser: false
         ),
       ]);
 

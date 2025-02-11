@@ -1330,6 +1330,7 @@ class RouteGenerator {
         String? lock;
         int? kipId;
         int? keyIssuanceId;
+        int locationId= 0;
         ExtraProperties? extraProperties;
         bool isEligibleToEdit = false;
         Map<String, dynamic> arguments =
@@ -1344,6 +1345,7 @@ class RouteGenerator {
         lock = arguments[ConstantsArgument.isLocked];
         keyType = arguments[ConstantsArgument.keyType];
         isEligibleToEdit = arguments[ConstantsArgument.isEligibleToEdit];
+        locationId = arguments[ConstantsArgument.locationId];
         log('--keyType--$keyType--');
         return MaterialPageRoute(
           builder: (context) => BlocProvider<KeyHistoryRecordsDetailsCubit>(
@@ -1357,6 +1359,7 @@ class RouteGenerator {
               lostType: keyLostType,
               keyType: keyType,
               keyIssuanceServices: keyIssuanceServices,
+              locationId: locationId
             ),
             child: KeyHistoryRecordsDetailsView(
               model: model,
@@ -1367,6 +1370,7 @@ class RouteGenerator {
               parentIsEligibleToEdit: isEligibleToEdit,
               lock: lock,
               keyType: keyType,
+              locationId: locationId
             ),
           ),
         );

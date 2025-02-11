@@ -24,6 +24,7 @@ class CustomListTexts extends StatefulWidget {
     this.isEmployeeId,
     this.location,
     this.roleName,
+    this.isDbUser
   });
 
   final String? imageName;
@@ -46,6 +47,7 @@ class CustomListTexts extends StatefulWidget {
   bool? isEmployeeId;
   int? location;
   String? roleName;
+  bool? isDbUser;
 
   @override
   State<CustomListTexts> createState() => CustomListTextsState();
@@ -225,7 +227,7 @@ class CustomListTextsState extends State<CustomListTexts> {
           final response = await CommonServices().getBaseUsers(
             roleName: widget.roleName, // Replace with actual role
             locationId: widget.location, // Replace with actual location ID
-            isDbUser: (widget.roleName == "ATOM_Guarding_Staff" ) ? false : true, // Set based on your use case
+            isDbUser: widget.isDbUser, // Set based on your use case
             search: int.tryParse(text) ?? text, // Passthe search parameter
           );
 

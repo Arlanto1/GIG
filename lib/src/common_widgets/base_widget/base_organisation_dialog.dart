@@ -63,6 +63,7 @@ class BaseOrganisationDialog {
       context: context,
       builder: (BuildContext dialogContext) {
         return CustomListTexts(
+          isDbUser: isDbUser,
           duplicateDepostorList: users,
           duplicateEntityList: entities,
           isEmployeeId: employeeId,

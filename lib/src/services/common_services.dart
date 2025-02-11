@@ -236,6 +236,7 @@ class CommonServices {
     if (isDbUser != null) {
       url = '$url&isDbUser=$isDbUser';
     }
+    log("isDbUser $isDbUser");
     if (search != null) {
       url = '$url&search=$search';
     }
