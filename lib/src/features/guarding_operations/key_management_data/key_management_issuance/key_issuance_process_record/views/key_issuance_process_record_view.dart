@@ -468,6 +468,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           ),
           ConstantsArgument.isEligibleToEdit: isEligibleToEdit,
           ConstantsArgument.locationId: widget.locationId,
+          ConstantsArgument.parentStatus: widget.parentStatus,
+
         },
       );
     } else {
@@ -484,7 +486,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           ConstantsArgument.keyType: keyIssuanceProcessModel.keyType,
           ConstantsArgument.isEligibleToEdit: isEligibleToEdit,
           ConstantsArgument.locationId: widget.locationId,
-
+          ConstantsArgument.parentStatus: widget.parentStatus,
         },
       );
     }
