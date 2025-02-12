@@ -224,6 +224,12 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         isDbUser: false,
           locationId: location.id!,
       );
+      /// Todo: Uncomment this after fixing the issue from backend
+      // await services.getOccPowerFailure(
+      //     locationId: location.id.toString());
+
+      // await services.getOccFollowUp(
+      //     locationId: location.id.toString());
     }
     state.model.handoverSecurity = null;
 
