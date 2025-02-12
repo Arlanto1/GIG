@@ -16,6 +16,7 @@ class KeyHistoryRecordsDetailsView extends StatefulWidget {
   final int? keyType;
   final bool parentIsEligibleToEdit;
   final int locationId;
+  final int parentStatus;
 
   const KeyHistoryRecordsDetailsView({
     super.key,
@@ -29,6 +30,7 @@ class KeyHistoryRecordsDetailsView extends StatefulWidget {
     this.keyType,
     required this.parentIsEligibleToEdit,
     required this.locationId,
+    required this.parentStatus,
   });
 
   @override
@@ -102,7 +104,7 @@ class _KeyHistoryRecordsDetailsViewState
                       ConstantsArgument.keyLostType: widget.keyLostType,
                       ConstantsArgument.isEligibleToEdit:
                           widget.parentIsEligibleToEdit,
-                      ConstantsArgument.parentStatus: state.model.status,
+                      ConstantsArgument.parentStatus: widget.parentStatus,
                       ConstantsArgument.locationId: widget.locationId,
                     });
               }

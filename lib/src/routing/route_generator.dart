@@ -1334,6 +1334,7 @@ class RouteGenerator {
         int? kipId;
         int? keyIssuanceId;
         int locationId= 0;
+        int parentStatus = 0;
         ExtraProperties? extraProperties;
         bool isEligibleToEdit = false;
         Map<String, dynamic> arguments =
@@ -1349,6 +1350,7 @@ class RouteGenerator {
         keyType = arguments[ConstantsArgument.keyType];
         isEligibleToEdit = arguments[ConstantsArgument.isEligibleToEdit];
         locationId = arguments[ConstantsArgument.locationId];
+        parentStatus = arguments[ConstantsArgument.parentStatus];
         log('--keyType--$keyType--');
         log('--loc--$locationId--');
         return MaterialPageRoute(
@@ -1374,7 +1376,8 @@ class RouteGenerator {
               parentIsEligibleToEdit: isEligibleToEdit,
               lock: lock,
               keyType: keyType,
-              locationId: locationId
+              locationId: locationId,
+              parentStatus: parentStatus,
             ),
           ),
         );

@@ -81,6 +81,24 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
       listener: (context, state) {},
       builder: (context, state) {
         log('isEligible ${widget.parentIsEligibleToEdit}');
+        log('111 ${widget.parentIsEligibleToEdit &&
+            !hasPermission &&
+            !lockEmpty &&
+            widget.parentStatus != -1 &&
+            widget.parentStatus == 1 &&
+            !keyLostHistoryScreen &&
+            !keyDamageHistoryScreen}');
+
+
+        log('parentIsEligibleToEdit ${widget.parentIsEligibleToEdit}');
+        log('hasPermission ${!hasPermission}');
+        log('lockEmpty ${lockEmpty}');
+        log('parentStatus ${widget.parentStatus !=-1}');
+        log('parentStatus ${widget.parentStatus ==0}');
+        log('keyLostHistoryScreen ${!keyLostHistoryScreen}');
+        log('keyDamageHistoryScreen ${!keyDamageHistoryScreen}');
+
+
         if ((widget.extraProperties != null &&
             !widget.extraProperties!.hasWritePermission!)) {
           hasPermission = true;
@@ -107,7 +125,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                     !hasPermission &&
                     lockEmpty &&
                     widget.parentStatus != -1 &&
-                    widget.parentStatus != 0 &&
+                    widget.parentStatus == 1 &&
                     !keyLostHistoryScreen &&
                     !keyDamageHistoryScreen
                 ? Flutterfloatingbutton(
@@ -132,7 +150,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                             ConstantsArgument.isEligibleToEdit:
                                 widget.parentIsEligibleToEdit,
                             ConstantsArgument.locationId: widget.locationId,
-
+                            ConstantsArgument.parentStatus: widget.parentStatus,
                           }
                           ),
                     },
