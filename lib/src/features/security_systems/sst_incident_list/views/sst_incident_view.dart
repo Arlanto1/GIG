@@ -151,7 +151,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                   regions: [],
                 ),
           ),
-          if (state.status == FormStatus.loading) ...[
+          if (state.status == FormStatus.initial) ...[
             const BaseLoader(),
           ],
           // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
