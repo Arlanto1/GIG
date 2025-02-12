@@ -338,7 +338,8 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
         ConstantsArgument.extraProperties:
             ExtraProperties(hasWritePermission: hasWritePermission),
         ConstantsArgument.isEligibleToEdit: widget.parentIsEligibleToEdit,
-        ConstantsArgument.locationId: widget.locationId
+        ConstantsArgument.locationId: widget.locationId,
+        ConstantsArgument.parentStatus: widget.parentStatus
       },
     );
   }
