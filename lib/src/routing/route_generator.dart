@@ -1284,6 +1284,7 @@ class RouteGenerator {
         int type = 0;
         String? lock;
         int parentStatus = 0;
+        int locationId =0;
         ExtraProperties? extraProperties;
         bool isEligibleToEdit = false;
         if (settings.arguments != null) {
@@ -1296,6 +1297,7 @@ class RouteGenerator {
           lock = arguments[ConstantsArgument.isLocked];
           isEligibleToEdit = arguments[ConstantsArgument.isEligibleToEdit];
           parentStatus = arguments[ConstantsArgument.parentStatus];
+          locationId = arguments[ConstantsArgument.locationId];
         }
         log('route----type--$type--');
         return MaterialPageRoute(
@@ -1313,7 +1315,8 @@ class RouteGenerator {
                 extraProperties: extraProperties,
                 parentIsEligibleToEdit: isEligibleToEdit,
                 parentStatus: parentStatus,
-                lock: lock),
+                lock: lock,
+            locationId:locationId ,),
           ),
         );
 
@@ -1347,6 +1350,7 @@ class RouteGenerator {
         isEligibleToEdit = arguments[ConstantsArgument.isEligibleToEdit];
         locationId = arguments[ConstantsArgument.locationId];
         log('--keyType--$keyType--');
+        log('--loc--$locationId--');
         return MaterialPageRoute(
           builder: (context) => BlocProvider<KeyHistoryRecordsDetailsCubit>(
             create: (_) => KeyHistoryRecordsDetailsCubit(

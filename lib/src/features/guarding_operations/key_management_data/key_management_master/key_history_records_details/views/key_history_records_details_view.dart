@@ -103,6 +103,7 @@ class _KeyHistoryRecordsDetailsViewState
                       ConstantsArgument.isEligibleToEdit:
                           widget.parentIsEligibleToEdit,
                       ConstantsArgument.parentStatus: state.model.status,
+                      ConstantsArgument.locationId: widget.locationId,
                     });
               }
               // Navigator.pop(context);
