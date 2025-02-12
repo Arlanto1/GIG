@@ -80,21 +80,21 @@ class ViolationPenaltyRecordBloc
         );
       }
 
-      List<ViolationPenaltyRecord> response =
-          await services.getViolationPenaltyList(
-        id: '${event.id}',
-        // type: '${event.type}',
-      );
-
-      if (response.isEmpty == true) {
-        return emit(state.copyWith(hasReachedMax: true));
-      }
-      return emit(
-        state.copyWith(
-          items: List.of(state.items ?? [])..addAll(response),
-          hasReachedMax: false,
-        ),
-      );
+      // List<ViolationPenaltyRecord> response =
+      //     await services.getViolationPenaltyList(
+      //   id: '${event.id}',
+      //   // type: '${event.type}',
+      // );
+      //
+      // if (response.isEmpty == true) {
+      //   return emit(state.copyWith(hasReachedMax: true));
+      // }
+      // return emit(
+      //   state.copyWith(
+      //     items: List.of(state.items ?? [])..addAll(response),
+      //     hasReachedMax: false,
+      //   ),
+      // );
     } catch (e) {
       return emit(state.copyWith(status: FormStatus.failure));
     }
