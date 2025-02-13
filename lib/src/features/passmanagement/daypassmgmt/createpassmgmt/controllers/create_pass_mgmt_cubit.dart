@@ -832,7 +832,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
       if (model.status != null &&
           (model.status == 0 || model.status == 1 || model.status == 3)) {
         updateStatuses = await commonServices.getStatusesByModuleId(
-            module: Constants.passManagementModuleCode, filter: 1);
+            module: Constants.passManagementModuleCode, filter: model.status == 0 ? 0 : 1);
       }
 
       emit(state.copyWith(
