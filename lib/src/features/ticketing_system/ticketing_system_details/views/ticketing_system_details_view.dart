@@ -614,7 +614,8 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                 ),
               ),
             ),
-          Container(
+          if ((state.model.status == 9)) ...[
+    Container(
           padding: const EdgeInsets.all(5.0),
       decoration: const ShapeDecoration(
         color: AppColors.backgroundWhiteColor,
@@ -630,6 +631,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
         ],
       ),
     ),
+    ],
           ],
         ),
       ),
