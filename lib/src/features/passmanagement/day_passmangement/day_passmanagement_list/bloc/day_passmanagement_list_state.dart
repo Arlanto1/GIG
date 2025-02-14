@@ -1,9 +1,9 @@
 
 
-part of 'day_passmanagement_bloc.dart';
+part of 'day_passmanagement_list_bloc.dart';
 
-class DayPassManagementState extends Equatable {
-  final List<PassManagementModel> items;
+class DayPassManagementListState extends Equatable {
+  final List<DayPassManagementModel> items;
   final bool hasReachedMax;
   final FormStatus status;
   final Locations? locations;
@@ -12,10 +12,10 @@ class DayPassManagementState extends Equatable {
   final String? message;
   final PMUiLabels? labels;
   final ExtraProperties? extraProperties;
-  final PassManagementModel? model;
+  final DayPassManagementModel? model;
 
-  const DayPassManagementState({
-    this.items = const <PassManagementModel>[],
+  const DayPassManagementListState({
+    this.items = const <DayPassManagementModel>[],
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
     this.message,
@@ -27,8 +27,8 @@ class DayPassManagementState extends Equatable {
     this.model,
   });
 
-  DayPassManagementState copyWith({
-    List<PassManagementModel>? items,
+  DayPassManagementListState copyWith({
+    List<DayPassManagementModel>? items,
     bool? hasReachedMax,
     FormStatus? status,
     String? message,
@@ -40,7 +40,7 @@ class DayPassManagementState extends Equatable {
     PMUiLabels? labels,
     ExtraProperties? extraProperties,
   }) {
-    return DayPassManagementState(
+    return DayPassManagementListState(
       items: items ?? this.items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,

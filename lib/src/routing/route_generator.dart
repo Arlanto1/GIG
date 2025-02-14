@@ -70,6 +70,7 @@ import 'package:db_atom/src/features/material_movement/material_movements/bloc/m
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import 'package:db_atom/src/features/occurrenceList/bloc/occurrences_bloc.dart'
     as ocb;
+import 'package:db_atom/src/features/passmanagement/day_passmangement/day_passmanagement_list/bloc/day_passmanagement_list_bloc.dart';
 import 'package:db_atom/src/features/passmanagement/pass_management_list/bloc/pass_management_list_bloc.dart'
     as pm;
 import 'package:db_atom/src/features/passmanagement/pass_management_list/views/pass_manangement_list_view.dart';
@@ -114,6 +115,7 @@ import '../features/guarding_operations/vvip_visitor/vvip_visitors/bloc/vvip_vis
 import '../features/guarding_operations/vvip_visitor/vvip_visitors_record/bloc/vvip_visitors_record_bloc.dart'
     as vipr;
 import '../features/guarding_operations/vvip_visitor/vvip_visitors_record/views/vvip_visitors_record_view.dart';
+import '../features/passmanagement/day_passmangement/day_passmanagement_list/views/day_passmanagement_list_view.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -1836,6 +1838,18 @@ class RouteGenerator {
             ),
           ),
         );
+
+      case dayPassManagementListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<DayPassManagementListBloc>(
+              create: (_) => DayPassManagementListBloc(passId: 0)
+                ..add(FetchDayPassData(
+                    startPos: 0,
+                    maxPos: Constants.maxResults,
+                    newSearch: true,
+                    filters: BaseFilterModel())),
+              child: const DayPassManagementListView(),
+            ));
 
       default:
         log('--default---${settings.name}-');

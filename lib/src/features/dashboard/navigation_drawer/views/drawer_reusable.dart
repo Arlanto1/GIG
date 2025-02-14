@@ -1066,7 +1066,7 @@ class NavigationDrawer1 extends StatelessWidget {
     switch (index) {
       case 0:
         log('day pass management index0');
-        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+        Navigator.pushNamed(context, dayPassManagementListRoute, arguments: {
           "passMngDetails": PassMngArguments(0, 'Day Pass Management', false)
         });
         break;

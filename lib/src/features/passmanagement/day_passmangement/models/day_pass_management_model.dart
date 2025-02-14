@@ -1,0 +1,215 @@
+import 'package:db_atom/index.dart';
+
+class DayPassManagementResponseModel {
+  final dynamic list;
+  final List<DayPassManagementModel>? data;
+  final int? totalCount;
+  final int? currentPageNo;
+  final int? totalPageCount;
+
+  DayPassManagementResponseModel({
+    this.list,
+    this.data,
+    this.totalCount,
+    this.currentPageNo,
+    this.totalPageCount,
+  });
+
+  DayPassManagementResponseModel.fromJson(Map<String, dynamic> json)
+      : list = json['list'],
+        data = (json['data'] as List?)
+            ?.map((dynamic e) =>
+            DayPassManagementModel.fromJson(e as Map<String, dynamic>))
+            .toList(),
+        totalCount = json['totalCount'] as int?,
+        currentPageNo = json['currentPageNo'] as int?,
+        totalPageCount = json['totalPageCount'] as int?;
+
+  Map<String, dynamic> toJson() => {
+    'list': list,
+    'data': data?.map((e) => e.toJson()).toList(),
+    'totalCount': totalCount,
+    'currentPageNo': currentPageNo,
+    'totalPageCount': totalPageCount
+  };
+}
+
+class DayPassManagementModel {
+  final int? id;
+  final String? slNo;
+  final String? inputDate;
+  final Organisation? location;
+  final Organisation? locationRegion;
+  final int? status;
+  final User? entrySecurity;
+  final int? passType;
+  final CompanyType? companyType;
+  final String? companyName;
+  final bool? exceptionalApproval;
+  final PassInfo? passInfo;
+  final String? startTime;
+  final String? endTime;
+  final List<dynamic>? evidenceDocuments;
+  final bool? escortedByHost;
+  final bool? idValidated;
+  final String? hostName;
+  final String? mifareNo;
+  final String? passNo;
+  final String? entrySecurityName;
+  final String? handOverSecurityName;
+
+  DayPassManagementModel({
+    this.id,
+    this.slNo,
+    this.inputDate,
+    this.location,
+    this.locationRegion,
+    this.status,
+    this.entrySecurity,
+    this.passType,
+    this.companyType,
+    this.companyName,
+    this.exceptionalApproval,
+    this.passInfo,
+    this.startTime,
+    this.endTime,
+    this.evidenceDocuments,
+    this.escortedByHost,
+    this.idValidated,
+    this.hostName,
+    this.mifareNo,
+    this.passNo,
+    this.entrySecurityName,
+    this.handOverSecurityName,
+  });
+
+  DayPassManagementModel.fromJson(Map<String, dynamic> json)
+      : id = json['id'] as int?,
+        slNo = json['slNo'] as String?,
+        inputDate = json['inputDate'] as String?,
+        location = (json['location'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['location'] as Map<String,dynamic>) : null,
+        locationRegion = (json['locationRegion'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['locationRegion'] as Map<String,dynamic>) : null,
+        status = json['status'] as int?,
+        entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
+        passType = json['passType'] as int?,
+        companyType = (json['companyType'] as Map<String,dynamic>?) != null ? CompanyType.fromJson(json['companyType'] as Map<String,dynamic>) : null,
+        companyName = json['companyName'] as String?,
+        exceptionalApproval = json['exceptionalApproval'] as bool?,
+        passInfo = (json['passInfo'] as Map<String,dynamic>?) != null ? PassInfo.fromJson(json['passInfo'] as Map<String,dynamic>) : null,
+        startTime = json['startTime'] as String?,
+        endTime = json['endTime'] as String?,
+        evidenceDocuments = json['evidenceDocuments'] as List?,
+        escortedByHost = json['escortedByHost'] as bool?,
+        idValidated = json['idValidated'] as bool?,
+        hostName = json['hostName'] as String?,
+        mifareNo = json['mifareNo'] as String?,
+        passNo = json['passNo'] as String?,
+        entrySecurityName = json['entrySecurityName'] as String?,
+        handOverSecurityName = json['handOverSecurityName'] as String?;
+
+  Map<String, dynamic> toJson() => {
+    'id' : id,
+    'slNo' : slNo,
+    'inputDate' : inputDate,
+    'location' : location?.toJson(),
+    'locationRegion' : locationRegion?.toJson(),
+    'status' : status,
+    'entrySecurity' : entrySecurity?.toJson(),
+    'passType' : passType,
+    'companyType' : companyType?.toJson(),
+    'companyName' : companyName,
+    'exceptionalApproval' : exceptionalApproval,
+    'passInfo' : passInfo?.toJson(),
+    'startTime' : startTime,
+    'endTime' : endTime,
+    'evidenceDocuments' : evidenceDocuments,
+    'escortedByHost' : escortedByHost,
+    'idValidated' : idValidated,
+    'hostName' : hostName,
+    'mifareNo' : mifareNo,
+    'passNo' : passNo,
+    'entrySecurityName' : entrySecurityName,
+    'handOverSecurityName' : handOverSecurityName
+  };
+}
+
+class CompanyType {
+  final int? id;
+  final String? name;
+  final String? keyname;
+  final String? description;
+
+  CompanyType({
+    this.id,
+    this.name,
+    this.keyname,
+    this.description,
+  });
+
+  CompanyType.fromJson(Map<String, dynamic> json)
+      : id = json['id'] as int?,
+        name = json['name'] as String?,
+        keyname = json['keyname'] as String?,
+        description = json['description'] as String?;
+
+  Map<String, dynamic> toJson() => {
+    'id' : id,
+    'name' : name,
+    'keyname' : keyname,
+    'description' : description
+  };
+}
+
+class PassInfo {
+  final int? id;
+  final int? passType;
+  final String? passNo;
+  final String? mifareNo;
+  final String? expiryDate;
+  final Organisation? location;
+  final Organisation? region;
+  final Organisation? entity;
+  final bool? dws;
+  final int? status;
+
+  PassInfo({
+    this.id,
+    this.passType,
+    this.passNo,
+    this.mifareNo,
+    this.expiryDate,
+    this.location,
+    this.region,
+    this.entity,
+    this.dws,
+    this.status,
+  });
+
+  PassInfo.fromJson(Map<String, dynamic> json)
+      : id = json['id'] as int?,
+        passType = json['passType'] as int?,
+        passNo = json['passNo'] as String?,
+        mifareNo = json['mifareNo'] as String?,
+        expiryDate = json['expiryDate'] as String?,
+        location = (json['location'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['location'] as Map<String,dynamic>) : null,
+        region = (json['region'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['region'] as Map<String,dynamic>) : null,
+        entity = (json['entity'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['entity'] as Map<String,dynamic>) : null,
+        dws = json['dws'] as bool?,
+        status = json['status'] as int?;
+
+  Map<String, dynamic> toJson() => {
+    'id' : id,
+    'passType' : passType,
+    'passNo' : passNo,
+    'mifareNo' : mifareNo,
+    'expiryDate' : expiryDate,
+    'location' : location?.toJson(),
+    'region' : region?.toJson(),
+    'entity' : entity?.toJson(),
+    'dws' : dws,
+    'status' : status
+  };
+}
+
+
+

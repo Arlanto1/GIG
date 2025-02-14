@@ -1,17 +1,14 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/passmanagement/day_passmangement/day_passmanagement_list/bloc/day_passmanagement_bloc.dart';
+import 'package:db_atom/src/features/passmanagement/day_passmangement/day_passmanagement_list/bloc/day_passmanagement_list_bloc.dart';
+import 'package:db_atom/src/features/passmanagement/day_passmangement/models/day_pass_management_model.dart';
+import 'package:db_atom/src/features/passmanagement/day_passmangement/services/day_pass_management_services.dart';
 
 class DayPassManagementListView extends StatefulWidget {
   const DayPassManagementListView({
     super.key,
-    required this.isInward,
-    this.returnable,
   });
-
-  final bool isInward;
-  final bool? returnable;
 
   @override
   State<DayPassManagementListView> createState() => _DayPassManagementListViewState();
@@ -25,7 +22,7 @@ class _DayPassManagementListViewState extends State<DayPassManagementListView> {
   @override
   void initState() {
     super.initState();
-    context.read<DayPassManagementBloc>().add(
+    context.read<DayPassManagementListBloc>().add(
       const InitializeValues(),
     );
     _scrollController = ScrollController()..addListener(_onScroll);
@@ -45,7 +42,7 @@ class _DayPassManagementListViewState extends State<DayPassManagementListView> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context.read<DayPassManagementBloc>().add(FetchDayPassData(
+      context.read<DayPassManagementListBloc>().add(FetchDayPassData(
         startPos: pageNumber,
         maxPos: Constants.maxResults,
         newSearch: false,
@@ -63,10 +60,10 @@ class _DayPassManagementListViewState extends State<DayPassManagementListView> {
 
   Future<void> _onRefresh() async {
     // Trigger the refresh event
-    context.read<DayPassManagementBloc>().add(const RefreshDayPassList());
+    context.read<DayPassManagementListBloc>().add(const RefreshDayPassList());
 
     // Wait until the state status is FormStatus.success or FormStatus.failure
-    await context.read<DayPassManagementBloc>().stream.firstWhere(
+    await context.read<DayPassManagementListBloc>().stream.firstWhere(
           (state) =>
       state.status == FormStatus.success ||
           state.status == FormStatus.failure,
@@ -77,7 +74,7 @@ class _DayPassManagementListViewState extends State<DayPassManagementListView> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     double height = size.height;
-    return BlocConsumer<DayPassManagementBloc, DayPassManagementState>(
+    return BlocConsumer<DayPassManagementListBloc, DayPassManagementListState>(
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
@@ -89,32 +86,26 @@ class _DayPassManagementListViewState extends State<DayPassManagementListView> {
             foregroundColor: AppColors.backgroundWhiteColor,
             onPressed: () => {
               Navigator.pushNamed(
-                  context, materialMovementInwardOutwardDetailsRoute,
+                  context, dayPassManagementDetailsRoute,
                   arguments: {
-                    "isInward": widget.isInward,
                     "isCreate": true,
-                    "title": widget.isInward
-                        ? Constants.materialMovementInwardCreate
-                        : Constants.materialMovementOutwardCreate,
-                    "returnable": widget.returnable ?? false,
+                    "title":  Constants.dayPassManagement,
                   })
             },
           )
               : const SizedBox(),
           appBar: BaseAppBar().buildAppHeader(
             context: context,
-            title: widget.isInward
-                ? Constants.materialMovementsInwardTitle
-                : Constants.materialMovementsOutwardTitle,
+            title: Constants.dayPassManagement,
             showPopUp: true,
             showSaveButton: false,
             showSubmitButton: false,
             showDisLikeButton: false,
             showLikeButton: false,
-            excelAPIName: 'exportMMExcel?mmType=${widget.isInward ? 1 : 0}',
-            pdfAPIName: 'exportMMPDF?mmType=${widget.isInward ? 1 : 0}',
+            excelAPIName: 'exportPassMgmtExcel?passType=${0}&isList=1',
+            pdfAPIName: 'exportPassMgmtPDF?passType=${0}&isList=1',
           ),
-          body: BlocConsumer<DayPassManagementBloc, DayPassManagementState>(
+          body: BlocConsumer<DayPassManagementListBloc, DayPassManagementListState>(
             listener: (context, state) {
               Utils().formError(state, context);
               Utils().errorAndLogout(state, context);
@@ -312,26 +303,22 @@ class _DayPassManagementListViewState extends State<DayPassManagementListView> {
   getById(bool hasWritePermission, int id) async {
     showLoadingDialog(context);
 
-    MaterialMovementModel materialMovementModel =
-    await MaterialMovementServices().getById(id);
+    DayPassManagementModel dayPassManagementModel =
+    await DayPassManagementServices().getById(id);
 
-    editDataLoading(materialMovementModel, hasWritePermission);
+    editDataLoading(dayPassManagementModel, hasWritePermission);
   }
 
-  Future<void> editDataLoading(MaterialMovementModel? materialMovementModel,
+  Future<void> editDataLoading(DayPassManagementModel? dayPassManagementModel,
       bool hasWritePermission) async {
     dismissLoadingDialog(context);
-    if (materialMovementModel != null) {
-      Navigator.pushNamed(context, materialMovementInwardOutwardDetailsRoute,
+    if (dayPassManagementModel != null) {
+      Navigator.pushNamed(context, dayPassManagementDetailsRoute,
           arguments: {
-            "MaterialMovementModel": materialMovementModel,
-            "isInward": widget.isInward,
-            "title": widget.isInward
-                ? Constants.materialMovementInwardEdit
-                : Constants.materialMovementOutwardEdit,
+            "passManage": dayPassManagementModel,
+            "title": Constants.dayPassManagement,
             ConstantsArgument.extraProperties:
             ExtraProperties(hasWritePermission: hasWritePermission),
-            "returnable": widget.returnable,
           });
     }
   }
@@ -343,7 +330,7 @@ class _DayPassManagementListViewState extends State<DayPassManagementListView> {
 
     filters = BaseFilterModel(filterCriteria: model);
 
-    BlocProvider.of<DayPassManagementBloc>(context).add(
+    BlocProvider.of<DayPassManagementListBloc>(context).add(
       FetchDayPassData(
           startPos: 0,
           maxPos: Constants.maxResults,
@@ -360,7 +347,7 @@ class _DayPassManagementListViewState extends State<DayPassManagementListView> {
     filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
     log('id---filtersFun----${filters.filterCriteria!.filters!.id}---');
 
-    BlocProvider.of<DayPassManagementBloc>(context).add(
+    BlocProvider.of<DayPassManagementListBloc>(context).add(
       FetchDayPassData(
           startPos: 0,
           maxPos: Constants.maxResults,

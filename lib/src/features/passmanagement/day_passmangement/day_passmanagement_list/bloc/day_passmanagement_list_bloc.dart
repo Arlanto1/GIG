@@ -1,24 +1,34 @@
-
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/passmanagement/models/pass_management_model.dart';
+import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:db_atom/src/constants/constants.dart';
+import 'package:db_atom/src/enums/form_status.dart';
+import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
+import 'package:db_atom/src/features/createfound/models/user.dart';
+import 'package:db_atom/src/features/passmanagement/day_passmangement/models/day_pass_management_model.dart';
+import 'package:db_atom/src/features/passmanagement/day_passmangement/services/day_pass_management_services.dart';
 import 'package:db_atom/src/features/passmanagement/models/pm_ui_labels.dart';
-import 'package:db_atom/src/features/passmanagement/services/pass_management_services.dart';
+import 'package:db_atom/src/models/base_filter_model.dart';
+import 'package:db_atom/src/models/extra_properties.dart';
+import 'package:db_atom/src/models/organisation.dart';
+import 'package:db_atom/src/models/responseModels/generic_response.dart';
+import 'package:db_atom/src/models/responseModels/token_expired.dart';
+import 'package:db_atom/src/services/common_services.dart';
+import 'package:db_atom/src/utils/shared_preferences.dart';
+import 'package:db_atom/src/utils/utils_common.dart';
+import 'package:equatable/equatable.dart';
 
-part 'day_passmanagement_event.dart';
-part 'day_passmanagement_state.dart';
+part 'day_passmanagement_list_event.dart';
+part 'day_passmanagement_list_state.dart';
 
-class DayPassManagementBloc
-    extends Bloc<DayPassManagementEvent, DayPassManagementState> {
-  final bool isInward;
-  final bool? returnable;
+class DayPassManagementListBloc
+    extends Bloc<DayPassManagementListEvent, DayPassManagementListState> {
+  final int passId;
 
-  DayPassManagementBloc({
-    required this.isInward,
-    this.returnable,
-  }) : super(const DayPassManagementState()) {
+  DayPassManagementListBloc({required this.passId})
+      : super(const DayPassManagementListState()) {
     on<InitializeValues>(_initializeValues);
     on<FetchDayPassData>(
       _fetchDayPassManagements,
@@ -30,24 +40,23 @@ class DayPassManagementBloc
     );
   }
 
-  final PassManagementServices services = PassManagementServices();
+  final DayPassManagementServices services = DayPassManagementServices();
 
   final CommonServices commonServices = CommonServices();
 
   FutureOr<void> _initializeValues(
-      InitializeValues event, Emitter<DayPassManagementState> emit) async {
+      InitializeValues event, Emitter<DayPassManagementListState> emit) async {
     try {
-
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
       await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.passManagementModule,
+        moduleCode: Constants.passManagementRolesModuleCode,
         commonServices: commonServices,
       );
 
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-          module: Constants.passManagementModule);
+          module: Constants.passManagementModuleCode);
 
       List<Organisation> regions =
       await commonServices.getRegionsOrLocationsByRegionId();
@@ -60,7 +69,7 @@ class DayPassManagementBloc
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.passManagementModuleCode);
+          moduleCode: Constants.passManagementRolesModuleCode);
 
       PMUiLabels labels = PMUiLabels.fromJson(responseLabels);
       return emit(
@@ -89,19 +98,20 @@ class DayPassManagementBloc
   }
 
   FutureOr<void> _refreshList(
-      RefreshDayPassList event, Emitter<DayPassManagementState> emit) async {
+      RefreshDayPassList event, Emitter<DayPassManagementListState> emit) async {
     try {
-      final PassManagementResponseModel response =
-      await services.getPassManagementList(
+      DayPassManagementResponseModel response;
+
+      response = await services.getPassManagementList(
         startPosition: '0',
         maximumRecords: '20',
-        mmType: isInward ? 1 : 0,
+        passType: 0,
         filters: BaseFilterModel(),
       );
 
       return emit(
         state.copyWith(
-          items: response.items,
+          items: response.list,
           hasReachedMax: false,
           status: FormStatus.success,
         ),
@@ -112,7 +122,7 @@ class DayPassManagementBloc
   }
 
   FutureOr<void> _fetchDayPassManagements(
-      FetchDayPassData event, Emitter<DayPassManagementState> emit) async {
+      FetchDayPassData event, Emitter<DayPassManagementListState> emit) async {
     log('-_fetchMaterialMovements--');
 
     emit(
@@ -126,45 +136,40 @@ class DayPassManagementBloc
 
       if (state.status == FormStatus.initial || event.newSearch) {
         log('-_fetchMaterialMovements--initial--');
-        PassManagementResponseModel response;
-        // response = await services.getMaterialMovements(
-        //   startPosition: '${event.startPos}',
-        //   maximumRecords: '${event.maxPos}',
-        //   mmType: isInward ? 1 : 0,
-        // );
+        DayPassManagementResponseModel response;
 
         response = await services.getPassManagementList(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
-          mmType: isInward ? 1 : 0,
+          passType: 0,
           filters: event.filters,
         );
 
         return emit(
           state.copyWith(
-            items: response.items,
+            items: response.list,
             hasReachedMax: false,
             status: FormStatus.success,
           ),
         );
+
       }
 
-      log('-_fetchMaterialMovements------##--');
-      PassManagementResponseModel response;
+      DayPassManagementResponseModel response;
+
       response = await services.getPassManagementList(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
-        mmType: isInward ? 1 : 0,
+        passType: 0,
         filters: event.filters,
       );
 
-      if (response.items?.isEmpty == true) {
-        return emit(
-            state.copyWith(hasReachedMax: true, status: FormStatus.success));
+      if (response.list?.isEmpty == true) {
+        return emit(state.copyWith(hasReachedMax: true));
       }
       return emit(
         state.copyWith(
-          items: List.of(state.items)..addAll(response.items ?? []),
+          items: List.of(state.items)..addAll(response.list ?? []),
           hasReachedMax: false,
           status: FormStatus.success,
         ),

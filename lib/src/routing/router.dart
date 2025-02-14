@@ -108,4 +108,7 @@ const String vipVisitorsRecordsRoute = '/vipVisitorsRecordsRoute';
 const String ticketingSystemListRoute = '/ticketingSystemListRoute';
 const String ticketingSystemDetailsRoute = '/ticketingSystemDetailsRoute';
 
+const String dayPassManagementListRoute = '/dayPassManagementListRoute';
+const String dayPassManagementDetailsRoute = '/dayPassManagementDetailsRoute';
+
 

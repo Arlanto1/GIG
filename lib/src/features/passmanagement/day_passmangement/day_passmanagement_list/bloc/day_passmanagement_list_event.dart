@@ -1,14 +1,14 @@
 
-part of 'day_passmanagement_bloc.dart';
+part of 'day_passmanagement_list_bloc.dart';
 
-abstract class DayPassManagementEvent extends Equatable {
-  const DayPassManagementEvent();
+abstract class DayPassManagementListEvent extends Equatable {
+  const DayPassManagementListEvent();
 
   @override
   List<Object?> get props => [];
 }
 
-class FetchDayPassData extends DayPassManagementEvent {
+class FetchDayPassData extends DayPassManagementListEvent {
   final int startPos;
   final int maxPos;
   final bool newSearch;
@@ -21,10 +21,10 @@ class FetchDayPassData extends DayPassManagementEvent {
         required this.filters});
 }
 
-class InitializeValues extends DayPassManagementEvent {
+class InitializeValues extends DayPassManagementListEvent {
   const InitializeValues();
 }
 
-class RefreshDayPassList extends DayPassManagementEvent {
+class RefreshDayPassList extends DayPassManagementListEvent {
   const RefreshDayPassList();
 }
