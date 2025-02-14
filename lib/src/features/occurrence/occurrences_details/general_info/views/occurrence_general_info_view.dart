@@ -291,6 +291,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                         roleName: ConstantUserRoles
                                             .atomGuardingStaffUser,
                                         locationId: state.model.location!.id!,
+                                        isDbUser: false,
                                         functionToCall: (BaseUser user) {
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(

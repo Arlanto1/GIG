@@ -71,20 +71,20 @@ class ContactRecordBloc extends Bloc<ContactRecordEvent, ContactRecordState> {
         );
       }
 
-      ContactsListModel response = await services.getContactListByType(
-        id: '${event.id}',
-        type: '${event.type}',
-      );
-
-      if (response.contacts?.isEmpty == true) {
-        return emit(state.copyWith(hasReachedMax: true));
-      }
-      return emit(
-        state.copyWith(
-          items: List.of(state.items ?? [])..addAll(response.contacts ?? []),
-          hasReachedMax: false,
-        ),
-      );
+      // ContactsListModel response = await services.getContactListByType(
+      //   id: '${event.id}',
+      //   type: '${event.type}',
+      // );
+      //
+      // if (response.contacts?.isEmpty == true) {
+      //   return emit(state.copyWith(hasReachedMax: true));
+      // }
+      // return emit(
+      //   state.copyWith(
+      //     items: List.of(state.items ?? [])..addAll(response.contacts ?? []),
+      //     hasReachedMax: false,
+      //   ),
+      // );
     } catch (e) {
       return emit(state.copyWith(status: FormStatus.failure));
     }

@@ -24,6 +24,7 @@ class CustomListTexts extends StatefulWidget {
     this.isEmployeeId,
     this.location,
     this.roleName,
+    this.isDbUser
   });
 
   final String? imageName;
@@ -46,6 +47,7 @@ class CustomListTexts extends StatefulWidget {
   bool? isEmployeeId;
   int? location;
   String? roleName;
+  bool? isDbUser;
 
   @override
   State<CustomListTexts> createState() => CustomListTextsState();
@@ -223,10 +225,10 @@ class CustomListTextsState extends State<CustomListTexts> {
         // Call the API only once when the search text length is greater than 2
         try {
           final response = await CommonServices().getBaseUsers(
-            roleName: 'ATOM_STATIC_USER', // Replace with actual role
+            roleName: widget.roleName, // Replace with actual role
             locationId: widget.location, // Replace with actual location ID
-            isDbUser: true, // Set based on your use case
-            search: int.tryParse(text), // Passthe search parameter
+            isDbUser: widget.isDbUser, // Set based on your use case
+            search: int.tryParse(text) ?? text, // Passthe search parameter
           );
 
           depostorList.clear(); // Clear the existing list

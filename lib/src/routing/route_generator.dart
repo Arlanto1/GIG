@@ -1284,6 +1284,7 @@ class RouteGenerator {
         int type = 0;
         String? lock;
         int parentStatus = 0;
+        int locationId =0;
         ExtraProperties? extraProperties;
         bool isEligibleToEdit = false;
         if (settings.arguments != null) {
@@ -1296,6 +1297,7 @@ class RouteGenerator {
           lock = arguments[ConstantsArgument.isLocked];
           isEligibleToEdit = arguments[ConstantsArgument.isEligibleToEdit];
           parentStatus = arguments[ConstantsArgument.parentStatus];
+          locationId = arguments[ConstantsArgument.locationId];
         }
         log('route----type--$type--');
         return MaterialPageRoute(
@@ -1313,7 +1315,8 @@ class RouteGenerator {
                 extraProperties: extraProperties,
                 parentIsEligibleToEdit: isEligibleToEdit,
                 parentStatus: parentStatus,
-                lock: lock),
+                lock: lock,
+            locationId:locationId ,),
           ),
         );
 
@@ -1330,6 +1333,8 @@ class RouteGenerator {
         String? lock;
         int? kipId;
         int? keyIssuanceId;
+        int locationId= 0;
+        int parentStatus = 0;
         ExtraProperties? extraProperties;
         bool isEligibleToEdit = false;
         Map<String, dynamic> arguments =
@@ -1344,7 +1349,10 @@ class RouteGenerator {
         lock = arguments[ConstantsArgument.isLocked];
         keyType = arguments[ConstantsArgument.keyType];
         isEligibleToEdit = arguments[ConstantsArgument.isEligibleToEdit];
+        locationId = arguments[ConstantsArgument.locationId];
+        parentStatus = arguments[ConstantsArgument.parentStatus];
         log('--keyType--$keyType--');
+        log('--loc--$locationId--');
         return MaterialPageRoute(
           builder: (context) => BlocProvider<KeyHistoryRecordsDetailsCubit>(
             create: (_) => KeyHistoryRecordsDetailsCubit(
@@ -1357,6 +1365,7 @@ class RouteGenerator {
               lostType: keyLostType,
               keyType: keyType,
               keyIssuanceServices: keyIssuanceServices,
+              locationId: locationId
             ),
             child: KeyHistoryRecordsDetailsView(
               model: model,
@@ -1367,6 +1376,8 @@ class RouteGenerator {
               parentIsEligibleToEdit: isEligibleToEdit,
               lock: lock,
               keyType: keyType,
+              locationId: locationId,
+              parentStatus: parentStatus,
             ),
           ),
         );

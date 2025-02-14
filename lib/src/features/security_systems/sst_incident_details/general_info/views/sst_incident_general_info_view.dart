@@ -749,7 +749,7 @@ class _SstIncidentGeneralInfoViewState
                                         );
                                       },
                                       roleName: ConstantUserRoles
-                                          .atomSeniorSecurityManagerUser,
+                                          .atomSecuritySystemManagerUser,
                                       locationId: state.model.location!.id!,
                                       functionToCall: (BaseUser user) {
                                         BlocProvider.of<

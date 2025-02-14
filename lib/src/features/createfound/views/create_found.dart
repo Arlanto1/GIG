@@ -637,10 +637,12 @@ class _CreateFoundState extends State<CreateFound> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
+            isDbUser: true,
             isEmployeeId: true,
             location: state.location?.id,
             duplicateDepostorList:
                 state.getDepositorResponse?.atomStaticUser ?? [],
+            roleName: "ATOM_STATIC_USER",
             leftImageName: null,
             onLeftButtonTap: () {
               Navigator.pop(context);

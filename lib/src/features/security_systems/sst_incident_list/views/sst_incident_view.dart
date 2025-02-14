@@ -151,16 +151,15 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                   regions: [],
                 ),
           ),
-          // if (state.status == FormStatus.loading) ...[
+          // if (state.status == FormStatus.loading ) ...[
           //   const BaseLoader(),
           // ],
           // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
           // Text('state.status=====${state.status}'),
-          if (state.items.isEmptyOrNull &&
-              state.status != FormStatus.initial &&
-              state.status != FormStatus.loading) ...[
-            const NoRecordFoundWidget(),
-          ],
+          // if (
+          //     state.status == FormStatus.initial) ...[
+          //   const NoRecordFoundWidget(),
+          // ],
 
           UtilsCommon().showNoRecordWidget(
               state: state, height: height, items: state.items),

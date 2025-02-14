@@ -467,6 +467,9 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
             hasWritePermission: hasWritePermission,
           ),
           ConstantsArgument.isEligibleToEdit: isEligibleToEdit,
+          ConstantsArgument.locationId: widget.locationId,
+          ConstantsArgument.parentStatus: widget.parentStatus,
+
         },
       );
     } else {
@@ -482,6 +485,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           ConstantsArgument.keyLostType: type,
           ConstantsArgument.keyType: keyIssuanceProcessModel.keyType,
           ConstantsArgument.isEligibleToEdit: isEligibleToEdit,
+          ConstantsArgument.locationId: widget.locationId,
+          ConstantsArgument.parentStatus: widget.parentStatus,
         },
       );
     }

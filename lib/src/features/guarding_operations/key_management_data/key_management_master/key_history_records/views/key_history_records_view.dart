@@ -15,6 +15,8 @@ class KeyHistoryRecordsView extends StatefulWidget {
     this.kipId,
     required this.parentIsEligibleToEdit,
     required this.parentStatus,
+    required this.locationId,
+
   });
 
   final int id;
@@ -25,6 +27,7 @@ class KeyHistoryRecordsView extends StatefulWidget {
   final int? kipId;
   final bool parentIsEligibleToEdit;
   final int parentStatus;
+  final int locationId;
 
   @override
   State<KeyHistoryRecordsView> createState() => _KeyHistoryRecordsViewState();
@@ -71,13 +74,31 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
 
   @override
   Widget build(BuildContext context) {
-    log('--widget.type---${widget.type}---');
+    log('loc--${widget.model?.location?.id}---');
     log('--status.type---${widget.model?.status}---');
     log('--id111--- ${(keyLostHistoryScreen && widget.id != 0)}');
     return BlocConsumer<KeyHistoryRecordBloc, KeyHistoryRecordState>(
       listener: (context, state) {},
       builder: (context, state) {
         log('isEligible ${widget.parentIsEligibleToEdit}');
+        log('111 ${widget.parentIsEligibleToEdit &&
+            !hasPermission &&
+            !lockEmpty &&
+            widget.parentStatus != -1 &&
+            widget.parentStatus == 1 &&
+            !keyLostHistoryScreen &&
+            !keyDamageHistoryScreen}');
+
+
+        log('parentIsEligibleToEdit ${widget.parentIsEligibleToEdit}');
+        log('hasPermission ${!hasPermission}');
+        log('lockEmpty ${lockEmpty}');
+        log('parentStatus ${widget.parentStatus !=-1}');
+        log('parentStatus ${widget.parentStatus ==0}');
+        log('keyLostHistoryScreen ${!keyLostHistoryScreen}');
+        log('keyDamageHistoryScreen ${!keyDamageHistoryScreen}');
+
+
         if ((widget.extraProperties != null &&
             !widget.extraProperties!.hasWritePermission!)) {
           hasPermission = true;
@@ -104,7 +125,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                     !hasPermission &&
                     lockEmpty &&
                     widget.parentStatus != -1 &&
-                    widget.parentStatus != 0 &&
+                    widget.parentStatus == 1 &&
                     !keyLostHistoryScreen &&
                     !keyDamageHistoryScreen
                 ? Flutterfloatingbutton(
@@ -128,7 +149,10 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                             ConstantsArgument.keyLostType: widget.type,
                             ConstantsArgument.isEligibleToEdit:
                                 widget.parentIsEligibleToEdit,
-                          }),
+                            ConstantsArgument.locationId: widget.locationId,
+                            ConstantsArgument.parentStatus: widget.parentStatus,
+                          }
+                          ),
                     },
                   )
                 : const SizedBox(),
@@ -314,6 +338,8 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
         ConstantsArgument.extraProperties:
             ExtraProperties(hasWritePermission: hasWritePermission),
         ConstantsArgument.isEligibleToEdit: widget.parentIsEligibleToEdit,
+        ConstantsArgument.locationId: widget.locationId,
+        ConstantsArgument.parentStatus: widget.parentStatus
       },
     );
   }

@@ -3267,6 +3267,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
+            isDbUser: true,
             duplicateDepostorList: state.getDepositorResponse ??
                 [], //state.analyst?.t1Analyst ?? [],
             leftImageName: AppIcon.addicon,
@@ -3407,6 +3408,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
+            isDbUser: true,
             duplicateactivePassInfoList:
                 state.passnumbelistresponse?.activePassInfoList ?? [],
             // leftimagename: AppIcon.addicon,

@@ -37,7 +37,7 @@ class KeyLossDestructionListBloc
       );
 
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-          module: Constants.keyManagementMasterModule);
+          module: Constants.keyLossDestructionModule);
 
       List<Organisation> regions =
           await commonServices.getRegionsOrLocationsByRegionId();

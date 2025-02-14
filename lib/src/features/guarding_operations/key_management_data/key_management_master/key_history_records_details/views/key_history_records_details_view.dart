@@ -15,6 +15,8 @@ class KeyHistoryRecordsDetailsView extends StatefulWidget {
   final String? lock;
   final int? keyType;
   final bool parentIsEligibleToEdit;
+  final int locationId;
+  final int parentStatus;
 
   const KeyHistoryRecordsDetailsView({
     super.key,
@@ -27,6 +29,8 @@ class KeyHistoryRecordsDetailsView extends StatefulWidget {
     this.lock,
     this.keyType,
     required this.parentIsEligibleToEdit,
+    required this.locationId,
+    required this.parentStatus,
   });
 
   @override
@@ -100,7 +104,8 @@ class _KeyHistoryRecordsDetailsViewState
                       ConstantsArgument.keyLostType: widget.keyLostType,
                       ConstantsArgument.isEligibleToEdit:
                           widget.parentIsEligibleToEdit,
-                      ConstantsArgument.parentStatus: state.model.status,
+                      ConstantsArgument.parentStatus: widget.parentStatus,
+                      ConstantsArgument.locationId: widget.locationId,
                     });
               }
               // Navigator.pop(context);
@@ -484,7 +489,8 @@ class _KeyHistoryRecordsDetailsViewState
                                   },
                                   roleName:
                                       ConstantUserRoles.atomSubRegionalHeadUser,
-                                  locationId: 0,
+                                  locationId: widget.locationId,
+                                  isDbUser: false,
                                   functionToCall: (BaseUser user) {
                                     BlocProvider.of<
                                                 KeyHistoryRecordsDetailsCubit>(
@@ -536,6 +542,7 @@ class _KeyHistoryRecordsDetailsViewState
                                   roleName:
                                       ConstantUserRoles.atomSecurityManagerUser,
                                   locationId: 0,
+                                  isDbUser: false,
                                   functionToCall: (BaseUser user) {
                                     BlocProvider.of<
                                                 KeyHistoryRecordsDetailsCubit>(

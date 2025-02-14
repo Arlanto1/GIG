@@ -17,6 +17,7 @@ class KeyHistoryRecordsDetailsCubit
   final int? keyIssuanceId;
   final KeyManagementIssuanceServices keyIssuanceServices;
   final int? keyType;
+  final int locationId;
 
   KeyHistoryRecordsDetailsCubit({
     required this.services,
@@ -29,6 +30,7 @@ class KeyHistoryRecordsDetailsCubit
     this.keyIssuanceId,
     required this.keyIssuanceServices,
     this.keyType,
+    required this.locationId,
   }) : super(
           KeyHistoryRecordsDetailsState.initial(
             model: model ?? KeyHistoryModel(),
@@ -84,7 +86,9 @@ class KeyHistoryRecordsDetailsCubit
         commonServices.getBaseUsersByRoles(
             roleNames:
                 ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
-            locationId: parentModel.location!.id!),
+            locationId: parentModel.location!.id!,
+            isDbUser: false
+        ),
         commonServices.getOrganisations(
             name: 'KEY_MANAGEMENT_DESTRUCTION_REASON'),
         commonServices.getUiLabels(
@@ -93,7 +97,9 @@ class KeyHistoryRecordsDetailsCubit
         SharedPrefs.getDefaultLocation(),
         commonServices.getBaseUsersByRoles(
             roleNames: ConstantUserRoles.atomSubRegionalHeadUser,
-            locationId: parentModel.location!.id!),
+            locationId: parentModel.location!.id!,
+          isDbUser: false
+        ),
       ]);
 
       User loggedInUserDetails = futures[0];
@@ -174,10 +180,12 @@ class KeyHistoryRecordsDetailsCubit
         name: 'KEY_MANAGEMENT_DESTRUCTION_REASON');
     List<BaseUser> securityManager = await commonServices.getBaseUsersByRoles(
         roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
-        locationId: state.keyManagementMasterModel!.location!.id!);
+        locationId: state.keyManagementMasterModel!.location!.id!,
+      isDbUser: false,);
     List<BaseUser> srh = await commonServices.getBaseUsersByRoles(
         roleNames: ConstantUserRoles.atomSubRegionalHeadUser,
-        locationId: state.keyManagementMasterModel!.location!.id!);
+        locationId: state.keyManagementMasterModel!.location!.id!,
+      isDbUser: false,);
 
     emit(
       state.copyWith(
