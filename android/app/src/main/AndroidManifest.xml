@@ -10,8 +10,9 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
-<!--    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />-->
+    <!--    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />-->
     <application
         android:allowBackup="false"
         android:fullBackupContent="false"
@@ -43,23 +44,22 @@
             </intent-filter>
 
             <!--below intent-filter can be deleted just make sure app is getting redirected from browser to app-->
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="msauth.com.arlanto.atomedge" android:host="auth" />
-            </intent-filter>
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.VIEW" />-->
+            <!--                <category android:name="android.intent.category.DEFAULT" />-->
+            <!--                <category android:name="android.intent.category.BROWSABLE" />-->
+            <!--                <data android:scheme="msauth.com.arlanto.atomedge" android:host="auth" />-->
+            <!--            </intent-filter>-->
         </activity>
 
-        <activity android:name="com.microsoft.identity.client.BrowserTabActivity"
-            android:exported="true">
+        <activity android:name="com.microsoft.identity.client.BrowserTabActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:host="com.arlanto.atomedge"
-                    android:path="/+3vXNEvHgIj0mgMdygQMfRjiAy4="
+                    android:host="com.atomedge.arlanto"
+                    android:path="/p2QKLOScLtHTc5gLdqticmOgM7s="
                     android:scheme="msauth" />
             </intent-filter>
         </activity>

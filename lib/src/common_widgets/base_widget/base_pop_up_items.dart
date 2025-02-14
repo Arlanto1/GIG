@@ -40,6 +40,7 @@ class BasePopUpItems extends StatefulWidget {
   final List<Label>? labels;
   final bool? isMaterGuard;
   final int? guardRank;
+  final int? dutyGuardRank;
   final int? gender;
   final int? maritalStatus;
   final bool isMasterGuard;
@@ -121,6 +122,7 @@ class BasePopUpItems extends StatefulWidget {
     this.labels,
     this.isMaterGuard,
     this.guardRank,
+    this.dutyGuardRank,
     this.gender,
     this.maritalStatus,
     this.locationEntity,
@@ -410,6 +412,16 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         Row(
           children: [
             Utils().buildGuardRank(guardRank: widget.guardRank ?? 0),
+          ],
+        ),
+      ],
+      if (widget.dutyGuardRank != 0 &&
+          widget.dutyGuardRank != null &&
+          widget.isMasterGuard) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          children: [
+            Utils().dutyGuardRank(dutyGuardRank: widget.dutyGuardRank ?? 0),
           ],
         ),
       ],

@@ -118,7 +118,13 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
       // ),
       appBar: BaseAppBar().buildAppHeader(
         context: context,
-        title: widget.title,
+        title:  widget.passId == '0'
+      ? 'Day Pass Info List'
+          : widget.passId == '1'
+      ? 'Visitor Pass Info List'
+          : widget.passId == '2'
+      ? 'Vendor Pass Info List'
+          : 'SEZ Pass Info List',
         showPopUp: true,
         showSaveButton: false,
         showSubmitButton: false,

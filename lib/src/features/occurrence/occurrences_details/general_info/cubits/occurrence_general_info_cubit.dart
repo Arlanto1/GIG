@@ -70,9 +70,12 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
 
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
-    List<BaseUser>? shiftTakenOverBy = await commonServices.getBaseUsersByRoles(
-        roleNames: ConstantUserRoles.atomGuardingStaffUser,
-        locationId: model!.location!.id!);
+    List<BaseUser>? shiftTakenOverBy = await commonServices.getBaseUsers(
+        roleName: ConstantUserRoles.atomGuardingStaffUser,
+         isDbUser: false,
+        locationId: model!.location!.id!,
+        );
+
 
     emit(
       state.copyWith(
@@ -105,12 +108,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
 
-      // Get Date of Creation
-      // model.inputDate = Utils().getCurrentDate();
-      // model.inputDate = model.inputDate == null
-      //     ? Utils().getCurrentDate()
-      //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
-
+      ///Get Date of Creation
       model.inputDate = model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
@@ -162,9 +160,11 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       }
       model.entrySecurity ??= loggedInUserDetails;
       List<BaseUser>? shiftTakenOverBy =
-          await commonServices.getBaseUsersByRoles(
-              roleNames: ConstantUserRoles.atomGuardingStaffUser,
-              locationId: model.location!.id!);
+          await commonServices.getBaseUsers(
+              roleName: ConstantUserRoles.atomGuardingStaffUser,
+              locationId: model.location!.id!,
+            isDbUser: false,
+            );
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
       model.status ?? 0;
@@ -221,7 +221,15 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       state.model.slNo = slNo.serialNo ?? '';
       shiftTakenOverBy = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomGuardingStaffUser,
-          locationId: location.id!);
+        isDbUser: false,
+          locationId: location.id!,
+      );
+      /// Todo: Uncomment this after fixing the issue from backend
+      // await services.getOccPowerFailure(
+      //     locationId: location.id.toString());
+
+      // await services.getOccFollowUp(
+      //     locationId: location.id.toString());
     }
     state.model.handoverSecurity = null;
 
@@ -450,6 +458,11 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {
           log('--isSaveOnly--else--if$isSaveOnly--');
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.formError,
@@ -465,6 +478,11 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       } else {
         if (!state.isValid.status) {
           log('--isSaveOnly--else--if$isSaveOnly--');
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.formError,

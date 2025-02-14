@@ -93,7 +93,7 @@ class _SstIncidentGeneralInfoViewState
                 // arguments: {"isInternal": widget.isInternal},
               );
               if (widget.viaOccurrence) {
-                Navigator.pushNamed(
+                Navigator.popAndPushNamed(
                   context,
                   shiftOccurrenceDetailsRoute,
                   arguments: {
@@ -109,9 +109,6 @@ class _SstIncidentGeneralInfoViewState
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
-
-          // Utils.dynamicAlert(
-          //     context, state.message ?? '', 'Material Movement', '');
         }
         if (state.status == FormStatus.error) {
           log('-if error-state.status---${state.status}---');
@@ -308,7 +305,7 @@ class _SstIncidentGeneralInfoViewState
         ? Utils.timestampToDateConversion(
             int.tryParse(state.model.acknowledgeDate ?? '0'),
             Constants.fulldateFormat)
-        : '';
+        :  (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     escalation1Controller.text = state.model.escalation1 != null
         ? Utils.timestampToDateConversion(
             int.tryParse(state.model.escalation1 ?? '0'),
@@ -752,7 +749,7 @@ class _SstIncidentGeneralInfoViewState
                                         );
                                       },
                                       roleName: ConstantUserRoles
-                                          .atomSeniorSecurityManagerUser,
+                                          .atomSecuritySystemManagerUser,
                                       locationId: state.model.location!.id!,
                                       functionToCall: (BaseUser user) {
                                         BlocProvider.of<

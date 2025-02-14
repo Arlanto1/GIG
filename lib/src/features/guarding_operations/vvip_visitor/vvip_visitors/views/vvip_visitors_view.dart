@@ -84,7 +84,7 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
                     : null,
             appBar: BaseAppBar().buildAppHeader(
               context: context,
-              title: Constants.vVipVisitorsTitle,
+              title: Constants.vVipVisitorsListTitle,
               showPopUp: true,
               showSaveButton: false,
               showSubmitButton: false,

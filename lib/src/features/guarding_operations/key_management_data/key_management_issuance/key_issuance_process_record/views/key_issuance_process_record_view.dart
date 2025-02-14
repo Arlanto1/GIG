@@ -78,9 +78,9 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
       Utils().formError(state, context);
       Utils().errorAndLogout(state, context);
 
-      if (state.status == FormStatus.popOnly) {
-        Navigator.pop(context);
-      }
+      // if (state.status == FormStatus.popOnly) {
+      //   Navigator.pop(context);
+      // }
     }, builder: (context, state) {
       log('-k desc--${state.keyDescriptions?.length}---');
 
@@ -467,6 +467,9 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
             hasWritePermission: hasWritePermission,
           ),
           ConstantsArgument.isEligibleToEdit: isEligibleToEdit,
+          ConstantsArgument.locationId: widget.locationId,
+          ConstantsArgument.parentStatus: widget.parentStatus,
+
         },
       );
     } else {
@@ -482,6 +485,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           ConstantsArgument.keyLostType: type,
           ConstantsArgument.keyType: keyIssuanceProcessModel.keyType,
           ConstantsArgument.isEligibleToEdit: isEligibleToEdit,
+          ConstantsArgument.locationId: widget.locationId,
+          ConstantsArgument.parentStatus: widget.parentStatus,
         },
       );
     }

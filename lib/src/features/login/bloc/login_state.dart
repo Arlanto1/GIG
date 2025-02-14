@@ -23,7 +23,15 @@ class LoginSuccessState extends LoginActionState {
 
 class UpdatePasswordState extends LoginActionState {}
 
-class LoginVerifyOtpActionState extends LoginActionState {}
+class LoginVerifyOtpActionState extends LoginActionState {
+  final String message;
+  final FormStatus status;
+
+  LoginVerifyOtpActionState({
+    required this.message,
+    required this.status,
+  });
+}
 
 class ForgotPwdActionState extends LoginActionState {}
 

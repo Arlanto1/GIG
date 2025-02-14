@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/key_management_issuance_details/cubits/key_management_issuance_details_cubits.dart';
-import 'package:intl/intl.dart';
 
 class KeyManagementIssuanceDetailsView extends StatefulWidget {
   final KeyManagementIssuanceModel? model;
@@ -41,6 +40,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
   TextEditingController handedOverToController = TextEditingController();
   SignatureController receiverSignatureController = SignatureController();
   SignatureController securitySignatureController = SignatureController();
+  TextEditingController keyReturnDueDateToController = TextEditingController();
 
   bool isReadOnly = false;
   bool showSaveSubmitButton = false;
@@ -111,6 +111,15 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
         }
       },
       builder: (context, state) {
+        DateTime now = DateTime.now();
+        DateTime sixMonthsFromNow = now.add(const Duration(days: 180));
+         initialisedToDate = sixMonthsFromNow.toString();
+        // initialisedToDate = DateTime.fromMillisecondsSinceEpoch(
+        //     (int.tryParse('${180}') ?? 0) * 1000)
+        //     .toString();
+        initialisedStartDate = DateTime.now().toString();
+        log('initialisedStartDate ${initialisedStartDate}');
+        log('initialisedToDate ${initialisedToDate}');
         handedOverToController.text = state.model.employeeID!=null?
             '${state.model.handedOverTo?.name ?? ''} (${state.model.handedOverTo?.email ?? ''})':'';
 
@@ -282,36 +291,40 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
   void initializeDates(KeyManagementIssuanceDetailsState state) {
     DateTime dateTime;
 
-    String keyHandOverDateString = state.model.keyHandOverDate.toString();
+    // String keyHandOverDateString = state.model.keyHandOverDate.toString();
 
 // Check if the input is a timestamp (numeric) or a formatted date string
-    if (RegExp(r'^\d+$').hasMatch(keyHandOverDateString)) {
-      int keyHandOverTimestamp = int.parse(keyHandOverDateString);
-      DateTime keyHandOverDateTime =
-          DateTime.fromMillisecondsSinceEpoch(keyHandOverTimestamp * 1000);
+//     if (RegExp(r'^\d+$').hasMatch(keyHandOverDateString)) {
+//       int keyHandOverTimestamp = int.parse(keyHandOverDateString);
+//       DateTime keyHandOverDateTime =
+//           DateTime.fromMillisecondsSinceEpoch(keyHandOverTimestamp * 1000);
+//
+//       DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
+//       initialisedFromDate = dateFormat.format(keyHandOverDateTime);
+//     } else {
+//       DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
+//       DateTime keyHandOverDateTime = dateFormat.parse(keyHandOverDateString);
+//
+//       int keyHandOverTimestamp = keyHandOverDateTime.millisecondsSinceEpoch;
+//       initialisedFromDate =
+//           keyHandOverDateTime.toString(); // Or format to a string if needed
+//       // Logging the results
+//       log('initialisedFromDate--- $initialisedFromDate');
+//       log('keyHandOverTimestamp--- $keyHandOverTimestamp');
+//     }
+    log('keyReturnDueDateControllerValue --- ${keyReturnDueDateController.text}');
 
-      DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
-      initialisedFromDate = dateFormat.format(keyHandOverDateTime);
-    } else {
-      DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
-      DateTime keyHandOverDateTime = dateFormat.parse(keyHandOverDateString);
-
-      int keyHandOverTimestamp = keyHandOverDateTime.millisecondsSinceEpoch;
-      initialisedFromDate =
-          keyHandOverDateTime.toString(); // Or format to a string if needed
-      // Logging the results
-      log('initialisedFromDate--- $initialisedFromDate');
-      log('keyHandOverTimestamp--- $keyHandOverTimestamp');
-    }
-
+    log('state.model.keyHandOverDue ${state.model.keyHandOverDue}');
     if (state.model.keyHandOverDue.isEmptyOrNull) {
       if (!isDateSelectedByUser) {
         log('state.model.keyHandOverDue----${state.model.keyHandOverDue}');
         if (state.model.keyHandingOverDuration == 1 && !isDateSelectedByUser) {
-          dateTime = DateTime.fromMillisecondsSinceEpoch(
-              DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+          dateTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
+
           keyReturnDueDateController.text = Utils.timestampToDateConversion(
               dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+          log('111 ${keyReturnDueDateController.text}');
+          state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
         } else if (state.model.keyHandingOverDuration == 2 &&
             !isDateSelectedByUser) {
           if (DateTime.now().month < 6) {
@@ -323,29 +336,57 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
           }
           keyReturnDueDateController.text = Utils.timestampToDateConversion(
               dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+          state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
+
         } else if (state.model.keyHandingOverDuration == 1 &&
             !isDateSelectedByUser) {
-          dateTime = DateTime.fromMillisecondsSinceEpoch(
-              DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+          dateTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
+
           keyReturnDueDateController.text = Utils.timestampToDateConversion(
               dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
-        } else {
-          dateTime = DateTime.fromMillisecondsSinceEpoch(
-              DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+          state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
+          log('222 ${keyReturnDueDateController.text}');
+
+
+        }
+        else {
+          dateTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
+
           keyReturnDueDateController.text = Utils.timestampToDateConversion(
               dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+          state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
+          log('333 ${keyReturnDueDateController.text}');
+
         }
         //
         // state.model.keyHandOverDue =
         //     Utils().formatTime(keyReturnDueDateController.text);
       }
-    } else if (state.model.keyHandingOverDuration == 1 &&
-        !isDateSelectedByUser) {
-      dateTime = DateTime.fromMillisecondsSinceEpoch(
-          DateTime.now().millisecondsSinceEpoch + 24 * 3600 * 1000);
+    }
+    else if (state.model.keyHandingOverDuration == 1 &&
+        !isDateSelectedByUser && ((state.model.status == 0 || state.model.status == null))) {
+      dateTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
+
       keyReturnDueDateController.text = Utils.timestampToDateConversion(
           dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
-    } else {
+      state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
+      log('444 ${keyReturnDueDateController.text}');
+    }
+    else if (state.model.keyHandingOverDuration == 2 &&
+        !isDateSelectedByUser && ((state.model.status == 0 || state.model.status == null))) {
+      if (DateTime.now().month < 6) {
+        // Set to June 30th of the current year
+        dateTime = DateTime(DateTime.now().year, 6, 30);
+      } else {
+        // Set to December 31st of the current year
+        dateTime = DateTime(DateTime.now().year, 12, 31);
+      }
+      keyReturnDueDateController.text = Utils.timestampToDateConversion(
+          dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
+      state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
+
+    }
+    else {
       keyReturnDueDateController.text = Utils.timestampToDateConversion(
           int.tryParse(state.model.keyHandOverDue ?? '0'),
           Constants.fulldateFormat);
@@ -363,7 +404,6 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       return const BaseLoader();
     }
     initializeDates(state);
-
     return Container(
       color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
@@ -688,11 +728,13 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           ? false
                                           : true,
                                   onlyDate: false,
-                                  showPastDate: false,
+                                  // showPastDate: false,
+                                  fromDate: initialisedStartDate,
+                                  toDate: initialisedToDate,
                                   onChange: (String value) {
                                     isDateSelectedByUser = true;
                                     keyReturnDueDateController.text = value;
-                                    log('keyReturnDueDateControllerValue --- $value');
+                                    log('keyReturnDueDateControllerValue22 --- $value');
                                     state.model.keyHandOverDue =
                                         Utils().formatTime(value);
                                     BlocProvider.of<
@@ -973,6 +1015,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     spaceHeight: height,
                                     state: state,
                                     isMandatory: false),
+
                                 if (state.model.status != 0 &&
                                     state.model.status != null) ...[
                                   /// Total Allocated
@@ -1038,7 +1081,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   datecreateWidgetdisplay(
-                                      state.model.keyReturnDateTime ?? ''),
+                                      state.model.status! > 1 ? state.model.keyReturnDateTime ?? '' : ''),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.01),
 // ],
@@ -1104,23 +1147,25 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                         NavigatorState nav = Navigator.of(context);
 
                         log('----1---');
-                        bool isSaveSuccess = await BlocProvider.of<
-                            KeyManagementIssuanceDetailsCubit>(
-                          context,
-                        ).submitForm(
-                          isSaveOnly: true,
-                          navigateToNextScreen: true,
-                          receiverSignatureController:
-                              receiverSignatureController,
-                          securitySignatureController:
-                              securitySignatureController,
-                        );
-                        log('----2---');
-                        if (!isSaveSuccess) {
-                          return;
-                        }
-                        log('----3---');
+                        if ((state.model.status == 0 || state.model.status == null ||state.model.status == 1) && state.model.lock.isEmptyOrNull) {
 
+                          bool isSaveSuccess = await BlocProvider.of<
+                              KeyManagementIssuanceDetailsCubit>(
+                            context,
+                          ).submitForm(
+                            isSaveOnly: true,
+                            navigateToNextScreen: true,
+                            receiverSignatureController:
+                            receiverSignatureController,
+                            securitySignatureController:
+                            securitySignatureController,
+                          );
+                          log('----2---');
+                          if (!isSaveSuccess) {
+                            return;
+                          }
+                          log('----3---');
+                        }
                         // Now, this code will execute only after the completion of submitForm
                         nav.pushNamed(
                           keyManagementIssuanceProcessRecordsRoute,
@@ -1270,8 +1315,12 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
 
     log('---------');
     return AbsorbPointer(
-      absorbing: !state.model.lock.isEmptyOrNull &&
-          state.model.status != ConstantsIntValue.issuanceDraftStatus,
+      absorbing: !state.model.lock.isEmptyOrNull ||
+          state.model.status == 1 ||
+          state.model.status == -1 || state.model.status == 12,
+
+      // state.model.status == ConstantsIntValue.closed ||
+      //     state.model.status == ConstantsIntValue.issuanceHandedOverStatus,
       child: Column(
         children: [
           Row(

@@ -92,7 +92,7 @@ class _TicketingSystemViewState extends State<TicketingSystemView> {
           ),
           appBar: BaseAppBar().buildAppHeader(
             context: context,
-            title: Constants.ticketingSystem,
+            title: Constants.ticketingSystemListTitle,
             showPopUp: true,
             showSaveButton: false,
             showSubmitButton: false,

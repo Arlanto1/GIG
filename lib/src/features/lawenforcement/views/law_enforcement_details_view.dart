@@ -1550,6 +1550,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
+            isDbUser: true,
             isEmployeeId: false,
             location: state.locationSelectedlist?.id,
             duplicateDepostorList: state.getDepositorResponse ?? [],
@@ -1935,6 +1936,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   Widget locationWidgetDisplay(LawEnforcementState state) {
     return GestureDetector(
       onTap: () {
+        log('loc1 ${state.getLocationsResponse}');
         if (widget.model?.status == null ||
             widget.model?.status == 0 ||
             widget.model?.status == 1) {

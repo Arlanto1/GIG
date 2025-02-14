@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/common_widgets/signature/review_signature_page.dart';
 import 'package:intl/intl.dart';
 
 part 'material_movement_details_state.dart';
@@ -623,10 +622,29 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.inputDate = inputDate.toString();
     }
 
-    state.model.approvedDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-    state.model.rejectedDate =
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // if (!Utils().isTimestamp(state.model.approvedDate!)) {
+    //   dateTime =
+    //       DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.approvedDate!);
+    //   int approvedDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    //   state.model.approvedDate = approvedDate.toString();
+    // }
+
+    if(state.model.approvedDate !=null) {
+      DateTime date =
+      DateFormat("dd/MM/yyyy a HH:mm:ss").parse(state.model.approvedDate!);
+      int approvedDate = date
+          .toUtc()
+          .millisecondsSinceEpoch ~/ 1000;
+      state.model.approvedDate = approvedDate.toString();
+    }
+    if(state.model.rejectedDate !=null) {
+      DateTime date =
+      DateFormat("dd/MM/yyyy a HH:mm:ss").parse(state.model.rejectedDate!);
+      int rejectedDate = date
+          .toUtc()
+          .millisecondsSinceEpoch ~/ 1000;
+      state.model.rejectedDate = rejectedDate.toString();
+    }
 
     /// Adding Signature to request Body
     await pushSignature(
@@ -649,6 +667,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       if (isSaveOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.formError,
@@ -663,6 +686,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       if (!isSaveOnly && !isRejectOnly && !isApprovedOnly) {
         //Validating Fields
         if (!state.isValid.status) {
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.formError,
@@ -679,6 +707,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       if (isRejectOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.formError,
@@ -693,6 +726,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       if (isApprovedOnly) {
         //Validating Fields
         if (!state.isValid.status) {
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.formError,
@@ -723,11 +761,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           : Utils.timestampToDateConversion(
               int.tryParse(state.model.modifiedDate ?? '0'),
               Constants.fulldateFormat);
-      state.model.approvedDate = state.model.approvedDate == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
+      state.model.approvedDate = state.model.approvedDate != null
+          ? Utils.timestampToDateConversion(
               int.tryParse(state.model.approvedDate ?? '0'),
-              Constants.fulldateFormat);
+              Constants.fulldateFormat) : null ;
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.inputDate = state.model.inputDate == null
@@ -740,11 +777,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           : Utils.timestampToDateConversion(
               int.tryParse(state.model.modifiedDate ?? '0'),
               Constants.fulldateFormat);
-      state.model.approvedDate = state.model.approvedDate == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
+      state.model.approvedDate = state.model.approvedDate != null
+          ? Utils.timestampToDateConversion(
               int.tryParse(state.model.approvedDate ?? '0'),
-              Constants.fulldateFormat);
+              Constants.fulldateFormat) : null;
       return;
     } on Exception catch (e) {
       state.model.inputDate = state.model.inputDate == null
@@ -757,11 +793,10 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           : Utils.timestampToDateConversion(
               int.tryParse(state.model.modifiedDate ?? '0'),
               Constants.fulldateFormat);
-      state.model.approvedDate = state.model.approvedDate == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
+      state.model.approvedDate = state.model.approvedDate != null
+          ? Utils.timestampToDateConversion(
               int.tryParse(state.model.approvedDate ?? '0'),
-              Constants.fulldateFormat);
+              Constants.fulldateFormat) : null;
       emit(
         state.copyWith(
           message: e.toString(),

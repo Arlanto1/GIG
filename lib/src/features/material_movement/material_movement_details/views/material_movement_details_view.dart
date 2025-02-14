@@ -165,11 +165,11 @@ class _MaterialMovementDetailsViewState
         }
         String? requesterEmailUser = state.model.requestorEmail;
 
+        log('123 ${state.model.requestorEmail}');
         if ((state.model.status == ConstantsIntValue.businessUserReview ||
                 state.model.status == ConstantsIntValue.mmStatusLSMRejected) &&
-            requesterEmailUser != null &&
-            requesterEmailUser
-                .contains('${state.loggedInUserDetails?.email}')) {
+            (requesterEmailUser != null &&
+                requesterEmailUser == '${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email})')) {
           isReadOnly = false;
         }
 
@@ -186,9 +186,13 @@ class _MaterialMovementDetailsViewState
                     ConstantsIntValue.businessUserReview ||
                 state.model.status == ConstantsIntValue.mmStatusLSMRejected) &&
             (requesterEmailUser != null &&
-                requesterEmailUser
-                    .contains('${state.loggedInUserDetails?.email}')));
+                requesterEmailUser == '${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email})'));
 
+
+        log('editByRequester ${requesterEmailUser != null &&
+            requesterEmailUser == '${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email})'}');
+        log('req ${requesterEmailUser}');
+        log('req1 ${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email})');
         editByCreatedByUser =
             ((state.model.status == ConstantsIntValue.mmStatusApproved ||
                     state.model.status ==
@@ -1884,8 +1888,7 @@ class _MaterialMovementDetailsViewState
                                           .expectedDateOfReturn ??
                                       Constants.expectedDateOfReturn,
                                   Styles.textStyleBlack14,
-                                  isMandatory:
-                                      widget.model == null ? false : true,
+                                  isMandatory: true,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -2238,7 +2241,11 @@ class _MaterialMovementDetailsViewState
                                             .showFields(
                                           isOriginalReceiverReceiving: true,
                                         );
-                                      },
+                                        state.model.receiverEmail = null;
+                                        state.model.receiverEmployeeId = null;
+                                        state.model.otherReceiverEmployeeId = null;
+                                        state.model.receiverDepartmenttName = null;
+                                },
                                 onChangedNo: widget.model?.status == 6 ||
                                         widget.model?.status == -1 ||
                                         widget.model?.status == 10 ||
@@ -2253,6 +2260,10 @@ class _MaterialMovementDetailsViewState
                                             .showFields(
                                           isOriginalReceiverReceiving: false,
                                         );
+                                        state.model.receiverEmail = null;
+                                        state.model.receiverEmployeeId = null;
+                                        state.model.otherReceiverEmployeeId = null;
+                                        state.model.receiverDepartmenttName = null;
                                       },
                               ),
 
@@ -2527,14 +2538,15 @@ class _MaterialMovementDetailsViewState
                                 ),
 
                                 FlutterInputField(
-                                  initialValue: state.model.otherReceiverName,
+                                  controller: receiverEmailController,
+                                  // initialValue: state.model.receiverEmail,
                                   textFormKey: Keys.claimantEmpIdTextController,
                                   isEnable: false,
                                   isDisableColor: true,
                                   hintText: '',
                                   focusNode: receivedByFocusNode,
                                   onChange: (String value) {
-                                    state.model.otherReceiverName = value;
+                                    // state.model.receiverEmail = value;
                                     context
                                         .read<MaterialMovementDetailsCubit>()
                                         .onModelValueChange(state.model);
@@ -2973,6 +2985,7 @@ class _MaterialMovementDetailsViewState
                                         .actualDateOfReturn ??
                                     Constants.actualDateOfReturn,
                                 Styles.textStyleBlack14,
+                                isMandatory: true,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -3409,7 +3422,7 @@ class _MaterialMovementDetailsViewState
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             duplicateQuantityUnitList: quantityUnits,
-            leftImageName: AppIcon.addicon,
+            // leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(

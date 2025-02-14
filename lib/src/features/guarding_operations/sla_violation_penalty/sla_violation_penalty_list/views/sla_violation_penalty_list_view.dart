@@ -327,7 +327,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<SLAViolationPenaltyListBloc>(context).add(
-      FetchData(startPos: 0, maxPos: 5, newSearch: true, filters: filters),
+      FetchData(startPos: 0, maxPos: 20, newSearch: true, filters: filters),
     );
   }
 

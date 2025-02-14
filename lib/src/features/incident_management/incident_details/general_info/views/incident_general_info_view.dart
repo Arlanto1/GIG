@@ -79,7 +79,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                 );
               }
               if (widget.viaOccurrence) {
-                Navigator.pushNamed(
+                Navigator.popAndPushNamed(
                   context,
                   shiftOccurrenceDetailsRoute,
                   arguments: {
@@ -87,7 +87,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                     "title": Constants.editOccurrence,
                   },
                 );
-                return;
+                // return;
               }
 
               log('--widget.viaKeyIssuance-${state.model.keyLossGi?.id}--');
@@ -128,7 +128,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
         log('--state.message-----${state.message}-');
       },
       builder: (context, state) {
-        claimantController.text = state.model.employeeId !=null ?'${state.model.complainant?.name ?? ''} (${state.model.complainant?.email ?? ''})':'';
+        claimantController.text = state.model.complainant?.userInfo !=null ? state.model.complainant?.userInfo ?? '' : state.model.complainant?.name ?? '';
 
 
         state.model.status ??= 0;
@@ -136,6 +136,12 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
           disableForm = true;
         }
         if (state.model.status! < 0 || !state.model.lock.isEmptyOrNull) {
+          disableForm = true;
+        }
+        log('EntrySecurity ${state.model.entrySecurity?.name}');
+        log('EntrySecurity1 ${state.loggedInUserDetails?.name}');
+        log('111${state.model.entrySecurity?.name == state.loggedInUserDetails?.name}');
+        if(state.model.status == 0 && state.model.entrySecurity?.name != state.loggedInUserDetails?.name){
           disableForm = true;
         }
         // if (widget.extraProperties != null &&
@@ -301,6 +307,15 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDate().creationDateDisplay(
                                 state.model.inputDate ?? ''),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Created By
+                            CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.entrySecurity ??
+                                    state.labels?.defaultLocale.entrySecurity ??
+                                    Constants.createdby,
+                                isMandatory: true,
+                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Location
@@ -532,6 +547,12 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               onChangedYes: state.model.status == 0
                                   ? (val) {
                                       state.model.complainantDbEmp = true;
+                                      state.model.complainantName = null;
+                                      state.model.employeeId = null;
+                                      state.model.complainantDepartment = null;
+                                      state.model.complainantHr = null;
+                                      state.model.complainant = null;
+
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
                                           .onCheckBoxChange(state.model);
@@ -540,6 +561,12 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               onChangedNo: state.model.status == 0
                                   ? (val) {
                                       state.model.complainantDbEmp = false;
+                                      state.model.complainantName = null;
+                                      state.model.employeeId = null;
+                                      state.model.complainantDepartment = null;
+                                      state.model.complainantHr = null;
+                                      state.model.complainant = null;
+
                                       BlocProvider.of<IncidentGeneralInfoCubit>(
                                               context)
                                           .onCheckBoxChange(state.model);
@@ -554,7 +581,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.employeeId ??
                                       state.labels?.defaultLocale.employeeId ??
-                                      Constants.claimantemployeeid,
+                                      Constants.complaintEmployeeId,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
@@ -643,7 +670,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.complainant ??
                                       state.labels?.defaultLocale.complainant ??
-                                      Constants.claimant,
+                                      Constants.complaint,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
 
@@ -752,15 +779,6 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 );
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Created By
-                            CommonWidgets.horizentaltextHandling(
-                                state.labels?.locale.entrySecurity ??
-                                    state.labels?.defaultLocale.entrySecurity ??
-                                    Constants.createdby,
-                                isMandatory: true,
-                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Incident Date and Time

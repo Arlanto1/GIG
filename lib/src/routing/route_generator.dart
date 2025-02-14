@@ -680,6 +680,7 @@ class RouteGenerator {
               title: title,
               viaAttendance: viaAttendance,
               extraProperties: extraProperties,
+
             ),
           ),
         );
@@ -1284,6 +1285,8 @@ class RouteGenerator {
         int id = 0;
         int type = 0;
         String? lock;
+        int parentStatus = 0;
+        int locationId =0;
         ExtraProperties? extraProperties;
         bool isEligibleToEdit = false;
         if (settings.arguments != null) {
@@ -1295,6 +1298,8 @@ class RouteGenerator {
           extraProperties = arguments[ConstantsArgument.extraProperties];
           lock = arguments[ConstantsArgument.isLocked];
           isEligibleToEdit = arguments[ConstantsArgument.isEligibleToEdit];
+          parentStatus = arguments[ConstantsArgument.parentStatus];
+          locationId = arguments[ConstantsArgument.locationId];
         }
         log('route----type--$type--');
         return MaterialPageRoute(
@@ -1311,7 +1316,9 @@ class RouteGenerator {
                 type: type,
                 extraProperties: extraProperties,
                 parentIsEligibleToEdit: isEligibleToEdit,
-                lock: lock),
+                parentStatus: parentStatus,
+                lock: lock,
+            locationId:locationId ,),
           ),
         );
 
@@ -1328,6 +1335,8 @@ class RouteGenerator {
         String? lock;
         int? kipId;
         int? keyIssuanceId;
+        int locationId= 0;
+        int parentStatus = 0;
         ExtraProperties? extraProperties;
         bool isEligibleToEdit = false;
         Map<String, dynamic> arguments =
@@ -1342,7 +1351,10 @@ class RouteGenerator {
         lock = arguments[ConstantsArgument.isLocked];
         keyType = arguments[ConstantsArgument.keyType];
         isEligibleToEdit = arguments[ConstantsArgument.isEligibleToEdit];
+        locationId = arguments[ConstantsArgument.locationId];
+        parentStatus = arguments[ConstantsArgument.parentStatus];
         log('--keyType--$keyType--');
+        log('--loc--$locationId--');
         return MaterialPageRoute(
           builder: (context) => BlocProvider<KeyHistoryRecordsDetailsCubit>(
             create: (_) => KeyHistoryRecordsDetailsCubit(
@@ -1355,6 +1367,7 @@ class RouteGenerator {
               lostType: keyLostType,
               keyType: keyType,
               keyIssuanceServices: keyIssuanceServices,
+              locationId: locationId
             ),
             child: KeyHistoryRecordsDetailsView(
               model: model,
@@ -1365,6 +1378,8 @@ class RouteGenerator {
               parentIsEligibleToEdit: isEligibleToEdit,
               lock: lock,
               keyType: keyType,
+              locationId: locationId,
+              parentStatus: parentStatus,
             ),
           ),
         );

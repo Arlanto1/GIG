@@ -62,7 +62,7 @@ class _AttendanceViewState extends State<AttendanceView> {
         backgroundColor: AppColors.cardBgColor,
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: Constants.attendance,
+          title: Constants.attendanceListTitle,
           showPopUp: true,
           showSaveButton: false,
           showSubmitButton: false,

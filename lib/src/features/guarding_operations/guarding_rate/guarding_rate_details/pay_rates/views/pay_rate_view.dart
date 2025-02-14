@@ -120,21 +120,21 @@ class _PayRateViewState extends State<PayRateView> {
                   );
                 }
 
-                if (state.items.isEmptyOrNull) {
-                  return Center(
-                    child: AppButton(
-                      width: 150,
-                      backgroundColor: AppColors.navigationSkyBlueColor,
-                      key: const Key(Keys.cancelButton),
-                      buttonText: Constants.add,
-                      buttonTextKey: Keys.cancelButton,
-                      onTap: () {
-                        addSecurityGuardPopUp(
-                            context: context, payRate: PayRate());
-                      },
-                    ),
-                  );
-                }
+                // if (state.items.isEmptyOrNull) {
+                //   return Center(
+                    // child: AppButton(
+                    //   width: 150,
+                    //   backgroundColor: AppColors.navigationSkyBlueColor,
+                    //   key: const Key(Keys.cancelButton),
+                    //   buttonText: Constants.add,
+                    //   buttonTextKey: Keys.cancelButton,
+                    //   onTap: () {
+                    //     addSecurityGuardPopUp(
+                    //         context: context, payRate: PayRate());
+                    //   },
+                    // ),
+                //   );
+                // }
                 return Container(
                   margin: allMargin16,
                   decoration: const ShapeDecoration(
@@ -143,80 +143,73 @@ class _PayRateViewState extends State<PayRateView> {
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(20.0)),
                       )),
-                  child: Column(
-                    children: [
-                      if (!state.model.lock.isEmptyOrNull) ...[
-                        RecordLockedWidget(text: '${state.model.lock}'),
-                      ],
-                      Stack(
-                        children: [
-                          ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: state.items.length,
-                            itemBuilder: (context, index) {
-                              /// Adding Fields to BaseListTile
-                              List<Label> labels = [];
-                              labels.add(Label(
-                                  key: 'Monthly',
-                                  value: '${state.items[index].total}'));
-                              labels.add(Label(
-                                  key: 'Days',
-                                  value: '${state.items[index].days ?? ''}'));
-                              labels.add(Label(
-                                  key: 'Per Hour',
-                                  value: '${state.items[index].perHour}'));
-
-                              return index >= state.items.length
-                                  ? const BaseLoader()
-                                  : BaseListTileItem(
-                                      id: state.items[index].id,
-                                      labels: labels,
-                                      onTap: (selectedIndex) {
-                                        showDialog(
-                                          context: context,
-                                          builder:
-                                              (BuildContext dialogContext) {
-                                            return BasePopUpItems(
-                                              isMasterGuard: false,
-                                              id: state.items[selectedIndex].id
-                                                  .toString(),
-                                              labels: labels,
-                                            );
-                                          },
-                                        );
-                                      },
-                                      onEditTap: (selectedIndex) {
-                                        addSecurityGuardPopUp(
-                                            context: context,
-                                            payRate: state.items[index]);
-                                      },
-                                      onViewTap: (selectedIndex) {
-                                        showDialog(
-                                          context: context,
-                                          builder:
-                                              (BuildContext dialogContext) {
-                                            return BasePopUpItems(
-                                              id: state.items[selectedIndex].id
-                                                  .toString(),
-                                              labels: labels,
-                                              isMasterGuard: false,
-                                            );
-                                          },
-                                        );
-                                      },
-                                      index: index,
-                                    );
-                            },
-                          ),
-                          // Positioned(
-                          //   bottom: 16.0, // Adjust the position as needed
-                          //   right: 16.0, // Adjust the position as needed
-                          //   child: floatingButtons(state, context),
-                          // ),
+                    child: Column(
+                      children: [
+                        if (!state.model.lock.isEmptyOrNull) ...[
+                          RecordLockedWidget(text: '${state.model.lock}'),
                         ],
-                      ),
-                    ],
-                  ),
+                        Expanded( // <-- Wrap ListView.builder inside Expanded
+                          child: Stack(
+                            children: [
+                              ListView.builder(
+                                shrinkWrap: true, // This can be removed since Expanded handles height
+                                itemCount: state.items.length,
+                                itemBuilder: (context, index) {
+                                  List<Label> labels = [];
+                                  labels.add(Label(
+                                      key: 'Monthly',
+                                      value: '${state.items[index].total}'));
+                                  labels.add(Label(
+                                      key: 'Days',
+                                      value: '${state.items[index].days ?? ''}'));
+                                  labels.add(Label(
+                                      key: 'Per Hour',
+                                      value: '${state.items[index].perHour}'));
+
+                                  return index >= state.items.length
+                                      ? const BaseLoader()
+                                      : BaseListTileItem(
+                                    id: state.items[index].id,
+                                    labels: labels,
+                                    onTap: (selectedIndex) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext dialogContext) {
+                                          return BasePopUpItems(
+                                            isMasterGuard: false,
+                                            id: state.items[selectedIndex].id.toString(),
+                                            labels: labels,
+                                          );
+                                        },
+                                      );
+                                    },
+                                    onEditTap: (selectedIndex) {
+                                      addSecurityGuardPopUp(
+                                          context: context,
+                                          payRate: state.items[index]);
+                                    },
+                                    onViewTap: (selectedIndex) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext dialogContext) {
+                                          return BasePopUpItems(
+                                            id: state.items[selectedIndex].id.toString(),
+                                            labels: labels,
+                                            isMasterGuard: false,
+                                          );
+                                        },
+                                      );
+                                    },
+                                    index: index,
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+
                 );
               },
             ));
@@ -230,10 +223,11 @@ class _PayRateViewState extends State<PayRateView> {
       children: [
         if (widget.title == Constants.createOthers)
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               cancelButtonDisplay(),
               const SizedBox(
-                width: 70,
               ),
             ],
           )

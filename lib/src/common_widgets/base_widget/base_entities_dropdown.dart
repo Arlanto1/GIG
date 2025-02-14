@@ -31,7 +31,7 @@ class BaseEntitiesSelection {
     }
     return TextFieldAddButton(
       title: title,
-      height: (selectedValues.length) > 3 ? 110 : 70,
+      height: (selectedValues.length) > 2 ? 130 : 70,
       isDisableColor: !enabled,
       onTap: () {
         if (enabled) {

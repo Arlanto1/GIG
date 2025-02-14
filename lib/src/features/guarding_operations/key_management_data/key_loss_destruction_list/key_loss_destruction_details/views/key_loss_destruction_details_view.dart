@@ -392,6 +392,7 @@ class _KeyLossDestructionDetailsViewState
                                       );
                                     },
                                     locationId: 0,
+                                    isDbUser: false,
                                     functionToCall: (BaseUser user) {
                                       BlocProvider.of<
                                                   KeyLossDestructionDetailsCubit>(
@@ -471,6 +472,7 @@ class _KeyLossDestructionDetailsViewState
                                         );
                                       },
                                       locationId: 0,
+                                      isDbUser: false,
                                       functionToCall: (BaseUser user) {
                                         BlocProvider.of<
                                                     KeyLossDestructionDetailsCubit>(

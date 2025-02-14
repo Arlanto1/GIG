@@ -51,7 +51,7 @@ class SLAViolationPenaltyModel extends BaseObject {
   List<Organisation>? entity;
   User? approver;
   String? poc;
-  String? attdShiftInfoId;
+  int? attdShiftInfoId;
   String? entitiesInfo;
   String? vendorInfo;
   String? typeOfServiceInfo;

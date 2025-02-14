@@ -35,11 +35,11 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
   Widget build(BuildContext context) {
     log('------payRate--${widget.payRate.total}------');
 
-    fromDateController.text = Utils.timestampToDateConversion(
-        int.parse(widget.payRate.fromDate ?? '0'), Constants.dateFormat);
+    fromDateController.text = widget.payRate.fromDate !=null ? Utils.timestampToDateConversion(
+        int.parse(widget.payRate.fromDate ?? '0'), Constants.dateFormat) :'';
 
-    toDateController.text = Utils.timestampToDateConversion(
-        int.parse(widget.payRate.toDate ?? '0'), Constants.dateFormat);
+    toDateController.text =  widget.payRate.fromDate !=null ?Utils.timestampToDateConversion(
+        int.parse(widget.payRate.toDate ?? '0'), Constants.dateFormat):'';
 
     return AlertDialog(
       title: Align(
@@ -171,9 +171,9 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                         onlyDate: true,
                         onChange: (String value) {
                           log('--fr-value-${fromDateController.text}------');
-                          widget.payRate.fromDate = value;
-                          BlocProvider.of<PayRateCubit>(widget.mainContext)
-                              .onModelValueChange(widget.payRate);
+                          // widget.payRate.fromDate = value;
+                          // BlocProvider.of<PayRateCubit>(widget.mainContext)
+                          //     .onModelValueChange(widget.payRate);
                         },
                         context: widget.mainContext,
                       ),
@@ -192,9 +192,9 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
                         onlyDate: true,
                         showPastDate: false,
                         onChange: (String value) {
-                          widget.payRate.toDate = value;
-                          BlocProvider.of<PayRateCubit>(widget.mainContext)
-                              .onModelValueChange(widget.payRate);
+                          // widget.payRate.toDate = value;
+                          // BlocProvider.of<PayRateCubit>(widget.mainContext)
+                          //     .onModelValueChange(widget.payRate);
                         },
                         context: widget.mainContext,
                       ),

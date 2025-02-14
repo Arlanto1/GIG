@@ -24,6 +24,7 @@ class CustomListTexts extends StatefulWidget {
     this.isEmployeeId,
     this.location,
     this.roleName,
+    this.isDbUser
   });
 
   final String? imageName;
@@ -46,6 +47,7 @@ class CustomListTexts extends StatefulWidget {
   bool? isEmployeeId;
   int? location;
   String? roleName;
+  bool? isDbUser;
 
   @override
   State<CustomListTexts> createState() => CustomListTextsState();
@@ -219,14 +221,14 @@ class CustomListTextsState extends State<CustomListTexts> {
       }
 
       // for (var userDetail in widget.duplicateDepostorList!) {
-      if (text.length > 2) {
+      if (text.length > 2 ) {
         // Call the API only once when the search text length is greater than 2
         try {
           final response = await CommonServices().getBaseUsers(
-            roleName: 'ATOM_STATIC_USER', // Replace with actual role
+            roleName: widget.roleName, // Replace with actual role
             locationId: widget.location, // Replace with actual location ID
-            isDbUser: true, // Set based on your use case
-            search: int.tryParse(text), // Passthe search parameter
+            isDbUser: widget.isDbUser, // Set based on your use case
+            search: int.tryParse(text) ?? text, // Passthe search parameter
           );
 
           depostorList.clear(); // Clear the existing list
@@ -309,13 +311,20 @@ class CustomListTextsState extends State<CustomListTexts> {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           companyTypes.add(userDetail);
         }
-        if (userDetail.keyDescription!
-            .toLowerCase()
-            .contains(text.toLowerCase())) {
-          companyTypes.add(userDetail);
-        }
+        // if (userDetail.keyDescription
+        //     !.toLowerCase()
+        //     .contains(text.toLowerCase())) {
+        //   companyTypes.add(userDetail);
+        // }
+        // for (var userDetail in widget.duplicateatomCompanyTypes!) {
+        //   if (userDetail.keyDescription!.toLowerCase().contains(text.toLowerCase())) {
+        //     companyTypes.add(userDetail);
+        //   }
+        // }
       }
     } else if (widget.duplicatedayPassReason != null) {
+      log('-text---$text--');
+
       dayPassReason.clear();
       if (text.isEmpty) {
         setState(() {});
@@ -323,6 +332,8 @@ class CustomListTextsState extends State<CustomListTexts> {
       }
 
       for (var userDetail in widget.duplicatedayPassReason!) {
+        log('-text---$text--');
+
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           dayPassReason.add(userDetail);
         }
@@ -918,7 +929,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                   ));
             } else if (widget.duplicatedayPassReason != null) {
               Organisation? articleItem;
-              if ((_searchCtrl.text.isNotEmpty && companyTypes.isNotEmpty)) {
+              if ((_searchCtrl.text.isNotEmpty && dayPassReason.isNotEmpty)) {
                 articleItem = dayPassReason[index];
               } else {
                 articleItem = widget.duplicatedayPassReason?[index];

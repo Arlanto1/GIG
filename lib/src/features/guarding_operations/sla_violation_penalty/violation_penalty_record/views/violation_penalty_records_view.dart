@@ -202,6 +202,11 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
                         },
                       );
                     },
+              showEditButton: widget.parentStatus !=
+                  ConstantsIntValue
+                      .slaStatusFinalized &&  widget.parentStatus !=
+                  ConstantsIntValue
+                      .cancelledStatus,
                     onEditTap: (selectedIndex) async {
                       ViolationPenaltyRecord contactsModel =
                           await SLAViolationPenaltyServices()

@@ -79,7 +79,7 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                   : const SizedBox(),
               appBar: BaseAppBar().buildAppHeader(
                 context: context,
-                title: Constants.dutyPostMaster,
+                title: Constants.dutyPostMasterListTitle,
                 showPopUp: true,
                 showSaveButton: false,
                 showSubmitButton: false,
@@ -226,7 +226,7 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                                 id: state.list[selectedIndex].id
                                                     .toString(),
                                                 labels: labels,
-                                                guardRank: state
+                                                dutyGuardRank: state
                                                     .list[selectedIndex].rankId,
                                                 isMasterGuard: true,
                                               );
@@ -252,7 +252,7 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                                 id: state.list[selectedIndex].id
                                                     .toString(),
                                                 labels: labels,
-                                                guardRank: state
+                                                dutyGuardRank: state
                                                     .list[selectedIndex].rankId,
                                                 isMasterGuard: true,
                                               );

@@ -24,8 +24,8 @@ class ConstantsIntValue {
   static const int eventDurationAfter = 2;
 
   /// Pass Management
-  static const int passCategoryPermanent = 0;
-  static const int passCategoryTemporary = 1;
+  static const int passCategoryPermanent = 1;
+  static const int passCategoryTemporary = 2;
 
   /// Pass Management status
   static const int passStatusCreated = 0;

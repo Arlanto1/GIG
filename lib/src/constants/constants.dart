@@ -160,6 +160,7 @@ class Constants {
   static const String submit = "Submit";
 
   static const String ticketingSystem = "Ticketing System";
+  static const String ticketingSystemListTitle = "Bugs";
 
   static const String locationPermissionError =
       'Please enable location services!';
@@ -175,7 +176,7 @@ class Constants {
   static const String settings = "Settings";
   static const String administration = "Administration";
   static const String profile = 'Profile';
-  static const String articleFoundRegisterListTitle = 'Article Found Register';
+  static const String articleFoundRegisterListTitle = 'Article Found';
   static const String lawEnforcementVisitsListTitle =
       'Law Enforcement Visits List';
   static const String eventProtectionList = 'Event Protection List';
@@ -188,7 +189,7 @@ class Constants {
   static const String shiftOccurrence = 'Shift Occurrence';
   static const String occurrenceListTitle = 'Occurrence List';
   static const String materialMovement = 'Material Movement';
-  static const String passManagement = 'Non-Magnetic Pass Management';
+  static const String passManagement = 'Pass Management';
   static const String guardingOperations = 'Guarding Operations';
   static const String logout = 'Logout';
   static const String deleteAllNotifications = 'Delete All';
@@ -205,13 +206,13 @@ class Constants {
 
   static const String notifications = 'Notifications';
 
-  static const String materialMovementInward = 'Material Movement Inward';
+  static const String materialMovementInward = 'Inward Material Movement';
   static const String materialMovementInwardCreate =
       'Create Inward Material Movement';
   static const String materialMovementInwardEdit =
       'Edit Inward Material Movement';
 
-  static const String materialMovementOutward = 'Material Movement Outward';
+  static const String materialMovementOutward = 'Outward Material Movement';
   static const String materialMovementOutwardReturnable =
       'Material Movement Outward - Returnable';
   static const String materialMovementOutwardNonReturnable =
@@ -325,6 +326,8 @@ class Constants {
       'List is Updated(Search with the email).';
 
   // Law enforcement
+  static const String lawEnforcementListTitle =
+      'Law Enforcement List';
   static const String createlawenforcement =
       'Create Law Enforcement Official Visit';
   static const String editlawenforcement =
@@ -402,7 +405,7 @@ class Constants {
   static const String reasonfordaypass = 'Reason for Day Pass';
   static const String daypassno = 'Day Pass No';
   static const String passtype = 'Pass Type';
-  static const String sezPass = 'Sez Pass';
+  static const String sezPass = 'SEZ Pass';
   static const String passValidUntil = '31/03/2023';
 
   //List page - Found Article
@@ -540,8 +543,8 @@ class Constants {
   static const String fromDate = 'From Date';
   static const String toDate = 'To Date';
 
-  static const String guardingMasterReportTitle = 'Guarding Master Report List';
-  static const String guardingMasterDataTitle = 'Guarding Master Data List';
+  static const String guardingMasterReportTitle = 'Guarding Master Report';
+  static const String guardingMasterDataTitle = 'Guarding Master Data';
 
   /// Guarding Master Data
   static const String createGuardingMasterData = 'Create Guarding Master Data';
@@ -621,7 +624,7 @@ class Constants {
   static const String addQualificationType = 'Add Qualification';
 
   // Event Protection
-  static const String eventProtectionTitle = 'Event Protection';
+  static const String eventProtectionTitle = 'Event Protection List';
   static const String generalInformation = 'General Information';
   static const String guardInformation = 'Guard Information';
   static const String beforeEventInformation = 'Before the Event Information';
@@ -680,8 +683,9 @@ class Constants {
   static const String eventEndDate = 'Event End Date';
   static const String isAnnualPowerShutdown = 'Is Annual Power Shutdown';
 
+  static const String incidentManagementListTitle = 'Incident Management List';
   static const String incident = 'Incident';
-  static const String ticketLifeCycle = 'Ticket Life Cycle';
+  static const String ticketLifeCycle = 'Internal Staff Incident SLA';
   static const String externalVendor = 'External Vendor';
   static const String incidentType = 'Incident Type';
   static const String dbComplaint = 'DB Complainant';
@@ -793,6 +797,7 @@ class Constants {
   static const String keyLossDestructionList = 'Key Loss Destruction List';
 
   /// KeyManagementMaster
+  static const String keyManagementMasterTitle = 'Key Management Info List';
   static const String editkeyManagementMaster = 'Edit Key Management Master';
   static const String createkeyManagementMaster =
       'Create Key Management Master';
@@ -853,6 +858,7 @@ class Constants {
   static const String keyDestroyHistoryType = 'KEY_DESTROY_HISTORY';
 
   ///KeyManagementIssuance
+  static const String keyManagementIssuanceTitle = 'Key Management Issuance List';
   static const String createKeyManagementIssuance =
       'Create Key Management Issuance';
   static const String editKeyManagementIssuance =
@@ -880,6 +886,8 @@ class Constants {
 
   /// Duty Post Master
   static const String dutyPostMaster = 'Duty Post Master';
+  static const String dutyPostMasterListTitle = 'Guard Duty Post Master';
+
   static const String editDutyPostMaster = 'Edit Duty Post Master';
   static const String createDutyPostMaster = 'Create Duty Post Master';
   static const String dutyPostName = 'Duty Post Name';
@@ -891,6 +899,8 @@ class Constants {
 
   /// Duty Post Name Master
   static const String dutyPostNameMaster = 'Duty Post Name Master';
+  static const String dutyPostNameMasterListTitle = 'Duty Post Location Name';
+
   static const String editDutyPostNameMaster = 'Edit Duty Post Name Master';
   static const String createDutyPostNameMaster = 'Create Duty Post Name Master';
   static const String dutyPostLocationName = 'Post Location Name';
@@ -900,6 +910,7 @@ class Constants {
 
   ///Attendance
   static const String attendance = 'Attendance';
+  static const String attendanceListTitle = 'Attendance List';
   static const String attendanceReportBilling = 'Attendance Report and Billing';
   static const String editAttendance = 'Edit Attendance';
   static const String attendanceDetails = 'Attendance Details';
@@ -922,6 +933,7 @@ class Constants {
 
   /// VVIP Visitors
   static const String vVipVisitorsTitle = 'VVIP Visitor';
+  static const String vVipVisitorsListTitle = 'VVIP Visitor List';
   static const String listVvipVisitors = 'List of VVIP Visitor';
   static const String visitorsName = 'Visitor Name';
   static const String visitorsEmailId = 'Visitor Email ID';

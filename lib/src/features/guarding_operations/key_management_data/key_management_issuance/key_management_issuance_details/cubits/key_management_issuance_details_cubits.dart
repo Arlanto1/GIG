@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/km_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:intl/intl.dart';
 
@@ -129,7 +128,7 @@ class KeyManagementIssuanceDetailsCubit
             int.tryParse(state.model.keyReturnDateTime ?? '0'),
             Constants.fulldateFormat);
       }
-      if (state.model.status != 0) {
+      if (state.model.status != 0 && state.model.status !=null) {
         state.model.keyHandOverDate = state.model.keyHandOverDate == null
             ? Utils().getCurrentDate()
             : Utils.timestampToDateConversion(
@@ -353,25 +352,25 @@ class KeyManagementIssuanceDetailsCubit
       state.model.createdDate = inputDate.toString();
     }
     //
-    // if (state.model.status != 0 && state.model.status != null) {
-    //   if (!Utils().isTimestamp(state.model.keyHandOverDate!)) {
-    //     dateTime =
-    //         DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.keyHandOverDate!);
-    //     int inputDate = dateTime
-    //         .toUtc()
-    //         .millisecondsSinceEpoch ~/ 1000;
-    //     state.model.keyHandOverDate = inputDate.toString();
-    //   }
-    // }
-    // if (state.model.status != 0 && state.model.status != null) {
-
-    if (!Utils().isTimestamp(state.model.keyHandOverDate!)) {
-      dateTime =
-          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.keyHandOverDate!);
-      int keyHandOverDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
-      state.model.keyHandOverDate = keyHandOverDate.toString();
+    if (state.model.status != 0 && state.model.status != null) {
+      if (!Utils().isTimestamp(state.model.keyHandOverDate!)) {
+        dateTime =
+            DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.keyHandOverDate!);
+        int inputDate = dateTime
+            .toUtc()
+            .millisecondsSinceEpoch ~/ 1000;
+        state.model.keyHandOverDate = inputDate.toString();
+      }
     }
+    // if (state.model.status != 0 && state.model.status != null) {
 
+    // if (!Utils().isTimestamp(state.model.keyHandOverDate!)) {
+    //   dateTime =
+    //       DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.keyHandOverDate!);
+    //   int keyHandOverDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    //   state.model.keyHandOverDate = keyHandOverDate.toString();
+    // }
+    //
     // state.model.keyHandOverDate =
     //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
@@ -379,12 +378,13 @@ class KeyManagementIssuanceDetailsCubit
     //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     // }
-    if (state.model.status != 0 && state.model.status !=null) {
+    if (state.model.status != 0 && state.model.status !=null && isSaveOnly == false) {
       state.model.keyReturnDateTime =
           (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     }
-    state.model.keyHandOverDue ??=
-        (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+      // state.model.keyHandOverDue ??=
+      //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
     // Create/Update API Call
     KeyManagementIssuanceRequest request =
         KeyManagementIssuanceRequest(keyIssuanceGi: state.model);
@@ -469,11 +469,14 @@ class KeyManagementIssuanceDetailsCubit
           : Utils.timestampToDateConversion(
               int.tryParse(state.model.keyHandOverDate ?? '0'),
               Constants.fulldateFormat);
-      state.model.keyReturnDateTime = state.model.keyReturnDateTime == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
-          int.tryParse(state.model.keyReturnDateTime ?? '0'),
-          Constants.fulldateFormat);
+      if(state.model.status !=0 && state.model.status !=null) {
+        state.model.keyReturnDateTime =
+        state.model.keyReturnDateTime == null && isSaveOnly != true
+            ? Utils().getCurrentDate()
+            : Utils.timestampToDateConversion(
+            int.tryParse(state.model.keyReturnDateTime ?? '0'),
+            Constants.fulldateFormat);
+      }
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.createdDate = state.model.createdDate == null
@@ -481,6 +484,16 @@ class KeyManagementIssuanceDetailsCubit
           : Utils.timestampToDateConversion(
               int.tryParse(state.model.createdDate ?? '0'),
               Constants.fulldateFormat);
+      state.model.keyHandOverDate = state.model.keyHandOverDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.keyHandOverDate ?? '0'),
+          Constants.fulldateFormat);
+      state.model.keyReturnDateTime = state.model.keyReturnDateTime == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.keyReturnDateTime ?? '0'),
+          Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {
       emit(

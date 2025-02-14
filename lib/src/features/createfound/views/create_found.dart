@@ -637,10 +637,12 @@ class _CreateFoundState extends State<CreateFound> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
+            isDbUser: true,
             isEmployeeId: true,
             location: state.location?.id,
             duplicateDepostorList:
                 state.getDepositorResponse?.atomStaticUser ?? [],
+            roleName: "ATOM_STATIC_USER",
             leftImageName: null,
             onLeftButtonTap: () {
               Navigator.pop(context);
@@ -1900,6 +1902,8 @@ class _CreateFoundState extends State<CreateFound> {
                                           height * 0.01),
                                     ],
                                   ],
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
 
                                   /// upload
                                   if (widget.model == null ||
@@ -2284,11 +2288,21 @@ class _CreateFoundState extends State<CreateFound> {
                 widget.model?.status != 2 &&
                 isClaimantAcceptedByEmail == 0) {
               isClaimantDBEmployeeSelected = selectedValue;
+              selectedClaimList
+                  ?.employeeId = null;
+              claimantEmpIdTextController.text= '';
+              claimantTextController.text ='';
+              selectedClaimDepartment?.name = null;
             } else if (name == Constants.isdepositordbemployee &&
                 widget.model?.status != 1 &&
                 widget.model?.status != 2 &&
                 widget.model?.status != -1) {
               isDepositorDBEmployeeSelected = selectedValue;
+              depositorTextController.text='';
+              employeeIdTextController.text='';
+              selectedDepositorUser?.employeeId = null;
+              selectedEmployeeDepartment
+                  ?.name = null;
             }
             setState(() {});
           },
@@ -2316,11 +2330,21 @@ class _CreateFoundState extends State<CreateFound> {
                   widget.model?.status != 2 &&
                   isClaimantAcceptedByEmail == 0) {
                 isClaimantDBEmployeeSelected = selectedValue;
+                selectedClaimList
+                    ?.employeeId = null;
+                claimantEmpIdTextController.text= '';
+                claimantTextController.text ='';
+                selectedClaimDepartment?.name = null;
               } else if (name == Constants.isdepositordbemployee &&
                   widget.model?.status != 1 &&
                   widget.model?.status != 2 &&
                   widget.model?.status != -1) {
                 isDepositorDBEmployeeSelected = selectedValue;
+                depositorTextController.text='';
+                employeeIdTextController.text='';
+                selectedDepositorUser?.employeeId = null;
+                selectedEmployeeDepartment
+                    ?.name = null;
               }
               setState(() {});
             }),

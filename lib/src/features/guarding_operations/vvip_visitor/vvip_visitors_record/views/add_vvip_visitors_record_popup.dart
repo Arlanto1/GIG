@@ -397,7 +397,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
 
     if (widget.model.baseLocation == null) {
       return const ErrorResponse(
-          status: false, message: 'Please enter Base Location of Visitors.');
+          status: false, message: 'Please enter Base Location of Visitor.');
     }
     if (widget.model.startDateVisit == null) {
       return const ErrorResponse(

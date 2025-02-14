@@ -200,8 +200,8 @@ const List<Label> keyHandingOverDurationValues = [
 ];
 
 const List<Label> keyTypeDropDownValues = [
-  Label(key: 'Normal', value: '1'),
-  Label(key: 'Master', value: '2'),
+  Label(key: 'Keys', value: '1'),
+  Label(key: 'Master Keys', value: '2'),
 ];
 
 const List<Label> typesDropDownValues = [
@@ -313,13 +313,13 @@ const List<Label> materialMovementStatusValues = [
   Label(key: 'Draft', value: '0'),
   Label(key: 'Business User Review', value: '1'),
   Label(key: 'Submitted', value: '2'),
-  Label(key: 'LSM Review', value: '3'),
-  Label(key: 'LSM Approved', value: '4'),
-  Label(key: 'LSM Rejected', value: '5'),
-  Label(key: 'Approved', value: '6'),
+  Label(key: 'Security Review', value: '3'),
+  Label(key: 'Approval from Approver is awaited', value: '4'),
+  Label(key: 'Security Rejected', value: '5'),
+  Label(key: 'Outward Pending', value: '6'),
   Label(key: 'Rejected', value: '7'),
-  Label(key: 'Outward Waiting', value: '8'),
-  Label(key: 'Inward Waiting', value: '9'),
+  Label(key: 'Return Pending', value: '8'),
+  Label(key: 'Inward Pending', value: '9'),
   Label(key: 'Closed/Finalized', value: '10'),
   Label(key: 'Cancelled', value: '-1'),
 ];

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/models/km_ui_labels.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 
 part 'key_history_record_event.dart';
@@ -70,21 +69,21 @@ class KeyHistoryRecordBloc
         );
       }
 
-      List<KeyManagementMasterModel> response =
-          await services.getKeyHistoryListByType(
-        id: event.id,
-        type: event.type,
-      );
+      // List<KeyManagementMasterModel> response =
+      //     await services.getKeyHistoryListByType(
+      //   id: event.id,
+      //   type: event.type,
+      // );
 
-      if (response.isEmpty == true) {
-        return emit(state.copyWith(hasReachedMax: true));
-      }
-      return emit(
-        state.copyWith(
-          items: List.of(state.list)..addAll(response),
-          hasReachedMax: false,
-        ),
-      );
+      // if (response.isEmpty == true) {
+      //   return emit(state.copyWith(hasReachedMax: true));
+      // }
+      // return emit(
+      //   state.copyWith(
+      //     items: List.of(state.list)..addAll(response),
+      //     hasReachedMax: false,
+      //   ),
+      // );
     } catch (e) {
       return emit(state.copyWith(status: FormStatus.failure));
     }

@@ -318,28 +318,28 @@ class Utils {
         statusText = 'Submitted';
         break;
       case 3:
-        statusText = 'LSM Review';
+        statusText = 'Security Review';
         break;
       case 4:
-        statusText = 'LSM Approved';
+        statusText = 'Approval from Approver is awaited';
         break;
       case 5:
-        statusText = 'LSM Rejected';
+        statusText = 'Security Rejected';
         break;
       case 6:
-        statusText = 'Approved';
+        statusText = 'Outward Pending';
         break;
       case 7:
         statusText = 'Rejected';
         break;
       case 8:
-        statusText = 'Outward Waiting';
+        statusText = 'Return Pending';
         break;
       case 9:
-        statusText = 'Inward Waiting';
+        statusText = 'Inward Pending';
         break;
       case 10:
-        statusText = 'Closed/Finalize';
+        statusText = 'Closed/Finalized';
         break;
       case -1:
         statusText = 'Cancelled';
@@ -530,6 +530,7 @@ class Utils {
         guardRankText = ''; // Handle the default case if needed
     }
 
+
     if (returnTextOnly ?? false) {
       return guardRankText;
     }
@@ -543,6 +544,40 @@ class Utils {
     );
   }
 
+
+  Widget dutyGuardRank({required int dutyGuardRank}) {
+    String guardRankText;
+
+    switch (dutyGuardRank) {
+      case 1:
+        guardRankText = 'Security Guard';
+        break;
+      case 2:
+        guardRankText = 'Security Officer';
+        break;
+      case 3:
+        guardRankText = 'Security Supervisor';
+        break;
+      case 4:
+        guardRankText = 'Security Facilitator';
+        break;
+      case 5:
+        guardRankText = 'Gun Man';
+        break;
+      case 6:
+        guardRankText = 'Lady Security Guard';
+        break;
+      default:
+        guardRankText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Rank : ', guardRankText),
+        ],
+      ),
+    );
+  }
   Widget buildMaritalStatus(int maritalStatus) {
     String maritalStatusText;
 

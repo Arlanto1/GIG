@@ -1,5 +1,6 @@
 part of 'login_bloc.dart';
 
+
 @immutable
 abstract class LoginEvent {}
 
@@ -12,8 +13,10 @@ class LoginVerifyEvent extends LoginEvent {
 
 class LoginSsoVerifyEvent extends LoginEvent {
   final MsalUser user;
+  final bool isFromLogin;
 
-  LoginSsoVerifyEvent({required this.user});
+
+  LoginSsoVerifyEvent({required this.user,required this.isFromLogin});
 }
 
 class ForgotPwdEvent extends LoginEvent {
