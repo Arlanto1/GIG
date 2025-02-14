@@ -29,7 +29,7 @@ class DayPassManagementListBloc
 
   DayPassManagementListBloc({required this.passId})
       : super(const DayPassManagementListState()) {
-    on<InitializeValues>(_initializeValues);
+    on<InitializeDayPassValues>(_initializeValues);
     on<FetchDayPassData>(
       _fetchDayPassManagements,
       transformer: droppable(),
@@ -45,7 +45,7 @@ class DayPassManagementListBloc
   final CommonServices commonServices = CommonServices();
 
   FutureOr<void> _initializeValues(
-      InitializeValues event, Emitter<DayPassManagementListState> emit) async {
+      InitializeDayPassValues event, Emitter<DayPassManagementListState> emit) async {
     try {
       emit(state.copyWith(status: FormStatus.loading));
 
@@ -111,7 +111,7 @@ class DayPassManagementListBloc
 
       return emit(
         state.copyWith(
-          items: response.list,
+          items: response.items,
           hasReachedMax: false,
           status: FormStatus.success,
         ),
@@ -123,8 +123,6 @@ class DayPassManagementListBloc
 
   FutureOr<void> _fetchDayPassManagements(
       FetchDayPassData event, Emitter<DayPassManagementListState> emit) async {
-    log('-_fetchMaterialMovements--');
-
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -132,10 +130,8 @@ class DayPassManagementListBloc
     );
 
     try {
-      // if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial || event.newSearch) {
-        log('-_fetchMaterialMovements--initial--');
         DayPassManagementResponseModel response;
 
         response = await services.getPassManagementList(
@@ -147,7 +143,7 @@ class DayPassManagementListBloc
 
         return emit(
           state.copyWith(
-            items: response.list,
+            items: response.items,
             hasReachedMax: false,
             status: FormStatus.success,
           ),
@@ -164,12 +160,12 @@ class DayPassManagementListBloc
         filters: event.filters,
       );
 
-      if (response.list?.isEmpty == true) {
+      if (response.items?.isEmpty == true) {
         return emit(state.copyWith(hasReachedMax: true));
       }
       return emit(
         state.copyWith(
-          items: List.of(state.items)..addAll(response.list ?? []),
+          items: List.of(state.items)..addAll(response.items ?? []),
           hasReachedMax: false,
           status: FormStatus.success,
         ),

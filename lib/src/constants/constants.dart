@@ -1003,6 +1003,12 @@ class Constants {
   static const String notes = 'Notes';
 
 
+  ///Day Pass Management
+  static const String dayPassManagementTitle = 'Day Pass Management';
+  static const String createDayPassManagementTitle = 'Create Day Pass Management';
+  static const String editDayPassManagementTitle = 'Edit Day Pass Management';
+  static const String dayPassNo = 'Day Pass No';
+
 }
 
 //static const String height = 'Height(cm)';

@@ -49,6 +49,7 @@ class BaseListTileItem extends StatefulWidget {
   final bool isDutyPostNameMasterStatus;
   final bool isAttendanceStatus;
   final bool? showEditButton;
+  final bool isPassManagementStatus;
 
   const BaseListTileItem({
     super.key,
@@ -97,6 +98,7 @@ class BaseListTileItem extends StatefulWidget {
     this.showDeleteButton = true,
     this.showEmailButton = false,
     this.showLinkOffButton = false,
+    this.isPassManagementStatus = false,
   });
 
   @override
@@ -347,6 +349,13 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                                 .dutyPostNameMasterStatus(widget.status ?? 0),
                           ],
                         )
+                      ],
+
+                      if (widget.status != null &&
+                          widget.isPassManagementStatus == true && !widget.isShiftScheduleStatus) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Utils()
+                            .buildPassManagementStatusRow(widget.status ?? 0),
                       ],
                     ],
                   ),

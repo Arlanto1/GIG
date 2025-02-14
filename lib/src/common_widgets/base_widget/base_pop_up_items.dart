@@ -79,6 +79,10 @@ class BasePopUpItems extends StatefulWidget {
   final String? returnedByName;
   final Organisation? department;
   final Organisation? vendors;
+  final bool isPassManagementStatus;
+  final String? passValidFrom;
+  final String? passValidUntil;
+  final String? companyName;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -163,6 +167,10 @@ class BasePopUpItems extends StatefulWidget {
     this.department,
     this.returnedByName,
     this.vendors,
+    this.isPassManagementStatus = false,
+    this.passValidFrom,
+    this.passValidUntil,
+    this.companyName,
   });
 }
 
@@ -217,6 +225,8 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           CommonWidgets.verticalSpacerWidget(5),
         ],
       ),
+      CommonWidgets.verticalSpacerWidget(8),
+
       if (widget.slNo != null && widget.slNo!.isNotEmpty) ...[
         Row(
           children: [
@@ -851,6 +861,17 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
+      if (widget.status != null &&
+          widget.isPassManagementStatus == true &&
+          widget.isEventProtectionStatus == false) ...[
+        CommonWidgets.horizontalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().buildPassManagementStatusRow(widget.status ?? 0),
+          ],
+        ),
+      ],
       CommonWidgets.verticalSpacerWidget(5),
       if (widget.status != null && widget.isShiftScheduleStatus == true) ...[
         CommonWidgets.horizontalSpacerWidget(5),
@@ -918,6 +939,46 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
+
+      if (widget.passValidFrom != null) ...[
+        Row(
+          children: [
+            Utils().textHandling(
+                'Pass Valid From: ',
+                widget.passValidFrom != null
+                    ? Utils.timestampToDateConversion(
+                    int.tryParse(widget.passValidFrom ?? '0'),
+                    Constants.fulldateFormat)
+                    : ''),
+          ],
+        ),
+      ],
+      CommonWidgets.verticalSpacerWidget(8),
+
+      if (widget.passValidUntil != null) ...[
+        Row(
+          children: [
+            Utils().textHandling(
+                'Pass Valid Until: ',
+                widget.passValidUntil != null
+                    ? Utils.timestampToDateConversion(
+                    int.tryParse(widget.passValidUntil ?? '0'),
+                    Constants.fulldateFormat)
+                    : ''),
+          ],
+        ),
+      ],
+      CommonWidgets.verticalSpacerWidget(8),
+      if (widget.companyName != null) ...[
+        // CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          children: [
+            Utils().textHandling(
+                'Company Name : ', widget.companyName.toString()),
+          ],
+        ),
+      ],
+
     ];
 
     for (Label label in labels ?? []) {

@@ -21,8 +21,8 @@ class FetchDayPassData extends DayPassManagementListEvent {
         required this.filters});
 }
 
-class InitializeValues extends DayPassManagementListEvent {
-  const InitializeValues();
+class InitializeDayPassValues extends DayPassManagementListEvent {
+  const InitializeDayPassValues();
 }
 
 class RefreshDayPassList extends DayPassManagementListEvent {

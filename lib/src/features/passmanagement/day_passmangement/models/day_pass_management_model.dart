@@ -1,33 +1,29 @@
 import 'package:db_atom/index.dart';
 
 class DayPassManagementResponseModel {
-  final dynamic list;
-  final List<DayPassManagementModel>? data;
-  final int? totalCount;
-  final int? currentPageNo;
-  final int? totalPageCount;
+  List<DayPassManagementModel>? items;
+  int? totalCount;
+  int? currentPageNo;
+  int? totalPageCount;
 
   DayPassManagementResponseModel({
-    this.list,
-    this.data,
+    this.items,
     this.totalCount,
     this.currentPageNo,
     this.totalPageCount,
   });
 
   DayPassManagementResponseModel.fromJson(Map<String, dynamic> json)
-      : list = json['list'],
-        data = (json['data'] as List?)
-            ?.map((dynamic e) =>
-            DayPassManagementModel.fromJson(e as Map<String, dynamic>))
-            .toList(),
+      : items = (json['list'] as List?)
+      ?.map((dynamic e) =>
+      DayPassManagementModel.fromJson(e as Map<String, dynamic>))
+      .toList(),
         totalCount = json['totalCount'] as int?,
         currentPageNo = json['currentPageNo'] as int?,
         totalPageCount = json['totalPageCount'] as int?;
 
   Map<String, dynamic> toJson() => {
-    'list': list,
-    'data': data?.map((e) => e.toJson()).toList(),
+    'list': items?.map((e) => e.toJson()).toList(),
     'totalCount': totalCount,
     'currentPageNo': currentPageNo,
     'totalPageCount': totalPageCount
