@@ -18,12 +18,12 @@ class MenuNavigation {
         });
         break;
       case 2:
-        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+        Navigator.pushNamed(context, vendorPassManagementListRoute, arguments: {
           "passMngDetails": PassMngArguments(2, 'Vendor Pass Management', false)
         });
         break;
       case 3:
-        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+        Navigator.pushNamed(context, visitorPassManagementListRoute, arguments: {
           "passMngDetails":
               PassMngArguments(1, 'Visitor Pass Management', false)
         });

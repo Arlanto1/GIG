@@ -120,6 +120,10 @@ import '../features/passmanagement/day_pass_mangement/day_passmanagement_details
 import '../features/passmanagement/day_pass_mangement/day_passmanagement_details/views/day_passmanagement_details_view.dart';
 import '../features/passmanagement/day_pass_mangement/day_passmanagement_list/views/day_passmanagement_list_view.dart';
 import '../features/passmanagement/day_pass_mangement/models/day_pass_management_model.dart';
+import '../features/passmanagement/vendor_pass_management/vendor_pass_management_list/bloc/vendor_pass_management_list_bloc.dart';
+import '../features/passmanagement/vendor_pass_management/vendor_pass_management_list/views/vendor_pass_management_list_view.dart';
+import '../features/passmanagement/visitor_pass_management/visitor_pass_management_list/bloc/visitor_pass_management_list_bloc.dart';
+import '../features/passmanagement/visitor_pass_management/visitor_pass_management_list/views/visitor_pass_management_list_view.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -1891,6 +1895,32 @@ class RouteGenerator {
                 model: model, title: title, extraProperties: extraProperties),
           ),
         );
+
+      case vendorPassManagementListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<VendorPassManagementListBloc>(
+              create: (_) => VendorPassManagementListBloc(passId: 2)
+                ..add(FetchVendorPassData(
+                    startPos: 0,
+                    maxPos: Constants.maxResults,
+                    newSearch: true,
+                    filters: BaseFilterModel())),
+              child: const VendorPassManagementListView(),
+            ));
+
+
+
+      case visitorPassManagementListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<VisitorPassManagementListBloc>(
+              create: (_) => VisitorPassManagementListBloc(passId: 1)
+                ..add(FetchVisitorPassData(
+                    startPos: 0,
+                    maxPos: Constants.maxResults,
+                    newSearch: true,
+                    filters: BaseFilterModel())),
+              child: const VisitorPassManagementListView(),
+            ));
 
       default:
         log('--default---${settings.name}-');

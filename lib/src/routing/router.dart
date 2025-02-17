@@ -111,4 +111,8 @@ const String ticketingSystemDetailsRoute = '/ticketingSystemDetailsRoute';
 const String dayPassManagementListRoute = '/dayPassManagementListRoute';
 const String dayPassManagementDetailsRoute = '/dayPassManagementDetailsRoute';
 
+const String vendorPassManagementListRoute = '/vendorPassManagementListRoute';
+const String vendorPassManagementDetailsRoute = '/vendorPassManagementDetailsRoute';
 
+const String visitorPassManagementListRoute = '/visitorPassManagementListRoute';
+const String visitorPassManagementDetailsRoute = '/visitorPassManagementDetailsRoute';

@@ -1009,6 +1009,20 @@ class Constants {
   static const String editDayPassManagementTitle = 'Edit Day Pass Management';
   static const String dayPassNo = 'Day Pass No';
 
+
+  ///Vendor Pass Management
+  static const String vendorPassManagementTitle = 'Vendor Pass Management';
+  static const String createVendorPassManagementTitle = 'Create Vendor Pass Management';
+  static const String editVendorPassManagementTitle = 'Edit Vendor Pass Management';
+
+  ///Visitor Pass Management
+  static const String visitorPassManagementTitle = 'Visitor Pass Management';
+  static const String createVisitorPassManagementTitle = 'Create Visitor Pass Management';
+  static const String editVisitorPassManagementTitle = 'Edit Visitor Pass Management';
+
+
+
+
 }
 
 //static const String height = 'Height(cm)';
