@@ -4280,10 +4280,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter pass category",
       );
-    } else if (passValidFromTextController.text.isEmpty) {
+    } else if (passValidFromTextController.text.isEmpty && widget.passId != ConstantsIntValue.passIdSez) {
       Validator().showToast(
         context,
         "Please enter pass valid from",
+      );
+    }
+    else if (passIssuedOnTextController.text.isEmpty && widget.passId == ConstantsIntValue.passIdSez) {
+      Validator().showToast(
+        context,
+        "Please enter pass issued on",
       );
     } else if (passValidUntilTextController.text.isEmpty) {
       Validator().showToast(
