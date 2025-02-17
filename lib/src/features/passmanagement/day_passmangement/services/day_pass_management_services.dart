@@ -1,8 +1,8 @@
 
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/passmanagement/day_passmangement/models/day_pass_management_model.dart';
-import 'package:db_atom/src/features/passmanagement/day_passmangement/models/requestModels/day_pass_management_request.dart';
+import 'package:db_atom/src/features/passmanagement/day_pass_mangement/models/day_pass_management_model.dart';
+import 'package:db_atom/src/features/passmanagement/day_pass_mangement/models/requestModels/day_pass_management_request.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;

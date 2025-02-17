@@ -1,5 +1,5 @@
 
-import 'package:db_atom/src/features/passmanagement/day_passmangement/models/day_pass_management_model.dart';
+import 'package:db_atom/src/features/passmanagement/day_pass_mangement/models/day_pass_management_model.dart';
 
 class DayPassManagementRequest {
   DayPassManagementRequest({

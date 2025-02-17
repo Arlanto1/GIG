@@ -70,7 +70,8 @@ import 'package:db_atom/src/features/material_movement/material_movements/bloc/m
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import 'package:db_atom/src/features/occurrenceList/bloc/occurrences_bloc.dart'
     as ocb;
-import 'package:db_atom/src/features/passmanagement/day_passmangement/day_passmanagement_list/bloc/day_passmanagement_list_bloc.dart';
+import 'package:db_atom/src/features/passmanagement/day_pass_mangement/day_passmanagement_list/bloc/day_passmanagement_list_bloc.dart';
+import 'package:db_atom/src/features/passmanagement/day_passmangement/services/day_pass_management_services.dart';
 import 'package:db_atom/src/features/passmanagement/pass_management_list/bloc/pass_management_list_bloc.dart'
     as pm;
 import 'package:db_atom/src/features/passmanagement/pass_management_list/views/pass_manangement_list_view.dart';
@@ -115,7 +116,10 @@ import '../features/guarding_operations/vvip_visitor/vvip_visitors/bloc/vvip_vis
 import '../features/guarding_operations/vvip_visitor/vvip_visitors_record/bloc/vvip_visitors_record_bloc.dart'
     as vipr;
 import '../features/guarding_operations/vvip_visitor/vvip_visitors_record/views/vvip_visitors_record_view.dart';
-import '../features/passmanagement/day_passmangement/day_passmanagement_list/views/day_passmanagement_list_view.dart';
+import '../features/passmanagement/day_pass_mangement/day_passmanagement_details/cubits/day_passmanagement_details_cubit.dart';
+import '../features/passmanagement/day_pass_mangement/day_passmanagement_details/views/day_passmanagement_details_view.dart';
+import '../features/passmanagement/day_pass_mangement/day_passmanagement_list/views/day_passmanagement_list_view.dart';
+import '../features/passmanagement/day_pass_mangement/models/day_pass_management_model.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -1865,6 +1869,28 @@ class RouteGenerator {
                     filters: BaseFilterModel())),
               child: const DayPassManagementListView(),
             ));
+
+      case dayPassManagementDetailsRoute:
+        DayPassManagementServices services = DayPassManagementServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        ExtraProperties? extraProperties;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        DayPassManagementModel? model = arguments["model"];
+        extraProperties = arguments[ConstantsArgument.extraProperties];
+
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<DayPassManagementDetailsCubit>(
+            create: (_) => DayPassManagementDetailsCubit(
+              model: model,
+              commonServices: commonServices, dayPassManagementServices: services,
+            ),
+            child: DayPassManagementDetailsView(
+                model: model, title: title, extraProperties: extraProperties),
+          ),
+        );
 
       default:
         log('--default---${settings.name}-');

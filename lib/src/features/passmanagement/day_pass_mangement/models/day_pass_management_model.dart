@@ -31,28 +31,29 @@ class DayPassManagementResponseModel {
 }
 
 class DayPassManagementModel {
-  final int? id;
-  final String? slNo;
-  final String? inputDate;
-  final Organisation? location;
-  final Organisation? locationRegion;
-  final int? status;
-  final User? entrySecurity;
-  final int? passType;
-  final CompanyType? companyType;
-  final String? companyName;
-  final bool? exceptionalApproval;
-  final PassInfo? passInfo;
-  final String? startTime;
-  final String? endTime;
-  final List<dynamic>? evidenceDocuments;
-  final bool? escortedByHost;
-  final bool? idValidated;
-  final String? hostName;
-  final String? mifareNo;
-  final String? passNo;
-  final String? entrySecurityName;
-  final String? handOverSecurityName;
+   int? id;
+   String? slNo;
+   String? inputDate;
+   Organisation? location;
+   Organisation? locationRegion;
+   int? status;
+   User? entrySecurity;
+   int? passType;
+   CompanyType? companyType;
+   String? companyName;
+   bool? exceptionalApproval;
+   PassInfo? passInfo;
+   String? startTime;
+   String? endTime;
+   List<dynamic>? evidenceDocuments;
+   bool? escortedByHost;
+   bool? idValidated;
+   String? hostName;
+   String? mifareNo;
+   String? passNo;
+   String? entrySecurityName;
+   String? handOverSecurityName;
+   String? lock;
 
   DayPassManagementModel({
     this.id,
@@ -77,6 +78,7 @@ class DayPassManagementModel {
     this.passNo,
     this.entrySecurityName,
     this.handOverSecurityName,
+    this.lock,
   });
 
   DayPassManagementModel.fromJson(Map<String, dynamic> json)
@@ -101,9 +103,11 @@ class DayPassManagementModel {
         mifareNo = json['mifareNo'] as String?,
         passNo = json['passNo'] as String?,
         entrySecurityName = json['entrySecurityName'] as String?,
-        handOverSecurityName = json['handOverSecurityName'] as String?;
+        handOverSecurityName = json['handOverSecurityName'] as String?,
+        lock = json['lock'] as String?;
 
-  Map<String, dynamic> toJson() => {
+
+      Map<String, dynamic> toJson() => {
     'id' : id,
     'slNo' : slNo,
     'inputDate' : inputDate,
@@ -125,7 +129,8 @@ class DayPassManagementModel {
     'mifareNo' : mifareNo,
     'passNo' : passNo,
     'entrySecurityName' : entrySecurityName,
-    'handOverSecurityName' : handOverSecurityName
+    'handOverSecurityName' : handOverSecurityName,
+        'lock':lock
   };
 }
 

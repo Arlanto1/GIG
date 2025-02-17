@@ -161,4 +161,9 @@ class ConstantsIntValue {
   static const int keyLossClosedStatus = 10;
   static const int keyLossCancelledStatus = 11;
 
+
+  ///Pass Management Status
+  static const int passCreatedStatus = 0;
+
+
 }

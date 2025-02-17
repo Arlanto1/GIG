@@ -7,7 +7,7 @@ import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/enums/form_status.dart';
 import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
 import 'package:db_atom/src/features/createfound/models/user.dart';
-import 'package:db_atom/src/features/passmanagement/day_passmangement/models/day_pass_management_model.dart';
+import 'package:db_atom/src/features/passmanagement/day_pass_mangement/models/day_pass_management_model.dart';
 import 'package:db_atom/src/features/passmanagement/day_passmangement/services/day_pass_management_services.dart';
 import 'package:db_atom/src/features/passmanagement/models/pm_ui_labels.dart';
 import 'package:db_atom/src/models/base_filter_model.dart';
