@@ -1079,7 +1079,7 @@ class NavigationDrawer1 extends StatelessWidget {
         break;
       case 2:
         log('Sez pass Management index6');
-        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+        Navigator.pushNamed(context, sezPassManagementListRoute, arguments: {
           "passMngDetails": PassMngArguments(3, 'Sez Pass Management', false)
         });
         break;

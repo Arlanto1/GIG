@@ -1021,7 +1021,11 @@ class Constants {
   static const String editVisitorPassManagementTitle = 'Edit Visitor Pass Management';
 
 
+  ///Sez Pass Management
 
+  static const String sezPassManagementTitle = 'Sez Pass Management';
+  static const String createSezPassManagementTitle = 'Create Sez Pass Management';
+  static const String editSezPassManagementTitle = 'Edit Sez Pass Management';
 
 }
 

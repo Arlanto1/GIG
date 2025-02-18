@@ -21,7 +21,6 @@ class DayPassManagementServices {
     required String maximumRecords,
     required int passType,
     required BaseFilterModel filters,
-    bool? returnable,
   }) async {
     String url =
         '${Apis._getPassManagements}passType=$passType&startPos=$startPosition&maxResults=$maximumRecords';

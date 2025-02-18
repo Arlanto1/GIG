@@ -39,7 +39,7 @@ class DayPassManagementModel {
    int? status;
    User? entrySecurity;
    int? passType;
-   CompanyType? companyType;
+   Organisation? companyType;
    String? companyName;
    bool? exceptionalApproval;
    PassInfo? passInfo;
@@ -90,7 +90,7 @@ class DayPassManagementModel {
         status = json['status'] as int?,
         entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
         passType = json['passType'] as int?,
-        companyType = (json['companyType'] as Map<String,dynamic>?) != null ? CompanyType.fromJson(json['companyType'] as Map<String,dynamic>) : null,
+        companyType = (json['companyType'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['companyType'] as Map<String,dynamic>) : null,
         companyName = json['companyName'] as String?,
         exceptionalApproval = json['exceptionalApproval'] as bool?,
         passInfo = (json['passInfo'] as Map<String,dynamic>?) != null ? PassInfo.fromJson(json['passInfo'] as Map<String,dynamic>) : null,
@@ -131,33 +131,6 @@ class DayPassManagementModel {
     'entrySecurityName' : entrySecurityName,
     'handOverSecurityName' : handOverSecurityName,
         'lock':lock
-  };
-}
-
-class CompanyType {
-  final int? id;
-  final String? name;
-  final String? keyname;
-  final String? description;
-
-  CompanyType({
-    this.id,
-    this.name,
-    this.keyname,
-    this.description,
-  });
-
-  CompanyType.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int?,
-        name = json['name'] as String?,
-        keyname = json['keyname'] as String?,
-        description = json['description'] as String?;
-
-  Map<String, dynamic> toJson() => {
-    'id' : id,
-    'name' : name,
-    'keyname' : keyname,
-    'description' : description
   };
 }
 

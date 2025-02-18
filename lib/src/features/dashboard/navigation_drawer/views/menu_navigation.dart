@@ -13,7 +13,7 @@ class MenuNavigation {
         });
         break;
       case 1:
-        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
+        Navigator.pushNamed(context, sezPassManagementListRoute, arguments: {
           "passMngDetails": PassMngArguments(3, 'SEZ Pass Management', false)
         });
         break;

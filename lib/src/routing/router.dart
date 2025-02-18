@@ -116,3 +116,6 @@ const String vendorPassManagementDetailsRoute = '/vendorPassManagementDetailsRou
 
 const String visitorPassManagementListRoute = '/visitorPassManagementListRoute';
 const String visitorPassManagementDetailsRoute = '/visitorPassManagementDetailsRoute';
+
+const String sezPassManagementListRoute = '/sezPassManagementListRoute';
+const String sezPassManagementDetailsRoute = '/sezPassManagementDetailsRoute';

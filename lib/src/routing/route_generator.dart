@@ -120,6 +120,8 @@ import '../features/passmanagement/day_pass_mangement/day_passmanagement_details
 import '../features/passmanagement/day_pass_mangement/day_passmanagement_details/views/day_passmanagement_details_view.dart';
 import '../features/passmanagement/day_pass_mangement/day_passmanagement_list/views/day_passmanagement_list_view.dart';
 import '../features/passmanagement/day_pass_mangement/models/day_pass_management_model.dart';
+import '../features/passmanagement/sez_pass_management/sez_pass_managememt_list/bloc/sez_pass_management_list_bloc.dart';
+import '../features/passmanagement/sez_pass_management/sez_pass_managememt_list/views/sez_pass_management_list_view.dart';
 import '../features/passmanagement/vendor_pass_management/vendor_pass_management_list/bloc/vendor_pass_management_list_bloc.dart';
 import '../features/passmanagement/vendor_pass_management/vendor_pass_management_list/views/vendor_pass_management_list_view.dart';
 import '../features/passmanagement/visitor_pass_management/visitor_pass_management_list/bloc/visitor_pass_management_list_bloc.dart';
@@ -1921,6 +1923,20 @@ class RouteGenerator {
                     filters: BaseFilterModel())),
               child: const VisitorPassManagementListView(),
             ));
+
+
+      case sezPassManagementListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<SezPassManagementListBloc>(
+              create: (_) => SezPassManagementListBloc(passId: 1)
+                ..add(FetchSezPassData(
+                    startPos: 0,
+                    maxPos: Constants.maxResults,
+                    newSearch: true,
+                    filters: BaseFilterModel())),
+              child: const SezPassManagementListView(),
+            ));
+
 
       default:
         log('--default---${settings.name}-');

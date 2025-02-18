@@ -83,6 +83,7 @@ class BasePopUpItems extends StatefulWidget {
   final String? passValidFrom;
   final String? passValidUntil;
   final String? companyName;
+  final bool? sez;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -171,6 +172,7 @@ class BasePopUpItems extends StatefulWidget {
     this.passValidFrom,
     this.passValidUntil,
     this.companyName,
+    this.sez,
   });
 }
 
@@ -944,7 +946,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         Row(
           children: [
             Utils().textHandling(
-                'Pass Valid From: ',
+                widget.sez == true ? 'Pass Issued On: ' : 'Pass Valid From: ',
                 widget.passValidFrom != null
                     ? Utils.timestampToDateConversion(
                     int.tryParse(widget.passValidFrom ?? '0'),
