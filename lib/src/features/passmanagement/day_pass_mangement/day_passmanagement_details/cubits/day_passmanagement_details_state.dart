@@ -6,6 +6,7 @@ class DayPassManagementDetailsState extends Equatable {
   final DayPassManagementModel model;
   final Locations? locations;
   final User? loggedInUserDetails;
+  final List<Organisation> getCompanyTypeResponse;
 
   // final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
@@ -14,7 +15,7 @@ class DayPassManagementDetailsState extends Equatable {
   final List<BaseUser>? approver2Users;
   final List<BaseUser>? returnReceiverEmailId;
   final List<BaseUser>? receiverEmailUsers;
-
+  final List<Organisation>? listOfEntities;
   final List<Organisation> departments;
   final List<ImageContent>? loadAttachments;
   final List<Organisation> quantityUnits;
@@ -29,6 +30,9 @@ class DayPassManagementDetailsState extends Equatable {
   factory DayPassManagementDetailsState.initial({
     required DayPassManagementModel model,
     required Locations locations,
+    required final List<Organisation>? listOfEntities,
+    required final List<Organisation> getCompanyTypeResponse,
+
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required String errorMessage,
@@ -42,6 +46,9 @@ class DayPassManagementDetailsState extends Equatable {
       status: FormStatus.initial,
       model: model,
       locations: locations,
+      listOfEntities: listOfEntities,
+      getCompanyTypeResponse: getCompanyTypeResponse,
+
       emailUsers: emailUsers,
       message: errorMessage,
       departments: departments,
@@ -91,6 +98,8 @@ class DayPassManagementDetailsState extends Equatable {
     required this.status,
     required this.model,
     this.locations,
+    this.listOfEntities,
+    required this.getCompanyTypeResponse,
     this.loggedInUserDetails,
     this.emailUsers,
     required this.departments,
@@ -114,6 +123,8 @@ class DayPassManagementDetailsState extends Equatable {
     FormStatus? status,
     DayPassManagementModel? model,
     Locations? locations,
+    List<Organisation>? listOfEntities,
+    List<Organisation>? companyType,
     User? loggedInUserDetails,
     List<BaseUser>? emailUsers,
     List<BaseUser>? requestorEmailUsers,
@@ -135,6 +146,9 @@ class DayPassManagementDetailsState extends Equatable {
       model: model ?? this.model,
       isReadOnly: isReadOnly ?? this.isReadOnly,
       locations: locations ?? this.locations,
+      listOfEntities: listOfEntities ?? this.listOfEntities,
+      getCompanyTypeResponse: companyType ?? getCompanyTypeResponse,
+
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       emailUsers: emailUsers ?? this.emailUsers,
       requestorEmailUsers: requestorEmailUsers ?? this.requestorEmailUsers,

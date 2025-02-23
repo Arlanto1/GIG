@@ -30,7 +30,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       departments: const [],
       loadAttachments: const [],
       quantityUnits: const [],
-      eventId: null,
+      eventId: null, listOfEntities: const [], getCompanyTypeResponse: const [],
     ),
   );
 
@@ -249,15 +249,14 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
   }
 
   Future<void> updateDropdownValues({
+    List<Organisation>? entities,
+    int? passType,
+    Organisation? companyType,
     BaseUser? user,
+    BaseUser? host,
     BaseUser? receiverEmailUser,
     BaseUser? receiverByEmail,
-    BaseUser? requesterEmailUser,
-    BaseUser? returnReceiverMailId,
-    Organisation? requesterDepartment,
-    Organisation? preparedByDepartment,
-    Organisation? approver1Department,
-    Organisation? approver2Department,
+    Organisation? department,
     Organisation? receiverDepartment,
     Organisation? quantityUnit,
     bool? isReturnable,
@@ -270,6 +269,42 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     );
 
     state.model.status = status ?? state.model.status;
+    if (entities != null) {
+      state.model.entities = entities;
+    }
+    // if (passType != null) {
+    //   state.model.passInfo?.passType = passType;
+    // }
+
+    state.model.passType = passType ?? state.model.passType;
+
+    if (companyType != null) {
+      state.model.companyType = companyType;
+    }
+
+    if (host != null) {
+      // Ensure employeeId is explicitly assigned to receiverEmployeeId
+      state.model.employeeID = host.employeeId;
+
+      // Log to verify the correct value is assigned
+      log('--receiverEmployeeId-${state.model.employeeID}-');
+
+      // Format the name and email for receiverEmail
+      String name = host.name ?? '';
+      String email = host.email ?? '';
+      User userDetails = User(
+        name:name,
+        userId: host.id,
+        email: email,
+      );
+      state.model.host = userDetails;
+      emit(
+        state.copyWith(
+          model: state.model,
+          status: FormStatus.initial,
+        ),
+      );
+    }
     // if (location != null &&
     //     isInward == false &&
     //     state.model.returnable == false) {
@@ -310,9 +345,9 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     // if (preparedByDepartment != null) {
     //   state.model.preparedByDepartment = preparedByDepartment;
     // }
-    // if (approver1Department != null) {
-    //   state.model.approver1Department = approver1Department;
-    // }
+    if (department != null) {
+      // state.model.department = department;
+    }
     //
     // if (approver2Department != null) {
     //   state.model.approver2Department = approver2Department;
@@ -324,15 +359,13 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     //   state.model.unit = quantityUnit;
     // }
 
-    if (isReturnable != null) {
+    // if (isReturnable != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: state.model.location!.id.toString(),
-          moduleCode: isReturnable
-              ? Constants.materialMovementOutwardReturnableModule
-              : Constants.materialMovementOutwardNonReturnableModule);
+          moduleCode: Constants.passManagementModuleCode);
       state.model.slNo = slNo.serialNo;
       // state.model.returnable = isReturnable;
-    }
+    // }
 
     // if (receiverEmailUser != null) {
     //   // Ensure employeeId is explicitly assigned to receiverEmployeeId

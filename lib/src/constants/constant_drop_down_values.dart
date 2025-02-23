@@ -351,3 +351,16 @@ const List<Label> passManagementStatusValues = [
 
 ];
 
+const List<Label> passTypeValues = [
+  Label(key: 'Day Pass', value: '0'),
+  Label(key: 'Visitor Pas', value: '1'),
+  Label(key: 'Vendor Pass', value: '2'),
+  Label(key: 'SEZ Pass', value: '3'),
+  Label(key: 'DWS Day Pass', value: '4'),
+  Label(key: 'DWS Visitor Pass', value: '5'),
+  Label(key: 'DWS Vendor Pass', value: '6'),
+];
+
+const List<Label> dayPassTypeValues = [
+  Label(key: 'Day Pass', value: '0'),
+];

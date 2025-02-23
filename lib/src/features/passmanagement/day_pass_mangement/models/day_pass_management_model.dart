@@ -36,11 +36,14 @@ class DayPassManagementModel {
    String? inputDate;
    Organisation? location;
    Organisation? locationRegion;
+   List<Organisation>? entities;
    int? status;
    User? entrySecurity;
+   User? host;
    int? passType;
    Organisation? companyType;
    String? companyName;
+   String? employeeID;
    bool? exceptionalApproval;
    PassInfo? passInfo;
    String? startTime;
@@ -61,11 +64,14 @@ class DayPassManagementModel {
     this.inputDate,
     this.location,
     this.locationRegion,
+    this.entities,
     this.status,
     this.entrySecurity,
+    this.host,
     this.passType,
     this.companyType,
     this.companyName,
+    this.employeeID,
     this.exceptionalApproval,
     this.passInfo,
     this.startTime,
@@ -87,11 +93,17 @@ class DayPassManagementModel {
         inputDate = json['inputDate'] as String?,
         location = (json['location'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['location'] as Map<String,dynamic>) : null,
         locationRegion = (json['locationRegion'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['locationRegion'] as Map<String,dynamic>) : null,
+        entities = (json['entities'] as List?)
+            ?.map(
+                (dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
+            .toList(),
         status = json['status'] as int?,
         entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
-        passType = json['passType'] as int?,
+        host = (json['host'] as Map<String,dynamic>?) != null ? User.fromJson(json['host'] as Map<String,dynamic>) : null,
+      passType = json['passType'] as int?,
         companyType = (json['companyType'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['companyType'] as Map<String,dynamic>) : null,
-        companyName = json['companyName'] as String?,
+        employeeID = json['employeeID'] as String?,
+      companyName = json['companyName'] as String?,
         exceptionalApproval = json['exceptionalApproval'] as bool?,
         passInfo = (json['passInfo'] as Map<String,dynamic>?) != null ? PassInfo.fromJson(json['passInfo'] as Map<String,dynamic>) : null,
         startTime = json['startTime'] as String?,
@@ -113,12 +125,15 @@ class DayPassManagementModel {
     'inputDate' : inputDate,
     'location' : location?.toJson(),
     'locationRegion' : locationRegion?.toJson(),
-    'status' : status,
+        'entities': entities?.map((e) => e.toJson()).toList(),
+        'status' : status,
     'entrySecurity' : entrySecurity?.toJson(),
+        'host':host?.toJson(),
     'passType' : passType,
     'companyType' : companyType?.toJson(),
     'companyName' : companyName,
-    'exceptionalApproval' : exceptionalApproval,
+        'employeeID': employeeID,
+        'exceptionalApproval' : exceptionalApproval,
     'passInfo' : passInfo?.toJson(),
     'startTime' : startTime,
     'endTime' : endTime,
@@ -135,16 +150,16 @@ class DayPassManagementModel {
 }
 
 class PassInfo {
-  final int? id;
-  final int? passType;
-  final String? passNo;
-  final String? mifareNo;
-  final String? expiryDate;
-  final Organisation? location;
-  final Organisation? region;
-  final Organisation? entity;
-  final bool? dws;
-  final int? status;
+   int? id;
+    int? passType;
+   String? passNo;
+   String? mifareNo;
+   String? expiryDate;
+   Organisation? location;
+   Organisation? region;
+   Organisation? entity;
+   bool? dws;
+   int? status;
 
   PassInfo({
     this.id,

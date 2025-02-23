@@ -35,15 +35,15 @@ class _DayPassManagementDetailsViewState
   TextEditingController statusController = TextEditingController();
   TextEditingController expectedDateOfReturnController =
   TextEditingController();
-  TextEditingController actualDateOfReturnController = TextEditingController();
+  TextEditingController passValidFromController = TextEditingController();
   bool isReadOnly = false;
-  List<String> returnableDropDownValues = const [
-    "Returnable",
-    "Non Returnable"
-  ];
-  TextEditingController materialBriefDescriptionController =
+  // List<String> returnableDropDownValues = const [
+  //   "Returnable",
+  //   "Non Returnable"
+  // ];
+  TextEditingController passTypeController =
   TextEditingController();
-  SignatureController receiverSignatureController = SignatureController();
+  TextEditingController nameController = TextEditingController();
   SignatureController securitySignatureController = SignatureController();
   TextEditingController materialComingFromBriefDescriptionController =
   TextEditingController();
@@ -415,11 +415,119 @@ class _DayPassManagementDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Challan/ Invoice Nos/ Gate Pass
+                            /// Entity
                             CommonWidgets.textDisplay(
-                              state.labels?.locale.challanNo ??
-                                  state.labels?.defaultLocale.challanNo ??
-                                  Constants.challan,
+                                state.labels?.locale.entity ??
+                                    state.labels?.defaultLocale.entity ??
+                                    Constants.entity,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
+                            BaseEntitiesSelection().entityDropDownSelection(
+                              context: context,
+                              selectedValues: state.model.entities ?? [],
+                              all: state.listOfEntities ?? [],
+                              enabled: true,
+                              onTap: (List<Organisation> selectedEntities) {
+                                log('--selectedEntities----${selectedEntities.length}');
+                                BlocProvider.of<DayPassManagementDetailsCubit>(
+                                    context)
+                                    .updateDropdownValues(
+                                    entities: selectedEntities);
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
+                              orgName: 'ATOM_ENTITIES',
+                              functionToCall: () {
+                                // refresh the list
+                                BlocProvider.of<DayPassManagementDetailsCubit>(
+                                    context)
+                                    .refreshList();
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+
+                            /// Pass Type
+                CommonWidgets.textDisplay(
+                // state.labels?.locale.passType ??
+                // state.labels?.defaultLocale.passType ??
+                    Constants.passtype,
+                    Styles.textStyleBlack14,
+                    isMandatory: true),
+                  CommonWidgets.verticalSpacerWidget(
+                      height * 0.001),
+                  CommonWidgets.verticalSpacerWidget(
+                      height * 0.001),
+                  BaseDropDown().getDropDown(
+                    isDisabled: state.model.status != 6,
+                    textController: passTypeController,
+                    items: dayPassTypeValues,
+                    initialValue:
+                    state.model.passType.toString(),
+                    onTap: () {
+                      BaseDropDown().assetTypeDialog(
+                        context: context,
+                        dropDownValues: dayPassTypeValues
+                            .map((label) => label.key)
+                            .toList(),
+                        onTap: (String value) {
+                          Label? selectedLabel;
+                          selectedLabel =
+                              dayPassTypeValues.firstWhere(
+                                    (label) => label.key == value,
+                                orElse: () =>
+                                const Label(key: '', value: ''),
+                              );
+                          BlocProvider.of<DayPassManagementDetailsCubit>(
+                              context)
+                              .updateDropdownValues(
+                              passType: int.tryParse(
+                                  selectedLabel.value));
+                        },
+                      );
+                    },
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Article Type
+                            CommonWidgets.textDisplay(
+                                // state.labels?.locale.companyType ??
+                                //     state.labels?.defaultLocale
+                                //         .companyType ??
+                                    Constants.companyType,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
+                            TextFieldAddButton(
+                              title: state.model.companyType?.name,
+                              height: 70,
+                              isDisableColor: false,
+                              onTap: () {
+                                BaseOrganisationDialog().departmentDialog(
+                                  context: context,
+                                  organisations: state.getCompanyTypeResponse,
+                                  onTap: (Organisation companyType) {
+                                    BlocProvider.of<DayPassManagementDetailsCubit>(
+                                        context)
+                                        .updateDropdownValues(
+                                        companyType: companyType);
+                                  },
+                                  leftImage: false,
+                                  orgName: 'ARTICLE_LIST',
+                                  functionToCall: () {
+                                    // refresh the list
+                                    BlocProvider.of<DayPassManagementDetailsCubit>(
+                                        context)
+                                        .refreshList();
+                                  },
+                                );
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Company Name
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.challanNo ??
+                              //     state.labels?.defaultLocale.challanNo ??
+                                  Constants.companyName,
                               Styles.textStyleBlack14,
                               isMandatory: true,
                             ),
@@ -431,37 +539,13 @@ class _DayPassManagementDetailsViewState
                               characterLimit:
                               Constants.characterLimitIdTextFormField,
                               hintText: '',
-                              isEnable: state.model.status == 10 ||
-                                  state.model.status == -1 ||
-                                  state.model.status == 6 ||
-                                  state.model.status == 2 ||
-                                  state.model.status == 3 ||
-                                  state.model.status == 4 ||
-                                  state.model.status == 5 ||
-                                  state.model.status == 1 ||
-                                  state.model.status == 7 ||
-                                  state.model.status ==
-                                      ConstantsIntValue
-                                          .mmStatusInwardWaiting ||
-                                  !state.model.lock.isEmptyOrNull
-                                  ? false
-                                  : true,
-                              isDisableColor: state.model.status == 10 ||
-                                  state.model.status == -1 ||
-                                  state.model.status == 6 ||
-                                  state.model.status == 2 ||
-                                  state.model.status == 3 ||
-                                  state.model.status == 5 ||
-                                  state.model.status == 1 ||
-                                  state.model.status == 7 ||
-                                  state.model.status ==
-                                      ConstantsIntValue.mmStatusInwardWaiting ||
-                                  !state.model.lock.isEmptyOrNull,
+                              isEnable: true,
+                              isDisableColor:false,
                               onChange: (String value) {
-                                // state.model.challanNo = value;
-                                // context
-                                //     .read<MaterialMovementDetailsCubit>()
-                                //     .onModelValueChange(state.model);
+                                state.model.companyName = value;
+                                context
+                                    .read<DayPassManagementDetailsCubit>()
+                                    .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -469,8 +553,471 @@ class _DayPassManagementDetailsViewState
 
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
+                            /// Employee Id
+                            CommonWidgets.textDisplay(
+                                // state.labels?.locale.employeeID ??
+                                //     state.labels?.defaultLocale
+                                //         .employeeID ??
+                                    Constants.employeeid,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
+                            TextFieldAddButton(
+                              title: state.model.employeeID,
+                              height: 60,
+                              isDisableColor: false,
+                              onTap: () {
+                                // if (isEnabled) {
+                                  BaseOrganisationDialog().userDialog(
+                                    employeeId: true,
+                                    context: context,
+                                    users: state.emailUsers!,
+                                    isDbUser: true,
+                                    onTap: (BaseUser user) {
+                                      BlocProvider.of<
+                                          DayPassManagementDetailsCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                        host: user,
+                                      );
+                                    },
+                                    roleName:
+                                    ConstantUserRoles.atomStaticUser,
+                                    locationId: state.model.location!.id!,
+                                    functionToCall: (BaseUser user) {
+                                      BlocProvider.of<
+                                          DayPassManagementDetailsCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                        host: user,
+                                      );
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          DayPassManagementDetailsCubit>(
+                                          context)
+                                          .refreshList();
+                                    },
+                                  );
+                                // }
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.01),
 
-                      /// SubmitButton
+                            ///Name
+                            CommonWidgets.textDisplay(
+                                // state.labels?.locale.name ??
+                                //     state.labels?.defaultLocale
+                                //         .name ??
+                                    Constants.name,
+                                isMandatory: true,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.001),
+                            FlutterInputField(
+                              controller: nameController,
+                              textInputType: TextInputType.text,
+                              textFormKey: Keys.contactNoKey,
+                              hintText: '',
+                              // focusNode: employeeIdFocusNode,
+                              isEnable: false,
+                              isDisableColor: true,
+                              onChange: (String value) {},
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.01),
+
+                            ///Db Sponsor Employee Id
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.employeeID ??
+                              //     state.labels?.defaultLocale
+                              //         .employeeID ??
+                                Constants.dbSponsorEmployeeId,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
+                            TextFieldAddButton(
+                              title: state.model.employeeID,
+                              height: 60,
+                              isDisableColor: false,
+                              onTap: () {
+                                // if (isEnabled) {
+                                BaseOrganisationDialog().userDialog(
+                                  employeeId: true,
+                                  context: context,
+                                  users: state.emailUsers!,
+                                  isDbUser: true,
+                                  onTap: (BaseUser user) {
+                                    BlocProvider.of<
+                                        DayPassManagementDetailsCubit>(
+                                        context)
+                                        .updateDropdownValues(
+                                      host: user,
+                                    );
+                                  },
+                                  roleName:
+                                  ConstantUserRoles.atomStaticUser,
+                                  locationId: state.model.location!.id!,
+                                  functionToCall: (BaseUser user) {
+                                    BlocProvider.of<
+                                        DayPassManagementDetailsCubit>(
+                                        context)
+                                        .updateDropdownValues(
+                                      host: user,
+                                    );
+                                    // refresh the list
+                                    BlocProvider.of<
+                                        DayPassManagementDetailsCubit>(
+                                        context)
+                                        .refreshList();
+                                  },
+                                );
+                                // }
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.01),
+
+                            ///DB Sponsor
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.name ??
+                              //     state.labels?.defaultLocale
+                              //         .name ??
+                                Constants.dbSponsor,
+                                isMandatory: true,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.001),
+                            FlutterInputField(
+                              controller: nameController,
+                              textInputType: TextInputType.text,
+                              textFormKey: Keys.contactNoKey,
+                              hintText: '',
+                              // focusNode: employeeIdFocusNode,
+                              isEnable: false,
+                              isDisableColor: true,
+                              onChange: (String value) {},
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.01),
+
+                            ///Host Employee Id
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.employeeID ??
+                              //     state.labels?.defaultLocale
+                              //         .employeeID ??
+                                Constants.hostemployeeid,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
+                            TextFieldAddButton(
+                              title: state.model.employeeID,
+                              height: 60,
+                              isDisableColor: false,
+                              onTap: () {
+                                // if (isEnabled) {
+                                BaseOrganisationDialog().userDialog(
+                                  employeeId: true,
+                                  context: context,
+                                  users: state.emailUsers!,
+                                  isDbUser: true,
+                                  onTap: (BaseUser user) {
+                                    BlocProvider.of<
+                                        DayPassManagementDetailsCubit>(
+                                        context)
+                                        .updateDropdownValues(
+                                      host: user,
+                                    );
+                                  },
+                                  roleName:
+                                  ConstantUserRoles.atomStaticUser,
+                                  locationId: state.model.location!.id!,
+                                  functionToCall: (BaseUser user) {
+                                    BlocProvider.of<
+                                        DayPassManagementDetailsCubit>(
+                                        context)
+                                        .updateDropdownValues(
+                                      host: user,
+                                    );
+                                    // refresh the list
+                                    BlocProvider.of<
+                                        DayPassManagementDetailsCubit>(
+                                        context)
+                                        .refreshList();
+                                  },
+                                );
+                                // }
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.01),
+
+                            ///Host
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.name ??
+                              //     state.labels?.defaultLocale
+                              //         .name ??
+                                Constants.host,
+                                isMandatory: true,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.001),
+                            FlutterInputField(
+                              controller: nameController,
+                              textInputType: TextInputType.text,
+                              textFormKey: Keys.contactNoKey,
+                              hintText: '',
+                              // focusNode: employeeIdFocusNode,
+                              isEnable: false,
+                              isDisableColor: true,
+                              onChange: (String value) {},
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.01),
+
+
+                            ///  Department
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.requestorDepartment ??
+                              //     state.labels?.defaultLocale
+                              //         .requestorDepartment ??
+                                  Constants.department,
+                              Styles.textStyleBlack14,
+                              isMandatory: state.model.status !=
+                                  ConstantsIntValue.mmStatusDraft &&
+                                  widget.model != null
+                                  ? true
+                                  : false,
+                            ),
+                            TextFieldAddButton(
+                              title: 'state.model.department?.name',
+                              height: 70,
+                              isDisableColor: false,
+                              onTap: () {
+                                if (
+                                    !state.model.lock.isEmptyOrNull
+                                    ? false
+                                    : true) {
+                                  BaseOrganisationDialog().departmentDialog(
+                                      context: context,
+                                      organisations: state.departments,
+                                      onTap: (Organisation department) {
+                                        // state.model.requestorDepartment
+                                        //     ?.name = department.name;
+
+                                        BlocProvider.of<
+                                            DayPassManagementDetailsCubit>(
+                                            context)
+                                            .updateDropdownValues(
+                                            department:
+                                            department);
+                                      },
+                                      orgName: 'EMPLOYEE_DEPARTMENTS',
+                                      createEntity: false,
+                                      title: 'Add Key Type',
+                                      functionToCall: () {
+                                        // refresh the list
+                                        BlocProvider.of<
+                                            DayPassManagementDetailsCubit>(
+                                            context)
+                                            .refreshList();
+                                      });
+                                  FocusScope.of(context)
+                                      .requestFocus(sentToFocusNode);
+                                }
+                              },
+                            ),
+
+                            // dbwanttodepartmentaddButtonwidgetLoading(state),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Reason for Day Pass
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.requestorDepartment ??
+                              //     state.labels?.defaultLocale
+                              //         .requestorDepartment ??
+                              Constants.reasonfordaypass,
+                              Styles.textStyleBlack14,
+                              isMandatory: state.model.status !=
+                                  ConstantsIntValue.mmStatusDraft &&
+                                  widget.model != null
+                                  ? true
+                                  : false,
+                            ),
+                            TextFieldAddButton(
+                              title: 'state.model.department?.name',
+                              height: 70,
+                              isDisableColor: false,
+                              onTap: () {
+                                if (
+                                !state.model.lock.isEmptyOrNull
+                                    ? false
+                                    : true) {
+                                  BaseOrganisationDialog().departmentDialog(
+                                      context: context,
+                                      organisations: state.departments,
+                                      onTap: (Organisation department) {
+                                        // state.model.requestorDepartment
+                                        //     ?.name = department.name;
+
+                                        BlocProvider.of<
+                                            DayPassManagementDetailsCubit>(
+                                            context)
+                                            .updateDropdownValues(
+                                            department:
+                                            department);
+                                      },
+                                      orgName: 'EMPLOYEE_DEPARTMENTS',
+                                      createEntity: false,
+                                      title: 'Add Key Type',
+                                      functionToCall: () {
+                                        // refresh the list
+                                        BlocProvider.of<
+                                            DayPassManagementDetailsCubit>(
+                                            context)
+                                            .refreshList();
+                                      });
+                                  FocusScope.of(context)
+                                      .requestFocus(sentToFocusNode);
+                                }
+                              },
+                            ),
+
+                            // dbwanttodepartmentaddButtonwidgetLoading(state),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+
+                            /// Day Pass Number
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.requestorDepartment ??
+                              //     state.labels?.defaultLocale
+                              //         .requestorDepartment ??
+                              Constants.dayPassNo,
+                              Styles.textStyleBlack14,
+                              isMandatory: state.model.status !=
+                                  ConstantsIntValue.mmStatusDraft &&
+                                  widget.model != null
+                                  ? true
+                                  : false,
+                            ),
+                            TextFieldAddButton(
+                              title: 'state.model.department?.name',
+                              height: 70,
+                              isDisableColor: false,
+                              onTap: () {
+                                if (
+                                !state.model.lock.isEmptyOrNull
+                                    ? false
+                                    : true) {
+                                  BaseOrganisationDialog().departmentDialog(
+                                      context: context,
+                                      organisations: state.departments,
+                                      onTap: (Organisation department) {
+                                        // state.model.requestorDepartment
+                                        //     ?.name = department.name;
+
+                                        BlocProvider.of<
+                                            DayPassManagementDetailsCubit>(
+                                            context)
+                                            .updateDropdownValues(
+                                            department:
+                                            department);
+                                      },
+                                      orgName: 'EMPLOYEE_DEPARTMENTS',
+                                      createEntity: false,
+                                      title: 'Add Key Type',
+                                      functionToCall: () {
+                                        // refresh the list
+                                        BlocProvider.of<
+                                            DayPassManagementDetailsCubit>(
+                                            context)
+                                            .refreshList();
+                                      });
+                                  FocusScope.of(context)
+                                      .requestFocus(sentToFocusNode);
+                                }
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Pass Valid From
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.keyHandOverDue ??
+                              //     state.labels?.defaultLocale
+                                      // .keyHandOverDue ??
+                                  Constants.passvlidfrom,
+                              isMandatory: true,
+                              Styles.textStyleBlack14,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.001),
+
+                            BaseDate().datePickerWidgetLoading(
+                              textController: passValidFromController,
+                              isDisabled: false,
+                              onlyDate: false,
+                              // showPastDate: false,
+                              // fromDate: initialisedStartDate,
+                              // toDate: initialisedToDate,
+                              onChange: (String value) {
+                                // isDateSelectedByUser = true;
+                                // keyReturnDueDateController.text = value;
+                                log('keyReturnDueDateControllerValue22 --- $value');
+                                // state.model.passV =
+                                //     Utils().formatTime(value);
+                                BlocProvider.of<
+                                    DayPassManagementDetailsCubit>(
+                                    context)
+                                    .onModelValueChange(state.model);
+                                //},
+                              },
+                              context: context,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.01),
+                            // dbwanttodepartmentaddButtonwidgetLoading(state),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+
+                            /// Pass Valid Until
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.keyHandOverDue ??
+                              //     state.labels?.defaultLocale
+                              // .keyHandOverDue ??
+                              Constants.passvliduntil,
+                              isMandatory: true,
+                              Styles.textStyleBlack14,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.001),
+
+                            BaseDate().datePickerWidgetLoading(
+                              textController: passValidFromController,
+                              isDisabled: false,
+                              onlyDate: false,
+                              // showPastDate: false,
+                              // fromDate: initialisedStartDate,
+                              // toDate: initialisedToDate,
+                              onChange: (String value) {
+                                // isDateSelectedByUser = true;
+                                // keyReturnDueDateController.text = value;
+                                log('keyReturnDueDateControllerValue22 --- $value');
+                                // state.model.passV =
+                                //     Utils().formatTime(value);
+                                BlocProvider.of<
+                                    DayPassManagementDetailsCubit>(
+                                    context)
+                                    .onModelValueChange(state.model);
+                                //},
+                              },
+                              context: context,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.01),
+                            // dbwanttodepartmentaddButtonwidgetLoading(state),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            /// SubmitButton
                       if (((state.model.status == 0 ||
                           state.model.status == 8 ||
                           state.model.status == 1 ||
