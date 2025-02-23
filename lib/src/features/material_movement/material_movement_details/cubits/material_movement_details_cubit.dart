@@ -623,13 +623,15 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.inputDate = inputDate.toString();
     }
 
-    if (!Utils().isTimestamp(state.model.approvedDate!)) {
-      dateTime =
-          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.approvedDate!);
-      int inputDate = dateTime
-          .toUtc()
-          .millisecondsSinceEpoch ~/ 1000;
-      state.model.approvedDate = inputDate.toString();
+    if(state.model.approvedDate !=null) {
+      if (!Utils().isTimestamp(state.model.approvedDate!)) {
+        dateTime =
+            DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.approvedDate!);
+        int inputDate = dateTime
+            .toUtc()
+            .millisecondsSinceEpoch ~/ 1000;
+        state.model.approvedDate = inputDate.toString();
+      }
     }
     // if (!Utils().isTimestamp(state.model.approvedDate!)) {
     //   dateTime =
