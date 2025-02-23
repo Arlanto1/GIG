@@ -174,7 +174,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.inwardMovement = isInward;
       if (state.model.approvedDate != null) {
         state.model.approvedDate =
-            Utils().formatUnixTimestamp(state.model.approvedDate ?? '');
+            Utils.timestampToDateConversion(
+                int.tryParse(state.model.approvedDate ?? ''),Constants.fulldateFormat);
       }
       if (state.model.rejectedDate != null) {
         state.model.rejectedDate =
@@ -622,6 +623,14 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.inputDate = inputDate.toString();
     }
 
+    if (!Utils().isTimestamp(state.model.approvedDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.approvedDate!);
+      int inputDate = dateTime
+          .toUtc()
+          .millisecondsSinceEpoch ~/ 1000;
+      state.model.approvedDate = inputDate.toString();
+    }
     // if (!Utils().isTimestamp(state.model.approvedDate!)) {
     //   dateTime =
     //       DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.approvedDate!);
@@ -629,14 +638,14 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     //   state.model.approvedDate = approvedDate.toString();
     // }
 
-    if(state.model.approvedDate !=null) {
-      DateTime date =
-      DateFormat("dd/MM/yyyy a HH:mm:ss").parse(state.model.approvedDate!);
-      int approvedDate = date
-          .toUtc()
-          .millisecondsSinceEpoch ~/ 1000;
-      state.model.approvedDate = approvedDate.toString();
-    }
+    // if(state.model.approvedDate !=null) {
+    //   DateTime date =
+    //   DateFormat("dd/MM/yyyy a HH:mm:ss").parse(state.model.approvedDate!);
+    //   int approvedDate = date
+    //       .toUtc()
+    //       .millisecondsSinceEpoch ~/ 1000;
+    //   state.model.approvedDate = approvedDate.toString();
+    // }
     if(state.model.rejectedDate !=null) {
       DateTime date =
       DateFormat("dd/MM/yyyy a HH:mm:ss").parse(state.model.rejectedDate!);
