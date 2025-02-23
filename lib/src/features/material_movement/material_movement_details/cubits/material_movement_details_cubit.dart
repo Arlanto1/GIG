@@ -179,8 +179,13 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       }
       if (state.model.rejectedDate != null) {
         state.model.rejectedDate =
-            Utils().formatUnixTimestamp(state.model.rejectedDate ?? '');
+            Utils.timestampToDateConversion(
+                int.tryParse(state.model.rejectedDate ?? ''),Constants.fulldateFormat);
       }
+      // if (state.model.rejectedDate != null) {
+      //   state.model.rejectedDate =
+      //       Utils().formatUnixTimestamp(state.model.rejectedDate ?? '');
+      // }
 
       MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
 
