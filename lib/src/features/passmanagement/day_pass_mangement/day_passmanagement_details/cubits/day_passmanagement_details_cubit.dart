@@ -36,6 +36,9 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
 
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
+
+    List<Organisation>? entities =
+    await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
     EmployeeDepartments departments =
     await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser> emailUsers = await commonServices.getBaseUsers(
@@ -51,6 +54,8 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     emit(
       state.copyWith(
         status: FormStatus.initial,
+        // getEntitiesResponse: entities,
+        listOfEntities: entities,
         emailUsers: emailUsers,
         departments: departments.employeeDepartments,
         receiverEmailUsers: onlyDBUsers,
@@ -126,6 +131,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
             roleName: ConstantUserRoles.atomStaticUser,
             isDbUser: true,
             locationId: state.model.location!.id!),
+        commonServices.getEntities(name: 'ATOM_ENTITIES'),
       ]);
 
       Locations locations = futures[0];
@@ -134,6 +140,8 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       dynamic responseLabels = futures[3];
       Organisation? defaultLocation = futures[4];
       List<BaseUser> emailUsers = futures[5];
+      AddEntities entities = futures[6];
+
 
       log('--emailUsers--${emailUsers.length}---');
       // Get Date of Creation
@@ -193,6 +201,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           returnReceiverEmailId: onlyDBUsers,
           departments: departments.employeeDepartments,
           labels: labels,
+          listOfEntities: entities.atomEntities,
         ),
       );
       isFormReadable();
