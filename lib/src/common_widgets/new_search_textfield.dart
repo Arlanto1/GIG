@@ -73,7 +73,9 @@ class FlutterInputField extends StatelessWidget {
       obscureText: isSecure,
       initialValue: initialValue,
       enabled: isEnable,
-      maxLines: lineHeight,
+      maxLines: isEnable == true ? lineHeight : null, // Allow scrolling if not editable
+      // maxLines: lineHeight,
+      minLines: isEnable == true ? null : lineHeight, // Adjust min lines when not editable
       autofocus: autoFocus!,
       // autocorrect: false,
       spellCheckConfiguration: const SpellCheckConfiguration(),
