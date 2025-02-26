@@ -790,7 +790,7 @@ class _DayPassManagementDetailsViewState
                                   : false,
                             ),
                             TextFieldAddButton(
-                              title: 'state.model.department?.name',
+                              title: state.model.department?.name,
                               height: 70,
                               isDisableColor: false,
                               onTap: () {
@@ -802,9 +802,8 @@ class _DayPassManagementDetailsViewState
                                       context: context,
                                       organisations: state.departments,
                                       onTap: (Organisation department) {
-                                        // state.model.requestorDepartment
-                                        //     ?.name = department.name;
-
+                                        state.model.department
+                                            ?.name = department.name;
                                         BlocProvider.of<
                                             DayPassManagementDetailsCubit>(
                                             context)
@@ -814,7 +813,7 @@ class _DayPassManagementDetailsViewState
                                       },
                                       orgName: 'EMPLOYEE_DEPARTMENTS',
                                       createEntity: false,
-                                      title: 'Add Key Type',
+                                      title: '',
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
@@ -845,44 +844,24 @@ class _DayPassManagementDetailsViewState
                                   : false,
                             ),
                             TextFieldAddButton(
-                              title: 'state.model.department?.name',
-                              height: 70,
+                              title: state.model.dayPassReason?.name,
+                              height: 60,
                               isDisableColor: false,
                               onTap: () {
-                                if (
-                                !state.model.lock.isEmptyOrNull
-                                    ? false
-                                    : true) {
+                                // if (state.model.status == null) {
                                   BaseOrganisationDialog().departmentDialog(
-                                      context: context,
-                                      organisations: state.departments,
-                                      onTap: (Organisation department) {
-                                        // state.model.requestorDepartment
-                                        //     ?.name = department.name;
-
-                                        BlocProvider.of<
-                                            DayPassManagementDetailsCubit>(
-                                            context)
-                                            .updateDropdownValues(
-                                            department:
-                                            department);
-                                      },
-                                      orgName: 'EMPLOYEE_DEPARTMENTS',
-                                      createEntity: false,
-                                      title: 'Add Key Type',
-                                      functionToCall: () {
-                                        // refresh the list
-                                        BlocProvider.of<
-                                            DayPassManagementDetailsCubit>(
-                                            context)
-                                            .refreshList();
-                                      });
-                                  FocusScope.of(context)
-                                      .requestFocus(sentToFocusNode);
-                                }
+                                    context: context,
+                                    organisations: state.dayPassReason,
+                                    onTap: (Organisation department) {
+                                      BlocProvider.of<DayPassManagementDetailsCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                          dayPassReason: department);
+                                    },
+                                  );
+                                // }
                               },
                             ),
-
                             // dbwanttodepartmentaddButtonwidgetLoading(state),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -901,7 +880,7 @@ class _DayPassManagementDetailsViewState
                                   : false,
                             ),
                             TextFieldAddButton(
-                              title: 'state.model.department?.name',
+                              title: state.model.passNo,
                               height: 70,
                               isDisableColor: false,
                               onTap: () {
@@ -911,16 +890,15 @@ class _DayPassManagementDetailsViewState
                                     : true) {
                                   BaseOrganisationDialog().departmentDialog(
                                       context: context,
-                                      organisations: state.departments,
+                                      organisations: state.passNo!,
                                       onTap: (Organisation department) {
-                                        // state.model.requestorDepartment
-                                        //     ?.name = department.name;
-
+                                        state.model.passInfo
+                                            ?.passNo = department.name;
                                         BlocProvider.of<
                                             DayPassManagementDetailsCubit>(
                                             context)
                                             .updateDropdownValues(
-                                            department:
+                                            passNo:
                                             department);
                                       },
                                       orgName: 'EMPLOYEE_DEPARTMENTS',

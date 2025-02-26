@@ -36,6 +36,7 @@ class   CommonApis {
   static final String _logout = '$baseUrl/logout';
 
   static const String exportDetailPagePDF = 'exportDeatilPagePDF?id=';
+  static final String _getPassNo = '$baseUrl/getActivePassInfo?passType=';
 
 }
 
@@ -455,4 +456,16 @@ class CommonServices {
     final String url = CommonApis._logout;
     await BaseApiService().postRequest(url: url, requestedData: {});
   }
+
+  Future<DayPassNumberLists> getPassNo({
+    required int passType,
+    required int locationId,
+  }) async {
+    String url = '${CommonApis._getPassNo}$passType&locationId=$locationId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return DayPassNumberLists.fromJson(response);
+  }
+
 }

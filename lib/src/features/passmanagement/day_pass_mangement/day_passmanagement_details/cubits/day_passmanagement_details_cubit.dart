@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/passmanagement/day_passmangement/services/day_pass_management_services.dart';
+import 'package:db_atom/src/features/passmanagement/models/day_pass_reason_model.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/day_pass_management_model.dart';
@@ -30,7 +31,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       departments: const [],
       loadAttachments: const [],
       quantityUnits: const [],
-      eventId: null, listOfEntities: const [], getCompanyTypeResponse: const [],
+      eventId: null, listOfEntities: const [], getCompanyTypeResponse: const [], dayPassReason:const [], passNo: const [],
     ),
   );
 
@@ -44,7 +45,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     List<BaseUser> emailUsers = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomStaticUser,
         locationId: state.model.location!.id!);
-
     List<BaseUser> onlyDBUsers = await commonServices.getBaseUsers(
       roleName: ConstantUserRoles.atomStaticUser,
       locationId: state.model.location!.id!,
@@ -132,8 +132,11 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
             isDbUser: true,
             locationId: state.model.location!.id!),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
-      ]);
+        commonServices.getDayPassreason(name: 'DAY_PASS_REASON'),
+        commonServices.getPassNo(passType: 0, locationId: state.model.location!.id!,),
+        commonServices.getOrganisations(name: 'ATOM_COMPANY_TYPES'),
 
+      ]);
       Locations locations = futures[0];
       User loggedInUserDetails = futures[1];
       EmployeeDepartments departments = futures[2];
@@ -141,6 +144,8 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       Organisation? defaultLocation = futures[4];
       List<BaseUser> emailUsers = futures[5];
       AddEntities entities = futures[6];
+     DayPassReason dayPassReason = futures[7];
+      DayPassNumberLists passNo = futures[8];
 
 
       log('--emailUsers--${emailUsers.length}---');
@@ -202,6 +207,8 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           departments: departments.employeeDepartments,
           labels: labels,
           listOfEntities: entities.atomEntities,
+          dayPassReason :dayPassReason.dayPassReasonElement,
+          passNo: passNo.activePassInfoList,
         ),
       );
       isFormReadable();
@@ -228,6 +235,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     );
 
     List<BaseUser> emailUsers = [];
+    DayPassNumberLists passNo = DayPassNumberLists(activePassInfoList: []); // Initialize with default value
     // Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -241,6 +249,9 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           roleName: ConstantUserRoles.atomStaticUser,
           isDbUser: true,
           locationId: state.model.location!.id!);
+      passNo = await commonServices.getPassNo(
+          passType: 0,
+          locationId: state.model.location!.id!);
     }
     // state.model.receiverEmail = null;
     // state.model.requestorEmail = null;
@@ -253,6 +264,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       approver1Users: emailUsers,
       approver2Users: emailUsers,
       receiverEmailUsers: emailUsers,
+      passNo: passNo.activePassInfoList,
       status: FormStatus.initial,
     ));
   }
@@ -266,8 +278,8 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     BaseUser? receiverEmailUser,
     BaseUser? receiverByEmail,
     Organisation? department,
-    Organisation? receiverDepartment,
-    Organisation? quantityUnit,
+    Organisation? passNo,
+    Organisation? dayPassReason,
     bool? isReturnable,
     int? status,
   }) async {
@@ -355,7 +367,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     //   state.model.preparedByDepartment = preparedByDepartment;
     // }
     if (department != null) {
-      // state.model.department = department;
+      state.model.department = department;
     }
     //
     // if (approver2Department != null) {
@@ -364,9 +376,13 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     // if (receiverDepartment != null) {
     //   state.model.receiverDepartment = receiverDepartment;
     // }
-    // if (quantityUnit != null) {
-    //   state.model.unit = quantityUnit;
-    // }
+    if (dayPassReason != null) {
+      state.model.dayPassReason = dayPassReason;
+    }
+
+    if (passNo != null) {
+      state.model.passNo = passNo.name;
+    }
 
     // if (isReturnable != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(

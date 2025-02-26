@@ -7,7 +7,6 @@ class DayPassManagementDetailsState extends Equatable {
   final Locations? locations;
   final User? loggedInUserDetails;
   final List<Organisation> getCompanyTypeResponse;
-
   // final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final List<BaseUser>? requestorEmailUsers;
@@ -16,6 +15,8 @@ class DayPassManagementDetailsState extends Equatable {
   final List<BaseUser>? returnReceiverEmailId;
   final List<BaseUser>? receiverEmailUsers;
   final List<Organisation>? listOfEntities;
+  final List<Organisation> dayPassReason;
+  final List<Organisation>? passNo;
   final List<Organisation> departments;
   final List<ImageContent>? loadAttachments;
   final List<Organisation> quantityUnits;
@@ -31,8 +32,9 @@ class DayPassManagementDetailsState extends Equatable {
     required DayPassManagementModel model,
     required Locations locations,
     required final List<Organisation>? listOfEntities,
+    required final List<Organisation> dayPassReason,
+    required final List<Organisation> passNo,
     required final List<Organisation> getCompanyTypeResponse,
-
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required String errorMessage,
@@ -47,8 +49,9 @@ class DayPassManagementDetailsState extends Equatable {
       model: model,
       locations: locations,
       listOfEntities: listOfEntities,
+      dayPassReason:dayPassReason,
+      passNo:passNo,
       getCompanyTypeResponse: getCompanyTypeResponse,
-
       emailUsers: emailUsers,
       message: errorMessage,
       departments: departments,
@@ -99,6 +102,8 @@ class DayPassManagementDetailsState extends Equatable {
     required this.model,
     this.locations,
     this.listOfEntities,
+    required this.dayPassReason,
+    required this.passNo,
     required this.getCompanyTypeResponse,
     this.loggedInUserDetails,
     this.emailUsers,
@@ -125,6 +130,8 @@ class DayPassManagementDetailsState extends Equatable {
     Locations? locations,
     List<Organisation>? listOfEntities,
     List<Organisation>? companyType,
+    List<Organisation>? dayPassReason,
+    List<Organisation>? passNo,
     User? loggedInUserDetails,
     List<BaseUser>? emailUsers,
     List<BaseUser>? requestorEmailUsers,
@@ -147,8 +154,9 @@ class DayPassManagementDetailsState extends Equatable {
       isReadOnly: isReadOnly ?? this.isReadOnly,
       locations: locations ?? this.locations,
       listOfEntities: listOfEntities ?? this.listOfEntities,
+      dayPassReason:dayPassReason?? this.dayPassReason,
+      passNo:passNo??this.passNo,
       getCompanyTypeResponse: companyType ?? getCompanyTypeResponse,
-
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       emailUsers: emailUsers ?? this.emailUsers,
       requestorEmailUsers: requestorEmailUsers ?? this.requestorEmailUsers,
@@ -164,7 +172,6 @@ class DayPassManagementDetailsState extends Equatable {
       message: message ?? this.message,
       labels: labels ?? this.labels,
       rejectionComment: rejectionComment ?? this.rejectionComment,
-
     );
   }
 }

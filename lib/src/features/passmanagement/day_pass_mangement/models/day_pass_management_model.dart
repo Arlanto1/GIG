@@ -42,6 +42,8 @@ class DayPassManagementModel {
    User? host;
    int? passType;
    Organisation? companyType;
+   Organisation? dayPassReason;
+   Organisation? department;
    String? companyName;
    String? employeeID;
    bool? exceptionalApproval;
@@ -70,6 +72,8 @@ class DayPassManagementModel {
     this.host,
     this.passType,
     this.companyType,
+    this.dayPassReason,
+    this.department,
     this.companyName,
     this.employeeID,
     this.exceptionalApproval,
@@ -101,7 +105,9 @@ class DayPassManagementModel {
         entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
         host = (json['host'] as Map<String,dynamic>?) != null ? User.fromJson(json['host'] as Map<String,dynamic>) : null,
       passType = json['passType'] as int?,
-        companyType = (json['companyType'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['companyType'] as Map<String,dynamic>) : null,
+        dayPassReason = (json['dayPassReason'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['dayPassReason'] as Map<String,dynamic>) : null,
+        department = (json['department'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['department'] as Map<String,dynamic>) : null,
+      companyType = (json['companyType'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['companyType'] as Map<String,dynamic>) : null,
         employeeID = json['employeeID'] as String?,
       companyName = json['companyName'] as String?,
         exceptionalApproval = json['exceptionalApproval'] as bool?,
@@ -125,6 +131,8 @@ class DayPassManagementModel {
     'inputDate' : inputDate,
     'location' : location?.toJson(),
     'locationRegion' : locationRegion?.toJson(),
+        'dayPassReason':dayPassReason?.toJson(),
+        'department':department?.toJson(),
         'entities': entities?.map((e) => e.toJson()).toList(),
         'status' : status,
     'entrySecurity' : entrySecurity?.toJson(),
