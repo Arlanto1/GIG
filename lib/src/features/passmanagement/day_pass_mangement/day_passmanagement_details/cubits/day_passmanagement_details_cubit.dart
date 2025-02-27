@@ -31,7 +31,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       departments: const [],
       loadAttachments: const [],
       quantityUnits: const [],
-      eventId: null, listOfEntities: const [], getCompanyTypeResponse: const [], dayPassReason:const [], passNo: const [],
+      eventId: null, listOfEntities: const [], getCompanyTypeResponse: const [], dayPassReason:const [], passNo: const [], passType: const [],
     ),
   );
 
@@ -135,6 +135,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
         commonServices.getDayPassreason(name: 'DAY_PASS_REASON'),
         commonServices.getPassNo(passType: 0, locationId: state.model.location!.id!,),
         commonServices.getOrganisations(name: 'ATOM_COMPANY_TYPES'),
+        commonServices.getPassType(passType: 0, locationId: state.model.location!.id!,),
 
       ]);
       Locations locations = futures[0];
@@ -147,6 +148,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
      DayPassReason dayPassReason = futures[7];
       DayPassNumberLists passNo = futures[8];
       List<Organisation> companyType = futures[9];
+      List<Organisation> getPassType = futures[10];
 
 
       log('--emailUsers--${emailUsers.length}---');
@@ -211,6 +213,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           dayPassReason :dayPassReason.dayPassReasonElement,
           passNo: passNo.activePassInfoList,
           companyType: companyType,
+          passType: getPassType,
         ),
       );
       isFormReadable();
@@ -273,7 +276,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
 
   Future<void> updateDropdownValues({
     List<Organisation>? entities,
-    int? passType,
+    Organisation? passType,
     Organisation? companyType,
     BaseUser? user,
     BaseUser? host,
@@ -298,8 +301,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     // if (passType != null) {
     //   state.model.passInfo?.passType = passType;
     // }
-
-    state.model.passType = passType ?? state.model.passType;
 
     if (companyType != null) {
       state.model.companyType = companyType;
@@ -402,6 +403,9 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       state.model.passNo = passNo.name;
     }
 
+    if (passType != null) {
+      state.model.passType = passType.id;
+    }
     // if (isReturnable != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: state.model.location!.id.toString(),

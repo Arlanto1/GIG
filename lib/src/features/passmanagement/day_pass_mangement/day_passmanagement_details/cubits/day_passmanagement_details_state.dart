@@ -17,6 +17,7 @@ class DayPassManagementDetailsState extends Equatable {
   final List<Organisation>? listOfEntities;
   final List<Organisation> dayPassReason;
   final List<Organisation>? passNo;
+  final List<Organisation>? passType;
   final List<Organisation> departments;
   final List<ImageContent>? loadAttachments;
   final List<Organisation> quantityUnits;
@@ -34,6 +35,7 @@ class DayPassManagementDetailsState extends Equatable {
     required final List<Organisation>? listOfEntities,
     required final List<Organisation> dayPassReason,
     required final List<Organisation> passNo,
+    required final List<Organisation> passType,
     required final List<Organisation> getCompanyTypeResponse,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
@@ -51,6 +53,7 @@ class DayPassManagementDetailsState extends Equatable {
       listOfEntities: listOfEntities,
       dayPassReason:dayPassReason,
       passNo:passNo,
+      passType:passType,
       getCompanyTypeResponse: getCompanyTypeResponse,
       emailUsers: emailUsers,
       message: errorMessage,
@@ -104,6 +107,7 @@ class DayPassManagementDetailsState extends Equatable {
     this.listOfEntities,
     required this.dayPassReason,
     required this.passNo,
+    required this.passType,
     required this.getCompanyTypeResponse,
     this.loggedInUserDetails,
     this.emailUsers,
@@ -132,6 +136,7 @@ class DayPassManagementDetailsState extends Equatable {
     List<Organisation>? companyType,
     List<Organisation>? dayPassReason,
     List<Organisation>? passNo,
+    List<Organisation>? passType,
     User? loggedInUserDetails,
     List<BaseUser>? emailUsers,
     List<BaseUser>? employee,
@@ -156,6 +161,7 @@ class DayPassManagementDetailsState extends Equatable {
       listOfEntities: listOfEntities ?? this.listOfEntities,
       dayPassReason:dayPassReason?? this.dayPassReason,
       passNo:passNo??this.passNo,
+      passType:passType??this.passType,
       getCompanyTypeResponse: companyType ?? getCompanyTypeResponse,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       emailUsers: emailUsers ?? this.emailUsers,

@@ -37,6 +37,7 @@ class   CommonApis {
 
   static const String exportDetailPagePDF = 'exportDeatilPagePDF?id=';
   static final String _getPassNo = '$baseUrl/getActivePassInfo?passType=';
+  static final String _getPassType = '$baseUrl/getPassType?passType=';
 
 }
 
@@ -468,4 +469,19 @@ class CommonServices {
     return DayPassNumberLists.fromJson(response);
   }
 
-}
+  Future<List<Organisation>> getPassType({
+    required int passType,
+    required int locationId,
+  }) async {
+    String url = '${CommonApis._getPassType}$passType&locationId=$locationId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    if (response == null) {
+      return [];
+    }
+    return List<Organisation>.from(
+        response.map((x) => Organisation.fromJson(x)));
+  }  }
+

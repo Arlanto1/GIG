@@ -450,46 +450,39 @@ class _DayPassManagementDetailsViewState
 
 
                             /// Pass Type
-                CommonWidgets.textDisplay(
-                // state.labels?.locale.passType ??
-                // state.labels?.defaultLocale.passType ??
-                    Constants.passtype,
-                    Styles.textStyleBlack14,
-                    isMandatory: true),
-                  CommonWidgets.verticalSpacerWidget(
-                      height * 0.001),
-                  CommonWidgets.verticalSpacerWidget(
-                      height * 0.001),
-                  BaseDropDown().getDropDown(
-                    isDisabled: state.model.status != 6,
-                    textController: passTypeController,
-                    items: dayPassTypeValues,
-                    initialValue:
-                    state.model.passType.toString(),
-                    onTap: () {
-                      BaseDropDown().assetTypeDialog(
-                        context: context,
-                        dropDownValues: dayPassTypeValues
-                            .map((label) => label.key)
-                            .toList(),
-                        onTap: (String value) {
-                          Label? selectedLabel;
-                          selectedLabel =
-                              dayPassTypeValues.firstWhere(
-                                    (label) => label.key == value,
-                                orElse: () =>
-                                const Label(key: '', value: ''),
-                              );
-                          BlocProvider.of<DayPassManagementDetailsCubit>(
-                              context)
-                              .updateDropdownValues(
-                              passType: int.tryParse(
-                                  selectedLabel.value));
-                        },
-                      );
-                    },
-                  ),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.companyType ??
+                              //     state.labels?.defaultLocale
+                              //         .companyType ??
+                                Constants.passtype,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
+                            TextFieldAddButton(
+                              title: '${state.model.passInfo?.passType}',
+                              height: 70,
+                              isDisableColor: false,
+                              onTap: () {
+                                BaseOrganisationDialog().departmentDialog(
+                                  context: context,
+                                  organisations: state.passType!,
+                                  onTap: (Organisation passType) {
+                                    BlocProvider.of<DayPassManagementDetailsCubit>(
+                                        context)
+                                        .updateDropdownValues(
+                                        passType: passType);
+                                  },
+                                  leftImage: false,
+                                  orgName: 'ATOM_COMPANY_TYPES',
+                                  functionToCall: () {
+                                    // refresh the list
+                                    BlocProvider.of<DayPassManagementDetailsCubit>(
+                                        context)
+                                        .refreshList();
+                                  },
+                                );
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Company Type
                             CommonWidgets.textDisplay(
