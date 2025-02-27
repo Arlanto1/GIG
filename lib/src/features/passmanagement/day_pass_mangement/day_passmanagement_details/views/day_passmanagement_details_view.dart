@@ -458,7 +458,7 @@ class _DayPassManagementDetailsViewState
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: '${state.model.passInfo?.passType}',
+                              title: state.model.passTypeName,
                               height: 70,
                               isDisableColor: false,
                               onTap: () {
@@ -466,13 +466,15 @@ class _DayPassManagementDetailsViewState
                                   context: context,
                                   organisations: state.passType!,
                                   onTap: (Organisation passType) {
+                                    state.model.passInfo
+                                        ?.passNo = passType.name;
                                     BlocProvider.of<DayPassManagementDetailsCubit>(
                                         context)
                                         .updateDropdownValues(
                                         passType: passType);
                                   },
                                   leftImage: false,
-                                  orgName: 'ATOM_COMPANY_TYPES',
+                                  orgName: '',
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<DayPassManagementDetailsCubit>(
@@ -549,7 +551,8 @@ class _DayPassManagementDetailsViewState
 
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
-                            /// Employee Id
+                      if(state.model.companyType?.name != 'Exceptions')...[
+                    /// Employee Id
                             CommonWidgets.textDisplay(
                                 // state.labels?.locale.employeeID ??
                                 //     state.labels?.defaultLocale
@@ -598,6 +601,35 @@ class _DayPassManagementDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.01),
+],
+
+                            if(state.model.companyType?.name == 'CWR T2' )...[
+                            ///EmployeeId
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.name ??
+                              //     state.labels?.defaultLocale
+                              //         .name ??
+                                Constants.employeeid,
+                                isMandatory: true,
+                                Styles.textStyleBlack14),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.001),
+                            FlutterInputField(
+                              textInputType: TextInputType.number,
+                              textFormKey: Keys.contactNoKey,
+                              hintText: '',
+                              // focusNode: employeeIdFocusNode,
+                              isEnable: state.model.companyType?.name == 'CWR T2' ? true : false,
+                              isDisableColor: true,
+                              onChange: (String value) {
+                                state.model.employee?.name = value;
+
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.01),
+],
 
                             ///Name
                             CommonWidgets.textDisplay(
@@ -615,14 +647,18 @@ class _DayPassManagementDetailsViewState
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
                               // focusNode: employeeIdFocusNode,
-                              isEnable: false,
+                              isEnable: state.model.companyType?.name == 'Exceptions' || state.model.companyType?.name == 'CWR T2' ? true : false,
                               isDisableColor: true,
-                              onChange: (String value) {},
+                              onChange: (String value) {
+                                state.model.employee?.name = value;
+
+                              },
                               validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.01),
 
+                            if(state.model.companyType?.name == 'CWR T1' ||state.model.companyType?.name == 'CWR T2' )...[
                             ///Db Sponsor Employee Id
                             CommonWidgets.textDisplay(
                               // state.labels?.locale.employeeID ??
@@ -672,7 +708,6 @@ class _DayPassManagementDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.01),
-
                             ///DB Sponsor
                             CommonWidgets.textDisplay(
                               // state.labels?.locale.name ??
@@ -696,8 +731,9 @@ class _DayPassManagementDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.01),
-
-                            ///Host Employee Id
+],
+              if(state.model.companyType?.name == 'Exceptions')...[
+                ///Host Employee Id
                             CommonWidgets.textDisplay(
                               // state.labels?.locale.employeeID ??
                               //     state.labels?.defaultLocale
@@ -770,8 +806,7 @@ class _DayPassManagementDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.01),
-
-
+],
                             ///  Department
                             CommonWidgets.textDisplay(
                               // state.labels?.locale.requestorDepartment ??

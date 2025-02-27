@@ -348,12 +348,11 @@ const List<Label> passManagementStatusValues = [
   Label(key: 'Returned/Damage', value: '8'),
   Label(key: 'Returned/Defaced', value: '9'),
   Label(key: 'Record Cancelled', value: '-1'),
-
 ];
 
 const List<Label> passTypeValues = [
   Label(key: 'Day Pass', value: '0'),
-  Label(key: 'Visitor Pas', value: '1'),
+  Label(key: 'Visitor Pass', value: '1'),
   Label(key: 'Vendor Pass', value: '2'),
   Label(key: 'SEZ Pass', value: '3'),
   Label(key: 'DWS Day Pass', value: '4'),

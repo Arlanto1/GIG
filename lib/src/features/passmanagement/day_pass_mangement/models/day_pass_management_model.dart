@@ -58,6 +58,7 @@ class DayPassManagementModel {
    String? hostName;
    String? mifareNo;
    String? passNo;
+   String? passTypeName;
    String? entrySecurityName;
    String? handOverSecurityName;
    String? lock;
@@ -90,6 +91,7 @@ class DayPassManagementModel {
     this.hostName,
     this.mifareNo,
     this.passNo,
+    this.passTypeName,
     this.entrySecurityName,
     this.handOverSecurityName,
     this.lock,
@@ -126,6 +128,7 @@ class DayPassManagementModel {
         hostName = json['hostName'] as String?,
         mifareNo = json['mifareNo'] as String?,
         passNo = json['passNo'] as String?,
+        passTypeName= json['passTypeName'] as String?,
         entrySecurityName = json['entrySecurityName'] as String?,
         handOverSecurityName = json['handOverSecurityName'] as String?,
         lock = json['lock'] as String?;
@@ -159,6 +162,7 @@ class DayPassManagementModel {
     'hostName' : hostName,
     'mifareNo' : mifareNo,
     'passNo' : passNo,
+        'passTypeName':passTypeName,
     'entrySecurityName' : entrySecurityName,
     'handOverSecurityName' : handOverSecurityName,
         'lock':lock

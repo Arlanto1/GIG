@@ -241,6 +241,9 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
 
     List<BaseUser> emailUsers = [];
     DayPassNumberLists passNo = DayPassNumberLists(activePassInfoList: []); // Initialize with default value
+    List<Organisation> getPassType = [];
+
+
     // Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -257,9 +260,16 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       passNo = await commonServices.getPassNo(
           passType: 0,
           locationId: state.model.location!.id!);
+
+      getPassType = await commonServices.getPassType(
+          passType: 0,
+          locationId: state.model.location!.id!);
+
     }
      // state.model. = null;
      state.model.host = null;
+     state.model.passTypeName = null;
+     state.model.passNo = null;
      // state.model. = null;
     // state.model.approver2Email = null;
 
@@ -270,6 +280,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       dbSponsor: emailUsers,
       receiverEmailUsers: emailUsers,
       passNo: passNo.activePassInfoList,
+      passType: getPassType,
       status: FormStatus.initial,
     ));
   }
@@ -295,6 +306,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     );
 
     state.model.status = status ?? state.model.status;
+
     if (entities != null) {
       state.model.entities = entities;
     }
@@ -404,7 +416,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     }
 
     if (passType != null) {
-      state.model.passType = passType.id;
+      state.model.passTypeName = passType.name;
     }
     // if (isReturnable != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
