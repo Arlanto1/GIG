@@ -47,8 +47,8 @@ class _DayPassManagementDetailsViewState
   SignatureController securitySignatureController = SignatureController();
   TextEditingController materialComingFromBriefDescriptionController =
   TextEditingController();
-  TextEditingController receiverEmailController = TextEditingController();
-  TextEditingController receiverByEmailController = TextEditingController();
+  TextEditingController dbSponsorController = TextEditingController();
+  TextEditingController hostController = TextEditingController();
   TextEditingController requesterEmailController = TextEditingController();
   final FocusNode requestorEmployeeIdFocusNode = FocusNode();
   final FocusNode receivedForEmployeeIdFocusNode = FocusNode();
@@ -112,7 +112,10 @@ class _DayPassManagementDetailsViewState
         }
       },
       builder: (context, state) {
-        // receiverEmailController.text = state.model.receiverEmail ?? '';
+        nameController.text = state.model.employee?.name ?? '';
+        dbSponsorController.text = state.model.host?.name ?? '';
+        hostController.text = state.model.host?.name ?? '';
+
         // receiverByEmailController.text = state.model.otherReceiverName ?? '';
         // requesterEmailController.text = state.model.requestorEmail ?? '';
         //
@@ -488,7 +491,7 @@ class _DayPassManagementDetailsViewState
                   ),
                   CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Article Type
+                            /// Company Type
                             CommonWidgets.textDisplay(
                                 // state.labels?.locale.companyType ??
                                 //     state.labels?.defaultLocale
@@ -511,7 +514,7 @@ class _DayPassManagementDetailsViewState
                                         companyType: companyType);
                                   },
                                   leftImage: false,
-                                  orgName: 'ARTICLE_LIST',
+                                  orgName: 'ATOM_COMPANY_TYPES',
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<DayPassManagementDetailsCubit>(
@@ -570,14 +573,14 @@ class _DayPassManagementDetailsViewState
                                   BaseOrganisationDialog().userDialog(
                                     employeeId: true,
                                     context: context,
-                                    users: state.emailUsers!,
+                                    users: state.employee!,
                                     isDbUser: true,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<
                                           DayPassManagementDetailsCubit>(
                                           context)
                                           .updateDropdownValues(
-                                        host: user,
+                                        employee: user,
                                       );
                                     },
                                     roleName:
@@ -588,7 +591,7 @@ class _DayPassManagementDetailsViewState
                                           DayPassManagementDetailsCubit>(
                                           context)
                                           .updateDropdownValues(
-                                        host: user,
+                                        employee: user,
                                       );
                                       // refresh the list
                                       BlocProvider.of<
@@ -636,7 +639,7 @@ class _DayPassManagementDetailsViewState
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.employeeID,
+                              title: state.model.hostEmployeeId,
                               height: 60,
                               isDisableColor: false,
                               onTap: () {
@@ -644,7 +647,7 @@ class _DayPassManagementDetailsViewState
                                 BaseOrganisationDialog().userDialog(
                                   employeeId: true,
                                   context: context,
-                                  users: state.emailUsers!,
+                                  users: state.host!,
                                   isDbUser: true,
                                   onTap: (BaseUser user) {
                                     BlocProvider.of<
@@ -688,7 +691,7 @@ class _DayPassManagementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.001),
                             FlutterInputField(
-                              controller: nameController,
+                              controller: dbSponsorController,
                               textInputType: TextInputType.text,
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
@@ -710,7 +713,7 @@ class _DayPassManagementDetailsViewState
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.employeeID,
+                              title: state.model.hostEmployeeId,
                               height: 60,
                               isDisableColor: false,
                               onTap: () {
@@ -718,7 +721,7 @@ class _DayPassManagementDetailsViewState
                                 BaseOrganisationDialog().userDialog(
                                   employeeId: true,
                                   context: context,
-                                  users: state.emailUsers!,
+                                  users: state.host!,
                                   isDbUser: true,
                                   onTap: (BaseUser user) {
                                     BlocProvider.of<
@@ -762,7 +765,7 @@ class _DayPassManagementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.001),
                             FlutterInputField(
-                              controller: nameController,
+                              controller: hostController,
                               textInputType: TextInputType.text,
                               textFormKey: Keys.contactNoKey,
                               hintText: '',

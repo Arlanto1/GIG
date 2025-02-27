@@ -59,9 +59,9 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
         emailUsers: emailUsers,
         departments: departments.employeeDepartments,
         receiverEmailUsers: onlyDBUsers,
-        requestorEmailUsers: onlyDBUsers,
-        approver1Users: onlyDBUsers,
-        approver2Users: onlyDBUsers,
+        employee: onlyDBUsers,
+        host: onlyDBUsers,
+        dbSponsor: onlyDBUsers,
       ),
     );
   }
@@ -146,6 +146,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       AddEntities entities = futures[6];
      DayPassReason dayPassReason = futures[7];
       DayPassNumberLists passNo = futures[8];
+      List<Organisation> companyType = futures[9];
 
 
       log('--emailUsers--${emailUsers.length}---');
@@ -199,9 +200,9 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
-          requestorEmailUsers: onlyDBUsers,
-          approver1Users: onlyDBUsers,
-          approver2Users: onlyDBUsers,
+          employee: onlyDBUsers,
+          dbSponsor: onlyDBUsers,
+          host: onlyDBUsers,
           receiverEmailUsers: onlyDBUsers,
           returnReceiverEmailId: onlyDBUsers,
           departments: departments.employeeDepartments,
@@ -209,6 +210,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           listOfEntities: entities.atomEntities,
           dayPassReason :dayPassReason.dayPassReasonElement,
           passNo: passNo.activePassInfoList,
+          companyType: companyType,
         ),
       );
       isFormReadable();
@@ -253,16 +255,16 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           passType: 0,
           locationId: state.model.location!.id!);
     }
-    // state.model.receiverEmail = null;
-    // state.model.requestorEmail = null;
-    // state.model.approver1Email = null;
+     // state.model. = null;
+     state.model.host = null;
+     // state.model. = null;
     // state.model.approver2Email = null;
 
     emit(state.copyWith(
       model: state.model,
-      requestorEmailUsers: emailUsers,
-      approver1Users: emailUsers,
-      approver2Users: emailUsers,
+      employee: emailUsers,
+      host: emailUsers,
+      dbSponsor: emailUsers,
       receiverEmailUsers: emailUsers,
       passNo: passNo.activePassInfoList,
       status: FormStatus.initial,
@@ -275,7 +277,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     Organisation? companyType,
     BaseUser? user,
     BaseUser? host,
-    BaseUser? receiverEmailUser,
+    BaseUser? employee,
     BaseUser? receiverByEmail,
     Organisation? department,
     Organisation? passNo,
@@ -303,12 +305,28 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       state.model.companyType = companyType;
     }
 
+    if ( employee!= null) {
+      state.model.employeeID = employee.employeeId;
+
+      String name = employee.name ?? '';
+      String email = employee.email ?? '';
+      User userDetails = User(
+        name:name,
+        userId: employee.id,
+        email: email,
+      );
+      state.model.employee = userDetails;
+      emit(
+        state.copyWith(
+          model: state.model,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
     if (host != null) {
       // Ensure employeeId is explicitly assigned to receiverEmployeeId
-      state.model.employeeID = host.employeeId;
-
-      // Log to verify the correct value is assigned
-      log('--receiverEmployeeId-${state.model.employeeID}-');
+      state.model.hostEmployeeId = host.employeeId;
 
       // Format the name and email for receiverEmail
       String name = host.name ?? '';

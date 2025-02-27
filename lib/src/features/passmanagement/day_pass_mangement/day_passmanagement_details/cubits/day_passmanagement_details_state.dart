@@ -9,9 +9,9 @@ class DayPassManagementDetailsState extends Equatable {
   final List<Organisation> getCompanyTypeResponse;
   // final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
-  final List<BaseUser>? requestorEmailUsers;
-  final List<BaseUser>? approver1Users;
-  final List<BaseUser>? approver2Users;
+  final List<BaseUser>? employee;
+  final List<BaseUser>? dbSponsor;
+  final List<BaseUser>? host;
   final List<BaseUser>? returnReceiverEmailId;
   final List<BaseUser>? receiverEmailUsers;
   final List<Organisation>? listOfEntities;
@@ -115,10 +115,10 @@ class DayPassManagementDetailsState extends Equatable {
     this.isInward = false,
     this.returnable=false,
     this.labels,
-    this.requestorEmailUsers,
+    this.employee,
     this.returnReceiverEmailId,
-    this.approver1Users,
-    this.approver2Users,
+    this.dbSponsor,
+    this.host,
     this.receiverEmailUsers,
     this.rejectionComment,
     this.isReadOnly,
@@ -134,10 +134,10 @@ class DayPassManagementDetailsState extends Equatable {
     List<Organisation>? passNo,
     User? loggedInUserDetails,
     List<BaseUser>? emailUsers,
-    List<BaseUser>? requestorEmailUsers,
+    List<BaseUser>? employee,
     List<BaseUser>? returnReceiverEmailId,
-    List<BaseUser>? approver1Users,
-    List<BaseUser>? approver2Users,
+    List<BaseUser>? dbSponsor,
+    List<BaseUser>? host,
     List<BaseUser>? receiverEmailUsers,
     List<Organisation>? departments,
     List<ImageContent>? loadAttachments,
@@ -159,11 +159,11 @@ class DayPassManagementDetailsState extends Equatable {
       getCompanyTypeResponse: companyType ?? getCompanyTypeResponse,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       emailUsers: emailUsers ?? this.emailUsers,
-      requestorEmailUsers: requestorEmailUsers ?? this.requestorEmailUsers,
+      employee: employee ?? this.employee,
       returnReceiverEmailId:
       returnReceiverEmailId ?? this.returnReceiverEmailId,
-      approver1Users: approver1Users ?? this.approver1Users,
-      approver2Users: approver2Users ?? this.approver2Users,
+      dbSponsor: dbSponsor ?? this.dbSponsor,
+      host: host ?? this.host,
       receiverEmailUsers: receiverEmailUsers ?? this.receiverEmailUsers,
       departments: departments ?? this.departments,
       loadAttachments: loadAttachments ?? this.loadAttachments,

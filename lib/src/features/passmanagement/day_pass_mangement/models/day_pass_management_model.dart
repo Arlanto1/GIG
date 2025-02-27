@@ -40,12 +40,14 @@ class DayPassManagementModel {
    int? status;
    User? entrySecurity;
    User? host;
+   User? employee;
    int? passType;
    Organisation? companyType;
    Organisation? dayPassReason;
    Organisation? department;
    String? companyName;
    String? employeeID;
+   String? hostEmployeeId;
    bool? exceptionalApproval;
    PassInfo? passInfo;
    String? startTime;
@@ -70,12 +72,14 @@ class DayPassManagementModel {
     this.status,
     this.entrySecurity,
     this.host,
+    this.employee,
     this.passType,
     this.companyType,
     this.dayPassReason,
     this.department,
     this.companyName,
     this.employeeID,
+    this.hostEmployeeId,
     this.exceptionalApproval,
     this.passInfo,
     this.startTime,
@@ -104,11 +108,13 @@ class DayPassManagementModel {
         status = json['status'] as int?,
         entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
         host = (json['host'] as Map<String,dynamic>?) != null ? User.fromJson(json['host'] as Map<String,dynamic>) : null,
+        employee = (json['employee'] as Map<String,dynamic>?) != null ? User.fromJson(json['employee'] as Map<String,dynamic>) : null,
       passType = json['passType'] as int?,
         dayPassReason = (json['dayPassReason'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['dayPassReason'] as Map<String,dynamic>) : null,
         department = (json['department'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['department'] as Map<String,dynamic>) : null,
       companyType = (json['companyType'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['companyType'] as Map<String,dynamic>) : null,
         employeeID = json['employeeID'] as String?,
+        hostEmployeeId = json['hostEmployeeId'] as String?,
       companyName = json['companyName'] as String?,
         exceptionalApproval = json['exceptionalApproval'] as bool?,
         passInfo = (json['passInfo'] as Map<String,dynamic>?) != null ? PassInfo.fromJson(json['passInfo'] as Map<String,dynamic>) : null,
@@ -137,10 +143,12 @@ class DayPassManagementModel {
         'status' : status,
     'entrySecurity' : entrySecurity?.toJson(),
         'host':host?.toJson(),
+        'employee':employee?.toJson(),
     'passType' : passType,
     'companyType' : companyType?.toJson(),
     'companyName' : companyName,
         'employeeID': employeeID,
+        'hostEmployeeId':hostEmployeeId,
         'exceptionalApproval' : exceptionalApproval,
     'passInfo' : passInfo?.toJson(),
     'startTime' : startTime,
