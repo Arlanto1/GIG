@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
@@ -36,25 +35,16 @@ class _DayPassManagementDetailsViewState
   TextEditingController expectedDateOfReturnController =
   TextEditingController();
   TextEditingController passValidFromController = TextEditingController();
+  TextEditingController passValidUntilController= TextEditingController();
   bool isReadOnly = false;
-  // List<String> returnableDropDownValues = const [
-  //   "Returnable",
-  //   "Non Returnable"
-  // ];
   TextEditingController passTypeController =
   TextEditingController();
   TextEditingController nameController = TextEditingController();
-  SignatureController securitySignatureController = SignatureController();
-  TextEditingController materialComingFromBriefDescriptionController =
-  TextEditingController();
+  TextEditingController companyNameController =TextEditingController();
   TextEditingController dbSponsorController = TextEditingController();
   TextEditingController hostController = TextEditingController();
   TextEditingController requesterEmailController = TextEditingController();
-  final FocusNode requestorEmployeeIdFocusNode = FocusNode();
-  final FocusNode receivedForEmployeeIdFocusNode = FocusNode();
   final FocusNode sentToFocusNode = FocusNode();
-  final FocusNode receivedByFocusNode = FocusNode();
-
   @override
   void initState() {
     super.initState();
@@ -70,12 +60,7 @@ class _DayPassManagementDetailsViewState
   }
 
   bool showSaveSubmitButtons = false;
-  bool showLikeAndDislikeButton = false;
-  bool editByRequester = false;
-  bool editByCreatedByUser = false;
   bool lock = false;
-  bool isApproverRequesterEmailDepartment = false;
-  bool isEligibleToEdit = false;
 
   @override
   Widget build(BuildContext context) {
@@ -85,20 +70,19 @@ class _DayPassManagementDetailsViewState
         DayPassManagementDetailsState>(
       listener: (context, state) {
         log('-state.status--${state.status}--');
-
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: Constants.dayPassManagementTitle,
-            message: state.message ?? '',
+            message: state.message,
             positiveBtnText: Constants.ok,
             onPositivePressed: () {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
               Navigator.popAndPushNamed(
-                  context, dayPassManagementDetailsRoute, arguments: {
+                  context, dayPassManagementListRoute, arguments: {
               });
             },
           );
@@ -108,111 +92,37 @@ class _DayPassManagementDetailsViewState
               builder: (BuildContext context) => dialog);
 
           // Utils.dynamicAlert(
-          //     context, state.message ?? '', 'Material Movement', '');
+          //     context, state.message ?? '', 'Day Pass Management', '');
         }
       },
       builder: (context, state) {
-        nameController.text = state.model.employee?.name ?? '';
+        nameController.text = state.model.employee !=null ? state.model.employee?.name ?? '' : state.model.employeeName ??'';
         dbSponsorController.text = state.model.host?.name ?? '';
         hostController.text = state.model.host?.name ?? '';
 
-        // receiverByEmailController.text = state.model.otherReceiverName ?? '';
-        // requesterEmailController.text = state.model.requestorEmail ?? '';
-        //
-        // if (state.model.status == 6 || !state.model.lock.isEmptyOrNull) {
-        //   isReadOnly = true;
-        // }
-        // if (state.model.status == 10 || !state.model.lock.isEmptyOrNull) {
-        //   isReadOnly = true;
-        // }
-        // if (state.model.status == -1 || !state.model.lock.isEmptyOrNull) {
-        //   isReadOnly = true;
-        // }
-        // if (state.model.status == 0 && state.model.lock.isEmptyOrNull) {
-        //   isReadOnly = false;
-        // }
-        // if (state.model.status == 4 || !state.model.lock.isEmptyOrNull) {
-        //   isReadOnly = true;
-        // }
-        // // if (state.model.status == 5 || !state.model.lock.isEmptyOrNull) {
-        // //   isReadOnly = true;
-        // // }
-        // if (state.model.status != ConstantsIntValue.mmStatusInwardWaiting &&
-        //     (state.model.status == null || state.model.status == 0)) {
-        //   isApproverRequesterEmailDepartment = true;
-        // }
-        //
-        // if (state.model.status == null) {
-        //   isReadOnly = false;
-        // }
-        // if (state.model.isEligibleToEdit) {
-        //   isEligibleToEdit = true;
-        // }
-        // String? requesterEmailUser = state.model.requestorEmail;
-        //
-        // log('123 ${state.model.requestorEmail}');
-        // if ((state.model.status == ConstantsIntValue.businessUserReview ||
-        //     state.model.status == ConstantsIntValue.mmStatusLSMRejected) &&
-        //     (requesterEmailUser != null &&
-        //         requesterEmailUser == '${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email})')) {
-        //   isReadOnly = false;
-        // }
-        //
-        // if (!state.model.lock.isEmptyOrNull) {
-        //   lock = true;
-        // }
 
-        showLikeAndDislikeButton =
-            (state.model.status == ConstantsIntValue.mmStatusLSMReview) &&
-                (state.model.entrySecurity!.email
-                    .equalsIgnoreCase(state.loggedInUserDetails?.email));
+      companyNameController.text= state.model.companyType?.name == 'FTE'? 'Deutsche Bank': state.model.companyName ??'';
 
-        // editByRequester = ((state.model.status ==
-        //     ConstantsIntValue.businessUserReview ||
-        //     state.model.status == ConstantsIntValue.mmStatusLSMRejected) &&
-        //     (requesterEmailUser != null &&
-        //         requesterEmailUser == '${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email})'));
-        //
- editByCreatedByUser =
-        ((state.model.status == ConstantsIntValue.mmStatusApproved ||
-            state.model.status ==
-                ConstantsIntValue.mmStatusInwardWaiting) &&
-            ((state.model.entrySecurity!.email
-                .equalsIgnoreCase(state.loggedInUserDetails?.email)) ||
-                isEligibleToEdit));
+        if (state.model.status == 0 && !state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
+        if (state.model.status == 1 && !state.model.lock.isEmptyOrNull) {
+          isReadOnly = true;
+        }
 
-        showSaveSubmitButtons = widget.model == null ||
-            state.model.status == 0 ||
-            (state.model.status != ConstantsIntValue.mmStatusLSMApproved &&
-                state.model.status !=
-                    ConstantsIntValue.mmStatusLSMReview) &&
-                editByRequester ||
-            editByCreatedByUser;
+        if(state.model.status != null && state.model.status !=0){
+          isReadOnly = true;
+        }
 
-        // showLikeAndDislikeButton =
-        //     (state.model.status == ConstantsIntValue.mmStatusLSMReview) &&
-        //         (state.model.approver1Email
-        //                 .equalsIgnoreCase(state.loggedInUserDetails?.email) ||
-        //             state.model.approver2Email
-        //                 .equalsIgnoreCase(state.loggedInUserDetails?.email));
-        // showSaveSubmitButtons = (state.model.status == 0 ||
-        //         state.model.status == 8 ||
-        //         // state.model.status == 1 ||
-        //         state.model.status == 6 ||
-        //         state.model.status == 7 ||
-        //         state.model.status == 9 ||
-        //         state.model.status == null ||
-        //         isReadOnly == false)  &&   state.model.status != ConstantsIntValue.mmStatusLSMReview &&
-        //     state.model.lock.isEmptyOrNull;
+        showSaveSubmitButtons = (widget.model == null ||
+            state.model.status == 0 ||state.model.status == 1) && state.model.lock.isEmptyOrNull;
 
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: showSaveSubmitButtons &&
-                state.model.status != ConstantsIntValue.mmStatusClosed &&
-                !lock,
+            showSaveButton: showSaveSubmitButtons,
             pdfAPIName:
             '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=$moduleCode',
             onTapSave: () {
@@ -221,15 +131,14 @@ class _DayPassManagementDetailsViewState
                 isSaveOnly: true,
                  );
             },
-            showSubmitButton: showSaveSubmitButtons &&
-                state.model.status != ConstantsIntValue.mmStatusClosed &&
-                !lock,
+            showSubmitButton: showSaveSubmitButtons ,
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<DayPassManagementDetailsCubit>(context).submitForm(
                 isSaveOnly: false,
               );
-            }, showLikeButton: false,
+            },
+            showLikeButton: false,
             showDisLikeButton: false,
           ),
           backgroundColor: AppColors.backgroundWhiteColor,
@@ -240,48 +149,24 @@ class _DayPassManagementDetailsViewState
   }
 
   void initializeDates(DayPassManagementDetailsState state) {
-    // if (state.model.expectedDateOfReturn != null) {
-    //   expectedDateOfReturnController.text = Utils.timestampToDateConversion(
-    //       int.tryParse(state.model.expectedDateOfReturn ?? '0'),
-    //       Constants.dateFormat);
-    // }
-    // if (state.model.actualDateOfReturn != null) {
-    //   actualDateOfReturnController.text = Utils.timestampToDateConversion(
-    //       int.tryParse(widget.model?.actualDateOfReturn ?? '0'),
-    //       Constants.fulldateFormat);
-    // }
 
-    // if (state.model.takenOutDate != null) {
-    //   takenOutOnDateController.text = Utils.timestampToDateConversion(
-    //       int.tryParse(widget.model?.takenOutDate ?? '0'),
-    //       Constants.fulldateFormat);
-    // }
+    passValidFromController.text = state.model.startTime != null ?  Utils.timestampToDateConversion(
+        int.tryParse(state.model.startTime ?? '') ??
+            DateTime.now().millisecondsSinceEpoch, // Use current timestamp if null
+        Constants.fulldateFormat) : '';
+
+    passValidUntilController.text = state.model.endTime != null
+        ? Utils.timestampToDateConversion(
+        int.tryParse(state.model.endTime ?? '') ??
+            DateTime.now().millisecondsSinceEpoch, // Fallback to current timestamp
+        Constants.fulldateFormat)
+        : Utils.timestampToDateConversion(
+        DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch, // One day ahead
+        Constants.fulldateFormat);
   }
 
   getBodybuilder(DayPassManagementDetailsState state, height) {
     initializeDates(state);
-    log('-state.materialMovement.status---${state.model.status}--');
-
-
-    // returnableTextController.text =
-    // widget.returnable == true ? 'Returnable' : 'Non Returnable';
-    //
-    // if (widget.returnable == true) {
-    //   returnableTextController.text == 'Returnable';
-    // } else {
-    //   returnableTextController.text == 'Non Returnable';
-    // }
-    // ((state.model.returnable ?? false) || (widget.returnable ?? false))
-    //     ? 'Returnable'
-    //     : 'Non Returnable';
-    // if (returnableTextController.text == 'Returnable') {
-    //   if (widget.returnable ?? true) {
-    //     state.model.returnable = true;
-    //   }
-    // } else {
-    //   state.model.returnable = false;
-    // }
-    // state.model.returnable ??= false ;
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
@@ -290,11 +175,6 @@ class _DayPassManagementDetailsViewState
         state.status == FormStatus.initial) {
       getFiles = state.loadAttachments ?? [];
     }
-    // bool isQuantityDisabled = (state.model.status == 10 ||
-    //     state.model.status == -1 ||
-    //     state.model.status == 6 ||
-    //     state.model.status == 2);
-
     return Container(
       color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
@@ -324,7 +204,7 @@ class _DayPassManagementDetailsViewState
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       AbsorbPointer(
-                        absorbing: !showSaveSubmitButtons || lock,
+                        absorbing: !showSaveSubmitButtons,
                         child: Column(
                           children: [
                             if (!state.model.lock.isEmptyOrNull) ...[
@@ -378,9 +258,7 @@ class _DayPassManagementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             // locationWidgetdislay(state),
                             BaseLocationDropdown().locationWidgetDisplay(
-                                isEnabled: (state.model.status ==
-                                    ConstantsIntValue.passCreatedStatus ||
-                                    state.model.status == null) &&
+                                isEnabled: (!isReadOnly) &&
                                     !lock,
                                 context: context,
                                 locations: state.locations ?? Locations(),
@@ -429,7 +307,7 @@ class _DayPassManagementDetailsViewState
                               context: context,
                               selectedValues: state.model.entities ?? [],
                               all: state.listOfEntities ?? [],
-                              enabled: true,
+                              enabled: !isReadOnly,
                               onTap: (List<Organisation> selectedEntities) {
                                 log('--selectedEntities----${selectedEntities.length}');
                                 BlocProvider.of<DayPassManagementDetailsCubit>(
@@ -460,28 +338,31 @@ class _DayPassManagementDetailsViewState
                             TextFieldAddButton(
                               title: state.model.passTypeName,
                               height: 70,
-                              isDisableColor: false,
+                              isDisableColor:  isReadOnly,
                               onTap: () {
-                                BaseOrganisationDialog().departmentDialog(
-                                  context: context,
-                                  organisations: state.passType!,
-                                  onTap: (Organisation passType) {
-                                    state.model.passInfo
-                                        ?.passNo = passType.name;
-                                    BlocProvider.of<DayPassManagementDetailsCubit>(
-                                        context)
-                                        .updateDropdownValues(
-                                        passType: passType);
-                                  },
-                                  leftImage: false,
-                                  orgName: '',
-                                  functionToCall: () {
-                                    // refresh the list
-                                    BlocProvider.of<DayPassManagementDetailsCubit>(
-                                        context)
-                                        .refreshList();
-                                  },
-                                );
+                                if(!isReadOnly) {
+                                  BaseOrganisationDialog().departmentDialog(
+                                    context: context,
+                                    organisations: state.passType!,
+                                    onTap: (Organisation passType) {
+                                      state.model.passTypeName = passType.name;
+                                      BlocProvider.of<
+                                          DayPassManagementDetailsCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                          passType: passType);
+                                    },
+                                    leftImage: false,
+                                    orgName: '',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          DayPassManagementDetailsCubit>(
+                                          context)
+                                          .refreshList();
+                                    },
+                                  );
+                                }
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -497,26 +378,30 @@ class _DayPassManagementDetailsViewState
                             TextFieldAddButton(
                               title: state.model.companyType?.name,
                               height: 70,
-                              isDisableColor: false,
+                              isDisableColor: isReadOnly,
                               onTap: () {
-                                BaseOrganisationDialog().departmentDialog(
-                                  context: context,
-                                  organisations: state.getCompanyTypeResponse,
-                                  onTap: (Organisation companyType) {
-                                    BlocProvider.of<DayPassManagementDetailsCubit>(
-                                        context)
-                                        .updateDropdownValues(
-                                        companyType: companyType);
-                                  },
-                                  leftImage: false,
-                                  orgName: 'ATOM_COMPANY_TYPES',
-                                  functionToCall: () {
-                                    // refresh the list
-                                    BlocProvider.of<DayPassManagementDetailsCubit>(
-                                        context)
-                                        .refreshList();
-                                  },
-                                );
+                            if(!isReadOnly) {
+                              BaseOrganisationDialog().departmentDialog(
+                                context: context,
+                                organisations: state.getCompanyTypeResponse,
+                                onTap: (Organisation companyType) {
+                                  BlocProvider.of<
+                                      DayPassManagementDetailsCubit>(
+                                      context)
+                                      .updateDropdownValues(
+                                      companyType: companyType);
+                                },
+                                leftImage: false,
+                                orgName: 'ATOM_COMPANY_TYPES',
+                                functionToCall: () {
+                                  // refresh the list
+                                  BlocProvider.of<
+                                      DayPassManagementDetailsCubit>(
+                                      context)
+                                      .refreshList();
+                                },
+                              );
+                            }
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -533,11 +418,12 @@ class _DayPassManagementDetailsViewState
                             FlutterInputField(
                               textInputType: TextInputType.text,
                               textFormKey: Keys.challanKey,
-                              initialValue: '',
+                              // initialValue: '',
+                              controller: companyNameController,
                               characterLimit:
                               Constants.characterLimitIdTextFormField,
                               hintText: '',
-                              isEnable: true,
+                              isEnable: (state.model.companyType?.name != 'FTE') && ( state.model.status ==null || state.model.status ==0) ? true :false,
                               isDisableColor:false,
                               onChange: (String value) {
                                 state.model.companyName = value;
@@ -551,7 +437,7 @@ class _DayPassManagementDetailsViewState
 
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
-                      if(state.model.companyType?.name != 'Exceptions')...[
+                      if(state.model.companyType?.name != 'Exceptions' && state.model.companyType?.name != 'CWR T2')...[
                     /// Employee Id
                             CommonWidgets.textDisplay(
                                 // state.labels?.locale.employeeID ??
@@ -561,11 +447,11 @@ class _DayPassManagementDetailsViewState
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.employeeID,
+                              title: state.model.employee?.employeeId,
                               height: 60,
-                              isDisableColor: false,
+                              isDisableColor: isReadOnly,
                               onTap: () {
-                                // if (isEnabled) {
+                                 if (!isReadOnly) {
                                   BaseOrganisationDialog().userDialog(
                                     employeeId: true,
                                     context: context,
@@ -596,7 +482,7 @@ class _DayPassManagementDetailsViewState
                                           .refreshList();
                                     },
                                   );
-                                // }
+                                }
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(
@@ -619,11 +505,10 @@ class _DayPassManagementDetailsViewState
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
                               // focusNode: employeeIdFocusNode,
-                              isEnable: state.model.companyType?.name == 'CWR T2' ? true : false,
+                              isEnable: state.model.companyType?.name == 'CWR T2' && !isReadOnly? true : false,
                               isDisableColor: true,
                               onChange: (String value) {
-                                state.model.employee?.name = value;
-
+                                state.model.employeeId = value;
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -650,8 +535,8 @@ class _DayPassManagementDetailsViewState
                               isEnable: state.model.companyType?.name == 'Exceptions' || state.model.companyType?.name == 'CWR T2' ? true : false,
                               isDisableColor: true,
                               onChange: (String value) {
+                                state.model.employeeName = value;
                                 state.model.employee?.name = value;
-
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -668,11 +553,11 @@ class _DayPassManagementDetailsViewState
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              title: state.model.hostEmployeeId,
+                              title: state.model.host?.employeeId,
                               height: 60,
-                              isDisableColor: false,
+                              isDisableColor: isReadOnly,
                               onTap: () {
-                                // if (isEnabled) {
+                                if (!isReadOnly) {
                                 BaseOrganisationDialog().userDialog(
                                   employeeId: true,
                                   context: context,
@@ -703,7 +588,7 @@ class _DayPassManagementDetailsViewState
                                         .refreshList();
                                   },
                                 );
-                                // }
+                                 }
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(
@@ -744,9 +629,9 @@ class _DayPassManagementDetailsViewState
                             TextFieldAddButton(
                               title: state.model.hostEmployeeId,
                               height: 60,
-                              isDisableColor: false,
+                              isDisableColor: isReadOnly,
                               onTap: () {
-                                // if (isEnabled) {
+                                if (!isReadOnly) {
                                 BaseOrganisationDialog().userDialog(
                                   employeeId: true,
                                   context: context,
@@ -777,7 +662,7 @@ class _DayPassManagementDetailsViewState
                                         .refreshList();
                                   },
                                 );
-                                // }
+                                 }
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(
@@ -814,21 +699,14 @@ class _DayPassManagementDetailsViewState
                               //         .requestorDepartment ??
                                   Constants.department,
                               Styles.textStyleBlack14,
-                              isMandatory: state.model.status !=
-                                  ConstantsIntValue.mmStatusDraft &&
-                                  widget.model != null
-                                  ? true
-                                  : false,
+                              isMandatory: true,
                             ),
                             TextFieldAddButton(
                               title: state.model.department?.name,
                               height: 70,
-                              isDisableColor: false,
+                              isDisableColor: isReadOnly,
                               onTap: () {
-                                if (
-                                    !state.model.lock.isEmptyOrNull
-                                    ? false
-                                    : true) {
+                                if (!isReadOnly) {
                                   BaseOrganisationDialog().departmentDialog(
                                       context: context,
                                       organisations: state.departments,
@@ -858,7 +736,6 @@ class _DayPassManagementDetailsViewState
                               },
                             ),
 
-                            // dbwanttodepartmentaddButtonwidgetLoading(state),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Reason for Day Pass
@@ -868,18 +745,14 @@ class _DayPassManagementDetailsViewState
                               //         .requestorDepartment ??
                               Constants.reasonfordaypass,
                               Styles.textStyleBlack14,
-                              isMandatory: state.model.status !=
-                                  ConstantsIntValue.mmStatusDraft &&
-                                  widget.model != null
-                                  ? true
-                                  : false,
+                              isMandatory: true,
                             ),
                             TextFieldAddButton(
                               title: state.model.dayPassReason?.name,
                               height: 60,
-                              isDisableColor: false,
+                              isDisableColor: isReadOnly,
                               onTap: () {
-                                // if (state.model.status == null) {
+                                if (!isReadOnly) {
                                   BaseOrganisationDialog().departmentDialog(
                                     context: context,
                                     organisations: state.dayPassReason,
@@ -890,65 +763,43 @@ class _DayPassManagementDetailsViewState
                                           dayPassReason: department);
                                     },
                                   );
-                                // }
+                                 }
                               },
                             ),
-                            // dbwanttodepartmentaddButtonwidgetLoading(state),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-
-                            /// Day Pass Number
+                            /// Day Pass No
                             CommonWidgets.textDisplay(
                               // state.labels?.locale.requestorDepartment ??
                               //     state.labels?.defaultLocale
                               //         .requestorDepartment ??
                               Constants.dayPassNo,
                               Styles.textStyleBlack14,
-                              isMandatory: state.model.status !=
-                                  ConstantsIntValue.mmStatusDraft &&
-                                  widget.model != null
-                                  ? true
-                                  : false,
+                              isMandatory: true,
                             ),
                             TextFieldAddButton(
                               title: state.model.passNo,
-                              height: 70,
-                              isDisableColor: false,
+                              height: 60,
+                              isDisableColor: isReadOnly,
                               onTap: () {
-                                if (
-                                !state.model.lock.isEmptyOrNull
-                                    ? false
-                                    : true) {
-                                  BaseOrganisationDialog().departmentDialog(
-                                      context: context,
-                                      organisations: state.passNo!,
-                                      onTap: (Organisation department) {
-                                        state.model.passInfo
-                                            ?.passNo = department.name;
-                                        BlocProvider.of<
-                                            DayPassManagementDetailsCubit>(
-                                            context)
-                                            .updateDropdownValues(
-                                            passNo:
-                                            department);
-                                      },
-                                      orgName: 'EMPLOYEE_DEPARTMENTS',
-                                      createEntity: false,
-                                      title: 'Add Key Type',
-                                      functionToCall: () {
-                                        // refresh the list
-                                        BlocProvider.of<
-                                            DayPassManagementDetailsCubit>(
-                                            context)
-                                            .refreshList();
-                                      });
-                                  FocusScope.of(context)
-                                      .requestFocus(sentToFocusNode);
-                                }
+                                if (!isReadOnly) {
+                                BaseOrganisationDialog().departmentDialog(
+                                  context: context,
+                                  organisations: state.passNo!,
+                                  onTap: (Organisation department) {
+                                    state.model.passNo = department.name;
+                                    log('PassNo ${state.model.passNo }');
+                                    BlocProvider.of<DayPassManagementDetailsCubit>(
+                                        context)
+                                        .updateDropdownValues(
+                                        passNo: department);
+                                  },
+                                );
+                                 }
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
 
                             /// Pass Valid From
                             CommonWidgets.textDisplay(
@@ -964,14 +815,14 @@ class _DayPassManagementDetailsViewState
 
                             BaseDate().datePickerWidgetLoading(
                               textController: passValidFromController,
-                              isDisabled: false,
+                              isDisabled: true,
                               onlyDate: false,
                               // showPastDate: false,
                               // fromDate: initialisedStartDate,
                               // toDate: initialisedToDate,
                               onChange: (String value) {
                                 // isDateSelectedByUser = true;
-                                // keyReturnDueDateController.text = value;
+                                passValidFromController.text = value;
                                 log('keyReturnDueDateControllerValue22 --- $value');
                                 // state.model.passV =
                                 //     Utils().formatTime(value);
@@ -985,7 +836,6 @@ class _DayPassManagementDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.01),
-                            // dbwanttodepartmentaddButtonwidgetLoading(state),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
 
@@ -1002,8 +852,8 @@ class _DayPassManagementDetailsViewState
                                 height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
-                              textController: passValidFromController,
-                              isDisabled: false,
+                              textController: passValidUntilController,
+                              isDisabled: true,
                               onlyDate: false,
                               // showPastDate: false,
                               // fromDate: initialisedStartDate,
@@ -1011,7 +861,6 @@ class _DayPassManagementDetailsViewState
                               onChange: (String value) {
                                 // isDateSelectedByUser = true;
                                 // keyReturnDueDateController.text = value;
-                                log('keyReturnDueDateControllerValue22 --- $value');
                                 // state.model.passV =
                                 //     Utils().formatTime(value);
                                 BlocProvider.of<
@@ -1024,20 +873,46 @@ class _DayPassManagementDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.01),
-                            // dbwanttodepartmentaddButtonwidgetLoading(state),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            ///Attachments
+                            CommonWidgets.textDisplay(
+                                // state.labels?.locale.attachment ??
+                                //     state.labels?.defaultLocale.attachment ??
+                                    Constants.evidenceDocuments,
+                                Styles.textStyleBlack14),
+                            widget.model == null
+                                ? CommonWidgets.verticalSpacerWidget(
+                                height * 0.001)
+                                : Container(),
+                            if (state.model.status == 0 ||
+                                state.model.status == null) ...[
+                              // BaseImageUpload().uploadWidget(
+                              //   context: context,
+                              //   isDisabled: isReadOnly,
+                              //   loggedInUserDetails:
+                              //   state.loggedInUserDetails!,
+                              //   getFiles: uploadFiles,
+                              //   onImageSelected: (ImageContent data) {
+                              //     List<ImageContent>? files = [];
+                              //     files.add(data);
+                              //     for (ImageContent image
+                              //     in uploadFiles ?? []) {
+                              //       files.add(image);
+                              //     }
+                              //     BlocProvider.of<
+                              //         SstIncidentGeneralInfoCubit>(
+                              //         context)
+                              //         .addAttachment(
+                              //       data: files,
+                              //       images: files,
+                              //     );
+                              //   },
+                              // ),
+                            ],
+
                             /// SubmitButton
-                      if (((state.model.status == 0 ||
-                          state.model.status == 8 ||
-                          state.model.status == 1 ||
-                          state.model.status == 6 ||
-                          state.model.status == 7 ||
-                          state.model.status == 5 ||
-                          state.model.status == 9 ||
-                          state.model.status == null) &&
-                          !lock)
-                          ? true
-                          : false) ...[
+                      if (!isReadOnly) ...[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -1055,12 +930,7 @@ class _DayPassManagementDetailsViewState
                   ],
               ),
             ),),),
-            if ((state.model.status == 2 ||
-                state.model.status == 3 ||
-                state.model.status == 4 ||
-                state.model.status == 10 ||
-                state.model.status == -1) ||
-                lock) ...[
+            if (isReadOnly) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(
@@ -1083,97 +953,6 @@ class _DayPassManagementDetailsViewState
       ),
     );
   }
-
-  AbsorbPointer buildSignature({
-    required SignatureController controller,
-    required String label,
-    required double spaceHeight,
-    required MaterialMovementDetailsState state,
-  }) {
-    bool isEditable = false;
-    bool isSigned = false;
-    bool isReceiver = label.equalsIgnoreCase(Constants.receiverSignature);
-    if (isReceiver) {
-      isSigned = state.model.receiverSign != null &&
-          !state.model.receiverSign!.imageContent.isEmptyOrNull;
-      isEditable = state.isReceiverSignEditable;
-    } else {
-      isSigned = state.model.entrySecuritySign != null &&
-          !state.model.entrySecuritySign!.imageContent.isEmptyOrNull;
-      isEditable = state.isEntrySecuritySignatureSignEditable;
-    }
-
-    return AbsorbPointer(
-      absorbing: !state.model.lock.isEmptyOrNull ||
-          state.model.status == -1 ||
-          state.model.status == 10,
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CommonWidgets.textDisplay(
-                label,
-                Styles.textStyleBlack14,
-              ),
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      controller.clear();
-                      if (isReceiver) {
-                        BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                            .makeSignEditable(receiverSign: true);
-                      } else {
-                        BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                            .makeSignEditable(
-                            entrySecuritySignatureSignEditable: true);
-                      }
-                    },
-                    iconSize: 20,
-                    color: Colors.grey,
-                    icon: const Icon(Icons.refresh),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          CommonWidgets.verticalSpacerWidget(spaceHeight * 0.001),
-          ClipRect(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(2.0),
-                border: Border.all(
-                  color: AppColors.geryLightBackground,
-                  width: 1, // Border width
-                ),
-              ),
-              height: 100,
-              width: double.infinity,
-              child: (!isEditable && isSigned)
-                  ? Image.memory(
-                Uint8List.fromList(
-                  base64Decode(
-                    isReceiver
-                        ? state.model.receiverSign!.imageContent ?? ''
-                        : state.model.entrySecuritySign!.imageContent ??
-                        '',
-                  ),
-                ),
-                fit: BoxFit.none,
-              )
-                  : Signature(
-                controller: controller,
-                backgroundColor: Colors.white,
-              ),
-            ),
-          ),
-          CommonWidgets.verticalSpacerWidget(spaceHeight * 0.01),
-        ],
-      ),
-    );
-  }
-
 
   Widget cancelButtonDisplay() {
     return AppButton(

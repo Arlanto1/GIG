@@ -29,9 +29,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       emailUsers: const [],
       errorMessage: '',
       departments: const [],
-      loadAttachments: const [],
-      quantityUnits: const [],
-      eventId: null, listOfEntities: const [], getCompanyTypeResponse: const [], dayPassReason:const [], passNo: const [], passType: const [],
+      loadAttachments: const [], listOfEntities: const [], getCompanyTypeResponse: const [], dayPassReason:const [], passNo: const [], passType: const [],
     ),
   );
 
@@ -68,32 +66,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
 
   void onModelValueChange(DayPassManagementModel model) {
     emit(state.copyWith(model: model, status: FormStatus.initial));
-  }
-
-  Future<void> isFormReadable() async {
-
-    if (state.model.status != ConstantsIntValue.businessUserReview) {
-      emit(state.copyWith(
-        status: FormStatus.initial,
-      ));
-      return;
-    }
-
-    emit(state.copyWith(model: model, status: FormStatus.loading));
-    bool isReadOnly;
-
-    // if (state.model.requestorEmail
-    //     .equalsIgnoreCase(state.loggedInUserDetails?.userName)) {
-    //   isReadOnly = false;
-    // } else {
-    //   isReadOnly = true;
-    // }
-
-    emit(state.copyWith(
-      model: model,
-      // isReadOnly: isReadOnly,
-      status: FormStatus.initial,
-    ));
   }
 
   Future<void> initializeValues() async {
@@ -158,30 +130,20 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           : Utils.timestampToDateConversion(
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
-     // fulldateFormat state.model.modifiedDate = state.model.modifiedDate == null
-     //      ? Utils().getCurrentDate()
-     //      : Utils.timestampToDateConversion(
-     //      int.tryParse(state.model.modifiedDate ?? '0'),
-     //      Constants.fulldateFormat);
 
-      // if (state.model.inputDate != null) {
-      //   Utils.timestampToDateConversion(
-      //       int.tryParse(state.model?.inputDate ?? '0'),
-      //       Constants.fulldateFormat);
-      // } else {
-      //   Utils().getCurrentDate();
-      // }
-      //
-      // state.model.inwardMovement = isInward;
-      // if (state.model.approvedDate != null) {
-      //   state.model.approvedDate =
-      //       Utils().formatUnixTimestamp(state.model.approvedDate ?? '');
-      // }
-      // if (state.model.rejectedDate != null) {
-      //   state.model.rejectedDate =
-      //       Utils().formatUnixTimestamp(state.model.rejectedDate ?? '');
-      // }
+      state.model.startTime = state.model.startTime == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.startTime ?? '0'),
+          Constants.fulldateFormat);
 
+      // state.model.endTime = state.model.endTime == null
+      //     ? Utils.timestampToDateConversion(
+      //     DateTime.now().add(const Duration(hours: 24)).millisecondsSinceEpoch,
+      //     Constants.fulldateFormat)
+      //     : Utils.timestampToDateConversion(
+      //     int.tryParse(state.model.endTime ?? '0'),
+      //     Constants.fulldateFormat);
       MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
 
       log('--loggedInUserDetails---${loggedInUserDetails.firstName}----');
@@ -205,8 +167,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           employee: onlyDBUsers,
           dbSponsor: onlyDBUsers,
           host: onlyDBUsers,
-          receiverEmailUsers: onlyDBUsers,
-          returnReceiverEmailId: onlyDBUsers,
           departments: departments.employeeDepartments,
           labels: labels,
           listOfEntities: entities.atomEntities,
@@ -216,10 +176,9 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           passType: getPassType,
         ),
       );
-      isFormReadable();
     } catch (e) {
       log('Initialization issue',
-          error: e, name: 'Material Movement Details Cubit');
+          error: e, name: 'Day Pass Management Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -270,15 +229,12 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
      state.model.host = null;
      state.model.passTypeName = null;
      state.model.passNo = null;
-     // state.model. = null;
-    // state.model.approver2Email = null;
 
     emit(state.copyWith(
       model: state.model,
       employee: emailUsers,
       host: emailUsers,
       dbSponsor: emailUsers,
-      receiverEmailUsers: emailUsers,
       passNo: passNo.activePassInfoList,
       passType: getPassType,
       status: FormStatus.initial,
@@ -295,8 +251,8 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     BaseUser? receiverByEmail,
     Organisation? department,
     Organisation? passNo,
+    Organisation? passNos,
     Organisation? dayPassReason,
-    bool? isReturnable,
     int? status,
   }) async {
     emit(
@@ -310,23 +266,26 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     if (entities != null) {
       state.model.entities = entities;
     }
-    // if (passType != null) {
-    //   state.model.passInfo?.passType = passType;
-    // }
 
     if (companyType != null) {
       state.model.companyType = companyType;
+      state.model.employee?.employeeId = null;
+      state.model.employee?.name = null;
+      state.model.host?.employeeId = null;
+      state.model.host?.name = null;
     }
 
     if ( employee!= null) {
-      state.model.employeeID = employee.employeeId;
-
+      state.model.employeeId = employee.employeeId;
+      state.model.employeeName = employee.name;
+      state.model.email = employee.email;
       String name = employee.name ?? '';
       String email = employee.email ?? '';
       User userDetails = User(
         name:name,
         userId: employee.id,
         email: email,
+        employeeId: employee.employeeId
       );
       state.model.employee = userDetails;
       emit(
@@ -340,7 +299,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     if (host != null) {
       // Ensure employeeId is explicitly assigned to receiverEmployeeId
       state.model.hostEmployeeId = host.employeeId;
-
+       state.model.hostName = host.name;
       // Format the name and email for receiverEmail
       String name = host.name ?? '';
       String email = host.email ?? '';
@@ -348,6 +307,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
         name:name,
         userId: host.id,
         email: email,
+        employeeId: host.employeeId
       );
       state.model.host = userDetails;
       emit(
@@ -357,62 +317,32 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
         ),
       );
     }
-    // if (location != null &&
-    //     isInward == false &&
-    //     state.model.returnable == false) {
-    //   SerialNumberModel slNo = await commonServices.getSlNo(
-    //     locationId: location.id.toString(),
-    //     moduleCode: Constants.materialMovementOutwardNonReturnableModule,
-    //   );
-    //   state.model.location = location;
-    //   state.model.slNo = slNo.serialNo;
-    // }
-
-    // if (user != null) {
-    //   state.model.receiverEmail = user.employeeId;
-    // }
-    //
-    // if (receiverEmailUser != null) {
-    //   state.model.receiverEmployeeId =
-    //       '${receiverEmailUser.name}';
-    // }
-    //
-    // if (receiverEmail != null) {
-    //   state.model.receiverEmployeeId =
-    //       '${receiverEmail.employeeId}';
-    // }
-
-    // if (requesterEmailUser != null) {
-    //   state.model.requestorEmail =
-    //       '${requesterEmailUser.name} (${requesterEmailUser.email})';
-    // }
-
-    // if (returnReceiverMailId != null) {
-    //   state.model.returnReceiverMailId =
-    //   '${returnReceiverMailId.name} (${returnReceiverMailId.email})';
-    // }
-    // if (requesterDepartment != null) {
-    //   state.model.requestorDepartment = requesterDepartment;
-    // }
-    // if (preparedByDepartment != null) {
-    //   state.model.preparedByDepartment = preparedByDepartment;
-    // }
     if (department != null) {
       state.model.department = department;
     }
-    //
-    // if (approver2Department != null) {
-    //   state.model.approver2Department = approver2Department;
-    // }
-    // if (receiverDepartment != null) {
-    //   state.model.receiverDepartment = receiverDepartment;
-    // }
+
     if (dayPassReason != null) {
       state.model.dayPassReason = dayPassReason;
     }
 
     if (passNo != null) {
-      state.model.passNo = passNo.name;
+      // Ensure employeeId is explicitly assigned to receiverEmployeeId
+      state.model.passInfo?.passNo = passNo.name;
+
+      // Format the name and email for receiverEmail
+      String name = passNo.name ?? '';
+      int id = passNo.id ?? 0;
+      PassInfo userDetails = PassInfo(
+        passNo:name,
+        id: passNo.id,
+      );
+      state.model.passInfo = userDetails;
+      emit(
+        state.copyWith(
+          model: state.model,
+          status: FormStatus.initial,
+        ),
+      );
     }
 
     if (passType != null) {
@@ -423,47 +353,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           locationId: state.model.location!.id.toString(),
           moduleCode: Constants.passManagementModuleCode);
       state.model.slNo = slNo.serialNo;
-      // state.model.returnable = isReturnable;
-    // }
-
-    // if (receiverEmailUser != null) {
-    //   // Ensure employeeId is explicitly assigned to receiverEmployeeId
-    //   state.model.receiverEmployeeId = receiverEmailUser.employeeId;
-    //
-    //   // Log to verify the correct value is assigned
-    //   log('--receiverEmployeeId-${state.model.receiverEmployeeId}-');
-    //
-    //   // Format the name and email for receiverEmail
-    //   String name = receiverEmailUser.name ?? '';
-    //   String email = receiverEmailUser.email ?? '';
-    //   state.model.receiverEmail = '$name ($email)';
-    //   emit(
-    //     state.copyWith(
-    //       model: state.model,
-    //       status: FormStatus.initial,
-    //     ),
-    //   );
-    // }
-    //
-    // if (receiverByEmail != null) {
-    //   // Ensure employeeId is explicitly assigned to receiverEmployeeId
-    //   state.model.otherReceiverEmployeeId = receiverByEmail.employeeId;
-    //
-    //   // Log to verify the correct value is assigned
-    //   log('--receiverEmployeeId-${state.model.receiverEmployeeId}-');
-    //
-    //   // Format the name and email for receiverEmail
-    //   String name = receiverByEmail.name ?? '';
-    //   String email = receiverByEmail.email ?? '';
-    //   state.model.otherReceiverName = '$name ($email)';
-    //   emit(
-    //     state.copyWith(
-    //       model: state.model,
-    //       status: FormStatus.initial,
-    //     ),
-    //   );
-    // }
-
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,
@@ -576,7 +465,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       // state.model.images = data;
       emit(
         state.copyWith(
-          eventId: eventIds,
           model: state.model,
           loadAttachments: data,
           status: FormStatus.initial,
@@ -587,29 +475,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     }
   }
 
-  void showFields(
-      {bool? isOriginalReceiverReceiving, bool? isMaterialPhysicallyChecked}) {
-    emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
-    );
-
-    // if (isOriginalReceiverReceiving != null) {
-    //   state.model.originalReceiver = isOriginalReceiverReceiving;
-    // }
-    // if (isMaterialPhysicallyChecked != null) {
-    //   state.model.materialPhysicallyChecked = isMaterialPhysicallyChecked;
-    // }
-    // final updatedMaterialMovement = materialMovement.copyWith(state.materialMovement.originalReceiver: isOriginalReceiverReceiving);
-
-    emit(state.copyWith(
-      model: state.model,
-      status: FormStatus.initial,
-    ));
-  }
-
-
   Future<void> submitForm({
     bool isSaveOnly = false,
   }) async {
@@ -619,11 +484,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       ),
     );
 
-    // DateTime dateTime =
-    //     DateFormat("dd/MM/yyyy a HH:mm:ss").parse(state.model.inputDate!);
-    // int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
-    // state.model.inputDate = inputDate.toString();
-
     // Setting time in milliseconds
     DateTime dateTime;
     if (!Utils().isTimestamp(state.model.inputDate!)) {
@@ -632,30 +492,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.inputDate = inputDate.toString();
     }
-
-    // if (!Utils().isTimestamp(state.model.approvedDate!)) {
-    //   dateTime =
-    //       DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.approvedDate!);
-    //   int approvedDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
-    //   state.model.approvedDate = approvedDate.toString();
-    // }
-
-    // if(state.model.approvedDate !=null) {
-    //   DateTime date =
-    //   DateFormat("dd/MM/yyyy a HH:mm:ss").parse(state.model.approvedDate!);
-    //   int approvedDate = date
-    //       .toUtc()
-    //       .millisecondsSinceEpoch ~/ 1000;
-    //   state.model.approvedDate = approvedDate.toString();
-    // }
-    // if(state.model.rejectedDate !=null) {
-    //   DateTime date =
-    //   DateFormat("dd/MM/yyyy a HH:mm:ss").parse(state.model.rejectedDate!);
-    //   int rejectedDate = date
-    //       .toUtc()
-    //       .millisecondsSinceEpoch ~/ 1000;
-    //   state.model.rejectedDate = rejectedDate.toString();
-    // }
 
 
     // Create/Update API Call
@@ -684,6 +520,25 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
         }
         response = await dayPassManagementServices.createPass(
             requestBody: request, isSubmit: false);
+      }
+      else {
+        //Validating Fields
+        if (!state.isValid.status) {
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
+          emit(
+            state.copyWith(
+              status: FormStatus.formError,
+              message: state.isValid.message,
+            ),
+          );
+          return;
+        }
+        response =
+        await dayPassManagementServices.createPass(requestBody: request, isSubmit: true);
       }
 
       log('---response--msg--${response.message}---');
@@ -721,10 +576,5 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
         ),
       );
     }
-  }
-
-  Future<void> updateStatus({required String id}) async {
-    await commonServices.updateRecordStatus(
-        id: id, module: Constants.materialMovementModuleCode);
   }
 }

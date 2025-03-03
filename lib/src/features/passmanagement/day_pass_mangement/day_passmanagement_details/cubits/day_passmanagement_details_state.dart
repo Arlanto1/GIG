@@ -7,26 +7,17 @@ class DayPassManagementDetailsState extends Equatable {
   final Locations? locations;
   final User? loggedInUserDetails;
   final List<Organisation> getCompanyTypeResponse;
-  // final List<BaseUser>? users;
   final List<BaseUser>? emailUsers;
   final List<BaseUser>? employee;
   final List<BaseUser>? dbSponsor;
   final List<BaseUser>? host;
-  final List<BaseUser>? returnReceiverEmailId;
-  final List<BaseUser>? receiverEmailUsers;
   final List<Organisation>? listOfEntities;
   final List<Organisation> dayPassReason;
   final List<Organisation>? passNo;
   final List<Organisation>? passType;
   final List<Organisation> departments;
   final List<ImageContent>? loadAttachments;
-  final List<Organisation> quantityUnits;
-  final int? eventId;
-  final bool? isReadOnly;
   final String? message;
-  final String? rejectionComment;
-  final bool isInward;
-  final bool returnable;
   final MmUiLabels? labels;
 
   factory DayPassManagementDetailsState.initial({
@@ -42,9 +33,6 @@ class DayPassManagementDetailsState extends Equatable {
     required String errorMessage,
     required List<Organisation> departments,
     required List<ImageContent> loadAttachments,
-    required List<Organisation> quantityUnits,
-    required int? eventId,
-    String? rejectionComment,
   }) {
     return DayPassManagementDetailsState(
       status: FormStatus.initial,
@@ -59,9 +47,6 @@ class DayPassManagementDetailsState extends Equatable {
       message: errorMessage,
       departments: departments,
       loadAttachments: loadAttachments,
-      quantityUnits: quantityUnits,
-      eventId: eventId,
-      rejectionComment: rejectionComment,
     );
   }
 
@@ -113,19 +98,11 @@ class DayPassManagementDetailsState extends Equatable {
     this.emailUsers,
     required this.departments,
     this.loadAttachments,
-    required this.quantityUnits,
-    this.eventId,
     this.message,
-    this.isInward = false,
-    this.returnable=false,
     this.labels,
     this.employee,
-    this.returnReceiverEmailId,
     this.dbSponsor,
     this.host,
-    this.receiverEmailUsers,
-    this.rejectionComment,
-    this.isReadOnly,
   });
 
   DayPassManagementDetailsState copyWith({
@@ -140,23 +117,17 @@ class DayPassManagementDetailsState extends Equatable {
     User? loggedInUserDetails,
     List<BaseUser>? emailUsers,
     List<BaseUser>? employee,
-    List<BaseUser>? returnReceiverEmailId,
     List<BaseUser>? dbSponsor,
     List<BaseUser>? host,
     List<BaseUser>? receiverEmailUsers,
     List<Organisation>? departments,
     List<ImageContent>? loadAttachments,
-    List<Organisation>? quantityUnits,
-    int? eventId,
     String? message,
-    String? rejectionComment,
     MmUiLabels? labels,
-    bool? isReadOnly,
   }) {
     return DayPassManagementDetailsState(
       status: status ?? this.status,
       model: model ?? this.model,
-      isReadOnly: isReadOnly ?? this.isReadOnly,
       locations: locations ?? this.locations,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       dayPassReason:dayPassReason?? this.dayPassReason,
@@ -166,18 +137,12 @@ class DayPassManagementDetailsState extends Equatable {
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       emailUsers: emailUsers ?? this.emailUsers,
       employee: employee ?? this.employee,
-      returnReceiverEmailId:
-      returnReceiverEmailId ?? this.returnReceiverEmailId,
       dbSponsor: dbSponsor ?? this.dbSponsor,
       host: host ?? this.host,
-      receiverEmailUsers: receiverEmailUsers ?? this.receiverEmailUsers,
       departments: departments ?? this.departments,
       loadAttachments: loadAttachments ?? this.loadAttachments,
-      quantityUnits: quantityUnits ?? this.quantityUnits,
-      eventId: eventId ?? this.eventId,
       message: message ?? this.message,
       labels: labels ?? this.labels,
-      rejectionComment: rejectionComment ?? this.rejectionComment,
     );
   }
 }

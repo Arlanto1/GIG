@@ -46,7 +46,9 @@ class DayPassManagementModel {
    Organisation? dayPassReason;
    Organisation? department;
    String? companyName;
-   String? employeeID;
+   String? employeeName;
+   String? email;
+   String? employeeId;
    String? hostEmployeeId;
    bool? exceptionalApproval;
    PassInfo? passInfo;
@@ -79,7 +81,9 @@ class DayPassManagementModel {
     this.dayPassReason,
     this.department,
     this.companyName,
-    this.employeeID,
+    this.employeeName,
+    this.employeeId,
+    this.email,
     this.hostEmployeeId,
     this.exceptionalApproval,
     this.passInfo,
@@ -115,9 +119,11 @@ class DayPassManagementModel {
         dayPassReason = (json['dayPassReason'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['dayPassReason'] as Map<String,dynamic>) : null,
         department = (json['department'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['department'] as Map<String,dynamic>) : null,
       companyType = (json['companyType'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['companyType'] as Map<String,dynamic>) : null,
-        employeeID = json['employeeID'] as String?,
+        employeeId = json['employeeId'] as String?,
+        email= json['email'] as String?,
         hostEmployeeId = json['hostEmployeeId'] as String?,
       companyName = json['companyName'] as String?,
+        employeeName = json['employeeName'] as String?,
         exceptionalApproval = json['exceptionalApproval'] as bool?,
         passInfo = (json['passInfo'] as Map<String,dynamic>?) != null ? PassInfo.fromJson(json['passInfo'] as Map<String,dynamic>) : null,
         startTime = json['startTime'] as String?,
@@ -150,7 +156,9 @@ class DayPassManagementModel {
     'passType' : passType,
     'companyType' : companyType?.toJson(),
     'companyName' : companyName,
-        'employeeID': employeeID,
+        'employeeName':employeeName,
+        'employeeId': employeeId,
+        'email':email,
         'hostEmployeeId':hostEmployeeId,
         'exceptionalApproval' : exceptionalApproval,
     'passInfo' : passInfo?.toJson(),

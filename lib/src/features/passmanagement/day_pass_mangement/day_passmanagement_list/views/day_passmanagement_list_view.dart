@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/passmanagement/day_pass_mangement/day_passmanagement_list/bloc/day_passmanagement_list_bloc.dart';
 import 'package:db_atom/src/features/passmanagement/day_pass_mangement/models/day_pass_management_model.dart';
@@ -296,7 +298,7 @@ class _DayPassManagementListViewState extends State<DayPassManagementListView> {
     dismissLoadingDialog(context);
     if (dayPassManagementModel != null) {
       Navigator.pushNamed(context, dayPassManagementDetailsRoute, arguments: {
-        "passManagement": dayPassManagementModel,
+        "model": dayPassManagementModel,
         "title": Constants.editDayPassManagementTitle,
         ConstantsArgument.extraProperties:
         ExtraProperties(hasWritePermission: hasWritePermission),
