@@ -68,6 +68,12 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
+  void onCheckBoxChange(DayPassManagementModel model) {
+    emit(state.copyWith(model: model, status: FormStatus.loading));
+
+    emit(state.copyWith(model: model, status: FormStatus.initial));
+  }
+
   Future<void> initializeValues() async {
 
     // Show Loader and emit loading state
@@ -448,8 +454,10 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     // }
   }
 
-  void addAttchment(List<ImageContent>? data) async {
-    log('--state.status-1---${state.status}----');
+  void addAttachment({
+    List<ImageContent>? data,
+    List<ImageContent>? images,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -462,7 +470,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       }
       log('--data----${data.length}----');
 
-      // state.model.images = data;
+      state.model.evidenceDocuments = data;
       emit(
         state.copyWith(
           model: state.model,
@@ -470,12 +478,129 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           status: FormStatus.initial,
         ),
       );
-
-      log('--state.status--3--${state.status}----');
     }
-  }
 
-  Future<void> submitForm({
+    emit(
+      state.copyWith(
+        model: state.model,
+        status: FormStatus.initial,
+      ),
+    );
+
+    log('--state.status--3--${state.status}----');
+  }
+  // Future<void> submitForm({
+  //   bool isSaveOnly = false,
+  // }) async {
+  //   emit(
+  //     state.copyWith(
+  //       status: FormStatus.loading,
+  //     ),
+  //   );
+  //
+  //   // Setting time in milliseconds
+  //   DateTime dateTime;
+  //   if (!Utils().isTimestamp(state.model.inputDate!)) {
+  //     dateTime =
+  //         DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+  //     int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+  //     state.model.inputDate = inputDate.toString();
+  //   }
+  //
+  //
+  //   // Create/Update API Call
+  //   DayPassManagementRequest request =
+  //   DayPassManagementRequest(passManagement: state.model);
+  //
+  //   // TODO: Need to change from Backend- Status should be handled from backend
+  //   state.model.status ??= 0;
+  //   try {
+  //     GenericResponse response = GenericResponse();
+  //     if (isSaveOnly) {
+  //       //Validating Fields
+  //       if (!state.isValidDraft.status) {
+  //         state.model.inputDate = state.model.inputDate == null
+  //             ? Utils().getCurrentDate()
+  //             : Utils.timestampToDateConversion(
+  //             int.tryParse(state.model.inputDate ?? '0'),
+  //             Constants.fulldateFormat);
+  //         emit(
+  //           state.copyWith(
+  //             status: FormStatus.formError,
+  //             message: state.isValidDraft.message,
+  //           ),
+  //         );
+  //         return;
+  //       }
+  //       response = await dayPassManagementServices.createPass(
+  //           requestBody: request, isSubmit: false);
+  //     }
+  //     else {
+  //       //Validating Fields
+  //       if (!state.isValid.status) {
+  //         state.model.inputDate = state.model.inputDate == null
+  //             ? Utils().getCurrentDate()
+  //             : Utils.timestampToDateConversion(
+  //             int.tryParse(state.model.inputDate ?? '0'),
+  //             Constants.fulldateFormat);
+  //         emit(
+  //           state.copyWith(
+  //             status: FormStatus.formError,
+  //             message: state.isValid.message,
+  //           ),
+  //         );
+  //         return;
+  //       }
+  //       response =
+  //       await dayPassManagementServices.createPass(requestBody: request, isSubmit: true);
+  //     }
+  //
+  //     log('---response--msg--${response.message}---');
+  //     log('-statusCode-${response.statusCode}---');
+  //     log('-id-${response.id}---');
+  //
+  //     if (response.id != null) {
+  //       int? id = int.tryParse(response.id!);
+  //       if (id != null) {
+  //         state.model.id = id;
+  //       }
+  //     }
+  //     emit(
+  //       state.copyWith(
+  //         message: response.message,
+  //         status: FormStatus.success,
+  //       ),
+  //     );
+  //     state.model.inputDate = state.model.inputDate == null
+  //         ? Utils().getCurrentDate()
+  //         : Utils.timestampToDateConversion(
+  //         int.tryParse(state.model.inputDate ?? '0'),
+  //         Constants.fulldateFormat);
+  //
+  //   } on GenericResponse catch (e) {
+  //     Utils().emitErrorState(e, emit, state);
+  //     state.model.inputDate = state.model.inputDate == null
+  //         ? Utils().getCurrentDate()
+  //         : Utils.timestampToDateConversion(
+  //         int.tryParse(state.model.inputDate ?? '0'),
+  //         Constants.fulldateFormat);
+  //     return;
+  //   } on Exception catch (e) {
+  //     state.model.inputDate = state.model.inputDate == null
+  //         ? Utils().getCurrentDate()
+  //         : Utils.timestampToDateConversion(
+  //         int.tryParse(state.model.inputDate ?? '0'),
+  //         Constants.fulldateFormat);
+  //     emit(
+  //       state.copyWith(
+  //         message: e.toString(),
+  //         status: FormStatus.error,
+  //       ),
+  //     );
+  //   }
+  // }
+
+  Future<bool> submitForm({
     bool isSaveOnly = false,
   }) async {
     emit(
@@ -484,7 +609,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       ),
     );
 
-    // Setting time in milliseconds
     DateTime dateTime;
     if (!Utils().isTimestamp(state.model.inputDate!)) {
       dateTime =
@@ -492,12 +616,9 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.inputDate = inputDate.toString();
     }
-
-
     // Create/Update API Call
     DayPassManagementRequest request =
-    DayPassManagementRequest(passManagement: state.model);
-
+      DayPassManagementRequest(passManagement: state.model);
     // TODO: Need to change from Backend- Status should be handled from backend
     state.model.status ??= 0;
     try {
@@ -516,12 +637,11 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
               message: state.isValidDraft.message,
             ),
           );
-          return;
+          return false;
         }
         response = await dayPassManagementServices.createPass(
-            requestBody: request, isSubmit: false);
-      }
-      else {
+                   requestBody: request, isSubmit: false);
+      } else {
         //Validating Fields
         if (!state.isValid.status) {
           state.model.inputDate = state.model.inputDate == null
@@ -535,16 +655,23 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
               message: state.isValid.message,
             ),
           );
-          return;
+          return false;
         }
-        response =
-        await dayPassManagementServices.createPass(requestBody: request, isSubmit: true);
+        response = await dayPassManagementServices.createPass(
+            requestBody: request, isSubmit: true);
       }
 
       log('---response--msg--${response.message}---');
 
+      if (response.id != null) {
+        int? id = int.tryParse(response.id!);
+        if (id != null) {
+          state.model.id = id;
+        }
+      }
       emit(
         state.copyWith(
+          model: state.model,
           message: response.message,
           status: FormStatus.success,
         ),
@@ -554,7 +681,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           : Utils.timestampToDateConversion(
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
-
+      return true;
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.inputDate = state.model.inputDate == null
@@ -562,7 +689,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           : Utils.timestampToDateConversion(
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
-      return;
+      return false;
     } on Exception catch (e) {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
@@ -575,6 +702,8 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           status: FormStatus.error,
         ),
       );
+      return false;
     }
   }
+
 }

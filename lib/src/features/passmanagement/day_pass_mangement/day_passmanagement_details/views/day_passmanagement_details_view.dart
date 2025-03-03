@@ -45,6 +45,8 @@ class _DayPassManagementDetailsViewState
   TextEditingController hostController = TextEditingController();
   TextEditingController requesterEmailController = TextEditingController();
   final FocusNode sentToFocusNode = FocusNode();
+
+  List<ImageContent>? uploadFiles;
   @override
   void initState() {
     super.initState();
@@ -70,6 +72,7 @@ class _DayPassManagementDetailsViewState
         DayPassManagementDetailsState>(
       listener: (context, state) {
         log('-state.status--${state.status}--');
+        log('123 ${state.message}--');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
@@ -246,6 +249,47 @@ class _DayPassManagementDetailsViewState
                                 isMandatory: true,
                                 '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Updated Status
+                            // CommonWidgets.textDisplay(
+                            //   // state.labels?.locale.companyType ??
+                            //   //     state.labels?.defaultLocale
+                            //   //         .companyType ??
+                            //     Constants.updatestatus,
+                            //     Styles.textStyleBlack14,
+                            //     isMandatory: true),
+                            // TextFieldAddButton(
+                            //   title: state.model.updatedStatus,
+                            //   height: 70,
+                            //   isDisableColor:  isReadOnly,
+                            //   onTap: () {
+                            //     if(!isReadOnly) {
+                            //       BaseOrganisationDialog().departmentDialog(
+                            //         context: context,
+                            //         organisations: state.passType!,
+                            //         onTap: (Organisation updatedStatus) {
+                            //           state.model.updatedStatus = updatedStatus.name;
+                            //           BlocProvider.of<
+                            //               DayPassManagementDetailsCubit>(
+                            //               context)
+                            //               .updateDropdownValues(
+                            //               passType: updatedStatus);
+                            //         },
+                            //         leftImage: false,
+                            //         orgName: '',
+                            //         functionToCall: () {
+                            //           // refresh the list
+                            //           BlocProvider.of<
+                            //               DayPassManagementDetailsCubit>(
+                            //               context)
+                            //               .refreshList();
+                            //         },
+                            //       );
+                            //     }
+                            //   },
+                            // ),
+                            // CommonWidgets.verticalSpacerWidget(height * 0.01),
+
 
                             /// Location
                             CommonWidgets.textDisplay(
@@ -768,6 +812,67 @@ class _DayPassManagementDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+
+                            if (state.model.dayPassReason?.name ==
+                                'External Regulators'||
+                                state.model.dayPassReason?.name ==
+                                   'External auditors') ...[
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.investigationRequired ??
+                                //     state.labels?.defaultLocale
+                                //         .investigationRequired ??
+                                  Constants.exceptionalApproval,
+                                  isMandatory: true,
+                                  Styles.textStyleBlack14),
+                              RadioButtonsYesNo(
+                                  status: state.model.status ?? 0,
+                                  selectedValue:
+                                  state.model.exceptionalApproval ? 1 : 0,
+                                  onChangedYes: isReadOnly
+                                      ? null
+                                      : (val) {
+                                    state.model.exceptionalApproval= true;
+                                    BlocProvider.of<
+                                        DayPassManagementDetailsCubit>(
+                                        context)
+                                        .onCheckBoxChange(state.model);
+                                  },
+                                  onChangedNo: isReadOnly
+                                      ? null
+                                      : (val) {
+                                    state.model.exceptionalApproval = false;
+                                    BlocProvider.of<
+                                        DayPassManagementDetailsCubit>(
+                                        context)
+                                        .onCheckBoxChange(state.model);
+                                  }),
+
+                              // RadioButtonsYesNo(
+                              //     status: state.model.status ?? 0,
+                              //     selectedValue:
+                              //     state.model.exceptionalApproval ? 1 : 0,
+                              //     onChangedYes: isReadOnly
+                              //         ? null
+                              //         : (val) {
+                              //       state.model.exceptionalApproval =
+                              //       true;
+                              //       BlocProvider.of<
+                              //           DayPassManagementDetailsCubit>(
+                              //           context)
+                              //           .onCheckBoxChange(state.model);
+                              //     },
+                              //     onChangedNo: isReadOnly
+                              //         ? null
+                              //         : (val) {
+                              //       state.model.exceptionalApproval =
+                              //       false;
+                              //       BlocProvider.of<
+                              //           DayPassManagementDetailsCubit>(
+                              //           context)
+                              //           .onCheckBoxChange(state.model);
+                              //     }),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
                             /// Day Pass No
                             CommonWidgets.textDisplay(
                               // state.labels?.locale.requestorDepartment ??
@@ -887,29 +992,42 @@ class _DayPassManagementDetailsViewState
                                 : Container(),
                             if (state.model.status == 0 ||
                                 state.model.status == null) ...[
-                              // BaseImageUpload().uploadWidget(
-                              //   context: context,
-                              //   isDisabled: isReadOnly,
-                              //   loggedInUserDetails:
-                              //   state.loggedInUserDetails!,
-                              //   getFiles: uploadFiles,
-                              //   onImageSelected: (ImageContent data) {
-                              //     List<ImageContent>? files = [];
-                              //     files.add(data);
-                              //     for (ImageContent image
-                              //     in uploadFiles ?? []) {
-                              //       files.add(image);
-                              //     }
-                              //     BlocProvider.of<
-                              //         SstIncidentGeneralInfoCubit>(
-                              //         context)
-                              //         .addAttachment(
-                              //       data: files,
-                              //       images: files,
-                              //     );
-                              //   },
-                              // ),
+                              BaseImageUpload().uploadWidget(
+                                context: context,
+                                isDisabled: isReadOnly,
+                                loggedInUserDetails:
+                                state.loggedInUserDetails!,
+                                getFiles: uploadFiles,
+                                onImageSelected: (ImageContent data) {
+                                  List<ImageContent>? files = [];
+                                  files.add(data);
+                                  for (ImageContent image
+                                  in uploadFiles ?? []) {
+                                    files.add(image);
+                                  }
+                                  BlocProvider.of<
+                                      DayPassManagementDetailsCubit>(
+                                      context)
+                                      .addAttachment(
+                                    data: files,
+                                    images: files,
+                                  );
+                                },
+                              ),
                             ],
+                            /// Attachments
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20.0),
+                              child: BaseImageUpload().getAttachment(
+                                height: height,
+                                attachments: state.loadAttachments,
+                                files: uploadFiles,
+                                moduleCode: Constants.passManagementModuleCode,
+                                isDisabled: false,
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// SubmitButton
                       if (!isReadOnly) ...[
