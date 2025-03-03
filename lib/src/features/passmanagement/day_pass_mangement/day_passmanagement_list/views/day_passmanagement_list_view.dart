@@ -1,10 +1,9 @@
 
-import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/passmanagement/day_pass_mangement/day_passmanagement_list/bloc/day_passmanagement_list_bloc.dart';
 import 'package:db_atom/src/features/passmanagement/day_pass_mangement/models/day_pass_management_model.dart';
-import 'package:db_atom/src/features/passmanagement/day_passmangement/services/day_pass_management_services.dart';
+import 'package:db_atom/src/features/passmanagement/day_pass_mangement/services/day_passmanagement_service.dart';
 
 class DayPassManagementListView extends StatefulWidget {
   const DayPassManagementListView({

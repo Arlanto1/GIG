@@ -1,8 +1,6 @@
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/passmanagement/day_pass_mangement/day_passmanagement_list/bloc/day_passmanagement_list_bloc.dart';
-import 'package:db_atom/src/features/passmanagement/day_pass_mangement/models/day_pass_management_model.dart';
-import 'package:db_atom/src/features/passmanagement/day_passmangement/services/day_pass_management_services.dart';
 import 'package:db_atom/src/features/passmanagement/sez_pass_management/models/sez_pass_management_model.dart';
 import 'package:db_atom/src/features/passmanagement/sez_pass_management/services/sez_pass_management_service.dart';
 import 'package:db_atom/src/features/passmanagement/sez_pass_management/sez_pass_managememt_list/bloc/sez_pass_management_list_bloc.dart';

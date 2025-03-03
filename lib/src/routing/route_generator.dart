@@ -71,7 +71,7 @@ import 'package:db_atom/src/features/occurrence/occurrences_details/general_info
 import 'package:db_atom/src/features/occurrenceList/bloc/occurrences_bloc.dart'
     as ocb;
 import 'package:db_atom/src/features/passmanagement/day_pass_mangement/day_passmanagement_list/bloc/day_passmanagement_list_bloc.dart';
-import 'package:db_atom/src/features/passmanagement/day_passmangement/services/day_pass_management_services.dart';
+import 'package:db_atom/src/features/passmanagement/day_pass_mangement/services/day_passmanagement_service.dart';
 import 'package:db_atom/src/features/passmanagement/pass_management_list/bloc/pass_management_list_bloc.dart'
     as pm;
 import 'package:db_atom/src/features/passmanagement/pass_management_list/views/pass_manangement_list_view.dart';
