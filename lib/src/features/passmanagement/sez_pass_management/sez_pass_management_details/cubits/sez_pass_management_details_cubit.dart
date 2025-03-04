@@ -93,17 +93,6 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
       state.model.slNo = slNo.serialNo;
     }
 
-    // if (state.model.status != null && state.model.status != 0) {
-    //   String moduleCode = Constants.passManagementModule;
-    //   // SerialNumberModel slNo = await commonServices.getSlNo(
-    //   //   locationId: defaultLocation.id.toString(),
-    //   //   moduleCode: moduleCode,
-    //   // );
-    //   Organisation updatedStatus = await commonServices.getStatusesByModuleId(
-    //       module: Constants.passManagementModuleCode, filter: state.model.status == 0 || state.model.status == null ? 0 : 1);
-    //   state.model.location = defaultLocation;
-    //   state.model.updatedStatus = updatedStatus.id;
-    // }
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
@@ -146,8 +135,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
 
-      state.model.startTime = state.model.startTime == null
-          ? Utils().getCurrentDate()
+      state.model.startTime = state.model.startTime == null ? ''
           : Utils.timestampToDateConversion(
           int.tryParse(state.model.startTime ?? '0'),
           Constants.fulldateFormat);
@@ -175,7 +163,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
 
       emit(
         state.copyWith(
-          locations: locations,
+          // locations: locations,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
@@ -269,6 +257,8 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
     Organisation? passNo,
     Organisation? passNos,
     int? status,
+    int? passCategory,
+
   }) async {
     emit(
       state.copyWith(
@@ -278,6 +268,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
 
     state.model.status = status ?? state.model.status;
 
+    state.model.category = passCategory ?? state.model.category;
     if (entities != null) {
       state.model.entities = entities;
     }

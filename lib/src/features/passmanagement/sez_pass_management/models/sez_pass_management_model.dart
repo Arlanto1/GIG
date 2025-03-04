@@ -63,6 +63,7 @@ class SezPassManagementModel {
   String? passTypeName;
   String? entrySecurityName;
   String? handOverSecurityName;
+  int? category;
   String? lock;
 
 
@@ -100,6 +101,7 @@ class SezPassManagementModel {
     this.passTypeName,
     this.entrySecurityName,
     this.handOverSecurityName,
+    this.category,
     this.lock,
   });
 
@@ -140,6 +142,7 @@ class SezPassManagementModel {
         passTypeName= json['passTypeName'] as String?,
         entrySecurityName = json['entrySecurityName'] as String?,
         handOverSecurityName = json['handOverSecurityName'] as String?,
+        category = json['category'] as int?,
         lock = json['lock'] as String?;
 
 
@@ -177,6 +180,7 @@ class SezPassManagementModel {
     'passTypeName':passTypeName,
     'entrySecurityName' : entrySecurityName,
     'handOverSecurityName' : handOverSecurityName,
+    'category':category,
     'lock':lock
   };
 }

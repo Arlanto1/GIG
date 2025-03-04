@@ -371,7 +371,12 @@ const List<Label> photoIdentityValidationValues = [
   Label(key: 'Passport', value: '2'),
   Label(key: 'Driving License', value: '3'),
   Label(key: 'Voter Card', value: '4'),
-
 ];
+
+const List<Label> passCategoryValues = [
+  Label(key: 'Permanent', value: '1'),
+  Label(key: 'Temporary', value: '2'),
+];
+
 
 

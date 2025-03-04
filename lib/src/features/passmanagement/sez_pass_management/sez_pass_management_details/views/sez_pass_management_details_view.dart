@@ -45,6 +45,7 @@ class _SezPassManagementDetailsViewState
   TextEditingController emailController = TextEditingController();
   TextEditingController sezPassInfoController = TextEditingController();
   TextEditingController mTPApplicationNoController = TextEditingController();
+  TextEditingController passCategoryController = TextEditingController();
 
   final FocusNode sentToFocusNode = FocusNode();
 
@@ -104,7 +105,7 @@ class _SezPassManagementDetailsViewState
         nameController.text = state.model.employee !=null ? state.model.employee?.name ?? '' : state.model.employeeName ??'';
         hostController.text = state.model.host?.name ?? '';
         emailController.text = state.model.email??'';
-        sezPassInfoController.text = state.model.passNo.toString();
+        sezPassInfoController.text = state.model.passNo ?? '';
         mTPApplicationNoController.text = state.model.mifareNo??'';
         companyNameController.text= state.model.companyType?.name == 'FTE'? 'Deutsche Bank': state.model.companyName ??'';
 
@@ -416,6 +417,49 @@ class _SezPassManagementDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+
+
+                            /// Pass Category
+                            CommonWidgets.textDisplay(
+                                // state.labels?.locale.status ??
+                                //     state.labels?.defaultLocale.status ??
+                                    Constants.passCategory,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            BaseDropDown().getDropDown(
+                                isDisabled: true,
+                                textController: passCategoryController,
+                                items: passCategoryValues,
+                                initialValue: '${state.model.category ?? 0}',
+                                onTap: () {
+                                  if (!isReadOnly) {
+                                    BaseDropDown().assetTypeDialog(
+                                      context: context,
+                                      dropDownValues: passCategoryValues
+                                          .map((label) => label.key)
+                                          .toList(),
+                                      onTap: (String value) {
+                                        Label? selectedLabel;
+                                        selectedLabel =
+                                            passCategoryValues.firstWhere(
+                                                  (label) => label.key == value,
+                                              orElse: () =>
+                                              const Label(key: '', value: ''),
+                                            );
+                                        BlocProvider.of<SezPassManagementDetailsCubit>(
+                                            context)
+                                            .updateDropdownValues(
+                                            passCategory: int.tryParse(
+                                                selectedLabel.value));
+                                      },
+                                    );
+                                  }
+                                }),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+
                             /// Company Type
                             CommonWidgets.textDisplay(
                               // state.labels?.locale.companyType ??
@@ -638,7 +682,7 @@ class _SezPassManagementDetailsViewState
                               isEnable: !isReadOnly,
                               isDisableColor: true,
                               onChange: (String value) {
-                                state.model.passNo = value.toString();
+                                state.model.passNo = value;
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -672,12 +716,12 @@ class _SezPassManagementDetailsViewState
                                 height * 0.01),
 
 
-                            /// Pass Valid From
+                            /// Pass Issued On
                             CommonWidgets.textDisplay(
                               // state.labels?.locale.keyHandOverDue ??
                               //     state.labels?.defaultLocale
                               // .keyHandOverDue ??
-                              Constants.passvlidfrom,
+                              Constants.passIssuedOn,
                               isMandatory: true,
                               Styles.textStyleBlack14,
                             ),
@@ -686,15 +730,15 @@ class _SezPassManagementDetailsViewState
 
                             BaseDate().datePickerWidgetLoading(
                               textController: passValidFromController,
-                              isDisabled: true,
+                              isDisabled: false,
                               onlyDate: false,
-                              // showPastDate: false,
+                              showPastDate: true,
+                              showFutureDate: false,
                               // fromDate: initialisedStartDate,
                               // toDate: initialisedToDate,
                               onChange: (String value) {
                                 // isDateSelectedByUser = true;
                                 passValidFromController.text = value;
-                                log('keyReturnDueDateControllerValue22 --- $value');
                                 // state.model.passV =
                                 //     Utils().formatTime(value);
                                 BlocProvider.of<
