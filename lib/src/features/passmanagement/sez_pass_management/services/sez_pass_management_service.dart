@@ -9,7 +9,7 @@ class Apis {
 
   static final String _getSezPassManagementById = '$baseUrl/getPassMgmtById';
 
-  static final String _createSezPassManagement = '$baseUrl/createPass';
+  static final String _createSezPassManagement = '$baseUrl/createDayPass';
 }
 
 class SezPassManagementServices {

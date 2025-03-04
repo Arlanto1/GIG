@@ -75,6 +75,8 @@ import 'package:db_atom/src/features/passmanagement/day_pass_mangement/services/
 import 'package:db_atom/src/features/passmanagement/pass_management_list/bloc/pass_management_list_bloc.dart'
     as pm;
 import 'package:db_atom/src/features/passmanagement/pass_management_list/views/pass_manangement_list_view.dart';
+import 'package:db_atom/src/features/passmanagement/vendor_pass_management/models/vendor_pass_management_model.dart';
+import 'package:db_atom/src/features/passmanagement/vendor_pass_management/services/vendor_pass_management_service.dart';
 import 'package:db_atom/src/features/passmanagement/visitor_pass_management/models/visitor_pass_management_model.dart';
 import 'package:db_atom/src/features/passmanagement/visitor_pass_management/services/visitor_pass_management_service.dart';
 import 'package:db_atom/src/features/security_systems/services/sst_incident_services.dart';
@@ -122,8 +124,14 @@ import '../features/passmanagement/day_pass_mangement/day_passmanagement_details
 import '../features/passmanagement/day_pass_mangement/day_passmanagement_details/views/day_passmanagement_details_view.dart';
 import '../features/passmanagement/day_pass_mangement/day_passmanagement_list/views/day_passmanagement_list_view.dart';
 import '../features/passmanagement/day_pass_mangement/models/day_pass_management_model.dart';
+import '../features/passmanagement/sez_pass_management/models/sez_pass_management_model.dart';
+import '../features/passmanagement/sez_pass_management/services/sez_pass_management_service.dart';
 import '../features/passmanagement/sez_pass_management/sez_pass_managememt_list/bloc/sez_pass_management_list_bloc.dart';
 import '../features/passmanagement/sez_pass_management/sez_pass_managememt_list/views/sez_pass_management_list_view.dart';
+import '../features/passmanagement/sez_pass_management/sez_pass_management_details/cubits/sez_pass_management_details_cubit.dart';
+import '../features/passmanagement/sez_pass_management/sez_pass_management_details/views/sez_pass_management_details_view.dart';
+import '../features/passmanagement/vendor_pass_management/vendor_pass_management_details/cubits/vendor_pass_management_details_cubit.dart';
+import '../features/passmanagement/vendor_pass_management/vendor_pass_management_details/views/vendor_pass_management_details_view.dart';
 import '../features/passmanagement/vendor_pass_management/vendor_pass_management_list/bloc/vendor_pass_management_list_bloc.dart';
 import '../features/passmanagement/vendor_pass_management/vendor_pass_management_list/views/vendor_pass_management_list_view.dart';
 import '../features/passmanagement/visitor_pass_management/visitor_pass_management_details/cubits/visitor_pass_management_details_cubit.dart';
@@ -1914,6 +1922,28 @@ class RouteGenerator {
               child: const VendorPassManagementListView(),
             ));
 
+      case vendorPassManagementDetailsRoute:
+        VendorPassManagementServices services = VendorPassManagementServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        ExtraProperties? extraProperties;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        VendorPassManagementModel? model = arguments["model"];
+        extraProperties = arguments[ConstantsArgument.extraProperties];
+
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<VendorPassManagementDetailsCubit>(
+            create: (_) => VendorPassManagementDetailsCubit(
+              model: model,
+              commonServices: commonServices, vendorPassManagementServices: services,
+            ),
+            child: VendorPassManagementDetailsView(
+                model: model, title: title, extraProperties: extraProperties),
+          ),
+        );
+
 
 
       case visitorPassManagementListRoute:
@@ -1962,6 +1992,30 @@ class RouteGenerator {
                     filters: BaseFilterModel())),
               child: const SezPassManagementListView(),
             ));
+
+
+      case sezPassManagementDetailsRoute:
+        SezPassManagementServices services = SezPassManagementServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        ExtraProperties? extraProperties;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        SezPassManagementModel? model = arguments["model"];
+        extraProperties = arguments[ConstantsArgument.extraProperties];
+
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<SezPassManagementDetailsCubit>(
+            create: (_) => SezPassManagementDetailsCubit(
+              model: model,
+              commonServices: commonServices, sezPassManagementServices: services,
+            ),
+            child: SezPassManagementDetailsView(
+                model: model, title: title, extraProperties: extraProperties),
+          ),
+        );
+
 
 
       default:

@@ -30,28 +30,41 @@ class SezPassManagementResponseModel {
   };
 }
 class SezPassManagementModel {
-   int? id;
-   String? slNo;
-   String? inputDate;
-   Organisation? location;
-   Organisation? locationRegion;
-   int? status;
-   User? entrySecurity;
-   int? passType;
-   Organisation? companyType;
-   String? companyName;
-   bool? exceptionalApproval;
-   PassInfo? passInfo;
-   String? startTime;
-   String? endTime;
-   List<dynamic>? evidenceDocuments;
-   bool? escortedByHost;
-   bool? idValidated;
-   String? hostName;
-   String? mifareNo;
-   String? passNo;
-   String? entrySecurityName;
-   String? handOverSecurityName;
+  int? id;
+  String? slNo;
+  String? inputDate;
+  Organisation? location;
+  Organisation? locationRegion;
+  List<Organisation>? entities;
+  int? status;
+  User? entrySecurity;
+  User? host;
+  User? employee;
+  int? passType;
+  int? updatedStatus;
+  Organisation? companyType;
+  Organisation? dayPassReason;
+  Organisation? department;
+  String? companyName;
+  String? employeeName;
+  String? email;
+  String? employeeId;
+  String? hostEmployeeId;
+  bool exceptionalApproval;
+  PassInfo? passInfo;
+  String? startTime;
+  String? endTime;
+  List<dynamic>? evidenceDocuments;
+  bool? escortedByHost;
+  bool? idValidated;
+  String? hostName;
+  String? mifareNo;
+  String? passNo;
+  String? passTypeName;
+  String? entrySecurityName;
+  String? handOverSecurityName;
+  String? lock;
+
 
   SezPassManagementModel({
     this.id,
@@ -59,12 +72,22 @@ class SezPassManagementModel {
     this.inputDate,
     this.location,
     this.locationRegion,
+    this.entities,
     this.status,
     this.entrySecurity,
+    this.host,
+    this.employee,
     this.passType,
+    this.updatedStatus,
     this.companyType,
+    this.dayPassReason,
+    this.department,
     this.companyName,
-    this.exceptionalApproval,
+    this.employeeName,
+    this.employeeId,
+    this.email,
+    this.hostEmployeeId,
+    this.exceptionalApproval = false,
     this.passInfo,
     this.startTime,
     this.endTime,
@@ -74,8 +97,10 @@ class SezPassManagementModel {
     this.hostName,
     this.mifareNo,
     this.passNo,
+    this.passTypeName,
     this.entrySecurityName,
     this.handOverSecurityName,
+    this.lock,
   });
 
   SezPassManagementModel.fromJson(Map<String, dynamic> json)
@@ -84,12 +109,25 @@ class SezPassManagementModel {
         inputDate = json['inputDate'] as String?,
         location = (json['location'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['location'] as Map<String,dynamic>) : null,
         locationRegion = (json['locationRegion'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['locationRegion'] as Map<String,dynamic>) : null,
+        entities = (json['entities'] as List?)
+            ?.map(
+                (dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
+            .toList(),
         status = json['status'] as int?,
         entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
+        host = (json['host'] as Map<String,dynamic>?) != null ? User.fromJson(json['host'] as Map<String,dynamic>) : null,
+        employee = (json['employee'] as Map<String,dynamic>?) != null ? User.fromJson(json['employee'] as Map<String,dynamic>) : null,
         passType = json['passType'] as int?,
+        updatedStatus= json['updatedStatus'] as int?,
+        dayPassReason = (json['dayPassReason'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['dayPassReason'] as Map<String,dynamic>) : null,
+        department = (json['department'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['department'] as Map<String,dynamic>) : null,
         companyType = (json['companyType'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['companyType'] as Map<String,dynamic>) : null,
+        employeeId = json['employeeId'] as String?,
+        email= json['email'] as String?,
+        hostEmployeeId = json['hostEmployeeId'] as String?,
         companyName = json['companyName'] as String?,
-        exceptionalApproval = json['exceptionalApproval'] as bool?,
+        employeeName = json['employeeName'] as String?,
+        exceptionalApproval = json['exceptionalApproval'] as bool,
         passInfo = (json['passInfo'] as Map<String,dynamic>?) != null ? PassInfo.fromJson(json['passInfo'] as Map<String,dynamic>) : null,
         startTime = json['startTime'] as String?,
         endTime = json['endTime'] as String?,
@@ -99,8 +137,11 @@ class SezPassManagementModel {
         hostName = json['hostName'] as String?,
         mifareNo = json['mifareNo'] as String?,
         passNo = json['passNo'] as String?,
+        passTypeName= json['passTypeName'] as String?,
         entrySecurityName = json['entrySecurityName'] as String?,
-        handOverSecurityName = json['handOverSecurityName'] as String?;
+        handOverSecurityName = json['handOverSecurityName'] as String?,
+        lock = json['lock'] as String?;
+
 
   Map<String, dynamic> toJson() => {
     'id' : id,
@@ -108,11 +149,21 @@ class SezPassManagementModel {
     'inputDate' : inputDate,
     'location' : location?.toJson(),
     'locationRegion' : locationRegion?.toJson(),
+    'dayPassReason':dayPassReason?.toJson(),
+    'department':department?.toJson(),
+    'entities': entities?.map((e) => e.toJson()).toList(),
     'status' : status,
     'entrySecurity' : entrySecurity?.toJson(),
+    'host':host?.toJson(),
+    'employee':employee?.toJson(),
     'passType' : passType,
+    'updatedStatus':updatedStatus,
     'companyType' : companyType?.toJson(),
     'companyName' : companyName,
+    'employeeName':employeeName,
+    'employeeId': employeeId,
+    'email':email,
+    'hostEmployeeId':hostEmployeeId,
     'exceptionalApproval' : exceptionalApproval,
     'passInfo' : passInfo?.toJson(),
     'startTime' : startTime,
@@ -123,18 +174,20 @@ class SezPassManagementModel {
     'hostName' : hostName,
     'mifareNo' : mifareNo,
     'passNo' : passNo,
+    'passTypeName':passTypeName,
     'entrySecurityName' : entrySecurityName,
-    'handOverSecurityName' : handOverSecurityName
+    'handOverSecurityName' : handOverSecurityName,
+    'lock':lock
   };
 }
 
 class PassInfo {
-  final int? id;
-  final int? passType;
-  final String? passNo;
-  final String? mifareNo;
-  final bool? dws;
-  final int? status;
+   int? id;
+   int? passType;
+   String? passNo;
+   String? mifareNo;
+   bool? dws;
+   int? status;
 
   PassInfo({
     this.id,

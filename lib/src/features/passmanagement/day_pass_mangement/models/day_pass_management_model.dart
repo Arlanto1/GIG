@@ -183,7 +183,7 @@ class DayPassManagementModel {
 
 class PassInfo {
    int? id;
-    int? passType;
+   int? passType;
    String? passNo;
    String? mifareNo;
    String? expiryDate;

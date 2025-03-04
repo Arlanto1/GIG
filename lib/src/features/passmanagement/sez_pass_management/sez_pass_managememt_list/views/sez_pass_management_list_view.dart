@@ -73,7 +73,7 @@ class _SezPassManagementListViewState extends State<SezPassManagementListView> {
                 backgroundColor: AppColors.navigationSkyBlueColor,
                 foregroundColor: AppColors.backgroundWhiteColor,
                 onPressed: () => {
-                  Navigator.pushNamed(context, dayPassManagementDetailsRoute,
+                  Navigator.pushNamed(context, sezPassManagementDetailsRoute,
                       arguments: {
                         "title": Constants.createSezPassManagementTitle
                       }),
@@ -297,8 +297,8 @@ class _SezPassManagementListViewState extends State<SezPassManagementListView> {
       SezPassManagementModel? sezPassManagementModel, bool hasWritePermission) {
     dismissLoadingDialog(context);
     if (sezPassManagementModel != null) {
-      Navigator.pushNamed(context, dayPassManagementDetailsRoute, arguments: {
-        "passManagement": sezPassManagementModel,
+      Navigator.pushNamed(context, sezPassManagementDetailsRoute, arguments: {
+        "model": sezPassManagementModel,
         "title": Constants.editSezPassManagementTitle,
         ConstantsArgument.extraProperties:
         ExtraProperties(hasWritePermission: hasWritePermission),
