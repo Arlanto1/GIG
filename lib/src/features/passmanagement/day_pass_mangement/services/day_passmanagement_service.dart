@@ -11,7 +11,7 @@ class Apis {
 
   static final String _getPassManagementById = '$baseUrl/getPassMgmtById';
 
-  static final String _createPassManagement = '$baseUrl/createPass';
+  static final String _createPassManagement = '$baseUrl/createDayPass';
 }
 
 class DayPassManagementServices {

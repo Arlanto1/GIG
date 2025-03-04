@@ -72,7 +72,7 @@ class _VisitorPassManagementListViewState extends State<VisitorPassManagementLis
                 backgroundColor: AppColors.navigationSkyBlueColor,
                 foregroundColor: AppColors.backgroundWhiteColor,
                 onPressed: () => {
-                  Navigator.pushNamed(context, dayPassManagementDetailsRoute,
+                  Navigator.pushNamed(context, visitorPassManagementDetailsRoute,
                       arguments: {
                         "title": Constants.createVendorPassManagementTitle
                       }),
@@ -293,9 +293,9 @@ class _VisitorPassManagementListViewState extends State<VisitorPassManagementLis
       VisitorPassManagementModel? visitorPassManagementModel, bool hasWritePermission) {
     dismissLoadingDialog(context);
     if (VisitorPassManagementModel != null) {
-      Navigator.pushNamed(context, dayPassManagementDetailsRoute, arguments: {
-        "passManagement": visitorPassManagementModel,
-        "title": Constants.editDayPassManagementTitle,
+      Navigator.pushNamed(context, visitorPassManagementDetailsRoute, arguments: {
+        "model": visitorPassManagementModel,
+        "title": Constants.editVisitorPassManagementTitle,
         ConstantsArgument.extraProperties:
         ExtraProperties(hasWritePermission: hasWritePermission),
       });

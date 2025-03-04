@@ -43,7 +43,7 @@ class _DayPassManagementDetailsViewState
   TextEditingController companyNameController =TextEditingController();
   TextEditingController dbSponsorController = TextEditingController();
   TextEditingController hostController = TextEditingController();
-  TextEditingController requesterEmailController = TextEditingController();
+  TextEditingController updateStatusTextController = TextEditingController();
   final FocusNode sentToFocusNode = FocusNode();
 
   List<ImageContent>? uploadFiles;
@@ -250,45 +250,48 @@ class _DayPassManagementDetailsViewState
                                 '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+
+
                             /// Updated Status
-                            // CommonWidgets.textDisplay(
-                            //   // state.labels?.locale.companyType ??
-                            //   //     state.labels?.defaultLocale
-                            //   //         .companyType ??
-                            //     Constants.updatestatus,
-                            //     Styles.textStyleBlack14,
-                            //     isMandatory: true),
-                            // TextFieldAddButton(
-                            //   title: state.model.updatedStatus,
-                            //   height: 70,
-                            //   isDisableColor:  isReadOnly,
-                            //   onTap: () {
-                            //     if(!isReadOnly) {
-                            //       BaseOrganisationDialog().departmentDialog(
-                            //         context: context,
-                            //         organisations: state.passType!,
-                            //         onTap: (Organisation updatedStatus) {
-                            //           state.model.updatedStatus = updatedStatus.name;
-                            //           BlocProvider.of<
-                            //               DayPassManagementDetailsCubit>(
-                            //               context)
-                            //               .updateDropdownValues(
-                            //               passType: updatedStatus);
-                            //         },
-                            //         leftImage: false,
-                            //         orgName: '',
-                            //         functionToCall: () {
-                            //           // refresh the list
-                            //           BlocProvider.of<
-                            //               DayPassManagementDetailsCubit>(
-                            //               context)
-                            //               .refreshList();
-                            //         },
-                            //       );
-                            //     }
-                            //   },
-                            // ),
-                            // CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            if(state.model.status !=null)...[
+                              CommonWidgets.textDisplay(
+                                  isMandatory: true,
+                                  // state.labels?.locale.get ??
+                                  //     state.labels?.defaultLocale
+                                  //         .updateStatus ??
+                                  Constants.updatestatus,
+                                  Styles.textStyleBlack14),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              TextFieldAddButton(
+                                title: updateStatusTextController.text,
+                                height: 60,
+                                isDisableColor: widget.model != null &&
+                                    !widget.model!.lock.isEmptyOrNull,
+                                onTap: () {
+                                  BaseOrganisationDialog()
+                                      .departmentDialog(
+                                    context: context,
+                                    organisations:
+                                    state.getStatus ?? [],
+                                    onTap: (Organisation org) {
+                                      updateStatusTextController
+                                          .text = org.name!;
+                                      setState(() {});
+                                      BlocProvider.of<
+                                          DayPassManagementDetailsCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                          updatedStatus: org);
+                                    },
+                                  );
+                                  // }
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.01),
+                            ],
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
 
                             /// Location

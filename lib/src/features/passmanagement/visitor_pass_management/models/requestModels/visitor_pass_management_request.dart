@@ -1,15 +1,15 @@
 
-import 'package:db_atom/src/features/passmanagement/day_pass_mangement/models/day_pass_management_model.dart';
+import 'package:db_atom/src/features/passmanagement/visitor_pass_management/models/visitor_pass_management_model.dart';
 
 class VisitorPassManagementRequest {
   VisitorPassManagementRequest({
     required this.passManagement,
   });
 
-  late final DayPassManagementModel passManagement;
+  late final VisitorPassManagementModel passManagement;
 
   VisitorPassManagementRequest.fromJson(Map<String, dynamic> json) {
-    passManagement = DayPassManagementModel.fromJson(json['passManagement']);
+    passManagement = VisitorPassManagementModel.fromJson(json['passManagement']);
   }
 
   Map<String, dynamic> toJson() {

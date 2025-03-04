@@ -31,30 +31,45 @@ class VisitorPassManagementResponse {
 }
 
 class VisitorPassManagementModel {
-   int? id;
-   String? slNo;
-   String? inputDate;
-   Organisation? location;
-   Organisation? locationRegion;
-   int? status;
-   User? entrySecurity;
-   User? handoverSecurity;
-   int? passType;
-   bool? exceptionalApproval;
-   PassInfo? passInfo;
-   String? startTime;
-   String? endTime;
-   String? returnedTime;
-   List<dynamic>? evidenceDocuments;
-   bool? escortedByHost;
-   String? escortedBy;
-   bool? idValidated;
-   String? hostName;
-   String? mifareNo;
-   String? passNo;
-   String? escortedByName;
-   String? entrySecurityName;
-   String? handOverSecurityName;
+  int? id;
+  String? slNo;
+  String? inputDate;
+  Organisation? location;
+  Organisation? locationRegion;
+  List<Organisation>? entities;
+  int? status;
+  User? entrySecurity;
+  User? host;
+  User? employee;
+  int? passType;
+  int? updatedStatus;
+  Organisation? companyType;
+  Organisation? dayPassReason;
+  Organisation? department;
+  String? contactNo;
+  String? visitorName;
+  String? employeeName;
+  String? email;
+  String? employeeId;
+  String? hostEmployeeId;
+  bool escortedByHost;
+  PassInfo? passInfo;
+  String? startTime;
+  String? endTime;
+  List<dynamic>? evidenceDocuments;
+  bool? idValidated;
+  String? hostName;
+  String? mifareNo;
+  String? passNo;
+  String? passTypeName;
+  String? entrySecurityName;
+  String? handOverSecurityName;
+  String? visitorComingFrom;
+  String? visitingPurpose;
+  int? idValidationType;
+  String? escortedBy;
+  String? escortedEmployeeId;
+  String? lock;
 
   VisitorPassManagementModel({
     this.id,
@@ -62,25 +77,40 @@ class VisitorPassManagementModel {
     this.inputDate,
     this.location,
     this.locationRegion,
+    this.entities,
     this.status,
     this.entrySecurity,
-    this.handoverSecurity,
+    this.host,
+    this.employee,
     this.passType,
-    this.exceptionalApproval,
+    this.updatedStatus,
+    this.companyType,
+    this.dayPassReason,
+    this.department,
+    this.contactNo,
+    this.visitorName,
+    this.employeeName,
+    this.employeeId,
+    this.email,
+    this.hostEmployeeId,
+    this.escortedByHost = false,
     this.passInfo,
     this.startTime,
     this.endTime,
-    this.returnedTime,
     this.evidenceDocuments,
-    this.escortedByHost,
-    this.escortedBy,
     this.idValidated,
     this.hostName,
     this.mifareNo,
     this.passNo,
-    this.escortedByName,
+    this.passTypeName,
     this.entrySecurityName,
     this.handOverSecurityName,
+    this.visitorComingFrom,
+    this.visitingPurpose,
+    this.idValidationType,
+    this.escortedBy,
+    this.escortedEmployeeId,
+    this.lock,
   });
 
   VisitorPassManagementModel.fromJson(Map<String, dynamic> json)
@@ -89,25 +119,43 @@ class VisitorPassManagementModel {
         inputDate = json['inputDate'] as String?,
         location = (json['location'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['location'] as Map<String,dynamic>) : null,
         locationRegion = (json['locationRegion'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['locationRegion'] as Map<String,dynamic>) : null,
+        entities = (json['entities'] as List?)
+            ?.map(
+                (dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
+            .toList(),
         status = json['status'] as int?,
         entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
-        handoverSecurity = (json['handoverSecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['handoverSecurity'] as Map<String,dynamic>) : null,
+        host = (json['host'] as Map<String,dynamic>?) != null ? User.fromJson(json['host'] as Map<String,dynamic>) : null,
+        employee = (json['employee'] as Map<String,dynamic>?) != null ? User.fromJson(json['employee'] as Map<String,dynamic>) : null,
         passType = json['passType'] as int?,
-        exceptionalApproval = json['exceptionalApproval'] as bool?,
+        updatedStatus= json['updatedStatus'] as int?,
+        dayPassReason = (json['dayPassReason'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['dayPassReason'] as Map<String,dynamic>) : null,
+        department = (json['department'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['department'] as Map<String,dynamic>) : null,
+        companyType = (json['companyType'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['companyType'] as Map<String,dynamic>) : null,
+        employeeId = json['employeeId'] as String?,
+        email= json['email'] as String?,
+        hostEmployeeId = json['hostEmployeeId'] as String?,
+        contactNo= json['contactNo'] as String?,
+        visitorName = json['visitorName'] as String?,
+        employeeName = json['employeeName'] as String?,
+        escortedByHost = json['escortedByHost'] as bool,
         passInfo = (json['passInfo'] as Map<String,dynamic>?) != null ? PassInfo.fromJson(json['passInfo'] as Map<String,dynamic>) : null,
         startTime = json['startTime'] as String?,
         endTime = json['endTime'] as String?,
-        returnedTime = json['returnedTime'] as String?,
         evidenceDocuments = json['evidenceDocuments'] as List?,
-        escortedByHost = json['escortedByHost'] as bool?,
-        escortedBy = json['escortedBy'] as String?,
         idValidated = json['idValidated'] as bool?,
         hostName = json['hostName'] as String?,
         mifareNo = json['mifareNo'] as String?,
         passNo = json['passNo'] as String?,
-        escortedByName = json['escortedByName'] as String?,
+        passTypeName= json['passTypeName'] as String?,
         entrySecurityName = json['entrySecurityName'] as String?,
-        handOverSecurityName = json['handOverSecurityName'] as String?;
+        handOverSecurityName = json['handOverSecurityName'] as String?,
+        visitorComingFrom= json['visitorComingFrom'] as String?,
+        visitingPurpose = json['visitingPurpose'] as String?,
+        idValidationType=json['idValidationType'] as int?,
+        escortedBy=json['escortedBy'] as String?,
+        escortedEmployeeId=json['escortedEmployeeId'] as String?,
+        lock = json['lock'] as String?;
 
   Map<String, dynamic> toJson() => {
     'id' : id,
@@ -115,37 +163,53 @@ class VisitorPassManagementModel {
     'inputDate' : inputDate,
     'location' : location?.toJson(),
     'locationRegion' : locationRegion?.toJson(),
+    'dayPassReason':dayPassReason?.toJson(),
+    'department':department?.toJson(),
+    'entities': entities?.map((e) => e.toJson()).toList(),
     'status' : status,
     'entrySecurity' : entrySecurity?.toJson(),
-    'handoverSecurity' : handoverSecurity?.toJson(),
+    'host':host?.toJson(),
+    'employee':employee?.toJson(),
     'passType' : passType,
-    'exceptionalApproval' : exceptionalApproval,
+    'updatedStatus':updatedStatus,
+    'companyType' : companyType?.toJson(),
+    'contactNo':contactNo,
+    'visitorName' : visitorName,
+    'employeeName':employeeName,
+    'employeeId': employeeId,
+    'email':email,
+    'hostEmployeeId':hostEmployeeId,
+    'escortedByHost' : escortedByHost,
     'passInfo' : passInfo?.toJson(),
     'startTime' : startTime,
     'endTime' : endTime,
-    'returnedTime' : returnedTime,
     'evidenceDocuments' : evidenceDocuments,
-    'escortedByHost' : escortedByHost,
-    'escortedBy' : escortedBy,
     'idValidated' : idValidated,
     'hostName' : hostName,
     'mifareNo' : mifareNo,
     'passNo' : passNo,
-    'escortedByName' : escortedByName,
+    'passTypeName':passTypeName,
     'entrySecurityName' : entrySecurityName,
-    'handOverSecurityName' : handOverSecurityName
-  };
+    'handOverSecurityName' : handOverSecurityName,
+    'visitorComingFrom':visitorComingFrom,
+    'visitingPurpose':visitingPurpose,
+    'idValidationType':idValidationType,
+    'escortedBy':escortedBy,
+    'escortedEmployeeId':escortedEmployeeId,
+    'lock':lock};
 }
 
 class PassInfo {
-  final int? id;
-  final int? passType;
-  final String? passNo;
-  final String? mifareNo;
-  final Organisation? location;
-  final Organisation? region;
-  final bool? dws;
-  final int? status;
+  int? id;
+  int? passType;
+  String? passNo;
+  String? mifareNo;
+  String? expiryDate;
+  Organisation? location;
+  Organisation? region;
+  Organisation? entity;
+  bool? dws;
+  int? status;
 
   PassInfo({
     this.id,

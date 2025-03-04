@@ -16,6 +16,7 @@ class DayPassManagementDetailsState extends Equatable {
   final List<Organisation>? passNo;
   final List<Organisation>? passType;
   final List<Organisation> departments;
+  final List<Organisation>? getStatus;
   final List<ImageContent>? loadAttachments;
   final String? message;
   final MmUiLabels? labels;
@@ -32,6 +33,7 @@ class DayPassManagementDetailsState extends Equatable {
     final List<BaseUser>? emailUsers,
     required String errorMessage,
     required List<Organisation> departments,
+    required final List<Organisation> getStatus,
     required List<ImageContent> loadAttachments,
   }) {
     return DayPassManagementDetailsState(
@@ -42,6 +44,7 @@ class DayPassManagementDetailsState extends Equatable {
       dayPassReason:dayPassReason,
       passNo:passNo,
       passType:passType,
+      getStatus:getStatus,
       getCompanyTypeResponse: getCompanyTypeResponse,
       emailUsers: emailUsers,
       message: errorMessage,
@@ -93,6 +96,7 @@ class DayPassManagementDetailsState extends Equatable {
     required this.dayPassReason,
     required this.passNo,
     required this.passType,
+    required this.getStatus,
     required this.getCompanyTypeResponse,
     this.loggedInUserDetails,
     this.emailUsers,
@@ -114,6 +118,7 @@ class DayPassManagementDetailsState extends Equatable {
     List<Organisation>? dayPassReason,
     List<Organisation>? passNo,
     List<Organisation>? passType,
+    List<Organisation>? getStatus,
     User? loggedInUserDetails,
     List<BaseUser>? emailUsers,
     List<BaseUser>? employee,
@@ -133,6 +138,7 @@ class DayPassManagementDetailsState extends Equatable {
       dayPassReason:dayPassReason?? this.dayPassReason,
       passNo:passNo??this.passNo,
       passType:passType??this.passType,
+      getStatus:getStatus??this.getStatus,
       getCompanyTypeResponse: companyType ?? getCompanyTypeResponse,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       emailUsers: emailUsers ?? this.emailUsers,

@@ -29,7 +29,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       emailUsers: const [],
       errorMessage: '',
       departments: const [],
-      loadAttachments: const [], listOfEntities: const [], getCompanyTypeResponse: const [], dayPassReason:const [], passNo: const [], passType: const [],
+      loadAttachments: const [], listOfEntities: const [], getCompanyTypeResponse: const [], dayPassReason:const [], passNo: const [], passType: const [], getStatus: const [],
     ),
   );
 
@@ -95,6 +95,17 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       state.model.slNo = slNo.serialNo;
     }
 
+    // if (state.model.status != null && state.model.status != 0) {
+    //   String moduleCode = Constants.passManagementModule;
+    //   // SerialNumberModel slNo = await commonServices.getSlNo(
+    //   //   locationId: defaultLocation.id.toString(),
+    //   //   moduleCode: moduleCode,
+    //   // );
+    //   Organisation updatedStatus = await commonServices.getStatusesByModuleId(
+    //       module: Constants.passManagementModuleCode, filter: state.model.status == 0 || state.model.status == null ? 0 : 1);
+    //   state.model.location = defaultLocation;
+    //   state.model.updatedStatus = updatedStatus.id;
+    // }
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
@@ -114,7 +125,8 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
         commonServices.getPassNo(passType: 0, locationId: state.model.location!.id!,),
         commonServices.getOrganisations(name: 'ATOM_COMPANY_TYPES'),
         commonServices.getPassType(passType: 0, locationId: state.model.location!.id!,),
-
+        commonServices.getStatusesByModuleId(
+          module: Constants.passManagementModuleCode, filter: state.model.status == 0 ? 0 : 1),
       ]);
       Locations locations = futures[0];
       User loggedInUserDetails = futures[1];
@@ -127,6 +139,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       DayPassNumberLists passNo = futures[8];
       List<Organisation> companyType = futures[9];
       List<Organisation> getPassType = futures[10];
+      List<Organisation> getStatus = futures[11];
 
 
       log('--emailUsers--${emailUsers.length}---');
@@ -180,6 +193,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           passNo: passNo.activePassInfoList,
           companyType: companyType,
           passType: getPassType,
+          getStatus:getStatus,
         ),
       );
     } catch (e) {
@@ -250,6 +264,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
   Future<void> updateDropdownValues({
     List<Organisation>? entities,
     Organisation? passType,
+    Organisation? updatedStatus,
     Organisation? companyType,
     BaseUser? user,
     BaseUser? host,
@@ -354,6 +369,11 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     if (passType != null) {
       state.model.passTypeName = passType.name;
     }
+
+    if (updatedStatus != null) {
+      state.model.updatedStatus = updatedStatus.id;
+    }
+
     // if (isReturnable != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: state.model.location!.id.toString(),

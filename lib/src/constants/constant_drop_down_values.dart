@@ -363,3 +363,15 @@ const List<Label> passTypeValues = [
 const List<Label> dayPassTypeValues = [
   Label(key: 'Day Pass', value: '0'),
 ];
+
+
+const List<Label> photoIdentityValidationValues = [
+  Label(key: 'Aadhaar Card', value: '0'),
+  Label(key: 'Pan Card', value: '1'),
+  Label(key: 'Passport', value: '2'),
+  Label(key: 'Driving License', value: '3'),
+  Label(key: 'Voter Card', value: '4'),
+
+];
+
+
