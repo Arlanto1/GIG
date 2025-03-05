@@ -1554,6 +1554,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             isEmployeeId: false,
             location: state.locationSelectedlist?.id,
             duplicateDepostorList: state.getDepositorResponse ?? [],
+            roleName: 'ATOM_STATIC_USER',
             // leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);
