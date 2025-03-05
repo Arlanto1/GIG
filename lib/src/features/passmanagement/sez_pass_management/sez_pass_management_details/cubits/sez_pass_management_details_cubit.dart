@@ -80,29 +80,28 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
     );
 
     var userId = await SharedPrefs.getUserId();
-
-    Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
-
-    if (state.model.location == null && defaultLocation != null) {
-      String moduleCode = Constants.passManagementModule;
-      SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: defaultLocation.id.toString(),
-        moduleCode: moduleCode,
-      );
-      state.model.location = defaultLocation;
-      state.model.slNo = slNo.serialNo;
-    }
+    //
+    // Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+    //
+    // if (state.model.location == null && defaultLocation != null) {
+    //   String moduleCode = Constants.passManagementModule;
+    //   SerialNumberModel slNo = await commonServices.getSlNo(
+    //     locationId: defaultLocation.id.toString(),
+    //     moduleCode: moduleCode,
+    //   );
+    //   state.model.location = defaultLocation;
+    //   state.model.slNo = slNo.serialNo;
+    // }
 
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
-        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS', isSezLocations: true),
         commonServices.getUserDetails(userId: userId),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.passManagementModule),
-        SharedPrefs.getDefaultLocation(),
         commonServices.getBaseUsers(
             roleName: ConstantUserRoles.atomStaticUser,
             isDbUser: true,
@@ -114,17 +113,16 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
         commonServices.getStatusesByModuleId(
             module: Constants.passManagementModuleCode, filter: state.model.status == 0 ? 0 : 1),
       ]);
-      Locations locations = futures[0];
+      Locations locations = futures[0]
       User loggedInUserDetails = futures[1];
       EmployeeDepartments departments = futures[2];
       dynamic responseLabels = futures[3];
-      Organisation? defaultLocation = futures[4];
-      List<BaseUser> emailUsers = futures[5];
-      AddEntities entities = futures[6];
-      DayPassNumberLists passNo = futures[7];
-      List<Organisation> companyType = futures[8];
-      List<Organisation> getPassType = futures[9];
-      List<Organisation> getStatus = futures[10];
+      List<BaseUser> emailUsers = futures[4];
+      AddEntities entities = futures[5];
+      DayPassNumberLists passNo = futures[6];
+      List<Organisation> companyType = futures[7];
+      List<Organisation> getPassType = futures[8];
+      List<Organisation> getStatus = futures[9];
 
 
       log('--emailUsers--${emailUsers.length}---');
@@ -140,13 +138,6 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
           int.tryParse(state.model.startTime ?? '0'),
           Constants.fulldateFormat);
 
-      // state.model.endTime = state.model.endTime == null
-      //     ? Utils.timestampToDateConversion(
-      //     DateTime.now().add(const Duration(hours: 24)).millisecondsSinceEpoch,
-      //     Constants.fulldateFormat)
-      //     : Utils.timestampToDateConversion(
-      //     int.tryParse(state.model.endTime ?? '0'),
-      //     Constants.fulldateFormat);
       MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
 
       log('--loggedInUserDetails---${loggedInUserDetails.firstName}----');
@@ -163,7 +154,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
 
       emit(
         state.copyWith(
-          // locations: locations,
+          locations: locations,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
