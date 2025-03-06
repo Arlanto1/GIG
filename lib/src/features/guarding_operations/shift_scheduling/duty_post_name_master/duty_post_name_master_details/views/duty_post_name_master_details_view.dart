@@ -103,7 +103,7 @@ class _DutyPostNameMasterDetailsViewState
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSubmitButton: showSaveSubmitButtons,
+            showSubmitButton: state.status != FormStatus.loading && showSaveSubmitButtons,
             showSaveButton: false,
             showDisLikeButton: false,
             showLikeButton: false,

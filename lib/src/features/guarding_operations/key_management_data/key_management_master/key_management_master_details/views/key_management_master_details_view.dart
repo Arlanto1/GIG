@@ -121,8 +121,8 @@ class _KeyManagementMasterDetailsViewState
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: showSaveSubmitButton ? true : false,
-            showSubmitButton: showSaveSubmitButton ? true : false,
+            showSaveButton: showSaveSubmitButton && state.status != FormStatus.loading ? true : false,
+            showSubmitButton: showSaveSubmitButton && state.status != FormStatus.loading ? true : false,
             showDisLikeButton: false,
             showLikeButton: false,
             pdfAPIName:

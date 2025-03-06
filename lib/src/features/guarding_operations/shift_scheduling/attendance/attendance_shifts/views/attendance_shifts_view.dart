@@ -105,7 +105,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               title: widget.selectedDutyPostModel.name ?? '',
               showPopUp: false,
               showSaveButton:false,
-              showSubmitButton: state.model.activeShift== true ? true : false,
+              showSubmitButton: state.model.activeShift== true && state.status != FormStatus.loading  ? true : false,
               showDisLikeButton: false,
               showLikeButton: false,
               // onTapSave: () => BlocProvider.of<AttendanceShiftsCubit>(context)

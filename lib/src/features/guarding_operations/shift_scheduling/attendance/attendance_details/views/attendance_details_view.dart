@@ -124,7 +124,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
             context: context,
             title: Constants.attendanceDetails,
             showPopUp: false,
-            showSubmitButton: !isReadOnly,
+            showSubmitButton: !isReadOnly  && state.status != FormStatus.loading ,
             showSaveButton: false,
             showDisLikeButton: false,
             showLikeButton: false,

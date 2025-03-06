@@ -135,12 +135,12 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                 '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.slaViolationPenaltyDetailsModuleCode}',
             showSaveButton: state.model.status != 2 &&
                     state.model.status != -1 &&
-                    !isReadOnly
+                    !isReadOnly && state.status != FormStatus.loading
                 ? true
                 : false,
             showSubmitButton: state.model.status != 2 &&
                     state.model.status != -1 &&
-                    !isReadOnly
+                    !isReadOnly && state.status != FormStatus.loading
                 ? true
                 : false,
             showDisLikeButton: false,

@@ -203,7 +203,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             // securitySignatureController: securitySignatureController,
             //   );
             // },
-            showSubmitButton: showSaveSubmitButton ? true : false,
+            showSubmitButton: showSaveSubmitButton && state.status != FormStatus.loading? true : false,
             onTapSubmit: () {
               BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
                   .submitForm(

@@ -187,9 +187,9 @@ class _SstIncidentGeneralInfoViewState
                 ? Constants.ticketLifeCycle
                 : Constants.ticketLifeCycle,
             showPopUp: false,
-            showSaveButton: disableForm ? false : true,
+            showSaveButton: !disableForm && state.status != FormStatus.loading? true : false,
             showSubmitButton:
-                !disableForm || isShowSubmitButtonForSecurityManager
+            (!disableForm || isShowSubmitButtonForSecurityManager ) && state.status != FormStatus.loading
                     ? true
                     : false,
             showDisLikeButton: false,

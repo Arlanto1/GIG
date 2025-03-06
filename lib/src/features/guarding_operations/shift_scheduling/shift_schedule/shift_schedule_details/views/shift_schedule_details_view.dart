@@ -116,8 +116,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
               title: Constants.shiftSchedule,
               // title: widget.title,
               showPopUp: false,
-              showSaveButton: !isReadOnly,
-              showSubmitButton: !isReadOnly,
+              showSaveButton: !isReadOnly && state.status != FormStatus.loading,
+              showSubmitButton: !isReadOnly && state.status != FormStatus.loading,
               showDisLikeButton: false,
               showLikeButton: false,
               pdfAPIName:
