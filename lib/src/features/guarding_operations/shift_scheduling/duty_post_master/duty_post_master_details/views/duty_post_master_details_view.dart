@@ -98,10 +98,9 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
               title: widget.title,
               showPopUp: false,
               showSaveButton:
-                  isReadOnly || !state.model.lock.isEmptyOrNull ? false : true,
+                  !isReadOnly && state.model.lock.isEmptyOrNull &&  state.status != FormStatus.loading ? true : false,
               showSubmitButton:
-                  isReadOnly || !state.model.lock.isEmptyOrNull ? false : true,
-              showDisLikeButton: false,
+              !isReadOnly && state.model.lock.isEmptyOrNull &&  state.status != FormStatus.loading ? true : false,              showDisLikeButton: false,
               showLikeButton: false,
               pdfAPIName:
                   '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.dutyPostMasterModuleCode}',
