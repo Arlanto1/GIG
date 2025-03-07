@@ -62,8 +62,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
             positiveBtnText: Constants.ok,
             onPositivePressed: () {
               Navigator.pop(context);
-              Navigator.pop(context);
-              return;
+              // Navigator.pop(context);
+              // return;
             },
           );
           showDialog(
@@ -99,10 +99,12 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
+              Navigator.pop(context);
               Navigator.popAndPushNamed(
                 context,
                 slaViolationPenaltyListRoute,
               );
+              return;
             },
           );
           showDialog(
