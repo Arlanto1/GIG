@@ -46,7 +46,6 @@ class _DayPassManagementDetailsViewState
   TextEditingController updateStatusTextController = TextEditingController();
   final FocusNode sentToFocusNode = FocusNode();
 
-  // List<ImageContent>? uploadFiles;
   List<ImageContent> uploadFiles = [];
   @override
   void initState() {

@@ -17,7 +17,7 @@ class VendorPassManagementDetailsState extends Equatable {
   final List<Organisation>? passType;
   final List<Organisation> departments;
   final List<Organisation>? getStatus;
-  final List<ImageContent>? loadAttachments;
+  final List<ImageContent> loadAttachments;
   final String? message;
   final MmUiLabels? labels;
 
@@ -101,7 +101,7 @@ class VendorPassManagementDetailsState extends Equatable {
     this.loggedInUserDetails,
     this.emailUsers,
     required this.departments,
-    this.loadAttachments,
+    required this.loadAttachments,
     this.message,
     this.labels,
     this.employee,

@@ -57,7 +57,7 @@ class VendorPassManagementModel {
   PassInfo? passInfo;
   String? startTime;
   String? endTime;
-  List<dynamic>? evidenceDocuments;
+  List<ImageContent>? evidenceDocuments;
   bool? idValidated;
   String? hostName;
   String? mifareNo;
@@ -146,8 +146,9 @@ class VendorPassManagementModel {
         passInfo = (json['passInfo'] as Map<String,dynamic>?) != null ? PassInfo.fromJson(json['passInfo'] as Map<String,dynamic>) : null,
         startTime = json['startTime'] as String?,
         endTime = json['endTime'] as String?,
-        evidenceDocuments = json['evidenceDocuments'] as List?,
-        idValidated = json['idValidated'] as bool?,
+        evidenceDocuments = (json['evidenceDocuments'] as List<dynamic>?)
+            ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
+            .toList(),
         hostName = json['hostName'] as String?,
         mifareNo = json['mifareNo'] as String?,
         passNo = json['passNo'] as String?,

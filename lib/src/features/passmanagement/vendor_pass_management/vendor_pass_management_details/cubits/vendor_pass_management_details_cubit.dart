@@ -398,6 +398,7 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
     );
   }
 
+
   void addAttachment({
     List<ImageContent>? data,
     List<ImageContent>? images,
@@ -410,13 +411,14 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
     int eventIds = math.Random.secure().nextInt(5);
     if (data != null) {
       for (ImageContent image in data) {
-        image.type = 0;
+        image.type = 1;
       }
       log('--data----${data.length}----');
 
       state.model.evidenceDocuments = data;
       emit(
         state.copyWith(
+          // eventId: eventIds,
           model: state.model,
           loadAttachments: data,
           status: FormStatus.initial,
@@ -426,6 +428,7 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
 
     emit(
       state.copyWith(
+        // eventId: eventIds,
         model: state.model,
         status: FormStatus.initial,
       ),

@@ -51,7 +51,7 @@ class _VendorPassManagementDetailsViewState
 
   final FocusNode sentToFocusNode = FocusNode();
 
-  List<ImageContent>? uploadFiles;
+  List<ImageContent> uploadFiles = [];
   @override
   void initState() {
     super.initState();
@@ -182,8 +182,10 @@ class _VendorPassManagementDetailsViewState
 
     if (state.status == FormStatus.addAttachment ||
         state.status == FormStatus.initial) {
-      getFiles = state.loadAttachments ?? [];
+      uploadFiles = state.loadAttachments;
+      uploadFiles = state.model.evidenceDocuments ?? [];
     }
+
     return Container(
       color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
