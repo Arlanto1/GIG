@@ -17,7 +17,7 @@ class DayPassManagementDetailsState extends Equatable {
   final List<Organisation>? passType;
   final List<Organisation> departments;
   final List<Organisation>? getStatus;
-  final List<ImageContent>? loadAttachments;
+  final List<ImageContent> uploadAttachments;
   final String? message;
   final MmUiLabels? labels;
 
@@ -34,7 +34,7 @@ class DayPassManagementDetailsState extends Equatable {
     required String errorMessage,
     required List<Organisation> departments,
     required final List<Organisation> getStatus,
-    required List<ImageContent> loadAttachments,
+    required List<ImageContent> uploadAttachments,
   }) {
     return DayPassManagementDetailsState(
       status: FormStatus.initial,
@@ -49,7 +49,7 @@ class DayPassManagementDetailsState extends Equatable {
       emailUsers: emailUsers,
       message: errorMessage,
       departments: departments,
-      loadAttachments: loadAttachments,
+      uploadAttachments: uploadAttachments,
     );
   }
 
@@ -101,7 +101,7 @@ class DayPassManagementDetailsState extends Equatable {
     this.loggedInUserDetails,
     this.emailUsers,
     required this.departments,
-    this.loadAttachments,
+    required this.uploadAttachments,
     this.message,
     this.labels,
     this.employee,
@@ -126,7 +126,7 @@ class DayPassManagementDetailsState extends Equatable {
     List<BaseUser>? host,
     List<BaseUser>? receiverEmailUsers,
     List<Organisation>? departments,
-    List<ImageContent>? loadAttachments,
+    List<ImageContent>? uploadAttachments,
     String? message,
     MmUiLabels? labels,
   }) {
@@ -146,7 +146,7 @@ class DayPassManagementDetailsState extends Equatable {
       dbSponsor: dbSponsor ?? this.dbSponsor,
       host: host ?? this.host,
       departments: departments ?? this.departments,
-      loadAttachments: loadAttachments ?? this.loadAttachments,
+      uploadAttachments: uploadAttachments ?? this.uploadAttachments,
       message: message ?? this.message,
       labels: labels ?? this.labels,
     );

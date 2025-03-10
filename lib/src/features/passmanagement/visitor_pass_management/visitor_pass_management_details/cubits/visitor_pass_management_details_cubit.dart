@@ -85,7 +85,7 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
     Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
 
     if (state.model.location == null && defaultLocation != null) {
-      String moduleCode = Constants.passManagementModule;
+      String moduleCode = Constants.dayPassManagementModule;
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: defaultLocation.id.toString(),
         moduleCode: moduleCode,
@@ -113,7 +113,7 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
-            moduleCode: Constants.passManagementModule),
+            moduleCode: Constants.dayPassManagementModule),
         SharedPrefs.getDefaultLocation(),
         commonServices.getBaseUsers(
             roleName: ConstantUserRoles.atomStaticUser,
@@ -226,7 +226,7 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.passManagementModule,
+        moduleCode: Constants.dayPassManagementModule,
       );
       state.model.location = location;
       state.model.slNo = slNo.serialNo;

@@ -46,7 +46,8 @@ class _DayPassManagementDetailsViewState
   TextEditingController updateStatusTextController = TextEditingController();
   final FocusNode sentToFocusNode = FocusNode();
 
-  List<ImageContent>? uploadFiles;
+  // List<ImageContent>? uploadFiles;
+  List<ImageContent> uploadFiles = [];
   @override
   void initState() {
     super.initState();
@@ -104,7 +105,7 @@ class _DayPassManagementDetailsViewState
         hostController.text = state.model.host?.name ?? '';
 
 
-      companyNameController.text= state.model.companyType?.name == 'FTE'? 'Deutsche Bank': state.model.companyName ??'';
+      companyNameController.text= state.model.companyType?.name != 'FTE'? state.model.companyName ??'' : 'Deutsche Bank';
 
         if (state.model.status == 0 && !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
@@ -174,10 +175,17 @@ class _DayPassManagementDetailsViewState
       return const BaseLoader();
     }
 
+    // if (state.status == FormStatus.addAttachment ||
+    //     state.status == FormStatus.initial) {
+    //   getFiles = state.loadAttachments ?? [];
+    // }
+
     if (state.status == FormStatus.addAttachment ||
         state.status == FormStatus.initial) {
-      getFiles = state.loadAttachments ?? [];
+      uploadFiles = state.uploadAttachments;
+      uploadFiles = state.model.evidenceDocuments ?? [];
     }
+
     return Container(
       color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
@@ -473,7 +481,7 @@ class _DayPassManagementDetailsViewState
                               isEnable: (state.model.companyType?.name != 'FTE') && ( state.model.status ==null || state.model.status ==0) ? true :false,
                               isDisableColor:false,
                               onChange: (String value) {
-                                state.model.companyName = value;
+                                state.model.companyName = state.model.companyType?.name != 'FTE'? value : "Deutsche Bank";
                                 context
                                     .read<DayPassManagementDetailsCubit>()
                                     .onModelValueChange(state.model);
@@ -1005,7 +1013,7 @@ class _DayPassManagementDetailsViewState
                                   List<ImageContent>? files = [];
                                   files.add(data);
                                   for (ImageContent image
-                                  in uploadFiles ?? []) {
+                                  in uploadFiles) {
                                     files.add(image);
                                   }
                                   BlocProvider.of<
@@ -1024,16 +1032,16 @@ class _DayPassManagementDetailsViewState
                                   horizontal: 20.0),
                               child: BaseImageUpload().getAttachment(
                                 height: height,
-                                attachments: state.loadAttachments,
+                                attachments: state.uploadAttachments,
                                 files: uploadFiles,
-                                moduleCode: Constants.passManagementModuleCode,
+                                moduleCode: Constants.dayPassManagementModule,
                                 isDisabled: false,
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// SubmitButton
-                      if (!isReadOnly) ...[
+                      if (showSaveSubmitButtons) ...[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -1051,7 +1059,7 @@ class _DayPassManagementDetailsViewState
                   ],
               ),
             ),),),
-            if (isReadOnly) ...[
+            if (!showSaveSubmitButtons) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(

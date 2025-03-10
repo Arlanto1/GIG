@@ -29,7 +29,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       emailUsers: const [],
       errorMessage: '',
       departments: const [],
-      loadAttachments: const [], listOfEntities: const [], getCompanyTypeResponse: const [], dayPassReason:const [], passNo: const [], passType: const [], getStatus: const [],
+      listOfEntities: const [], getCompanyTypeResponse: const [], dayPassReason:const [], passNo: const [], passType: const [], getStatus: const [], uploadAttachments: [],
     ),
   );
 
@@ -86,7 +86,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
 
     if (state.model.location == null && defaultLocation != null) {
-      String moduleCode = Constants.passManagementModule;
+      String moduleCode = Constants.dayPassManagementModule;
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: defaultLocation.id.toString(),
         moduleCode: moduleCode,
@@ -114,7 +114,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
-            moduleCode: Constants.passManagementModule),
+            moduleCode: Constants.dayPassManagementModule),
         SharedPrefs.getDefaultLocation(),
         commonServices.getBaseUsers(
             roleName: ConstantUserRoles.atomStaticUser,
@@ -126,7 +126,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
         commonServices.getOrganisations(name: 'ATOM_COMPANY_TYPES'),
         commonServices.getPassType(passType: 0, locationId: state.model.location!.id!,),
         commonServices.getStatusesByModuleId(
-          module: Constants.passManagementModuleCode, filter: state.model.status == 0 ? 0 : 1),
+          module: Constants.dayPassManagementModule, filter: state.model.status == 0 ? 0 : 1),
       ]);
       Locations locations = futures[0];
       User loggedInUserDetails = futures[1];
@@ -227,7 +227,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.passManagementModule,
+        moduleCode: Constants.dayPassManagementModule,
       );
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
@@ -290,10 +290,12 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
 
     if (companyType != null) {
       state.model.companyType = companyType;
+      state.model.companyName =null;
       state.model.employee?.employeeId = null;
       state.model.employee?.name = null;
       state.model.host?.employeeId = null;
       state.model.host?.name = null;
+      state.model.companyName = state.model.companyType?.name == 'FTE' ?'Deutsche Bank': state.model.companyName;
     }
 
     if ( employee!= null) {
@@ -374,11 +376,11 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       state.model.updatedStatus = updatedStatus.id;
     }
 
-    // if (isReturnable != null) {
-      SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: state.model.location!.id.toString(),
-          moduleCode: Constants.passManagementModuleCode);
-      state.model.slNo = slNo.serialNo;
+    // // if (isReturnable != null) {
+    //   SerialNumberModel slNo = await commonServices.getSlNo(
+    //       locationId: state.model.location!.id.toString(),
+    //       moduleCode: Constants.dayPassManagementModule);
+    //   state.model.slNo = slNo.serialNo;
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,
@@ -474,6 +476,43 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     // }
   }
 
+  // void addAttachment({
+  //   List<ImageContent>? data,
+  //   List<ImageContent>? images,
+  // }) async {
+  //   emit(
+  //     state.copyWith(
+  //       status: FormStatus.loading,
+  //     ),
+  //   );
+  //   int eventIds = math.Random.secure().nextInt(5);
+  //   if (data != null) {
+  //     for (ImageContent image in data) {
+  //       image.type = 1;
+  //     }
+  //     log('--data----${data.length}----');
+  //
+  //     state.model.evidenceDocuments = data;
+  //     emit(
+  //       state.copyWith(
+  //         model: state.model,
+  //         loadAttachments: data,
+  //         status: FormStatus.initial,
+  //       ),
+  //     );
+  //   }
+  //
+  //   emit(
+  //     state.copyWith(
+  //       model: state.model,
+  //       status: FormStatus.initial,
+  //     ),
+  //   );
+  //
+  //   log('--state.status--3--${state.status}----');
+  // }
+
+
   void addAttachment({
     List<ImageContent>? data,
     List<ImageContent>? images,
@@ -486,15 +525,16 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     int eventIds = math.Random.secure().nextInt(5);
     if (data != null) {
       for (ImageContent image in data) {
-        image.type = 0;
+        image.type = 1;
       }
       log('--data----${data.length}----');
 
       state.model.evidenceDocuments = data;
       emit(
         state.copyWith(
+          // eventId: eventIds,
           model: state.model,
-          loadAttachments: data,
+          uploadAttachments: data,
           status: FormStatus.initial,
         ),
       );
@@ -502,6 +542,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
 
     emit(
       state.copyWith(
+        // eventId: eventIds,
         model: state.model,
         status: FormStatus.initial,
       ),

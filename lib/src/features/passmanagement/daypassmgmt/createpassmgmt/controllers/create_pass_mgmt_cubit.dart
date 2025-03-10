@@ -306,15 +306,15 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     Organisation location,
     int passId,
   ) async {
-    String moduleCode = Constants.passManagementModule;
+    String moduleCode = Constants.dayPassManagementModule;
     if (passId == ConstantsIntValue.passIdDayPass) {
-      moduleCode = Constants.passManagementModule;
+      moduleCode = Constants.dayPassManagementModule;
     } else if (passId == ConstantsIntValue.passIdVisitor) {
       moduleCode = Constants.visitorManagementModule;
     } else if (passId == ConstantsIntValue.passIdVendor) {
       moduleCode = Constants.vendorPassManagementModule;
     } else if (passId == ConstantsIntValue.passIdSez) {
-      moduleCode = Constants.passManagementSEZModule;
+      moduleCode = Constants.sezPassManagementModule;
     }
     try {
       SerialNumberModel serialNumberResponse = await commonServices.getSlNo(
@@ -800,15 +800,15 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
           defaultLocation = model.location;
         }
 
-        String moduleCode = Constants.passManagementModule;
+        String moduleCode = Constants.dayPassManagementModule;
         if (passId == ConstantsIntValue.passIdDayPass) {
-          moduleCode = Constants.passManagementModule;
+          moduleCode = Constants.dayPassManagementModule;
         } else if (passId == ConstantsIntValue.passIdVisitor) {
           moduleCode = Constants.visitorManagementModule;
         } else if (passId == ConstantsIntValue.passIdVendor) {
           moduleCode = Constants.vendorPassManagementModule;
         } else if (passId == ConstantsIntValue.passIdSez) {
-          moduleCode = Constants.passManagementSEZModule;
+          moduleCode = Constants.sezPassManagementModule;
         }
 
         if (model.slNo.isEmptyOrNull) {
@@ -1062,13 +1062,13 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   Future<void> updateStatus({required int id}) async {
     String module = '';
     if (id == 0) {
-      module = Constants.passManagementModule;
+      module = Constants.dayPassManagementModule;
     } else if (id == 1) {
       module = Constants.visitorManagementModule;
     } else if (id == 2) {
       module = Constants.vendorPassManagementModule;
     } else if (id == 3) {
-      module = Constants.passManagementSEZModule;
+      module = Constants.sezPassManagementModule;
     }
     await commonServices.updateRecordStatus(id: id.toString(), module: module);
   }

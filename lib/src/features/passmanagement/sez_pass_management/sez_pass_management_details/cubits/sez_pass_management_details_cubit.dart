@@ -265,7 +265,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
       if (location != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: location!.id.toString(),
-          moduleCode: Constants.passManagementSEZModule,
+          moduleCode: Constants.sezPassManagementModule,
         );
         state.model.location = location;
         state.model.slNo = slNo.serialNo;
@@ -320,7 +320,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.passManagementSEZModule,
+        moduleCode: Constants.sezPassManagementModule,
       );
       state.model.location = location;
       state.model.slNo = slNo.serialNo;

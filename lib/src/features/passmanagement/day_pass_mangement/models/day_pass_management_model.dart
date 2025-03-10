@@ -55,7 +55,7 @@ class DayPassManagementModel {
    PassInfo? passInfo;
    String? startTime;
    String? endTime;
-   List<dynamic>? evidenceDocuments;
+   List<ImageContent>? evidenceDocuments;
    bool? escortedByHost;
    bool? idValidated;
    String? hostName;
@@ -131,7 +131,10 @@ class DayPassManagementModel {
         passInfo = (json['passInfo'] as Map<String,dynamic>?) != null ? PassInfo.fromJson(json['passInfo'] as Map<String,dynamic>) : null,
         startTime = json['startTime'] as String?,
         endTime = json['endTime'] as String?,
-        evidenceDocuments = json['evidenceDocuments'] as List?,
+        // evidenceDocuments = json['evidenceDocuments'] as List?,
+        evidenceDocuments = (json['evidenceDocuments'] as List<dynamic>?)
+       ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
+       .toList(),
         escortedByHost = json['escortedByHost'] as bool?,
         idValidated = json['idValidated'] as bool?,
         hostName = json['hostName'] as String?,

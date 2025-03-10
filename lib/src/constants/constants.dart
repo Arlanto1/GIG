@@ -25,8 +25,8 @@ class Constants {
   static const String materialMovementOutwardReturnableModule = 'MMOUTY';
   static const String materialMovementOutwardNonReturnableModule = 'MMOUTN';
   static const String guardingMasterDataModule = 'GM';
-  static const String passManagementModule = 'PMDYP';
-  static const String passManagementSEZModule = 'PMSEZ';
+  static const String dayPassManagementModule = 'PMDYP';
+  static const String sezPassManagementModule = 'PMSEZ';
   static const String visitorManagementModule = 'PMVSP';
   static const String vendorPassManagementModule = 'PMVNP';
   static const String eventProtectionModule = 'EP';
