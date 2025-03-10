@@ -44,6 +44,8 @@ class _DayPassManagementDetailsViewState
   TextEditingController dbSponsorController = TextEditingController();
   TextEditingController hostController = TextEditingController();
   TextEditingController updateStatusTextController = TextEditingController();
+  TextEditingController employeeIdController = TextEditingController();
+
   final FocusNode sentToFocusNode = FocusNode();
 
   List<ImageContent> uploadFiles = [];
@@ -102,9 +104,8 @@ class _DayPassManagementDetailsViewState
         nameController.text = state.model.employee !=null ? state.model.employee?.name ?? '' : state.model.employeeName ??'';
         dbSponsorController.text = state.model.host?.name ?? '';
         hostController.text = state.model.host?.name ?? '';
-
-
-      companyNameController.text= state.model.companyType?.name != 'FTE'? state.model.companyName ??'' : 'Deutsche Bank';
+        employeeIdController.text = state.model.employeeId??'';
+        companyNameController.text= state.model.companyType?.name != 'FTE'? state.model.companyName ??'' : 'Deutsche Bank';
 
         if (state.model.status == 0 && !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
@@ -557,6 +558,7 @@ class _DayPassManagementDetailsViewState
                             FlutterInputField(
                               textInputType: TextInputType.number,
                               textFormKey: Keys.contactNoKey,
+                              controller: employeeIdController,
                               hintText: '',
                               // focusNode: employeeIdFocusNode,
                               isEnable: state.model.companyType?.name == 'CWR T2' && !isReadOnly? true : false,
@@ -586,7 +588,7 @@ class _DayPassManagementDetailsViewState
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
                               // focusNode: employeeIdFocusNode,
-                              isEnable: state.model.companyType?.name == 'Exceptions' || state.model.companyType?.name == 'CWR T2' ? true : false,
+                              isEnable: (state.model.companyType?.name == 'Exceptions' || state.model.companyType?.name == 'CWR T2') && state.model.status == null ||state.model.status == 0 ? true : false,
                               isDisableColor: true,
                               onChange: (String value) {
                                 state.model.employeeName = value;

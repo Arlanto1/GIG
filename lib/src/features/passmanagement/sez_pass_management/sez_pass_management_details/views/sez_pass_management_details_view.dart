@@ -80,7 +80,7 @@ class _SezPassManagementDetailsViewState
         Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
-            title: Constants.dayPassManagementTitle,
+            title: Constants.sezPassManagementTitle,
             message: state.message,
             positiveBtnText: Constants.ok,
             onPositivePressed: () {
