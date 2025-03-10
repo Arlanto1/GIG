@@ -70,8 +70,8 @@ class _GuardInfoViewState extends State<GuardInfoView> {
             context: context,
             title: '2222',
             showPopUp: false,
-            showSaveButton: state.guardInfoModel.status != 4 ? true : false,
-            showSubmitButton: state.guardInfoModel.status != 4 ? true : false,
+            showSaveButton: state.guardInfoModel.status != 4 && state.status != FormStatus.loading ? true : false,
+            showSubmitButton: state.guardInfoModel.status != 4 && state.status != FormStatus.loading ? true : false,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {

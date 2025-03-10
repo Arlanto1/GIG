@@ -808,12 +808,12 @@ class _CreateFoundState extends State<CreateFound> {
 
               action: [
                 Visibility(
-                  visible: widget.model?.status !=
+                  visible: (widget.model?.status !=
                           ConstantsIntValue
                               .articleFoundStatusHandedOverOrClaimed &&
                       widget.model?.status !=
                           ConstantsIntValue.cancelledStatus &&
-                      state.model.lock.isEmptyOrNull,
+                      state.model.lock.isEmptyOrNull) && state.status != FormStatus.loading ,
                   child: GestureDetector(
                     onTap: () {
                       //for now the new param is isSubmit added, if any new params needed we can add to this.
@@ -830,12 +830,12 @@ class _CreateFoundState extends State<CreateFound> {
                   ),
                 ),
                 Visibility(
-                  visible: widget.model?.status !=
+                  visible: (widget.model?.status !=
                           ConstantsIntValue.cancelledStatus &&
                       widget.model?.status !=
                           ConstantsIntValue
                               .articleFoundStatusHandedOverOrClaimed &&
-                      state.model.lock.isEmptyOrNull,
+                      state.model.lock.isEmptyOrNull) && state.status != FormStatus.loading,
                   child: GestureDetector(
                     onTap: () async {
                       //loginFormKey.currentState!.validate();

@@ -131,7 +131,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             ),
             action: [
               Visibility(
-                visible: widget.model?.status != -1,
+                visible: widget.model?.status != -1 && state.status != FormStatus.loading,
                 child: GestureDetector(
                   onTap: () {
                     if (!isReadOnly) {
@@ -154,7 +154,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               ),
               //GestureDetector(
               Visibility(
-                visible: widget.model?.status != -1,
+                visible: widget.model?.status != -1 &&  state.status != FormStatus.loading,
                 child: GestureDetector(
                   onTap: () async {
                     // Navigator.pop(context);
@@ -1554,6 +1554,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             isEmployeeId: false,
             location: state.locationSelectedlist?.id,
             duplicateDepostorList: state.getDepositorResponse ?? [],
+            roleName: 'ATOM_STATIC_USER',
             // leftImageName: AppIcon.addicon,
             onLeftButtonTap: () {
               Navigator.pop(context);

@@ -62,8 +62,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
             positiveBtnText: Constants.ok,
             onPositivePressed: () {
               Navigator.pop(context);
-              Navigator.pop(context);
-              return;
+              // Navigator.pop(context);
+              // return;
             },
           );
           showDialog(
@@ -99,10 +99,12 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
+              Navigator.pop(context);
               Navigator.popAndPushNamed(
                 context,
                 slaViolationPenaltyListRoute,
               );
+              return;
             },
           );
           showDialog(
@@ -135,12 +137,12 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                 '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.slaViolationPenaltyDetailsModuleCode}',
             showSaveButton: state.model.status != 2 &&
                     state.model.status != -1 &&
-                    !isReadOnly
+                    !isReadOnly && state.status != FormStatus.loading
                 ? true
                 : false,
             showSubmitButton: state.model.status != 2 &&
                     state.model.status != -1 &&
-                    !isReadOnly
+                    !isReadOnly && state.status != FormStatus.loading
                 ? true
                 : false,
             showDisLikeButton: false,

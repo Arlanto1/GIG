@@ -53,6 +53,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   TextEditingController mtpApplicationNoTextController =
       TextEditingController();
   TextEditingController passReturnedTextController = TextEditingController();
+  TextEditingController passIssuedOnTextController = TextEditingController();
 
   final FocusNode companyNameFocusNode = FocusNode();
 
@@ -1695,6 +1696,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.01),
                                     ],
+                                    ///pass Issued on
                                     if (widget.passId ==
                                         ConstantsIntValue.passIdSez) ...[
                                       CommonWidgets.textDisplay(
@@ -1717,15 +1719,13 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             : true,
                                         showFutureDate: false,
                                         textController:
-                                            passValidFromTextController,
+                                        passIssuedOnTextController,
                                         onlyDate: false,
                                         onChange: (String value) {
-                                          passValidFromTextController.text =
-                                              Utils.timestampToDateConversion(
-                                                  int.parse(
-                                                      widget.model?.startTime ??
-                                                          '0'),
-                                                  Constants.fulldateFormat);
+                                          log('passIssuedOnTextController1 ${passIssuedOnTextController.text}');
+                                          log('passIssuedOn ${value}');
+                                          passIssuedOnTextController.text = value.toString();
+                                          log('passIssuedOnTextController2 ${passIssuedOnTextController.text}');
                                         },
                                         context: context,
                                       ),
@@ -2324,6 +2324,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                       : Constants.dateFormat)
               : passValidUntilTextController.text;
 
+      passIssuedOnTextController.text =
+      widget.model?.passIssuedOn != null && widget.model?.passIssuedOn != '0'
+          ? Utils.timestampToDateConversion(
+          int.parse(widget.model?.passIssuedOn ?? '0'),
+          Constants.fulldateFormat)
+          : passIssuedOnTextController.text;
+
+
       passReturnedTextController.text = widget.model?.status == 2 ||
               widget.model?.status == 8 ||
               widget.model?.status == 9 &&
@@ -2859,6 +2867,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       log('---nextFormattedDate----$nextFormattedDate------');
       passValidUntilTextController.text = nextFormattedDate;
     }
+
     if (widget.model == null) {
       statusTextController.text = 'Created';
     }
@@ -3582,7 +3591,30 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
     int passValidFromDate = widget.model?.startTime != null
         ? int.tryParse(widget.model!.startTime!)!
-        : (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+        : (DateTime
+        .now()
+        .millisecondsSinceEpoch ~/ 1000);
+
+    // passIssuedOnTextController.text = widget.model?.passIssuedOn != null
+    //     ? int.tryParse(widget.model!.passIssuedOn!)!
+    //     : (DateTime.now().millisecondsSinceEpoch ~/ 1000);
+
+    //
+    // DateTime dateTime = DateFormat("dd/MM/yyyy HH:mm:ss").parse(passIssuedOnTextController.text);
+    //   int passIssued = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    //   state.model.passIssuedOn = passIssued.toString();
+
+    int? timeStamp;
+      String date = passIssuedOnTextController.text;
+      if(date.isNotEmpty) {
+        DateFormat dateFormat = DateFormat("dd/MM/yyyy HH:mm:ss");
+        DateTime dateTime = dateFormat.parse(date);
+        timeStamp = dateTime.millisecondsSinceEpoch ~/ 1000;
+      }
+
+
+      // DateTime passIssued = DateTime.parse(passIssuedOnTextController.text);
+
 
     int? passReturnedOn;
 
@@ -3784,12 +3816,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       );
       return;
     }
+    log('-passIssuedOn.text--${passIssuedOnTextController.text}--');
 
     log('-passValidUntilTextController.text--${passValidUntilTextController.text}--');
     // String endTime = Utils.dateToTimestampConversion(
     //     passValidUntilTextController.text, Constants.dateFormat).toString();
     String endTime = "";
     if (!passValidUntilTextController.text.isEmptyOrNull) {
+      endTime = Utils().formatTime(passValidUntilTextController.text);
       endTime = Utils().formatTime(passValidUntilTextController.text);
     }
     //Organisation? dayPass = widget.model?.dayPassReason;
@@ -3832,7 +3866,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         escortedEmployeeId:state.escortedbyhost == 0 || widget.passId == ConstantsIntValue.passIdVendor ? escortedEmployeeIdByTextController.text : null,
         hostEmployeeId:  dbSponsor.employeeId,
         mifareNo: mtpApplicationNoTextController.text,
-        passIssuedOn: widget.passId == ConstantsIntValue.passIdSez ? passValidFromDate.toString():'',
+        passIssuedOn: widget.passId == ConstantsIntValue.passIdSez ? timeStamp.toString():'',
         endTime: endTime,
         // endTime: widget.passId == ConstantsIntValue.passIdSez && widget.model?.category == 0
         //     ? passValidUntilDatePermanent.toString()
@@ -3910,7 +3944,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           escortedEmployeeId:state.escortedbyhost == 0  || widget.passId == ConstantsIntValue.passIdVendor ? escortedEmployeeIdByTextController.text : null,
           mifareNo: mtpApplicationNoTextController.text,
           hostEmployeeId: dbsponsorTextController.text.isEmpty  ? host2?.employeeId : dbSponsor?.employeeId,
-          passIssuedOn: widget.passId == ConstantsIntValue.passIdSez ? passValidFromDate.toString():'',
+          passIssuedOn: widget.passId == ConstantsIntValue.passIdSez ? timeStamp.toString():'',
           endTime: endTime,
           startTime: passValidFromDate.toString(),
           returnedTime:
@@ -4246,10 +4280,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context,
         "Please enter pass category",
       );
-    } else if (passValidFromTextController.text.isEmpty) {
+    } else if (passValidFromTextController.text.isEmpty && widget.passId != ConstantsIntValue.passIdSez) {
       Validator().showToast(
         context,
         "Please enter pass valid from",
+      );
+    }
+    else if (passIssuedOnTextController.text.isEmpty && widget.passId == ConstantsIntValue.passIdSez) {
+      Validator().showToast(
+        context,
+        "Please enter pass issued on",
       );
     } else if (passValidUntilTextController.text.isEmpty) {
       Validator().showToast(

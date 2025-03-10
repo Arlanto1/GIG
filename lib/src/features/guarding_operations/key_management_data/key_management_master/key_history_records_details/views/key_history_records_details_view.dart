@@ -211,13 +211,13 @@ class _KeyHistoryRecordsDetailsViewState
               BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
                   .submitForm(isSaveOnly: true);
             },
-            showSubmitButton: showSaveAndSubmitButtons ? true : false,
+            showSubmitButton: showSaveAndSubmitButtons && state.status != FormStatus.loading? true : false,
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
                   .submitForm(isSaveOnly: false);
             },
-            showLikeButton: showLikeDisLikeButtons,
+            showLikeButton: showLikeDisLikeButtons && state.status != FormStatus.loading,
             onTapLikeButton: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
@@ -227,7 +227,7 @@ class _KeyHistoryRecordsDetailsViewState
                 isRejectOnly: false,
               );
             },
-            showDisLikeButton: showLikeDisLikeButtons,
+            showDisLikeButton: showLikeDisLikeButtons && state.status != FormStatus.loading,
             onTapDislikeButton: () {
               // FocusScope.of(context).unfocus();
               showDialog(

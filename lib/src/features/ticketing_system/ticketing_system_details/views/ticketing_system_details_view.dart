@@ -93,7 +93,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
             context: context,
             title: Constants.ticketingSystem,
             showPopUp: false,
-            showSaveButton: showSaveSubmitButton ? true : false,
+            showSaveButton: showSaveSubmitButton && state.status != FormStatus.loading ? true : false,
             showSubmitButton: false,
             showDisLikeButton: false,
             showLikeButton: false,

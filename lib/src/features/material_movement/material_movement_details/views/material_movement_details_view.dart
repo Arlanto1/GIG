@@ -232,7 +232,7 @@ class _MaterialMovementDetailsViewState
             showPopUp: false,
             showSaveButton: showSaveSubmitButtons &&
                 state.model.status != ConstantsIntValue.mmStatusClosed &&
-                !lock,
+                !lock && state.status != FormStatus.loading,
             pdfAPIName:
                 '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=$moduleCode',
             onTapSave: () {
@@ -247,7 +247,7 @@ class _MaterialMovementDetailsViewState
             },
             showSubmitButton: showSaveSubmitButtons &&
                 state.model.status != ConstantsIntValue.mmStatusClosed &&
-                !lock,
+                !lock && state.status != FormStatus.loading,
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -258,7 +258,7 @@ class _MaterialMovementDetailsViewState
                 securitySignatureController: securitySignatureController,
               );
             },
-            showLikeButton: showLikeAndDislikeButton && !lock,
+            showLikeButton: showLikeAndDislikeButton && !lock && state.status != FormStatus.loading,
             onTapLikeButton: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -269,7 +269,7 @@ class _MaterialMovementDetailsViewState
                 securitySignatureController: securitySignatureController,
               );
             },
-            showDisLikeButton: showLikeAndDislikeButton && !lock,
+            showDisLikeButton: showLikeAndDislikeButton && !lock && state.status != FormStatus.loading,
             onTapDislikeButton: () {
               // FocusScope.of(context).unfocus();
               showDialog(

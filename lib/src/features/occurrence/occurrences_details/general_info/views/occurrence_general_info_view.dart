@@ -106,8 +106,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
             context: context,
             //title: widget.title,
             showPopUp: false,
-            showSaveButton: showSaveSubmitButtons,
-            showSubmitButton: showSaveSubmitButtons,
+            showSaveButton: showSaveSubmitButtons && state.status != FormStatus.loading,
+            showSubmitButton: showSaveSubmitButtons && state.status != FormStatus.loading,
             showDisLikeButton: false,
             showLikeButton: false,
             pdfAPIName:

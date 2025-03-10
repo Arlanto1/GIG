@@ -153,8 +153,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
             context: context,
             title: Constants.generalInformation,
             showPopUp: false,
-            showSaveButton: !disableForm,
-            showSubmitButton: !disableForm,
+            showSaveButton: !disableForm && state.status != FormStatus.loading,
+            showSubmitButton: !disableForm && state.status != FormStatus.loading,
             showDisLikeButton: false,
             showLikeButton: false,
             pdfAPIName:
