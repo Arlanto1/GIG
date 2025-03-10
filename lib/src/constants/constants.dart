@@ -27,7 +27,7 @@ class Constants {
   static const String guardingMasterDataModule = 'GM';
   static const String dayPassManagementModule = 'PMDYP';
   static const String sezPassManagementModule = 'PMSEZ';
-  static const String visitorManagementModule = 'PMVSP';
+  static const String visitorPassManagementModule = 'PMVSP';
   static const String vendorPassManagementModule = 'PMVNP';
   static const String eventProtectionModule = 'EP';
   static const String securitySystemModule = 'SSSLA';

@@ -85,7 +85,7 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
     Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
 
     if (state.model.location == null && defaultLocation != null) {
-      String moduleCode = Constants.dayPassManagementModule;
+      String moduleCode = Constants.visitorPassManagementModule;
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: defaultLocation.id.toString(),
         moduleCode: moduleCode,
@@ -120,10 +120,8 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
             isDbUser: true,
             locationId: state.model.location!.id!),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
-        commonServices.getDayPassreason(name: 'DAY_PASS_REASON'),
-        commonServices.getPassNo(passType: 0, locationId: state.model.location!.id!,),
-        commonServices.getOrganisations(name: 'ATOM_COMPANY_TYPES'),
-        commonServices.getPassType(passType: 0, locationId: state.model.location!.id!,),
+        commonServices.getPassNo(passType: 1, locationId: state.model.location!.id!,),
+        commonServices.getPassType(passType: 1, locationId: state.model.location!.id!,),
         commonServices.getStatusesByModuleId(
             module: Constants.passManagementModuleCode, filter: state.model.status == 0 ? 0 : 1),
       ]);
@@ -134,11 +132,9 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       Organisation? defaultLocation = futures[4];
       List<BaseUser> emailUsers = futures[5];
       AddEntities entities = futures[6];
-      DayPassReason dayPassReason = futures[7];
-      DayPassNumberLists passNo = futures[8];
-      List<Organisation> companyType = futures[9];
-      List<Organisation> getPassType = futures[10];
-      List<Organisation> getStatus = futures[11];
+      DayPassNumberLists passNo = futures[7];
+      List<Organisation> getPassType = futures[8];
+      List<Organisation> getStatus = futures[9];
 
 
       log('--emailUsers--${emailUsers.length}---');
@@ -188,16 +184,14 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
           departments: departments.employeeDepartments,
           labels: labels,
           listOfEntities: entities.atomEntities,
-          dayPassReason :dayPassReason.dayPassReasonElement,
           passNo: passNo.activePassInfoList,
-          companyType: companyType,
           passType: getPassType,
           getStatus:getStatus,
         ),
       );
     } catch (e) {
       log('Initialization issue',
-          error: e, name: 'Day Pass Management Details Cubit');
+          error: e, name: 'Visitor Pass Management Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -226,7 +220,7 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.dayPassManagementModule,
+        moduleCode: Constants.visitorPassManagementModule,
       );
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
@@ -236,11 +230,11 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
           isDbUser: true,
           locationId: state.model.location!.id!);
       passNo = await commonServices.getPassNo(
-          passType: 0,
+          passType: 1,
           locationId: state.model.location!.id!);
 
       getPassType = await commonServices.getPassType(
-          passType: 0,
+          passType: 1,
           locationId: state.model.location!.id!);
 
     }
@@ -375,11 +369,6 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       state.model.updatedStatus = updatedStatus.id;
     }
 
-    // if (isReturnable != null) {
-    SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: state.model.location!.id.toString(),
-        moduleCode: Constants.passManagementModuleCode);
-    state.model.slNo = slNo.serialNo;
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,

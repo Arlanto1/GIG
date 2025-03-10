@@ -310,7 +310,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     if (passId == ConstantsIntValue.passIdDayPass) {
       moduleCode = Constants.dayPassManagementModule;
     } else if (passId == ConstantsIntValue.passIdVisitor) {
-      moduleCode = Constants.visitorManagementModule;
+      moduleCode = Constants.visitorPassManagementModule;
     } else if (passId == ConstantsIntValue.passIdVendor) {
       moduleCode = Constants.vendorPassManagementModule;
     } else if (passId == ConstantsIntValue.passIdSez) {
@@ -804,7 +804,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         if (passId == ConstantsIntValue.passIdDayPass) {
           moduleCode = Constants.dayPassManagementModule;
         } else if (passId == ConstantsIntValue.passIdVisitor) {
-          moduleCode = Constants.visitorManagementModule;
+          moduleCode = Constants.visitorPassManagementModule;
         } else if (passId == ConstantsIntValue.passIdVendor) {
           moduleCode = Constants.vendorPassManagementModule;
         } else if (passId == ConstantsIntValue.passIdSez) {
@@ -1064,7 +1064,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     if (id == 0) {
       module = Constants.dayPassManagementModule;
     } else if (id == 1) {
-      module = Constants.visitorManagementModule;
+      module = Constants.visitorPassManagementModule;
     } else if (id == 2) {
       module = Constants.vendorPassManagementModule;
     } else if (id == 3) {

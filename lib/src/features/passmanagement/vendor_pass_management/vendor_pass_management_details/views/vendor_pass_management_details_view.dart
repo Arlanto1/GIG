@@ -465,6 +465,7 @@ class _VendorPassManagementDetailsViewState
                               controller: contactNumberController,
                               textInputType: TextInputType.number,
                               textFormKey: Keys.contactNoKey,
+                              characterLimit: 17,
                               hintText: '',
                               // focusNode: employeeIdFocusNode,
                               isEnable: !isReadOnly,

@@ -74,7 +74,7 @@ class _VisitorPassManagementListViewState extends State<VisitorPassManagementLis
                 onPressed: () => {
                   Navigator.pushNamed(context, visitorPassManagementDetailsRoute,
                       arguments: {
-                        "title": Constants.createVendorPassManagementTitle
+                        "title": Constants.createVisitorPassManagementTitle
                       }),
                 },
               )

@@ -85,7 +85,7 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
     Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
 
     if (state.model.location == null && defaultLocation != null) {
-      String moduleCode = Constants.dayPassManagementModule;
+      String moduleCode = Constants.vendorPassManagementModule;
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: defaultLocation.id.toString(),
         moduleCode: moduleCode,
@@ -121,11 +121,11 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
             locationId: state.model.location!.id!),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getVendorPassReason(name: 'VENDOR_PASS_REASON'),
-        commonServices.getPassNo(passType: 0, locationId: state.model.location!.id!,),
+        commonServices.getPassNo(passType: 2, locationId: state.model.location!.id!,),
         commonServices.getOrganisations(name: 'ATOM_COMPANY_TYPES'),
-        commonServices.getPassType(passType: 0, locationId: state.model.location!.id!,),
+        commonServices.getPassType(passType: 2, locationId: state.model.location!.id!,),
         commonServices.getStatusesByModuleId(
-            module: Constants.passManagementModuleCode, filter: state.model.status == 0 ? 0 : 1),
+            module: Constants.vendorPassManagementModule, filter: state.model.status == 0 ? 0 : 1),
       ]);
       Locations locations = futures[0];
       User loggedInUserDetails = futures[1];
@@ -197,7 +197,7 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
       );
     } catch (e) {
       log('Initialization issue',
-          error: e, name: 'Day Pass Management Details Cubit');
+          error: e, name: 'Vendor Pass Management Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -226,7 +226,7 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.dayPassManagementModule,
+        moduleCode: Constants.vendorPassManagementModule,
       );
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
@@ -236,11 +236,11 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
           isDbUser: true,
           locationId: state.model.location!.id!);
       passNo = await commonServices.getPassNo(
-          passType: 0,
+          passType: 2,
           locationId: state.model.location!.id!);
 
       getPassType = await commonServices.getPassType(
-          passType: 0,
+          passType: 2,
           locationId: state.model.location!.id!);
 
     }
@@ -374,12 +374,6 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
     if (updatedStatus != null) {
       state.model.updatedStatus = updatedStatus.id;
     }
-
-    // if (isReturnable != null) {
-    SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: state.model.location!.id.toString(),
-        moduleCode: Constants.passManagementModuleCode);
-    state.model.slNo = slNo.serialNo;
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,
