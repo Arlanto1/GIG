@@ -14,10 +14,15 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
   final SezPassManagementModel? model;
   final CommonServices commonServices;
 
+  final Organisation? location;
+  final Organisation? locationRegion;
+
   SezPassManagementDetailsCubit({
     required this.sezPassManagementServices,
     required this.commonServices,
     this.model,
+    required this.location,
+    required this.locationRegion,
 
   }) : super(
     SezPassManagementDetailsState.initial(
@@ -72,107 +77,222 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
+  // Future<void> initializeValues() async {
+  //
+  //   // Show Loader and emit loading state
+  //   emit(
+  //     state.copyWith(status: FormStatus.loading),
+  //   );
+  //
+  //   var userId = await SharedPrefs.getUserId();
+  //   //
+  //   Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+  //
+  //   if (state.model.location == null && defaultLocation != null) {
+  //     String moduleCode = Constants.passManagementModule;
+  //     SerialNumberModel slNo = await commonServices.getSlNo(
+  //       locationId: defaultLocation.id.toString(),
+  //       moduleCode: moduleCode,
+  //     );
+  //     state.model.location = null;
+  //     state.model.slNo = slNo.serialNo;
+  //   }
+  //
+  //   try {
+  //     // Use Future.wait to call API functions concurrently
+  //     final futures = await Future.wait([
+  //       commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS', isSezLocations: true),//0
+  //       commonServices.getUserDetails(userId: userId),//1
+  //       commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),//2
+  //       commonServices.getUiLabels(
+  //           language: await SharedPrefs.getLanguageCode(),
+  //           moduleCode: Constants.passManagementSEZModule),//3
+  //       commonServices.getBaseUsers(
+  //           roleName: ConstantUserRoles.atomStaticUser,
+  //           isDbUser: true,
+  //           locationId: state.model.location!.id!),//4
+  //       commonServices.getEntities(name: 'ATOM_ENTITIES'),//5
+  //       commonServices.getPassNo(passType: 0, locationId: state.model.location!.id!,),//6
+  //       commonServices.getOrganisations(name: 'ATOM_COMPANY_TYPES'),//7
+  //       commonServices.getPassType(passType: 0, locationId: state.model.location!.id!,),//8
+  //       commonServices.getStatusesByModuleId(
+  //           module: Constants.passManagementModuleCode, filter: state.model.status == 0 ? 0 : 1),//9
+  //     ]);
+  //     Locations locations = futures[0];
+  //     User loggedInUserDetails = futures[1];
+  //     EmployeeDepartments departments = futures[2];
+  //     dynamic responseLabels = futures[3];
+  //     List<BaseUser> emailUsers = futures[4];
+  //     AddEntities entities = futures[5];
+  //     DayPassNumberLists passNo = futures[6];
+  //     List<Organisation> companyType = futures[7];
+  //     List<Organisation> getPassType = futures[8];
+  //     List<Organisation> getStatus = futures[9];
+  //
+  //
+  //     log('--emailUsers--${emailUsers.length}---');
+  //     // Get Date of Creation
+  //     state.model.inputDate = state.model.inputDate == null
+  //         ? Utils().getCurrentDate()
+  //         : Utils.timestampToDateConversion(
+  //         int.tryParse(state.model.inputDate ?? '0'),
+  //         Constants.fulldateFormat);
+  //
+  //     state.model.startTime = state.model.startTime == null ? ''
+  //         : Utils.timestampToDateConversion(
+  //         int.tryParse(state.model.startTime ?? '0'),
+  //         Constants.fulldateFormat);
+  //
+  //     MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
+  //
+  //     log('--loggedInUserDetails---${loggedInUserDetails.firstName}----');
+  //
+  //     state.model.entrySecurity ??= loggedInUserDetails;
+  //     // state.model.rejectedBy ??= loggedInUserDetails;
+  //     log('--state.model.entrySecurity---${state.model.entrySecurity?.firstName}----');
+  //
+  //     List<BaseUser> onlyDBUsers = await commonServices.getBaseUsers(
+  //       roleName: ConstantUserRoles.atomStaticUser,
+  //       locationId: state.model.location!.id!,
+  //       isDbUser: true,
+  //     );
+  //
+  //     emit(
+  //       state.copyWith(
+  //         locations: locations,
+  //         loggedInUserDetails: loggedInUserDetails,
+  //         status: FormStatus.initial,
+  //         model: state.model,
+  //         employee: onlyDBUsers,
+  //         dbSponsor: onlyDBUsers,
+  //         host: onlyDBUsers,
+  //         departments: departments.employeeDepartments,
+  //         labels: labels,
+  //         listOfEntities: entities.atomEntities,
+  //         passNo: passNo.activePassInfoList,
+  //         companyType: companyType,
+  //         passType: getPassType,
+  //         getStatus:getStatus,
+  //       ),
+  //     );
+  //   } catch (e) {
+  //     log('Initialization issue',
+  //         error: e, name: 'Sez Pass Management Details Cubit');
+  //     emit(
+  //       state.copyWith(
+  //         message: Constants.errorText,
+  //         // TODO: error message should be dynamic
+  //         status: FormStatus.error,
+  //       ),
+  //     );
+  //   }
+  // }
+
   Future<void> initializeValues() async {
 
-    // Show Loader and emit loading state
+    //Show Loader and emit loading state
     emit(
-      state.copyWith(status: FormStatus.loading),
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
     );
-
     var userId = await SharedPrefs.getUserId();
-    //
-    // Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
-    //
-    // if (state.model.location == null && defaultLocation != null) {
-    //   String moduleCode = Constants.passManagementModule;
-    //   SerialNumberModel slNo = await commonServices.getSlNo(
-    //     locationId: defaultLocation.id.toString(),
-    //     moduleCode: moduleCode,
-    //   );
-    //   state.model.location = defaultLocation;
-    //   state.model.slNo = slNo.serialNo;
+
+    // if (state.model.location == null) {
+    //   Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+    //   if (defaultLocation != null) {
+    //     SerialNumberModel slNo = await commonServices.getSlNo(
+    //       locationId: defaultLocation.id.toString(),
+    //       moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
+    //     );
+    //     state.model.location = defaultLocation;
+    //     state.model.slNo = slNo.serialNo;
+    //   }
     // }
 
     try {
-      // Use Future.wait to call API functions concurrently
-      final futures = await Future.wait([
-        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS', isSezLocations: true),
-        commonServices.getUserDetails(userId: userId),
-        commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
-        commonServices.getUiLabels(
-            language: await SharedPrefs.getLanguageCode(),
-            moduleCode: Constants.passManagementModule),
-        commonServices.getBaseUsers(
-            roleName: ConstantUserRoles.atomStaticUser,
-            isDbUser: true,
-            locationId: state.model.location!.id!),
-        commonServices.getEntities(name: 'ATOM_ENTITIES'),
-        commonServices.getPassNo(passType: 0, locationId: state.model.location!.id!,),
-        commonServices.getOrganisations(name: 'ATOM_COMPANY_TYPES'),
-        commonServices.getPassType(passType: 0, locationId: state.model.location!.id!,),
-        commonServices.getStatusesByModuleId(
-            module: Constants.passManagementModuleCode, filter: state.model.status == 0 ? 0 : 1),
-      ]);
-      Locations locations = futures[0]
-      User loggedInUserDetails = futures[1];
-      EmployeeDepartments departments = futures[2];
-      dynamic responseLabels = futures[3];
-      List<BaseUser> emailUsers = futures[4];
-      AddEntities entities = futures[5];
-      DayPassNumberLists passNo = futures[6];
-      List<Organisation> companyType = futures[7];
-      List<Organisation> getPassType = futures[8];
-      List<Organisation> getStatus = futures[9];
+      Locations locations =
+     await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS', isSezLocations: true);
+
+      AddEntities entities =
+      await commonServices.getEntities(name: 'ATOM_ENTITIES');
+
+      EmployeeDepartments departments = await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
 
-      log('--emailUsers--${emailUsers.length}---');
-      // Get Date of Creation
+      List<Organisation> companyType = await commonServices.getOrganisations(name: 'ATOM_COMPANY_TYPES');
+
+
+
+      // List<Organisation> getPassType = await commonServices.getPassType(passType: 0, locationId: state.model.location!.id!,);
+
+
+      List<Organisation> getStatus  = await commonServices.getStatusesByModuleId(
+                  module: Constants.passManagementModuleCode, filter: state.model.status == 0 ? 0 : 1);
+
+      User loggedInUserDetails =
+      await commonServices.getUserDetails(userId: userId);
+
+      // List<BaseUser> onlyDBUsers = await commonServices.getBaseUsers(
+      //         roleName: ConstantUserRoles.atomStaticUser,
+      //         locationId: state.model.location!.id!,
+      //         isDbUser: true,
+      //       );
+
+      if (location != null) {
+        state.model.location = location;
+      }
+      if (locationRegion != null) {
+        state.model.locationRegion = locationRegion;
+      }
+
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
-
-      state.model.startTime = state.model.startTime == null ? ''
-          : Utils.timestampToDateConversion(
-          int.tryParse(state.model.startTime ?? '0'),
-          Constants.fulldateFormat);
-
+      // Get Date of Creation
+      // state.model.inputDate = state.model.inputDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+      // state.model.inputDate =
+      //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: await SharedPrefs.getLanguageCode(),
+          moduleCode: Constants.passManagementModuleCode);
       MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
 
-      log('--loggedInUserDetails---${loggedInUserDetails.firstName}----');
+      if (location != null) {
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: location!.id.toString(),
+          moduleCode: Constants.passManagementSEZModule,
+        );
+        state.model.location = location;
+        state.model.slNo = slNo.serialNo;
+      }
 
       state.model.entrySecurity ??= loggedInUserDetails;
-      // state.model.rejectedBy ??= loggedInUserDetails;
-      log('--state.model.entrySecurity---${state.model.entrySecurity?.firstName}----');
-
-      List<BaseUser> onlyDBUsers = await commonServices.getBaseUsers(
-        roleName: ConstantUserRoles.atomStaticUser,
-        locationId: state.model.location!.id!,
-        isDbUser: true,
-      );
-
       emit(
         state.copyWith(
           locations: locations,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
-          employee: onlyDBUsers,
-          dbSponsor: onlyDBUsers,
-          host: onlyDBUsers,
+          // employee: onlyDBUsers,
+          // dbSponsor: onlyDBUsers,
+          // host: onlyDBUsers,
           departments: departments.employeeDepartments,
           labels: labels,
           listOfEntities: entities.atomEntities,
-          passNo: passNo.activePassInfoList,
+          // passNo: passNo.activePassInfoList,
           companyType: companyType,
-          passType: getPassType,
+          // passType: getPassType,
           getStatus:getStatus,
         ),
       );
     } catch (e) {
-      log('Initialization issue',
-          error: e, name: 'Sez Pass Management Details Cubit');
+      log('initialization issue',
+          error: e, name: 'SLA Violation Penalty Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -193,7 +313,6 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
     );
 
     List<BaseUser> emailUsers = [];
-    DayPassNumberLists passNo = DayPassNumberLists(activePassInfoList: []); // Initialize with default value
     List<Organisation> getPassType = [];
 
 
@@ -201,7 +320,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.passManagementModule,
+        moduleCode: Constants.passManagementSEZModule,
       );
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
@@ -210,26 +329,21 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
           roleName: ConstantUserRoles.atomStaticUser,
           isDbUser: true,
           locationId: state.model.location!.id!);
-      passNo = await commonServices.getPassNo(
-          passType: 0,
-          locationId: state.model.location!.id!);
 
       getPassType = await commonServices.getPassType(
-          passType: 0,
+          passType: 3,
           locationId: state.model.location!.id!);
 
     }
     // state.model. = null;
     // state.model.host = null;
     // state.model.passTypeName = null;
-    state.model.passNo = null;
 
     emit(state.copyWith(
       model: state.model,
       employee: emailUsers,
       host: emailUsers,
       dbSponsor: emailUsers,
-      passNo: passNo.activePassInfoList,
       passType: getPassType,
       status: FormStatus.initial,
     ));

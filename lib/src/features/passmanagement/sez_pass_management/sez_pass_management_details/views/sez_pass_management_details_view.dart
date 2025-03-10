@@ -791,40 +791,40 @@ class _SezPassManagementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             ///Attachments
-                            CommonWidgets.textDisplay(
-                              // state.labels?.locale.attachment ??
-                              //     state.labels?.defaultLocale.attachment ??
-                                Constants.evidenceDocuments,
-                                Styles.textStyleBlack14),
-                            widget.model == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                height * 0.001)
-                                : Container(),
-                            if (state.model.status == 0 ||
-                                state.model.status == null) ...[
-                              BaseImageUpload().uploadWidget(
-                                context: context,
-                                isDisabled: isReadOnly,
-                                loggedInUserDetails:
-                                state.loggedInUserDetails!,
-                                getFiles: uploadFiles,
-                                onImageSelected: (ImageContent data) {
-                                  List<ImageContent>? files = [];
-                                  files.add(data);
-                                  for (ImageContent image
-                                  in uploadFiles ?? []) {
-                                    files.add(image);
-                                  }
-                                  BlocProvider.of<
-                                      SezPassManagementDetailsCubit>(
-                                      context)
-                                      .addAttachment(
-                                    data: files,
-                                    images: files,
-                                  );
-                                },
-                              ),
-                            ],
+                            // CommonWidgets.textDisplay(
+                            //   // state.labels?.locale.attachment ??
+                            //   //     state.labels?.defaultLocale.attachment ??
+                            //     Constants.evidenceDocuments,
+                            //     Styles.textStyleBlack14),
+                            // widget.model == null
+                            //     ? CommonWidgets.verticalSpacerWidget(
+                            //     height * 0.001)
+                            //     : Container(),
+                            // if (state.model.status == 0 ||
+                            //     state.model.status == null) ...[
+                            //   BaseImageUpload().uploadWidget(
+                            //     context: context,
+                            //     isDisabled: isReadOnly,
+                            //     loggedInUserDetails:
+                            //     state.loggedInUserDetails!,
+                            //     getFiles: uploadFiles,
+                            //     onImageSelected: (ImageContent data) {
+                            //       List<ImageContent>? files = [];
+                            //       files.add(data);
+                            //       for (ImageContent image
+                            //       in uploadFiles ?? []) {
+                            //         files.add(image);
+                            //       }
+                            //       BlocProvider.of<
+                            //           SezPassManagementDetailsCubit>(
+                            //           context)
+                            //           .addAttachment(
+                            //         data: files,
+                            //         images: files,
+                            //       );
+                            //     },
+                            //   ),
+                            // ],
                             /// Attachments
                             Padding(
                               padding: const EdgeInsets.symmetric(

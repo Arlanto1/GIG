@@ -1999,17 +1999,21 @@ class RouteGenerator {
         CommonServices commonServices = CommonServices();
         String title;
         ExtraProperties? extraProperties;
+        Organisation? location;
+        Organisation? locationRegion;
         Map<String, dynamic> arguments =
         settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
         SezPassManagementModel? model = arguments["model"];
         extraProperties = arguments[ConstantsArgument.extraProperties];
+        location = arguments[ConstantsArgument.location];
+        locationRegion = arguments[ConstantsArgument.locationRegion];
 
         return MaterialPageRoute(
           builder: (context) => BlocProvider<SezPassManagementDetailsCubit>(
             create: (_) => SezPassManagementDetailsCubit(
               model: model,
-              commonServices: commonServices, sezPassManagementServices: services,
+              commonServices: commonServices, sezPassManagementServices: services, location: location, locationRegion: locationRegion,
             ),
             child: SezPassManagementDetailsView(
                 model: model, title: title, extraProperties: extraProperties),

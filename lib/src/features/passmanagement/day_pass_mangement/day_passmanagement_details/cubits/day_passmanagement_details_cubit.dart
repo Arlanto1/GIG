@@ -304,9 +304,10 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       String email = employee.email ?? '';
       User userDetails = User(
         name:name,
-        userId: employee.id,
+        userId : employee.id,
         email: email,
-        employeeId: employee.employeeId
+        employeeId: employee.employeeId,
+        firstName: employee.firstName,
       );
       state.model.employee = userDetails;
       emit(
