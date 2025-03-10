@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/passmanagement/vendor_pass_management/models/vendor_pass_management_model.dart';
 import 'package:db_atom/src/features/passmanagement/vendor_pass_management/vendor_pass_management_details/cubits/vendor_pass_management_details_cubit.dart';
-import 'package:db_atom/src/features/passmanagement/visitor_pass_management/models/visitor_pass_management_model.dart';
-import 'package:db_atom/src/features/passmanagement/visitor_pass_management/visitor_pass_management_details/cubits/visitor_pass_management_details_cubit.dart';
 
 
 class VendorPassManagementDetailsView extends StatefulWidget {
@@ -92,7 +90,7 @@ class _VendorPassManagementDetailsViewState
               Navigator.pop(context);
               Navigator.pop(context);
               Navigator.popAndPushNamed(
-                  context, dayPassManagementListRoute, arguments: {
+                  context, vendorPassManagementListRoute, arguments: {
               });
             },
           );
@@ -261,7 +259,7 @@ class _VendorPassManagementDetailsViewState
 
 
                             /// Updated Status
-                            if(state.model.status !=null)...[
+                            if(state.model.status == 0 || state.model.status == 1)...[
                               CommonWidgets.textDisplay(
                                   isMandatory: true,
                                   // state.labels?.locale.get ??

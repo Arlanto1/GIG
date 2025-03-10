@@ -88,7 +88,7 @@ class _SezPassManagementDetailsViewState
               Navigator.pop(context);
               Navigator.pop(context);
               Navigator.popAndPushNamed(
-                  context, dayPassManagementListRoute, arguments: {
+                  context, sezPassManagementListRoute, arguments: {
               });
             },
           );

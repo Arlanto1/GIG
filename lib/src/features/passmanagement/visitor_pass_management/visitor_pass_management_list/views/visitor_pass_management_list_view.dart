@@ -238,8 +238,10 @@ class _VisitorPassManagementListViewState extends State<VisitorPassManagementLis
                                             state.items[index].id ?? 0);
                                       },
                                       showEditButton: state
-                                          .items[index].status !=
-                                          ConstantsIntValue.cancelledStatus,
+                                          .items[index].status ==
+                                          ConstantsIntValue.passCreatedStatus || state
+                                          .items[index].status ==
+                                          ConstantsIntValue.passStatusHandedOver,
                                       onViewTap: (selectedIndex) {
                                         showDialog(
                                           context: context,

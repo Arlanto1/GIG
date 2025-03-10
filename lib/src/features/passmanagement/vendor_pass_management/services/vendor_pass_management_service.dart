@@ -46,7 +46,7 @@ class VendorPassManagementServices {
     required VendorPassManagementRequest requestBody,
     required bool isSubmit,
   }) async {
-    final String url = "${Apis._createVendorPassManagement}isSubmit=$isSubmit";
+    final String url = "${Apis._createVendorPassManagement}?isSubmit=$isSubmit";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: requestBody.toJson(),

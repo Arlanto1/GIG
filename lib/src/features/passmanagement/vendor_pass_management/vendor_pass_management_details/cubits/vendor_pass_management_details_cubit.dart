@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/passmanagement/models/day_pass_reason_model.dart';
 import 'package:db_atom/src/features/passmanagement/models/vendor_pass_reason_model.dart';
 import 'package:db_atom/src/features/passmanagement/vendor_pass_management/models/requestModels/vendor_pass_management_request.dart';
 import 'package:db_atom/src/features/passmanagement/vendor_pass_management/models/vendor_pass_management_model.dart';

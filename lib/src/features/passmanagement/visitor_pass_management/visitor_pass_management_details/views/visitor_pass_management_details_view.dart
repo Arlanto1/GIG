@@ -89,7 +89,7 @@ class _VisitorPassManagementDetailsViewState
               Navigator.pop(context);
               Navigator.pop(context);
               Navigator.popAndPushNamed(
-                  context, dayPassManagementListRoute, arguments: {
+                  context, visitorPassManagementListRoute, arguments: {
               });
             },
           );
@@ -258,7 +258,7 @@ class _VisitorPassManagementDetailsViewState
 
 
                             /// Updated Status
-                            if(state.model.status !=null)...[
+                            if(state.model.status == 0 || state.model.status == 1)...[
                             CommonWidgets.textDisplay(
                                 isMandatory: true,
                                 // state.labels?.locale.get ??
