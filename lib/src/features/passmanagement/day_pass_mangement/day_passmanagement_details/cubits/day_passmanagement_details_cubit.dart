@@ -661,14 +661,122 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
   //   }
   // }
 
-  Future<bool> submitForm({
-    bool isSaveOnly = false,
-  }) async {
+  // Future<bool> submitForm({
+  //   bool isSaveOnly = false,
+  // }) async {
+  //   emit(
+  //     state.copyWith(
+  //       status: FormStatus.loading,
+  //     ),
+  //   );
+  //
+  //   DateTime dateTime;
+  //   if (!Utils().isTimestamp(state.model.inputDate!)) {
+  //     dateTime =
+  //         DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+  //     int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+  //     state.model.inputDate = inputDate.toString();
+  //   }
+  //   // Create/Update API Call
+  //   DayPassManagementRequest request =
+  //     DayPassManagementRequest(passManagement: state.model);
+  //   // TODO: Need to change from Backend- Status should be handled from backend
+  //   state.model.status ??= 0;
+  //   try {
+  //     GenericResponse response = GenericResponse();
+  //     if (isSaveOnly) {
+  //       //Validating Fields
+  //       if (!state.isValidDraft.status) {
+  //         state.model.inputDate = state.model.inputDate == null
+  //             ? Utils().getCurrentDate()
+  //             : Utils.timestampToDateConversion(
+  //             int.tryParse(state.model.inputDate ?? '0'),
+  //             Constants.fulldateFormat);
+  //         emit(
+  //           state.copyWith(
+  //             status: FormStatus.formError,
+  //             message: state.isValidDraft.message,
+  //           ),
+  //         );
+  //         return false;
+  //       }
+  //       response = await dayPassManagementServices.createPass(
+  //                  requestBody: request, isSubmit: false);
+  //     } else {
+  //       //Validating Fields
+  //       if (!state.isValid.status) {
+  //         state.model.inputDate = state.model.inputDate == null
+  //             ? Utils().getCurrentDate()
+  //             : Utils.timestampToDateConversion(
+  //             int.tryParse(state.model.inputDate ?? '0'),
+  //             Constants.fulldateFormat);
+  //         emit(
+  //           state.copyWith(
+  //             status: FormStatus.formError,
+  //             message: state.isValid.message,
+  //           ),
+  //         );
+  //         return false;
+  //       }
+  //       response = await dayPassManagementServices.createPass(
+  //           requestBody: request, isSubmit: true);
+  //     }
+  //
+  //     log('---response--msg--${response.message}---');
+  //
+  //     if (response.id != null) {
+  //       int? id = int.tryParse(response.id!);
+  //       if (id != null) {
+  //         state.model.id = id;
+  //       }
+  //     }
+  //     emit(
+  //       state.copyWith(
+  //         model: state.model,
+  //         message: response.message,
+  //         status: FormStatus.success,
+  //       ),
+  //     );
+  //     state.model.inputDate = state.model.inputDate == null
+  //         ? Utils().getCurrentDate()
+  //         : Utils.timestampToDateConversion(
+  //         int.tryParse(state.model.inputDate ?? '0'),
+  //         Constants.fulldateFormat);
+  //     return true;
+  //   } on GenericResponse catch (e) {
+  //     Utils().emitErrorState(e, emit, state);
+  //     state.model.inputDate = state.model.inputDate == null
+  //         ? Utils().getCurrentDate()
+  //         : Utils.timestampToDateConversion(
+  //         int.tryParse(state.model.inputDate ?? '0'),
+  //         Constants.fulldateFormat);
+  //     return false;
+  //   } on Exception catch (e) {
+  //     state.model.inputDate = state.model.inputDate == null
+  //         ? Utils().getCurrentDate()
+  //         : Utils.timestampToDateConversion(
+  //         int.tryParse(state.model.inputDate ?? '0'),
+  //         Constants.fulldateFormat);
+  //     emit(
+  //       state.copyWith(
+  //         message: e.toString(),
+  //         status: FormStatus.error,
+  //       ),
+  //     );
+  //     return false;
+  //   }
+  // }
+
+  void submitForm({bool isSaveOnly = false}) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
+    state.model.status ??= 0;
+    // Setting time in milliseconds
+    // state.model.createdDate =
+    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     DateTime dateTime;
     if (!Utils().isTimestamp(state.model.inputDate!)) {
@@ -678,93 +786,68 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       state.model.inputDate = inputDate.toString();
     }
     // Create/Update API Call
+    // DutyPostMasterRequest request =
+    // DutyPostMasterRequest(dutyPostMaster: state.model);
+
     DayPassManagementRequest request =
-      DayPassManagementRequest(passManagement: state.model);
-    // TODO: Need to change from Backend- Status should be handled from backend
-    state.model.status ??= 0;
+         DayPassManagementRequest(passManagement: state.model);
+    GenericResponse response = GenericResponse();
     try {
-      GenericResponse response = GenericResponse();
       if (isSaveOnly) {
-        //Validating Fields
         if (!state.isValidDraft.status) {
-          state.model.inputDate = state.model.inputDate == null
-              ? Utils().getCurrentDate()
-              : Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'),
-              Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
-          return false;
+          return;
         }
-        response = await dayPassManagementServices.createPass(
-                   requestBody: request, isSubmit: false);
+        response = (await dayPassManagementServices.createPass(
+            requestBody: request, isSubmit: false));
       } else {
         //Validating Fields
         if (!state.isValid.status) {
-          state.model.inputDate = state.model.inputDate == null
-              ? Utils().getCurrentDate()
-              : Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'),
-              Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );
-          return false;
+          return;
         }
-        response = await dayPassManagementServices.createPass(
-            requestBody: request, isSubmit: true);
+        response = (await dayPassManagementServices.createPass(
+            requestBody: request, isSubmit: true));
       }
-
-      log('---response--msg--${response.message}---');
-
-      if (response.id != null) {
-        int? id = int.tryParse(response.id!);
-        if (id != null) {
-          state.model.id = id;
-        }
-      }
-      emit(
-        state.copyWith(
-          model: state.model,
-          message: response.message,
-          status: FormStatus.success,
-        ),
-      );
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
-      return true;
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
+
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
-      return false;
+      return;
     } on Exception catch (e) {
-      state.model.inputDate = state.model.inputDate == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
       emit(
         state.copyWith(
           message: e.toString(),
           status: FormStatus.error,
         ),
       );
-      return false;
     }
-  }
 
+    log('---response--msg--${response.message}---');
+    emit(
+      state.copyWith(
+        message:response.message,
+        status: FormStatus.success,
+      ),
+    );
+  }
 }
