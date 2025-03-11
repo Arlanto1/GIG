@@ -151,6 +151,14 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
           int.tryParse(state.model.startTime ?? '0'),
           Constants.fulldateFormat);
 
+      if(state.model.status !=null && state.model.status !=0) {
+        state.model.returnedTime = state.model.returnedTime == null
+            ? Utils().getCurrentDate()
+            : Utils.timestampToDateConversion(
+            int.tryParse(state.model.returnedTime ?? '0'),
+            Constants.fulldateFormat);
+      }
+      state.model.passType = 1;
       // state.model.endTime = state.model.endTime == null
       //     ? Utils.timestampToDateConversion(
       //     DateTime.now().add(const Duration(hours: 24)).millisecondsSinceEpoch,
@@ -163,7 +171,10 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       log('--loggedInUserDetails---${loggedInUserDetails.firstName}----');
 
       state.model.entrySecurity ??= loggedInUserDetails;
-      // state.model.rejectedBy ??= loggedInUserDetails;
+
+      if(state.model.status !=null && state.model.status !=0 && state.model.status !=1) {
+        state.model.handoverSecurity ??= loggedInUserDetails;
+      }
       log('--state.model.entrySecurity---${state.model.entrySecurity?.firstName}----');
 
       List<BaseUser> onlyDBUsers = await commonServices.getBaseUsers(
@@ -351,6 +362,7 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       PassInfo userDetails = PassInfo(
         passNo:name,
         id: passNo.id,
+        passType: 1
       );
       state.model.passInfo = userDetails;
       emit(
@@ -439,6 +451,15 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.inputDate = inputDate.toString();
     }
+
+    state.model.startTime = state.model.startTime != null
+        ? ((int.tryParse(state.model.startTime ?? '') ?? DateTime.now().millisecondsSinceEpoch) ~/ 1000).toString()
+        : (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    state.model.endTime = state.model.endTime != null
+        ? ((int.tryParse(state.model.endTime ?? '') ?? DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch) ~/ 1000).toString()
+        : (DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch ~/ 1000).toString();
+
     // Create/Update API Call
     VisitorPassManagementRequest request =
     VisitorPassManagementRequest(passManagement: state.model);

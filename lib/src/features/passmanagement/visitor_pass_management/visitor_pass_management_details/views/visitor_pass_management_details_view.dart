@@ -158,19 +158,24 @@ class _VisitorPassManagementDetailsViewState
 
   void initializeDates(VisitorPassManagementDetailsState state) {
 
-    passValidFromController.text = state.model.startTime != null ?  Utils.timestampToDateConversion(
+    passValidFromController.text = state.model.startTime == null
+        ? Utils.timestampToDateConversion(
+        DateTime.now().millisecondsSinceEpoch,
+        Constants.fulldateFormat) : Utils.timestampToDateConversion(
         int.tryParse(state.model.startTime ?? '') ??
-            DateTime.now().millisecondsSinceEpoch, // Use current timestamp if null
-        Constants.fulldateFormat) : '';
+            DateTime.now().millisecondsSinceEpoch,
+        Constants.fulldateFormat);
 
     passValidUntilController.text = state.model.endTime != null
         ? Utils.timestampToDateConversion(
         int.tryParse(state.model.endTime ?? '') ??
             DateTime.now().millisecondsSinceEpoch, // Fallback to current timestamp
-        Constants.fulldateFormat)
-        : Utils.timestampToDateConversion(
+        Constants.fulldateFormat) :Utils.timestampToDateConversion(
         DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch, // One day ahead
         Constants.fulldateFormat);
+
+    state.model.startTime == passValidFromController.text;
+    state.model.endTime == passValidUntilController.text;
   }
 
   getBodybuilder(VisitorPassManagementDetailsState state, height) {
@@ -489,6 +494,7 @@ class _VisitorPassManagementDetailsViewState
                               controller: contactNumberController,
                               textInputType: TextInputType.number,
                               textFormKey: Keys.contactNoKey,
+                              characterLimit: 17,
                               hintText: '',
                               // focusNode: employeeIdFocusNode,
                               isEnable: !isReadOnly,
@@ -909,11 +915,35 @@ class _VisitorPassManagementDetailsViewState
                               height * 0.01),
                         ],
 
-                        ///Attachments
+
+                        if(state.model.status != 0 && state.model.status !=1 && state.model.status !=null)...[
+                        ///Pass Collected By
+                            CommonWidgets.horizentaltextHandling(
+                                // state.labels?.locale.p ??
+                                //     state.labels?.defaultLocale.entrySecurity ??
+                                    Constants.passCollectedBy,
+                                isMandatory: true,
+                                '${state.model.handoverSecurity?.firstName ?? ''} ${state.model.handoverSecurity?.lastName ?? ''}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            ///Pass Returned On
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.inputDate ??
+                              //     state.labels?.defaultLocale.inputDate ??
+                                  Constants.passReturnedOn,
+                              Styles.textStyleBlack14,
+                              isMandatory: true,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            datecreateWidgetdisplay(
+                                state.model.returnedTime ?? ''),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+],
+                            ///Attachments
                             CommonWidgets.textDisplay(
                               // state.labels?.locale.attachment ??
                               //     state.labels?.defaultLocale.attachment ??
-                                Constants.evidenceDocuments,
+                                Constants.photoOfVisitor,
                                 Styles.textStyleBlack14),
                             widget.model == null
                                 ? CommonWidgets.verticalSpacerWidget(

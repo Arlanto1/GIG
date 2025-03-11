@@ -159,19 +159,24 @@ class _VendorPassManagementDetailsViewState
 
   void initializeDates(VendorPassManagementDetailsState state) {
 
-    passValidFromController.text = state.model.startTime != null ?  Utils.timestampToDateConversion(
+    passValidFromController.text = state.model.startTime == null
+        ? Utils.timestampToDateConversion(
+        DateTime.now().millisecondsSinceEpoch,
+        Constants.fulldateFormat) : Utils.timestampToDateConversion(
         int.tryParse(state.model.startTime ?? '') ??
-            DateTime.now().millisecondsSinceEpoch, // Use current timestamp if null
-        Constants.fulldateFormat) : '';
+            DateTime.now().millisecondsSinceEpoch,
+        Constants.fulldateFormat);
 
     passValidUntilController.text = state.model.endTime != null
         ? Utils.timestampToDateConversion(
         int.tryParse(state.model.endTime ?? '') ??
             DateTime.now().millisecondsSinceEpoch, // Fallback to current timestamp
-        Constants.fulldateFormat)
-        : Utils.timestampToDateConversion(
+        Constants.fulldateFormat) :Utils.timestampToDateConversion(
         DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch, // One day ahead
         Constants.fulldateFormat);
+
+    state.model.startTime == passValidFromController.text;
+    state.model.endTime == passValidUntilController.text;
   }
 
   getBodybuilder(VendorPassManagementDetailsState state, height) {

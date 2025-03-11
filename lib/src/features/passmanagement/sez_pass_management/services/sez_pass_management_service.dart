@@ -9,7 +9,7 @@ class Apis {
 
   static final String _getSezPassManagementById = '$baseUrl/getPassMgmtById';
 
-  static final String _createSezPassManagement = '$baseUrl/createDayPass';
+  static final String _createSezPassManagement = '$baseUrl/createSezPass';
 }
 
 class SezPassManagementServices {
@@ -43,7 +43,7 @@ class SezPassManagementServices {
     required SezPassManagementRequest requestBody,
     required bool isSubmit,
   }) async {
-    final String url = "${Apis._createSezPassManagement}isSubmit=$isSubmit";
+    final String url = "${Apis._createSezPassManagement}?isSubmit=$isSubmit";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: requestBody.toJson(),

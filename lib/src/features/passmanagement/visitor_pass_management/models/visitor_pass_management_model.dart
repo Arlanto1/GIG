@@ -39,6 +39,7 @@ class VisitorPassManagementModel {
   List<Organisation>? entities;
   int? status;
   User? entrySecurity;
+  User? handoverSecurity;
   User? host;
   User? employee;
   int? passType;
@@ -69,6 +70,7 @@ class VisitorPassManagementModel {
   int? idValidationType;
   String? escortedBy;
   String? escortedEmployeeId;
+  String? returnedTime;
   String? lock;
 
   VisitorPassManagementModel({
@@ -80,6 +82,7 @@ class VisitorPassManagementModel {
     this.entities,
     this.status,
     this.entrySecurity,
+    this.handoverSecurity,
     this.host,
     this.employee,
     this.passType,
@@ -110,6 +113,7 @@ class VisitorPassManagementModel {
     this.idValidationType,
     this.escortedBy,
     this.escortedEmployeeId,
+    this.returnedTime,
     this.lock,
   });
 
@@ -125,7 +129,8 @@ class VisitorPassManagementModel {
             .toList(),
         status = json['status'] as int?,
         entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
-        host = (json['host'] as Map<String,dynamic>?) != null ? User.fromJson(json['host'] as Map<String,dynamic>) : null,
+        handoverSecurity = (json['handoverSecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['handoverSecurity'] as Map<String,dynamic>) : null,
+      host = (json['host'] as Map<String,dynamic>?) != null ? User.fromJson(json['host'] as Map<String,dynamic>) : null,
         employee = (json['employee'] as Map<String,dynamic>?) != null ? User.fromJson(json['employee'] as Map<String,dynamic>) : null,
         passType = json['passType'] as int?,
         updatedStatus= json['updatedStatus'] as int?,
@@ -155,6 +160,7 @@ class VisitorPassManagementModel {
         idValidationType=json['idValidationType'] as int?,
         escortedBy=json['escortedBy'] as String?,
         escortedEmployeeId=json['escortedEmployeeId'] as String?,
+        returnedTime=json['returnedTime'] as String?,
         lock = json['lock'] as String?;
 
   Map<String, dynamic> toJson() => {
@@ -168,6 +174,7 @@ class VisitorPassManagementModel {
     'entities': entities?.map((e) => e.toJson()).toList(),
     'status' : status,
     'entrySecurity' : entrySecurity?.toJson(),
+    'handoverSecurity' : handoverSecurity?.toJson(),
     'host':host?.toJson(),
     'employee':employee?.toJson(),
     'passType' : passType,
@@ -196,6 +203,7 @@ class VisitorPassManagementModel {
     'idValidationType':idValidationType,
     'escortedBy':escortedBy,
     'escortedEmployeeId':escortedEmployeeId,
+    'returnedTime':returnedTime,
     'lock':lock};
 }
 

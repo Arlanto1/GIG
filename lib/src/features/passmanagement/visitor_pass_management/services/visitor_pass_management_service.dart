@@ -11,7 +11,7 @@ class Apis {
 
   static final String _getVisitorPassManagementById = '$baseUrl/getPassMgmtById';
 
-  static final String _createVisitorPassManagement = '$baseUrl/createDayPass';
+  static final String _createVisitorPassManagement = '$baseUrl/createVisitorPass';
 }
 
 class VisitorPassManagementServices {
@@ -45,7 +45,7 @@ class VisitorPassManagementServices {
     required VisitorPassManagementRequest requestBody,
     required bool isSubmit,
   }) async {
-    final String url = "${Apis._createVisitorPassManagement}isSubmit=$isSubmit";
+    final String url = "${Apis._createVisitorPassManagement}?isSubmit=$isSubmit";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: requestBody.toJson(),

@@ -11,7 +11,7 @@ class Apis {
 
   static final String _getVendorPassManagementById = '$baseUrl/getPassMgmtById';
 
-  static final String _createVendorPassManagement = '$baseUrl/createDayPass';
+  static final String _createVendorPassManagement = '$baseUrl/createVendorPass';
 }
 
 class VendorPassManagementServices {
