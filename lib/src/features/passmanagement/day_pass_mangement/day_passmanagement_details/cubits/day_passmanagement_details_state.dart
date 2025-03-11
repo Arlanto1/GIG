@@ -74,13 +74,22 @@ class DayPassManagementDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter SL No');
     }
 
-    return const ErrorResponse(status: true, message: 'Form is Valid');
+    if(model.employee?.employeeId != null && model.employee?.employeeId == model.host?.employeeId) {
+      return const ErrorResponse(
+          status: false, message: 'Same user selected in multiple lists');
+    }
+      return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
   ErrorResponse get isValid {
     if (model.location == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
+    }
+
+    if(model.employee?.employeeId != null && model.employee?.employeeId == model.host?.employeeId  ){
+      return const ErrorResponse(status: false, message: 'Same user selected in multiple lists');
+
     }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }

@@ -107,7 +107,7 @@ class _SezPassManagementDetailsViewState
         emailController.text = state.model.email??'';
         sezPassInfoController.text = state.model.passNo ?? '';
         mTPApplicationNoController.text = state.model.mifareNo??'';
-        companyNameController.text= state.model.companyType?.name == 'FTE'? 'Deutsche Bank': state.model.companyName ??'';
+        companyNameController.text= state.model.companyType?.name != 'FTE'? state.model.companyName ??'' : 'Deutsche Bank';
 
         if (state.model.status == 0 && !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
@@ -519,7 +519,7 @@ class _SezPassManagementDetailsViewState
                               isEnable: (state.model.companyType?.name != 'FTE') && ( state.model.status ==null || state.model.status ==0) ? true :false,
                               isDisableColor:false,
                               onChange: (String value) {
-                                state.model.companyName = value;
+                                state.model.companyName = state.model.companyType?.name != 'FTE'? value : "Deutsche Bank";
                                 context
                                     .read<SezPassManagementDetailsCubit>()
                                     .onModelValueChange(state.model);
@@ -530,7 +530,8 @@ class _SezPassManagementDetailsViewState
 
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
-                            if(state.model.companyType?.name != 'Exceptions' && state.model.companyType?.name != 'CWR T2')...[
+                            /// category == Permanent
+                            if(state.model.category == 1)...[
                               /// Employee Id
                               CommonWidgets.textDisplay(
                                 // state.labels?.locale.employeeID ??
@@ -582,7 +583,7 @@ class _SezPassManagementDetailsViewState
                                   height * 0.01),
                             ],
 
-                            if(state.model.companyType?.name == 'CWR T2' )...[
+                            if(state.model.category == 2 )...[
                               ///EmployeeId
                               CommonWidgets.textDisplay(
                                 // state.labels?.locale.name ??
@@ -598,7 +599,7 @@ class _SezPassManagementDetailsViewState
                                 textFormKey: Keys.contactNoKey,
                                 hintText: '',
                                 // focusNode: employeeIdFocusNode,
-                                isEnable: state.model.companyType?.name == 'CWR T2' && !isReadOnly? true : false,
+                                isEnable: !isReadOnly? true : false,
                                 isDisableColor: true,
                                 onChange: (String value) {
                                   state.model.employeeId = value;
@@ -625,7 +626,7 @@ class _SezPassManagementDetailsViewState
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
                               // focusNode: employeeIdFocusNode,
-                              isEnable: state.model.companyType?.name == 'Exceptions' || state.model.companyType?.name == 'CWR T2' ? true : false,
+                              isEnable: state.model.category ==2 && (state.model.status == null || state.model.status ==0)? true : false,
                               isDisableColor: true,
                               onChange: (String value) {
                                 state.model.employeeName = value;

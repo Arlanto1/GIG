@@ -97,7 +97,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
       EmployeeDepartments departments = await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
 
-      List<Organisation> companyType = await commonServices.getOrganisations(name: 'ATOM_COMPANY_TYPES');
+      List<Organisation> companyType = await commonServices.getOrganisations(name: 'ATOM_SEZ_COMPANY_TYPES', filter: state.model.category == 1 ? 2 : 1);
 
 
       List<Organisation> getStatus  = await commonServices.getStatusesByModuleId(
@@ -219,6 +219,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
     Organisation? department,
     int? status,
     int? passCategory,
+    Organisation? selectedCompanyType,
 
   }) async {
     emit(
@@ -230,6 +231,64 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
     state.model.status = status ?? state.model.status;
 
     state.model.category = passCategory ?? state.model.category;
+    state.model.companyName = state.model.companyType?.name == 'FTE' ?'Deutsche Bank': state.model.companyName;
+
+    // if(passCategory != null && state.model.category ==2){
+    //   List<Organisation> companyType1 = await commonServices.getOrganisations(name: 'ATOM_SEZ_COMPANY_TYPES',filter: 1);
+    //   state.model.companyType = companyType1;
+    // }
+
+    // if (passCategory != null && state.model.category == 2) {
+    //   List<Organisation> companyType1 = await commonServices.getOrganisations(
+    //     name: 'ATOM_SEZ_COMPANY_TYPES',
+    //     filter: 1,
+    //   );
+    //   state.model.companyType = companyType1.isNotEmpty ? companyType1.first : null;
+    // }
+
+    // if (passCategory != null && state.model.category == 1) {
+    //   List<Organisation> companyType1 = await commonServices.getOrganisations(
+    //     name: 'ATOM_SEZ_COMPANY_TYPES',
+    //     filter: 2,
+    //   );
+    //   state.model.companyType = companyType1.isNotEmpty ? companyType1.first : null;
+    // }
+
+    List<Organisation> companyTypeList = [];
+
+// Fetch organisations and set the list
+      if (passCategory != null && state.model.category == 2) {
+        state.model.companyType = null;
+        companyTypeList = await commonServices.getOrganisations(
+          name: 'ATOM_SEZ_COMPANY_TYPES',
+          filter: 1,
+        );
+        state.model.companyType = companyTypeList.first;
+        state.model.companyName = state.model.companyType?.name == 'FTE' ?'Deutsche Bank': state.model.companyName;
+        emit(
+          state.copyWith(
+            model: state.model,
+            companyType: companyTypeList,
+            status: FormStatus.initial,
+          ),
+        );
+      }
+    if (passCategory != null && state.model.category == 1) {
+      state.model.companyType = null;
+      companyTypeList = await commonServices.getOrganisations(
+        name: 'ATOM_SEZ_COMPANY_TYPES',
+        filter: 2,
+      );
+      // state.model.companyType = companyTypeList.first;
+      emit(
+        state.copyWith(
+          model: state.model,
+          companyType: companyTypeList,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
     if (entities != null) {
       state.model.entities = entities;
     }
@@ -245,7 +304,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
     if ( employee!= null) {
       state.model.employeeId = employee.employeeId;
       state.model.employeeName = employee.name;
-      state.model.email = employee.email;
+      // state.model.email = employee.email;
       String name = employee.name ?? '';
       String email = employee.email ?? '';
       User userDetails = User(

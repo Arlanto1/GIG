@@ -150,18 +150,15 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
 
-      state.model.startTime = state.model.startTime == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
-          int.tryParse(state.model.startTime ?? '0'),
-          Constants.fulldateFormat);
-
-      // state.model.endTime = state.model.endTime == null
-      //     ? Utils.timestampToDateConversion(
-      //     DateTime.now().add(const Duration(hours: 24)).millisecondsSinceEpoch,
-      //     Constants.fulldateFormat)
+      // state.model.startTime = state.model.startTime == null
+      //     ? Utils().getCurrentDate()
       //     : Utils.timestampToDateConversion(
-      //     int.tryParse(state.model.endTime ?? '0'),
+      //     int.tryParse(state.model.startTime ?? '0'),
+      //     Constants.fulldateFormat);
+      //
+      // state.model.endTime =
+      //     Utils.timestampToDateConversion(
+      //     DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch,
       //     Constants.fulldateFormat);
       MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
 
@@ -458,9 +455,15 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.inputDate = inputDate.toString();
     }
-    // Create/Update API Call
-    // DutyPostMasterRequest request =
-    // DutyPostMasterRequest(dutyPostMaster: state.model);
+
+    state.model.startTime = state.model.startTime != null
+        ? ((int.tryParse(state.model.startTime ?? '') ?? DateTime.now().millisecondsSinceEpoch) ~/ 1000).toString()
+        : (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+    state.model.endTime = state.model.endTime != null
+        ? ((int.tryParse(state.model.endTime ?? '') ?? DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch) ~/ 1000).toString()
+        : (DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch ~/ 1000).toString();
+
 
     DayPassManagementRequest request =
          DayPassManagementRequest(passManagement: state.model);
