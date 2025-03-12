@@ -1449,8 +1449,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     await lawEnforcementCubit.getEmployeeDepartments(
       'EMPLOYEE_DEPARTMENTS',
     );
-    await lawEnforcementCubit.getDBofficialByRoleDepositor(
-        ConstantUserRoles.atomStaticUser, widget.model?.location?.id);
+    // await lawEnforcementCubit.getDBofficialByRoleDepositor(
+    //     ConstantUserRoles.atomStaticUser,);
     await lawEnforcementCubit.getUserDetails(
       userid,
     );
@@ -1546,6 +1546,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   }
 
   dbOfficialDialog(LawEnforcementState state) {
+    log('123${state.locationSelectedlist?.id}');
     showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
@@ -1949,10 +1950,14 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                 locationList: state.getLocationsResponse,
                 //GetLocations(),
                 onTap: (Organisation? org) async {
+                  // await lawEnforcementCubit.getDBofficialByRoleDepositor(
+                  //     ConstantUserRoles.atomStaticUser, org?.id ?? 0);
                   await lawEnforcementCubit.getSerialnumberDetails(
                     org?.id ?? 0,
                     Constants.leoModuleCode,
                   );
+                  // await lawEnforcementCubit.getDBofficialByRoleDepositor(
+                  //     ConstantUserRoles.atomStaticUser, org?.id ?? 0);
                   // locationselectedText = list?.name ?? '';
                   // locationSelectedlist = list;
                   lawEnforcementCubit.getlocationsResponseData(org);

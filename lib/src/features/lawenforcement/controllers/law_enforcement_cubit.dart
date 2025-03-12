@@ -431,11 +431,19 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
       moduleCode: Constants.leoModuleCode,
     );
 
+
+    List<BaseUser>? getDepositorData = await commonServices.getBaseUsers(
+      roleName: 'ATOM_STATIC_USER',
+      locationId:defaultLocation.id,
+      isDbUser: true,
+    );
+
     log('---initializeValues---${serialNumberResponse.serialNo}-');
 
     emit(state.copyWith(
       locationSelectedlist: defaultLocation,
       slno: serialNumberResponse.serialNo,
+      getDepositorResponse: getDepositorData,
     ));
   }
 
@@ -539,7 +547,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
     try {
       List<BaseUser>? getDepositorData = await commonServices.getBaseUsers(
         roleName: roleName,
-        locationId:state.locationSelectedlist?.id,
+        locationId:locationId,
         isDbUser: true,
       );
       emit(
