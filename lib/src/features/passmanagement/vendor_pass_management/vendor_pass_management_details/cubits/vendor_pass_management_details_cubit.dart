@@ -155,6 +155,17 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
           int.tryParse(state.model.startTime ?? '0'),
           Constants.fulldateFormat);
 
+      state.model.passType ??= 2;
+      state.model.passInfo?.passType ??= 2;
+
+      if(state.model.status == 1) {
+        state.model.handOverSecurity ??= loggedInUserDetails;
+        state.model.returnedTime = state.model.returnedTime == null
+            ? Utils().getCurrentDate()
+            : Utils.timestampToDateConversion(
+            int.tryParse(state.model.returnedTime ?? '0'),
+            Constants.fulldateFormat);
+      }
       // state.model.endTime = state.model.endTime == null
       //     ? Utils.timestampToDateConversion(
       //     DateTime.now().add(const Duration(hours: 24)).millisecondsSinceEpoch,
@@ -448,6 +459,8 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
       state.model.inputDate = inputDate.toString();
     }
 
+    state.model.passType ??= 2;
+    state.model.passInfo?.passType ??= 2;
 
     state.model.startTime = state.model.startTime != null
         ? ((int.tryParse(state.model.startTime ?? '') ?? DateTime.now().millisecondsSinceEpoch) ~/ 1000).toString()

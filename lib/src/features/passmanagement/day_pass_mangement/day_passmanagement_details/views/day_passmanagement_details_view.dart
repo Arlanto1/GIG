@@ -998,6 +998,33 @@ class _DayPassManagementDetailsViewState
                                 height * 0.01),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+
+                            if(state.model.status !=null && state.model.status !=0 && state.model.status !=1)...[
+                            /// Pass Collected By
+                            CommonWidgets.horizentaltextHandling(
+                                // state.labels?.locale.entrySecurity ??
+                                //     state.labels?.defaultLocale.entrySecurity ??
+                                    Constants.passCollectedBy,
+                                isMandatory: true,
+                                '${state.model.handOverSecurity?.firstName ?? ''} ${state.model.handOverSecurity?.lastName ?? ''}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+
+
+                           ///Pass Returned On
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.inputDate ??
+                              //     state.labels?.defaultLocale.inputDate ??
+                                  Constants.passReturnedOn,
+                              Styles.textStyleBlack14,
+                              isMandatory: true,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            datecreateWidgetdisplay(
+                                state.model.returnedTime ?? ''),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+],
                             ///Attachments
                             CommonWidgets.textDisplay(
                                 // state.labels?.locale.attachment ??

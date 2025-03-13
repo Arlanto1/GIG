@@ -165,6 +165,15 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       log('--loggedInUserDetails---${loggedInUserDetails.firstName}----');
 
       state.model.entrySecurity ??= loggedInUserDetails;
+      if(state.model.status == 1) {
+        state.model.handOverSecurity ??= loggedInUserDetails;
+        state.model.returnedTime = state.model.returnedTime == null
+            ? Utils().getCurrentDate()
+            : Utils.timestampToDateConversion(
+            int.tryParse(state.model.returnedTime ?? '0'),
+            Constants.fulldateFormat);
+      }
+
       // state.model.rejectedBy ??= loggedInUserDetails;
       log('--state.model.entrySecurity---${state.model.entrySecurity?.firstName}----');
 

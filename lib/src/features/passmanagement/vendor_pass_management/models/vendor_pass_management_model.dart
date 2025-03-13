@@ -41,6 +41,7 @@ class VendorPassManagementModel {
   User? entrySecurity;
   User? host;
   User? employee;
+  User? handOverSecurity;
   int? passType;
   int? updatedStatus;
   Organisation? companyType;
@@ -70,6 +71,7 @@ class VendorPassManagementModel {
   int? idValidationType;
   String? escortedBy;
   String? escortedEmployeeId;
+  String? returnedTime;
   String? lock;
 
 
@@ -84,6 +86,7 @@ class VendorPassManagementModel {
     this.entrySecurity,
     this.host,
     this.employee,
+    this.handOverSecurity,
     this.passType,
     this.updatedStatus,
     this.companyType,
@@ -113,6 +116,7 @@ class VendorPassManagementModel {
     this.idValidationType,
     this.escortedBy,
     this.escortedEmployeeId,
+    this.returnedTime,
     this.lock,
   });
 
@@ -130,7 +134,8 @@ class VendorPassManagementModel {
         entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
         host = (json['host'] as Map<String,dynamic>?) != null ? User.fromJson(json['host'] as Map<String,dynamic>) : null,
         employee = (json['employee'] as Map<String,dynamic>?) != null ? User.fromJson(json['employee'] as Map<String,dynamic>) : null,
-        passType = json['passType'] as int?,
+        handOverSecurity = (json['handOverSecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['handOverSecurity'] as Map<String,dynamic>) : null,
+      passType = json['passType'] as int?,
         updatedStatus= json['updatedStatus'] as int?,
         vendorPassReason = (json['vendorPassReason'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['vendorPassReason'] as Map<String,dynamic>) : null,
         department = (json['department'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['department'] as Map<String,dynamic>) : null,
@@ -160,6 +165,7 @@ class VendorPassManagementModel {
         idValidationType=json['idValidationType'] as int?,
         escortedBy=json['escortedBy'] as String?,
         escortedEmployeeId=json['escortedEmployeeId'] as String?,
+        returnedTime= json['returnedTime'] as String?,
         lock = json['lock'] as String?;
 
   Map<String, dynamic> toJson() => {
@@ -175,6 +181,7 @@ class VendorPassManagementModel {
     'entrySecurity' : entrySecurity?.toJson(),
     'host':host?.toJson(),
     'employee':employee?.toJson(),
+    'handOverSecurity':handOverSecurity?.toJson(),
     'passType' : passType,
     'updatedStatus':updatedStatus,
     'companyType' : companyType?.toJson(),
@@ -202,6 +209,7 @@ class VendorPassManagementModel {
     'idValidationType':idValidationType,
     'escortedBy':escortedBy,
     'escortedEmployeeId':escortedEmployeeId,
+    'returnedTime':returnedTime,
     'lock':lock
   };
 }
