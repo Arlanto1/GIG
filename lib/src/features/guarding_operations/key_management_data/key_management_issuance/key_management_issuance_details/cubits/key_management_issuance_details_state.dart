@@ -105,13 +105,13 @@ class KeyManagementIssuanceDetailsState extends Equatable {
     //     model.keyReturnDateTime == null) {
     //   return const ErrorResponse(
     //       status: false, message: 'Please enter Key Returned Date And Time');
+    // // }
+    // if (model.status != null &&
+    //     model.status != 0 &&
+    //     model.returnedByName.isEmptyOrNull) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Returned By Name');
     // }
-    if (model.status != null &&
-        model.status != 0 &&
-        model.returnedByName.isEmptyOrNull) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Returned By Name');
-    }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
@@ -181,12 +181,12 @@ class KeyManagementIssuanceDetailsState extends Equatable {
     //   return const ErrorResponse(
     //       status: false, message: 'Please enter Key Returned Date And Time');
     // }
-    if (model.status != null &&
-        model.status != 0 &&
-        model.returnedByName.isEmptyOrNull) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Returned By Name');
-    }
+    // if (model.status != null &&
+    //     model.status != 0 &&
+    //     model.returnedByName.isEmptyOrNull) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Returned By Name');
+    // }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
