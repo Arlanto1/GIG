@@ -38,6 +38,7 @@ class   CommonApis {
   static const String exportDetailPagePDF = 'exportDeatilPagePDF?id=';
   static final String _getPassNo = '$baseUrl/getActivePassInfo?passType=';
   static final String _getPassType = '$baseUrl/getPassType?passType=';
+  static final String _getPassValidUntil = '$baseUrl/getPassValidUntil?';
 
 }
 
@@ -483,5 +484,15 @@ class CommonServices {
     }
     return List<Organisation>.from(
         response.map((x) => Organisation.fromJson(x)));
-  }  }
+  }
+
+  Future<String> getPassValidUntil({required int passCategory}) async {
+    final String url = '${CommonApis._getPassValidUntil}category=$passCategory';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return response['date'];
+  }
+
+}
 

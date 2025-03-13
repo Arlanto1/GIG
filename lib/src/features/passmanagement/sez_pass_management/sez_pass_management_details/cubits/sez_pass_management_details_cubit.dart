@@ -32,7 +32,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
       emailUsers: const [],
       errorMessage: '',
       departments: const [],
-      loadAttachments: const [], listOfEntities: const [], getCompanyTypeResponse: const [], dayPassReason:const [], passNo: const [], passType: const [], getStatus: const [],
+      loadAttachments: const [], listOfEntities: const [], getCompanyTypeResponse: const [], dayPassReason:const [], passNo: const [], passType: const [], getStatus: const [],passValidUntil:'',
     ),
   );
 
@@ -231,6 +231,8 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
     state.model.status = status ?? state.model.status;
 
     state.model.category = passCategory ?? state.model.category;
+
+
     state.model.companyName = state.model.companyType?.name == 'FTE' ?'Deutsche Bank': state.model.companyName;
 
     // if(passCategory != null && state.model.category ==2){
@@ -255,7 +257,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
     // }
 
     List<Organisation> companyTypeList = [];
-
+    String passValidUntilDate = '';
 // Fetch organisations and set the list
       if (passCategory != null && state.model.category == 2) {
         state.model.companyType = null;
@@ -265,13 +267,17 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
         );
         state.model.companyType = companyTypeList.first;
         state.model.companyName = state.model.companyType?.name == 'FTE' ?'Deutsche Bank': state.model.companyName;
+
+         passValidUntilDate = await commonServices.getPassValidUntil(passCategory: 1);
         emit(
           state.copyWith(
             model: state.model,
             companyType: companyTypeList,
+            passValidUntil :passValidUntilDate,
             status: FormStatus.initial,
           ),
         );
+
       }
     if (passCategory != null && state.model.category == 1) {
       state.model.companyType = null;
@@ -280,10 +286,12 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
         filter: 2,
       );
       // state.model.companyType = companyTypeList.first;
+      passValidUntilDate = await commonServices.getPassValidUntil(passCategory: 1);
       emit(
         state.copyWith(
           model: state.model,
           companyType: companyTypeList,
+          passValidUntil:passValidUntilDate,
           status: FormStatus.initial,
         ),
       );

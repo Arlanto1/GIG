@@ -19,6 +19,7 @@ class SezPassManagementDetailsState extends Equatable {
   final List<Organisation>? getStatus;
   final List<ImageContent>? loadAttachments;
   final String? message;
+  final String? passValidUntil;
   final MmUiLabels? labels;
 
   factory SezPassManagementDetailsState.initial({
@@ -32,6 +33,7 @@ class SezPassManagementDetailsState extends Equatable {
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required String errorMessage,
+    required String passValidUntil,
     required List<Organisation> departments,
     required final List<Organisation> getStatus,
     required List<ImageContent> loadAttachments,
@@ -48,6 +50,7 @@ class SezPassManagementDetailsState extends Equatable {
       getCompanyTypeResponse: getCompanyTypeResponse,
       emailUsers: emailUsers,
       message: errorMessage,
+      passValidUntil:passValidUntil,
       departments: departments,
       loadAttachments: loadAttachments,
     );
@@ -103,6 +106,7 @@ class SezPassManagementDetailsState extends Equatable {
     required this.departments,
     this.loadAttachments,
     this.message,
+    this.passValidUntil,
     this.labels,
     this.employee,
     this.dbSponsor,
@@ -127,6 +131,7 @@ class SezPassManagementDetailsState extends Equatable {
     List<BaseUser>? receiverEmailUsers,
     List<Organisation>? departments,
     List<ImageContent>? loadAttachments,
+    String? passValidUntil,
     String? message,
     MmUiLabels? labels,
   }) {

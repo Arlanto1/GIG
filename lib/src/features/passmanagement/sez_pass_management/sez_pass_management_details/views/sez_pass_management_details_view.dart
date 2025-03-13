@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/passmanagement/sez_pass_management/models/sez_pass_management_model.dart';
 import 'package:db_atom/src/features/passmanagement/sez_pass_management/sez_pass_management_details/cubits/sez_pass_management_details_cubit.dart';
+import 'package:intl/intl.dart';
 
 
 class SezPassManagementDetailsView extends StatefulWidget {
@@ -156,20 +157,21 @@ class _SezPassManagementDetailsViewState
 
   void initializeDates(SezPassManagementDetailsState state) {
 
-    passValidFromController.text = state.model.startTime != null ?  Utils.timestampToDateConversion(
+    log('Date ${state.passValidUntil==null}');
+    passValidFromController.text =
+    state.model.startTime != null ? Utils.timestampToDateConversion(
         int.tryParse(state.model.startTime ?? '') ??
-            DateTime.now().millisecondsSinceEpoch, // Use current timestamp if null
+            DateTime
+                .now()
+                .millisecondsSinceEpoch, // Use current timestamp if null
         Constants.fulldateFormat) : '';
 
-    passValidUntilController.text = state.model.endTime != null
-        ? Utils.timestampToDateConversion(
-        int.tryParse(state.model.endTime ?? '') ??
-            DateTime.now().millisecondsSinceEpoch, // Fallback to current timestamp
-        Constants.fulldateFormat)
-        : Utils.timestampToDateConversion(
-        DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch, // One day ahead
-        Constants.fulldateFormat);
-  }
+    if (state.passValidUntil != null) {
+      passValidUntilController.text = Utils.timestampToDateConversion(
+        int.tryParse(state.passValidUntil!),Constants.fulldateFormat);
+    }
+    }
+
 
   getBodybuilder(SezPassManagementDetailsState state, height) {
     initializeDates(state);
@@ -775,10 +777,6 @@ class _SezPassManagementDetailsViewState
                               // fromDate: initialisedStartDate,
                               // toDate: initialisedToDate,
                               onChange: (String value) {
-                                // isDateSelectedByUser = true;
-                                // keyReturnDueDateController.text = value;
-                                // state.model.passV =
-                                //     Utils().formatTime(value);
                                 BlocProvider.of<
                                     SezPassManagementDetailsCubit>(
                                     context)
