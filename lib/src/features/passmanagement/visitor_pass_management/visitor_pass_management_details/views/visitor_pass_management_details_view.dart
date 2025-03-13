@@ -989,14 +989,12 @@ class _VisitorPassManagementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// SubmitButton
-                            if (!isReadOnly) ...[
+                            if (showSaveSubmitButtons) ...[
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   cancelButtonDisplay(),
-                                  if (showSaveSubmitButtons) ...[
                                     submitButtonDisplay(state)
-                                  ],
                                 ],
                               ),
                             ],
@@ -1007,7 +1005,7 @@ class _VisitorPassManagementDetailsViewState
                     ],
                   ),
                 ),),),
-            if (isReadOnly) ...[
+            if (!showSaveSubmitButtons) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(

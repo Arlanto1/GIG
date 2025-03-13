@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/passmanagement/models/day_pass_reason_model.dart';
 import 'package:db_atom/src/features/passmanagement/visitor_pass_management/models/requestModels/visitor_pass_management_request.dart';
 import 'package:db_atom/src/features/passmanagement/visitor_pass_management/models/visitor_pass_management_model.dart';
 import 'package:db_atom/src/features/passmanagement/visitor_pass_management/services/visitor_pass_management_service.dart';
@@ -172,8 +171,13 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
 
       state.model.entrySecurity ??= loggedInUserDetails;
 
-      if(state.model.status !=null && state.model.status !=0 && state.model.status !=1) {
+      if(state.model.status == 1) {
         state.model.handoverSecurity ??= loggedInUserDetails;
+        state.model.returnedTime = state.model.returnedTime == null
+            ? Utils().getCurrentDate()
+            : Utils.timestampToDateConversion(
+            int.tryParse(state.model.returnedTime ?? '0'),
+            Constants.fulldateFormat);
       }
       log('--state.model.entrySecurity---${state.model.entrySecurity?.firstName}----');
 
@@ -415,7 +419,7 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       }
       log('--data----${data.length}----');
 
-      state.model.evidenceDocuments = data;
+      // state.model.visitorImage = data;
       emit(
         state.copyWith(
           model: state.model,
