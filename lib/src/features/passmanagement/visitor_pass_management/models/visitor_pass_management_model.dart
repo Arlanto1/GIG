@@ -57,7 +57,7 @@ class VisitorPassManagementModel {
   PassInfo? passInfo;
   String? startTime;
   String? endTime;
-  List<dynamic>? evidenceDocuments;
+  ImageContent? visitorImage;
   bool? idValidated;
   String? hostName;
   String? mifareNo;
@@ -100,7 +100,7 @@ class VisitorPassManagementModel {
     this.passInfo,
     this.startTime,
     this.endTime,
-    this.evidenceDocuments,
+    this.visitorImage,
     this.idValidated,
     this.hostName,
     this.mifareNo,
@@ -147,7 +147,7 @@ class VisitorPassManagementModel {
         passInfo = (json['passInfo'] as Map<String,dynamic>?) != null ? PassInfo.fromJson(json['passInfo'] as Map<String,dynamic>) : null,
         startTime = json['startTime'] as String?,
         endTime = json['endTime'] as String?,
-        evidenceDocuments = json['evidenceDocuments'] as List?,
+        visitorImage = (json['visitorImage'] as Map<String,dynamic>?) != null ? ImageContent.fromJson(json['visitorImage'] as Map<String,dynamic>) : null,
         idValidated = json['idValidated'] as bool?,
         hostName = json['hostName'] as String?,
         mifareNo = json['mifareNo'] as String?,
@@ -190,7 +190,7 @@ class VisitorPassManagementModel {
     'passInfo' : passInfo?.toJson(),
     'startTime' : startTime,
     'endTime' : endTime,
-    'evidenceDocuments' : evidenceDocuments,
+    'visitorImage' : visitorImage,
     'idValidated' : idValidated,
     'hostName' : hostName,
     'mifareNo' : mifareNo,
