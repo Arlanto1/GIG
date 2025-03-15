@@ -187,15 +187,6 @@ class _SezPassManagementListViewState extends State<SezPassManagementListView> {
                                             Constants.createdby,
                                         value:
                                         '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
-
-                                    labels.add(Label(
-                                        key: state.labels?.locale.dayPassInfo ??
-                                            state.labels?.defaultLocale
-                                                .dayPassInfo ??
-                                            Constants.dayPassNo,
-                                        value:
-                                        '${state.items[index].passInfo?.passNo ?? ''} '));
-
                                     labels.add(Label(
                                         key: state.labels?.locale.companyType ??
                                             state.labels?.defaultLocale.companyType ??

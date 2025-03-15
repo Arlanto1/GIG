@@ -265,6 +265,9 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
 // Fetch organisations and set the list
       if (passCategory != null && state.model.category == 2) {
         state.model.companyType = null;
+        state.model.employee?.employeeId = null;
+        state.model.employee?.name = null;
+        state.model.employeeName = null;
         companyTypeList = await commonServices.getOrganisations(
           name: 'ATOM_SEZ_COMPANY_TYPES',
           filter: 1,
@@ -287,6 +290,10 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
       }
     if (passCategory != null && state.model.category == 1) {
       state.model.companyType = null;
+      state.model.employee?.employeeId = null;
+      state.model.employee?.name = null;
+      state.model.employeeName = null;
+
       companyTypeList = await commonServices.getOrganisations(
         name: 'ATOM_SEZ_COMPANY_TYPES',
         filter: 2,
@@ -444,10 +451,20 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
       state.model.inputDate = inputDate.toString();
     }
 
-    state.model.startTime = state.model.startTime != null
-        ? ((int.tryParse(state.model.startTime ?? '') ?? DateTime.now().millisecondsSinceEpoch) ~/ 1000).toString()
-        : (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    // state.model.startTime = state.model.startTime != null
+    //     ? ((int.tryParse(state.model.startTime ?? '') ?? DateTime.now().millisecondsSinceEpoch) ~/ 1000).toString()
+    //     : (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
+    // if(state.model.startTime !=null) {
+    //   if (!Utils().isTimestamp(state.model.startTime!)) {
+    //     dateTime =
+    //         DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.startTime!);
+    //     int inputDate = dateTime
+    //         .toUtc()
+    //         .millisecondsSinceEpoch ~/ 1000;
+    //     state.model.startTime = inputDate.toString();
+    //   }
+    // }
     // Create/Update API Call
     SezPassManagementRequest request =
     SezPassManagementRequest(passManagement: state.model);

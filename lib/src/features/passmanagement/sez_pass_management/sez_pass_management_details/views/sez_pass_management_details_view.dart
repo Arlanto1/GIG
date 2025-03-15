@@ -163,13 +163,19 @@ class _SezPassManagementDetailsViewState
             DateTime
                 .now()
                 .millisecondsSinceEpoch, // Use current timestamp if null
-        Constants.fulldateFormat) : '';
+        Constants.dateFormat) : '';
 
-    // if (state.passValidUntil != null && state.passValidUntil!.isNotEmpty) {
-      passValidUntilController.text = Utils.timestampToDateConversion(
+
+    passValidUntilController.text = state.model.endTime !=null ? Utils.timestampToDateConversion(
+        int.tryParse(state.model.endTime ?? '') ??
+            DateTime
+                .now()
+                .millisecondsSinceEpoch, // Use current timestamp if null
+        Constants.dateFormat): Utils.timestampToDateConversion(
         int.tryParse(state.passValidUntil!) ?? DateTime.now().millisecondsSinceEpoch,
-        Constants.dateFormat,
-      );
+        Constants.dateFormat);
+
+
     }
 
 
@@ -686,6 +692,7 @@ class _SezPassManagementDetailsViewState
                               isDisableColor: true,
                               onChange: (String value) {
                                 state.model.passNo = value;
+                                state.model.passInfo?.passNo = value;
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -712,6 +719,7 @@ class _SezPassManagementDetailsViewState
                               isDisableColor: true,
                               onChange: (String value) {
                                 state.model.mifareNo = value;
+                                state.model.passInfo?.mifareNo = value;
                               },
                               validateTextField: (String? user) {},
                             ),
@@ -734,7 +742,7 @@ class _SezPassManagementDetailsViewState
                             BaseDate().datePickerWidgetLoading(
                               textController: passValidFromController,
                               isDisabled: false,
-                              onlyDate: false,
+                              onlyDate: true,
                               showPastDate: true,
                               showFutureDate: false,
                               // fromDate: initialisedStartDate,
@@ -742,8 +750,8 @@ class _SezPassManagementDetailsViewState
                               onChange: (String value) {
                                 // isDateSelectedByUser = true;
                                 passValidFromController.text = value;
-                                // state.model.passV =
-                                //     Utils().formatTime(value);
+                                state.model.startTime =
+                                    Utils().formatTime(value);
                                 BlocProvider.of<
                                     SezPassManagementDetailsCubit>(
                                     context)

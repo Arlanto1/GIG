@@ -202,6 +202,9 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
           passNo: passNo.activePassInfoList,
           passType: getPassType,
           getStatus:getStatus,
+          loadAttachments: state.model.visitorImage != null
+              ? [state.model.visitorImage ?? ImageContent()]
+              : null,
         ),
       );
     } catch (e) {
@@ -413,17 +416,31 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       ),
     );
     int eventIds = math.Random.secure().nextInt(5);
-    if (data != null) {
-      for (ImageContent image in data) {
-        image.type = 0;
-      }
-      log('--data----${data.length}----');
+    // if (data != null) {
+    //   for (ImageContent image in data) {
+    //     image.type = 0;
+    //   }
+    //   log('--data----${data.length}----');
+    //
+    //   state.model.visitorImage = data;
+    //   emit(
+    //     state.copyWith(
+    //       model: state.model,
+    //       loadAttachments: data,
+    //       status: FormStatus.initial,
+    //     ),
+    //   );
+    // }
 
-      // state.model.visitorImage = data;
+    if (data != null && images != null) {
+      // for (var image in data) {
+      //   image.type = 8;
+      // }
+      state.model.visitorImage = images.first;
       emit(
         state.copyWith(
           model: state.model,
-          loadAttachments: data,
+          loadAttachments: images,
           status: FormStatus.initial,
         ),
       );
