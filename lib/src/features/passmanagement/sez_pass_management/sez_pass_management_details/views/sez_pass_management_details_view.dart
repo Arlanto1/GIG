@@ -156,8 +156,7 @@ class _SezPassManagementDetailsViewState
   }
 
   void initializeDates(SezPassManagementDetailsState state) {
-
-    log('Date ${state.passValidUntil==null}');
+    log('state.passValidUntil ${state.passValidUntil}');
     passValidFromController.text =
     state.model.startTime != null ? Utils.timestampToDateConversion(
         int.tryParse(state.model.startTime ?? '') ??
@@ -166,10 +165,11 @@ class _SezPassManagementDetailsViewState
                 .millisecondsSinceEpoch, // Use current timestamp if null
         Constants.fulldateFormat) : '';
 
-    if (state.passValidUntil != null) {
+    // if (state.passValidUntil != null && state.passValidUntil!.isNotEmpty) {
       passValidUntilController.text = Utils.timestampToDateConversion(
-        int.tryParse(state.passValidUntil!),Constants.fulldateFormat);
-    }
+        int.tryParse(state.passValidUntil!) ?? DateTime.now().millisecondsSinceEpoch,
+        Constants.dateFormat,
+      );
     }
 
 
@@ -777,10 +777,10 @@ class _SezPassManagementDetailsViewState
                               // fromDate: initialisedStartDate,
                               // toDate: initialisedToDate,
                               onChange: (String value) {
-                                BlocProvider.of<
-                                    SezPassManagementDetailsCubit>(
-                                    context)
-                                    .onModelValueChange(state.model);
+                                // BlocProvider.of<
+                                //     SezPassManagementDetailsCubit>(
+                                //     context)
+                                //     .onModelValueChange(state.model);
                                 //},
                               },
                               context: context,

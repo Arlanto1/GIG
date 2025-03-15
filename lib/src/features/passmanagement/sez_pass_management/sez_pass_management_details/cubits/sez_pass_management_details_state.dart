@@ -153,6 +153,7 @@ class SezPassManagementDetailsState extends Equatable {
       departments: departments ?? this.departments,
       loadAttachments: loadAttachments ?? this.loadAttachments,
       message: message ?? this.message,
+      passValidUntil:passValidUntil?? this.passValidUntil,
       labels: labels ?? this.labels,
     );
   }

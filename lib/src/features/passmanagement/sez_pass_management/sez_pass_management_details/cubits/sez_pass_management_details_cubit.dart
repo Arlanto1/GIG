@@ -135,6 +135,10 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
       }
 
       state.model.entrySecurity ??= loggedInUserDetails;
+
+      state.model.passType ??= 3;
+      state.model.passInfo?.passType ??= 3;
+
       emit(
         state.copyWith(
           locations: locations,
@@ -268,7 +272,9 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
         state.model.companyType = companyTypeList.first;
         state.model.companyName = state.model.companyType?.name == 'FTE' ?'Deutsche Bank': state.model.companyName;
 
-         passValidUntilDate = await commonServices.getPassValidUntil(passCategory: 1);
+         passValidUntilDate = await commonServices.getPassValidUntil(passCategory: 2);
+        state.model.endTime =passValidUntilDate ;
+         log('passValidUntilDate ${passValidUntilDate}');
         emit(
           state.copyWith(
             model: state.model,
@@ -287,6 +293,9 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
       );
       // state.model.companyType = companyTypeList.first;
       passValidUntilDate = await commonServices.getPassValidUntil(passCategory: 1);
+
+      state.model.endTime =passValidUntilDate ;
+
       emit(
         state.copyWith(
           model: state.model,
@@ -434,6 +443,11 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
       int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.inputDate = inputDate.toString();
     }
+
+    state.model.startTime = state.model.startTime != null
+        ? ((int.tryParse(state.model.startTime ?? '') ?? DateTime.now().millisecondsSinceEpoch) ~/ 1000).toString()
+        : (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
     // Create/Update API Call
     SezPassManagementRequest request =
     SezPassManagementRequest(passManagement: state.model);
