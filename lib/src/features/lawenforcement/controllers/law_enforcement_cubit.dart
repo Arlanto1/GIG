@@ -659,6 +659,7 @@ class LawEnforcementCubit extends Cubit<LawEnforcementState> {
   }
 
   getlocationsResponseData(Organisation? org) async {
+    state.dBOfficialEmailIdAccompaniedLeoOfficial = null;
     try {
       emit(
         state.copyWith(

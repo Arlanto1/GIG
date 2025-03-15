@@ -1961,6 +1961,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                   // locationselectedText = list?.name ?? '';
                   // locationSelectedlist = list;
                   lawEnforcementCubit.getlocationsResponseData(org);
+                  state.dBOfficialEmailIdAccompaniedLeoOfficial = null;
                 },
               );
             },
