@@ -181,6 +181,12 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
       // state.model.rejectedBy ??= loggedInUserDetails;
       log('--state.model.entrySecurity---${state.model.entrySecurity?.firstName}----');
 
+
+      if (getPassType.isNotEmpty && state.model.passTypeName == null) {
+        Organisation defaultPassType = getPassType.first;
+        state.model.passTypeName = defaultPassType.name;
+      }
+
       List<BaseUser> onlyDBUsers = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomStaticUser,
         locationId: state.model.location!.id!,
@@ -254,6 +260,11 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
           passType: 2,
           locationId: state.model.location!.id!);
 
+    }
+
+    if (getPassType.isNotEmpty) {
+      Organisation defaultPassType = getPassType.first;
+      state.model.passTypeName = defaultPassType.name;
     }
     // state.model. = null;
     // state.model.host = null;

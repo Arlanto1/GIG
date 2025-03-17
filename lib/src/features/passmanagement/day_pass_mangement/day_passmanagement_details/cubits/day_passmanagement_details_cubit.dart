@@ -142,6 +142,10 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       List<Organisation> getStatus = futures[11];
 
 
+      if (getPassType.isNotEmpty && state.model.passTypeName == null) {
+        Organisation defaultPassType = getPassType.first;
+        state.model.passTypeName = defaultPassType.name;
+      }
       log('--emailUsers--${emailUsers.length}---');
       // Get Date of Creation
       state.model.inputDate = state.model.inputDate == null
@@ -251,9 +255,13 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           locationId: state.model.location!.id!);
 
     }
-     // state.model. = null;
+    if (getPassType.isNotEmpty) {
+      Organisation defaultPassType = getPassType.first;
+      state.model.passTypeName = defaultPassType.name;
+    }
+      // state.model. = null;
      state.model.host = null;
-     state.model.passTypeName = null;
+     // state.model.passTypeName = null;
      state.model.passNo = null;
 
     emit(state.copyWith(
@@ -380,15 +388,13 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       state.model.passTypeName = passType.name;
     }
 
+    if (passType == null) {
+      // state.model.passTypeName = passType?.first;
+    }
     if (updatedStatus != null) {
       state.model.updatedStatus = updatedStatus.id;
     }
 
-    // // if (isReturnable != null) {
-    //   SerialNumberModel slNo = await commonServices.getSlNo(
-    //       locationId: state.model.location!.id.toString(),
-    //       moduleCode: Constants.dayPassManagementModule);
-    //   state.model.slNo = slNo.serialNo;
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,

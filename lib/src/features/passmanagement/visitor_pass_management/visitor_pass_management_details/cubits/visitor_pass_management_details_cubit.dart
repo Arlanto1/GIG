@@ -181,6 +181,11 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       }
       log('--state.model.entrySecurity---${state.model.entrySecurity?.firstName}----');
 
+      if (getPassType.isNotEmpty && state.model.passTypeName == null) {
+        Organisation defaultPassType = getPassType.first;
+        state.model.passTypeName = defaultPassType.name;
+      }
+
       List<BaseUser> onlyDBUsers = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomStaticUser,
         locationId: state.model.location!.id!,
@@ -256,9 +261,14 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
           locationId: state.model.location!.id!);
 
     }
+
+    if (getPassType.isNotEmpty) {
+      Organisation defaultPassType = getPassType.first;
+      state.model.passTypeName = defaultPassType.name;
+    }
     // state.model. = null;
     state.model.host = null;
-    state.model.passTypeName = null;
+    // state.model.passTypeName = null;
     state.model.passNo = null;
 
     emit(state.copyWith(
