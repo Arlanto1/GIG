@@ -82,9 +82,66 @@ class DayPassManagementDetailsState extends Equatable {
   }
 
   ErrorResponse get isValid {
+    if (model.status == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Status');
+    }
+    if (model.entrySecurity == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Entry Security');
+    }
+    if (model.inputDate == null) {
+      return const ErrorResponse(
+          status: false, message: 'Created Date is required');
+    }
     if (model.location == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
+    }
+    if (model.slNo.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter SL No');
+    }
+
+    if (model.entities.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Entities');
+    }
+
+    if (model.companyType == null) {
+      return const ErrorResponse(status: false, message: 'Please select Company Type');
+    }
+
+    if (model.companyName.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Company Name');
+    }
+
+    if ((model.companyType?.name =='FTE' || model.companyType?.name == 'CWR T1') && model.employee?.employeeId == null) {
+      return const ErrorResponse(status: false, message: 'Please select  Employee ID');
+    }
+    if (( model.companyType?.name == 'CWR T2') && model.employeeId.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Employee Id');
+    }
+
+    if (( model.companyType?.name == 'CWR T2' ||  model.companyType?.name == 'Exceptions') && model.employeeName.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Name');
+    }
+
+    if (( model.companyType?.name == 'CWR T2' || model.companyType?.name == 'CWR T1') && model.host?.employeeId == null) {
+      return const ErrorResponse(status: false, message: 'Please select DB Sponsor Employee ID');
+    }
+
+
+    if (( model.companyType?.name == 'Exceptions') && model.host?.employeeId == null) {
+      return const ErrorResponse(status: false, message: 'Please select Host Employee Id');
+    }
+
+    if ( model.department == null) {
+      return const ErrorResponse(status: false, message: 'Please select Department');
+    }
+    if ( model.dayPassReason == null) {
+      return const ErrorResponse(status: false, message: 'Please select Reason for Day Pass');
+    }
+
+    if ( model.passInfo?.passNo == null) {
+      return const ErrorResponse(status: false, message: 'Please select Day Pass No');
     }
 
     if(model.employee?.employeeId != null && model.employee?.employeeId == model.host?.employeeId  ){

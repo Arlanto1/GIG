@@ -594,7 +594,7 @@ class _DayPassManagementDetailsViewState
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
                               // focusNode: employeeIdFocusNode,
-                              isEnable: (state.model.companyType?.name == 'Exceptions' || state.model.companyType?.name == 'CWR T2') && state.model.status == null ||state.model.status == 0 ? true : false,
+                              isEnable: (state.model.companyType?.name == 'Exceptions' || state.model.companyType?.name == 'CWR T2') && (state.model.status == null ||state.model.status == 0) ? true : false,
                               isDisableColor: true,
                               onChange: (String value) {
                                 state.model.employeeName = value;
