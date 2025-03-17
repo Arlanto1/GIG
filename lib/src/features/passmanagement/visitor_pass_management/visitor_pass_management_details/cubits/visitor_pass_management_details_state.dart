@@ -78,10 +78,70 @@ class VisitorPassManagementDetailsState extends Equatable {
   }
 
   ErrorResponse get isValid {
+
+    if (model.status == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Status');
+    }
+    if (model.entrySecurity == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Entry Security');
+    }
+    if (model.inputDate == null) {
+      return const ErrorResponse(
+          status: false, message: 'Created Date is required');
+    }
     if (model.location == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
     }
+
+    if (model.slNo.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter SL No');
+    }
+
+    if (model.entities.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please select Entity');
+    }
+    if (model.employeeName .isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Visitor Name');
+    }
+
+    if (model.contactNo.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Contact No');
+    }
+
+    if (model.visitorComingFrom.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Visitor Coming From');
+    }
+
+    if (model.idValidationType == null) {
+      return const ErrorResponse(status: false, message: 'Please select Photo Identity Validation Type');
+    }
+
+    if (model.visitingPurpose == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Purpose of Visit');
+    }
+
+    if (model.host?.employeeId == null) {
+      return const ErrorResponse(status: false, message: 'Please select Host Employee Id');
+    }
+
+    if (model.department == null) {
+      return const ErrorResponse(status: false, message: 'Please select Visiting Department');
+    }
+
+    if (model.passInfo?.passNo == null) {
+      return const ErrorResponse(status: false, message: 'Please select Visitor Pass No');
+    }
+
+    if (model.escortedByHost == false && model.escortedBy.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Escorted By');
+    }
+
+    if (model.escortedByHost == false && model.escortedEmployeeId.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Escorted By Employee Id');
+    }
+
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
