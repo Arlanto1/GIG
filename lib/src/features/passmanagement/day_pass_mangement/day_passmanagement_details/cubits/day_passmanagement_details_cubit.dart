@@ -170,14 +170,16 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
 
       state.model.entrySecurity ??= loggedInUserDetails;
       if(state.model.status == 1) {
-        state.model.handOverSecurity ??= loggedInUserDetails;
+        state.model.handoverSecurity ??= loggedInUserDetails;
+      }
+
+      if(state.model.status !=null && state.model.status !=0) {
         state.model.returnedTime = state.model.returnedTime == null
             ? Utils().getCurrentDate()
             : Utils.timestampToDateConversion(
             int.tryParse(state.model.returnedTime ?? '0'),
             Constants.fulldateFormat);
       }
-
       // state.model.rejectedBy ??= loggedInUserDetails;
       log('--state.model.entrySecurity---${state.model.entrySecurity?.firstName}----');
 
@@ -480,6 +482,16 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
         : (DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch ~/ 1000).toString();
 
 
+    if(state.model.returnedTime !=null) {
+      if (!Utils().isTimestamp(state.model.returnedTime!)) {
+        dateTime =
+            DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.returnedTime!);
+        int inputDate = dateTime
+            .toUtc()
+            .millisecondsSinceEpoch ~/ 1000;
+        state.model.returnedTime = inputDate.toString();
+      }
+    }
     DayPassManagementRequest request =
          DayPassManagementRequest(passManagement: state.model);
     GenericResponse response = GenericResponse();

@@ -41,7 +41,7 @@ class DayPassManagementModel {
    User? entrySecurity;
    User? host;
    User? employee;
-   User? handOverSecurity;
+   User? handoverSecurity;
    int? passType;
    int? updatedStatus;
    Organisation? companyType;
@@ -79,7 +79,7 @@ class DayPassManagementModel {
     this.entrySecurity,
     this.host,
     this.employee,
-    this.handOverSecurity,
+    this.handoverSecurity,
     this.passType,
     this.updatedStatus,
     this.companyType,
@@ -121,7 +121,7 @@ class DayPassManagementModel {
         entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
         host = (json['host'] as Map<String,dynamic>?) != null ? User.fromJson(json['host'] as Map<String,dynamic>) : null,
         employee = (json['employee'] as Map<String,dynamic>?) != null ? User.fromJson(json['employee'] as Map<String,dynamic>) : null,
-        handOverSecurity = (json['handOverSecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['handOverSecurity'] as Map<String,dynamic>) : null,
+        handoverSecurity = (json['handoverSecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['handoverSecurity'] as Map<String,dynamic>) : null,
         passType = json['passType'] as int?,
         updatedStatus= json['updatedStatus'] as int?,
         dayPassReason = (json['dayPassReason'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['dayPassReason'] as Map<String,dynamic>) : null,
@@ -165,7 +165,7 @@ class DayPassManagementModel {
     'entrySecurity' : entrySecurity?.toJson(),
         'host':host?.toJson(),
         'employee':employee?.toJson(),
-        'handOverSecurity':handOverSecurity?.toJson(),
+        'handOverSecurity':handoverSecurity?.toJson(),
     'passType' : passType,
         'updatedStatus':updatedStatus,
     'companyType' : companyType?.toJson(),
@@ -186,7 +186,7 @@ class DayPassManagementModel {
     'passNo' : passNo,
         'passTypeName':passTypeName,
     'entrySecurityName' : entrySecurityName,
-    'handOverSecurityName' : handOverSecurityName,
+    'handoverSecurity' : handoverSecurity,
         'returnedTime':returnedTime,
         'lock':lock
   };
