@@ -197,6 +197,10 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
           locationId: state.model.location!.id!);
 
     }
+    if (getPassType.isNotEmpty) {
+      Organisation defaultPassType = getPassType.first;
+      state.model.passTypeName = defaultPassType.name;
+    }
     // state.model. = null;
     // state.model.host = null;
     // state.model.passTypeName = null;
