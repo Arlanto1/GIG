@@ -41,7 +41,7 @@ class VendorPassManagementModel {
   User? entrySecurity;
   User? host;
   User? employee;
-  User? handOverSecurity;
+  User? handoverSecurity;
   int? passType;
   int? updatedStatus;
   Organisation? companyType;
@@ -86,7 +86,7 @@ class VendorPassManagementModel {
     this.entrySecurity,
     this.host,
     this.employee,
-    this.handOverSecurity,
+    this.handoverSecurity,
     this.passType,
     this.updatedStatus,
     this.companyType,
@@ -134,7 +134,7 @@ class VendorPassManagementModel {
         entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
         host = (json['host'] as Map<String,dynamic>?) != null ? User.fromJson(json['host'] as Map<String,dynamic>) : null,
         employee = (json['employee'] as Map<String,dynamic>?) != null ? User.fromJson(json['employee'] as Map<String,dynamic>) : null,
-        handOverSecurity = (json['handOverSecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['handOverSecurity'] as Map<String,dynamic>) : null,
+        handoverSecurity = (json['handoverSecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['handoverSecurity'] as Map<String,dynamic>) : null,
       passType = json['passType'] as int?,
         updatedStatus= json['updatedStatus'] as int?,
         vendorPassReason = (json['vendorPassReason'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['vendorPassReason'] as Map<String,dynamic>) : null,
@@ -181,7 +181,7 @@ class VendorPassManagementModel {
     'entrySecurity' : entrySecurity?.toJson(),
     'host':host?.toJson(),
     'employee':employee?.toJson(),
-    'handOverSecurity':handOverSecurity?.toJson(),
+    'handoverSecurity':handoverSecurity?.toJson(),
     'passType' : passType,
     'updatedStatus':updatedStatus,
     'companyType' : companyType?.toJson(),

@@ -55,7 +55,6 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
     emit(
       state.copyWith(
         status: FormStatus.initial,
-        // getEntitiesResponse: entities,
         listOfEntities: entities,
         emailUsers: emailUsers,
         departments: departments.employeeDepartments,
@@ -136,6 +135,17 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
 
       state.model.entrySecurity ??= loggedInUserDetails;
 
+      if(state.model.status == 1) {
+        state.model.handoverSecurity ??= loggedInUserDetails;
+      }
+
+      if(state.model.status !=null && state.model.status !=0) {
+        state.model.returnedTime = state.model.returnedTime == null
+            ? Utils().getCurrentDate()
+            : Utils.timestampToDateConversion(
+            int.tryParse(state.model.returnedTime ?? '0'),
+            Constants.fulldateFormat);
+      }
       state.model.passType ??= 3;
       state.model.passInfo?.passType ??= 3;
 
@@ -201,9 +211,6 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
       Organisation defaultPassType = getPassType.first;
       state.model.passTypeName = defaultPassType.name;
     }
-    // state.model. = null;
-    // state.model.host = null;
-    // state.model.passTypeName = null;
 
     emit(state.copyWith(
       model: state.model,
@@ -242,27 +249,6 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
 
 
     state.model.companyName = state.model.companyType?.name == 'FTE' ?'Deutsche Bank': state.model.companyName;
-
-    // if(passCategory != null && state.model.category ==2){
-    //   List<Organisation> companyType1 = await commonServices.getOrganisations(name: 'ATOM_SEZ_COMPANY_TYPES',filter: 1);
-    //   state.model.companyType = companyType1;
-    // }
-
-    // if (passCategory != null && state.model.category == 2) {
-    //   List<Organisation> companyType1 = await commonServices.getOrganisations(
-    //     name: 'ATOM_SEZ_COMPANY_TYPES',
-    //     filter: 1,
-    //   );
-    //   state.model.companyType = companyType1.isNotEmpty ? companyType1.first : null;
-    // }
-
-    // if (passCategory != null && state.model.category == 1) {
-    //   List<Organisation> companyType1 = await commonServices.getOrganisations(
-    //     name: 'ATOM_SEZ_COMPANY_TYPES',
-    //     filter: 2,
-    //   );
-    //   state.model.companyType = companyType1.isNotEmpty ? companyType1.first : null;
-    // }
 
     List<Organisation> companyTypeList = [];
     String passValidUntilDate = '';
@@ -350,27 +336,22 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
       );
     }
 
-    if (host != null) {
-      // Ensure employeeId is explicitly assigned to receiverEmployeeId
-      state.model.hostEmployeeId = host.employeeId;
-      state.model.hostName = host.name;
-      // Format the name and email for receiverEmail
-      String name = host.name ?? '';
-      String email = host.email ?? '';
-      User userDetails = User(
-          name:name,
-          userId: host.id,
-          email: email,
-          employeeId: host.employeeId
+      state.model.passInfo?.passNo =state.model.passNo;
+
+      PassInfo userDetails = PassInfo(
+          passNo:state.model.passNo,
+          mifareNo :state.model.mifareNo,
+          id: null,
+          passType: 1
       );
-      state.model.host = userDetails;
+      state.model.passInfo = userDetails;
       emit(
         state.copyWith(
           model: state.model,
           status: FormStatus.initial,
         ),
       );
-    }
+
     if (department != null) {
       state.model.department = department;
     }
@@ -389,17 +370,6 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
     ));
   }
 
-  Future<void> updateApproverEmailsValue({
-    BaseUser? requesterEmailUser,
-    BaseUser? approver1EmailUser,
-    BaseUser? approver2EmailUser,
-  }) async {
-    emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
-    );
-  }
 
   void addAttachment({
     List<ImageContent>? data,
@@ -455,20 +425,17 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
       state.model.inputDate = inputDate.toString();
     }
 
-    // state.model.startTime = state.model.startTime != null
-    //     ? ((int.tryParse(state.model.startTime ?? '') ?? DateTime.now().millisecondsSinceEpoch) ~/ 1000).toString()
-    //     : (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    if(state.model.returnedTime !=null) {
+      if (!Utils().isTimestamp(state.model.returnedTime!)) {
+        dateTime =
+            DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.returnedTime!);
+        int inputDate = dateTime
+            .toUtc()
+            .millisecondsSinceEpoch ~/ 1000;
+        state.model.returnedTime = inputDate.toString();
+      }
+    }
 
-    // if(state.model.startTime !=null) {
-    //   if (!Utils().isTimestamp(state.model.startTime!)) {
-    //     dateTime =
-    //         DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.startTime!);
-    //     int inputDate = dateTime
-    //         .toUtc()
-    //         .millisecondsSinceEpoch ~/ 1000;
-    //     state.model.startTime = inputDate.toString();
-    //   }
-    // }
     // Create/Update API Call
     SezPassManagementRequest request =
     SezPassManagementRequest(passManagement: state.model);

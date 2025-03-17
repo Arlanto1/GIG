@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/passmanagement/sez_pass_management/models/sez_pass_management_model.dart';
 import 'package:db_atom/src/features/passmanagement/sez_pass_management/sez_pass_management_details/cubits/sez_pass_management_details_cubit.dart';
-import 'package:intl/intl.dart';
 
 
 class SezPassManagementDetailsView extends StatefulWidget {
@@ -47,6 +46,7 @@ class _SezPassManagementDetailsViewState
   TextEditingController sezPassInfoController = TextEditingController();
   TextEditingController mTPApplicationNoController = TextEditingController();
   TextEditingController passCategoryController = TextEditingController();
+  TextEditingController employeeIdFreeTextController = TextEditingController();
 
   final FocusNode sentToFocusNode = FocusNode();
 
@@ -109,6 +109,7 @@ class _SezPassManagementDetailsViewState
         sezPassInfoController.text = state.model.passNo ?? '';
         mTPApplicationNoController.text = state.model.mifareNo??'';
         companyNameController.text= state.model.companyType?.name != 'FTE'? state.model.companyName ??'' : 'Deutsche Bank';
+        employeeIdFreeTextController.text= state.model.employeeId??'';
 
         if (state.model.status == 0 && !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
@@ -185,9 +186,15 @@ class _SezPassManagementDetailsViewState
       return const BaseLoader();
     }
 
+    // if (state.status == FormStatus.addAttachment ||
+    //     state.status == FormStatus.initial) {
+    //   getFiles = state.loadAttachments ?? [];
+    // }
+
     if (state.status == FormStatus.addAttachment ||
         state.status == FormStatus.initial) {
-      getFiles = state.loadAttachments ?? [];
+      uploadFiles = state.loadAttachments;
+      uploadFiles = state.model.evidenceDocuments ?? [];
     }
     return Container(
       color: AppColors.navigationSkyBlueColor,
@@ -264,7 +271,7 @@ class _SezPassManagementDetailsViewState
 
 
                             /// Updated Status
-                            if(state.model.status !=null)...[
+                            if(state.model.status ==0 || state.model.status ==1)...[
                               CommonWidgets.textDisplay(
                                   isMandatory: true,
                                   // state.labels?.locale.get ??
@@ -549,7 +556,7 @@ class _SezPassManagementDetailsViewState
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.employee?.employeeId,
+                                title: state.model.employeeId,
                                 height: 60,
                                 isDisableColor: isReadOnly,
                                 onTap: () {
@@ -603,6 +610,7 @@ class _SezPassManagementDetailsViewState
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
+                                controller: employeeIdFreeTextController,
                                 textInputType: TextInputType.number,
                                 textFormKey: Keys.contactNoKey,
                                 hintText: '',
@@ -741,7 +749,7 @@ class _SezPassManagementDetailsViewState
 
                             BaseDate().datePickerWidgetLoading(
                               textController: passValidFromController,
-                              isDisabled: false,
+                              isDisabled: state.model.status !=null && state.model.status !=0,
                               onlyDate: true,
                               showPastDate: true,
                               showFutureDate: false,
@@ -797,41 +805,70 @@ class _SezPassManagementDetailsViewState
                                 height * 0.01),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+
+                            if(state.model.status !=null && state.model.status !=0 && state.model.status !=1)...[
+                              /// Pass Collected By
+                            CommonWidgets.horizentaltextHandling(
+                              // state.labels?.locale.entrySecurity ??
+                              //     state.labels?.defaultLocale.entrySecurity ??
+                                Constants.passCollectedBy,
+                                isMandatory: true,
+                                '${state.model.handoverSecurity?.firstName ?? ''} ${state.model.handoverSecurity?.lastName ?? ''}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+
+
+                            ///Pass Returned On
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.inputDate ??
+                              //     state.labels?.defaultLocale.inputDate ??
+                              Constants.passReturnedOn,
+                              Styles.textStyleBlack14,
+                              isMandatory: true,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            datecreateWidgetdisplay(
+                                state.model.returnedTime ?? ''),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                          ],
+
+
                             ///Attachments
-                            // CommonWidgets.textDisplay(
-                            //   // state.labels?.locale.attachment ??
-                            //   //     state.labels?.defaultLocale.attachment ??
-                            //     Constants.evidenceDocuments,
-                            //     Styles.textStyleBlack14),
-                            // widget.model == null
-                            //     ? CommonWidgets.verticalSpacerWidget(
-                            //     height * 0.001)
-                            //     : Container(),
-                            // if (state.model.status == 0 ||
-                            //     state.model.status == null) ...[
-                            //   BaseImageUpload().uploadWidget(
-                            //     context: context,
-                            //     isDisabled: isReadOnly,
-                            //     loggedInUserDetails:
-                            //     state.loggedInUserDetails!,
-                            //     getFiles: uploadFiles,
-                            //     onImageSelected: (ImageContent data) {
-                            //       List<ImageContent>? files = [];
-                            //       files.add(data);
-                            //       for (ImageContent image
-                            //       in uploadFiles ?? []) {
-                            //         files.add(image);
-                            //       }
-                            //       BlocProvider.of<
-                            //           SezPassManagementDetailsCubit>(
-                            //           context)
-                            //           .addAttachment(
-                            //         data: files,
-                            //         images: files,
-                            //       );
-                            //     },
-                            //   ),
-                            // ],
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.attachment ??
+                              //     state.labels?.defaultLocale.attachment ??
+                                Constants.evidenceDocuments,
+                                Styles.textStyleBlack14),
+                            widget.model == null
+                                ? CommonWidgets.verticalSpacerWidget(
+                                height * 0.001)
+                                : Container(),
+                            if (state.model.status == 0 ||
+                                state.model.status == null) ...[
+                              BaseImageUpload().uploadWidget(
+                                context: context,
+                                isDisabled: isReadOnly,
+                                loggedInUserDetails:
+                                state.loggedInUserDetails!,
+                                getFiles: uploadFiles,
+                                onImageSelected: (ImageContent data) {
+                                  List<ImageContent>? files = [];
+                                  files.add(data);
+                                  for (ImageContent image
+                                  in uploadFiles ?? []) {
+                                    files.add(image);
+                                  }
+                                  BlocProvider.of<
+                                      SezPassManagementDetailsCubit>(
+                                      context)
+                                      .addAttachment(
+                                    data: files,
+                                    images: files,
+                                  );
+                                },
+                              ),
+                            ],
                             /// Attachments
                             Padding(
                               padding: const EdgeInsets.symmetric(
@@ -840,14 +877,14 @@ class _SezPassManagementDetailsViewState
                                 height: height,
                                 attachments: state.loadAttachments,
                                 files: uploadFiles,
-                                moduleCode: Constants.passManagementModuleCode,
+                                moduleCode: Constants.dayPassManagementModule,
                                 isDisabled: false,
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// SubmitButton
-                            if (!isReadOnly) ...[
+                            if (showSaveSubmitButtons) ...[
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
@@ -865,7 +902,7 @@ class _SezPassManagementDetailsViewState
                     ],
                   ),
                 ),),),
-            if (isReadOnly) ...[
+            if (!showSaveSubmitButtons) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(

@@ -40,6 +40,7 @@ class SezPassManagementModel {
   User? entrySecurity;
   User? host;
   User? employee;
+  User? handoverSecurity;
   int? passType;
   int? updatedStatus;
   Organisation? companyType;
@@ -54,7 +55,7 @@ class SezPassManagementModel {
   PassInfo? passInfo;
   String? startTime;
   String? endTime;
-  List<dynamic>? evidenceDocuments;
+  List<ImageContent>? evidenceDocuments;
   bool? escortedByHost;
   bool? idValidated;
   String? hostName;
@@ -64,6 +65,7 @@ class SezPassManagementModel {
   String? entrySecurityName;
   String? handOverSecurityName;
   int? category;
+  String? returnedTime;
   String? lock;
 
 
@@ -78,6 +80,7 @@ class SezPassManagementModel {
     this.entrySecurity,
     this.host,
     this.employee,
+    this.handoverSecurity,
     this.passType,
     this.updatedStatus,
     this.companyType,
@@ -102,6 +105,7 @@ class SezPassManagementModel {
     this.entrySecurityName,
     this.handOverSecurityName,
     this.category,
+    this.returnedTime,
     this.lock,
   });
 
@@ -119,6 +123,7 @@ class SezPassManagementModel {
         entrySecurity = (json['entrySecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['entrySecurity'] as Map<String,dynamic>) : null,
         host = (json['host'] as Map<String,dynamic>?) != null ? User.fromJson(json['host'] as Map<String,dynamic>) : null,
         employee = (json['employee'] as Map<String,dynamic>?) != null ? User.fromJson(json['employee'] as Map<String,dynamic>) : null,
+        handoverSecurity = (json['handoverSecurity'] as Map<String,dynamic>?) != null ? User.fromJson(json['handoverSecurity'] as Map<String,dynamic>) : null,
         passType = json['passType'] as int?,
         updatedStatus= json['updatedStatus'] as int?,
         dayPassReason = (json['dayPassReason'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['dayPassReason'] as Map<String,dynamic>) : null,
@@ -133,7 +138,9 @@ class SezPassManagementModel {
         passInfo = (json['passInfo'] as Map<String,dynamic>?) != null ? PassInfo.fromJson(json['passInfo'] as Map<String,dynamic>) : null,
         startTime = json['startTime'] as String?,
         endTime = json['endTime'] as String?,
-        evidenceDocuments = json['evidenceDocuments'] as List?,
+        evidenceDocuments = (json['evidenceDocuments'] as List<dynamic>?)
+            ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
+            .toList(),
         escortedByHost = json['escortedByHost'] as bool?,
         idValidated = json['idValidated'] as bool?,
         hostName = json['hostName'] as String?,
@@ -143,7 +150,8 @@ class SezPassManagementModel {
         entrySecurityName = json['entrySecurityName'] as String?,
         handOverSecurityName = json['handOverSecurityName'] as String?,
         category = json['category'] as int?,
-        lock = json['lock'] as String?;
+        returnedTime= json['returnedTime'] as String?,
+      lock = json['lock'] as String?;
 
 
   Map<String, dynamic> toJson() => {
@@ -159,6 +167,7 @@ class SezPassManagementModel {
     'entrySecurity' : entrySecurity?.toJson(),
     'host':host?.toJson(),
     'employee':employee?.toJson(),
+    'handoverSecurity':handoverSecurity?.toJson(),
     'passType' : passType,
     'updatedStatus':updatedStatus,
     'companyType' : companyType?.toJson(),
@@ -181,6 +190,7 @@ class SezPassManagementModel {
     'entrySecurityName' : entrySecurityName,
     'handOverSecurityName' : handOverSecurityName,
     'category':category,
+    'returnedTime':returnedTime,
     'lock':lock
   };
 }

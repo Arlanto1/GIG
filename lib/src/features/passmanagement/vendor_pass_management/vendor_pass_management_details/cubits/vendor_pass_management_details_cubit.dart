@@ -159,7 +159,7 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
       state.model.passInfo?.passType ??= 2;
 
       if(state.model.status == 1) {
-        state.model.handOverSecurity ??= loggedInUserDetails;
+        state.model.handoverSecurity ??= loggedInUserDetails;
       }
       if(state.model.status !=null && state.model.status !=0) {
         state.model.returnedTime = state.model.returnedTime == null

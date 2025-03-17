@@ -833,7 +833,7 @@ class _VendorPassManagementDetailsViewState
                                 //     state.labels?.defaultLocale.entrySecurity ??
                                   Constants.passCollectedBy,
                                   isMandatory: true,
-                                  '${state.model.handOverSecurity?.firstName ?? ''} ${state.model.handOverSecurity?.lastName ?? ''}'),
+                                  '${state.model.handoverSecurity?.firstName ?? ''} ${state.model.handoverSecurity?.lastName ?? ''}'),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
 
