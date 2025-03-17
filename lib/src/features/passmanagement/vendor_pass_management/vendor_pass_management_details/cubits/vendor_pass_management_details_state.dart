@@ -78,10 +78,66 @@ class VendorPassManagementDetailsState extends Equatable {
   }
 
   ErrorResponse get isValid {
+
+    if (model.status == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Status');
+    }
+    if (model.entrySecurity == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Entry Security');
+    }
+    if (model.inputDate == null) {
+      return const ErrorResponse(
+          status: false, message: 'Created Date is required');
+    }
     if (model.location == null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
     }
+
+    if (model.slNo.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter SL No');
+    }
+
+    if (model.entities.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please select Entity');
+    }
+
+    if (model.employeeName.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Vendor Name');
+    }
+
+    if (model.contactNo.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Contact No');
+    }
+
+    if (model.companyName.isEmptyOrNull) {
+      return const ErrorResponse(status: false, message: 'Please enter Company Name');
+    }
+
+    if (model.host?.employeeId == null) {
+      return const ErrorResponse(status: false, message: 'Please select Host Employee Id');
+    }
+
+    if (model.department == null) {
+      return const ErrorResponse(status: false, message: 'Please select Visiting Department');
+    }
+    if (model.vendorPassReason == null) {
+      return const ErrorResponse(status: false, message: 'Please select Reason for Vendor Pass');
+    }
+
+    if (model.passInfo?.passNo == null) {
+      return const ErrorResponse(status: false, message: 'Please select Vendor Pass No');
+    }
+
+    if (model.escortedBy == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Escorted By');
+    }
+
+    if (model.escortedEmployeeId == null) {
+      return const ErrorResponse(status: false, message: 'Please enter Escorted By Employee Id');
+    }
+
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
