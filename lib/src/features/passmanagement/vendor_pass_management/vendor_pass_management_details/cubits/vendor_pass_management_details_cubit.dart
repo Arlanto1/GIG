@@ -474,11 +474,11 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
     state.model.passInfo?.passType ??= 2;
 
     state.model.startTime = state.model.startTime != null
-        ? ((int.tryParse(state.model.startTime ?? '') ?? DateTime.now().millisecondsSinceEpoch) ~/ 1000).toString()
+        ? ((int.tryParse(state.model.startTime ?? '') ?? DateTime.now().millisecondsSinceEpoch)).toString()
         : (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     state.model.endTime = state.model.endTime != null
-        ? ((int.tryParse(state.model.endTime ?? '') ?? DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch) ~/ 1000).toString()
+        ? ((int.tryParse(state.model.endTime ?? '') ?? DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch)).toString()
         : (DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch ~/ 1000).toString();
 
     // Create/Update API Call
