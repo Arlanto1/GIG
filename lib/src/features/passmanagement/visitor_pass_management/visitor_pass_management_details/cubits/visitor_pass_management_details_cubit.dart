@@ -144,11 +144,11 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
 
-      state.model.startTime = state.model.startTime == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
-          int.tryParse(state.model.startTime ?? '0'),
-          Constants.fulldateFormat);
+      // state.model.startTime = state.model.startTime == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils.timestampToDateConversion(
+      //     int.tryParse(state.model.startTime ?? '0'),
+      //     Constants.fulldateFormat);
 
       if(state.model.status !=null && state.model.status !=0) {
         state.model.returnedTime = state.model.returnedTime == null
@@ -472,7 +472,7 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
     }
 
     state.model.startTime = state.model.startTime != null
-        ? ((int.tryParse(state.model.startTime ?? '') ?? DateTime.now().millisecondsSinceEpoch) ~/1000).toString()
+        ? ((int.tryParse(state.model.startTime ?? '') ?? DateTime.now().millisecondsSinceEpoch)).toString()
         : (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     state.model.endTime = state.model.endTime != null
