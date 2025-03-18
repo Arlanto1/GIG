@@ -133,7 +133,7 @@ class _SezPassManagementDetailsViewState
             showPopUp: false,
             showSaveButton: showSaveSubmitButtons && state.status != FormStatus.loading,
             pdfAPIName:
-            '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=$moduleCode',
+            '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.sezPassManagementModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<SezPassManagementDetailsCubit>(context).submitForm(
