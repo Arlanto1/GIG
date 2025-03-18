@@ -345,7 +345,7 @@ const List<Label> passManagementStatusValues = [
   Label(key: 'Damaged/De-Activated', value: '5'),
   Label(key: 'Defaced/De-Activated', value: '6'),
   Label(key: 'Cancelled', value: '7'),
-  Label(key: 'Returned/Damage', value: '8'),
+  Label(key: 'Returned/Damaged', value: '8'),
   Label(key: 'Returned/Defaced', value: '9'),
   Label(key: 'Record Cancelled', value: '-1'),
 ];
