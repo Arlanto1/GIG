@@ -131,7 +131,7 @@ class _VisitorPassManagementDetailsViewState
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: showSaveSubmitButtons,
+            showSaveButton: showSaveSubmitButtons && state.status != FormStatus.loading,
             pdfAPIName:
             '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=$moduleCode',
             onTapSave: () {
@@ -140,7 +140,7 @@ class _VisitorPassManagementDetailsViewState
                 isSaveOnly: true,
               );
             },
-            showSubmitButton: showSaveSubmitButtons ,
+            showSubmitButton: showSaveSubmitButtons && state.status != FormStatus.loading,
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<VisitorPassManagementDetailsCubit>(context).submitForm(
