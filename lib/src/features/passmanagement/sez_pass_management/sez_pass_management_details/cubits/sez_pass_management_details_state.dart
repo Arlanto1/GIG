@@ -117,11 +117,11 @@ class SezPassManagementDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter Company Name');
     }
 
-    if (model.companyType?.name == 'FTE' && model.employeeId == null) {
+    if (model.companyType?.name != 'FTE' && model.employeeId == null) {
       return const ErrorResponse(status: false, message: 'Please enter Employee Id');
     }
 
-    if (model.companyType?.name == 'FTE' && model.employeeName == null) {
+    if (model.companyType?.name != 'FTE' && model.employeeName == null) {
       return const ErrorResponse(status: false, message: 'Please enter Name');
     }
     if (model.category == 1 && model.employee?.employeeId == null) {
