@@ -816,7 +816,7 @@ class _SezPassManagementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
 
-                            if(state.model.status !=null && state.model.status !=0 && state.model.status !=1)...[
+                            if(state.model.status ==2 || state.model.status ==8 || state.model.status ==9)...[
                               /// Pass Collected By
                             CommonWidgets.horizentaltextHandling(
                               // state.labels?.locale.entrySecurity ??

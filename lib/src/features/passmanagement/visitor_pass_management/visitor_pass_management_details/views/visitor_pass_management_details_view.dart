@@ -926,7 +926,7 @@ class _VisitorPassManagementDetailsViewState
                         ],
 
 
-                        if(state.model.status != 0 && state.model.status !=1 && state.model.status !=null)...[
+                            if(state.model.status ==2 || state.model.status ==8 || state.model.status ==9)...[
                         ///Pass Collected By
                             CommonWidgets.horizentaltextHandling(
                                 // state.labels?.locale.p ??
