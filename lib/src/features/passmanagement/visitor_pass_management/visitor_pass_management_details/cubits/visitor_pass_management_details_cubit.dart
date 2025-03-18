@@ -171,7 +171,7 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
 
       state.model.entrySecurity ??= loggedInUserDetails;
 
-      if(state.model.status == 1) {
+      if(state.model.updatedStatus == 2  || state.model.updatedStatus == 8  || state.model.updatedStatus == 9 ){
         state.model.handoverSecurity ??= loggedInUserDetails;
       }
       // if(state.model.status !=null && state.model.status !=0) {

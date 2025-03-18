@@ -107,7 +107,6 @@ class _DayPassManagementDetailsViewState
         hostController.text = state.model.host?.name ?? '';
         employeeIdController.text = state.model.employeeId??'';
         companyNameController.text= state.model.companyType?.name != 'FTE'? state.model.companyName ??'' : 'Deutsche Bank';
-
         if (state.model.status == 0 && !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }

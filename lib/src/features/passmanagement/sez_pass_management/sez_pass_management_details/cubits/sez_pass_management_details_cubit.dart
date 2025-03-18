@@ -135,7 +135,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
 
       state.model.entrySecurity ??= loggedInUserDetails;
 
-      if(state.model.status == 1) {
+      if(state.model.updatedStatus == 2  || state.model.updatedStatus == 8  || state.model.updatedStatus == 9 ){
         state.model.handoverSecurity ??= loggedInUserDetails;
       }
 

@@ -166,44 +166,11 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       //     Constants.fulldateFormat);
       MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
 
-      log('--date---${Utils.timestampToDateConversion(
-          int.tryParse(state.model.returnedTime ?? '0'),
-          Constants.fulldateFormat)}----');
 
       state.model.entrySecurity ??= loggedInUserDetails;
-      if((state.model.updatedStatus == 2 || state.model.updatedStatus == 8 || state.model.updatedStatus == 9)) {
+      if(state.model.updatedStatus == 2  || state.model.updatedStatus == 8  || state.model.updatedStatus == 9 ){
         state.model.handoverSecurity ??= loggedInUserDetails;
       }
-      log('111${(state.model.status == 2 || state.model.status == 8 || state.model.status == 9 || state.model.updatedStatus == 2 || state.model.updatedStatus == 8 || state.model.updatedStatus == 9)}----');
-
-      // if((state.model.status == 2 || state.model.status == 8 || state.model.status == 9 || state.model.updatedStatus == 2 || state.model.updatedStatus == 8 || state.model.updatedStatus == 9)) {
-      //
-      //   log('222${(state.model.status == 2 || state.model.status == 8 || state.model.status == 9 || state.model.updatedStatus == 2 || state.model.updatedStatus == 8 || state.model.updatedStatus == 9)}----');
-      //   state.model.returnedTime = state.model.returnedTime == null
-      //       ? Utils().getCurrentDate()
-      //       : Utils.timestampToDateConversion(
-      //       int.tryParse(state.model.returnedTime ?? '0'),
-      //       Constants.fulldateFormat);
-      // }
-      log('--status---${state.model.status == 1 && (state.model.status == 2 || state.model.status == 8 || state.model.status == 9)}----');
-      //
-      // if((state.model.status != 0 && state.model.updatedStatus != 3 && state.model.updatedStatus != 4 &&  state.model.status != 5 && state.model.status != 6 && state.model.status != 7) && state.model.status == 1) {
-      //   state.model.returnedTime = state.model.returnedTime == null
-      //       ? Utils().getCurrentDate()
-      //       : Utils.timestampToDateConversion(
-      //       int.tryParse(state.model.returnedTime ?? '0'),
-      //       Constants.fulldateFormat);
-      // }
-      //
-      // if((state.model.status != 0 && state.model.updatedStatus != 3 && state.model.updatedStatus != 4 &&  state.model.status != 5 && state.model.status != 6 && state.model.status != 7) && state.model.status == 1) {
-      //   state.model.returnedTime = state.model.returnedTime != null
-      //       ? Utils.timestampToDateConversion(
-      //       int.tryParse(state.model.returnedTime ?? '0'),
-      //       Constants.dateFormat)
-      //       :Utils().getCurrentDate() ;
-      // }
-      // state.model.rejectedBy ??= loggedInUserDetails;
-      log('--state.model.entrySecurity---${state.model.entrySecurity?.firstName}----');
 
       List<BaseUser> onlyDBUsers = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomStaticUser,
@@ -509,18 +476,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
   ? ((int.tryParse(state.model.returnedTime ?? '') ?? DateTime.now().millisecondsSinceEpoch)).toString()
       : (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
   }
-    // if(state.model.status == 1 && (state.model.updatedStatus ==2 || state.model.updatedStatus == 8 || state.model.updatedStatus == 9)){
-    // if(state.model.returnedTime !=null) {
-    //   if (!Utils().isTimestamp(state.model.returnedTime!)) {
-    //     dateTime =
-    //         DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.returnedTime!);
-    //     int inputDate = dateTime
-    //         .toUtc()
-    //         .millisecondsSinceEpoch ~/ 1000;
-    //     state.model.returnedTime = inputDate.toString();
-    //   }
-    // }
-    // }
 
     DayPassManagementRequest request =
          DayPassManagementRequest(passManagement: state.model);
