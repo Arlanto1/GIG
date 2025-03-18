@@ -48,7 +48,7 @@ class _VendorPassManagementDetailsViewState
   TextEditingController escortedByController = TextEditingController();
   TextEditingController escortedByEmployeeIdController = TextEditingController();
   TextEditingController companyNameController =TextEditingController();
-
+  TextEditingController returnedTimeController = TextEditingController();
   final FocusNode sentToFocusNode = FocusNode();
 
   List<ImageContent> uploadFiles = [];
@@ -175,6 +175,16 @@ class _VendorPassManagementDetailsViewState
         DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch, // One day ahead
         Constants.fulldateFormat);
 
+
+    if( (state.model.status == 2||state.model.status == 8 || state.model.status == 9)) {
+      returnedTimeController.text = state.model.returnedTime != null
+          ? Utils.timestampToDateConversion(
+          int.tryParse(state.model.returnedTime ?? '') ??
+              DateTime
+                  .now()
+                  .millisecondsSinceEpoch, // Fallback to current timestamp
+          Constants.fulldateFormat) : '';
+    }
     state.model.startTime == passValidFromController.text;
     state.model.endTime == passValidUntilController.text;
   }
@@ -847,8 +857,19 @@ class _VendorPassManagementDetailsViewState
                                 isMandatory: true,
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.001),
-                              datecreateWidgetdisplay(
-                                  state.model.returnedTime ?? ''),
+                              BaseDate().datePickerWidgetLoading(
+                                textController: returnedTimeController,
+                                isDisabled: true,
+                                onlyDate: false,
+                                onChange: (String value) {
+                                  BlocProvider.of<
+                                      VendorPassManagementDetailsCubit>(
+                                      context)
+                                      .onModelValueChange(state.model);
+                                  //},
+                                },
+                                context: context,
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             ],

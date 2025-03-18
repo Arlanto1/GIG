@@ -47,6 +47,7 @@ class _SezPassManagementDetailsViewState
   TextEditingController mTPApplicationNoController = TextEditingController();
   TextEditingController passCategoryController = TextEditingController();
   TextEditingController employeeIdFreeTextController = TextEditingController();
+  TextEditingController returnedTimeController = TextEditingController();
 
   final FocusNode sentToFocusNode = FocusNode();
 
@@ -176,6 +177,15 @@ class _SezPassManagementDetailsViewState
         int.tryParse(state.passValidUntil!) ?? DateTime.now().millisecondsSinceEpoch,
         Constants.dateFormat);
 
+    if( (state.model.status == 2||state.model.status == 8 || state.model.status == 9)) {
+      returnedTimeController.text = state.model.returnedTime != null
+          ? Utils.timestampToDateConversion(
+          int.tryParse(state.model.returnedTime ?? '') ??
+              DateTime
+                  .now()
+                  .millisecondsSinceEpoch, // Fallback to current timestamp
+          Constants.fulldateFormat) : '';
+    }
 
     }
 
@@ -827,8 +837,19 @@ class _SezPassManagementDetailsViewState
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            datecreateWidgetdisplay(
-                                state.model.returnedTime ?? ''),
+                              BaseDate().datePickerWidgetLoading(
+                                textController: returnedTimeController,
+                                isDisabled: true,
+                                onlyDate: false,
+                                onChange: (String value) {
+                                  BlocProvider.of<
+                                      SezPassManagementDetailsCubit>(
+                                      context)
+                                      .onModelValueChange(state.model);
+                                  //},
+                                },
+                                context: context,
+                              ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ],

@@ -174,13 +174,13 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       if(state.model.status == 1) {
         state.model.handoverSecurity ??= loggedInUserDetails;
       }
-      if(state.model.status !=null && state.model.status !=0) {
-        state.model.returnedTime = state.model.returnedTime == null
-            ? Utils().getCurrentDate()
-            : Utils.timestampToDateConversion(
-            int.tryParse(state.model.returnedTime ?? '0'),
-            Constants.fulldateFormat);
-      }
+      // if(state.model.status !=null && state.model.status !=0) {
+      //   state.model.returnedTime = state.model.returnedTime == null
+      //       ? Utils().getCurrentDate()
+      //       : Utils.timestampToDateConversion(
+      //       int.tryParse(state.model.returnedTime ?? '0'),
+      //       Constants.fulldateFormat);
+      // }
 
       log('--state.model.entrySecurity---${state.model.entrySecurity?.firstName}----');
 
@@ -479,15 +479,11 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
         ? ((int.tryParse(state.model.endTime ?? '') ?? DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch)).toString()
         : (DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch ~/ 1000).toString();
 
-    if(state.model.returnedTime !=null) {
-      if (!Utils().isTimestamp(state.model.returnedTime!)) {
-        dateTime =
-            DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.returnedTime!);
-        int inputDate = dateTime
-            .toUtc()
-            .millisecondsSinceEpoch ~/ 1000;
-        state.model.returnedTime = inputDate.toString();
-      }
+
+    if(state.model.status == 1 && (state.model.updatedStatus == 2||state.model.updatedStatus == 8 || state.model.updatedStatus == 9)){
+      state.model.returnedTime = state.model.returnedTime != null
+          ? ((int.tryParse(state.model.returnedTime ?? '') ?? DateTime.now().millisecondsSinceEpoch)).toString()
+          : (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     }
     // Create/Update API Call
     VisitorPassManagementRequest request =

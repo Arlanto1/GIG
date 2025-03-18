@@ -45,6 +45,7 @@ class _DayPassManagementDetailsViewState
   TextEditingController hostController = TextEditingController();
   TextEditingController updateStatusTextController = TextEditingController();
   TextEditingController employeeIdController = TextEditingController();
+  TextEditingController returnedTimeController = TextEditingController();
 
   final FocusNode sentToFocusNode = FocusNode();
 
@@ -170,8 +171,19 @@ class _DayPassManagementDetailsViewState
         DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch, // One day ahead
         Constants.fulldateFormat);
 
+    if( (state.model.status == 2||state.model.status == 8 || state.model.status == 9)) {
+      returnedTimeController.text = state.model.returnedTime != null
+          ? Utils.timestampToDateConversion(
+          int.tryParse(state.model.returnedTime ?? '') ??
+              DateTime
+                  .now()
+                  .millisecondsSinceEpoch, // Fallback to current timestamp
+          Constants.fulldateFormat) : '';
+    }
     state.model.startTime == passValidFromController.text;
     state.model.endTime == passValidUntilController.text;
+
+
 
   }
 
@@ -999,7 +1011,7 @@ class _DayPassManagementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
 
-                            if(state.model.status !=null && state.model.status !=0 && state.model.status !=1)...[
+                            if(state.model.status ==2 || state.model.status ==8 || state.model.status ==9)...[
                             /// Pass Collected By
                             CommonWidgets.horizentaltextHandling(
                                 // state.labels?.locale.entrySecurity ??
@@ -1020,8 +1032,26 @@ class _DayPassManagementDetailsViewState
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            datecreateWidgetdisplay(
-                                state.model.returnedTime ?? ''),
+                              BaseDate().datePickerWidgetLoading(
+                                textController: returnedTimeController,
+                                isDisabled: true,
+                                onlyDate: false,
+                                // showPastDate: false,
+                                // fromDate: initialisedStartDate,
+                                // toDate: initialisedToDate,
+                                onChange: (String value) {
+                                  // isDateSelectedByUser = true;
+                                  // keyReturnDueDateController.text = value;
+                                  // state.model.passV =
+                                  //     Utils().formatTime(value);
+                                  BlocProvider.of<
+                                      DayPassManagementDetailsCubit>(
+                                      context)
+                                      .onModelValueChange(state.model);
+                                  //},
+                                },
+                                context: context,
+                              ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
 ],

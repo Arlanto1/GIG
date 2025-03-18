@@ -139,13 +139,13 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
         state.model.handoverSecurity ??= loggedInUserDetails;
       }
 
-      if(state.model.status !=null && state.model.status !=0) {
-        state.model.returnedTime = state.model.returnedTime == null
-            ? Utils().getCurrentDate()
-            : Utils.timestampToDateConversion(
-            int.tryParse(state.model.returnedTime ?? '0'),
-            Constants.fulldateFormat);
-      }
+      // if(state.model.status !=null && state.model.status !=0) {
+      //   state.model.returnedTime = state.model.returnedTime == null
+      //       ? Utils().getCurrentDate()
+      //       : Utils.timestampToDateConversion(
+      //       int.tryParse(state.model.returnedTime ?? '0'),
+      //       Constants.fulldateFormat);
+      // }
       state.model.passType ??= 3;
       state.model.passInfo?.passType ??= 3;
 
@@ -260,7 +260,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
         state.model.employeeName = null;
         companyTypeList = await commonServices.getOrganisations(
           name: 'ATOM_SEZ_COMPANY_TYPES',
-          filter: 1,
+          filter: 2,
         );
         state.model.companyType = companyTypeList.first;
         state.model.companyName = state.model.companyType?.name == 'FTE' ?'Deutsche Bank': state.model.companyName;
@@ -286,7 +286,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
 
       companyTypeList = await commonServices.getOrganisations(
         name: 'ATOM_SEZ_COMPANY_TYPES',
-        filter: 2,
+        filter: 1,
       );
       // state.model.companyType = companyTypeList.first;
       passValidUntilDate = await commonServices.getPassValidUntil(passCategory: 1);
@@ -425,15 +425,10 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
       state.model.inputDate = inputDate.toString();
     }
 
-    if(state.model.returnedTime !=null) {
-      if (!Utils().isTimestamp(state.model.returnedTime!)) {
-        dateTime =
-            DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.returnedTime!);
-        int inputDate = dateTime
-            .toUtc()
-            .millisecondsSinceEpoch ~/ 1000;
-        state.model.returnedTime = inputDate.toString();
-      }
+    if(state.model.status == 1 && (state.model.updatedStatus == 2||state.model.updatedStatus == 8 || state.model.updatedStatus == 9)){
+      state.model.returnedTime = state.model.returnedTime != null
+          ? ((int.tryParse(state.model.returnedTime ?? '') ?? DateTime.now().millisecondsSinceEpoch)).toString()
+          : (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     }
 
     // Create/Update API Call
