@@ -113,7 +113,7 @@ class SezPassManagementDetailsState extends Equatable {
     if (model.companyType == null) {
       return const ErrorResponse(status: false, message: 'Please select Company Type');
     }
-    if (model.companyName == null) {
+    if (model.companyName == null && model.companyType?.name != 'FTE') {
       return const ErrorResponse(status: false, message: 'Please enter Company Name');
     }
 
@@ -124,7 +124,7 @@ class SezPassManagementDetailsState extends Equatable {
     if (model.companyType?.name == 'FTE' && model.employeeName == null) {
       return const ErrorResponse(status: false, message: 'Please enter Name');
     }
-    if (model.companyType?.name != 'FTE' && model.employee?.employeeId == null) {
+    if (model.category == 1 && model.employee?.employeeId == null) {
       return const ErrorResponse(status: false, message: 'Please select Employee Id');
     }
     if (model.email.isEmptyOrNull) {
