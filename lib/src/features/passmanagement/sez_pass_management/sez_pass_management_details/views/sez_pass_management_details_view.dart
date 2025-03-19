@@ -902,6 +902,7 @@ class _SezPassManagementDetailsViewState
                                 files: uploadFiles,
                                 moduleCode: Constants.dayPassManagementModule,
                                 isDisabled: false,
+                                showDeleteIcon: state.model.status == null || state.model.status == 0 ,
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),

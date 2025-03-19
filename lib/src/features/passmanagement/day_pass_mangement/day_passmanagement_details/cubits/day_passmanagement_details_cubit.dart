@@ -489,6 +489,11 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
               message: state.isValidDraft.message,
             ),
           );
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
           return;
         }
         response = (await dayPassManagementServices.createPass(
@@ -502,6 +507,11 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
               message: state.isValid.message,
             ),
           );
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
           return;
         }
         response = (await dayPassManagementServices.createPass(
@@ -519,7 +529,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
-
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(

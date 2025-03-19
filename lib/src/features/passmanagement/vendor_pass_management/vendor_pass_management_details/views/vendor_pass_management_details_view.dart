@@ -919,6 +919,7 @@ class _VendorPassManagementDetailsViewState
                                 files: uploadFiles,
                                 moduleCode: Constants.passManagementModuleCode,
                                 isDisabled: false,
+                                showDeleteIcon: state.model.status == null || state.model.status == 0 ,
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
