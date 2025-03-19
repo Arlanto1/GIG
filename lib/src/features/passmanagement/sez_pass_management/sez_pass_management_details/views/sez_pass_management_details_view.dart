@@ -129,8 +129,8 @@ class _SezPassManagementDetailsViewState
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: showSaveSubmitButtons && state.status != FormStatus.loading,
-            pdfAPIName:
+            showSaveButton: (widget.model == null ||
+                state.model.status == 0) && state.status != FormStatus.loading,            pdfAPIName:
             '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.passManagementModuleCode}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
