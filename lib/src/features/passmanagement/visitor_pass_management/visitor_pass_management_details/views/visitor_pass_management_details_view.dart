@@ -227,7 +227,7 @@ class _VisitorPassManagementDetailsViewState
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       AbsorbPointer(
-                        absorbing: !showSaveSubmitButtons,
+                        absorbing: !showSaveSubmitButtons && IgnorePointer == false,
                         child: Column(
                           children: [
                             if (!state.model.lock.isEmptyOrNull) ...[
@@ -966,6 +966,9 @@ class _VisitorPassManagementDetailsViewState
                               ),
                             ],
                             /// Attachments
+                            IgnorePointer(
+                                ignoring: false,
+                                child:
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 20.0),
@@ -977,6 +980,7 @@ class _VisitorPassManagementDetailsViewState
                                 isDisabled: false,
                                 showDeleteIcon: state.model.status == null || state.model.status == 0 ,
                               ),
+                            ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 

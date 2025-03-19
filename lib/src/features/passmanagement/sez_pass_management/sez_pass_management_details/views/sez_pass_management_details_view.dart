@@ -228,7 +228,7 @@ class _SezPassManagementDetailsViewState
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       AbsorbPointer(
-                        absorbing: !showSaveSubmitButtons,
+                        absorbing: !showSaveSubmitButtons && IgnorePointer==false,
                         child: Column(
                           children: [
                             if (!state.model.lock.isEmptyOrNull) ...[
@@ -886,7 +886,9 @@ class _SezPassManagementDetailsViewState
                               ),
                             ],
                             /// Attachments
-                            Padding(
+                            IgnorePointer(
+                                ignoring: false,
+                                child: Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 20.0),
                               child: BaseImageUpload().getAttachment(
@@ -897,6 +899,7 @@ class _SezPassManagementDetailsViewState
                                 isDisabled: false,
                                 showDeleteIcon: state.model.status == null || state.model.status == 0 ,
                               ),
+                            ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
