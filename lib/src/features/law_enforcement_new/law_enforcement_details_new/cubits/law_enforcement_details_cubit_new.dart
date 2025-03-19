@@ -13,9 +13,6 @@ class LawEnforcementDetailsCubit
   final LawEnforcementServicesNew services;
   final LawEnforcementModelNew? model;
   final CommonServices commonServices;
-
-  /// Via Attendance
-  final int? attdInfoId;
   final Organisation? location;
   final Organisation? locationRegion;
   final Organisation? vendor;
@@ -24,7 +21,6 @@ class LawEnforcementDetailsCubit
     required this.services,
     required this.commonServices,
     this.model,
-    this.attdInfoId,
     required this.location,
     required this.locationRegion,
     required this.vendor,
@@ -51,23 +47,6 @@ class LawEnforcementDetailsCubit
     emit(state.copyWith(model: model, status: FormStatus.loading));
 
     emit(state.copyWith(model: model, status: FormStatus.initial));
-  }
-
-  void onAddPOC(String poc) {
-    emit(state.copyWith(
-      model: model,
-      status: FormStatus.loading,
-    ));
-    List<String>? pocs = state.pocs ?? [];
-    pocs.add(poc);
-    state.copyWith(
-      pocs: pocs,
-    );
-    // state.model.poc = Utils().joinListWithComma(pocs);
-    emit(state.copyWith(
-      model: model,
-      status: FormStatus.initial,
-    ));
   }
 
   Future<void> refreshList() async {
@@ -99,8 +78,6 @@ class LawEnforcementDetailsCubit
 
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
-    // log('-attId-1-${state.model.attdShiftInfoId}--');
-
 
     //Show Loader and emit loading state
     emit(
@@ -110,23 +87,12 @@ class LawEnforcementDetailsCubit
     );
     var userId = await SharedPrefs.getUserId();
 
-    // if (attdInfoId != null) {
-    //   SLAViolationPenaltyModel model =
-    //   await services.preCreateSvp(attdInfoId: attdInfoId!);
-    //   emit(
-    //     state.copyWith(
-    //       status: FormStatus.loading,
-    //       model: model,
-    //     ),
-    //   );
-    // }
-
     if (state.model.location == null) {
       Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
       if (defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
+          moduleCode: Constants.leoModuleCode,
         );
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
@@ -149,7 +115,7 @@ class LawEnforcementDetailsCubit
       await commonServices.getUserDetails(userId: userId);
 
       List<BaseUser> emailUsers = await commonServices.getBaseUsers(
-        roleName: ConstantUserRoles.atomAssistantSecurityLead,
+        roleName: ConstantUserRoles.atomStaticUser,
         locationId: state.model.location?.id,
         isDbUser: true,
       );
@@ -180,13 +146,13 @@ class LawEnforcementDetailsCubit
       //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
+          moduleCode: Constants.leoModuleCode);
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
 
       if (location != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: location!.id.toString(),
-          moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
+          moduleCode: Constants.leoModuleCode,
         );
         state.model.location = location;
         state.model.slNo = slNo.serialNo;
@@ -206,13 +172,12 @@ class LawEnforcementDetailsCubit
           listOfEntities: entities.atomEntities,
           vendors: vendors.items,
           typeOfServices: typeOfService.items,
-          // pocs: pocs,
           labels: labels,
         ),
       );
     } catch (e) {
       log('initialization issue',
-          error: e, name: 'SLA Violation Penalty Details Cubit');
+          error: e, name: 'Law Enforcement Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -238,14 +203,14 @@ class LawEnforcementDetailsCubit
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
-        moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
+        moduleCode: Constants.leoModuleCode,
       );
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
 
       emailUsers = await commonServices.getBaseUsers(
-        roleName: ConstantUserRoles.atomAssistantSecurityLead,
+        roleName: ConstantUserRoles.atomStaticUser,
         locationId: location.id,
         isDbUser: true,
       );
