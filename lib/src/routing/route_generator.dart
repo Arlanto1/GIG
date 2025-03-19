@@ -61,6 +61,7 @@ import 'package:db_atom/src/features/guarding_operations/vvip_visitor/vvip_visit
 import 'package:db_atom/src/features/incident_management/incident_managements/bloc/incident_management_bloc.dart'
     as im;
 import 'package:db_atom/src/features/incident_management/services/incident_management_services.dart';
+import 'package:db_atom/src/features/law_enforcement_new/law_enforcement_list_new/bloc/law_enforcement_bloc_new.dart';
 import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_bloc.dart'
     as vo;
 import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/views/visiting_officials_list_view.dart';
@@ -120,6 +121,7 @@ import '../features/guarding_operations/vvip_visitor/vvip_visitors/bloc/vvip_vis
 import '../features/guarding_operations/vvip_visitor/vvip_visitors_record/bloc/vvip_visitors_record_bloc.dart'
     as vipr;
 import '../features/guarding_operations/vvip_visitor/vvip_visitors_record/views/vvip_visitors_record_view.dart';
+import '../features/law_enforcement_new/law_enforcement_list_new/views/law_enforcement_list_view.dart';
 import '../features/passmanagement/day_pass_mangement/day_passmanagement_details/cubits/day_passmanagement_details_cubit.dart';
 import '../features/passmanagement/day_pass_mangement/day_passmanagement_details/views/day_passmanagement_details_view.dart';
 import '../features/passmanagement/day_pass_mangement/day_passmanagement_list/views/day_passmanagement_list_view.dart';
@@ -2020,6 +2022,18 @@ class RouteGenerator {
           ),
         );
 
+
+      case lawEnforcementNewListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<LawEnforcementBloc>(
+              create: (_) => LawEnforcementBloc(passId: 0)
+                ..add(FetchLeoData(
+                    startPos: 0,
+                    maxPos: Constants.maxResults,
+                    newSearch: true,
+                    filters: BaseFilterModel())),
+              child: const LawEnforcementListView(),
+            ));
 
 
       default:

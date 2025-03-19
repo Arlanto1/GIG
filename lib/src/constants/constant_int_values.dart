@@ -166,4 +166,10 @@ class ConstantsIntValue {
   static const int passCreatedStatus = 0;
 
 
+  /// Law Enforcement Status
+  static const int lawDraftStatus = 0;
+  static const int lawSubmittedStatus = 1;
+  static const int lawUnderVerificationStatus = 2;
+  static const int lawDistributedStatus = 3;
+
 }

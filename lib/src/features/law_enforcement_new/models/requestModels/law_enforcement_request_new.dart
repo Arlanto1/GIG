@@ -8,12 +8,12 @@ class LawEnforcementRequestNew {
   late final LawEnforcementModelNew lawEnforcementModelNew;
 
   LawEnforcementRequestNew.fromJson(Map<String, dynamic> json) {
-    lawEnforcementModelNew = LawEnforcementModelNew.fromJson(json['lawEnforcementModelNew']);
+    lawEnforcementModelNew = LawEnforcementModelNew.fromJson(json['lawEnforcement']);
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['lawEnforcementModelNew'] = lawEnforcementModelNew.toJson();
+    data['lawEnforcement'] = lawEnforcementModelNew.toJson();
     return data;
   }
 }

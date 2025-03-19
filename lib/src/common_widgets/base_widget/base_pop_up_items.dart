@@ -84,6 +84,10 @@ class BasePopUpItems extends StatefulWidget {
   final String? passValidUntil;
   final String? companyName;
   final bool? sez;
+  final bool isLawEnforcementStatus;
+  final String? dbOfficialWantToMeet;
+  final Organisation? visitPurpose;
+  final Organisation? dbOfficialDep;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -173,6 +177,10 @@ class BasePopUpItems extends StatefulWidget {
     this.passValidUntil,
     this.companyName,
     this.sez,
+    this.isLawEnforcementStatus = false,
+    this.dbOfficialWantToMeet,
+    this.visitPurpose,
+    this.dbOfficialDep,
   });
 }
 
@@ -359,11 +367,10 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.inputDate != null) ...[
-        // CommonWidgets.verticalSpacerWidget(8),
         Row(
           children: [
             Utils().textHandling(
-                'DateOfCreation : ',
+                'Date Of Creation : ',
                 widget.inputDate != null
                     ? Utils.timestampToDateConversion(
                         int.tryParse(widget.inputDate ?? '0'),
@@ -874,7 +881,16 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      CommonWidgets.verticalSpacerWidget(5),
+      if (widget.status != null &&
+          widget.isLawEnforcementStatus == true) ...[
+        CommonWidgets.horizontalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().buildLeoStatusRow(widget.status ?? 0),
+          ],
+        ),
+      ],
       if (widget.status != null && widget.isShiftScheduleStatus == true) ...[
         CommonWidgets.horizontalSpacerWidget(5),
         Row(
@@ -977,6 +993,35 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           children: [
             Utils().textHandling(
                 'Company Name : ', widget.companyName.toString()),
+          ],
+        ),
+      ],
+      if (widget.dbOfficialWantToMeet != null) ...[
+        // CommonWidgets.verticalSpacerWidget(8),
+        Row(
+          children: [
+            Utils().textHandling('DB official want to meet : ',
+                widget.dbOfficialWantToMeet.toString()),
+          ],
+        ),
+      ],
+
+      if (widget.visitPurpose != null) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('Purpose of visit: ', widget.visitPurpose?.name ?? ''),
+          ],
+        ),
+      ],
+
+      if (widget.dbOfficialDep != null) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().textHandling('DB Official Department: ', widget.dbOfficialDep?.name ?? ''),
           ],
         ),
       ],
