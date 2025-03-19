@@ -322,6 +322,7 @@ class LawEnforcementDetailsCubit
 
   Future<bool> submitForm({
     bool isSaveOnly = false,
+    bool navigateToNextScreen = false,
   }) async {
     emit(
       state.copyWith(
@@ -337,8 +338,6 @@ class LawEnforcementDetailsCubit
       state.model.inputDate = inputDate.toString();
     }
 
-    // state.model.passType ??= 2;
-    // state.model.passInfo?.passType ??= 2;
     //
     // state.model.startTime = state.model.startTime != null
     //     ? ((int.tryParse(state.model.startTime ?? '') ?? DateTime.now().millisecondsSinceEpoch)).toString()
@@ -413,7 +412,9 @@ class LawEnforcementDetailsCubit
         state.copyWith(
           model: state.model,
           message: response.message,
-          status: FormStatus.success,
+          status: navigateToNextScreen
+              ? FormStatus.navigateToNextScreen
+              : FormStatus.success,
         ),
       );
       state.model.inputDate = state.model.inputDate == null

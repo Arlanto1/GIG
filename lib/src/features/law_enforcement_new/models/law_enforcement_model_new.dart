@@ -38,12 +38,12 @@ class LawEnforcementModelNew {
    Organisation? location;
    Organisation? locationRegion;
    String? timeOfVisit;
-   bool? officialCardVerified;
+   bool officialCardVerified;
    Organisation? visitPurpose;
-   bool? documentVerified;
+   bool documentVerified;
    List<ImageContent>? images;
    List<Organisation>? entities;
-   bool? visitorInUniform;
+   bool visitorInUniform;
    String? dbOfficialEmail;
    Organisation? dbOfficialEmailDepartment;
    String? dbOfficialAccompaniedEmail;
@@ -67,12 +67,12 @@ class LawEnforcementModelNew {
     this.location,
     this.locationRegion,
     this.timeOfVisit,
-    this.officialCardVerified,
+    this.officialCardVerified = false,
     this.visitPurpose,
-    this.documentVerified,
+    this.documentVerified = false,
     this.images,
     this.entities,
-    this.visitorInUniform,
+    this.visitorInUniform = false,
     this.dbOfficialEmail,
     this.dbOfficialEmailDepartment,
     this.dbOfficialAccompaniedEmail,
@@ -96,14 +96,14 @@ class LawEnforcementModelNew {
         location = (json['location'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['location'] as Map<String,dynamic>) : null,
         locationRegion = (json['locationRegion'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['locationRegion'] as Map<String,dynamic>) : null,
         timeOfVisit = json['timeOfVisit'] as String?,
-        officialCardVerified = json['officialCardVerified'] as bool?,
+        officialCardVerified = json['officialCardVerified'] as bool,
         visitPurpose = (json['visitPurpose'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['visitPurpose'] as Map<String,dynamic>) : null,
-        documentVerified = json['documentVerified'] as bool?,
+        documentVerified = json['documentVerified'] as bool,
         images = (json['images'] as List<dynamic>?)
             ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
             .toList(),
         entities = (json['entities'] as List?)?.map((dynamic e) => Organisation.fromJson(e as Map<String,dynamic>)).toList(),
-        visitorInUniform = json['visitorInUniform'] as bool?,
+        visitorInUniform = json['visitorInUniform'] as bool,
         dbOfficialEmail = json['dbOfficialEmail'] as String?,
         dbOfficialEmailDepartment = (json['dbOfficialEmailDepartment'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['dbOfficialEmailDepartment'] as Map<String,dynamic>) : null,
         dbOfficialAccompaniedEmail = json['dbOfficialAccompaniedEmail'] as String?,
