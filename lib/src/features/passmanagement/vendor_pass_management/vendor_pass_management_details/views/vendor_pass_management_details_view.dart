@@ -276,7 +276,7 @@ class _VendorPassManagementDetailsViewState
 
 
                             /// Updated Status
-                            if(state.model.status == 0 || state.model.status == 1)...[
+                            if(widget.model?.status == 0 || widget.model?.status == 1)...[
                               CommonWidgets.textDisplay(
                                   isMandatory: true,
                                   // state.labels?.locale.get ??
