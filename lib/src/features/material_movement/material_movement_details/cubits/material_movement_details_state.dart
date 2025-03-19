@@ -83,10 +83,10 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
     }
-    if (model.challanNo.isEmptyOrNull) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Challan/Invoice Nos/Gate Pass');
-    }
+    // if ( model.isI && model.challanNo.isEmptyOrNull) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Challan/Invoice Nos/Gate Pass');
+    // }
 
     if (model.inwardMovement == false && model.requestorEmployeeId.isEmptyOrNull) {
       return const ErrorResponse(

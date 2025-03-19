@@ -567,14 +567,15 @@ class _MaterialMovementDetailsViewState
 
                             /// Sl No.
                             CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.slNo ??
-                                  state.labels?.defaultLocale.slNo ??
-                                  Constants.slno,
+                              // state.labels?.locale.slNo ??
+                              //     state.labels?.defaultLocale.slNo ??
+                                  widget.isInward ? Constants.slno : 'Gate Pass No',
                               state.model.slNo ?? '',
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            if(widget.isInward)...[
                             /// Challan/ Invoice Nos/ Gate Pass
                             CommonWidgets.textDisplay(
                               state.labels?.locale.challanNo ??
@@ -626,7 +627,7 @@ class _MaterialMovementDetailsViewState
                               validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-
+],
                             if (widget.isInward) ...[
                               /// PO Number
                               CommonWidgets.textDisplay(
