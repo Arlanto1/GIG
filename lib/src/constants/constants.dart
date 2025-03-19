@@ -1004,26 +1004,26 @@ class Constants {
 
 
   ///Day Pass Management
-  static const String dayPassManagementTitle = 'Day Pass Management';
+  static const String dayPassManagementTitle = 'Day Pass Management List';
   static const String createDayPassManagementTitle = 'Create Day Pass Management';
   static const String editDayPassManagementTitle = 'Edit Day Pass Management';
   static const String dayPassNo = 'Day Pass No';
 
 
   ///Vendor Pass Management
-  static const String vendorPassManagementTitle = 'Vendor Pass Management';
+  static const String vendorPassManagementTitle = 'Vendor Pass Management List';
   static const String createVendorPassManagementTitle = 'Create Vendor Pass Management';
   static const String editVendorPassManagementTitle = 'Edit Vendor Pass Management';
 
   ///Visitor Pass Management
-  static const String visitorPassManagementTitle = 'Visitor Pass Management';
+  static const String visitorPassManagementTitle = 'Visitor Pass Management List';
   static const String createVisitorPassManagementTitle = 'Create Visitor Pass Management';
   static const String editVisitorPassManagementTitle = 'Edit Visitor Pass Management';
 
 
   ///Sez Pass Management
 
-  static const String sezPassManagementTitle = 'Sez Pass Management';
+  static const String sezPassManagementTitle = 'Sez Pass Management List';
   static const String createSezPassManagementTitle = 'Create Sez Pass Management';
   static const String editSezPassManagementTitle = 'Edit Sez Pass Management';
 
