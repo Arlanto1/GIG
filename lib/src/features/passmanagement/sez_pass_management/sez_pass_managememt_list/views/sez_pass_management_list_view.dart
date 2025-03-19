@@ -318,8 +318,8 @@ class _SezPassManagementListViewState extends State<SezPassManagementListView> {
       ) {
     filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
 
-    BlocProvider.of<DayPassManagementListBloc>(context).add(
-      FetchDayPassData(
+    BlocProvider.of<SezPassManagementListBloc>(context).add(
+      FetchSezPassData(
           startPos: 0,
           maxPos: Constants.maxResults,
           newSearch: true,
