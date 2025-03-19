@@ -94,13 +94,6 @@ class _DayPassManagementListViewState extends State<DayPassManagementListView> {
               body:
               BlocBuilder<DayPassManagementListBloc, DayPassManagementListState>(
                   builder: (context, state) {
-                    // if (state.status == FormStatus.loading) {
-                    //   return const BaseLoader();
-                    // }
-                    // if (state.list.isEmptyOrNull) {
-                    //   return const NoRecordFoundWidget();
-                    // }
-                    // log('--labels-${state.labels?.locale.locationRegion}');
                     return Container(
                       margin: allMargin16,
                       decoration: const ShapeDecoration(

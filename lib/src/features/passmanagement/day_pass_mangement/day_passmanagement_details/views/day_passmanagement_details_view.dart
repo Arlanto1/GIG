@@ -57,8 +57,6 @@ class _DayPassManagementDetailsViewState
     //initializeDates(state);
   }
 
-  static const String moduleCode = Constants.materialMovementModuleCode;
-
   @override
   void dispose() {
     super.dispose();
@@ -191,11 +189,6 @@ class _DayPassManagementDetailsViewState
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
-
-    // if (state.status == FormStatus.addAttachment ||
-    //     state.status == FormStatus.initial) {
-    //   getFiles = state.loadAttachments ?? [];
-    // }
 
     if (state.status == FormStatus.addAttachment ||
         state.status == FormStatus.initial) {
@@ -875,33 +868,9 @@ class _DayPassManagementDetailsViewState
                                         context)
                                         .onCheckBoxChange(state.model);
                                   }),
-
-                              // RadioButtonsYesNo(
-                              //     status: state.model.status ?? 0,
-                              //     selectedValue:
-                              //     state.model.exceptionalApproval ? 1 : 0,
-                              //     onChangedYes: isReadOnly
-                              //         ? null
-                              //         : (val) {
-                              //       state.model.exceptionalApproval =
-                              //       true;
-                              //       BlocProvider.of<
-                              //           DayPassManagementDetailsCubit>(
-                              //           context)
-                              //           .onCheckBoxChange(state.model);
-                              //     },
-                              //     onChangedNo: isReadOnly
-                              //         ? null
-                              //         : (val) {
-                              //       state.model.exceptionalApproval =
-                              //       false;
-                              //       BlocProvider.of<
-                              //           DayPassManagementDetailsCubit>(
-                              //           context)
-                              //           .onCheckBoxChange(state.model);
-                              //     }),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
+
                             /// Day Pass No
                             CommonWidgets.textDisplay(
                               // state.labels?.locale.requestorDepartment ??

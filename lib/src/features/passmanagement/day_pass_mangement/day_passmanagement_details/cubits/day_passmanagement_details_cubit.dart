@@ -52,7 +52,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     emit(
       state.copyWith(
         status: FormStatus.initial,
-        // getEntitiesResponse: entities,
         listOfEntities: entities,
         emailUsers: emailUsers,
         departments: departments.employeeDepartments,
@@ -95,17 +94,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       state.model.slNo = slNo.serialNo;
     }
 
-    // if (state.model.status != null && state.model.status != 0) {
-    //   String moduleCode = Constants.passManagementModule;
-    //   // SerialNumberModel slNo = await commonServices.getSlNo(
-    //   //   locationId: defaultLocation.id.toString(),
-    //   //   moduleCode: moduleCode,
-    //   // );
-    //   Organisation updatedStatus = await commonServices.getStatusesByModuleId(
-    //       module: Constants.passManagementModuleCode, filter: state.model.status == 0 || state.model.status == null ? 0 : 1);
-    //   state.model.location = defaultLocation;
-    //   state.model.updatedStatus = updatedStatus.id;
-    // }
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
@@ -154,16 +142,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
 
-      // state.model.startTime = state.model.startTime == null
-      //     ? Utils().getCurrentDate()
-      //     : Utils.timestampToDateConversion(
-      //     int.tryParse(state.model.startTime ?? '0'),
-      //     Constants.fulldateFormat);
-      //
-      // state.model.endTime =
-      //     Utils.timestampToDateConversion(
-      //     DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch,
-      //     Constants.fulldateFormat);
       MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
 
 
@@ -261,10 +239,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       Organisation defaultPassType = getPassType.first;
       state.model.passTypeName = defaultPassType.name;
     }
-      // state.model. = null;
-     // state.model.host = null;
-     // state.model.passTypeName = null;
-     state.model.passNo = null;
+    state.model.passNo = null;
 
     emit(state.copyWith(
       model: state.model,
