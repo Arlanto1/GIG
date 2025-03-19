@@ -130,6 +130,10 @@ class SezPassManagementDetailsState extends Equatable {
     if (model.email.isEmptyOrNull) {
       return const ErrorResponse(status: false, message: 'Please enter Email');
     }
+
+    if (!model.email.isEmptyOrNull && !model.email!.contains('@db.com')) {
+      return const ErrorResponse(status: false, message: 'Please enter correct Email');
+    }
     if (model.passNo.isEmptyOrNull) {
       return const ErrorResponse(status: false, message: 'Please enter SEZ Pass Info');
     }

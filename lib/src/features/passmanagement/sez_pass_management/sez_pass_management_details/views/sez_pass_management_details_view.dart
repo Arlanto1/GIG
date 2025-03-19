@@ -656,6 +656,7 @@ class _SezPassManagementDetailsViewState
                                 height * 0.01),
 
 
+                            if(state.model.category == 2)...[
                             /// Email
                             CommonWidgets.textDisplay(
                               // state.labels?.locale.name ??
@@ -681,7 +682,7 @@ class _SezPassManagementDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.01),
-
+],
                             /// Sez Pass Info
                             CommonWidgets.textDisplay(
                               // state.labels?.locale.name ??
