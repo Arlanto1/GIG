@@ -1,19 +1,19 @@
 import 'package:db_atom/src/features/law_enforcement_new/models/law_enforcement_model_new.dart';
 
-class LawEnforcementRequestNew {
-  LawEnforcementRequestNew({
-    required this.lawEnforcementModelNew,
+class LawEnforcementRequestBodyNew {
+  LawEnforcementRequestBodyNew({
+    required this.lawEnforcementModel,
   });
 
-  late final LawEnforcementModelNew lawEnforcementModelNew;
+  late final LawEnforcementModelNew lawEnforcementModel;
 
-  LawEnforcementRequestNew.fromJson(Map<String, dynamic> json) {
-    lawEnforcementModelNew = LawEnforcementModelNew.fromJson(json['lawEnforcement']);
+  LawEnforcementRequestBodyNew.fromJson(Map<String, dynamic> json) {
+    lawEnforcementModel = LawEnforcementModelNew.fromJson(json['lawEnforcement']);
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['lawEnforcement'] = lawEnforcementModelNew.toJson();
+    data['lawEnforcement'] = lawEnforcementModel.toJson();
     return data;
   }
 }

@@ -1,6 +1,8 @@
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/law_enforcement_new/models/law_enforcement_model_new.dart';
 
+import '../models/requestModels/law_enforcement_request_new.dart';
+
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
@@ -40,7 +42,7 @@ class LawEnforcementServicesNew {
   }
 
   Future<GenericResponse> createLawEnforcement({
-    required LawEnforcementRequestBody body,
+    required LawEnforcementRequestBodyNew body,
     required bool isSubmit,
   }) async {
     final String url = "${Apis._create}&isSubmit=$isSubmit";
