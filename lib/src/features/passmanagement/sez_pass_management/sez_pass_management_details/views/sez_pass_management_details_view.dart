@@ -160,8 +160,8 @@ class _SezPassManagementDetailsViewState
   void initializeDates(SezPassManagementDetailsState state) {
     log('state.passValidUntil ${state.passValidUntil}');
     passValidFromController.text =
-    state.model.startTime != null ? Utils.timestampToDateConversion(
-        int.tryParse(state.model.startTime ?? '') ??
+    state.model.passIssuedOn != null ? Utils.timestampToDateConversion(
+        int.tryParse(state.model.passIssuedOn ?? '') ??
             DateTime
                 .now()
                 .millisecondsSinceEpoch, // Use current timestamp if null
@@ -768,6 +768,8 @@ class _SezPassManagementDetailsViewState
                               onChange: (String value) {
                                 // isDateSelectedByUser = true;
                                 passValidFromController.text = value;
+                                state.model.passIssuedOn =
+                                    Utils().formatTime(value);
                                 state.model.startTime =
                                     Utils().formatTime(value);
                                 BlocProvider.of<

@@ -137,7 +137,7 @@ class SezPassManagementDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter MTP Application No');
     }
 
-    if (model.startTime.isEmptyOrNull) {
+    if (model.passIssuedOn.isEmptyOrNull) {
       return const ErrorResponse(status: false, message: 'Please select Pass Issued On');
     }
     return const ErrorResponse(status: true, message: 'Form is Valid');

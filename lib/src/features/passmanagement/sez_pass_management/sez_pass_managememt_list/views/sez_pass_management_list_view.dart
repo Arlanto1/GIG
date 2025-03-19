@@ -213,7 +213,7 @@ class _SezPassManagementListViewState extends State<SezPassManagementListView> {
                                               slNo: state
                                                   .items[selectedIndex].slNo,
                                               labels: labels,
-                                              passValidFrom: state.items[selectedIndex].startTime,
+                                              passValidFrom: state.items[selectedIndex].passIssuedOn,
                                               passValidUntil: state.items[selectedIndex].endTime,
                                               companyName: state.items[selectedIndex].companyName,
                                               isPassManagementStatus: true,
@@ -248,7 +248,7 @@ class _SezPassManagementListViewState extends State<SezPassManagementListView> {
                                               slNo: state
                                                   .items[selectedIndex].slNo,
                                               labels: labels,
-                                              passValidFrom: state.items[selectedIndex].startTime,
+                                              passValidFrom: state.items[selectedIndex].passIssuedOn,
                                               passValidUntil: state.items[selectedIndex].endTime,
                                               companyName: state.items[selectedIndex].companyName,
                                               isPassManagementStatus: true,

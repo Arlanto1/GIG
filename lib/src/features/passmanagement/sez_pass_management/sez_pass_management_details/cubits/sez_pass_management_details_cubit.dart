@@ -258,11 +258,13 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
         state.model.employee?.employeeId = null;
         state.model.employee?.name = null;
         state.model.employeeName = null;
+        state.model.companyName = null;
+
         companyTypeList = await commonServices.getOrganisations(
           name: 'ATOM_SEZ_COMPANY_TYPES',
           filter: 2,
         );
-        state.model.companyType = companyTypeList.first;
+        // state.model.companyType = companyTypeList.first;
         state.model.companyName = state.model.companyType?.name == 'FTE' ?'Deutsche Bank': state.model.companyName;
 
          passValidUntilDate = await commonServices.getPassValidUntil(passCategory: 2);
@@ -283,6 +285,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
       state.model.employee?.employeeId = null;
       state.model.employee?.name = null;
       state.model.employeeName = null;
+      state.model.companyName = null;
 
       companyTypeList = await commonServices.getOrganisations(
         name: 'ATOM_SEZ_COMPANY_TYPES',

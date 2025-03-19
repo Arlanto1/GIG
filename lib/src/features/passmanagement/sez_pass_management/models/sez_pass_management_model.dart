@@ -53,6 +53,7 @@ class SezPassManagementModel {
   String? hostEmployeeId;
   bool exceptionalApproval;
   PassInfo? passInfo;
+  String? passIssuedOn;
   String? startTime;
   String? endTime;
   List<ImageContent>? evidenceDocuments;
@@ -93,6 +94,7 @@ class SezPassManagementModel {
     this.hostEmployeeId,
     this.exceptionalApproval = false,
     this.passInfo,
+    this.passIssuedOn,
     this.startTime,
     this.endTime,
     this.evidenceDocuments,
@@ -136,7 +138,8 @@ class SezPassManagementModel {
         employeeName = json['employeeName'] as String?,
         exceptionalApproval = json['exceptionalApproval'] as bool,
         passInfo = (json['passInfo'] as Map<String,dynamic>?) != null ? PassInfo.fromJson(json['passInfo'] as Map<String,dynamic>) : null,
-        startTime = json['startTime'] as String?,
+        passIssuedOn = json['passIssuedOn'] as String?,
+        startTime= json['startTime'] as String?,
         endTime = json['endTime'] as String?,
         evidenceDocuments = (json['evidenceDocuments'] as List<dynamic>?)
             ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
@@ -178,7 +181,8 @@ class SezPassManagementModel {
     'hostEmployeeId':hostEmployeeId,
     'exceptionalApproval' : exceptionalApproval,
     'passInfo' : passInfo?.toJson(),
-    'startTime' : startTime,
+    'passIssuedOn' : passIssuedOn,
+    'startTime':startTime,
     'endTime' : endTime,
     'evidenceDocuments' : evidenceDocuments,
     'escortedByHost' : escortedByHost,
