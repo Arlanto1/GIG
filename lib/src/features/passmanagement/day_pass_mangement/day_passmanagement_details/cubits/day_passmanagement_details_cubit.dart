@@ -233,6 +233,17 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
 
+      state.model.host?.employeeId = null;
+      state.model.host?.firstName = null;
+      state.model.host?.lastName = null;
+      state.model.host = null;
+      state.model.hostEmployeeId = null;
+
+      state.model.employee?.employeeId = null;
+      state.model.employee?.firstName = null;
+      state.model.employee?.lastName = null;
+      state.model.employee = null;
+      state.model.employeeId = null;
       emailUsers = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomStaticUser,
           isDbUser: true,
@@ -251,7 +262,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       state.model.passTypeName = defaultPassType.name;
     }
       // state.model. = null;
-     state.model.host = null;
+     // state.model.host = null;
      // state.model.passTypeName = null;
      state.model.passNo = null;
 
@@ -311,11 +322,16 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       state.model.email = employee.email;
       String name = employee.name ?? '';
       String email = employee.email ?? '';
+      List<String> nameParts = employee.name!.split(' '); // Split by space
+      String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
+      String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
       User userDetails = User(
         name:name,
         userId : employee.id,
         email: email,
         employeeId: employee.employeeId,
+        firstName: firstName,
+        lastName: lastName,
       );
       state.model.employee = userDetails;
       emit(
@@ -333,11 +349,16 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       // Format the name and email for receiverEmail
       String name = host.name ?? '';
       String email = host.email ?? '';
+      List<String> nameParts = host.name!.split(' '); // Split by space
+      String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
+      String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
       User userDetails = User(
         name:name,
         userId: host.id,
         email: email,
-        employeeId: host.employeeId
+        employeeId: host.employeeId,
+        firstName: firstName,
+        lastName: lastName,
       );
       state.model.host = userDetails;
       emit(
@@ -390,18 +411,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       model: state.model,
       status: FormStatus.initial,
     ));
-  }
-
-  Future<void> updateApproverEmailsValue({
-    BaseUser? requesterEmailUser,
-    BaseUser? approver1EmailUser,
-    BaseUser? approver2EmailUser,
-  }) async {
-    emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
-    );
   }
 
   void addAttachment({

@@ -93,17 +93,6 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       state.model.slNo = slNo.serialNo;
     }
 
-    // if (state.model.status != null && state.model.status != 0) {
-    //   String moduleCode = Constants.passManagementModule;
-    //   // SerialNumberModel slNo = await commonServices.getSlNo(
-    //   //   locationId: defaultLocation.id.toString(),
-    //   //   moduleCode: moduleCode,
-    //   // );
-    //   Organisation updatedStatus = await commonServices.getStatusesByModuleId(
-    //       module: Constants.passManagementModuleCode, filter: state.model.status == 0 || state.model.status == null ? 0 : 1);
-    //   state.model.location = defaultLocation;
-    //   state.model.updatedStatus = updatedStatus.id;
-    // }
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
@@ -251,6 +240,12 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
 
+      state.model.host?.employeeId = null;
+      state.model.host?.firstName = null;
+      state.model.host?.lastName = null;
+      state.model.host = null;
+      state.model.hostEmployeeId = null;
+
       emailUsers = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomStaticUser,
           isDbUser: true,
@@ -265,12 +260,12 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
 
     }
 
+
     if (getPassType.isNotEmpty) {
       Organisation defaultPassType = getPassType.first;
       state.model.passTypeName = defaultPassType.name;
     }
     // state.model. = null;
-    state.model.host = null;
     // state.model.passTypeName = null;
     state.model.passNo = null;
 
@@ -314,34 +309,32 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       state.model.entities = entities;
     }
 
-    if (companyType != null) {
-      state.model.companyType = companyType;
-      state.model.employee?.employeeId = null;
-      state.model.employee?.name = null;
-      state.model.host?.employeeId = null;
-      state.model.host?.name = null;
-    }
 
-    if ( employee!= null) {
-      state.model.employeeId = employee.employeeId;
-      state.model.employeeName = employee.name;
-      state.model.email = employee.email;
-      String name = employee.name ?? '';
-      String email = employee.email ?? '';
-      User userDetails = User(
-          name:name,
-          userId: employee.id,
-          email: email,
-          employeeId: employee.employeeId
-      );
-      state.model.employee = userDetails;
-      emit(
-        state.copyWith(
-          model: state.model,
-          status: FormStatus.initial,
-        ),
-      );
-    }
+    // if ( employee!= null) {
+    //   state.model.employeeId = employee.employeeId;
+    //   state.model.employeeName = employee.name;
+    //   state.model.email = employee.email;
+    //   String name = employee.name ?? '';
+    //   String email = employee.email ?? '';
+    //   List<String> nameParts = employee.name!.split(' '); // Split by space
+    //   String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
+    //   String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
+    //   User userDetails = User(
+    //       name:name,
+    //       userId: employee.id,
+    //       email: email,
+    //       employeeId: employee.employeeId,
+    //     firstName: firstName,
+    //     lastName: lastName,
+    //   );
+    //   state.model.employee = userDetails;
+    //   emit(
+    //     state.copyWith(
+    //       model: state.model,
+    //       status: FormStatus.initial,
+    //     ),
+    //   );
+    // }
 
     if (host != null) {
       // Ensure employeeId is explicitly assigned to receiverEmployeeId
@@ -350,11 +343,16 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       // Format the name and email for receiverEmail
       String name = host.name ?? '';
       String email = host.email ?? '';
+      List<String> nameParts = host.name!.split(' '); // Split by space
+      String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
+      String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
       User userDetails = User(
           name:name,
           userId: host.id,
           email: email,
-          employeeId: host.employeeId
+          employeeId: host.employeeId,
+        firstName: firstName,
+        lastName: lastName,
       );
       state.model.host = userDetails;
       emit(

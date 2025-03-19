@@ -102,7 +102,7 @@ class _DayPassManagementDetailsViewState
         }
       },
       builder: (context, state) {
-        nameController.text = state.model.employee !=null ? state.model.employee?.name ?? '' : state.model.employeeName ??'';
+        nameController.text = state.model.employee !=null ? '${state.model.employee?.firstName ?? ''} ${state.model.employee?.lastName ?? ''}': state.model.employeeName ??'';
         dbSponsorController.text = state.model.host?.name ?? '';
         hostController.text = state.model.host?.name ?? '';
         employeeIdController.text = state.model.employeeId??'';

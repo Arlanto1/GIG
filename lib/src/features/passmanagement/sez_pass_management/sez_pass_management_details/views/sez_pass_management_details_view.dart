@@ -104,7 +104,7 @@ class _SezPassManagementDetailsViewState
         }
       },
       builder: (context, state) {
-        nameController.text = state.model.employee !=null ? state.model.employee?.name ?? '' : state.model.employeeName ??'';
+        nameController.text = state.model.employee !=null ? '${state.model.employee?.firstName ?? ''} ${state.model.employee?.lastName ?? ''}' : state.model.employeeName ??'';
         hostController.text = state.model.host?.name ?? '';
         emailController.text = state.model.email??'';
         sezPassInfoController.text = state.model.passNo ?? '';
@@ -770,8 +770,8 @@ class _SezPassManagementDetailsViewState
                                 passValidFromController.text = value;
                                 state.model.passIssuedOn =
                                     Utils().formatTime(value);
-                                state.model.startTime =
-                                    Utils().formatTime(value);
+                                // state.model.startTime =
+                                //     Utils().formatTime(value);
                                 BlocProvider.of<
                                     SezPassManagementDetailsCubit>(
                                     context)

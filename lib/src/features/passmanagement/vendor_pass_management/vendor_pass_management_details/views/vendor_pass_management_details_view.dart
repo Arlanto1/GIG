@@ -106,7 +106,7 @@ class _VendorPassManagementDetailsViewState
       builder: (context, state) {
         contactNumberController.text = state.model.contactNo ??'';
         visitorComingFromController.text = state.model.visitorComingFrom ?? '';
-        hostController.text = state.model.host?.name ?? '';
+        hostController.text = '${state.model.host?.firstName ?? ''} ${state.model.host?.lastName ?? ''}';
         vendorNameController.text=  state.model.employeeName ??'';
         purposeOfVisitController.text = state.model.visitingPurpose??'';
         escortedByController.text = state.model.escortedBy??'';

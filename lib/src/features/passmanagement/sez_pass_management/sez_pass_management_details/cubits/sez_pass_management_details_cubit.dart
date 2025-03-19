@@ -118,6 +118,11 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
           : Utils.timestampToDateConversion(
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
+      state.model.startTime = state.model.startTime == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.startTime ?? '0'),
+          Constants.fulldateFormat);
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
@@ -259,6 +264,8 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
         state.model.employee?.name = null;
         state.model.employeeName = null;
         state.model.companyName = null;
+        state.model.employee= null;
+        state.model.employeeId = null;
 
         companyTypeList = await commonServices.getOrganisations(
           name: 'ATOM_SEZ_COMPANY_TYPES',
@@ -284,8 +291,10 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
       state.model.companyType = null;
       state.model.employee?.employeeId = null;
       state.model.employee?.name = null;
+      state.model.employee= null;
       state.model.employeeName = null;
       state.model.companyName = null;
+      state.model.employeeId = null;
 
       companyTypeList = await commonServices.getOrganisations(
         name: 'ATOM_SEZ_COMPANY_TYPES',
@@ -320,7 +329,11 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
 
     if ( employee!= null) {
       state.model.employeeId = employee.employeeId;
-      state.model.employeeName = employee.name;
+      state.model.employee?.name = employee.name;
+      // state.model.employee?.firstName = employee.name;
+      List<String> nameParts = employee.name!.split(' '); // Split by space
+      String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
+      String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
       // state.model.email = employee.email;
       String name = employee.name ?? '';
       String email = employee.email ?? '';
@@ -328,7 +341,9 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
           name:name,
           userId: employee.id,
           email: email,
-          employeeId: employee.employeeId
+          employeeId: employee.employeeId,
+          firstName: firstName,
+        lastName: lastName,
       );
       state.model.employee = userDetails;
       emit(
@@ -428,6 +443,12 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
       state.model.inputDate = inputDate.toString();
     }
 
+    if (!Utils().isTimestamp(state.model.startTime!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.startTime!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.startTime = inputDate.toString();
+    }
     if(state.model.status == 1 && (state.model.updatedStatus == 2||state.model.updatedStatus == 8 || state.model.updatedStatus == 9)){
       state.model.returnedTime = state.model.returnedTime != null
           ? ((int.tryParse(state.model.returnedTime ?? '') ?? DateTime.now().millisecondsSinceEpoch)).toString()
