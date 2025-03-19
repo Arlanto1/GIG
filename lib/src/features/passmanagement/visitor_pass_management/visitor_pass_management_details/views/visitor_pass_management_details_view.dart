@@ -320,7 +320,6 @@ class _VisitorPassManagementDetailsViewState
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            // locationWidgetdislay(state),
                             BaseLocationDropdown().locationWidgetDisplay(
                                 isEnabled: (!isReadOnly) &&
                                     !lock,
@@ -461,34 +460,6 @@ class _VisitorPassManagementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-
-                            // if(state.model.companyType?.name == 'CWR T2' )...[
-                            //   ///EmployeeId
-                            //   CommonWidgets.textDisplay(
-                            //     // state.labels?.locale.name ??
-                            //     //     state.labels?.defaultLocale
-                            //     //         .name ??
-                            //       Constants.employeeid,
-                            //       isMandatory: true,
-                            //       Styles.textStyleBlack14),
-                            //   CommonWidgets.verticalSpacerWidget(
-                            //       height * 0.001),
-                            //   FlutterInputField(
-                            //     textInputType: TextInputType.number,
-                            //     textFormKey: Keys.contactNoKey,
-                            //     hintText: '',
-                            //     // focusNode: employeeIdFocusNode,
-                            //     isEnable: state.model.companyType?.name == 'CWR T2' && !isReadOnly? true : false,
-                            //     isDisableColor: true,
-                            //     onChange: (String value) {
-                            //       state.model.employeeId = value;
-                            //     },
-                            //     validateTextField: (String? user) {},
-                            //   ),
-                            //   CommonWidgets.verticalSpacerWidget(
-                            //       height * 0.01),
-                            // ],
 
                             ///Contact no
                             CommonWidgets.textDisplay(
@@ -787,7 +758,6 @@ class _VisitorPassManagementDetailsViewState
                               onChange: (String value) {
                                 // isDateSelectedByUser = true;
                                 passValidFromController.text = value;
-                                log('keyReturnDueDateControllerValue22 --- $value');
                                 // state.model.passV =
                                 //     Utils().formatTime(value);
                                 BlocProvider.of<

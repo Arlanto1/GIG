@@ -94,17 +94,6 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
       state.model.slNo = slNo.serialNo;
     }
 
-    // if (state.model.status != null && state.model.status != 0) {
-    //   String moduleCode = Constants.passManagementModule;
-    //   // SerialNumberModel slNo = await commonServices.getSlNo(
-    //   //   locationId: defaultLocation.id.toString(),
-    //   //   moduleCode: moduleCode,
-    //   // );
-    //   Organisation updatedStatus = await commonServices.getStatusesByModuleId(
-    //       module: Constants.passManagementModuleCode, filter: state.model.status == 0 || state.model.status == null ? 0 : 1);
-    //   state.model.location = defaultLocation;
-    //   state.model.updatedStatus = updatedStatus.id;
-    // }
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
@@ -149,25 +138,12 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
 
-      // state.model.startTime = state.model.startTime == null
-      //     ? Utils().getCurrentDate()
-      //     : Utils.timestampToDateConversion(
-      //     int.tryParse(state.model.startTime ?? '0'),
-      //     Constants.fulldateFormat);
-
       state.model.passType ??= 2;
       state.model.passInfo?.passType ??= 2;
 
       if(state.model.updatedStatus == 2  || state.model.updatedStatus == 8  || state.model.updatedStatus == 9 ){
         state.model.handoverSecurity ??= loggedInUserDetails;
       }
-      // if(state.model.status !=null && state.model.status !=0) {
-      //   state.model.returnedTime = state.model.returnedTime == null
-      //       ? Utils().getCurrentDate()
-      //       : Utils.timestampToDateConversion(
-      //       int.tryParse(state.model.returnedTime ?? '0'),
-      //       Constants.fulldateFormat);
-      // }
 
       MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
 
@@ -309,40 +285,6 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
       state.model.entities = entities;
     }
 
-    // if (companyType != null) {
-    //   state.model.companyType = companyType;
-    //   state.model.employee?.employeeId = null;
-    //   state.model.employee?.name = null;
-    //   state.model.host?.employeeId = null;
-    //   state.model.host?.name = null;
-    // }
-
-    // if ( employee!= null) {
-    //   state.model.employeeId = employee.employeeId;
-    //   state.model.employeeName = employee.name;
-    //   state.model.email = employee.email;
-    //   String name = employee.name ?? '';
-    //   String email = employee.email ?? '';
-    //   List<String> nameParts = employee.name!.split(' '); // Split by space
-    //   String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
-    //   String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
-    //   User userDetails = User(
-    //       name:name,
-    //       userId: employee.id,
-    //       email: email,
-    //       employeeId: employee.employeeId,
-    //       firstName: firstName,
-    //     lastName: lastName,
-    //   );
-    //   state.model.employee = userDetails;
-    //   emit(
-    //     state.copyWith(
-    //       model: state.model,
-    //       status: FormStatus.initial,
-    //     ),
-    //   );
-    // }
-
     if (host != null) {
       // Ensure employeeId is explicitly assigned to receiverEmployeeId
       state.model.hostEmployeeId = host.employeeId;
@@ -409,19 +351,6 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
       status: FormStatus.initial,
     ));
   }
-
-  Future<void> updateApproverEmailsValue({
-    BaseUser? requesterEmailUser,
-    BaseUser? approver1EmailUser,
-    BaseUser? approver2EmailUser,
-  }) async {
-    emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
-    );
-  }
-
 
   void addAttachment({
     List<ImageContent>? data,

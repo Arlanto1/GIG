@@ -59,8 +59,6 @@ class _SezPassManagementDetailsViewState
     //initializeDates(state);
   }
 
-  static const String moduleCode = Constants.passManagementModuleCode;
-
   @override
   void dispose() {
     super.dispose();
@@ -196,11 +194,6 @@ class _SezPassManagementDetailsViewState
       return const BaseLoader();
     }
 
-    // if (state.status == FormStatus.addAttachment ||
-    //     state.status == FormStatus.initial) {
-    //   getFiles = state.loadAttachments ?? [];
-    // }
-
     if (state.status == FormStatus.addAttachment ||
         state.status == FormStatus.initial) {
       uploadFiles = state.loadAttachments;
@@ -331,7 +324,6 @@ class _SezPassManagementDetailsViewState
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            // locationWidgetdislay(state),
                             BaseLocationDropdown().locationWidgetDisplay(
                                 isEnabled: (!isReadOnly) &&
                                     !lock,

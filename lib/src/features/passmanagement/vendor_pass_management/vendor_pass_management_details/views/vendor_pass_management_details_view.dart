@@ -323,7 +323,6 @@ class _VendorPassManagementDetailsViewState
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            // locationWidgetdislay(state),
                             BaseLocationDropdown().locationWidgetDisplay(
                                 isEnabled: (!isReadOnly) &&
                                     !lock,

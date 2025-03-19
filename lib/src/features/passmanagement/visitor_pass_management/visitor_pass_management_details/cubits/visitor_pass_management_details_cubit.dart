@@ -133,12 +133,6 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
 
-      // state.model.startTime = state.model.startTime == null
-      //     ? Utils().getCurrentDate()
-      //     : Utils.timestampToDateConversion(
-      //     int.tryParse(state.model.startTime ?? '0'),
-      //     Constants.fulldateFormat);
-
       if(state.model.status !=null && state.model.status !=0) {
         state.model.returnedTime = state.model.returnedTime == null
             ? Utils().getCurrentDate()
@@ -147,13 +141,7 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
             Constants.fulldateFormat);
       }
       state.model.passType = 1;
-      // state.model.endTime = state.model.endTime == null
-      //     ? Utils.timestampToDateConversion(
-      //     DateTime.now().add(const Duration(hours: 24)).millisecondsSinceEpoch,
-      //     Constants.fulldateFormat)
-      //     : Utils.timestampToDateConversion(
-      //     int.tryParse(state.model.endTime ?? '0'),
-      //     Constants.fulldateFormat);
+
       MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
 
       log('--loggedInUserDetails---${loggedInUserDetails.firstName}----');
@@ -163,13 +151,6 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       if(state.model.updatedStatus == 2  || state.model.updatedStatus == 8  || state.model.updatedStatus == 9 ){
         state.model.handoverSecurity ??= loggedInUserDetails;
       }
-      // if(state.model.status !=null && state.model.status !=0) {
-      //   state.model.returnedTime = state.model.returnedTime == null
-      //       ? Utils().getCurrentDate()
-      //       : Utils.timestampToDateConversion(
-      //       int.tryParse(state.model.returnedTime ?? '0'),
-      //       Constants.fulldateFormat);
-      // }
 
       log('--state.model.entrySecurity---${state.model.entrySecurity?.firstName}----');
 
@@ -309,32 +290,6 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       state.model.entities = entities;
     }
 
-
-    // if ( employee!= null) {
-    //   state.model.employeeId = employee.employeeId;
-    //   state.model.employeeName = employee.name;
-    //   state.model.email = employee.email;
-    //   String name = employee.name ?? '';
-    //   String email = employee.email ?? '';
-    //   List<String> nameParts = employee.name!.split(' '); // Split by space
-    //   String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
-    //   String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
-    //   User userDetails = User(
-    //       name:name,
-    //       userId: employee.id,
-    //       email: email,
-    //       employeeId: employee.employeeId,
-    //     firstName: firstName,
-    //     lastName: lastName,
-    //   );
-    //   state.model.employee = userDetails;
-    //   emit(
-    //     state.copyWith(
-    //       model: state.model,
-    //       status: FormStatus.initial,
-    //     ),
-    //   );
-    // }
 
     if (host != null) {
       // Ensure employeeId is explicitly assigned to receiverEmployeeId

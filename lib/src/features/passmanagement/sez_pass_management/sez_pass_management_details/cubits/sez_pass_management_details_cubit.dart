@@ -144,13 +144,6 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
         state.model.handoverSecurity ??= loggedInUserDetails;
       }
 
-      // if(state.model.status !=null && state.model.status !=0) {
-      //   state.model.returnedTime = state.model.returnedTime == null
-      //       ? Utils().getCurrentDate()
-      //       : Utils.timestampToDateConversion(
-      //       int.tryParse(state.model.returnedTime ?? '0'),
-      //       Constants.fulldateFormat);
-      // }
       state.model.passType ??= 3;
       state.model.passInfo?.passType ??= 3;
 
