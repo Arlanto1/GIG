@@ -2608,7 +2608,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     BaseOrganisationDialog().departmentDialog(
       context: context,
       organisations: state.passTypes ?? [],
-      onTap: (Organisation org) {
+      onTap: (Organisation org) async {
         log('---org.name-${org.name}-');
 
         log('---widget.model-${widget.model}-');
@@ -2616,6 +2616,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         state.model.passType = org.id;
 
         passTypeTextController.text = org.name ?? '';
+         // await ser.getPassNo(
+         //    passType: 1, locationId: locationId);
+        await createPassMgmtCubit.getPassNumber(
+            state.model.passType!, state.location!.id!);
       },
     );
 
