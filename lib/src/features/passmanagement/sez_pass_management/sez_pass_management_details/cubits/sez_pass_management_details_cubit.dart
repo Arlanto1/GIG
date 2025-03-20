@@ -144,7 +144,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
         state.model.handoverSecurity ??= loggedInUserDetails;
       }
 
-      state.model.passType ??= 3;
+      // state.model.passType ??= 3;
       state.model.passInfo?.passType ??= 3;
 
       emit(
@@ -369,6 +369,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
 
     if (passType != null) {
       state.model.passTypeName = passType.name;
+      state.model.passType = passType.id;
     }
 
     if (updatedStatus != null) {
@@ -427,6 +428,8 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
         status: FormStatus.loading,
       ),
     );
+
+    state.model.passInfo?.passType ??= 3;
 
     DateTime dateTime;
     if (!Utils().isTimestamp(state.model.inputDate!)) {

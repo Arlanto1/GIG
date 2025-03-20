@@ -110,7 +110,7 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
             locationId: state.model.location!.id!),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getVendorPassReason(name: 'VENDOR_PASS_REASON'),
-        commonServices.getPassNo(passType: 2, locationId: state.model.location!.id!,),
+        commonServices.getPassNo(passType: 2, locationId: state.model.location!.id!, isDwsPass: false),
         commonServices.getOrganisations(name: 'ATOM_COMPANY_TYPES'),
         commonServices.getPassType(passType: 2, locationId: state.model.location!.id!,),
         commonServices.getStatusesByModuleId(
@@ -138,7 +138,7 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
 
-      state.model.passType ??= 2;
+      // state.model.passType ??= 2;
       state.model.passInfo?.passType ??= 2;
 
       if(state.model.updatedStatus == 2  || state.model.updatedStatus == 8  || state.model.updatedStatus == 9 ){
@@ -231,7 +231,8 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
           locationId: state.model.location!.id!);
       passNo = await commonServices.getPassNo(
           passType: 2,
-          locationId: state.model.location!.id!);
+          locationId: state.model.location!.id!,
+      isDwsPass: false);
 
       getPassType = await commonServices.getPassType(
           passType: 2,
@@ -339,10 +340,14 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
       );
     }
 
+    // if (passType != null) {
+    //   state.model.passTypeName = passType.name;
+    // }
+
     if (passType != null) {
+      state.model.passType = passType.id;
       state.model.passTypeName = passType.name;
     }
-
     if (updatedStatus != null) {
       state.model.updatedStatus = updatedStatus.id;
     }
@@ -407,7 +412,6 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
       state.model.inputDate = inputDate.toString();
     }
 
-    state.model.passType ??= 2;
     state.model.passInfo?.passType ??= 2;
 
     state.model.startTime = state.model.startTime != null

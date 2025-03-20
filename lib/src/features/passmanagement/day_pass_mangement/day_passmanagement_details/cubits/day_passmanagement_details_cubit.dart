@@ -110,7 +110,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
             locationId: state.model.location!.id!),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getDayPassreason(name: 'DAY_PASS_REASON'),
-        commonServices.getPassNo(passType: 0, locationId: state.model.location!.id!,),
+        commonServices.getPassNo(passType: 0, locationId: state.model.location!.id!, isDwsPass: false),
         commonServices.getOrganisations(name: 'ATOM_COMPANY_TYPES'),
         commonServices.getPassType(passType: 0, locationId: state.model.location!.id!,),
         commonServices.getStatusesByModuleId(
@@ -129,6 +129,9 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       List<Organisation> getPassType = futures[10];
       List<Organisation> getStatus = futures[11];
 
+
+      // state.model.passType ??= 0;
+      state.model.passInfo?.passType ??= 0;
 
       if (getPassType.isNotEmpty && state.model.passTypeName == null) {
         Organisation defaultPassType = getPassType.first;
@@ -228,7 +231,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           locationId: state.model.location!.id!);
       passNo = await commonServices.getPassNo(
           passType: 0,
-          locationId: state.model.location!.id!);
+          locationId: state.model.location!.id!, isDwsPass: false);
 
       getPassType = await commonServices.getPassType(
           passType: 0,
@@ -371,13 +374,30 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       );
     }
 
+    // if (passType != null) {
+    // }
+
+    DayPassNumberLists passTypeNo = DayPassNumberLists(activePassInfoList: []); // Initialize with default value
     if (passType != null) {
+      state.model.passType = passType.id;
       state.model.passTypeName = passType.name;
+      passTypeNo = await commonServices.getPassNo(
+          passType: 0,
+          locationId: state.model.location!.id!,
+          isDwsPass: state.model.passTypeName == 'DWS Day Pass' ? true : false);
+      emit(
+        state.copyWith(
+          passNo: passTypeNo.activePassInfoList,
+          model: state.model,
+          status: FormStatus.initial,
+        ),
+      );
     }
 
-    if (passType == null) {
-      // state.model.passTypeName = passType?.first;
-    }
+    // if (passType != null) {
+    //   state.model.passType = passType.id;
+    //   state.model.passTypeName = passType.name;
+    // }
     if (updatedStatus != null) {
       state.model.updatedStatus = updatedStatus.id;
     }
@@ -434,6 +454,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       ),
     );
     state.model.status ??= 0;
+    state.model.passInfo?.passType ??= 0;
     // Setting time in milliseconds
     // state.model.createdDate =
     //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();

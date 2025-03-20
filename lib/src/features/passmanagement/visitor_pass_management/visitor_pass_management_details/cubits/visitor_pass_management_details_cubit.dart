@@ -108,7 +108,7 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
             isDbUser: true,
             locationId: state.model.location!.id!),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
-        commonServices.getPassNo(passType: 1, locationId: state.model.location!.id!,),
+        commonServices.getPassNo(passType: 1, locationId: state.model.location!.id!,isDwsPass: false),
         commonServices.getPassType(passType: 1, locationId: state.model.location!.id!,),
         commonServices.getStatusesByModuleId(
             module: Constants.passManagementModuleCode, filter: state.model.status == 0 ? 0 : 1),
@@ -140,7 +140,7 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
             int.tryParse(state.model.returnedTime ?? '0'),
             Constants.fulldateFormat);
       }
-      state.model.passType = 1;
+      // state.model.passType = 1;
 
       MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
 
@@ -233,7 +233,8 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
           locationId: state.model.location!.id!);
       passNo = await commonServices.getPassNo(
           passType: 1,
-          locationId: state.model.location!.id!);
+          locationId: state.model.location!.id!,
+          isDwsPass: false);
 
       getPassType = await commonServices.getPassType(
           passType: 1,
@@ -347,6 +348,7 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
     }
 
     if (passType != null) {
+      state.model.passType = passType.id;
       state.model.passTypeName = passType.name;
     }
 
@@ -443,6 +445,8 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
     VisitorPassManagementRequest(passManagement: state.model);
     // TODO: Need to change from Backend- Status should be handled from backend
     state.model.status ??= 0;
+
+    state.model.passInfo?.passType ??= 1;
     try {
       GenericResponse response = GenericResponse();
       if (isSaveOnly) {
