@@ -41,16 +41,16 @@ class LawEnforcementServicesNew {
     return LawEnforcementModelNew.fromJson(response);
   }
 
-  Future<GenericResponse> createLawEnforcement({
+  Future<SubmitLawEnforcementResponse> createLawEnforcement({
     required LawEnforcementRequestBodyNew body,
     required bool isSubmit,
   }) async {
-    final String url = "${Apis._create}&isSubmit=$isSubmit";
+    final String url = "${Apis._create}?isSubmit=$isSubmit";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),
     );
-    return GenericResponse.fromJson(response);
+    return SubmitLawEnforcementResponse.fromJson(response);
   }
 
   // Future<List<LawVisitingOfficial>> getLeoVisitingOfficials({

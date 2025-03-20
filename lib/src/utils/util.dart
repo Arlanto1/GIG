@@ -273,7 +273,7 @@ class Utils {
     );
   }
 
-  Widget buildLeoStatusRow(int status) {
+  dynamic buildLeoStatusRow(int status, {bool? returnTextOnly}) {
     String statusText;
 
     switch (status) {
@@ -295,6 +295,11 @@ class Utils {
       default:
         statusText = ''; // Handle the default case if needed
     }
+
+    if (returnTextOnly ?? false) {
+      return statusText;
+    }
+
     return IntrinsicWidth(
       child: Row(
         children: [

@@ -5,26 +5,24 @@ import 'package:db_atom/src/features/law_enforcement_new/models/law_enforcement_
 
 import '../cubits/law_enforcement_details_cubit_new.dart';
 
-class LawEnforcementDetailsView extends StatefulWidget {
+class LawEnforcementNewDetailsView extends StatefulWidget {
   final LawEnforcementModelNew? model;
   final String title;
-  final bool viaAttendance;
   final ExtraProperties? extraProperties;
 
-  const LawEnforcementDetailsView({
+  const LawEnforcementNewDetailsView({
     super.key,
     this.model,
     required this.title,
-    required this.viaAttendance,
     this.extraProperties,
   });
 
   @override
-  State<LawEnforcementDetailsView> createState() =>
-      _LawEnforcementDetailsViewState();
+  State<LawEnforcementNewDetailsView> createState() =>
+      _LawEnforcementNewDetailsViewState();
 }
 
-class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
+class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   User? userDetails;
   TextEditingController statusController = TextEditingController();
@@ -32,9 +30,10 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   TextEditingController dbOfficialWantToMeetController = TextEditingController();
 
 
-
+  List<ImageContent> uploadFiles = [];
 
   bool isReadOnly = false;
+  bool isEdit = false;
 
   get model => null;
 
@@ -61,16 +60,16 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
         log('-state.status---${state.status}----');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
-        if (state.status == FormStatus.popOnly && state.status != FormStatus.navigateToNextScreen) {
-          log('000${state.status == FormStatus.popOnly }');
+        if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: 'Law Enforcement',
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
             onPositivePressed: () {
               Navigator.pop(context);
-              // Navigator.pop(context);
-              // return;
+              Navigator.pop(context);
+              Navigator.popAndPushNamed(
+                  context, lawEnforcementNewListRoute);
             },
           );
           showDialog(
@@ -78,34 +77,28 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
 
-        }
-        if (state.status == FormStatus.success && state.model.id != null) {
-          log('100${state.status == FormStatus.success && widget.viaAttendance}');
-          var dialog = CustomAlertDialog(
-            title: 'Law Enforcement',
-            message: state.message ?? '',
-            positiveBtnText: Constants.ok,
-            onPositivePressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              return;
-            },
-          );
-          showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (BuildContext context) => dialog);
         }
       },
       builder: (context, state) {
         dbOfficialWantToMeetController.text = state.model.dbOfficialEmail??'';
 
-        if (state.model.status == 2 || !state.model.lock.isEmptyOrNull) {
-          isReadOnly = true;
+        if (state.model.status == null) {
+          isEdit = true;
         }
-        if (state.model.status == -1 || !state.model.lock.isEmptyOrNull) {
-          isReadOnly = true;
+        if (state.model.status == 0 && state.model.lock.isEmptyOrNull) {
+          isEdit = true;
         }
+
+        if (state.model.status == 1 && state.model.lock.isEmptyOrNull) {
+          isEdit = true;
+        }
+
+        if (state.model.status == 2 && state.model.lock.isEmptyOrNull) {
+          isEdit = true;
+        }
+        // if (state.model.status == -1 || !state.model.lock.isEmptyOrNull) {
+        //   isReadOnly = true;
+        // }
         if (state.model.status == null) {
           isReadOnly = false;
         }
@@ -164,9 +157,16 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
             DateTime
                 .now()
                 .millisecondsSinceEpoch, // Use current timestamp if null
-        Constants.dateFormat) : '';  }
+        Constants.fulldateFormat) : '';  }
 
   getBodybuilder(LawEnforcementDetailsState state, height) {
+
+    if (state.status == FormStatus.addAttachment ||
+        state.status == FormStatus.initial) {
+      uploadFiles = state.loadAttachments;
+      uploadFiles = state.model.images ?? [];
+    }
+
     initializeDates(state);
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
@@ -217,17 +217,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            // General Information Fields
-                            ///Created By
-                            CommonWidgets.verticalTextHandling(
-                              state.labels?.locale.entrySecurity ??
-                                  state.labels?.defaultLocale.entrySecurity ??
-                                  Constants.createdby,
-                              '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}',
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
                             ///Status
                             CommonWidgets.textDisplay(
                               state.labels?.locale.status ??
@@ -242,13 +231,12 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                               isDisableColor: true,
                               textFormKey: Keys.statusTextController,
                               hintText: '',
-                              initialValue: Utils().buildSLAViolationStatus(
+                              initialValue: Utils().buildLeoStatusRow(
                                   state.model.status ?? 0,
                                   returnTextOnly: true),
                               onChange: (String value) {},
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             ///Date of Creation
                             CommonWidgets.textDisplay(
@@ -261,6 +249,16 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             dateCreateWidgetDisplay(
                                 state.model.inputDate ?? ''),
+
+                            ///Created By
+                            CommonWidgets.verticalTextHandling(
+                              state.labels?.locale.entrySecurity ??
+                                  state.labels?.defaultLocale.entrySecurity ??
+                                  Constants.createdby,
+                              '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}',
+                              isMandatory: true,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             ///Location
@@ -274,7 +272,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseLocationDropdown().locationWidgetDisplay(
                                 context: context,
-                                isEnabled: !widget.viaAttendance,
+                                isEnabled: isEdit,
                                 locations: state.locations ?? Locations(),
                                 selectedLocationName:
                                 state.model.location?.name ?? '',
@@ -297,41 +295,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            ///Vendor
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.vendor ??
-                                  state.labels?.defaultLocale.vendor ??
-                                  Constants.vendor,
-                              Styles.textStyleBlack14,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            // BaseEntitiesSelection().entityDropDownSelection(
-                            //   context: context,
-                            //   // selectedValues: state.model.vendor ?? [],
-                            //   all: state.vendors,
-                            //   enabled: !widget.viaAttendance && !isReadOnly && state.model.attdShiftInfoId ==null,
-                            //   onTap: (List<Organisation> selectedVendors) {
-                            //     BlocProvider.of<
-                            //         SLAViolationPenaltyDetailsCubit>(
-                            //         context)
-                            //         .updateDropdownValues(
-                            //         vendors: selectedVendors);
-                            //     Navigator.of(context).pop();
-                            //   },
-                            //   addTitle: 'ADD Vendor',
-                            //   createEntity: false,
-                            //   orgName: 'ATOM_VENDORS',
-                            //   functionToCall: () {
-                            //     BlocProvider.of<
-                            //         SLAViolationPenaltyDetailsCubit>(
-                            //         context)
-                            //         .refreshList();
-                            //   },
-                            // ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
                             ///Entity
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.entity ??
@@ -345,7 +308,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                               context: context,
                               selectedValues: state.model.entities ?? [],
                               all: state.listOfEntities ?? [],
-                              enabled: !isReadOnly,
+                              enabled: isEdit,
                               onTap: (List<Organisation> selectedEntities) {
                                 log('--selectedEntities----${selectedEntities.length}');
                                 BlocProvider.of<
@@ -379,8 +342,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
                             BaseDate().datePickerWidgetLoading(
                               textController: timeOfVisitController,
-                              isDisabled: state.model.status !=null && state.model.status !=0,
-                              onlyDate: true,
+                              isDisabled: !isEdit,
+                              onlyDate: false,
                               showPastDate: true,
                               showFutureDate: false,
                               // fromDate: initialisedStartDate,
@@ -415,24 +378,24 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
                                 selectedValue:
-                                state.model.officialCardVerified? 1 : 0,
-                                onChangedYes: state.model.status == 0
+                                state.model.officialCardVerified ? 1 : 0,
+                                onChangedYes: state.model.status != null && state.model.status != 0
                                     ? null
                                     : (val) {
-                                  state.model.officialCardVerified = true;
+                                  state.model.officialCardVerified= true;
                                   BlocProvider.of<
                                       LawEnforcementDetailsCubit>(
-                                      context);
-                                  //.onModelValueChange(state.guardingMasterData
-                                  //);
+                                      context)
+                                      .onCheckBoxChange(state.model);
                                 },
-                                onChangedNo: state.model.status == 0
+                                onChangedNo:state.model.status != null && state.model.status != 0
                                     ? null
                                     : (val) {
                                   state.model.officialCardVerified = false;
                                   BlocProvider.of<
                                       LawEnforcementDetailsCubit>(
-                                      context);
+                                      context)
+                                      .onCheckBoxChange(state.model);
                                 }),
 
                             /// Purpose of visit
@@ -443,32 +406,41 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            TextFieldAddButton(
+                              title: state.model.visitPurpose?.name,
+                              height: 70,
+                              isDisableColor: !isEdit,
+                              onTap: () {
+                                if (isEdit) {
+                                // if (widget.materialMovement != null) {
+                                BaseOrganisationDialog().departmentDialog(
+                                    context: context,
+                                    organisations: state.visitPurpose,
+                                    onTap: (Organisation visitPurpose) {
+                                      state.model.visitPurpose?.name =
+                                          visitPurpose.name;
 
-                            // BaseEntitiesSelection().entityDropDownSelection(
-                            //   context: context,
-                            //   selectedValues: state.model.typeOfService ?? [],
-                            //   all: state.typeOfServices,
-                            //   enabled: !isReadOnly,
-                            //   onTap:
-                            //       (List<Organisation> selectedTypeOfVendors) {
-                            //     log('--selectedEntities----${selectedTypeOfVendors.length}');
-                            //     BlocProvider.of<
-                            //         SLAViolationPenaltyDetailsCubit>(
-                            //         context)
-                            //         .updateDropdownValues(
-                            //         typeOfServices: selectedTypeOfVendors);
-                            //     Navigator.of(context).pop();
-                            //   },
-                            //   addTitle: 'ADD Type of Service',
-                            //   createEntity: false,
-                            //   orgName: 'SLA_VIOLATION_TYPE_OF_SERVICE',
-                            //   functionToCall: () {
-                            //     BlocProvider.of<
-                            //         SLAViolationPenaltyDetailsCubit>(
-                            //         context)
-                            //         .refreshList();
-                            //   },
-                            // ),
+                                      BlocProvider.of<
+                                          LawEnforcementDetailsCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                          visitPurpose: visitPurpose);
+                                    },
+                                    // orgName: 'EMPLOYEE_DEPARTMENTS',
+                                    // createEntity: false,
+                                    // title: 'Add Department',
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          LawEnforcementDetailsCubit>(
+                                          context)
+                                          .refreshList();
+                                    });
+                                }
+                                // leodepartmentsDialog(state);
+                                // }
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
 
@@ -484,23 +456,23 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                 status: state.model.status ?? 0,
                                 selectedValue:
                                 state.model.documentVerified? 1 : 0,
-                                onChangedYes: state.model.status == 0
+                                onChangedYes: state.model.status != null && state.model.status != 0
                                     ? null
                                     : (val) {
                                   state.model.documentVerified = true;
                                   BlocProvider.of<
                                       LawEnforcementDetailsCubit>(
-                                      context);
+                                      context).onCheckBoxChange(state.model);
                                   //.onModelValueChange(state.guardingMasterData
                                   //);
                                 },
-                                onChangedNo: state.model.status == 0
+                                onChangedNo: state.model.status != null && state.model.status != 0
                                     ? null
                                     : (val) {
                                   state.model.documentVerified = false;
                                   BlocProvider.of<
                                       LawEnforcementDetailsCubit>(
-                                      context);
+                                      context).onCheckBoxChange(state.model);
                                 }),
 
                             /// In case of Police, was official in uniform?
@@ -515,23 +487,23 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                 status: state.model.status ?? 0,
                                 selectedValue:
                                 state.model.visitorInUniform? 1 : 0,
-                                onChangedYes: state.model.status == 0
+                                onChangedYes: state.model.status != null && state.model.status != 0
                                     ? null
                                     : (val) {
                                   state.model.visitorInUniform = true;
                                   BlocProvider.of<
                                       LawEnforcementDetailsCubit>(
-                                      context);
+                                      context).onCheckBoxChange(state.model);
                                   //.onModelValueChange(state.guardingMasterData
                                   //);
                                 },
-                                onChangedNo: state.model.status == 0
+                                onChangedNo: state.model.status != null && state.model.status != 0
                                     ? null
                                     : (val) {
                                   state.model.visitorInUniform = false;
                                   BlocProvider.of<
                                       LawEnforcementDetailsCubit>(
-                                      context);
+                                      context).onCheckBoxChange(state.model);
                                 }),
 
 
@@ -551,8 +523,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
                               // focusNode: employeeIdFocusNode,
-                              isEnable: (state.model.status == null || state.model.status ==0)? true : false,
-                              isDisableColor: true,
+                              isEnable: isEdit,
+                              isDisableColor: !isEdit,
                               onChange: (String value) {
                                 state.model.dbOfficialEmail = value;
                               },
@@ -560,6 +532,53 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.01),
+
+
+                            ///DB official Department
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.vendor ??
+                              //     state.labels?.defaultLocale.vendor ??
+                                  Constants.dbofficialdepartment,
+                              Styles.textStyleBlack14,
+                              isMandatory: true,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            TextFieldAddButton(
+                              title: state.model.dbOfficialEmailDepartment?.name,
+                              height: 70,
+                              isDisableColor: !isEdit,
+                              onTap: () {
+                                if (isEdit) {
+                                  // if (widget.materialMovement != null) {
+                                  BaseOrganisationDialog().departmentDialog(
+                                      context: context,
+                                      organisations: state.department,
+                                      onTap: (Organisation department) {
+                                        state.model.dbOfficialEmailDepartment?.name =
+                                            department.name;
+
+                                        BlocProvider.of<
+                                            LawEnforcementDetailsCubit>(
+                                            context)
+                                            .updateDropdownValues(
+                                            department: department);
+                                      },
+                                      // orgName: 'EMPLOYEE_DEPARTMENTS',
+                                      // createEntity: false,
+                                      // title: 'Add Department',
+                                      functionToCall: () {
+                                        // refresh the list
+                                        BlocProvider.of<
+                                            LawEnforcementDetailsCubit>(
+                                            context)
+                                            .refreshList();
+                                      });
+                                 }
+                                // leodepartmentsDialog(state);
+                                // }
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
 
                             /// Db Official email ID Accompanied LEO Official
@@ -570,41 +589,58 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
                             TextFieldAddButton(
-                              // title: state.model.dbOfficialAccompaniedEmail?.userInfo ??
-                              //     state.model.approver?.name,
-                              height: 70,
-                              isDisableColor: isReadOnly,
-                              onTap: () {
-                                BaseOrganisationDialog().userDialog(
-                                  context: context,
-                                  enabled: !isReadOnly,
-                                  users: state.emailUsers,
-                                  isDbUser: true,
-                                  onTap: (BaseUser user) {
-                                    BlocProvider.of<
-                                        LawEnforcementDetailsCubit>(
-                                        context)
-                                        .updateDropdownValues(user: user);
-                                  },
-                                  roleName: ConstantUserRoles.atomAssistantSecurityLead,
-                                  locationId: state.model.location!.id!,
-                                  functionToCall: (BaseUser user) {
-                                    BlocProvider.of<
-                                        LawEnforcementDetailsCubit>(
-                                        context)
-                                        .updateDropdownValues(user: user);
-                                    BlocProvider.of<
-                                        LawEnforcementDetailsCubit>(
-                                        context)
-                                        .refreshList();
-                                  },
-                                );
-
-
-                              },
-                            ),
+                                title: state.model.dbOfficialAccompaniedEmail,
+                                height: 70,
+                                isDisableColor: !isEdit,
+                                onTap: () {
+                                  if (isEdit) {
+                                    BaseOrganisationDialog().userDialog(
+                                      employeeId: false,
+                                      context: context,
+                                      users: state.users!,
+                                      isDbUser: true,
+                                      onTap: (BaseUser user) {
+                                        BlocProvider.of<
+                                            LawEnforcementDetailsCubit>(
+                                            context)
+                                            .updateDropdownValues(
+                                            dbOfficialEmail:
+                                            user);
+                                        // FocusScope.of(context).requestFocus(
+                                        //     receivedForEmployeeIdFocusNode);
+                                      },
+                                      roleName: ConstantUserRoles
+                                          .atomStaticUser,
+                                      locationId:
+                                      state.model.location!.id!,
+                                      functionToCall: (BaseUser user) {
+                                        BlocProvider.of<
+                                            LawEnforcementDetailsCubit>(
+                                            context)
+                                            .updateDropdownValues(
+                                            dbOfficialEmail:
+                                            user);
+                                        // FocusScope.oedf(context).requestFocus(
+                                        //     receivForEmployeeIdFocusNode);
+                                        // refresh the list
+                                        BlocProvider.of<
+                                            LawEnforcementDetailsCubit>(
+                                            context)
+                                            .refreshList();
+                                      },
+                                    );
+                                  }
+                                }),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Additional Information
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.approver ??
+                              //     state.labels?.defaultLocale.approver ??
+                                Constants.additionalinformation,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
                               FlutterInputField(
                                 lineHeight: 6,
                                 characterLimit:
@@ -617,8 +653,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                 textInputAction: TextInputAction.newline,
                                 textInputType:
                                 TextInputType.multiline,
-                                // isEnable: showSaveSubmitButtons,
-                                // isDisableColor: !showSaveSubmitButtons,
+                                isEnable: isEdit,
+                                isDisableColor: !isEdit,
                                 onChange: (String value) {
                                   state.model.additionalInformation =
                                       value;
@@ -631,7 +667,57 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.01),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ///Attachments
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.attachment ??
+                              //     state.labels?.defaultLocale.attachment ??
+                                Constants.attachments,
+                                Styles.textStyleBlack14),
+                            widget.model == null
+                                ? CommonWidgets.verticalSpacerWidget(
+                                height * 0.001)
+                                : Container(),
+                            if (state.model.status == 0 ||
+                                state.model.status == null) ...[
+                              BaseImageUpload().uploadWidget(
+                                context: context,
+                                isDisabled: !isEdit,
+                                loggedInUserDetails:
+                                state.loggedInUserDetails!,
+                                getFiles: uploadFiles,
+                                onImageSelected: (ImageContent data) {
+                                  List<ImageContent>? files = [];
+                                  files.add(data);
+                                  for (ImageContent image
+                                  in uploadFiles ?? []) {
+                                    files.add(image);
+                                  }
+                                  BlocProvider.of<
+                                      LawEnforcementDetailsCubit>(
+                                      context)
+                                      .addAttachment(
+                                    data: files,
+                                    images: files,
+                                  );
+                                },
+                              ),
+                            ],
+                            /// Attachments
+                            IgnorePointer(
+                              ignoring: false,
+                              child:  Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                child: BaseImageUpload().getAttachment(
+                                  height: height,
+                                  attachments: state.loadAttachments,
+                                  files: uploadFiles,
+                                  moduleCode: Constants.leoModuleCode,
+                                  isDisabled: false,
+                                  showDeleteIcon: isEdit ,
+                                ),
+                              ),
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ],
                         ),
@@ -672,7 +758,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                             log('--state.model.id---${state.model.id}--');
                             List<Organisation> violationDescriptions =
                             await CommonServices().getOrganisations(
-                                name: Constants.slaViolation);
+                                name: Constants.visitingOfficialDetails);
                             nav.pushNamed(
                               slaViolationPenaltyRecordsRoute,
                               arguments: {
@@ -702,7 +788,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                               ),
                               const SizedBox(width: 10),
                               const Text(
-                                Constants.addViewViolation,
+                                Constants.visitingOfficialDetails,
                                 style: TextStyle(
                                   color: AppColors.navigationSkyBlueColor,
                                   decoration: TextDecoration.underline,

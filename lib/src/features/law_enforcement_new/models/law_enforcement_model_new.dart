@@ -55,7 +55,7 @@ class LawEnforcementModelNew {
    // List<MailList>? mailList;
    String? entityDesc;
    String? entrySecurityName;
-   dynamic lock;
+   String? lock;
    bool? isEligibleToEdit;
    bool? isEligibleToCancel;
 
@@ -115,7 +115,7 @@ class LawEnforcementModelNew {
         // mailList = (json['mailList'] as List?)?.map((dynamic e) => MailList.fromJson(e as Map<String,dynamic>)).toList(),
         entityDesc = json['entityDesc'] as String?,
         entrySecurityName = json['entrySecurityName'] as String?,
-        lock = json['lock'],
+        lock = json['lock'] as String?,
         isEligibleToEdit = json['isEligibleToEdit'] as bool?,
         isEligibleToCancel = json['isEligibleToCancel'] as bool?;
 

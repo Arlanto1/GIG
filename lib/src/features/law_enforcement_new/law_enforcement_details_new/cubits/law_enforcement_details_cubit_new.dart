@@ -13,17 +13,11 @@ class LawEnforcementDetailsCubit
   final LawEnforcementServicesNew services;
   final LawEnforcementModelNew? model;
   final CommonServices commonServices;
-  final Organisation? location;
-  final Organisation? locationRegion;
-  final Organisation? vendor;
 
   LawEnforcementDetailsCubit({
     required this.services,
     required this.commonServices,
     this.model,
-    required this.location,
-    required this.locationRegion,
-    required this.vendor,
   }) : super(
     LawEnforcementDetailsState.initial(
       model: model ?? LawEnforcementModelNew(),
@@ -32,10 +26,10 @@ class LawEnforcementDetailsCubit
       users: const [],
       emailUsers: const [],
       listOfEntities: const [],
-      vendors: const [],
-      typeOfServices: const [],
+      department: const [],
+      visitPurpose: const [],
       errorMessage: '',
-      getEntitiesResponse: const [],
+      getEntitiesResponse: const [], loadAttachments:const [],
     ),
   );
 
@@ -54,15 +48,15 @@ class LawEnforcementDetailsCubit
     List<Organisation>? entities =
     await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
     List<BaseUser> emailUsers = await commonServices.getBaseUsers(
-      roleName: ConstantUserRoles.atomAssistantSecurityLead,
+      roleName: ConstantUserRoles.atomStaticUser,
       locationId: state.model.location?.id,
       isDbUser: true,
     );
+    EmployeeDepartments departments =
+    await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
-    Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
+    LeoPurposeVisit visitPurpose =  await commonServices.getLeoVisitPurpose(name: 'ATOM_LEO_PURPOSE_VISIT');
 
-    TypeOfServices typeOfService = await commonServices.getTypeOfService(
-        name: 'SLA_VIOLATION_TYPE_OF_SERVICE');
 
     emit(
       state.copyWith(
@@ -70,8 +64,8 @@ class LawEnforcementDetailsCubit
         listOfEntities: entities,
         status: FormStatus.initial,
         emailUsers: emailUsers,
-        vendors: vendors.items,
-        typeOfServices: typeOfService.items,
+        department : departments.employeeDepartments,
+        visitPurpose: visitPurpose.atomLeoPurposeVisit,
       ),
     );
   }
@@ -106,10 +100,9 @@ class LawEnforcementDetailsCubit
       AddEntities entities =
       await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
-      Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
-
-      TypeOfServices typeOfService = await commonServices.getTypeOfService(
-          name: 'SLA_VIOLATION_TYPE_OF_SERVICE');
+      EmployeeDepartments departments =
+      await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+      LeoPurposeVisit visitPurpose =  await commonServices.getLeoVisitPurpose(name: 'ATOM_LEO_PURPOSE_VISIT');
 
       User loggedInUserDetails =
       await commonServices.getUserDetails(userId: userId);
@@ -120,19 +113,17 @@ class LawEnforcementDetailsCubit
         isDbUser: true,
       );
 
-      if (location != null) {
-        state.model.location = location;
+      if (state.model.location == null) {
+        Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+        if (defaultLocation != null) {
+          SerialNumberModel slNo = await commonServices.getSlNo(
+            locationId: defaultLocation.id.toString(),
+            moduleCode: Constants.vipVisitorsDetailsModule,
+          );
+          state.model.location = defaultLocation;
+          state.model.slNo = slNo.serialNo;
+        }
       }
-      if (locationRegion != null) {
-        state.model.locationRegion = locationRegion;
-      }
-      // if (vendor != null) {
-      //   if (state.model.vendor.isEmptyOrNull) {
-      //     state.model.vendor = [];
-      //   }
-      //
-      //   state.model.vendor?.add(vendor!);
-      // }
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
@@ -149,17 +140,16 @@ class LawEnforcementDetailsCubit
           moduleCode: Constants.leoModuleCode);
       SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
 
-      if (location != null) {
-        SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: location!.id.toString(),
-          moduleCode: Constants.leoModuleCode,
-        );
-        state.model.location = location;
-        state.model.slNo = slNo.serialNo;
-      }
+      // if (location != null) {
+      //   SerialNumberModel slNo = await commonServices.getSlNo(
+      //     locationId: location!.id.toString(),
+      //     moduleCode: Constants.leoModuleCode,
+      //   );
+      //   state.model.location = location;
+      //   state.model.slNo = slNo.serialNo;
+      // }
 
       // List<String> pocs = Utils().splitStringAfterComma(state.model.poc ?? '');
-      log('-typeOfService.items---${typeOfService.items}---');
 
       state.model.entrySecurity ??= loggedInUserDetails;
       emit(
@@ -168,10 +158,10 @@ class LawEnforcementDetailsCubit
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
-          emailUsers: emailUsers,
+          users: emailUsers,
           listOfEntities: entities.atomEntities,
-          vendors: vendors.items,
-          typeOfServices: typeOfService.items,
+          department: departments.employeeDepartments,
+          visitPurpose: visitPurpose.atomLeoPurposeVisit,
           labels: labels,
         ),
       );
@@ -220,69 +210,60 @@ class LawEnforcementDetailsCubit
 
     emit(state.copyWith(
       model: state.model,
-      emailUsers: emailUsers,
+      users: emailUsers,
       status: FormStatus.initial,
     ));
   }
 
   Future<void> updateDropdownValues({
     List<Organisation>? entities,
-    List<Organisation>? vendors,
-    List<Organisation>? typeOfServices,
-    // Organisation? location,
+    Organisation? department,
+    Organisation? visitPurpose,
     BaseUser? user,
-    BaseUser? approver,
+    BaseUser? dbOfficialEmail,
     int? status,
-    BaseUser? receiverEmailUser,
+    // BaseUser? receiverEmailUser,
   }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
-    // List<BaseUser> emailUsers = [];
-    // // Get Sl No from API
-    // if (location != null) {
-    //   SerialNumberModel slNo = await commonServices.getSlNo(
-    //     locationId: location.id.toString(),
-    //     moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
-    //   );
-    //   state.model.location = location;
-    //   state.model.slNo = slNo.serialNo;
-    //   emailUsers = await commonServices.getBaseUsers(
-    //       roleName: ConstantUserRoles.atomStaticUser, locationId: location.id);
-    // }
+
     state.model.status = status ?? state.model.status;
-    // if (location != null) {
-    //   SerialNumberModel slNo = await commonServices.getSlNo(
-    //       locationId: location.id.toString(),
-    //       moduleCode: Constants.slaViolationPenaltyDetailsModuleCode);
-    //   state.model.location = location;
-    //   state.model.slNo = slNo.serialNo;
-    // }
+
     if (entities != null) {
       state.model.entities = entities;
     }
-    // if (vendors != null) {
-    //   state.model.vendor = vendors;
-    // }
-    // if (typeOfServices != null) {
-    //   state.model.typeOfService = typeOfServices;
-    // }
+    if (department != null) {
+      state.model.dbOfficialEmailDepartment = department;
+    }
 
-    if (user != null) {
-      User userDetails = User(
-        name: user.name,
-        userId: user.id,
-        userName: user.name,
+    if (visitPurpose != null) {
+      state.model.visitPurpose = visitPurpose;
+    }
+
+    if (dbOfficialEmail != null) {
+      // Ensure employeeId is explicitly assigned to receiverEmployeeId
+      state.model.dbOfficialAccompaniedEmail = dbOfficialEmail.name;
+      // Format the name and email for receiverEmail
+      String name = dbOfficialEmail.name ?? '';
+      String email = dbOfficialEmail.email ?? '';
+      state.model.dbOfficialAccompaniedEmail = '$name ($email)';
+      emit(
+        state.copyWith(
+          model: state.model,
+          status: FormStatus.initial,
+        ),
       );
-      // state.model.approver = userDetails;
     }
     emit(state.copyWith(
       model: state.model,
-      // emailUsers: emailUsers,
+      users: state.users,
       status: FormStatus.initial,
     ));
+
+
   }
 
   Future<bool> submitForm({
@@ -303,21 +284,6 @@ class LawEnforcementDetailsCubit
       state.model.inputDate = inputDate.toString();
     }
 
-    //
-    // state.model.startTime = state.model.startTime != null
-    //     ? ((int.tryParse(state.model.startTime ?? '') ?? DateTime.now().millisecondsSinceEpoch)).toString()
-    //     : (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-    //
-    // state.model.endTime = state.model.endTime != null
-    //     ? ((int.tryParse(state.model.endTime ?? '') ?? DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch)).toString()
-    //     : (DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch ~/ 1000).toString();
-    //
-    // if(state.model.status == 1 && (state.model.updatedStatus == 2||state.model.updatedStatus == 8 || state.model.updatedStatus == 9)){
-    //   state.model.returnedTime = state.model.returnedTime != null
-    //       ? ((int.tryParse(state.model.returnedTime ?? '') ?? DateTime.now().millisecondsSinceEpoch)).toString()
-    //       : (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-    // }
-
     // Create/Update API Call
     LawEnforcementRequestBodyNew request =
     LawEnforcementRequestBodyNew(lawEnforcementModel: state.model);
@@ -326,7 +292,12 @@ class LawEnforcementDetailsCubit
     // TODO: Need to change from Backend- Status should be handled from backend
     state.model.status ??= 0;
     try {
-      GenericResponse response = GenericResponse();
+      // GenericResponse response = GenericResponse();
+      SubmitLawEnforcementResponse response =SubmitLawEnforcementResponse();
+      // await services.createLawFoundArticle(
+      //   body: bodyRequest,
+      //   isSubmit: isSubmit,
+      // ); /
       if (isSaveOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {
@@ -366,13 +337,13 @@ class LawEnforcementDetailsCubit
       }
 
       log('---response--msg--${response.message}---');
-
-      if (response.id != null) {
-        int? id = int.tryParse(response.id!);
-        if (id != null) {
-          state.model.id = id;
-        }
-      }
+      //
+      // if (response.id != null) {
+      //   int? id = int.tryParse(response.id!);
+      //   if (id != null) {
+      //     state.model.id = id;
+      //   }
+      // }
       emit(
         state.copyWith(
           model: state.model,
@@ -410,6 +381,44 @@ class LawEnforcementDetailsCubit
       );
       return false;
     }
+  }
+
+  void addAttachment({
+    List<ImageContent>? data,
+    List<ImageContent>? images,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    // int eventIds = math.Random.secure().nextInt(5);
+    if (data != null) {
+      for (ImageContent image in data) {
+        image.type = 1;
+      }
+      log('--data----${data.length}----');
+
+      state.model.images = data;
+      emit(
+        state.copyWith(
+          // eventId: eventIds,
+          model: state.model,
+          loadAttachments: data,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    emit(
+      state.copyWith(
+        // eventId: eventIds,
+        model: state.model,
+        status: FormStatus.initial,
+      ),
+    );
+
+    log('--state.status--3--${state.status}----');
   }
 
 }

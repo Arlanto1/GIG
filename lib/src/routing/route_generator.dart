@@ -62,6 +62,8 @@ import 'package:db_atom/src/features/incident_management/incident_managements/bl
     as im;
 import 'package:db_atom/src/features/incident_management/services/incident_management_services.dart';
 import 'package:db_atom/src/features/law_enforcement_new/law_enforcement_list_new/bloc/law_enforcement_bloc_new.dart';
+import 'package:db_atom/src/features/law_enforcement_new/models/law_enforcement_model_new.dart';
+import 'package:db_atom/src/features/law_enforcement_new/services/law_enforcement_services_new.dart';
 import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_bloc.dart'
     as vo;
 import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/views/visiting_officials_list_view.dart';
@@ -121,6 +123,8 @@ import '../features/guarding_operations/vvip_visitor/vvip_visitors/bloc/vvip_vis
 import '../features/guarding_operations/vvip_visitor/vvip_visitors_record/bloc/vvip_visitors_record_bloc.dart'
     as vipr;
 import '../features/guarding_operations/vvip_visitor/vvip_visitors_record/views/vvip_visitors_record_view.dart';
+import '../features/law_enforcement_new/law_enforcement_details_new/cubits/law_enforcement_details_cubit_new.dart';
+import '../features/law_enforcement_new/law_enforcement_details_new/views/law_enforcement_details_view_new.dart';
 import '../features/law_enforcement_new/law_enforcement_list_new/views/law_enforcement_list_view.dart';
 import '../features/passmanagement/day_pass_mangement/day_passmanagement_details/cubits/day_passmanagement_details_cubit.dart';
 import '../features/passmanagement/day_pass_mangement/day_passmanagement_details/views/day_passmanagement_details_view.dart';
@@ -2036,6 +2040,67 @@ class RouteGenerator {
             ));
 
 
+      case lawEnforcementNewDetailsViewRoute:
+        LawEnforcementServicesNew services = LawEnforcementServicesNew();
+        CommonServices commonServices = CommonServices();
+        String title;
+        ExtraProperties? extraProperties;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        LawEnforcementModelNew? model = arguments["model"];
+        extraProperties = arguments[ConstantsArgument.extraProperties];
+
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<LawEnforcementDetailsCubit>(
+            create: (_) => LawEnforcementDetailsCubit(
+              services: services,
+              model: model,
+              commonServices: commonServices,
+            ),
+            child: LawEnforcementNewDetailsView(
+                model: model, title: title, extraProperties: extraProperties),
+          ),
+        );
+
+
+      case lawVisitingOfficialViewRoute:
+        String title = '';
+        int id = 0;
+        ExtraProperties? extraProperties;
+        String? lock;
+        int parentStatus = 0;
+        // String violationDescription = '';
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+          id = arguments[ConstantsArgument.id];
+          title = arguments[ConstantsArgument.title];
+          extraProperties = arguments[ConstantsArgument.extraProperties];
+          lock = arguments[ConstantsArgument.isLocked];
+          parentStatus = arguments[ConstantsArgument.parentStatus];
+          // violationDescription =
+          //     arguments[ConstantsArgument.violationDescription] ?? '';
+        }
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<vipr.VVIPVisitorsRecordBloc>(
+            create: (_) => vipr.VVIPVisitorsRecordBloc(
+              //violationDescription: violationDescription,
+            )
+              ..add(vipr.FetchData(
+                id: id,
+                startPos: 0,
+                maxPos: 100,
+              )),
+            child: VVIPVisitorsRecordView(
+              id: id,
+              title: title,
+              extraProperties: extraProperties,
+              lock: lock,
+              parentStatus: parentStatus,
+            ),
+          ),
+        );
       default:
         log('--default---${settings.name}-');
         return MaterialPageRoute(builder: (context) => const SplashScreen());

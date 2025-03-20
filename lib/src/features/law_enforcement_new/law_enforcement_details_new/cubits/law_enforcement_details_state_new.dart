@@ -9,10 +9,10 @@ class LawEnforcementDetailsState extends Equatable {
   final List<BaseUser>? emailUsers;
   final List<Organisation>? listOfEntities;
   final List<Organisation>? getEntitiesResponse;
-  final List<Organisation> vendors;
-  final List<Organisation> typeOfServices;
+  final List<Organisation> department;
+  final List<Organisation> visitPurpose;
   final String? message;
-  final List<String>? pocs;
+  final List<ImageContent> loadAttachments;
   final SlaUiLabels? labels;
 
   factory LawEnforcementDetailsState.initial({
@@ -23,10 +23,10 @@ class LawEnforcementDetailsState extends Equatable {
     final List<BaseUser>? emailUsers,
     required final List<Organisation>? listOfEntities,
     required final List<Organisation>? getEntitiesResponse,
-    required final List<Organisation> vendors,
-    required final List<Organisation> typeOfServices,
+    required final List<Organisation> department,
+    required final List<Organisation> visitPurpose,
     required String errorMessage,
-    final List<String>? pocs,
+    required  List<ImageContent> loadAttachments,
   }) {
     return LawEnforcementDetailsState(
       status: FormStatus.initial,
@@ -37,10 +37,10 @@ class LawEnforcementDetailsState extends Equatable {
       emailUsers: emailUsers,
       listOfEntities: listOfEntities,
       getEntitiesResponse: getEntitiesResponse,
-      vendors: vendors,
-      typeOfServices: typeOfServices,
+      department: department,
+      visitPurpose: visitPurpose,
       message: errorMessage,
-      pocs: pocs,
+      loadAttachments: loadAttachments,
     );
   }
 
@@ -104,12 +104,12 @@ class LawEnforcementDetailsState extends Equatable {
     this.loggedInUserDetails,
     this.listOfEntities,
     this.getEntitiesResponse,
-    required this.vendors,
-    required this.typeOfServices,
+    required this.department,
+    required this.visitPurpose,
     this.users,
     this.emailUsers,
     this.message,
-    this.pocs,
+    required this.loadAttachments,
     this.labels,
   });
 
@@ -122,9 +122,9 @@ class LawEnforcementDetailsState extends Equatable {
     List<BaseUser>? emailUsers,
     List<Organisation>? listOfEntities,
     List<Organisation>? getEntitiesResponse,
-    List<Organisation>? vendors,
-    List<Organisation>? typeOfServices,
-    List<String>? pocs,
+    List<Organisation>? department,
+    List<Organisation>? visitPurpose,
+    List<ImageContent>? loadAttachments,
     String? message,
     SlaUiLabels? labels,
   }) {
@@ -135,10 +135,10 @@ class LawEnforcementDetailsState extends Equatable {
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
       listOfEntities: listOfEntities ?? this.listOfEntities,
-      vendors: vendors ?? this.vendors,
-      typeOfServices: typeOfServices ?? this.typeOfServices,
+      department: department ?? this.department,
+      visitPurpose: visitPurpose ?? this.visitPurpose,
       message: message ?? this.message,
-      pocs: pocs ?? this.pocs,
+      loadAttachments: loadAttachments ?? this.loadAttachments,
       labels: labels ?? this.labels,
       emailUsers: emailUsers ?? this.emailUsers,
     );

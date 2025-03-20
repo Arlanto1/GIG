@@ -73,9 +73,9 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
                 backgroundColor: AppColors.navigationSkyBlueColor,
                 foregroundColor: AppColors.backgroundWhiteColor,
                 onPressed: () => {
-                  Navigator.pushNamed(context, dayPassManagementDetailsRoute,
+                  Navigator.pushNamed(context, lawEnforcementNewDetailsViewRoute,
                       arguments: {
-                        "title": Constants.createDayPassManagementTitle
+                        "title": Constants.createlawenforcement
                       }),
                 },
               )
@@ -122,11 +122,11 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
                                 ),
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // if (state.status == FormStatus.loading) ...[
-                          //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //   const BaseLoader(),
-                          //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          // ],
+                          if (state.status == FormStatus.loading) ...[
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            const BaseLoader(),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ],
                           // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                           // Text('state.status=====${state.status}'),
                           if (state.items.isEmptyOrNull &&
@@ -301,7 +301,7 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
       LawEnforcementModelNew? lawEnforcementModel, bool hasWritePermission) {
     dismissLoadingDialog(context);
     if (lawEnforcementModel != null) {
-      Navigator.pushNamed(context, dayPassManagementDetailsRoute, arguments: {
+      Navigator.pushNamed(context, lawEnforcementNewDetailsViewRoute, arguments: {
         "model": lawEnforcementModel,
         "title": Constants.editlawenforcement,
         ConstantsArgument.extraProperties:

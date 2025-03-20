@@ -495,5 +495,26 @@ class CommonServices {
     return response['date'];
   }
 
+  Future<LeoDepartments> getLeoDepartments({
+    required String name,
+  }) async {
+    String url = '${CommonApis._getOrganisations}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return LeoDepartments.fromJson(response);
+  }
+
+  Future<LeoPurposeVisit> getLeoVisitPurpose({
+    required String name,
+  }) async {
+    String url = '${CommonApis._getOrganisations}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return LeoPurposeVisit.fromJson(response);
+  }
+
+
 }
 
