@@ -2423,7 +2423,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //     (widget.dayPassItem?.location?.id ?? 0).toString(),
       //     'SEZPass',
       //     context);
-      createPassMgmtCubit.getPassNumber(0, widget.model?.location?.id ?? 0);
+      createPassMgmtCubit.getPassNumber(0, widget.model?.location?.id ?? 0, widget.model?.passType == 4 ? true : false);
       createPassMgmtCubit.getlocationsResponseData(widget.model?.location);
       // createPassMgmtCubit.getRadioButtonSelected(widget.model?.exceptionalApproval == true ? 1 :0);
       if ((widget.model?.entities?.length ?? 0) > 0) {
@@ -2619,7 +2619,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
          // await ser.getPassNo(
          //    passType: 1, locationId: locationId);
         await createPassMgmtCubit.getPassNumber(
-            state.model.passType!, state.location!.id!);
+          widget.passId, state.location!.id!, state.model.passType == 4 ? true : false );
       },
     );
 
@@ -3490,7 +3490,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                           locationId: location.id!, passId: widget.passId);
 
                   await createPassMgmtCubit.getPassNumber(
-                      widget.passId, location.id!);
+                      widget.passId, location.id!,widget.model?.passType == 4 ? true : false);
                   createPassMgmtCubit.getlocationsResponseData(location);
                   daypassnoTextController.text = '';
                   hostEmployeeIdTextController.text = '';
