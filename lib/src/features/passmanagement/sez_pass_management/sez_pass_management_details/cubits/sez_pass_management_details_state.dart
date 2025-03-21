@@ -127,7 +127,7 @@ class SezPassManagementDetailsState extends Equatable {
     if (model.category == 1 && model.employee?.employeeId == null) {
       return const ErrorResponse(status: false, message: 'Please select Employee Id');
     }
-    if (model.email.isEmptyOrNull) {
+    if (model.category != 1 && model.email.isEmptyOrNull) {
       return const ErrorResponse(status: false, message: 'Please enter Email');
     }
 
