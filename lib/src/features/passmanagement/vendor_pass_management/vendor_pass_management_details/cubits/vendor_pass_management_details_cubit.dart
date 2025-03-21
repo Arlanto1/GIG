@@ -138,7 +138,7 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
 
-      // state.model.passType ??= 2;
+      state.model.passType ??= 2;
       state.model.passInfo?.passType ??= 2;
 
       if(state.model.updatedStatus == 2  || state.model.updatedStatus == 8  || state.model.updatedStatus == 9 ){

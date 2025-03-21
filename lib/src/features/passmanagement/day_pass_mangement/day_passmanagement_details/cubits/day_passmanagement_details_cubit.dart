@@ -130,7 +130,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       List<Organisation> getStatus = futures[11];
 
 
-      // state.model.passType ??= 0;
+      state.model.passType ??= 0;
       state.model.passInfo?.passType ??= 0;
 
       if (getPassType.isNotEmpty && state.model.passTypeName == null) {

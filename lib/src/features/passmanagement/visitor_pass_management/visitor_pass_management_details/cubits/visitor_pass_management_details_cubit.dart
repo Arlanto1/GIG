@@ -140,7 +140,7 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
             int.tryParse(state.model.returnedTime ?? '0'),
             Constants.fulldateFormat);
       }
-      // state.model.passType = 1;
+      state.model.passType ??= 1;
 
       MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
 

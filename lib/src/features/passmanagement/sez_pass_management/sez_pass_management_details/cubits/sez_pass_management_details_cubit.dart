@@ -144,7 +144,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
         state.model.handoverSecurity ??= loggedInUserDetails;
       }
 
-      // state.model.passType ??= 3;
+      state.model.passType ??= 3;
       state.model.passInfo?.passType ??= 3;
 
       emit(
