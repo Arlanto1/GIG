@@ -10,18 +10,16 @@ class AddVisitingOfficialsPopUp extends StatefulWidget {
     required this.onSubmit,
     required this.model,
     required this.mainContext,
-    required this.users,
-    required this.staffCategoriesValues,
+    // required this.staffCategoriesValues,
     required this.isLocked,
     this.parentStatus,
   });
 
   final String title;
   final Function onSubmit;
-  final ViolationPenaltyRecord model;
-  final List<Organisation> users;
+  final VisitingOfficialsModel model;
   final BuildContext mainContext;
-  final Map<String, dynamic> staffCategoriesValues;
+  // final Map<String, dynamic> staffCategoriesValues;
   final int? parentStatus;
   final bool isLocked;
 
@@ -41,34 +39,34 @@ class _AddVisitingOfficialsPopUpState extends State<AddVisitingOfficialsPopUp> {
   @override
   void initState() {
     super.initState();
-
-    nameController.text = widget.model.penaltyAmount.toString() ;
-    penaltyAmountController.text = widget.model.penaltyAmount == null
-        ? ''
-        : widget.model.penaltyAmount.toString();
-
-    num? sum = (widget.model.totalPenaltyAmount ??
-        (widget.model.penaltyAmount ?? 0) *
-            (widget.model.totalViolations ?? 0));
-    totalPenaltyAmountController.text =
-    widget.model.penaltyAmount == null ? '' : sum.toString();
+    //
+    // nameController.text = widget.model.penaltyAmount.toString() ;
+    // penaltyAmountController.text = widget.model.penaltyAmount == null
+    //     ? ''
+    //     : widget.model.penaltyAmount.toString();
+    //
+    // num? sum = (widget.model.totalPenaltyAmount ??
+    //     (widget.model.penaltyAmount ?? 0) *
+    //         (widget.model.totalViolations ?? 0));
+    // totalPenaltyAmountController.text =
+    // widget.model.penaltyAmount == null ? '' : sum.toString();
     // totalNoOfViolationsController.text = widget.model.totalViolations == null
     //     ? ''
     //     : widget.model.totalViolations.toString();
-    updateStaffCategoryText();
+    // updateStaffCategoryText();
   }
 
-  void updateStaffCategoryText() {
-    String staffCategoryValue = widget.model.staffCategory.toString();
-    log('--staffCategoryValue---$staffCategoryValue--');
-    Label? matchingLabel = staffCategoryDropDownValues
-        .firstOrNullWhere((element) => element.value == staffCategoryValue);
-
-    log('--matchingLabel?.value---${matchingLabel?.value}--');
-
-    staffCategoryController.text = matchingLabel?.key ?? '';
-    log('--staffCategoryController.text---${staffCategoryController.text}--');
-  }
+  // void updateStaffCategoryText() {
+  //   String staffCategoryValue = widget.model.staffCategory.toString();
+  //   log('--staffCategoryValue---$staffCategoryValue--');
+  //   Label? matchingLabel = staffCategoryDropDownValues
+  //       .firstOrNullWhere((element) => element.value == staffCategoryValue);
+  //
+  //   log('--matchingLabel?.value---${matchingLabel?.value}--');
+  //
+  //   staffCategoryController.text = matchingLabel?.key ?? '';
+  //   log('--staffCategoryController.text---${staffCategoryController.text}--');
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +125,7 @@ class _AddVisitingOfficialsPopUpState extends State<AddVisitingOfficialsPopUp> {
                         isEnable: !isReadonly,
                         isDisableColor: false,
                         onChange: (String value) {
-                          widget.model.totalViolations = num.parse(value);
+                          // widget.model.totalViolations = num.parse(value);
                         },
                         validateTextField: (String? user) {},
                       ),
@@ -151,57 +149,9 @@ class _AddVisitingOfficialsPopUpState extends State<AddVisitingOfficialsPopUp> {
                         isEnable: !isReadonly,
                         isDisableColor: false,
                         onChange: (String value) {
-                          widget.model.totalViolations = num.parse(value);
+                          // widget.model.totalViolations = num.parse(value);
                         },
                         validateTextField: (String? user) {},
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                      /// Violation
-                      Column(
-                        children: [
-                          CommonWidgets.textDisplay(
-                            state.labels?.locale.violation ??
-                                state.labels?.defaultLocale.violation ??
-                                Constants.violation,
-                            Styles.textStyleBlack14,
-                            //isMandatory: true,
-                          ),
-                          TextFieldAddButton(
-                              title: widget.model.violation?.name ?? '',
-                              height: 70,
-                              isDisableColor: isReadonly,
-                              onTap: () {
-                                if (!isReadonly) {
-                                  BaseOrganisationDialog().departmentDialog(
-                                    context: context,
-                                    organisations: widget.users,
-                                    onTap: (Organisation org) {
-                                      violationController.text = org.name ?? '';
-                                      staffCategoryController.clear();
-                                      penaltyAmountController.clear();
-                                      totalPenaltyAmountController.clear();
-                                      // totalNoOfViolationsController.clear();
-                                      log('-org.keyName----${org.keyName}-');
-
-                                      penaltyAmountController.text =
-                                          org.keyName ?? ''; // Penalty Amount
-                                      widget.model.violation ??= Organisation();
-                                      widget.model.violation = org;
-                                      widget.model.penaltyAmount =
-                                          double.tryParse(org.keyName ?? '0');
-                                      log('-widget.violation.violation?.name----${widget.model.violation?.name}-');
-
-                                      setState(() {
-                                        log('-setstate-');
-                                        penaltyAmountController.text =
-                                            org.keyName ?? '';
-                                      });
-                                    },
-                                  );
-                                }
-                              })
-                        ],
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -269,18 +219,18 @@ class _AddVisitingOfficialsPopUpState extends State<AddVisitingOfficialsPopUp> {
 
                                   staffCategoryController.text =
                                       selectedLabel.key;
-                                  widget.model.staffCategory =
-                                      int.tryParse(selectedLabel.value);
+                                  // widget.model.staffCategory =
+                                  //     int.tryParse(selectedLabel.value);
 
-                                  int? staffCategoriesValue = widget
-                                      .staffCategoriesValues[selectedLabel.key];
+                                  // int? staffCategoriesValue = widget
+                                  //     .staffCategoriesValues[selectedLabel.key];
                                   // log('--staffCategoriesValue----$widget.staffCategoriesValues[selectedLabel.key]---');
-                                  log('--staffCategoriesValue----${widget.staffCategoriesValues}---');
+                                  // log('--staffCategoriesValue----${widget.staffCategoriesValues}---');
                                   // log('Selected Label: ${selectedLabel.key}, Value: ${selectedLabel.value}');
 
-                                  if (staffCategoriesValue == null) {
-                                    log('No matching value found for key: ${selectedLabel.key}');
-                                  }
+                                  // if (staffCategoriesValue == null) {
+                                  //   log('No matching value found for key: ${selectedLabel.key}');
+                                  // }
 
                                   setState(() {});
 
@@ -314,14 +264,14 @@ class _AddVisitingOfficialsPopUpState extends State<AddVisitingOfficialsPopUp> {
                         isEnable: !isReadonly,
                         isDisableColor: false,
                         onChange: (String value) {
-                          widget.model.totalViolations = num.parse(value);
-
-                          num sum = (widget.model.penaltyAmount ?? 0) *
-                              num.parse(value);
-                          log('--sum-----$sum---');
-                          totalPenaltyAmountController.text = sum.toString();
-
-                          widget.model.totalPenaltyAmount = sum;
+                          // widget.model.totalViolations = num.parse(value);
+                          //
+                          // num sum = (widget.model.penaltyAmount ?? 0) *
+                          //     num.parse(value);
+                          // log('--sum-----$sum---');
+                          // totalPenaltyAmountController.text = sum.toString();
+                          //
+                          // widget.model.totalPenaltyAmount = sum;
                           // totalNoOfViolationsController.text = value;
                           log('--totalPenaltyAmountController.text-----${totalPenaltyAmountController.text}---');
 
@@ -414,8 +364,6 @@ class _AddVisitingOfficialsPopUpState extends State<AddVisitingOfficialsPopUp> {
           );
           return;
         }
-
-        log('-widget.model.totalPenaltyAmount--${widget.model.totalPenaltyAmount}-----');
         onSubmit(widget.model);
         Navigator.pop(context);
       },

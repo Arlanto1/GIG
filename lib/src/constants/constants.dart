@@ -366,6 +366,7 @@ class Constants {
   static const String visitingOfficialDetails = "Visiting Official Details";
   static const String visitingOfficials = "Visiting Officials";
   static const String visitingOfficialsEmailId = "Email Id Visiting Officials";
+  static const String addOrViewVisitingOfficialDetails = "Add/View Visiting Official Details";
 
   // Pass mgmt
   static const String companyType = 'Company Type';

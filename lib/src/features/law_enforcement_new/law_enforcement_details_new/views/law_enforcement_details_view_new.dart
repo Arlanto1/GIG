@@ -756,23 +756,21 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                               }
                             }
                             log('--state.model.id---${state.model.id}--');
-                            List<Organisation> violationDescriptions =
-                            await CommonServices().getOrganisations(
-                                name: Constants.visitingOfficialDetails);
+                            // List<Organisation> violationDescriptions =
+                            // await CommonServices().getOrganisations(
+                            //     name: Constants.visitingOfficialDetails);
                             nav.pushNamed(
-                              slaViolationPenaltyRecordsRoute,
+                              lawVisitingOfficialViewRoute,
                               arguments: {
-                                ConstantsArgument.title:
-                                Constants.violationPenalty,
                                 ConstantsArgument.id: state.model.id,
-                                ConstantsArgument.violationDescription:
-                                Constants.slaViolation,
-                                ConstantsArgument.violationDescriptions:
-                                violationDescriptions,
+                                ConstantsArgument.title:
+                                Constants.visitingOfficials,
+                                ConstantsArgument.extraProperties:
+                                ExtraProperties(hasWritePermission: true),
+                                // ConstantsArgument.isLocked:
+                                // !state.model.lock.isEmptyOrNull,
                                 ConstantsArgument.parentStatus:
                                 state.model.status,
-                                ConstantsArgument.isLocked:
-                                !state.model.lock.isEmptyOrNull,
                               },
                             );
                           },
@@ -788,7 +786,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                               ),
                               const SizedBox(width: 10),
                               const Text(
-                                Constants.visitingOfficialDetails,
+                                Constants.addOrViewVisitingOfficialDetails,
                                 style: TextStyle(
                                   color: AppColors.navigationSkyBlueColor,
                                   decoration: TextDecoration.underline,

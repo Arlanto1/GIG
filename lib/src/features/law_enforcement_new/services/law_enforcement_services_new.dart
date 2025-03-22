@@ -1,5 +1,6 @@
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/law_enforcement_new/models/law_enforcement_model_new.dart';
+import 'package:db_atom/src/features/law_enforcement_new/visiting_officials/models/requestModels/visitingOfficialsRequest.dart';
 
 import '../models/requestModels/law_enforcement_request_new.dart';
 
@@ -9,6 +10,14 @@ class Apis {
   static final String _getList = '$baseUrl/getLawEnfrcmntList?';
   static final String _getById = '$baseUrl/getLawEnfrcmnt';
   static final String _create = '$baseUrl/saveLawEnfrcmnt';
+  static final String _getLeoVisitingOfficials =
+      '$baseUrl/getLeoVisitingOfficials/';
+  static final String _getLeoVisitingOfficialById =
+      '$baseUrl/getLeoVisitingOfficialById/';
+  static final String _createVisitingOfficial =
+      '$baseUrl/createVisitingOfficial/';
+  static final String _deleteVisitingOfficial = '$baseUrl/deleteVisitingOfficial/';
+
 }
 
 class LawEnforcementServicesNew {
@@ -53,52 +62,52 @@ class LawEnforcementServicesNew {
     return SubmitLawEnforcementResponse.fromJson(response);
   }
 
-  // Future<List<LawVisitingOfficial>> getLeoVisitingOfficials({
-  //   required int id,
-  // }) async {
-  //   String url = '${Apis._getLeoVisitingOfficials}$id';
-  //   final response = await BaseApiService().getRequest(
-  //     url: url,
-  //   );
-  //
-  //   if (response == null) {
-  //     return [];
-  //   }
-  //   return List<LawVisitingOfficial>.from(
-  //       response.map((x) => LawVisitingOfficial.fromJson(x)));
-  // }
+  Future<List<VisitingOfficialsModel>> getLeoVisitingOfficials({
+    required int id,
+  }) async {
+    String url = '${Apis._getLeoVisitingOfficials}$id';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
 
-  // Future<LawVisitingOfficial> getLeoVisitingOfficialById({
-  //   required int id,
-  // }) async {
-  //   final String url = '${Apis._getLeoVisitingOfficialById}$id';
-  //   final response = await BaseApiService().getRequest(
-  //     url: url,
-  //     isAuthenticated: true,
-  //   );
-  //
-  //   return LawVisitingOfficial.fromJson(response);
-  // }
-  //
-  // Future<GenericResponse> createVisitingOfficial({
-  //   required int parentId,
-  //   required LawVisitingOfficialRequest body,
-  // }) async {
-  //   // var username = await SharedPrefs.getUsername();
-  //   final String url =
-  //       "${Apis._createVisitingOfficial}$parentId?isSubmit=false";
-  //   final response = await BaseApiService().postRequest(
-  //     url: url,
-  //     requestedData: body.toJson(),
-  //   );
-  //   return GenericResponse.fromJson(response);
-  // }
-  //
-  // Future<GenericResponse> deleteVisitingOfficial(int id) async {
-  //   final String url = '${Apis._deleteVisitingOfficial}$id';
-  //   final response = await BaseApiService().deleteRequest(
-  //     url: url,
-  //   );
-  //   return GenericResponse.fromJson(response);
-  // }
+    if (response == null) {
+      return [];
+    }
+    return List<VisitingOfficialsModel>.from(
+        response.map((x) => LawVisitingOfficial.fromJson(x)));
+  }
+
+  Future<VisitingOfficialsModel> getLeoVisitingOfficialById({
+    required int id,
+  }) async {
+    final String url = '${Apis._getLeoVisitingOfficialById}$id';
+    final response = await BaseApiService().getRequest(
+      url: url,
+      isAuthenticated: true,
+    );
+
+    return VisitingOfficialsModel.fromJson(response);
+  }
+
+  Future<GenericResponse> createVisitingOfficial({
+    required int parentId,
+    required VisitingOfficialsRequest body,
+  }) async {
+    // var username = await SharedPrefs.getUsername();
+    final String url =
+        "${Apis._createVisitingOfficial}$parentId?isSubmit=false";
+    final response = await BaseApiService().postRequest(
+      url: url,
+      requestedData: body.toJson(),
+    );
+    return GenericResponse.fromJson(response);
+  }
+
+  Future<GenericResponse> deleteVisitingOfficial(int id) async {
+    final String url = '${Apis._deleteVisitingOfficial}$id';
+    final response = await BaseApiService().deleteRequest(
+      url: url,
+    );
+    return GenericResponse.fromJson(response);
+  }
 }
