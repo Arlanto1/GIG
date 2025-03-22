@@ -2620,6 +2620,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
          //    passType: 1, locationId: locationId);
         await createPassMgmtCubit.getPassNumber(
           widget.passId, state.location!.id!, state.model.passType == 4 ? true : false );
+
+        widget.model?.passInfo?.passNo = null;
+        widget.model?.passNo = null;
+        daypassnoTextController.text = '';
       },
     );
 
