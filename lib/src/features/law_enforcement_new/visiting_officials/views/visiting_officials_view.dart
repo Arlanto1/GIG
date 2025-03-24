@@ -95,7 +95,7 @@ class _VisitingOfficialsView extends State<VisitingOfficialsView> {
             : null,
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: Constants.vVipVisitorsTitle,
+          title: Constants.visitingOfficials,
           showPopUp: false,
           showSaveButton: false,
           showSubmitButton: false,

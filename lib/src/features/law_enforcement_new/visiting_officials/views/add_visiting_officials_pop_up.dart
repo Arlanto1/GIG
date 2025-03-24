@@ -32,7 +32,7 @@ class _AddVisitingOfficialsPopUpState extends State<AddVisitingOfficialsPopUp> {
   TextEditingController violationController = TextEditingController();
   TextEditingController staffCategoryController = TextEditingController();
   TextEditingController penaltyAmountController = TextEditingController();
-  TextEditingController totalPenaltyAmountController = TextEditingController();
+  TextEditingController contactNumController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   bool isReadonly = false;
 
@@ -273,7 +273,6 @@ class _AddVisitingOfficialsPopUpState extends State<AddVisitingOfficialsPopUp> {
                           //
                           // widget.model.totalPenaltyAmount = sum;
                           // totalNoOfViolationsController.text = value;
-                          log('--totalPenaltyAmountController.text-----${totalPenaltyAmountController.text}---');
 
                           setState(() {
                             // totalPenaltyAmountController.text = sum.toString();
@@ -283,11 +282,11 @@ class _AddVisitingOfficialsPopUpState extends State<AddVisitingOfficialsPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                      /// Total Penalty Amount
+                      /// Contact Num
                       CommonWidgets.textDisplay(
-                        state.labels?.locale.totalPenaltyAmount ??
-                            state.labels?.defaultLocale.totalPenaltyAmount ??
-                            Constants.totalPenaltyAmount,
+                        // state.labels?.locale.c ??
+                        //     state.labels?.defaultLocale.totalPenaltyAmount ??
+                            Constants.contactNo,
                         Styles.textStyleBlack14,
                         //isMandatory: true,
                       ),
@@ -295,11 +294,13 @@ class _AddVisitingOfficialsPopUpState extends State<AddVisitingOfficialsPopUp> {
                       FlutterInputField(
                         textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
-                        controller: totalPenaltyAmountController,
+                        controller: contactNumController,
                         hintText: '',
                         isEnable: false,
                         isDisableColor: true,
-                        onChange: (String value) {},
+                        onChange: (String value) {
+                          widget.model.contactNo = value;
+                        },
                         validateTextField: (String? user) {},
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
