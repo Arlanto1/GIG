@@ -902,8 +902,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         '')
                                         .toLowerCase() !=
                                         'cwr t2' )||
-                                        widget.passId ==
-                                            ConstantsIntValue.passIdSez) ...[
+                                        (widget.passId ==
+                                            ConstantsIntValue.passIdSez && passCategoryTextController.text == 'Permanent')) ...[
                                       CommonWidgets.textDisplay(
                                           state.labels?.locale.employeeId ??
                                               state.labels?.defaultLocale
@@ -918,7 +918,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     ///Sez Name
                                     if (widget.passId ==
-                                        ConstantsIntValue.passIdSez) ...[
+                                        ConstantsIntValue.passIdSez && passCategoryTextController.text == 'Permanent') ...[
                                       CommonWidgets.textDisplay(
                                           state.labels?.locale.employeeName ??
                                               state.labels?.defaultLocale
@@ -951,7 +951,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         ConstantsIntValue.passIdDayPass && (state.selectedCompanyType?.name ??
                                         '')
                                         .toLowerCase() ==
-                                        'cwr t2') ...[
+                                        'cwr t2' || (widget.passId ==
+                                        ConstantsIntValue.passIdSez && passCategoryTextController.text == 'Temporary')) ...[
                                       CommonWidgets.textDisplay(
                                           state.labels?.locale.employeeId ??
                                               state.labels?.defaultLocale
@@ -974,9 +975,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         validateTextField: (String? user) {},
                                       )
                                     ],
-                                    ///Day Pass Name
+                                    ///Day Pass Name/ Sez Pass Name
                                     if (widget.passId ==
-                                        ConstantsIntValue.passIdDayPass) ...[
+                                        ConstantsIntValue.passIdDayPass || (widget.passId ==
+                                        ConstantsIntValue.passIdSez && passCategoryTextController.text == 'Temporary')) ...[
                                       CommonWidgets.textDisplay(
                                           state.labels?.locale.employeeName ??
                                               state.labels?.defaultLocale
@@ -992,13 +994,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         // focusNode: companyNameFocusNode,
                                         isEnable: ((widget.model?.status == 0 || widget.model == null)
                                            &&
-                                            ((state.selectedCompanyType?.name ??
+                                            (((state.selectedCompanyType?.name ??
                                                             '')
                                                         .toLowerCase() ==
                                                     'exceptions' || (state.selectedCompanyType?.name ??
                                             '')
                                             .toLowerCase() ==
-                                            'cwr t2'))
+                                            'cwr t2') || widget.passId ==
+                                            ConstantsIntValue.passIdSez))
                                                 ? true
                                                 : false,
                                         isDisableColor:
@@ -3868,7 +3871,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               : nameTextController.text)
               : vendorVisitorNameTextController.text,
         employeeId: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
-            ? ((widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2') || widget.passId == ConstantsIntValue.passIdSez
+            ? ((widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2') || widget.passId == ConstantsIntValue.passIdSez &&(companyType?.name == 'FTE' )
             ? state.nameResponse?.employeeId
             : employeeIdTextController.text)
             : null,
@@ -3946,7 +3949,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               : nameTextController.text)
               : vendorVisitorNameTextController.text,
           employeeId: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
-              ? ( (widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2') || widget.passId == ConstantsIntValue.passIdSez
+              ? ((widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2') || (widget.passId == ConstantsIntValue.passIdSez && companyType?.name == 'FTE')
               ? state.nameResponse?.employeeId
               : employeeIdTextController.text)
               : null,
