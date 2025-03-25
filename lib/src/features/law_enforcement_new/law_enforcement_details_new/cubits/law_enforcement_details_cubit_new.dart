@@ -142,28 +142,10 @@ class LawEnforcementDetailsCubit
           : Utils.timestampToDateConversion(
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
-      // Get Date of Creation
-      // state.model.inputDate = state.model.inputDate == null
-      //     ? Utils().getCurrentDate()
-      //     : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
-      // state.model.inputDate =
-      //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.leoModuleCode);
-      SlaUiLabels labels = SlaUiLabels.fromJson(responseLabels);
-
-      // if (location != null) {
-      //   SerialNumberModel slNo = await commonServices.getSlNo(
-      //     locationId: location!.id.toString(),
-      //     moduleCode: Constants.leoModuleCode,
-      //   );
-      //   state.model.location = location;
-      //   state.model.slNo = slNo.serialNo;
-      // }
-
-      // List<String> pocs = Utils().splitStringAfterComma(state.model.poc ?? '');
-
+      LeoUiLabels labels = LeoUiLabels.fromJson(responseLabels);
       state.model.entrySecurity ??= loggedInUserDetails;
       emit(
         state.copyWith(

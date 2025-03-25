@@ -15,7 +15,7 @@ class LawEnforcementDetailsState extends Equatable {
   final List<Organisation>? distributionGroups;
   final String? message;
   final List<ImageContent> loadAttachments;
-  final SlaUiLabels? labels;
+  final LeoUiLabels? labels;
 
   factory LawEnforcementDetailsState.initial({
     required LawEnforcementModelNew model,
@@ -136,7 +136,7 @@ class LawEnforcementDetailsState extends Equatable {
     List<Organisation>? visitingDepartment,
     List<ImageContent>? loadAttachments,
     String? message,
-    SlaUiLabels? labels,
+    LeoUiLabels? labels,
   }) {
     return LawEnforcementDetailsState(
       status: status ?? this.status,

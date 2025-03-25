@@ -329,9 +329,9 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
 
                             /// Actual Time of Visit
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.keyHandOverDue ??
-                              //     state.labels?.defaultLocale
-                              // .keyHandOverDue ??
+                              state.labels?.locale.timeOfVisit ??
+                                  state.labels?.defaultLocale
+                              .timeOfVisit ??
                               Constants.actualtimeofvisit,
                               isMandatory: true,
                               Styles.textStyleBlack14,
@@ -368,9 +368,9 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
 
                             /// Official ID Card Verified?
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.premisesRoundTkn ??
-                              //     state.labels?.defaultLocale
-                              //         .premisesRoundTkn ??
+                              state.labels?.locale.officialCardVerified ??
+                                  state.labels?.defaultLocale
+                                      .officialCardVerified ??
                                 Constants.officialsidcardverified,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
@@ -399,8 +399,8 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
 
                             /// Purpose of visit
                             CommonWidgets.textDisplay(
-                                // state.labels?.locale.typeOfService ??
-                                //     state.labels?.defaultLocale.typeOfService ??
+                                state.labels?.locale.visitPurpose ??
+                                    state.labels?.defaultLocale.visitPurpose ??
                                     Constants.purposeOfVisit,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
@@ -436,8 +436,6 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                           .refreshList();
                                     });
                                 }
-                                // leodepartmentsDialog(state);
-                                // }
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -445,9 +443,9 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
 
                             /// Document if any to confirm purpose
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.premisesRoundTkn ??
-                              //     state.labels?.defaultLocale
-                              //         .premisesRoundTkn ??
+                              state.labels?.locale.documentVerified ??
+                                  state.labels?.defaultLocale
+                                      .documentVerified ??
                                 Constants.documentifanytoconfirmpurpose,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
@@ -476,9 +474,9 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
 
                             /// In case of Police, was official in uniform?
                             CommonWidgets.textDisplay(
-                                // state.labels?.locale.premisesRoundTkn ??
-                                //     state.labels?.defaultLocale
-                                //         .premisesRoundTkn ??
+                                state.labels?.locale.visitorInUniform ??
+                                    state.labels?.defaultLocale
+                                        .visitorInUniform ??
                                     Constants.incaseofpolicewasofficialinuniform,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
@@ -508,9 +506,9 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
 
                             /// DB official want to meet
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.name ??
-                              //     state.labels?.defaultLocale
-                              //         .name ??
+                              state.labels?.locale.dbOfficialEmail ??
+                                  state.labels?.defaultLocale
+                                      .dbOfficialEmail ??
                                 Constants.dbofficialwanttomeet,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
@@ -535,8 +533,8 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
 
                             ///DB official Department
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.vendor ??
-                              //     state.labels?.defaultLocale.vendor ??
+                              state.labels?.locale.dbOfficialEmailDepartment ??
+                                  state.labels?.defaultLocale.dbOfficialEmailDepartment ??
                                   Constants.dbofficialdepartment,
                               Styles.textStyleBlack14,
                               isMandatory: true,
@@ -582,8 +580,8 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
 
                             /// Db Official email ID Accompanied LEO Official
                             CommonWidgets.textDisplay(
-                                // state.labels?.locale.approver ??
-                                //     state.labels?.defaultLocale.approver ??
+                                state.labels?.locale.dbOfficialAccompaniedEmail ??
+                                    state.labels?.defaultLocale.dbOfficialAccompaniedEmail ??
                                     Constants.dbofficialemailidaccompaniedleoofficial,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
@@ -635,8 +633,8 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
 
                               /// Additional Information
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.approver ??
-                              //     state.labels?.defaultLocale.approver ??
+                              state.labels?.locale.additionalInformation ??
+                                  state.labels?.defaultLocale.additionalInformation ??
                                 Constants.additionalinformation,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
@@ -668,8 +666,6 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
 
                             ///Attachments
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.attachment ??
-                              //     state.labels?.defaultLocale.attachment ??
                                 Constants.attachments,
                                 Styles.textStyleBlack14),
                             widget.model == null
@@ -722,8 +718,8 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                             if(widget.model?.status == ConstantsIntValue.leoStatusSubmitted || widget.model?.status == ConstantsIntValue.leoStatusVerificationUnderProgress || widget.model?.status == ConstantsIntValue.leoStatusDistributed)...[
                             ///Distribution Groups
                             CommonWidgets.textDisplay(
-                                // state.labels?.locale.entity ??
-                                //     state.labels?.defaultLocale.entity ??
+                                state.labels?.locale.distributionList ??
+                                    state.labels?.defaultLocale.distributionList ??
                                     Constants.distributiongroups,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
