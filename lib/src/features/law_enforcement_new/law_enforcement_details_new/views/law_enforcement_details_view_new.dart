@@ -799,7 +799,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                 Constants.visitingOfficials,
                                 ConstantsArgument.keyLostType: 0,
                                 ConstantsArgument.id:
-                                state.model?.id,
+                                state.model.id,
                                 // ConstantsArgument.models:
                                 //     visitingOfficials,
                                 ConstantsArgument.departments: state.visitingDepartment,
