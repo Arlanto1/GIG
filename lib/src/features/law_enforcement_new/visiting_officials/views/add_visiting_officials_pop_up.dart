@@ -70,13 +70,29 @@ class _AddVisitingOfficialsPopUpState extends State<AddVisitingOfficialsPopUp> {
       backgroundColor: AppColors.backgroundWhiteColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
-        if (widget.parentStatus == ConstantsIntValue.lawDistributedStatus ||
-            widget.parentStatus == ConstantsIntValue.cancelledStatus) {
-          isReadonly = true;
+        // if (widget.parentStatus == ConstantsIntValue.lawDistributedStatus ||
+        //     widget.parentStatus == ConstantsIntValue.cancelledStatus) {
+        //   isReadonly = true;
+        // }
+        // if (widget.isLocked) {
+        //   isReadonly = true;
+        // }
+
+        if (widget.parentStatus == null &&  !widget.isLocked) {
+          isReadonly = false;
         }
-        if (widget.isLocked) {
-          isReadonly = true;
+
+        if (widget.parentStatus == ConstantsIntValue.leoStatusDraft &&  !widget.isLocked) {
+          isReadonly = false;
         }
+
+        if (widget.parentStatus == ConstantsIntValue.lawSubmittedStatus &&  !widget.isLocked) {
+          isReadonly = false;
+        }
+        if (widget.parentStatus == ConstantsIntValue.leoStatusVerificationUnderProgress &&  !widget.isLocked) {
+          isReadonly = false;
+        }
+
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
@@ -159,7 +175,7 @@ class _AddVisitingOfficialsPopUpState extends State<AddVisitingOfficialsPopUp> {
                           // if (widget.showSaveButton) {
                           BaseOrganisationDialog().departmentDialog(
                             context: context,
-                            organisations: updatedDepartmentList ?? [],
+                            organisations: updatedDepartmentList,
                             onTap: (Organisation dep) {
                               departmentController.text = dep.name ?? '';
                               widget.model.department ??= Organisation();
