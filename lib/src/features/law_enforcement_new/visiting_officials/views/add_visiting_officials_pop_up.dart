@@ -70,7 +70,7 @@ class _AddVisitingOfficialsPopUpState extends State<AddVisitingOfficialsPopUp> {
       backgroundColor: AppColors.backgroundWhiteColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
-        if (widget.parentStatus == ConstantsIntValue.slaStatusFinalized ||
+        if (widget.parentStatus == ConstantsIntValue.lawDistributedStatus ||
             widget.parentStatus == ConstantsIntValue.cancelledStatus) {
           isReadonly = true;
         }
@@ -109,7 +109,7 @@ class _AddVisitingOfficialsPopUpState extends State<AddVisitingOfficialsPopUp> {
                         controller: nameController,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
-                        isEnable: !isReadonly,
+                        isEnable:!isReadonly,
                         isDisableColor: false,
                         onChange: (String value) {
                           // widget.model.totalViolations = num.parse(value);
@@ -130,7 +130,7 @@ class _AddVisitingOfficialsPopUpState extends State<AddVisitingOfficialsPopUp> {
                       FlutterInputField(
                         // initialValue: '${widget.model.totalViolations ?? ''}',
                         textInputType: TextInputType.text,
-                        controller: nameController,
+                        controller: designationController ,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
                         isEnable: !isReadonly,

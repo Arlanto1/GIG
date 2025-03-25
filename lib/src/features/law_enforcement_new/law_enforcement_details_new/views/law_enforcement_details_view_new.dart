@@ -82,6 +82,10 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
         }
       },
       builder: (context, state) {
+
+        log('-state.status---${state.model.visitPurpose?.name}----');
+        log('-id--${state.model.id}----');
+
         dbOfficialWantToMeetController.text = state.model.dbOfficialEmail??'';
 
         if (state.model.status == null) {
@@ -772,54 +776,107 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                           ),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        // GestureDetector(
+                        //   onTap: () async {
+                        //     // if (widget
+                        //     //     .model!.lock.isEmptyOrNull) {
+                        //     NavigatorState nav =
+                        //     Navigator.of(context);
+                        //
+                        //     bool isSaveSuccess = await BlocProvider.of<
+                        //               LawEnforcementDetailsCubit>(context)
+                        //               .submitForm(
+                        //             isSaveOnly: true,
+                        //             navigateToNextScreen: true,
+                        //           );
+                        //
+                        //     if (!isSaveSuccess) {
+                        //       return;
+                        //     }
+                        //     log('--widget.model.id---${state.model.id}--');
+                        //
+                        //     // await LawEnforcementServices()
+                        //     //     .getById(
+                        //     //     id: state.model.id);
+                        //
+                        //     nav.pushNamed(
+                        //       visitingOfficialListRoute,
+                        //       arguments: {
+                        //         ConstantsArgument.title:
+                        //         Constants.visitingOfficials,
+                        //         ConstantsArgument.keyLostType: 0,
+                        //         ConstantsArgument.id:
+                        //         state.model.id,
+                        //         // ConstantsArgument.models:
+                        //         //     visitingOfficials,
+                        //         ConstantsArgument
+                        //             .departments: state
+                        //             .visitingDepartment,
+                        //         ConstantsArgument.showSaveButton:
+                        //         (widget.model?.status != 3) &&
+                        //             !isReadOnly
+                        //             ? true
+                        //             : false,
+                        //       },
+                        //     );
+                        //     // }
+                        //   },
+                        //   child: const AddViewButton(
+                        //     label:
+                        //     'Add/View Visiting Official(s)',
+                        //   ),
+                        // ),
                         GestureDetector(
                           onTap: () async {
-                            // if (widget
-                            //     .model!.lock.isEmptyOrNull) {
-                            NavigatorState nav =
-                            Navigator.of(context);
+                            NavigatorState nav = Navigator.of(context);
+                            if (state.model.status == 0 || state.model.status == null) {
+                              bool isSaveSuccess = await BlocProvider.of<
+                                  LawEnforcementDetailsCubit>(context)
+                                  .submitForm(
+                                isSaveOnly: true,
+                                navigateToNextScreen: true,
+                              );
 
-                            bool isSaveSuccess = await BlocProvider.of<
-                                      LawEnforcementDetailsCubit>(context)
-                                      .submitForm(
-                                    isSaveOnly: true,
-                                    navigateToNextScreen: true,
-                                  );
-
-                            if (!isSaveSuccess) {
-                              return;
+                              if (!isSaveSuccess) {
+                                return;
+                              }
+                              log('--state.model.id---${state.model.id}--');
                             }
-                            log('--widget.model.id---${state.model.id}--');
-
-                            // await LawEnforcementServices()
-                            //     .getById(
-                            //     id: state.model.id);
-
                             nav.pushNamed(
-                              visitingOfficialListRoute,
+                              lawVisitingOfficialViewRoute,
                               arguments: {
                                 ConstantsArgument.title:
                                 Constants.visitingOfficials,
-                                ConstantsArgument.keyLostType: 0,
-                                ConstantsArgument.id:
-                                state.model.id,
-                                // ConstantsArgument.models:
-                                //     visitingOfficials,
-                                ConstantsArgument
-                                    .departments: state
-                                    .visitingDepartment,
-                                ConstantsArgument.showSaveButton:
-                                (widget.model?.status != 3) &&
-                                    !isReadOnly
-                                    ? true
-                                    : false,
+                                ConstantsArgument.id: state.model.id,
+                                ConstantsArgument.isLocked:
+                                state.model.lock,
+                                ConstantsArgument.parentStatus:
+                                state.model.status,
+                                // ConstantsArgument.violationDescription:
+                                //     Constants.slaViolation,
                               },
                             );
-                            // }
                           },
-                          child: const AddViewButton(
-                            label:
-                            'Add/View Visiting Official(s)',
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              SvgPicture.asset(
+                                AppIcon.pluscircle,
+                                colorFilter: const ColorFilter.mode(
+                                  AppColors.navigationSkyBlueColor,
+                                  BlendMode.srcIn,
+                                ),
+                                // color: AppColors.navigationSkyBlueColor,
+                              ),
+                              const SizedBox(width: 10),
+                              const Text(
+                                'Add/View VVIP Visitors',
+                                style: TextStyle(
+                                  color: AppColors.navigationSkyBlueColor,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.02),

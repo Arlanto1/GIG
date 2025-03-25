@@ -2067,23 +2067,58 @@ class RouteGenerator {
         );
 
 
+      // case lawVisitingOfficialViewRoute:
+      //   String title = '';
+      //   int id = 0;
+      //   ExtraProperties? extraProperties;
+      //   String? lock;
+      //   int parentStatus = 0;
+      //   // String violationDescription = '';
+      //   if (settings.arguments != null) {
+      //     Map<String, dynamic> arguments =
+      //     settings.arguments as Map<String, dynamic>;
+      //     id = arguments[ConstantsArgument.id];
+      //     title = arguments[ConstantsArgument.title];
+      //     extraProperties = arguments[ConstantsArgument.extraProperties];
+      //     // lock = arguments[ConstantsArgument.isLocked];
+      //     parentStatus = arguments[ConstantsArgument.parentStatus];
+      //     // violationDescription =
+      //     //     arguments[ConstantsArgument.violationDescription] ?? '';
+      //   }
+      //   return MaterialPageRoute(
+      //     builder: (context) => BlocProvider<VisitingOfficialsBloc>(
+      //       create: (_) => VisitingOfficialsBloc(
+      //         //violationDescription: violationDescription,
+      //       )
+      //         ..add(FetchVisitingOfficialsData(
+      //           id: id,
+      //           startPos: 0,
+      //           maxPos: 100,
+      //         )),
+      //       child: VisitingOfficialsView(
+      //         id: id,
+      //         title: title,
+      //         extraProperties: extraProperties,
+      //         // lock: lock,
+      //         parentStatus: parentStatus,
+      //       ),
+      //     ),
+      //   );
+
       case lawVisitingOfficialViewRoute:
         String title = '';
         int id = 0;
         ExtraProperties? extraProperties;
         String? lock;
         int parentStatus = 0;
-        // String violationDescription = '';
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
           settings.arguments as Map<String, dynamic>;
           id = arguments[ConstantsArgument.id];
           title = arguments[ConstantsArgument.title];
           extraProperties = arguments[ConstantsArgument.extraProperties];
-          // lock = arguments[ConstantsArgument.isLocked];
+          lock = arguments[ConstantsArgument.isLocked];
           parentStatus = arguments[ConstantsArgument.parentStatus];
-          // violationDescription =
-          //     arguments[ConstantsArgument.violationDescription] ?? '';
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<VisitingOfficialsBloc>(
@@ -2099,11 +2134,12 @@ class RouteGenerator {
               id: id,
               title: title,
               extraProperties: extraProperties,
-              // lock: lock,
+              lock: lock,
               parentStatus: parentStatus,
             ),
           ),
         );
+
       default:
         log('--default---${settings.name}-');
         return MaterialPageRoute(builder: (context) => const SplashScreen());

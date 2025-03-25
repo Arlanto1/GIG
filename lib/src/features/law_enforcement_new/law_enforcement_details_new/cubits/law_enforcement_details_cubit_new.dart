@@ -357,13 +357,13 @@ class LawEnforcementDetailsCubit
       }
 
       log('---response--msg--${response.message}---');
-      //
-      // if (response.id != null) {
-      //   int? id = int.tryParse(response.id!);
-      //   if (id != null) {
-      //     state.model.id = id;
-      //   }
-      // }
+
+      if (response.lawEnforcementId != null) {
+        int? id = int.tryParse(response.lawEnforcementId!);
+        if (id != null) {
+          state.model.id = id;
+        }
+      }
       emit(
         state.copyWith(
           model: state.model,
