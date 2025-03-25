@@ -2499,7 +2499,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       visitorcomingfromTextController.text =
           widget.model?.visitorComingFrom ?? '';
       contactnoTextController.text = widget.model?.contactNo ?? '';
-      employeeIdTextController.text = companyType.name == 'CWR T2'?widget.model?.employeeId ?? '' :widget.model?.employee?.employeeId ?? '' ;
+      employeeIdTextController.text = companyType.name == 'CWR T2' || ( widget.passId == ConstantsIntValue.passIdSez  && companyType.name == 'CWR T1')?widget.model?.employeeId ?? '' :widget.model?.employee?.employeeId ?? '' ;
       sezpassinfoTextController.text = widget.model?.passNo ?? '';
       //sezpassinfoTextController.text = widget.model?.passNo ?? '';
       //sezpassinfoTextController.text = widget.model?.passNo ?? '';
