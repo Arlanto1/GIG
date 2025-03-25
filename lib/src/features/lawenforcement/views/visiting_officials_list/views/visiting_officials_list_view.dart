@@ -106,8 +106,8 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
             showDisLikeButton: false,
             popAndReplace: () async {
               log('--popAndReplace-----');
-              // Navigator.pop(context);
-              await backButtonFunction(context);
+              Navigator.pop(context);
+              // await backButtonFunction(context);
             },
             showLikeButton: false,
           ),

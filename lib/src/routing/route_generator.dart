@@ -987,6 +987,7 @@ class RouteGenerator {
           editForm = arguments[ConstantsArgument.editForm];
           isEventProtection = arguments[ConstantsArgument.isEventProtection];
         }
+        log('edit ${editForm}');
         return MaterialPageRoute(
           builder: (context) => BlocProvider<EventInfoCubit>(
             create: (_) => EventInfoCubit(

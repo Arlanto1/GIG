@@ -10,7 +10,9 @@ class LawEnforcementDetailsState extends Equatable {
   final List<Organisation>? listOfEntities;
   final List<Organisation>? getEntitiesResponse;
   final List<Organisation> department;
+  final List<Organisation> visitingDepartment;
   final List<Organisation> visitPurpose;
+  final List<Organisation>? distributionGroups;
   final String? message;
   final List<ImageContent> loadAttachments;
   final SlaUiLabels? labels;
@@ -22,9 +24,11 @@ class LawEnforcementDetailsState extends Equatable {
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required final List<Organisation>? listOfEntities,
+    required final List<Organisation>? distributionGroups,
     required final List<Organisation>? getEntitiesResponse,
     required final List<Organisation> department,
     required final List<Organisation> visitPurpose,
+    required final List<Organisation>  visitingDepartment,
     required String errorMessage,
     required  List<ImageContent> loadAttachments,
   }) {
@@ -36,9 +40,11 @@ class LawEnforcementDetailsState extends Equatable {
       users: users,
       emailUsers: emailUsers,
       listOfEntities: listOfEntities,
+      distributionGroups:distributionGroups,
       getEntitiesResponse: getEntitiesResponse,
       department: department,
       visitPurpose: visitPurpose,
+      visitingDepartment:visitingDepartment,
       message: errorMessage,
       loadAttachments: loadAttachments,
     );
@@ -103,9 +109,11 @@ class LawEnforcementDetailsState extends Equatable {
     this.locations,
     this.loggedInUserDetails,
     this.listOfEntities,
+    this.distributionGroups,
     this.getEntitiesResponse,
     required this.department,
     required this.visitPurpose,
+    required this.visitingDepartment,
     this.users,
     this.emailUsers,
     this.message,
@@ -121,9 +129,11 @@ class LawEnforcementDetailsState extends Equatable {
     List<BaseUser>? users,
     List<BaseUser>? emailUsers,
     List<Organisation>? listOfEntities,
+    List<Organisation>? distributionGroups,
     List<Organisation>? getEntitiesResponse,
     List<Organisation>? department,
     List<Organisation>? visitPurpose,
+    List<Organisation>? visitingDepartment,
     List<ImageContent>? loadAttachments,
     String? message,
     SlaUiLabels? labels,
@@ -135,8 +145,10 @@ class LawEnforcementDetailsState extends Equatable {
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
       listOfEntities: listOfEntities ?? this.listOfEntities,
+      distributionGroups:distributionGroups?? this.distributionGroups,
       department: department ?? this.department,
       visitPurpose: visitPurpose ?? this.visitPurpose,
+      visitingDepartment:visitingDepartment ?? this.visitingDepartment,
       message: message ?? this.message,
       loadAttachments: loadAttachments ?? this.loadAttachments,
       labels: labels ?? this.labels,

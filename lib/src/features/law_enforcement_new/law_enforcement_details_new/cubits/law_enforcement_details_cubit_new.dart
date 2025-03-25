@@ -28,8 +28,9 @@ class LawEnforcementDetailsCubit
       listOfEntities: const [],
       department: const [],
       visitPurpose: const [],
+      visitingDepartment: const [],
       errorMessage: '',
-      getEntitiesResponse: const [], loadAttachments:const [],
+      getEntitiesResponse: const [], loadAttachments:const [], distributionGroups: const [],
     ),
   );
 
@@ -56,7 +57,11 @@ class LawEnforcementDetailsCubit
     await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
 
     LeoPurposeVisit visitPurpose =  await commonServices.getLeoVisitPurpose(name: 'ATOM_LEO_PURPOSE_VISIT');
+    LeoDepartments visitingDepartment =
+    await commonServices.getLeoVisitDepartment(name: 'ATOM_LEO_DEPARTMENTS');
 
+    DistributionGroupModel distributionGroup =
+    await commonServices.getLeoDistributionGroup();
 
     emit(
       state.copyWith(
@@ -66,6 +71,8 @@ class LawEnforcementDetailsCubit
         emailUsers: emailUsers,
         department : departments.employeeDepartments,
         visitPurpose: visitPurpose.atomLeoPurposeVisit,
+        visitingDepartment: visitingDepartment.atomLeoDepartments,
+        distributionGroups: distributionGroup.distributionGroups,
       ),
     );
   }
@@ -112,6 +119,12 @@ class LawEnforcementDetailsCubit
         locationId: state.model.location?.id,
         isDbUser: true,
       );
+      LeoDepartments visitingDepartment =
+      await commonServices.getLeoVisitDepartment(name: 'ATOM_LEO_DEPARTMENTS');
+
+      DistributionGroupModel distributionGroup =
+      await commonServices.getLeoDistributionGroup();
+
 
       if (state.model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
@@ -161,7 +174,9 @@ class LawEnforcementDetailsCubit
           users: emailUsers,
           listOfEntities: entities.atomEntities,
           department: departments.employeeDepartments,
+          visitingDepartment: visitingDepartment.atomLeoDepartments,
           visitPurpose: visitPurpose.atomLeoPurposeVisit,
+          distributionGroups: distributionGroup.distributionGroups,
           labels: labels,
         ),
       );
@@ -217,6 +232,7 @@ class LawEnforcementDetailsCubit
 
   Future<void> updateDropdownValues({
     List<Organisation>? entities,
+    List<Organisation>? distributionGroups,
     Organisation? department,
     Organisation? visitPurpose,
     BaseUser? user,
@@ -235,6 +251,10 @@ class LawEnforcementDetailsCubit
     if (entities != null) {
       state.model.entities = entities;
     }
+    if (distributionGroups != null) {
+      state.model.mailList = distributionGroups;
+    }
+
     if (department != null) {
       state.model.dbOfficialEmailDepartment = department;
     }

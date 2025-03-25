@@ -52,7 +52,7 @@ class LawEnforcementModelNew {
    int? status;
    String? modifiedDate;
    String? modifiedBy;
-   // List<MailList>? mailList;
+   List<Organisation>? mailList;
    String? entityDesc;
    String? entrySecurityName;
    String? lock;
@@ -81,7 +81,7 @@ class LawEnforcementModelNew {
     this.status,
     this.modifiedDate,
     this.modifiedBy,
-    // this.mailList,
+    this.mailList,
     this.entityDesc,
     this.entrySecurityName,
     this.lock,
@@ -112,7 +112,7 @@ class LawEnforcementModelNew {
         status = json['status'] as int?,
         modifiedDate = json['modifiedDate'] as String?,
         modifiedBy = json['modifiedBy'] as String?,
-        // mailList = (json['mailList'] as List?)?.map((dynamic e) => MailList.fromJson(e as Map<String,dynamic>)).toList(),
+        mailList = (json['mailList'] as List?)?.map((dynamic e) => Organisation.fromJson(e as Map<String,dynamic>)).toList(),
         entityDesc = json['entityDesc'] as String?,
         entrySecurityName = json['entrySecurityName'] as String?,
         lock = json['lock'] as String?,
@@ -140,7 +140,7 @@ class LawEnforcementModelNew {
     'status' : status,
     'modifiedDate' : modifiedDate,
     'modifiedBy' : modifiedBy,
-    // 'mailList' : mailList?.map((e) => e.toJson()).toList(),
+    'mailList' : mailList?.map((e) => e.toJson()).toList(),
     'entityDesc' : entityDesc,
     'entrySecurityName' : entrySecurityName,
     'lock' : lock,

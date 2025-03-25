@@ -114,14 +114,10 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
             showPopUp: false,
             pdfAPIName:
             '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.leoModuleCode}',
-            showSaveButton: state.model.status != 2 &&
-                state.model.status != -1 &&
-                !isReadOnly && state.status != FormStatus.loading
+            showSaveButton: isEdit && state.status != FormStatus.loading
                 ? true
                 : false,
-            showSubmitButton: state.model.status != 2 &&
-                state.model.status != -1 &&
-                !isReadOnly && state.status != FormStatus.loading
+            showSubmitButton: isEdit && state.status != FormStatus.loading
                 ? true
                 : false,
             showDisLikeButton: false,
@@ -719,6 +715,40 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            if(widget.model?.status == 2 || widget.model?.status == 3)...[
+                            ///Distribution Groups
+                            CommonWidgets.textDisplay(
+                                // state.labels?.locale.entity ??
+                                //     state.labels?.defaultLocale.entity ??
+                                    Constants.distributiongroups,
+                                Styles.textStyleBlack14,
+                                isMandatory: true),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                            BaseEntitiesSelection().entityDropDownSelection(
+                              context: context,
+                              selectedValues: state.model.mailList ?? [],
+                              all: state.distributionGroups ?? [],
+                              enabled: isEdit,
+                              onTap: (List<Organisation> selectedGroups) {
+                                BlocProvider.of<
+                                    LawEnforcementDetailsCubit>(
+                                    context)
+                                    .updateDropdownValues(
+                                    distributionGroups: selectedGroups);
+                                Navigator.of(context).pop();
+                              },
+                              // orgName: 'ATOM_ENTITIES',
+                              functionToCall: () {
+                                BlocProvider.of<
+                                    LawEnforcementDetailsCubit>(
+                                    context)
+                                    .refreshList();
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+    ],
                           ],
                         ),
                       ),
@@ -743,7 +773,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                         GestureDetector(
                           onTap: () async {
                             NavigatorState nav = Navigator.of(context);
-                            if(state.model.status == null || state.model.status == 0 || state.model.status ==1) {
+                            if(widget.model == null || state.model.status == 0 || state.model.status ==1) {
                               bool isSaveSuccess = await BlocProvider.of<
                                   LawEnforcementDetailsCubit>(context)
                                   .submitForm(
@@ -759,18 +789,38 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                             // List<Organisation> violationDescriptions =
                             // await CommonServices().getOrganisations(
                             //     name: Constants.visitingOfficialDetails);
+                            // nav.pushNamed(
+                            //   lawVisitingOfficialViewRoute,
+                            //   arguments: {
+                            //     ConstantsArgument.id: state.model.id,
+                            //     ConstantsArgument.title:
+                            //     Constants.visitingOfficials,
+                            //     ConstantsArgument.extraProperties:
+                            //     ExtraProperties(hasWritePermission: true),
+                            //     // ConstantsArgument.isLocked:
+                            //     // !state.model.lock.isEmptyOrNull,
+                            //     ConstantsArgument.parentStatus:
+                            //     state.model.status,
+                            //   },
+                            // );
                             nav.pushNamed(
-                              lawVisitingOfficialViewRoute,
+                              visitingOfficialListRoute,
                               arguments: {
-                                ConstantsArgument.id: state.model.id,
+                                ConstantsArgument.id:
+                                state.model.id,
                                 ConstantsArgument.title:
                                 Constants.visitingOfficials,
-                                ConstantsArgument.extraProperties:
-                                ExtraProperties(hasWritePermission: true),
-                                // ConstantsArgument.isLocked:
-                                // !state.model.lock.isEmptyOrNull,
-                                ConstantsArgument.parentStatus:
-                                state.model.status,
+                                ConstantsArgument
+                                    .departments: state
+                                    .visitingDepartment,
+                                ConstantsArgument.keyLostType: 0,
+                                // ConstantsArgument.models:
+                                //     visitingOfficials,
+                                ConstantsArgument.showSaveButton:
+                                (widget.model?.status != 3) &&
+                                    !isReadOnly
+                                    ? true
+                                    : false,
                               },
                             );
                           },
@@ -804,9 +854,8 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      if ((state.model.status != 2 &&
-                          state.model.status != -1 &&
-                          !isReadOnly)) ...[
+                      if ((
+                          isEdit)) ...[
                         cancelButtonDisplay(),
                         submitButtonDisplay()
                       ],
@@ -816,9 +865,9 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                 ],
               ),
             ),
-            if (state.model.status == 2 ||
+            if (
                 state.model.status == ConstantsIntValue.cancelledStatus ||
-                isReadOnly) ...[
+                !isEdit) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(

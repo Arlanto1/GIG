@@ -10,7 +10,7 @@ part 'visiting_officials_state.dart';
 
 class VisitingOfficialsBloc
     extends Bloc<VisitingOfficialsEvent, VisitingOfficialsState> {
-  VisitingOfficialsBloc() : super(const VisitingOfficialsState()) {
+  VisitingOfficialsBloc() : super(const VisitingOfficialsState(departments: [])) {
     on<FetchVisitingOfficialsData>(
       _fetchContacts,
       transformer: droppable(),

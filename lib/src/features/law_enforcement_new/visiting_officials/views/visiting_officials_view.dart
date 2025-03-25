@@ -88,14 +88,15 @@ class _VisitingOfficialsView extends State<VisitingOfficialsView> {
           onPressed: () {
             showAddVVIPVisitorsPopUp(
               context: context,
-              contact: VisitingOfficialsModel(),
+              model: VisitingOfficialsModel(),
+              // departments: state.departments,
             );
           },
         )
             : null,
         appBar: BaseAppBar().buildAppHeader(
           context: context,
-          title: Constants.visitingOfficials,
+          title: Constants.vVipVisitorsTitle,
           showPopUp: false,
           showSaveButton: false,
           showSubmitButton: false,
@@ -121,7 +122,8 @@ class _VisitingOfficialsView extends State<VisitingOfficialsView> {
         isPopUpShown = true;
         showAddVVIPVisitorsPopUp(
           context: context,
-          contact: VisitingOfficialsModel(),
+          model: VisitingOfficialsModel(),
+          // departments: state.departments,
         );
       });
       return const NoRecordFoundWidget();
@@ -223,7 +225,7 @@ class _VisitingOfficialsView extends State<VisitingOfficialsView> {
 
                 showAddVVIPVisitorsPopUp(
                   context: context,
-                  contact: visitorsModel,
+                  model: visitorsModel,
                 );
               },
               onViewTap: (selectedIndex) {
@@ -259,16 +261,18 @@ class _VisitingOfficialsView extends State<VisitingOfficialsView> {
 
   showAddVVIPVisitorsPopUp({
     required BuildContext context,
-    required VisitingOfficialsModel contact,
+    required VisitingOfficialsModel model,
+    // required final List<Organisation> departments,
   }) {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
         return AddVisitingOfficialsPopUp(
           title: widget.title,
-          model: contact,
+          model: model,
           mainContext: context,
           parentStatus: widget.parentStatus,
+          // departments: departments,
           isLocked: true,
           onSubmit: (VisitingOfficialsModel model) {
             //loginFormKey.currentState!.validate();

@@ -717,7 +717,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
                                           log('--atomLeoDepartments--${state.departmentResponse?.atomLeoDepartments?.length}-');
                                           nav.pushNamed(
-                                            lawVisitingOfficialViewRoute,
+                                            visitingOfficialListRoute,
                                             arguments: {
                                               ConstantsArgument.title:
                                                   Constants.visitingOfficials,

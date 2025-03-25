@@ -39,6 +39,7 @@ class   CommonApis {
   static final String _getPassNo = '$baseUrl/getActivePassInfo?passType=';
   static final String _getPassType = '$baseUrl/getPassType?passType=';
   static final String _getPassValidUntil = '$baseUrl/getPassValidUntil?';
+  static final String _getGroup = '$baseUrl/getGroup';
 
 }
 
@@ -515,6 +516,23 @@ class CommonServices {
     return LeoPurposeVisit.fromJson(response);
   }
 
+  Future<LeoDepartments> getLeoVisitDepartment({
+    required String name,
+  }) async {
+    String url = '${CommonApis._getOrganisations}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return LeoDepartments.fromJson(response);
+  }
+
+  Future<DistributionGroupModel> getLeoDistributionGroup() async {
+    String url = CommonApis._getGroup;
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return DistributionGroupModel.fromJson(response);
+  }
 
 }
 

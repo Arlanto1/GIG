@@ -1,7 +1,7 @@
-import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/violation_penalty_record/bloc/violation_penalty_record_bloc.dart';
+import 'package:db_atom/src/features/law_enforcement_new/visiting_officials/bloc/visiting_officials_bloc.dart';
 
 class AddVisitingOfficialsPopUp extends StatefulWidget {
   const AddVisitingOfficialsPopUp({
@@ -10,7 +10,7 @@ class AddVisitingOfficialsPopUp extends StatefulWidget {
     required this.onSubmit,
     required this.model,
     required this.mainContext,
-    // required this.staffCategoriesValues,
+    // required this.departments,
     required this.isLocked,
     this.parentStatus,
   });
@@ -19,7 +19,7 @@ class AddVisitingOfficialsPopUp extends StatefulWidget {
   final Function onSubmit;
   final VisitingOfficialsModel model;
   final BuildContext mainContext;
-  // final Map<String, dynamic> staffCategoriesValues;
+  // final List<Organisation> departments;
   final int? parentStatus;
   final bool isLocked;
 
@@ -29,48 +29,35 @@ class AddVisitingOfficialsPopUp extends StatefulWidget {
 
 class _AddVisitingOfficialsPopUpState extends State<AddVisitingOfficialsPopUp> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController violationController = TextEditingController();
-  TextEditingController staffCategoryController = TextEditingController();
-  TextEditingController penaltyAmountController = TextEditingController();
+  TextEditingController officeAddressController = TextEditingController();
+  TextEditingController departmentController = TextEditingController();
+  TextEditingController designationController = TextEditingController();
   TextEditingController contactNumController = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  TextEditingController emailIdController = TextEditingController();
+
   bool isReadonly = false;
+
+  late List<Organisation> updatedDepartmentList;
 
   @override
   void initState() {
     super.initState();
-    //
-    // nameController.text = widget.model.penaltyAmount.toString() ;
-    // penaltyAmountController.text = widget.model.penaltyAmount == null
-    //     ? ''
-    //     : widget.model.penaltyAmount.toString();
-    //
-    // num? sum = (widget.model.totalPenaltyAmount ??
-    //     (widget.model.penaltyAmount ?? 0) *
-    //         (widget.model.totalViolations ?? 0));
-    // totalPenaltyAmountController.text =
-    // widget.model.penaltyAmount == null ? '' : sum.toString();
-    // totalNoOfViolationsController.text = widget.model.totalViolations == null
-    //     ? ''
-    //     : widget.model.totalViolations.toString();
-    // updateStaffCategoryText();
-  }
+    nameController.text = widget.model.name ?? '';
+    departmentController.text = widget.model.department?.name ?? '';
+    designationController.text = widget.model.designation ?? '';
+    officeAddressController.text = widget.model.address ?? '';
+    emailIdController.text = widget.model.email ?? '';
+    contactNumController.text = widget.model.contactNo ?? '';
 
-  // void updateStaffCategoryText() {
-  //   String staffCategoryValue = widget.model.staffCategory.toString();
-  //   log('--staffCategoryValue---$staffCategoryValue--');
-  //   Label? matchingLabel = staffCategoryDropDownValues
-  //       .firstOrNullWhere((element) => element.value == staffCategoryValue);
-  //
-  //   log('--matchingLabel?.value---${matchingLabel?.value}--');
-  //
-  //   staffCategoryController.text = matchingLabel?.key ?? '';
-  //   log('--staffCategoryController.text---${staffCategoryController.text}--');
-  // }
+    /// updated department list after adding new department
+    // updatedDepartmentList = widget.departments;    //
+
+  }
 
   @override
   Widget build(BuildContext context) {
-    ViolationPenaltyRecordState state = const ViolationPenaltyRecordState();
+    VisitingOfficialsState state = const VisitingOfficialsState();
     return AlertDialog(
       title: Align(
         alignment: Alignment.center,
@@ -155,128 +142,91 @@ class _AddVisitingOfficialsPopUpState extends State<AddVisitingOfficialsPopUp> {
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                      /// Penalty Amount
+                      /// Department
                       CommonWidgets.textDisplay(
-                        state.labels?.locale.penaltyAmount ??
-                            state.labels?.defaultLocale.penaltyAmount ??
-                            Constants.penaltyAmount,
-                        //isMandatory: true,
+                        // state.labels?.locale.visitingOfficialDepartment ??
+                        //     state.labels?.defaultLocale
+                        //         .visitingOfficialDepartment ??
+                            Constants.department,
                         Styles.textStyleBlack14,
+                        //  isMandatory: true,
                       ),
-                      FlutterInputField(
-                        // initialValue: '${widget.model.penaltyAmount}',
-                        controller: penaltyAmountController,
-                        textInputType: TextInputType.number,
-                        textFormKey: Keys.phoneNumberKey,
-                        hintText: '',
-                        isEnable: false,
-                        isDisableColor: true,
-                        onChange: (String value) {
-                          // widget.payRate.perHour = double.parse(value);
-                          // BlocProvider.of<PayRateCubit>(widget.mainContext)
-                          //     .onModelValueChange(widget.payRate);
-                        },
-                        validateTextField: (String? user) {},
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                      /// Staff Category
-                      CommonWidgets.textDisplay(
-                          state.labels?.locale.staffCategory ??
-                              state.labels?.defaultLocale.staffCategory ??
-                              Constants.staffCategory,
-                          //isMandatory: true,
-                          Styles.textStyleBlack14),
-                      CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                      BaseDropDown().getDropDown(
-                          isDisabled: isReadonly,
-                          textController: staffCategoryController,
-                          items: staffCategoryDropDownValues,
-                          onTap: () {
-                            if (!isReadonly) {
-                              BaseDropDown().assetTypeDialog(
-                                context: context,
-                                dropDownValues: staffCategoryDropDownValues
-                                    .map((label) => label.key)
-                                    .toList(),
-                                onTap: (String value) {
-                                  Label? selectedLabel;
-                                  selectedLabel =
-                                      staffCategoryDropDownValues.firstWhere(
-                                            (label) => label.key == value,
-                                        orElse: () =>
-                                        const Label(key: '', value: ''),
-                                      );
-
-                                  log('-selectedLabel.value--${selectedLabel.value}--');
-                                  // selectedLabel = staffCategoryDropDownValues.firstWhere(
-                                  //       (label) => label.key.toLowerCase() == value.toLowerCase(),
-                                  //   orElse: () => const Label(key: '', value: ''),
-                                  // );
-
-                                  staffCategoryController.text =
-                                      selectedLabel.key;
-                                  // widget.model.staffCategory =
-                                  //     int.tryParse(selectedLabel.value);
-
-                                  // int? staffCategoriesValue = widget
-                                  //     .staffCategoriesValues[selectedLabel.key];
-                                  // log('--staffCategoriesValue----$widget.staffCategoriesValues[selectedLabel.key]---');
-                                  // log('--staffCategoriesValue----${widget.staffCategoriesValues}---');
-                                  // log('Selected Label: ${selectedLabel.key}, Value: ${selectedLabel.value}');
-
-                                  // if (staffCategoriesValue == null) {
-                                  //   log('No matching value found for key: ${selectedLabel.key}');
-                                  // }
-
-                                  setState(() {});
-
-                                  // BlocProvider.of<
-                                  // ViolationPenaltyRecordBloc>(
-                                  // context)
-                                  // .updateDropdownValues(
-                                  // staffCategoryDropDownValues: int.tryParse(
-                                  //  selectedLabel.value));
-                                },
+                      TextFieldAddButton(
+                        title: departmentController.text,
+                        height: 70,
+                        isDisableColor: false,
+                        onTap: () {
+                          // if (widget.showSaveButton) {
+                          BaseOrganisationDialog().departmentDialog(
+                            context: context,
+                            organisations: updatedDepartmentList ?? [],
+                            onTap: (Organisation dep) {
+                              departmentController.text = dep.name ?? '';
+                              widget.model.department ??= Organisation();
+                              widget.model.department = dep;
+                              setState(() {});
+                            },
+                            leftImage: false,
+                            orgName: 'ATOM_LEO_DEPARTMENTS',
+                            createEntity: true,
+                            title: Constants.department,
+                            functionToCall: () async {
+                              updatedDepartmentList = await CommonServices().getOrganisations(
+                                name: 'ATOM_LEO_DEPARTMENTS',
                               );
-                            }
-                          }),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              setState(() {}); // Refresh UI after fetching data
+                            },
+                          );
 
-                      /// Total No of Violations
+                          // }
+                        },
+                      ),
+
+
+
+                      /// Office Address
                       CommonWidgets.textDisplay(
-                        state.labels?.locale.totalViolations ??
-                            state.labels?.defaultLocale.totalViolations ??
-                            Constants.totalNoOfViolations,
+                        // state.labels?.locale.totalViolations ??
+                        //     state.labels?.defaultLocale.totalViolations ??
+                        Constants.officeAddress,
                         Styles.textStyleBlack14,
                         //isMandatory: true,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
                         // initialValue: '${widget.model.totalViolations ?? ''}',
-                        textInputType: TextInputType.number,
+                        textInputType: TextInputType.text,
                         // controller: totalNoOfViolationsController,
                         textFormKey: Keys.phoneNumberKey,
                         hintText: '',
                         isEnable: !isReadonly,
                         isDisableColor: false,
                         onChange: (String value) {
-                          // widget.model.totalViolations = num.parse(value);
-                          //
-                          // num sum = (widget.model.penaltyAmount ?? 0) *
-                          //     num.parse(value);
-                          // log('--sum-----$sum---');
-                          // totalPenaltyAmountController.text = sum.toString();
-                          //
-                          // widget.model.totalPenaltyAmount = sum;
-                          // totalNoOfViolationsController.text = value;
+                          widget.model.address = value;
+                        },
+                        validateTextField: (String? user) {},
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          setState(() {
-                            // totalPenaltyAmountController.text = sum.toString();
-                          });
+                      /// Email Id
+                      CommonWidgets.textDisplay(
+                        // state.labels?.locale.totalViolations ??
+                        //     state.labels?.defaultLocale.totalViolations ??
+                            Constants.emailId,
+                        Styles.textStyleBlack14,
+                        //isMandatory: true,
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      FlutterInputField(
+                        // initialValue: '${widget.model.totalViolations ?? ''}',
+                        textInputType: TextInputType.text,
+                        // controller: totalNoOfViolationsController,
+                        textFormKey: Keys.phoneNumberKey,
+                        hintText: '',
+                        isEnable: !isReadonly,
+                        isDisableColor: false,
+                        onChange: (String value) {
+                          widget.model.email = value;
                         },
                         validateTextField: (String? user) {},
                       ),
