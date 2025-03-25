@@ -411,30 +411,43 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       TextFieldAddButton(
                                         title: updateStatusTextController.text,
                                         height: 60,
-                                        isDisableColor: widget.model != null &&
-                                            !widget.model!.lock.isEmptyOrNull,
+                                        isDisableColor: widget.model != null && !widget.model!.lock.isEmptyOrNull,
                                         onTap: () {
-                                          if (widget
-                                              .model!.lock.isEmptyOrNull) {
-                                            BaseOrganisationDialog()
-                                                .departmentDialog(
+                                          if (widget.model!.lock.isEmptyOrNull) {
+                                            BaseOrganisationDialog().departmentDialog(
                                               context: context,
-                                              organisations:
-                                                  state.updateStatuses ?? [],
-                                              onTap: (Organisation org) {
-                                                updateStatusTextController
-                                                    .text = org.name!;
-                                                setState(() {});
-                                                BlocProvider.of<
-                                                            CreatePassMgmtCubit>(
-                                                        context)
-                                                    .updateDropdownValues(
-                                                        updateStatus: org);
+                                              organisations: state.updateStatuses ?? [],
+                                              onTap: (Organisation org) async {
+                                                if (org.name != null) {
+                                                  // Delay showing the alert to ensure the previous dialog is fully dismissed
+                                                  Future.delayed(const Duration(milliseconds: 200), () {
+                                                    var dialog = CustomAlertDialog(
+                                                      title: Constants.updatestatus,
+                                                      message: "Are you sure you want to select \"${org.name}\"?",
+                                                      onPositivePressed: () {
+                                                        Navigator.pop(context);
+                                                        updateStatusTextController.text = org.name!;
+                                                        setState(() {});
+                                                        BlocProvider.of<CreatePassMgmtCubit>(context)
+                                                            .updateDropdownValues(updateStatus: org);
+                                                      },
+                                                      positiveBtnText: Constants.yes,
+                                                      negativeBtnText: Constants.no,
+                                                    );
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context) => dialog,
+                                                    );
+                                                  });
+                                                }
                                               },
                                             );
                                           }
                                         },
                                       ),
+
+
+
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.01),
                                     ],
@@ -4525,3 +4538,24 @@ class CreatePassMngArguments {
   CreatePassMngArguments(
       this.passType, this.title, this.isRegistry, this.model);
 }
+//
+// Future<bool> confirmationPopup(BuildContext context, String orgName) async {
+//   return await showDialog<bool>(
+//     context: context,
+//     builder: (BuildContext dialogContext) {
+//       return CustomAlertDialog(
+//         title: Constants.confirmation,
+//         message: "Are you sure you want to select \"$orgName\"?",
+//         onPositivePressed: () {
+//           Navigator.pop(dialogContext, true); // Return `true` when "Yes" is pressed
+//         },
+//         onNegativePressed: () {
+//           Navigator.pop(dialogContext, false); // Return `false` when "No" is pressed
+//         },
+//         positiveBtnText: Constants.yes,
+//         negativeBtnText: Constants.no,
+//       );
+//     },
+//   ) ?? false; // Return `false` if dialog is dismissed
+// }
+

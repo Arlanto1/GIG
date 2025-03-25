@@ -239,6 +239,7 @@ class Constants {
   static const String key = 'Key';
   static const String tickets = "Tickets";
 
+
   // Create Found
   static const String createFound = 'Create Found';
   static const String editFound = 'Edit Found';
@@ -407,6 +408,8 @@ class Constants {
   static const String passtype = 'Pass Type';
   static const String sezPass = 'SEZ Pass';
   static const String passValidUntil = '31/03/2023';
+  static const String confirmation = 'Update Status';
+  static const String updatedStatusMessage = 'are you sure you want to select "lost"?';
 
   //List page - Found Article
   static const String searchHintText = 'Search....';
