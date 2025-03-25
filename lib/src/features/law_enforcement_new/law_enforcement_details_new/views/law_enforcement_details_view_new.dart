@@ -2,9 +2,6 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/law_enforcement_new/models/law_enforcement_model_new.dart';
-import 'package:db_atom/src/features/law_enforcement_new/services/law_enforcement_services_new.dart';
-
-import '../../../lawenforcement/services/law_enforcement_services.dart';
 import '../cubits/law_enforcement_details_cubit_new.dart';
 
 class LawEnforcementNewDetailsView extends StatefulWidget {
@@ -691,7 +688,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                   List<ImageContent>? files = [];
                                   files.add(data);
                                   for (ImageContent image
-                                  in uploadFiles ?? []) {
+                                  in uploadFiles) {
                                     files.add(image);
                                   }
                                   BlocProvider.of<
