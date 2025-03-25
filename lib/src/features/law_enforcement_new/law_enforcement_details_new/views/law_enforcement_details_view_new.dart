@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/law_enforcement_new/models/law_enforcement_model_new.dart';
+import 'package:db_atom/src/features/law_enforcement_new/services/law_enforcement_services_new.dart';
 
 import '../cubits/law_enforcement_details_cubit_new.dart';
 
@@ -770,52 +771,121 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                           ),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        // GestureDetector(
+                        //   onTap: () async {
+                        //     NavigatorState nav = Navigator.of(context);
+                        //     if(widget.model == null || state.model.status == 0 || state.model.status ==1) {
+                        //       bool isSaveSuccess = await BlocProvider.of<
+                        //           LawEnforcementDetailsCubit>(context)
+                        //           .submitForm(
+                        //         isSaveOnly: true,
+                        //         navigateToNextScreen: true,
+                        //       );
+                        //
+                        //       if (!isSaveSuccess) {
+                        //         return;
+                        //       }
+                        //
+                        //       log('--state.model.id---${state.model.id}--');
+                        //       log('--widget.model.id---${widget.model?.id}--');
+                        //     }
+                        //     // List<Organisation> violationDescriptions =
+                        //     // await CommonServices().getOrganisations(
+                        //     //     name: Constants.visitingOfficialDetails);
+                        //     // nav.pushNamed(
+                        //     //   lawVisitingOfficialViewRoute,
+                        //     //   arguments: {
+                        //     //     ConstantsArgument.id: state.model.id,
+                        //     //     ConstantsArgument.title:
+                        //     //     Constants.visitingOfficials,
+                        //     //     ConstantsArgument.extraProperties:
+                        //     //     ExtraProperties(hasWritePermission: true),
+                        //     //     // ConstantsArgument.isLocked:
+                        //     //     // !state.model.lock.isEmptyOrNull,
+                        //     //     ConstantsArgument.parentStatus:
+                        //     //     state.model.status,
+                        //     //   },
+                        //     // );
+                        //     nav.pushNamed(
+                        //       visitingOfficialListRoute,
+                        //       arguments: {
+                        //         ConstantsArgument.id:
+                        //         state.model.id,
+                        //         ConstantsArgument.title:
+                        //         Constants.visitingOfficials,
+                        //         ConstantsArgument
+                        //             .departments: state
+                        //             .visitingDepartment,
+                        //         ConstantsArgument.keyLostType: 0,
+                        //         // ConstantsArgument.models:
+                        //         //     visitingOfficials,
+                        //         ConstantsArgument.showSaveButton:
+                        //         (widget.model?.status != 3) &&
+                        //             !isReadOnly
+                        //             ? true
+                        //             : false,
+                        //         // ConstantsArgument.isLocked: false,
+                        //       },
+                        //     );
+                        //   },
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.start,
+                        //     children: <Widget>[
+                        //       SvgPicture.asset(
+                        //         AppIcon.pluscircle,
+                        //         colorFilter: const ColorFilter.mode(
+                        //           AppColors.navigationSkyBlueColor,
+                        //           BlendMode.srcIn,
+                        //         ),
+                        //       ),
+                        //       const SizedBox(width: 10),
+                        //       const Text(
+                        //         Constants.addOrViewVisitingOfficialDetails,
+                        //         style: TextStyle(
+                        //           color: AppColors.navigationSkyBlueColor,
+                        //           decoration: TextDecoration.underline,
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                         GestureDetector(
                           onTap: () async {
-                            NavigatorState nav = Navigator.of(context);
-                            if(widget.model == null || state.model.status == 0 || state.model.status ==1) {
-                              bool isSaveSuccess = await BlocProvider.of<
-                                  LawEnforcementDetailsCubit>(context)
-                                  .submitForm(
-                                isSaveOnly: true,
-                                navigateToNextScreen: true,
-                              );
+                            // if (widget
+                            //     .model!.lock.isEmptyOrNull) {
+                            NavigatorState nav =
+                            Navigator.of(context);
 
-                              if (!isSaveSuccess) {
-                                return;
-                              }
+                            bool isSaveSuccess = await BlocProvider.of<
+                                      LawEnforcementDetailsCubit>(context)
+                                      .submitForm(
+                                    isSaveOnly: true,
+                                    navigateToNextScreen: true,
+                                  );
+
+                            if (!isSaveSuccess) {
+                              return;
                             }
-                            log('--state.model.id---${state.model.id}--');
-                            // List<Organisation> violationDescriptions =
-                            // await CommonServices().getOrganisations(
-                            //     name: Constants.visitingOfficialDetails);
-                            // nav.pushNamed(
-                            //   lawVisitingOfficialViewRoute,
-                            //   arguments: {
-                            //     ConstantsArgument.id: state.model.id,
-                            //     ConstantsArgument.title:
-                            //     Constants.visitingOfficials,
-                            //     ConstantsArgument.extraProperties:
-                            //     ExtraProperties(hasWritePermission: true),
-                            //     // ConstantsArgument.isLocked:
-                            //     // !state.model.lock.isEmptyOrNull,
-                            //     ConstantsArgument.parentStatus:
-                            //     state.model.status,
-                            //   },
-                            // );
+                            log('--widget.model.id---${state.model.id}--');
+                            // List<LawVisitingOfficial>
+                            //     visitingOfficials =
+                            // await LawEnforcementServicesNew()
+                            //     .getLeoVisitingOfficials(
+                            //     id: state.model?.id);
+
                             nav.pushNamed(
                               visitingOfficialListRoute,
                               arguments: {
-                                ConstantsArgument.id:
-                                state.model.id,
                                 ConstantsArgument.title:
                                 Constants.visitingOfficials,
+                                ConstantsArgument.keyLostType: 0,
+                                ConstantsArgument.id:
+                                state.model.id,
+                                // ConstantsArgument.models:
+                                //     visitingOfficials,
                                 ConstantsArgument
                                     .departments: state
                                     .visitingDepartment,
-                                ConstantsArgument.keyLostType: 0,
-                                // ConstantsArgument.models:
-                                //     visitingOfficials,
                                 ConstantsArgument.showSaveButton:
                                 (widget.model?.status != 3) &&
                                     !isReadOnly
@@ -823,26 +893,11 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                     : false,
                               },
                             );
+                            // }
                           },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              SvgPicture.asset(
-                                AppIcon.pluscircle,
-                                colorFilter: const ColorFilter.mode(
-                                  AppColors.navigationSkyBlueColor,
-                                  BlendMode.srcIn,
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              const Text(
-                                Constants.addOrViewVisitingOfficialDetails,
-                                style: TextStyle(
-                                  color: AppColors.navigationSkyBlueColor,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
-                            ],
+                          child: const AddViewButton(
+                            label:
+                            'Add/View Visiting Official(s)',
                           ),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.02),
