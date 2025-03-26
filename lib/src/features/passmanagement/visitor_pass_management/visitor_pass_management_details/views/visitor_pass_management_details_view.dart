@@ -59,8 +59,6 @@ class _VisitorPassManagementDetailsViewState
     //initializeDates(state);
   }
 
-  static const String moduleCode = Constants.passManagementModuleCode;
-
   @override
   void dispose() {
     super.dispose();
@@ -86,7 +84,6 @@ class _VisitorPassManagementDetailsViewState
             message: state.message,
             positiveBtnText: Constants.ok,
             onPositivePressed: () {
-              // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
               Navigator.popAndPushNamed(
@@ -98,9 +95,6 @@ class _VisitorPassManagementDetailsViewState
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
-
-          // Utils.dynamicAlert(
-          //     context, state.message ?? '', 'Day Pass Management', '');
         }
       },
       builder: (context, state) {
@@ -276,9 +270,9 @@ class _VisitorPassManagementDetailsViewState
                             if(widget.model?.status == 0 || widget.model?.status == 1)...[
                             CommonWidgets.textDisplay(
                                 isMandatory: true,
-                                // state.labels?.locale.get ??
-                                //     state.labels?.defaultLocale
-                                //         .updateStatus ??
+                                state.labels?.locale.updateStatus ??
+                                    state.labels?.defaultLocale
+                                        .updateStatus ??
                                     Constants.updatestatus,
                                 Styles.textStyleBlack14),
                             CommonWidgets.verticalSpacerWidget(
@@ -315,15 +309,7 @@ class _VisitorPassManagementDetailsViewState
                                           builder: (BuildContext context) => dialog,
                                         );
                                       });
-                                      // updateStatusTextController
-                                      //     .text = org.name!;
-                                      // setState(() {});
-                                      // BlocProvider.of<
-                                      //     VisitorPassManagementDetailsCubit>(
-                                      //     context)
-                                      //     .updateDropdownValues(
-                                      //     updatedStatus: org);
-                                    },
+                                      },
                                   );
                                // }
                               },
@@ -365,7 +351,7 @@ class _VisitorPassManagementDetailsViewState
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            datecreateWidgetdisplay(
+                            dateCreateWidgetDisplay(
                                 state.model.inputDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -412,9 +398,9 @@ class _VisitorPassManagementDetailsViewState
 
                             /// Pass Type
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.companyType ??
-                              //     state.labels?.defaultLocale
-                              //         .companyType ??
+                              state.labels?.locale.passType ??
+                                  state.labels?.defaultLocale
+                                      .passType ??
                                 Constants.passtype,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
@@ -452,8 +438,8 @@ class _VisitorPassManagementDetailsViewState
 
                             /// Visitor Name
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.challanNo ??
-                              //     state.labels?.defaultLocale.challanNo ??
+                              state.labels?.locale.visitorName ??
+                                  state.labels?.defaultLocale.visitorName ??
                               Constants.visitorName,
                               Styles.textStyleBlack14,
                               isMandatory: true,
@@ -462,7 +448,6 @@ class _VisitorPassManagementDetailsViewState
                             FlutterInputField(
                               textInputType: TextInputType.text,
                               textFormKey: Keys.challanKey,
-                              // initialValue: '',
                               controller: visitorNameController,
                               characterLimit:
                               Constants.characterLimitIdTextFormField,
@@ -483,9 +468,9 @@ class _VisitorPassManagementDetailsViewState
 
                             ///Contact no
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.name ??
-                              //     state.labels?.defaultLocale
-                              //         .name ??
+                              state.labels?.locale.contactNo ??
+                                  state.labels?.defaultLocale
+                                      .contactNo ??
                                 Constants.contactNo,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
@@ -497,7 +482,6 @@ class _VisitorPassManagementDetailsViewState
                               textFormKey: Keys.contactNoKey,
                               characterLimit: 17,
                               hintText: '',
-                              // focusNode: employeeIdFocusNode,
                               isEnable: !isReadOnly,
                               isDisableColor: isReadOnly,
                               onChange: (String value) {
@@ -510,9 +494,9 @@ class _VisitorPassManagementDetailsViewState
 
                             ///Visitor Coming From
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.name ??
-                              //     state.labels?.defaultLocale
-                              //         .name ??
+                              state.labels?.locale.visitorComingFrom ??
+                                  state.labels?.defaultLocale
+                                      .visitorComingFrom ??
                                 Constants.visitorComingFrom,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
@@ -523,7 +507,6 @@ class _VisitorPassManagementDetailsViewState
                               textInputType: TextInputType.text,
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
-                              // focusNode: employeeIdFocusNode,
                               isEnable: !isReadOnly,
                               isDisableColor: isReadOnly,
                               onChange: (String value) {
@@ -536,9 +519,9 @@ class _VisitorPassManagementDetailsViewState
 
                          /// Photo Identity Validation Type
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.name ??
-                              //     state.labels?.defaultLocale
-                              //         .name ??
+                              state.labels?.locale.visitorImage ??
+                                  state.labels?.defaultLocale
+                                      .visitorImage ??
                                 Constants.photoIdentityType,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
@@ -576,9 +559,9 @@ class _VisitorPassManagementDetailsViewState
 
                             ///Purpose of Visit
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.name ??
-                              //     state.labels?.defaultLocale
-                              //         .name ??
+                              state.labels?.locale.visitingPurpose ??
+                                  state.labels?.defaultLocale
+                                      .visitingPurpose ??
                                 Constants.purposeOfVisit,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
@@ -589,7 +572,6 @@ class _VisitorPassManagementDetailsViewState
                               textInputType: TextInputType.text,
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
-                              // focusNode: employeeIdFocusNode,
                               isEnable: !isReadOnly,
                               isDisableColor: isReadOnly,
                               onChange: (String value) {
@@ -602,9 +584,9 @@ class _VisitorPassManagementDetailsViewState
 
                               ///Host Employee Id
                               CommonWidgets.textDisplay(
-                                // state.labels?.locale.employeeID ??
-                                //     state.labels?.defaultLocale
-                                //         .employeeID ??
+                                state.labels?.locale.hostEmployeeId ??
+                                    state.labels?.defaultLocale
+                                        .hostEmployeeId ??
                                   Constants.hostemployeeid,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -652,9 +634,9 @@ class _VisitorPassManagementDetailsViewState
 
                               ///Host
                               CommonWidgets.textDisplay(
-                                // state.labels?.locale.name ??
-                                //     state.labels?.defaultLocale
-                                //         .name ??
+                                state.labels?.locale.host ??
+                                    state.labels?.defaultLocale
+                                        .host ??
                                   Constants.host,
                                   isMandatory: true,
                                   Styles.textStyleBlack14),
@@ -665,7 +647,6 @@ class _VisitorPassManagementDetailsViewState
                                 textInputType: TextInputType.text,
                                 textFormKey: Keys.contactNoKey,
                                 hintText: '',
-                                // focusNode: employeeIdFocusNode,
                                 isEnable: false,
                                 isDisableColor: true,
                                 onChange: (String value) {},
@@ -678,9 +659,9 @@ class _VisitorPassManagementDetailsViewState
 
                             ///  Visiting Department
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.requestorDepartment ??
-                              //     state.labels?.defaultLocale
-                              //         .requestorDepartment ??
+                              state.labels?.locale.visitingDepartment ??
+                                  state.labels?.defaultLocale
+                                      .visitingDepartment ??
                               Constants.visitingDepartment,
                               Styles.textStyleBlack14,
                               isMandatory: true,
@@ -725,9 +706,9 @@ class _VisitorPassManagementDetailsViewState
 
                             /// Visitor Pass No
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.requestorDepartment ??
-                              //     state.labels?.defaultLocale
-                              //         .requestorDepartment ??
+                              state.labels?.locale.visitorPassInfo ??
+                                  state.labels?.defaultLocale
+                                      .visitorPassInfo ??
                               Constants.visitorPassNo,
                               Styles.textStyleBlack14,
                               isMandatory: true,
@@ -758,9 +739,9 @@ class _VisitorPassManagementDetailsViewState
 
                             /// Pass Valid From
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.keyHandOverDue ??
-                              //     state.labels?.defaultLocale
-                              // .keyHandOverDue ??
+                              state.labels?.locale.startTime ??
+                                  state.labels?.defaultLocale
+                              .startTime ??
                               Constants.passvlidfrom,
                               isMandatory: true,
                               Styles.textStyleBlack14,
@@ -772,19 +753,12 @@ class _VisitorPassManagementDetailsViewState
                               textController: passValidFromController,
                               isDisabled: true,
                               onlyDate: false,
-                              // showPastDate: false,
-                              // fromDate: initialisedStartDate,
-                              // toDate: initialisedToDate,
                               onChange: (String value) {
-                                // isDateSelectedByUser = true;
                                 passValidFromController.text = value;
-                                // state.model.passV =
-                                //     Utils().formatTime(value);
                                 BlocProvider.of<
                                     VisitorPassManagementDetailsCubit>(
                                     context)
                                     .onModelValueChange(state.model);
-                                //},
                               },
                               context: context,
                             ),
@@ -795,9 +769,9 @@ class _VisitorPassManagementDetailsViewState
 
                             /// Pass Valid Until
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.keyHandOverDue ??
-                              //     state.labels?.defaultLocale
-                              // .keyHandOverDue ??
+                              state.labels?.locale.endTime ??
+                                  state.labels?.defaultLocale
+                              .endTime ??
                               Constants.passvliduntil,
                               isMandatory: true,
                               Styles.textStyleBlack14,
@@ -809,19 +783,11 @@ class _VisitorPassManagementDetailsViewState
                               textController: passValidUntilController,
                               isDisabled: true,
                               onlyDate: false,
-                              // showPastDate: false,
-                              // fromDate: initialisedStartDate,
-                              // toDate: initialisedToDate,
                               onChange: (String value) {
-                                // isDateSelectedByUser = true;
-                                // keyReturnDueDateController.text = value;
-                                // state.model.passV =
-                                //     Utils().formatTime(value);
                                 BlocProvider.of<
                                     VisitorPassManagementDetailsCubit>(
                                     context)
                                     .onModelValueChange(state.model);
-                                //},
                               },
                               context: context,
                             ),
@@ -829,10 +795,11 @@ class _VisitorPassManagementDetailsViewState
                                 height * 0.01),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            /// Escorted By
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.investigationRequired ??
-                              //     state.labels?.defaultLocale
-                              //         .investigationRequired ??
+                              state.labels?.locale.escortedByHost ??
+                                  state.labels?.defaultLocale
+                                      .escortedByHost ??
                                 Constants.escortedByHost,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
@@ -864,9 +831,9 @@ class _VisitorPassManagementDetailsViewState
 
                           /// Escorted By
                           CommonWidgets.textDisplay(
-                            // state.labels?.locale.name ??
-                            //     state.labels?.defaultLocale
-                            //         .name ??
+                            state.labels?.locale.escortedBy ??
+                                state.labels?.defaultLocale
+                                    .escortedBy ??
                               Constants.escortedby,
                               isMandatory: true,
                               Styles.textStyleBlack14),
@@ -877,7 +844,6 @@ class _VisitorPassManagementDetailsViewState
                             textInputType: TextInputType.text,
                             textFormKey: Keys.contactNoKey,
                             hintText: '',
-                            // focusNode: employeeIdFocusNode,
                             isEnable: !isReadOnly,
                             isDisableColor: isReadOnly,
                             onChange: (String value) {
@@ -890,9 +856,9 @@ class _VisitorPassManagementDetailsViewState
 
                           /// Escorted By Employee Id
                           CommonWidgets.textDisplay(
-                            // state.labels?.locale.name ??
-                            //     state.labels?.defaultLocale
-                            //         .name ??
+                            state.labels?.locale.escortedEmployeeId ??
+                                state.labels?.defaultLocale
+                                    .escortedEmployeeId ??
                               Constants.escortedbyemployeeid,
                               isMandatory: true,
                               Styles.textStyleBlack14),
@@ -903,7 +869,6 @@ class _VisitorPassManagementDetailsViewState
                             textInputType: TextInputType.number,
                             textFormKey: Keys.contactNoKey,
                             hintText: '',
-                            // focusNode: employeeIdFocusNode,
                             isEnable: !isReadOnly,
                             isDisableColor: isReadOnly,
                             onChange: (String value) {
@@ -919,8 +884,8 @@ class _VisitorPassManagementDetailsViewState
                             if(state.model.status ==2 || state.model.status ==8 || state.model.status ==9)...[
                         ///Pass Collected By
                             CommonWidgets.horizentaltextHandling(
-                                // state.labels?.locale.p ??
-                                //     state.labels?.defaultLocale.entrySecurity ??
+                                state.labels?.locale.handoverSecurity ??
+                                    state.labels?.defaultLocale.handoverSecurity ??
                                     Constants.passCollectedBy,
                                 isMandatory: true,
                                 '${state.model.handoverSecurity?.firstName ?? ''} ${state.model.handoverSecurity?.lastName ?? ''}'),
@@ -928,8 +893,8 @@ class _VisitorPassManagementDetailsViewState
 
                             ///Pass Returned On
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.inputDate ??
-                              //     state.labels?.defaultLocale.inputDate ??
+                              state.labels?.locale.returnedTime ??
+                                  state.labels?.defaultLocale.returnedTime ??
                                   Constants.passReturnedOn,
                               Styles.textStyleBlack14,
                               isMandatory: true,
@@ -944,7 +909,6 @@ class _VisitorPassManagementDetailsViewState
                                   VisitorPassManagementDetailsCubit>(
                                   context)
                                   .onModelValueChange(state.model);
-                              //},
                             },
                             context: context,
                           ),
@@ -952,8 +916,8 @@ class _VisitorPassManagementDetailsViewState
 ],
                             ///Attachments
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.attachment ??
-                              //     state.labels?.defaultLocale.attachment ??
+                              state.labels?.locale.visitorImage ??
+                                  state.labels?.defaultLocale.visitorImage ??
                                 Constants.photoOfVisitor,
                                 Styles.textStyleBlack14),
                             widget.model == null
@@ -1073,7 +1037,7 @@ class _VisitorPassManagementDetailsViewState
     );
   }
 
-  Widget datecreateWidgetdisplay(String date) {
+  Widget dateCreateWidgetDisplay(String date) {
     return FlutterInputField(
       textFormKey: Keys.dateofcreationTextController,
       initialValue: date,

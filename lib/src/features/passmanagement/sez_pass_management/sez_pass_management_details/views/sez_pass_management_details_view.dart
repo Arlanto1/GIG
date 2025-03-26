@@ -96,9 +96,6 @@ class _SezPassManagementDetailsViewState
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
-
-          // Utils.dynamicAlert(
-          //     context, state.message ?? '', 'Day Pass Management', '');
         }
       },
       builder: (context, state) {
@@ -184,8 +181,7 @@ class _SezPassManagementDetailsViewState
                   .millisecondsSinceEpoch, // Fallback to current timestamp
           Constants.fulldateFormat) : '';
     }
-
-    }
+  }
 
 
   getBodybuilder(SezPassManagementDetailsState state, height) {
@@ -277,9 +273,9 @@ class _SezPassManagementDetailsViewState
                             if(widget.model?.status == 0 || widget.model?.status == 1)...[
                               CommonWidgets.textDisplay(
                                   isMandatory: true,
-                                  // state.labels?.locale.get ??
-                                  //     state.labels?.defaultLocale
-                                  //         .updateStatus ??
+                                  state.labels?.locale.updateStatus ??
+                                      state.labels?.defaultLocale
+                                          .updateStatus ??
                                   Constants.updatestatus,
                                   Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
@@ -316,14 +312,6 @@ class _SezPassManagementDetailsViewState
                                           builder: (BuildContext context) => dialog,
                                         );
                                       });
-                                      // updateStatusTextController
-                                      //     .text = org.name!;
-                                      // setState(() {});
-                                      // BlocProvider.of<
-                                      //     SezPassManagementDetailsCubit>(
-                                      //     context)
-                                      //     .updateDropdownValues(
-                                      //     updatedStatus: org);
                                     },
                                   );
                                   // }
@@ -369,7 +357,7 @@ class _SezPassManagementDetailsViewState
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            datecreateWidgetdisplay(
+                            dateCreateWidgetDisplay(
                                 state.model.inputDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -396,14 +384,12 @@ class _SezPassManagementDetailsViewState
                               all: state.listOfEntities ?? [],
                               enabled: !isReadOnly,
                               onTap: (List<Organisation> selectedEntities) {
-                                log('--selectedEntities----${selectedEntities.length}');
                                 BlocProvider.of<SezPassManagementDetailsCubit>(
                                     context)
                                     .updateDropdownValues(
                                     entities: selectedEntities);
                                 Navigator.of(context).pop(); // Close the dialog
                               },
-                              orgName: 'ATOM_ENTITIES',
                               functionToCall: () {
                                 // refresh the list
                                 BlocProvider.of<SezPassManagementDetailsCubit>(
@@ -416,9 +402,9 @@ class _SezPassManagementDetailsViewState
 
                             /// Pass Type
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.companyType ??
-                              //     state.labels?.defaultLocale
-                              //         .companyType ??
+                              state.labels?.locale.passType ??
+                                  state.labels?.defaultLocale
+                                      .passType ??
                                 Constants.passtype,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
@@ -440,7 +426,6 @@ class _SezPassManagementDetailsViewState
                                           passType: passType);
                                     },
                                     leftImage: false,
-                                    orgName: '',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -458,8 +443,8 @@ class _SezPassManagementDetailsViewState
 
                             /// Pass Category
                             CommonWidgets.textDisplay(
-                                // state.labels?.locale.status ??
-                                //     state.labels?.defaultLocale.status ??
+                                state.labels?.locale.category ??
+                                    state.labels?.defaultLocale.category ??
                                     Constants.passCategory,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
@@ -499,9 +484,9 @@ class _SezPassManagementDetailsViewState
 
                             /// Company Type
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.companyType ??
-                              //     state.labels?.defaultLocale
-                              //         .companyType ??
+                              state.labels?.locale.companyType ??
+                                  state.labels?.defaultLocale
+                                      .companyType ??
                                 Constants.companyType,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
@@ -538,8 +523,8 @@ class _SezPassManagementDetailsViewState
 
                             /// Company Name
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.challanNo ??
-                              //     state.labels?.defaultLocale.challanNo ??
+                              state.labels?.locale.companyName ??
+                                  state.labels?.defaultLocale.companyName ??
                               Constants.companyName,
                               Styles.textStyleBlack14,
                               isMandatory: true,
@@ -548,7 +533,6 @@ class _SezPassManagementDetailsViewState
                             FlutterInputField(
                               textInputType: TextInputType.text,
                               textFormKey: Keys.challanKey,
-                              // initialValue: '',
                               controller: companyNameController,
                               characterLimit:
                               Constants.characterLimitIdTextFormField,
@@ -571,9 +555,9 @@ class _SezPassManagementDetailsViewState
                             if(state.model.category == 1)...[
                               /// Employee Id
                               CommonWidgets.textDisplay(
-                                // state.labels?.locale.employeeID ??
-                                //     state.labels?.defaultLocale
-                                //         .employeeID ??
+                                state.labels?.locale.employeeId ??
+                                    state.labels?.defaultLocale
+                                        .employeeId ??
                                   Constants.employeeid,
                                   Styles.textStyleBlack14,
                                   isMandatory: true),
@@ -623,9 +607,9 @@ class _SezPassManagementDetailsViewState
                             if(state.model.category == 2 )...[
                               ///EmployeeId
                               CommonWidgets.textDisplay(
-                                // state.labels?.locale.name ??
-                                //     state.labels?.defaultLocale
-                                //         .name ??
+                                state.labels?.locale.employeeId ??
+                                    state.labels?.defaultLocale
+                                        .employeeId ??
                                   Constants.employeeid,
                                   isMandatory: true,
                                   Styles.textStyleBlack14),
@@ -636,7 +620,6 @@ class _SezPassManagementDetailsViewState
                                 textInputType: TextInputType.number,
                                 textFormKey: Keys.contactNoKey,
                                 hintText: '',
-                                // focusNode: employeeIdFocusNode,
                                 isEnable: !isReadOnly? true : false,
                                 isDisableColor: true,
                                 onChange: (String value) {
@@ -650,9 +633,9 @@ class _SezPassManagementDetailsViewState
 
                             ///Name
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.name ??
-                              //     state.labels?.defaultLocale
-                              //         .name ??
+                              state.labels?.locale.employeeName ??
+                                  state.labels?.defaultLocale
+                                      .employeeName ??
                                 Constants.name,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
@@ -679,9 +662,9 @@ class _SezPassManagementDetailsViewState
                             if(state.model.category == 2)...[
                             /// Email
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.name ??
-                              //     state.labels?.defaultLocale
-                              //         .name ??
+                              state.labels?.locale.email ??
+                                  state.labels?.defaultLocale
+                                      .email ??
                                 Constants.email,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
@@ -692,7 +675,6 @@ class _SezPassManagementDetailsViewState
                               textInputType: TextInputType.text,
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
-                              // focusNode: employeeIdFocusNode,
                               isEnable: !isReadOnly,
                               isDisableColor: true,
                               onChange: (String value) {
@@ -705,9 +687,9 @@ class _SezPassManagementDetailsViewState
 ],
                             /// Sez Pass Info
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.name ??
-                              //     state.labels?.defaultLocale
-                              //         .name ??
+                              state.labels?.locale.sezPassInfo ??
+                                  state.labels?.defaultLocale
+                                      .sezPassInfo ??
                                 Constants.sezPassInfo,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
@@ -718,7 +700,6 @@ class _SezPassManagementDetailsViewState
                               textInputType: TextInputType.text,
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
-                              // focusNode: employeeIdFocusNode,
                               isEnable: !isReadOnly,
                               isDisableColor: true,
                               onChange: (String value) {
@@ -732,9 +713,9 @@ class _SezPassManagementDetailsViewState
 
                             /// MTP Application Number
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.name ??
-                              //     state.labels?.defaultLocale
-                              //         .name ??
+                              state.labels?.locale.mtpPassNo ??
+                                  state.labels?.defaultLocale
+                                      .mtpPassNo ??
                                 Constants.mTPApplicationNo,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
@@ -760,9 +741,9 @@ class _SezPassManagementDetailsViewState
 
                             /// Pass Issued On
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.keyHandOverDue ??
-                              //     state.labels?.defaultLocale
-                              // .keyHandOverDue ??
+                              state.labels?.locale.passIssuedOn ??
+                                  state.labels?.defaultLocale
+                              .passIssuedOn ??
                               Constants.passIssuedOn,
                               isMandatory: true,
                               Styles.textStyleBlack14,
@@ -776,20 +757,14 @@ class _SezPassManagementDetailsViewState
                               onlyDate: true,
                               showPastDate: true,
                               showFutureDate: false,
-                              // fromDate: initialisedStartDate,
-                              // toDate: initialisedToDate,
                               onChange: (String value) {
-                                // isDateSelectedByUser = true;
                                 passValidFromController.text = value;
                                 state.model.passIssuedOn =
                                     Utils().formatTime(value);
-                                // state.model.startTime =
-                                //     Utils().formatTime(value);
                                 BlocProvider.of<
                                     SezPassManagementDetailsCubit>(
                                     context)
                                     .onModelValueChange(state.model);
-                                //},
                               },
                               context: context,
                             ),
@@ -800,9 +775,9 @@ class _SezPassManagementDetailsViewState
 
                             /// Pass Valid Until
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.keyHandOverDue ??
-                              //     state.labels?.defaultLocale
-                              // .keyHandOverDue ??
+                              state.labels?.locale.endTime ??
+                                  state.labels?.defaultLocale
+                              .endTime ??
                               Constants.passvliduntil,
                               isMandatory: true,
                               Styles.textStyleBlack14,
@@ -814,15 +789,7 @@ class _SezPassManagementDetailsViewState
                               textController: passValidUntilController,
                               isDisabled: true,
                               onlyDate: false,
-                              // showPastDate: false,
-                              // fromDate: initialisedStartDate,
-                              // toDate: initialisedToDate,
                               onChange: (String value) {
-                                // BlocProvider.of<
-                                //     SezPassManagementDetailsCubit>(
-                                //     context)
-                                //     .onModelValueChange(state.model);
-                                //},
                               },
                               context: context,
                             ),
@@ -834,8 +801,8 @@ class _SezPassManagementDetailsViewState
                             if(state.model.status ==2 || state.model.status ==8 || state.model.status ==9)...[
                               /// Pass Collected By
                             CommonWidgets.horizentaltextHandling(
-                              // state.labels?.locale.entrySecurity ??
-                              //     state.labels?.defaultLocale.entrySecurity ??
+                              state.labels?.locale.handoverSecurity ??
+                                  state.labels?.defaultLocale.handoverSecurity ??
                                 Constants.passCollectedBy,
                                 isMandatory: true,
                                 '${state.model.handoverSecurity?.firstName ?? ''} ${state.model.handoverSecurity?.lastName ?? ''}'),
@@ -845,8 +812,8 @@ class _SezPassManagementDetailsViewState
 
                             ///Pass Returned On
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.inputDate ??
-                              //     state.labels?.defaultLocale.inputDate ??
+                              state.labels?.locale.returnedTime ??
+                                  state.labels?.defaultLocale.returnedTime ??
                               Constants.passReturnedOn,
                               Styles.textStyleBlack14,
                               isMandatory: true,
@@ -861,7 +828,6 @@ class _SezPassManagementDetailsViewState
                                       SezPassManagementDetailsCubit>(
                                       context)
                                       .onModelValueChange(state.model);
-                                  //},
                                 },
                                 context: context,
                               ),
@@ -872,8 +838,8 @@ class _SezPassManagementDetailsViewState
 
                             ///Attachments
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.attachment ??
-                              //     state.labels?.defaultLocale.attachment ??
+                              state.labels?.locale.evidenceInfo ??
+                                  state.labels?.defaultLocale.evidenceInfo ??
                                 Constants.evidenceDocuments,
                                 Styles.textStyleBlack14),
                             widget.model == null
@@ -994,7 +960,7 @@ class _SezPassManagementDetailsViewState
     );
   }
 
-  Widget datecreateWidgetdisplay(String date) {
+  Widget dateCreateWidgetDisplay(String date) {
     return FlutterInputField(
       textFormKey: Keys.dateofcreationTextController,
       initialValue: date,

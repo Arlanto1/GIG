@@ -19,7 +19,7 @@ class DayPassManagementDetailsState extends Equatable {
   final List<Organisation>? getStatus;
   final List<ImageContent> uploadAttachments;
   final String? message;
-  final MmUiLabels? labels;
+  final PMUiLabels? labels;
 
   factory DayPassManagementDetailsState.initial({
     required DayPassManagementModel model,
@@ -194,7 +194,7 @@ class DayPassManagementDetailsState extends Equatable {
     List<Organisation>? departments,
     List<ImageContent>? uploadAttachments,
     String? message,
-    MmUiLabels? labels,
+    PMUiLabels? labels,
   }) {
     return DayPassManagementDetailsState(
       status: status ?? this.status,

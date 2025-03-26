@@ -19,7 +19,7 @@ class VisitorPassManagementDetailsState extends Equatable {
   final List<Organisation>? getStatus;
   final List<ImageContent>? loadAttachments;
   final String? message;
-  final MmUiLabels? labels;
+  final PMUiLabels? labels;
 
   factory VisitorPassManagementDetailsState.initial({
     required VisitorPassManagementModel model,
@@ -188,7 +188,7 @@ class VisitorPassManagementDetailsState extends Equatable {
     List<Organisation>? departments,
     List<ImageContent>? loadAttachments,
     String? message,
-    MmUiLabels? labels,
+    PMUiLabels? labels,
   }) {
     return VisitorPassManagementDetailsState(
       status: status ?? this.status,

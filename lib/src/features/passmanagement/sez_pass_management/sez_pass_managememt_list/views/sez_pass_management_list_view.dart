@@ -94,14 +94,7 @@ class _SezPassManagementListViewState extends State<SezPassManagementListView> {
               body:
               BlocBuilder<SezPassManagementListBloc, SezPassManagementListState>(
                   builder: (context, state) {
-                    // if (state.status == FormStatus.loading) {
-                    //   return const BaseLoader();
-                    // }
-                    // if (state.list.isEmptyOrNull) {
-                    //   return const NoRecordFoundWidget();
-                    // }
-                    // log('--labels-${state.labels?.locale.locationRegion}');
-                    return Container(
+                     return Container(
                       margin: allMargin16,
                       decoration: const ShapeDecoration(
                           color: AppColors.backgroundWhiteColor,
@@ -110,7 +103,6 @@ class _SezPassManagementListViewState extends State<SezPassManagementListView> {
                             BorderRadius.vertical(top: Radius.circular(20.0)),
                           )),
                       child: Column(
-                        // crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           BaseSearchWidget(
                             applySearchFilters: applySearchFilters,
@@ -127,8 +119,6 @@ class _SezPassManagementListViewState extends State<SezPassManagementListView> {
                             const BaseLoader(),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ],
-                          // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
-                          // Text('state.status=====${state.status}'),
                           if (state.items.isEmptyOrNull &&
                               state.status != FormStatus.loading) ...[
                             CommonWidgets.verticalSpacerWidget(height * 0.1),
@@ -325,8 +315,6 @@ class _SezPassManagementListViewState extends State<SezPassManagementListView> {
           newSearch: true,
           filters: filters),
     );
-    // _scrollController = ScrollController()..addListener(_onScroll);
-
     Navigator.pop(context);
   }
 }

@@ -59,8 +59,6 @@ class _VendorPassManagementDetailsViewState
     //initializeDates(state);
   }
 
-  static const String moduleCode = Constants.passManagementModuleCode;
-
   @override
   void dispose() {
     super.dispose();
@@ -98,10 +96,7 @@ class _VendorPassManagementDetailsViewState
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
-
-          // Utils.dynamicAlert(
-          //     context, state.message ?? '', 'Day Pass Management', '');
-        }
+          }
       },
       builder: (context, state) {
         contactNumberController.text = state.model.contactNo ??'';
@@ -279,9 +274,9 @@ class _VendorPassManagementDetailsViewState
                             if(widget.model?.status == 0 || widget.model?.status == 1)...[
                               CommonWidgets.textDisplay(
                                   isMandatory: true,
-                                  // state.labels?.locale.get ??
-                                  //     state.labels?.defaultLocale
-                                  //         .updateStatus ??
+                                  state.labels?.locale.updateStatus ??
+                                      state.labels?.defaultLocale
+                                          .updateStatus ??
                                   Constants.updatestatus,
                                   Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
@@ -318,14 +313,6 @@ class _VendorPassManagementDetailsViewState
                                           builder: (BuildContext context) => dialog,
                                         );
                                       });
-                                      // updateStatusTextController
-                                      //     .text = org.name!;
-                                      // setState(() {});
-                                      // BlocProvider.of<
-                                      //     VendorPassManagementDetailsCubit>(
-                                      //     context)
-                                      //     .updateDropdownValues(
-                                      //     updatedStatus: org);
                                     },
                                   );
                                   // }
@@ -368,7 +355,7 @@ class _VendorPassManagementDetailsViewState
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            datecreateWidgetdisplay(
+                            dateCreateWidgetDisplay(
                                 state.model.inputDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -395,7 +382,6 @@ class _VendorPassManagementDetailsViewState
                               all: state.listOfEntities ?? [],
                               enabled: !isReadOnly,
                               onTap: (List<Organisation> selectedEntities) {
-                                log('--selectedEntities----${selectedEntities.length}');
                                 BlocProvider.of<VendorPassManagementDetailsCubit>(
                                     context)
                                     .updateDropdownValues(
@@ -415,9 +401,9 @@ class _VendorPassManagementDetailsViewState
 
                             /// Pass Type
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.companyType ??
-                              //     state.labels?.defaultLocale
-                              //         .companyType ??
+                              state.labels?.locale.passType ??
+                                  state.labels?.defaultLocale
+                                      .passType ??
                                 Constants.passtype,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
@@ -455,8 +441,8 @@ class _VendorPassManagementDetailsViewState
 
                             /// Vendor Name
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.challanNo ??
-                              //     state.labels?.defaultLocale.challanNo ??
+                              state.labels?.locale.vendorName ??
+                                  state.labels?.defaultLocale.vendorName ??
                               Constants.vendorName,
                               Styles.textStyleBlack14,
                               isMandatory: true,
@@ -465,7 +451,6 @@ class _VendorPassManagementDetailsViewState
                             FlutterInputField(
                               textInputType: TextInputType.text,
                               textFormKey: Keys.challanKey,
-                              // initialValue: '',
                               controller: vendorNameController,
                               characterLimit:
                               Constants.characterLimitIdTextFormField,
@@ -487,9 +472,9 @@ class _VendorPassManagementDetailsViewState
 
                             ///Contact no
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.name ??
-                              //     state.labels?.defaultLocale
-                              //         .name ??
+                              state.labels?.locale.contactNo ??
+                                  state.labels?.defaultLocale
+                                      .contactNo ??
                                 Constants.contactNo,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
@@ -501,7 +486,6 @@ class _VendorPassManagementDetailsViewState
                               textFormKey: Keys.contactNoKey,
                               characterLimit: 17,
                               hintText: '',
-                              // focusNode: employeeIdFocusNode,
                               isEnable: !isReadOnly,
                               isDisableColor: isReadOnly,
                               onChange: (String value) {
@@ -515,8 +499,8 @@ class _VendorPassManagementDetailsViewState
 
                             /// Company Name
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.challanNo ??
-                              //     state.labels?.defaultLocale.challanNo ??
+                              state.labels?.locale.companyName ??
+                                  state.labels?.defaultLocale.companyName ??
                               Constants.companyName,
                               Styles.textStyleBlack14,
                               isMandatory: true,
@@ -525,7 +509,6 @@ class _VendorPassManagementDetailsViewState
                             FlutterInputField(
                               textInputType: TextInputType.text,
                               textFormKey: Keys.challanKey,
-                              // initialValue: '',
                               controller: companyNameController,
                               characterLimit:
                               Constants.characterLimitIdTextFormField,
@@ -544,9 +527,9 @@ class _VendorPassManagementDetailsViewState
 
                             ///Host Employee Id
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.employeeID ??
-                              //     state.labels?.defaultLocale
-                              //         .employeeID ??
+                              state.labels?.locale.hostEmployeeId ??
+                                  state.labels?.defaultLocale
+                                      .hostEmployeeId ??
                                 Constants.hostemployeeid,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
@@ -594,9 +577,9 @@ class _VendorPassManagementDetailsViewState
 
                             ///Host
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.name ??
-                              //     state.labels?.defaultLocale
-                              //         .name ??
+                              state.labels?.locale.host ??
+                                  state.labels?.defaultLocale
+                                      .host ??
                                 Constants.host,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
@@ -607,7 +590,6 @@ class _VendorPassManagementDetailsViewState
                               textInputType: TextInputType.text,
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
-                              // focusNode: employeeIdFocusNode,
                               isEnable: false,
                               isDisableColor: true,
                               onChange: (String value) {},
@@ -620,9 +602,9 @@ class _VendorPassManagementDetailsViewState
 
                             ///  Visiting Department
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.requestorDepartment ??
-                              //     state.labels?.defaultLocale
-                              //         .requestorDepartment ??
+                              state.labels?.locale.visitingDepartment ??
+                                  state.labels?.defaultLocale
+                                      .visitingDepartment ??
                               Constants.visitingDepartment,
                               Styles.textStyleBlack14,
                               isMandatory: true,
@@ -666,9 +648,9 @@ class _VendorPassManagementDetailsViewState
 
                             /// Reason for Vendor Pass
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.requestorDepartment ??
-                              //     state.labels?.defaultLocale
-                              //         .requestorDepartment ??
+                              state.labels?.locale.vendorPassReason ??
+                                  state.labels?.defaultLocale
+                                      .vendorPassReason ??
                               Constants.reasonForVendorPass,
                               Styles.textStyleBlack14,
                               isMandatory: true,
@@ -697,9 +679,9 @@ class _VendorPassManagementDetailsViewState
 
                             /// Vendor Pass No
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.requestorDepartment ??
-                              //     state.labels?.defaultLocale
-                              //         .requestorDepartment ??
+                              state.labels?.locale.vendorPassInfo ??
+                                  state.labels?.defaultLocale
+                                      .vendorPassInfo ??
                               Constants.vendorPassNo,
                               Styles.textStyleBlack14,
                               isMandatory: true,
@@ -730,9 +712,9 @@ class _VendorPassManagementDetailsViewState
 
                             /// Pass Valid From
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.keyHandOverDue ??
-                              //     state.labels?.defaultLocale
-                              // .keyHandOverDue ??
+                              state.labels?.locale.startTime ??
+                                  state.labels?.defaultLocale
+                              .startTime ??
                               Constants.passvlidfrom,
                               isMandatory: true,
                               Styles.textStyleBlack14,
@@ -744,20 +726,12 @@ class _VendorPassManagementDetailsViewState
                               textController: passValidFromController,
                               isDisabled: true,
                               onlyDate: false,
-                              // showPastDate: false,
-                              // fromDate: initialisedStartDate,
-                              // toDate: initialisedToDate,
                               onChange: (String value) {
-                                // isDateSelectedByUser = true;
                                 passValidFromController.text = value;
-                                log('keyReturnDueDateControllerValue22 --- $value');
-                                // state.model.passV =
-                                //     Utils().formatTime(value);
                                 BlocProvider.of<
                                     VendorPassManagementDetailsCubit>(
                                     context)
                                     .onModelValueChange(state.model);
-                                //},
                               },
                               context: context,
                             ),
@@ -768,9 +742,9 @@ class _VendorPassManagementDetailsViewState
 
                             /// Pass Valid Until
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.keyHandOverDue ??
-                              //     state.labels?.defaultLocale
-                              // .keyHandOverDue ??
+                              state.labels?.locale.endTime ??
+                                  state.labels?.defaultLocale
+                              .endTime ??
                               Constants.passvliduntil,
                               isMandatory: true,
                               Styles.textStyleBlack14,
@@ -782,19 +756,11 @@ class _VendorPassManagementDetailsViewState
                               textController: passValidUntilController,
                               isDisabled: true,
                               onlyDate: false,
-                              // showPastDate: false,
-                              // fromDate: initialisedStartDate,
-                              // toDate: initialisedToDate,
                               onChange: (String value) {
-                                // isDateSelectedByUser = true;
-                                // keyReturnDueDateController.text = value;
-                                // state.model.passV =
-                                //     Utils().formatTime(value);
                                 BlocProvider.of<
                                     VendorPassManagementDetailsCubit>(
                                     context)
                                     .onModelValueChange(state.model);
-                                //},
                               },
                               context: context,
                             ),
@@ -804,9 +770,9 @@ class _VendorPassManagementDetailsViewState
 
                               /// Escorted By
                               CommonWidgets.textDisplay(
-                                // state.labels?.locale.name ??
-                                //     state.labels?.defaultLocale
-                                //         .name ??
+                                state.labels?.locale.escortedBy ??
+                                    state.labels?.defaultLocale
+                                        .escortedBy ??
                                   Constants.escortedby,
                                   isMandatory: true,
                                   Styles.textStyleBlack14),
@@ -817,7 +783,6 @@ class _VendorPassManagementDetailsViewState
                                 textInputType: TextInputType.text,
                                 textFormKey: Keys.contactNoKey,
                                 hintText: '',
-                                // focusNode: employeeIdFocusNode,
                                 isEnable: !isReadOnly,
                                 isDisableColor: isReadOnly,
                                 onChange: (String value) {
@@ -830,9 +795,9 @@ class _VendorPassManagementDetailsViewState
 
                               /// Escorted By Employee Id
                               CommonWidgets.textDisplay(
-                                // state.labels?.locale.name ??
-                                //     state.labels?.defaultLocale
-                                //         .name ??
+                                state.labels?.locale.escortedEmployeeId ??
+                                    state.labels?.defaultLocale
+                                        .escortedEmployeeId ??
                                   Constants.escortedbyemployeeid,
                                   isMandatory: true,
                                   Styles.textStyleBlack14),
@@ -843,7 +808,6 @@ class _VendorPassManagementDetailsViewState
                                 textInputType: TextInputType.number,
                                 textFormKey: Keys.contactNoKey,
                                 hintText: '',
-                                // focusNode: employeeIdFocusNode,
                                 isEnable: !isReadOnly,
                                 isDisableColor: isReadOnly,
                                 onChange: (String value) {
@@ -858,8 +822,8 @@ class _VendorPassManagementDetailsViewState
                             if(state.model.status ==2 || state.model.status ==8 || state.model.status ==9)...[
                               /// Pass Collected By
                               CommonWidgets.horizentaltextHandling(
-                                // state.labels?.locale.entrySecurity ??
-                                //     state.labels?.defaultLocale.entrySecurity ??
+                                state.labels?.locale.handoverSecurity ??
+                                    state.labels?.defaultLocale.handoverSecurity ??
                                   Constants.passCollectedBy,
                                   isMandatory: true,
                                   '${state.model.handoverSecurity?.firstName ?? ''} ${state.model.handoverSecurity?.lastName ?? ''}'),
@@ -869,8 +833,8 @@ class _VendorPassManagementDetailsViewState
 
                               ///Pass Returned On
                               CommonWidgets.textDisplay(
-                                // state.labels?.locale.inputDate ??
-                                //     state.labels?.defaultLocale.inputDate ??
+                                state.labels?.locale.returnedTime ??
+                                    state.labels?.defaultLocale.returnedTime ??
                                 Constants.passReturnedOn,
                                 Styles.textStyleBlack14,
                                 isMandatory: true,
@@ -885,7 +849,6 @@ class _VendorPassManagementDetailsViewState
                                       VendorPassManagementDetailsCubit>(
                                       context)
                                       .onModelValueChange(state.model);
-                                  //},
                                 },
                                 context: context,
                               ),
@@ -895,8 +858,8 @@ class _VendorPassManagementDetailsViewState
 
                             ///Attachments
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.attachment ??
-                              //     state.labels?.defaultLocale.attachment ??
+                              state.labels?.locale.evidenceInfo ??
+                                  state.labels?.defaultLocale.evidenceInfo ??
                                 Constants.evidenceDocuments,
                                 Styles.textStyleBlack14),
                             widget.model == null
@@ -915,7 +878,7 @@ class _VendorPassManagementDetailsViewState
                                   List<ImageContent>? files = [];
                                   files.add(data);
                                   for (ImageContent image
-                                  in uploadFiles ?? []) {
+                                  in uploadFiles) {
                                     files.add(image);
                                   }
                                   BlocProvider.of<
@@ -1015,7 +978,7 @@ class _VendorPassManagementDetailsViewState
     );
   }
 
-  Widget datecreateWidgetdisplay(String date) {
+  Widget dateCreateWidgetDisplay(String date) {
     return FlutterInputField(
       textFormKey: Keys.dateofcreationTextController,
       initialValue: date,

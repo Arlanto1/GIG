@@ -1,7 +1,6 @@
 import 'dart:developer';
-import 'dart:math' as math;
-
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/passmanagement/models/pm_ui_labels.dart';
 import 'package:db_atom/src/features/passmanagement/visitor_pass_management/models/requestModels/visitor_pass_management_request.dart';
 import 'package:db_atom/src/features/passmanagement/visitor_pass_management/models/visitor_pass_management_model.dart';
 import 'package:db_atom/src/features/passmanagement/visitor_pass_management/services/visitor_pass_management_service.dart';
@@ -50,7 +49,6 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
     emit(
       state.copyWith(
         status: FormStatus.initial,
-        // getEntitiesResponse: entities,
         listOfEntities: entities,
         emailUsers: emailUsers,
         departments: departments.employeeDepartments,
@@ -142,7 +140,7 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       }
       state.model.passType ??= 1;
 
-      MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
+      PMUiLabels labels = PMUiLabels.fromJson(responseLabels);
 
       log('--loggedInUserDetails---${loggedInUserDetails.firstName}----');
 
@@ -191,7 +189,6 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       emit(
         state.copyWith(
           message: Constants.errorText,
-          // TODO: error message should be dynamic
           status: FormStatus.error,
         ),
       );
@@ -332,7 +329,6 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
 
       // Format the name and email for receiverEmail
       String name = passNo.name ?? '';
-      int id = passNo.id ?? 0;
       PassInfo userDetails = PassInfo(
         passNo:name,
         id: passNo.id,
@@ -362,18 +358,6 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
     ));
   }
 
-  Future<void> updateApproverEmailsValue({
-    BaseUser? requesterEmailUser,
-    BaseUser? approver1EmailUser,
-    BaseUser? approver2EmailUser,
-  }) async {
-    emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
-    );
-  }
-
   void addAttachment({
     List<ImageContent>? data,
     List<ImageContent>? images,
@@ -383,12 +367,7 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
         status: FormStatus.loading,
       ),
     );
-    int eventIds = math.Random.secure().nextInt(5);
-
     if (data != null && images != null) {
-      // for (var image in data) {
-      //   image.type = 8;
-      // }
       state.model.visitorImage = images.first;
       emit(
         state.copyWith(
@@ -405,8 +384,6 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
         status: FormStatus.initial,
       ),
     );
-
-    log('--state.status--3--${state.status}----');
   }
 
   Future<bool> submitForm({
@@ -443,7 +420,6 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
     // Create/Update API Call
     VisitorPassManagementRequest request =
     VisitorPassManagementRequest(passManagement: state.model);
-    // TODO: Need to change from Backend- Status should be handled from backend
     state.model.status ??= 0;
 
     state.model.passInfo?.passType ??= 1;

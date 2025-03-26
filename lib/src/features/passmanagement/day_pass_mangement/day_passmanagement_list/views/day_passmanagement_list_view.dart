@@ -103,7 +103,6 @@ class _DayPassManagementListViewState extends State<DayPassManagementListView> {
                             BorderRadius.vertical(top: Radius.circular(20.0)),
                           )),
                       child: Column(
-                        // crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           BaseSearchWidget(
                             applySearchFilters: applySearchFilters,
@@ -115,13 +114,6 @@ class _DayPassManagementListViewState extends State<DayPassManagementListView> {
                                 ),
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          // if (state.status == FormStatus.loading) ...[
-                          //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          //   const BaseLoader(),
-                          //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          // ],
-                          // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
-                          // Text('state.status=====${state.status}'),
                           if (state.items.isEmptyOrNull &&
                               state.status != FormStatus.loading) ...[
                             CommonWidgets.verticalSpacerWidget(height * 0.1),
@@ -326,8 +318,6 @@ class _DayPassManagementListViewState extends State<DayPassManagementListView> {
           newSearch: true,
           filters: filters),
     );
-    // _scrollController = ScrollController()..addListener(_onScroll);
-
     Navigator.pop(context);
   }
 }

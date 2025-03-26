@@ -54,7 +54,6 @@ class _DayPassManagementDetailsViewState
   void initState() {
     super.initState();
     BlocProvider.of<DayPassManagementDetailsCubit>(context).initializeValues();
-    //initializeDates(state);
   }
 
   @override
@@ -94,9 +93,6 @@ class _DayPassManagementDetailsViewState
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
-
-          // Utils.dynamicAlert(
-          //     context, state.message ?? '', 'Day Pass Management', '');
         }
       },
       builder: (context, state) {
@@ -180,8 +176,6 @@ class _DayPassManagementDetailsViewState
     }
     state.model.startTime == passValidFromController.text;
     state.model.endTime == passValidUntilController.text;
-
-
 
   }
 
@@ -275,9 +269,9 @@ class _DayPassManagementDetailsViewState
                             if(widget.model?.status == 0 || widget.model?.status == 1)...[
                               CommonWidgets.textDisplay(
                                   isMandatory: true,
-                                  // state.labels?.locale.get ??
-                                  //     state.labels?.defaultLocale
-                                  //         .updateStatus ??
+                                  state.labels?.locale.updateStatus ??
+                                      state.labels?.defaultLocale
+                                          .updateStatus ??
                                   Constants.updatestatus,
                                   Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
@@ -314,18 +308,8 @@ class _DayPassManagementDetailsViewState
                                           builder: (BuildContext context) => dialog,
                                         );
                                       });
-
-                                      // updateStatusTextController
-                                      //     .text = org.name!;
-                                      // setState(() {});
-                                      // BlocProvider.of<
-                                      //     DayPassManagementDetailsCubit>(
-                                      //     context)
-                                      //     .updateDropdownValues(
-                                      //     updatedStatus: org);
                                     },
                                   );
-                                  // }
                                 },
                               ),
                               CommonWidgets.verticalSpacerWidget(
@@ -343,7 +327,6 @@ class _DayPassManagementDetailsViewState
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            // locationWidgetdislay(state),
                             BaseLocationDropdown().locationWidgetDisplay(
                                 isEnabled: (!isReadOnly) &&
                                     !lock,
@@ -369,7 +352,7 @@ class _DayPassManagementDetailsViewState
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            datecreateWidgetdisplay(
+                            dateCreateWidgetDisplay(
                                 state.model.inputDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -396,14 +379,12 @@ class _DayPassManagementDetailsViewState
                               all: state.listOfEntities ?? [],
                               enabled: !isReadOnly,
                               onTap: (List<Organisation> selectedEntities) {
-                                log('--selectedEntities----${selectedEntities.length}');
                                 BlocProvider.of<DayPassManagementDetailsCubit>(
                                     context)
                                     .updateDropdownValues(
                                     entities: selectedEntities);
                                 Navigator.of(context).pop(); // Close the dialog
                               },
-                              orgName: 'ATOM_ENTITIES',
                               functionToCall: () {
                                 // refresh the list
                                 BlocProvider.of<DayPassManagementDetailsCubit>(
@@ -416,9 +397,9 @@ class _DayPassManagementDetailsViewState
 
                             /// Pass Type
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.companyType ??
-                              //     state.labels?.defaultLocale
-                              //         .companyType ??
+                              state.labels?.locale.passType ??
+                                  state.labels?.defaultLocale
+                                      .passType ??
                                 Constants.passtype,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
@@ -440,7 +421,6 @@ class _DayPassManagementDetailsViewState
                                           passType: passType);
                                     },
                                     leftImage: false,
-                                    orgName: '',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -456,9 +436,9 @@ class _DayPassManagementDetailsViewState
 
                             /// Company Type
                             CommonWidgets.textDisplay(
-                                // state.labels?.locale.companyType ??
-                                //     state.labels?.defaultLocale
-                                //         .companyType ??
+                                state.labels?.locale.companyType ??
+                                    state.labels?.defaultLocale
+                                        .companyType ??
                                     Constants.companyType,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
@@ -479,7 +459,6 @@ class _DayPassManagementDetailsViewState
                                       companyType: companyType);
                                 },
                                 leftImage: false,
-                                orgName: 'ATOM_COMPANY_TYPES',
                                 functionToCall: () {
                                   // refresh the list
                                   BlocProvider.of<
@@ -495,8 +474,8 @@ class _DayPassManagementDetailsViewState
 
                             /// Company Name
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.challanNo ??
-                              //     state.labels?.defaultLocale.challanNo ??
+                              state.labels?.locale.companyName ??
+                                  state.labels?.defaultLocale.companyName ??
                                   Constants.companyName,
                               Styles.textStyleBlack14,
                               isMandatory: true,
@@ -505,7 +484,6 @@ class _DayPassManagementDetailsViewState
                             FlutterInputField(
                               textInputType: TextInputType.text,
                               textFormKey: Keys.challanKey,
-                              // initialValue: '',
                               controller: companyNameController,
                               characterLimit:
                               Constants.characterLimitIdTextFormField,
@@ -527,9 +505,9 @@ class _DayPassManagementDetailsViewState
                       if(state.model.companyType?.name != 'Exceptions' && state.model.companyType?.name != 'CWR T2')...[
                     /// Employee Id
                             CommonWidgets.textDisplay(
-                                // state.labels?.locale.employeeID ??
-                                //     state.labels?.defaultLocale
-                                //         .employeeID ??
+                                state.labels?.locale.employeeId ??
+                                    state.labels?.defaultLocale
+                                        .employeeId ??
                                     Constants.employeeid,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
@@ -579,9 +557,9 @@ class _DayPassManagementDetailsViewState
                             if(state.model.companyType?.name == 'CWR T2' )...[
                             ///EmployeeId
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.name ??
-                              //     state.labels?.defaultLocale
-                              //         .name ??
+                              state.labels?.locale.employeeId ??
+                                  state.labels?.defaultLocale
+                                      .employeeId ??
                                 Constants.employeeid,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
@@ -592,7 +570,6 @@ class _DayPassManagementDetailsViewState
                               textFormKey: Keys.contactNoKey,
                               controller: employeeIdController,
                               hintText: '',
-                              // focusNode: employeeIdFocusNode,
                               isEnable: state.model.companyType?.name == 'CWR T2' && !isReadOnly? true : false,
                               isDisableColor: true,
                               onChange: (String value) {
@@ -606,9 +583,9 @@ class _DayPassManagementDetailsViewState
 
                             ///Name
                             CommonWidgets.textDisplay(
-                                // state.labels?.locale.name ??
-                                //     state.labels?.defaultLocale
-                                //         .name ??
+                                state.labels?.locale.employeeName ??
+                                    state.labels?.defaultLocale
+                                        .employeeName ??
                                     Constants.name,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
@@ -619,7 +596,6 @@ class _DayPassManagementDetailsViewState
                               textInputType: TextInputType.text,
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
-                              // focusNode: employeeIdFocusNode,
                               isEnable: (state.model.companyType?.name == 'Exceptions' || state.model.companyType?.name == 'CWR T2') && (state.model.status == null ||state.model.status == 0) ? true : false,
                               isDisableColor: true,
                               onChange: (String value) {
@@ -634,9 +610,9 @@ class _DayPassManagementDetailsViewState
                             if(state.model.companyType?.name == 'CWR T1' ||state.model.companyType?.name == 'CWR T2' )...[
                             ///Db Sponsor Employee Id
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.employeeID ??
-                              //     state.labels?.defaultLocale
-                              //         .employeeID ??
+                              state.labels?.locale.cwrSponsorEmployeeId ??
+                                  state.labels?.defaultLocale
+                                      .cwrSponsorEmployeeId ??
                                 Constants.dbSponsorEmployeeId,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
@@ -683,9 +659,9 @@ class _DayPassManagementDetailsViewState
                                 height * 0.01),
                             ///DB Sponsor
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.name ??
-                              //     state.labels?.defaultLocale
-                              //         .name ??
+                              state.labels?.locale.cwrSponsor ??
+                                  state.labels?.defaultLocale
+                                      .cwrSponsor ??
                                 Constants.dbSponsor,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
@@ -696,7 +672,6 @@ class _DayPassManagementDetailsViewState
                               textInputType: TextInputType.text,
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
-                              // focusNode: employeeIdFocusNode,
                               isEnable: false,
                               isDisableColor: true,
                               onChange: (String value) {},
@@ -708,9 +683,9 @@ class _DayPassManagementDetailsViewState
               if(state.model.companyType?.name == 'Exceptions')...[
                 ///Host Employee Id
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.employeeID ??
-                              //     state.labels?.defaultLocale
-                              //         .employeeID ??
+                              state.labels?.locale.hostEmployeeId ??
+                                  state.labels?.defaultLocale
+                                      .hostEmployeeId ??
                                 Constants.hostemployeeid,
                                 Styles.textStyleBlack14,
                                 isMandatory: true),
@@ -758,9 +733,9 @@ class _DayPassManagementDetailsViewState
 
                             ///Host
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.name ??
-                              //     state.labels?.defaultLocale
-                              //         .name ??
+                              state.labels?.locale.host ??
+                                  state.labels?.defaultLocale
+                                      .host ??
                                 Constants.host,
                                 isMandatory: true,
                                 Styles.textStyleBlack14),
@@ -771,7 +746,6 @@ class _DayPassManagementDetailsViewState
                               textInputType: TextInputType.text,
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
-                              // focusNode: employeeIdFocusNode,
                               isEnable: false,
                               isDisableColor: true,
                               onChange: (String value) {},
@@ -782,9 +756,9 @@ class _DayPassManagementDetailsViewState
 ],
                             ///  Department
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.requestorDepartment ??
-                              //     state.labels?.defaultLocale
-                              //         .requestorDepartment ??
+                              state.labels?.locale.department ??
+                                  state.labels?.defaultLocale
+                                      .department ??
                                   Constants.department,
                               Styles.textStyleBlack14,
                               isMandatory: true,
@@ -808,9 +782,7 @@ class _DayPassManagementDetailsViewState
                                             department:
                                             department);
                                       },
-                                      orgName: 'EMPLOYEE_DEPARTMENTS',
                                       createEntity: false,
-                                      title: '',
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
@@ -828,9 +800,9 @@ class _DayPassManagementDetailsViewState
 
                             /// Reason for Day Pass
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.requestorDepartment ??
-                              //     state.labels?.defaultLocale
-                              //         .requestorDepartment ??
+                              state.labels?.locale.dayPassReason ??
+                                  state.labels?.defaultLocale
+                                      .dayPassReason ??
                               Constants.reasonfordaypass,
                               Styles.textStyleBlack14,
                               isMandatory: true,
@@ -862,9 +834,9 @@ class _DayPassManagementDetailsViewState
                                 state.model.dayPassReason?.name ==
                                    'External auditors') ...[
                               CommonWidgets.textDisplay(
-                                // state.labels?.locale.investigationRequired ??
-                                //     state.labels?.defaultLocale
-                                //         .investigationRequired ??
+                                state.labels?.locale.exceptionalApproval ??
+                                    state.labels?.defaultLocale
+                                        .exceptionalApproval ??
                                   Constants.exceptionalApproval,
                                   isMandatory: true,
                                   Styles.textStyleBlack14),
@@ -895,9 +867,9 @@ class _DayPassManagementDetailsViewState
 
                             /// Day Pass No
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.requestorDepartment ??
-                              //     state.labels?.defaultLocale
-                              //         .requestorDepartment ??
+                              state.labels?.locale.dayPassInfo ??
+                                  state.labels?.defaultLocale
+                                      .dayPassInfo ??
                               Constants.dayPassNo,
                               Styles.textStyleBlack14,
                               isMandatory: true,
@@ -913,7 +885,6 @@ class _DayPassManagementDetailsViewState
                                   organisations: state.passNo!,
                                   onTap: (Organisation department) {
                                     state.model.passNo = department.name;
-                                    log('PassNo ${state.model.passNo }');
                                     BlocProvider.of<DayPassManagementDetailsCubit>(
                                         context)
                                         .updateDropdownValues(
@@ -928,9 +899,9 @@ class _DayPassManagementDetailsViewState
 
                             /// Pass Valid From
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.keyHandOverDue ??
-                              //     state.labels?.defaultLocale
-                                      // .keyHandOverDue ??
+                              state.labels?.locale.startTime ??
+                                  state.labels?.defaultLocale
+                                      .startTime ??
                                   Constants.passvlidfrom,
                               isMandatory: true,
                               Styles.textStyleBlack14,
@@ -942,20 +913,12 @@ class _DayPassManagementDetailsViewState
                               textController: passValidFromController,
                               isDisabled: true,
                               onlyDate: false,
-                              // showPastDate: false,
-                              // fromDate: initialisedStartDate,
-                              // toDate: initialisedToDate,
                               onChange: (String value) {
-                                // isDateSelectedByUser = true;
                                 passValidFromController.text = value;
-                                log('keyReturnDueDateControllerValue22 --- $value');
-                                // state.model.passV =
-                                //     Utils().formatTime(value);
                                 BlocProvider.of<
                                     DayPassManagementDetailsCubit>(
                                     context)
                                     .onModelValueChange(state.model);
-                                //},
                               },
                               context: context,
                             ),
@@ -966,9 +929,9 @@ class _DayPassManagementDetailsViewState
 
                             /// Pass Valid Until
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.keyHandOverDue ??
-                              //     state.labels?.defaultLocale
-                              // .keyHandOverDue ??
+                              state.labels?.locale.endTime ??
+                                  state.labels?.defaultLocale
+                              .endTime ??
                               Constants.passvliduntil,
                               isMandatory: true,
                               Styles.textStyleBlack14,
@@ -980,19 +943,11 @@ class _DayPassManagementDetailsViewState
                               textController: passValidUntilController,
                               isDisabled: true,
                               onlyDate: false,
-                              // showPastDate: false,
-                              // fromDate: initialisedStartDate,
-                              // toDate: initialisedToDate,
                               onChange: (String value) {
-                                // isDateSelectedByUser = true;
-                                // keyReturnDueDateController.text = value;
-                                // state.model.passV =
-                                //     Utils().formatTime(value);
                                 BlocProvider.of<
                                     DayPassManagementDetailsCubit>(
                                     context)
                                     .onModelValueChange(state.model);
-                                //},
                               },
                               context: context,
                             ),
@@ -1004,19 +959,18 @@ class _DayPassManagementDetailsViewState
                             if(state.model.status ==2 || state.model.status ==8 || state.model.status ==9)...[
                             /// Pass Collected By
                             CommonWidgets.horizentaltextHandling(
-                                // state.labels?.locale.entrySecurity ??
-                                //     state.labels?.defaultLocale.entrySecurity ??
+                                state.labels?.locale.handoverSecurity ??
+                                    state.labels?.defaultLocale.handoverSecurity ??
                                     Constants.passCollectedBy,
                                 isMandatory: true,
                                 '${state.model.handoverSecurity?.firstName ?? ''} ${state.model.handoverSecurity?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
 
-
                            ///Pass Returned On
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.inputDate ??
-                              //     state.labels?.defaultLocale.inputDate ??
+                              state.labels?.locale.returnedTime ??
+                                  state.labels?.defaultLocale.returnedTime ??
                                   Constants.passReturnedOn,
                               Styles.textStyleBlack14,
                               isMandatory: true,
@@ -1026,19 +980,11 @@ class _DayPassManagementDetailsViewState
                                 textController: returnedTimeController,
                                 isDisabled: true,
                                 onlyDate: false,
-                                // showPastDate: false,
-                                // fromDate: initialisedStartDate,
-                                // toDate: initialisedToDate,
                                 onChange: (String value) {
-                                  // isDateSelectedByUser = true;
-                                  // keyReturnDueDateController.text = value;
-                                  // state.model.passV =
-                                  //     Utils().formatTime(value);
                                   BlocProvider.of<
                                       DayPassManagementDetailsCubit>(
                                       context)
                                       .onModelValueChange(state.model);
-                                  //},
                                 },
                                 context: context,
                               ),
@@ -1047,8 +993,8 @@ class _DayPassManagementDetailsViewState
 ],
                             ///Attachments
                             CommonWidgets.textDisplay(
-                                // state.labels?.locale.attachment ??
-                                //     state.labels?.defaultLocale.attachment ??
+                                state.labels?.locale.evidenceInfo ??
+                                    state.labels?.defaultLocale.evidenceInfo ??
                                     Constants.evidenceDocuments,
                                 Styles.textStyleBlack14),
                             widget.model == null
@@ -1169,7 +1115,7 @@ class _DayPassManagementDetailsViewState
     );
   }
 
-  Widget datecreateWidgetdisplay(String date) {
+  Widget dateCreateWidgetDisplay(String date) {
     return FlutterInputField(
       textFormKey: Keys.dateofcreationTextController,
       initialValue: date,

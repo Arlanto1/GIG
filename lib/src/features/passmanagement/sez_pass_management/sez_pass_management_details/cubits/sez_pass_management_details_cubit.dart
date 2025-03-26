@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/passmanagement/models/pm_ui_labels.dart';
 import 'package:db_atom/src/features/passmanagement/sez_pass_management/models/requestModels/sez_pass_management_request.dart';
 import 'package:db_atom/src/features/passmanagement/sez_pass_management/models/sez_pass_management_model.dart';
 import 'package:db_atom/src/features/passmanagement/sez_pass_management/services/sez_pass_management_service.dart';
@@ -127,7 +128,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.passManagementModuleCode);
-      MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
+      PMUiLabels labels = PMUiLabels.fromJson(responseLabels);
 
       if (location != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
@@ -245,7 +246,6 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
 
     state.model.category = passCategory ?? state.model.category;
 
-
     state.model.companyName = state.model.companyType?.name == 'FTE' ?'Deutsche Bank': state.model.companyName;
 
     List<Organisation> companyTypeList = [];
@@ -269,7 +269,6 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
 
          passValidUntilDate = await commonServices.getPassValidUntil(passCategory: 2);
         state.model.endTime =passValidUntilDate ;
-         log('passValidUntilDate ${passValidUntilDate}');
         emit(
           state.copyWith(
             model: state.model,
@@ -540,5 +539,4 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
       return false;
     }
   }
-
 }

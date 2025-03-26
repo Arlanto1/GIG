@@ -19,7 +19,7 @@ class VendorPassManagementDetailsState extends Equatable {
   final List<Organisation>? getStatus;
   final List<ImageContent> loadAttachments;
   final String? message;
-  final MmUiLabels? labels;
+  final PMUiLabels? labels;
 
   factory VendorPassManagementDetailsState.initial({
     required VendorPassManagementModel model,
@@ -184,7 +184,7 @@ class VendorPassManagementDetailsState extends Equatable {
     List<Organisation>? departments,
     List<ImageContent>? loadAttachments,
     String? message,
-    MmUiLabels? labels,
+    PMUiLabels? labels,
   }) {
     return VendorPassManagementDetailsState(
       status: status ?? this.status,

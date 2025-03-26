@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/passmanagement/day_pass_mangement/services/day_passmanagement_service.dart';
 import 'package:db_atom/src/features/passmanagement/models/day_pass_reason_model.dart';
+import 'package:db_atom/src/features/passmanagement/models/pm_ui_labels.dart';
 import 'package:intl/intl.dart';
 
 import '../../models/day_pass_management_model.dart';
@@ -137,7 +138,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
         Organisation defaultPassType = getPassType.first;
         state.model.passTypeName = defaultPassType.name;
       }
-      log('--emailUsers--${emailUsers.length}---');
       // Get Date of Creation
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
@@ -145,7 +145,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
 
-      MmUiLabels labels = MmUiLabels.fromJson(responseLabels);
+      PMUiLabels labels = PMUiLabels.fromJson(responseLabels);
 
 
       state.model.entrySecurity ??= loggedInUserDetails;
@@ -374,9 +374,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       );
     }
 
-    // if (passType != null) {
-    // }
-
     DayPassNumberLists passTypeNo = DayPassNumberLists(activePassInfoList: []); // Initialize with default value
     if (passType != null) {
       state.model.passType = passType.id;
@@ -394,10 +391,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       );
     }
 
-    // if (passType != null) {
-    //   state.model.passType = passType.id;
-    //   state.model.passTypeName = passType.name;
-    // }
     if (updatedStatus != null) {
       state.model.updatedStatus = updatedStatus.id;
     }
@@ -443,7 +436,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       ),
     );
 
-    log('--state.status--3--${state.status}----');
   }
 
 
@@ -455,9 +447,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     );
     state.model.status ??= 0;
     state.model.passInfo?.passType ??= 0;
-    // Setting time in milliseconds
-    // state.model.createdDate =
-    //     (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     DateTime dateTime;
     if (!Utils().isTimestamp(state.model.inputDate!)) {

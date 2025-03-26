@@ -20,7 +20,7 @@ class SezPassManagementDetailsState extends Equatable {
   final List<ImageContent>? loadAttachments;
   final String? message;
   final String? passValidUntil;
-  final MmUiLabels? labels;
+  final PMUiLabels? labels;
 
   factory SezPassManagementDetailsState.initial({
     required SezPassManagementModel model,
@@ -192,7 +192,7 @@ class SezPassManagementDetailsState extends Equatable {
     List<ImageContent>? loadAttachments,
     String? passValidUntil,
     String? message,
-    MmUiLabels? labels,
+    PMUiLabels? labels,
   }) {
     return SezPassManagementDetailsState(
       status: status ?? this.status,
