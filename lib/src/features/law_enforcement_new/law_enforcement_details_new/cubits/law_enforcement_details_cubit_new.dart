@@ -203,8 +203,6 @@ class LawEnforcementDetailsCubit
       );
     }
 
-    // state.model.approver = null;
-
     emit(state.copyWith(
       model: state.model,
       users: emailUsers,
@@ -220,7 +218,6 @@ class LawEnforcementDetailsCubit
     BaseUser? user,
     BaseUser? dbOfficialEmail,
     int? status,
-    // BaseUser? receiverEmailUser,
   }) async {
     emit(
       state.copyWith(
@@ -294,12 +291,7 @@ class LawEnforcementDetailsCubit
     // TODO: Need to change from Backend- Status should be handled from backend
     state.model.status ??= 0;
     try {
-      // GenericResponse response = GenericResponse();
       SubmitLawEnforcementResponse response =SubmitLawEnforcementResponse();
-      // await services.createLawFoundArticle(
-      //   body: bodyRequest,
-      //   isSubmit: isSubmit,
-      // ); /
       if (isSaveOnly) {
         //Validating Fields
         if (!state.isValidDraft.status) {

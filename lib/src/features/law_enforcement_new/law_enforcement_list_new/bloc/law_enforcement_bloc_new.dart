@@ -1,23 +1,7 @@
 import 'dart:async';
-
-import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:db_atom/src/constants/constants.dart';
-import 'package:db_atom/src/enums/form_status.dart';
-import 'package:db_atom/src/features/createfound/models/get_locations_model.dart';
-import 'package:db_atom/src/features/createfound/models/user.dart';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/law_enforcement_new/models/law_enforcement_model_new.dart';
 import 'package:db_atom/src/features/law_enforcement_new/services/law_enforcement_services_new.dart';
-import 'package:db_atom/src/features/passmanagement/models/pm_ui_labels.dart';
-import 'package:db_atom/src/models/base_filter_model.dart';
-import 'package:db_atom/src/models/extra_properties.dart';
-import 'package:db_atom/src/models/organisation.dart';
-import 'package:db_atom/src/models/responseModels/generic_response.dart';
-import 'package:db_atom/src/models/responseModels/token_expired.dart';
-import 'package:db_atom/src/services/common_services.dart';
-import 'package:db_atom/src/utils/shared_preferences.dart';
-import 'package:db_atom/src/utils/utils_common.dart';
-import 'package:equatable/equatable.dart';
 
 part 'law_enforcement_event_new.dart';
 part 'law_enforcement_state_new.dart';
@@ -70,7 +54,7 @@ class LawEnforcementBloc
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.passManagementRolesModuleCode);
 
-      PMUiLabels labels = PMUiLabels.fromJson(responseLabels);
+      LeoUiLabels labels = LeoUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,

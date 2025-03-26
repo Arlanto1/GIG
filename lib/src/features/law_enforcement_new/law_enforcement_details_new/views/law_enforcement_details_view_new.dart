@@ -79,10 +79,6 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
         }
       },
       builder: (context, state) {
-
-        log('-state.status---${state.model.visitPurpose?.name}----');
-        log('-id--${state.model.id}----');
-
         dbOfficialWantToMeetController.text = state.model.dbOfficialEmail??'';
 
         if (state.model.status == null) {
@@ -99,17 +95,13 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
         if (state.model.status == 2 && state.model.lock.isEmptyOrNull) {
           isEdit = true;
         }
-        // if (state.model.status == -1 || !state.model.lock.isEmptyOrNull) {
-        //   isReadOnly = true;
-        // }
         if (state.model.status == null) {
           isReadOnly = false;
         }
-        // if (widget.extraProperties != null &&
-        //     !widget.extraProperties!.hasWritePermission!) {
-        //   isReadOnly = true;
-        // }
-
+        if (widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) {
+          isReadOnly = true;
+        }
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
@@ -309,7 +301,6 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                               all: state.listOfEntities ?? [],
                               enabled: isEdit,
                               onTap: (List<Organisation> selectedEntities) {
-                                log('--selectedEntities----${selectedEntities.length}');
                                 BlocProvider.of<
                                     LawEnforcementDetailsCubit>(
                                     context)
@@ -345,20 +336,14 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                               onlyDate: false,
                               showPastDate: true,
                               showFutureDate: false,
-                              // fromDate: initialisedStartDate,
-                              // toDate: initialisedToDate,
                               onChange: (String value) {
-                                // isDateSelectedByUser = true;
                                 timeOfVisitController.text = value;
                                 state.model.timeOfVisit =
                                     Utils().formatTime(value);
-                                // state.model.startTime =
-                                //     Utils().formatTime(value);
                                 BlocProvider.of<
                                     LawEnforcementDetailsCubit>(
                                     context)
                                     .onModelValueChange(state.model);
-                                //},
                               },
                               context: context,
                             ),
@@ -411,7 +396,6 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                               isDisableColor: !isEdit,
                               onTap: () {
                                 if (isEdit) {
-                                // if (widget.materialMovement != null) {
                                 BaseOrganisationDialog().departmentDialog(
                                     context: context,
                                     organisations: state.visitPurpose,
@@ -425,9 +409,6 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                           .updateDropdownValues(
                                           visitPurpose: visitPurpose);
                                     },
-                                    // orgName: 'EMPLOYEE_DEPARTMENTS',
-                                    // createEntity: false,
-                                    // title: 'Add Department',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
@@ -460,8 +441,6 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                   BlocProvider.of<
                                       LawEnforcementDetailsCubit>(
                                       context).onCheckBoxChange(state.model);
-                                  //.onModelValueChange(state.guardingMasterData
-                                  //);
                                 },
                                 onChangedNo: state.model.status != null && state.model.status != 0
                                     ? null
@@ -491,8 +470,6 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                   BlocProvider.of<
                                       LawEnforcementDetailsCubit>(
                                       context).onCheckBoxChange(state.model);
-                                  //.onModelValueChange(state.guardingMasterData
-                                  //);
                                 },
                                 onChangedNo: state.model.status != null && state.model.status != 0
                                     ? null
@@ -519,7 +496,6 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                               textInputType: TextInputType.text,
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
-                              // focusNode: employeeIdFocusNode,
                               isEnable: isEdit,
                               isDisableColor: !isEdit,
                               onChange: (String value) {
@@ -546,7 +522,6 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                               isDisableColor: !isEdit,
                               onTap: () {
                                 if (isEdit) {
-                                  // if (widget.materialMovement != null) {
                                   BaseOrganisationDialog().departmentDialog(
                                       context: context,
                                       organisations: state.department,
@@ -560,9 +535,6 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                             .updateDropdownValues(
                                             department: department);
                                       },
-                                      // orgName: 'EMPLOYEE_DEPARTMENTS',
-                                      // createEntity: false,
-                                      // title: 'Add Department',
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
@@ -571,8 +543,6 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                             .refreshList();
                                       });
                                  }
-                                // leodepartmentsDialog(state);
-                                // }
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -603,8 +573,6 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                             .updateDropdownValues(
                                             dbOfficialEmail:
                                             user);
-                                        // FocusScope.of(context).requestFocus(
-                                        //     receivedForEmployeeIdFocusNode);
                                       },
                                       roleName: ConstantUserRoles
                                           .atomStaticUser,
@@ -617,9 +585,6 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                             .updateDropdownValues(
                                             dbOfficialEmail:
                                             user);
-                                        // FocusScope.oedf(context).requestFocus(
-                                        //     receivForEmployeeIdFocusNode);
-                                        // refresh the list
                                         BlocProvider.of<
                                             LawEnforcementDetailsCubit>(
                                             context)
@@ -738,7 +703,6 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                     distributionGroups: selectedGroups);
                                 Navigator.of(context).pop();
                               },
-                              // orgName: 'ATOM_ENTITIES',
                               functionToCall: () {
                                 BlocProvider.of<
                                     LawEnforcementDetailsCubit>(
@@ -747,7 +711,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-    ],
+                            ]
                           ],
                         ),
                       ),
@@ -793,8 +757,6 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                 ConstantsArgument.keyLostType: 0,
                                 ConstantsArgument.id:
                                 state.model.id,
-                                // ConstantsArgument.models:
-                                //     visitingOfficials,
                                 ConstantsArgument.departments: state.visitingDepartment,
                                 ConstantsArgument.showSaveButton:
                                 (widget.model?.status != 3) &&

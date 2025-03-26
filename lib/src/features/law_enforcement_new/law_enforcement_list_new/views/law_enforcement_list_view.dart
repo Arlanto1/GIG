@@ -88,19 +88,12 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
                 showSubmitButton: false,
                 showDisLikeButton: false,
                 showLikeButton: false,
-                excelAPIName: 'exportPassMgmtExcel?passType=${0}&isList=1',
-                pdfAPIName: 'exportPassMgmtPDF?passType=${0}&isList=1',
+                excelAPIName: 'exportLEOExcel',
+                pdfAPIName: 'exportLEOPDF',
               ),
               body:
               BlocBuilder<LawEnforcementBloc, LawEnforcementNewState>(
                   builder: (context, state) {
-                    // if (state.status == FormStatus.loading) {
-                    //   return const BaseLoader();
-                    // }
-                    // if (state.list.isEmptyOrNull) {
-                    //   return const NoRecordFoundWidget();
-                    // }
-                    // log('--labels-${state.labels?.locale.locationRegion}');
                     return Container(
                       margin: allMargin16,
                       decoration: const ShapeDecoration(
@@ -110,7 +103,6 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
                             BorderRadius.vertical(top: Radius.circular(20.0)),
                           )),
                       child: Column(
-                        // crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           BaseSearchWidget(
                             applySearchFilters: applySearchFilters,
@@ -127,8 +119,6 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
                             const BaseLoader(),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ],
-                          // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
-                          // Text('state.status=====${state.status}'),
                           if (state.items.isEmptyOrNull &&
                               state.status != FormStatus.loading) ...[
                             CommonWidgets.verticalSpacerWidget(height * 0.1),
@@ -190,9 +180,9 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
 
                                     labels.add(Label(
                                         key:
-                                        // state.labels?.locale.inputDate ??
-                                        //     state.labels?.defaultLocale
-                                        //         .inputDate ??
+                                        state.labels?.locale.timeOfVisit ??
+                                            state.labels?.defaultLocale
+                                                .timeOfVisit ??
                                             Constants.actualtimeofvisit,
                                         value: state.items[index].timeOfVisit != null
                                             ? Utils.timestampToDateConversion(
@@ -336,8 +326,6 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
           newSearch: true,
           filters: filters),
     );
-    // _scrollController = ScrollController()..addListener(_onScroll);
-
     Navigator.pop(context);
   }
 }

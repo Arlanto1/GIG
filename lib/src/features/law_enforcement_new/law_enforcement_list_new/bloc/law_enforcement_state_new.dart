@@ -10,7 +10,7 @@ class LawEnforcementNewState extends Equatable {
   final CommonFilters? commonFilters;
   final User? loggedInUser;
   final String? message;
-  final PMUiLabels? labels;
+  final LeoUiLabels? labels;
   final ExtraProperties? extraProperties;
   final LawEnforcementModelNew? model;
 
@@ -37,7 +37,7 @@ class LawEnforcementNewState extends Equatable {
     List<Organisation>? regions,
     List<Organisation>? statuses,
     User? loggedInUser,
-    PMUiLabels? labels,
+    LeoUiLabels? labels,
     ExtraProperties? extraProperties,
   }) {
     return LawEnforcementNewState(
