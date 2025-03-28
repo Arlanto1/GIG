@@ -638,6 +638,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         state.model.approvedDate = inputDate.toString();
       }
     }
+
+    state.model.modifiedDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
     // if (!Utils().isTimestamp(state.model.approvedDate!)) {
     //   dateTime =
     //       DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.approvedDate!);
