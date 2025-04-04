@@ -9,15 +9,16 @@ abstract class ArticleFoundEvent extends Equatable{
 }
 
 class FetchArticleData extends ArticleFoundEvent {
-  final int maxResults;
   final int startPos;
+  final int maxPos;
   final bool newSearch;
   final BaseFilterModel filters;
+
   const FetchArticleData(
-      this.maxResults,
-      this.startPos,
-      this.newSearch,
-      this.filters);
+      {required this.startPos,
+        required this.maxPos,
+        required this.newSearch,
+        required this.filters});
 }
 
 class InitializeValuesAF extends ArticleFoundEvent{

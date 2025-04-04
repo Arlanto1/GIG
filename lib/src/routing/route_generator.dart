@@ -7,6 +7,7 @@ import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shu
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/views/annual_power_shutdown_list_details_view.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/services/annual_power_shutdown_services.dart';
+import 'package:db_atom/src/features/article_found/article_found_list/bloc/article_found_list_bloc.dart';
 import 'package:db_atom/src/features/article_found_register_module/article_found_list/bloc/article_found_bloc.dart'
     as af;
 import 'package:db_atom/src/features/article_found_register_module/article_found_list/views/article_found_list_view.dart';
@@ -94,6 +95,7 @@ import 'package:db_atom/src/features/ticketing_system/ticketing_system_details/v
 import 'package:db_atom/src/features/ticketing_system/ticketing_systems/bloc/ticketing_system_bloc.dart';
 import 'package:db_atom/src/features/ticketing_system/ticketing_systems/views/ticketing_system_view.dart';
 
+import '../features/article_found/article_found_list/views/article_found_list_view.dart';
 import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_details/cubits/key_loss_destruction_details_cubit.dart';
 import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_details/views/key_loss_destruction_details_view.dart';
 import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart';
@@ -2139,6 +2141,20 @@ class RouteGenerator {
             ),
           ),
         );
+
+
+      case articleFoundNewListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<ArticleFoundBloc>(
+              create: (_) => ArticleFoundBloc()
+                ..add(FetchArticleData(
+                    startPos: 0,
+                    maxPos: Constants.maxResults,
+                    newSearch: true,
+                    filters: BaseFilterModel())),
+              child: const ArticleFoundNewListView(),
+            ));
+
 
       default:
         log('--default---${settings.name}-');

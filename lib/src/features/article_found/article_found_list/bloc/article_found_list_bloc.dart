@@ -97,7 +97,7 @@ class ArticleFoundBloc extends Bloc<ArticleFoundEvent, ArticleFoundState>{
       if(state.status == FormStatus.initial || event.newSearch) {
         ArticleFoundResponseModel response = await services.getListWithFilters(
           startPosition: '${event.startPos}',
-          maximumRecords: '${event.maxResults}',
+          maximumRecords: '${event.maxPos}',
           filters: event.filters,
         );
         emit(
@@ -110,7 +110,7 @@ class ArticleFoundBloc extends Bloc<ArticleFoundEvent, ArticleFoundState>{
       }
       ArticleFoundResponseModel response = await services.getListWithFilters(
         startPosition: '${event.startPos}',
-        maximumRecords: '${event.maxResults}',
+        maximumRecords: '${event.maxPos}',
         filters: event.filters,
       );
 
