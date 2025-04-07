@@ -41,7 +41,7 @@ class ArticleFoundServices {
     return ArticleFoundModel.fromJson(response);
   }
 
-  Future<GenericResponse> createLawEnforcement({
+  Future<GenericResponse> createArticleFound({
     required ArticleFoundRequest body,
     required bool isSubmit,
   }) async {

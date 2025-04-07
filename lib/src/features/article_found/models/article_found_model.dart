@@ -28,42 +28,43 @@ class ArticleFoundResponseModel {
 }
 
 class ArticleFoundModel {
-  final int? id;
-  final String? slNo;
-  final String? inputDate;
-  final Organisation? locationRegion;
-  final int? typeOfAsset;
-  final Organisation? typeOfArticle;
-  final String? foundDate;
-  final String? foundLocation;
-  final String? additionalInformation;
-  final int? quantity;
-  final String? color;
-  final List<ImageContent>? images;
-  final bool? depositorDbEmp;
-  final User? depositor;
-  final String? employeeId;
-  final Organisation? depositorDepartment;
-  final bool? claimantDbEmp;
-  final bool? claimantConfirmByEmail;
-  final User? claimant;
-  final bool? claimantNoSign;
-  final ImageContent? claimantSign;
-  final String? claimantEmployeeId;
-  final Organisation? claimantDepartment;
-  final String? handoverDate;
-  final User? entrySecurity;
-  final User? handoverSecurity;
-  final int? status;
-  final String? modifiedBy;
-  final String? depositorName;
-  final String? claimantName;
-  final String? locationName;
-  final String? entrySecurityName;
-  final String? handOverSecurityName;
-  final String? depositorDepartmentName;
-  final String? claimantDepartmentName;
-  final Organisation? location;
+   int? id;
+   String? slNo;
+   String? inputDate;
+   Organisation? locationRegion;
+   int? typeOfAsset;
+   Organisation? typeOfArticle;
+   String? foundDate;
+   String? foundLocation;
+   String? additionalInformation;
+   int? quantity;
+   String? color;
+   List<ImageContent>? images;
+   bool? depositorDbEmp;
+   User? depositor;
+   String? employeeId;
+   Organisation? depositorDepartment;
+   bool? claimantDbEmp;
+   bool? claimantConfirmByEmail;
+   User? claimant;
+   bool? claimantNoSign;
+   ImageContent? claimantSign;
+   String? claimantEmployeeId;
+   Organisation? claimantDepartment;
+   String? handoverDate;
+   User? entrySecurity;
+   User? handoverSecurity;
+   int? status;
+   String? modifiedBy;
+   String? depositorName;
+   String? claimantName;
+   String? locationName;
+   String? entrySecurityName;
+   String? handOverSecurityName;
+   String? depositorDepartmentName;
+   String? claimantDepartmentName;
+   Organisation? location;
+   String? lock;
 
   ArticleFoundModel({
     this.id,
@@ -102,6 +103,7 @@ class ArticleFoundModel {
     this.depositorDepartmentName,
     this.claimantDepartmentName,
     this.location,
+    this.lock,
   });
 
   ArticleFoundModel.fromJson(Map<String, dynamic> json)
@@ -140,7 +142,8 @@ class ArticleFoundModel {
         handOverSecurityName = json['handOverSecurityName'] as String?,
         depositorDepartmentName = json['depositorDepartmentName'] as String?,
         claimantDepartmentName = json['claimantDepartmentName'] as String?,
-        location = (json['location'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['location'] as Map<String,dynamic>) : null;
+        location = (json['location'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['location'] as Map<String,dynamic>) : null,
+        lock = json['lock'] as String?;
 
   Map<String, dynamic> toJson() => {
     'id' : id,
@@ -178,7 +181,8 @@ class ArticleFoundModel {
     'handOverSecurityName' : handOverSecurityName,
     'depositorDepartmentName' : depositorDepartmentName,
     'claimantDepartmentName' : claimantDepartmentName,
-    'location' : location?.toJson()
+    'location' : location?.toJson(),
+    'lock':lock,
   };
 }
 
