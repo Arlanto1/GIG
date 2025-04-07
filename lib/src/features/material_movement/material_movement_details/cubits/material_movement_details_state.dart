@@ -75,15 +75,15 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter SL No');
     }
 
-    if (model.requestorEmail !=null && model.requestorEmail == model.approver1Email) {
+    if (model.inwardMovement== false && model.requestorEmail !=null && model.requestorEmail == model.approver1Email) {
       return const ErrorResponse(status: false, message: 'Selected Approver1 Email is already selected in other list');
     }
 
-    if (model.requestorEmail !=null && model.requestorEmail == model.approver2Email) {
+    if (model.inwardMovement== false && model.requestorEmail !=null && model.requestorEmail == model.approver2Email) {
       return const ErrorResponse(status: false, message: 'Selected Approver2 Email is already selected in other list');
     }
 
-    if (model.approver1Email !=null && model.approver1Email == model.approver2Email) {
+    if (model.inwardMovement== false && model.approver1Email !=null && model.approver1Email == model.approver2Email) {
       return const ErrorResponse(status: false, message: 'Selected Approver2 Email is already selected in other list ');
     }
     return const ErrorResponse(status: true, message: 'Form is Valid');
@@ -293,15 +293,15 @@ class MaterialMovementDetailsState extends Equatable {
       );
     }
 
-    if (model.requestorEmail !=null && model.requestorEmail == model.approver1Email) {
+    if (model.inwardMovement== false && model.requestorEmail !=null && model.requestorEmail == model.approver1Email) {
       return const ErrorResponse(status: false, message: 'Selected Approver1 Email is already selected in other list');
     }
 
-    if (model.requestorEmail !=null && model.requestorEmail == model.approver2Email) {
+    if (model.inwardMovement== false && model.requestorEmail !=null && model.requestorEmail == model.approver2Email) {
       return const ErrorResponse(status: false, message: 'Selected Approver2 Email is already selected in other list');
     }
 
-    if (model.approver1Email !=null && model.approver1Email == model.approver2Email) {
+    if (model.inwardMovement== false && model.approver1Email !=null && model.approver1Email == model.approver2Email) {
       return const ErrorResponse(status: false, message: 'Selected Approver2 Email is already selected in other list ');
     }
 

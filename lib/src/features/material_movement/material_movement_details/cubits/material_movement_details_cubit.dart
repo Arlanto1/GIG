@@ -691,6 +691,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
               : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
+          state.model.modifiedDate = state.model.modifiedDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.modifiedDate ?? '0'),
+              Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.formError,
@@ -709,6 +714,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
+          state.model.modifiedDate = state.model.modifiedDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.modifiedDate ?? '0'),
               Constants.fulldateFormat);
           emit(
             state.copyWith(
@@ -731,6 +741,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
               : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
+          state.model.modifiedDate = state.model.modifiedDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.modifiedDate ?? '0'),
+              Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.formError,
@@ -749,6 +764,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
+          state.model.modifiedDate = state.model.modifiedDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.modifiedDate ?? '0'),
               Constants.fulldateFormat);
           emit(
             state.copyWith(
