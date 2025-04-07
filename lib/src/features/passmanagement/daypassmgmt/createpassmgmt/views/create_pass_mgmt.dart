@@ -1199,7 +1199,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     .sezPassInfo ??
                                                 state.labels?.defaultLocale
                                                     .sezPassInfo ??
-                                                Constants.sezPass,
+                                                Constants.sezPassInfo,
                                         Styles.textStyleBlack14,
                                         isMandatory: true,
                                       ),

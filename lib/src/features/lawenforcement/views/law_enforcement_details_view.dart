@@ -1923,7 +1923,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       LawEnforcementState state) {
     return TextFieldAddButton(
       title: state.dBOfficialEmailIdAccompaniedLeoOfficial != null
-          ? ('${state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? ''}     ${state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? ''}')
+          ? ('${state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? ''}   ${state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? ''}')
           : '',
       height: 90,
       isDisableColor: isReadOnly,
@@ -2110,7 +2110,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail:
               state.dBOfficialEmailIdAccompaniedLeoOfficial != null
-                  ? '${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '')} (${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')})'
+                  ? '${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '')}   ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')}'
                   : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
@@ -2133,7 +2133,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail:
           state.dBOfficialEmailIdAccompaniedLeoOfficial != null
-              ? '${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '')} (${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')})'
+              ? '${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '')}   ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')}'
               : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
