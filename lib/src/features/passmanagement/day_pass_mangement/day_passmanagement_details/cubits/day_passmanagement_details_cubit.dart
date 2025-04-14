@@ -294,6 +294,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       state.model.employee?.employeeId = null;
       state.model.employee?.firstName = null;
       state.model.employee?.lastName = null;
+      state.model.employeeName = null;
       state.model.employee = null;
       state.model.employeeId = null;
       state.model.companyName = state.model.companyType?.name == 'FTE' ?'Deutsche Bank': state.model.companyName;
