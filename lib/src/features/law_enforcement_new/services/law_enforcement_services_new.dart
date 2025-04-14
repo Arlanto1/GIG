@@ -1,6 +1,5 @@
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/law_enforcement_new/models/law_enforcement_model_new.dart';
-import 'package:db_atom/src/features/law_enforcement_new/visiting_officials/models/requestModels/visitingOfficialsRequest.dart';
 
 import '../models/requestModels/law_enforcement_request_new.dart';
 
@@ -91,7 +90,7 @@ class LawEnforcementServicesNew {
 
   Future<GenericResponse> createVisitingOfficial({
     required int parentId,
-    required VisitingOfficialsRequest body,
+    required LawVisitingOfficialRequest body,
   }) async {
     // var username = await SharedPrefs.getUsername();
     final String url =

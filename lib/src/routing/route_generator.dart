@@ -67,8 +67,8 @@ import 'package:db_atom/src/features/incident_management/services/incident_manag
 import 'package:db_atom/src/features/law_enforcement_new/law_enforcement_list_new/bloc/law_enforcement_bloc_new.dart';
 import 'package:db_atom/src/features/law_enforcement_new/models/law_enforcement_model_new.dart';
 import 'package:db_atom/src/features/law_enforcement_new/services/law_enforcement_services_new.dart';
-import 'package:db_atom/src/features/law_enforcement_new/visiting_officials/bloc/visiting_officials_bloc.dart';
-import 'package:db_atom/src/features/law_enforcement_new/visiting_officials/views/visiting_officials_view.dart';
+// import 'package:db_atom/src/features/law_enforcement_new/visiting_officials/bloc/visiting_officials_bloc.dart';
+// import 'package:db_atom/src/features/law_enforcement_new/visiting_officials/views/visiting_officials_view.dart';
 import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_bloc.dart'
     as vo;
 import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/views/visiting_officials_list_view.dart';
@@ -2109,40 +2109,40 @@ class RouteGenerator {
       //     ),
       //   );
 
-      case lawVisitingOfficialViewRoute:
-        String title = '';
-        int id = 0;
-        ExtraProperties? extraProperties;
-        String? lock;
-        int parentStatus = 0;
-        if (settings.arguments != null) {
-          Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
-          id = arguments[ConstantsArgument.id];
-          title = arguments[ConstantsArgument.title];
-          extraProperties = arguments[ConstantsArgument.extraProperties];
-          lock = arguments[ConstantsArgument.isLocked];
-          parentStatus = arguments[ConstantsArgument.parentStatus];
-        }
-        return MaterialPageRoute(
-          builder: (context) => BlocProvider<VisitingOfficialsBloc>(
-            create: (_) => VisitingOfficialsBloc(
-              //violationDescription: violationDescription,
-            )
-              ..add(FetchVisitingOfficialsData(
-                id: id,
-                startPos: 0,
-                maxPos: 100,
-              )),
-            child: VisitingOfficialsView(
-              id: id,
-              title: title,
-              extraProperties: extraProperties,
-              lock: lock,
-              parentStatus: parentStatus,
-            ),
-          ),
-        );
+      // case lawVisitingOfficialViewRoute:
+      //   String title = '';
+      //   int id = 0;
+      //   ExtraProperties? extraProperties;
+      //   String? lock;
+      //   int parentStatus = 0;
+      //   if (settings.arguments != null) {
+      //     Map<String, dynamic> arguments =
+      //     settings.arguments as Map<String, dynamic>;
+      //     id = arguments[ConstantsArgument.id];
+      //     title = arguments[ConstantsArgument.title];
+      //     extraProperties = arguments[ConstantsArgument.extraProperties];
+      //     lock = arguments[ConstantsArgument.isLocked];
+      //     parentStatus = arguments[ConstantsArgument.parentStatus];
+      //   }
+      //   return MaterialPageRoute(
+      //     builder: (context) => BlocProvider<VisitingOfficialsBloc>(
+      //       create: (_) => VisitingOfficialsBloc(
+      //         //violationDescription: violationDescription,
+      //       )
+      //         ..add(FetchVisitingOfficialsData(
+      //           id: id,
+      //           startPos: 0,
+      //           maxPos: 100,
+      //         )),
+      //       child: VisitingOfficialsView(
+      //         id: id,
+      //         title: title,
+      //         extraProperties: extraProperties,
+      //         lock: lock,
+      //         parentStatus: parentStatus,
+      //       ),
+      //     ),
+      //   );
 
 
       case articleFoundNewListRoute:

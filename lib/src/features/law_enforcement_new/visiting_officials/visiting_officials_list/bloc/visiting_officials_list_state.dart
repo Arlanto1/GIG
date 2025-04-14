@@ -1,36 +1,36 @@
-part of 'visiting_officials_bloc.dart';
+part of 'visiting_officials_list_bloc.dart';
 
-class VisitingOfficialsState extends Equatable {
-  final List<VisitingOfficialsModel>? items;
+class VisitingOfficialListState extends Equatable {
+  final List<LawVisitingOfficial>? items;
   final bool hasReachedMax;
   final FormStatus status;
+  final List<Organisation> departments;
   final String? message;
-  final VVIPUiLabels? labels;
-  final List<Organisation>? departments;
+  final LeoUiLabels? labels;
 
-  const VisitingOfficialsState({
+  const VisitingOfficialListState({
     this.message,
-    this.items = const <VisitingOfficialsModel>[],
+    this.items = const <LawVisitingOfficial>[],
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
-    this.departments,
-    this.labels,
+    required this.departments,
+    this.labels
   });
 
-  VisitingOfficialsState copyWith({
-    List<VisitingOfficialsModel>? items,
+  VisitingOfficialListState copyWith({
+    List<LawVisitingOfficial>? items,
     bool? hasReachedMax,
     FormStatus? status,
-    String? message,
-    VVIPUiLabels? labels,
     List<Organisation>? departments,
+    String? message,
+    LeoUiLabels? labels,
   }) {
-    return VisitingOfficialsState(
+    return VisitingOfficialListState(
       items: items ?? this.items,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       status: status ?? this.status,
+      departments: departments ?? this.departments,
       message: message ?? this.message,
-      departments:departments ?? this.departments,
       labels: labels ?? this.labels,
     );
   }
