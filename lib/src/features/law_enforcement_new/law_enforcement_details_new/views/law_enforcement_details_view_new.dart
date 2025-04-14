@@ -602,7 +602,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                   state.labels?.defaultLocale.additionalInformation ??
                                 Constants.additionalinformation,
                                 Styles.textStyleBlack14,
-                                isMandatory: true),
+                                isMandatory: false),
                               FlutterInputField(
                                 lineHeight: 6,
                                 characterLimit:
@@ -727,10 +727,16 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                         /// Visiting Officials Details
                         Container(
                           alignment: Alignment.topLeft,
-                          child: Text(
-                            Constants.visitingOfficialDetails,
-                            style: Styles.styleHeaderGreyText16,
-                          ),
+                          // child: Text(
+                          //   Constants.visitingOfficialDetails,
+                          //   style: Styles.styleHeaderGreyText16,
+                          // ),
+                          child : CommonWidgets.textDisplay(
+                              // state.labels?.locale.additionalInformation ??
+                              //     state.labels?.defaultLocale.additionalInformation ??
+                                  Constants.visitingOfficialDetails,
+                              Styles.styleHeaderGreyText16,
+                              isMandatory: true),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                         GestureDetector(

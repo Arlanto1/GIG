@@ -40,14 +40,14 @@ class ArticleFoundModel {
    int? quantity;
    String? color;
    List<ImageContent>? images;
-   bool? depositorDbEmp;
+   bool depositorDbEmp;
    User? depositor;
    String? employeeId;
    Organisation? depositorDepartment;
-   bool? claimantDbEmp;
-   bool? claimantConfirmByEmail;
+   bool claimantDbEmp;
+   bool claimantConfirmByEmail;
    User? claimant;
-   bool? claimantNoSign;
+   bool claimantNoSign;
    ImageContent? claimantSign;
    String? claimantEmployeeId;
    Organisation? claimantDepartment;
@@ -79,14 +79,14 @@ class ArticleFoundModel {
     this.quantity,
     this.color,
     this.images,
-    this.depositorDbEmp,
+    this.depositorDbEmp = false,
     this.depositor,
     this.employeeId,
     this.depositorDepartment,
-    this.claimantDbEmp,
-    this.claimantConfirmByEmail,
+    this.claimantDbEmp = false,
+    this.claimantConfirmByEmail = false,
     this.claimant,
-    this.claimantNoSign,
+    this.claimantNoSign = true,
     this.claimantSign,
     this.claimantEmployeeId,
     this.claimantDepartment,
@@ -119,14 +119,14 @@ class ArticleFoundModel {
         quantity = json['quantity'] as int?,
         color = json['color'] as String?,
         images = (json['images'] as List?)?.map((dynamic e) => ImageContent.fromJson(e as Map<String,dynamic>)).toList(),
-        depositorDbEmp = json['depositorDbEmp'] as bool?,
+        depositorDbEmp = json['depositorDbEmp'] as bool,
         depositor = (json['depositor'] as Map<String,dynamic>?) != null ? User.fromJson(json['depositor'] as Map<String,dynamic>) : null,
         employeeId = json['employeeId'] as String?,
         depositorDepartment = (json['depositorDepartment'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['depositorDepartment'] as Map<String,dynamic>) : null,
-        claimantDbEmp = json['claimantDbEmp'] as bool?,
-        claimantConfirmByEmail = json['claimantConfirmByEmail'] as bool?,
+        claimantDbEmp = json['claimantDbEmp'] as bool,
+        claimantConfirmByEmail = json['claimantConfirmByEmail'] as bool,
         claimant = (json['claimant'] as Map<String,dynamic>?) != null ? User.fromJson(json['claimant'] as Map<String,dynamic>) : null,
-        claimantNoSign = json['claimantNoSign'] as bool?,
+        claimantNoSign = json['claimantNoSign'] as bool,
         claimantSign = (json['claimantSign'] as Map<String,dynamic>?) != null ? ImageContent.fromJson(json['claimantSign'] as Map<String,dynamic>) : null,
         claimantEmployeeId = json['claimantEmployeeId'] as String?,
         claimantDepartment = (json['claimantDepartment'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['claimantDepartment'] as Map<String,dynamic>) : null,

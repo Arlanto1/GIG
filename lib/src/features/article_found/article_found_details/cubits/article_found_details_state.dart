@@ -6,17 +6,13 @@ class ArticleFoundDetailsState extends Equatable {
   final ArticleFoundModel model;
   final Locations? locations;
   final User? loggedInUserDetails;
-  final List<Organisation> getCompanyTypeResponse;
+   final List<Organisation>? articleType;
   final List<BaseUser>? emailUsers;
   final List<BaseUser>? employee;
-  final List<BaseUser>? dbSponsor;
+  final List<BaseUser>? claimant;
   final List<BaseUser>? host;
-  final List<Organisation>? listOfEntities;
-  final List<Organisation> dayPassReason;
-  final List<Organisation>? passNo;
-  final List<Organisation>? passType;
   final List<Organisation> departments;
-  final List<Organisation>? getStatus;
+  final List<Organisation> claimantDepartments;
   final List<ImageContent> uploadAttachments;
   final String? message;
   final PMUiLabels? labels;
@@ -24,31 +20,23 @@ class ArticleFoundDetailsState extends Equatable {
   factory ArticleFoundDetailsState.initial({
     required ArticleFoundModel model,
     required Locations locations,
-    required final List<Organisation>? listOfEntities,
-    required final List<Organisation> dayPassReason,
-    required final List<Organisation> passNo,
-    required final List<Organisation> passType,
-    required final List<Organisation> getCompanyTypeResponse,
+    required final List<Organisation> articleType,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required String errorMessage,
     required List<Organisation> departments,
-    required final List<Organisation> getStatus,
+    required List<Organisation> claimantDepartments,
     required List<ImageContent> uploadAttachments,
   }) {
     return ArticleFoundDetailsState(
       status: FormStatus.initial,
       model: model,
       locations: locations,
-      listOfEntities: listOfEntities,
-      dayPassReason:dayPassReason,
-      passNo:passNo,
-      passType:passType,
-      getStatus:getStatus,
-      getCompanyTypeResponse: getCompanyTypeResponse,
+      articleType: articleType,
       emailUsers: emailUsers,
       message: errorMessage,
       departments: departments,
+      claimantDepartments:claimantDepartments,
       uploadAttachments: uploadAttachments,
     );
   }
@@ -158,20 +146,16 @@ class ArticleFoundDetailsState extends Equatable {
     required this.status,
     required this.model,
     this.locations,
-    this.listOfEntities,
-    required this.dayPassReason,
-    required this.passNo,
-    required this.passType,
-    required this.getStatus,
-    required this.getCompanyTypeResponse,
+    required this.articleType,
     this.loggedInUserDetails,
     this.emailUsers,
     required this.departments,
+    required this.claimantDepartments,
     required this.uploadAttachments,
     this.message,
     this.labels,
     this.employee,
-    this.dbSponsor,
+    this.claimant,
     this.host,
   });
 
@@ -179,19 +163,15 @@ class ArticleFoundDetailsState extends Equatable {
     FormStatus? status,
     ArticleFoundModel? model,
     Locations? locations,
-    List<Organisation>? listOfEntities,
-    List<Organisation>? companyType,
-    List<Organisation>? dayPassReason,
-    List<Organisation>? passNo,
-    List<Organisation>? passType,
-    List<Organisation>? getStatus,
+    List<Organisation>? articleType,
     User? loggedInUserDetails,
     List<BaseUser>? emailUsers,
     List<BaseUser>? employee,
-    List<BaseUser>? dbSponsor,
+    List<BaseUser>? claimant,
     List<BaseUser>? host,
     List<BaseUser>? receiverEmailUsers,
     List<Organisation>? departments,
+    List<Organisation>? claimantDepartments,
     List<ImageContent>? uploadAttachments,
     String? message,
     PMUiLabels? labels,
@@ -200,18 +180,14 @@ class ArticleFoundDetailsState extends Equatable {
       status: status ?? this.status,
       model: model ?? this.model,
       locations: locations ?? this.locations,
-      listOfEntities: listOfEntities ?? this.listOfEntities,
-      dayPassReason:dayPassReason?? this.dayPassReason,
-      passNo:passNo??this.passNo,
-      passType:passType??this.passType,
-      getStatus:getStatus??this.getStatus,
-      getCompanyTypeResponse: companyType ?? getCompanyTypeResponse,
+      articleType: articleType ?? articleType,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       emailUsers: emailUsers ?? this.emailUsers,
       employee: employee ?? this.employee,
-      dbSponsor: dbSponsor ?? this.dbSponsor,
+      claimant: claimant ?? this.claimant,
       host: host ?? this.host,
       departments: departments ?? this.departments,
+      claimantDepartments: claimantDepartments ?? this.claimantDepartments,
       uploadAttachments: uploadAttachments ?? this.uploadAttachments,
       message: message ?? this.message,
       labels: labels ?? this.labels,

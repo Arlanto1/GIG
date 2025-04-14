@@ -187,6 +187,28 @@ class _DayPassManagementListViewState extends State<DayPassManagementListView> {
                                             Constants.companyType,
                                         value: state.items[index].companyType?.name ??
                                             ''));
+
+                                    labels.add(Label(
+                                        key: state.labels?.locale.returnedTime ??
+                                            state.labels?.defaultLocale
+                                                .returnedTime ??
+                                            Constants.passReturnedOn,
+                                        value: state.items[index]. returnedTime != null
+                                            ? Utils.timestampToDateConversion(
+                                            int.parse(
+                                                state.items[index].returnedTime ??
+                                                    '0'),
+                                            Constants
+                                                .twentyFourHourDateTimeFormat)
+                                            : ''));
+
+                                    labels.add(Label(
+                                        key: state.labels?.locale.handoverSecurity ??
+                                            state.labels?.defaultLocale.handoverSecurity ??
+                                            Constants.passCollectedBy,
+                                        value: state.items[index].handoverSecurity?.name != null ?state.items[index].handoverSecurity?.name ??
+                                            '':''));
+
                                     return index >= state.items.length
                                         ? const BaseLoader()
                                         : BaseListTileItem(

@@ -29,15 +29,14 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       emailUsers: const [],
       errorMessage: '',
       departments: const [],
-      listOfEntities: const [], getCompanyTypeResponse: const [], dayPassReason:const [], passNo: const [], passType: const [], getStatus: const [], uploadAttachments: [],
+      claimantDepartments: const [],
+      articleType: const [], uploadAttachments: const [],
     ),
   );
 
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
 
-    List<Organisation>? entities =
-    await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
     EmployeeDepartments departments =
     await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser> emailUsers = await commonServices.getBaseUsers(
@@ -52,13 +51,12 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
     emit(
       state.copyWith(
         status: FormStatus.initial,
-        listOfEntities: entities,
         emailUsers: emailUsers,
         departments: departments.employeeDepartments,
         receiverEmailUsers: onlyDBUsers,
         employee: onlyDBUsers,
         host: onlyDBUsers,
-        dbSponsor: onlyDBUsers,
+        claimant: onlyDBUsers,
       ),
     );
   }
@@ -85,7 +83,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
     Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
 
     if (state.model.location == null && defaultLocation != null) {
-      String moduleCode = Constants.dayPassManagementModule;
+      String moduleCode = Constants.articleFoundModuleCode;
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: defaultLocation.id.toString(),
         moduleCode: moduleCode,
@@ -99,31 +97,24 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       final futures = await Future.wait([
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
         commonServices.getUserDetails(userId: userId),
-        commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
-            moduleCode: Constants.dayPassManagementModule),
+            moduleCode: Constants.articleFoundModuleCode),
         SharedPrefs.getDefaultLocation(),
         commonServices.getBaseUsers(
             roleName: ConstantUserRoles.atomStaticUser,
             isDbUser: true,
             locationId: state.model.location!.id!),
-        commonServices.getEntities(name: 'ATOM_ENTITIES'),
-        commonServices.getOrganisations(name: 'ATOM_COMPANY_TYPES'),
-        commonServices.getPassType(passType: 0, locationId: state.model.location!.id!,),
-        commonServices.getStatusesByModuleId(
-            module: Constants.dayPassManagementModule, filter: state.model.status == 0 ? 0 : 1),
+        commonServices.getOrganisations(name: 'ARTICLE_LIST'),
+        commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
       ]);
       Locations locations = futures[0];
       User loggedInUserDetails = futures[1];
-      EmployeeDepartments departments = futures[2];
-      dynamic responseLabels = futures[3];
-      Organisation? defaultLocation = futures[4];
-      List<BaseUser> emailUsers = futures[5];
-      AddEntities entities = futures[6];
-      List<Organisation> companyType = futures[9];
-      List<Organisation> getPassType = futures[10];
-      List<Organisation> getStatus = futures[11];
+      dynamic responseLabels = futures[2];
+      Organisation? defaultLocation = futures[3];
+      List<BaseUser> emailUsers = futures[4];
+      List<Organisation> articleType = futures[5];
+      EmployeeDepartments departments = futures[6];
 
 
       // state.model.passType ??= 0;
@@ -161,19 +152,16 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
           status: FormStatus.initial,
           model: state.model,
           employee: onlyDBUsers,
-          dbSponsor: onlyDBUsers,
+          claimant: onlyDBUsers,
           host: onlyDBUsers,
           departments: departments.employeeDepartments,
           labels: labels,
-          listOfEntities: entities.atomEntities,
-          companyType: companyType,
-          passType: getPassType,
-          getStatus:getStatus,
+          articleType: articleType,
         ),
       );
     } catch (e) {
       log('Initialization issue',
-          error: e, name: 'Day Pass Management Details Cubit');
+          error: e, name: 'Article Found Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -241,9 +229,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       model: state.model,
       employee: emailUsers,
       host: emailUsers,
-      dbSponsor: emailUsers,
-      passNo: passNo.activePassInfoList,
-      passType: getPassType,
+      claimant: emailUsers,
       status: FormStatus.initial,
     ));
   }
@@ -251,13 +237,13 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
   Future<void> updateDropdownValues({
     List<Organisation>? entities,
     Organisation? passType,
-    Organisation? updatedStatus,
-    Organisation? companyType,
+    Organisation? articleType,
     BaseUser? user,
-    BaseUser? host,
+    BaseUser? claimant,
     BaseUser? employee,
     BaseUser? receiverByEmail,
     Organisation? department,
+    Organisation? claimantDepartment,
     Organisation? passNo,
     Organisation? passNos,
     Organisation? dayPassReason,
@@ -275,73 +261,64 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
     //   state.model.en = entities;
     // }
 
-    // if (companyType != null) {
-    //   state.model.companyType = companyType;
-    //   state.model.companyName =null;
-    //   state.model.employee?.employeeId = null;
-    //   state.model.employee?.name = null;
-    //   state.model.employeeName = null;
-    //   state.model.host?.employeeId = null;
-    //   state.model.hostEmployeeId = null;
-    //   state.model.host?.name = null;
-    //   state.model.companyName = state.model.companyType?.name == 'FTE' ?'Deutsche Bank': state.model.companyName;
-    // }
+    if (articleType != null) {
+      state.model.typeOfArticle = articleType;
+    }
 
-    // if ( employee!= null) {
-    //   state.model.employeeId = employee.employeeId;
-    //   state.model.employeeName = employee.name;
-    //   state.model.email = employee.email;
-    //   String name = employee.name ?? '';
-    //   String email = employee.email ?? '';
-    //   List<String> nameParts = employee.name!.split(' '); // Split by space
-    //   String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
-    //   String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
-    //   User userDetails = User(
-    //     name:name,
-    //     userId : employee.id,
-    //     email: email,
-    //     employeeId: employee.employeeId,
-    //     firstName: firstName,
-    //     lastName: lastName,
-    //   );
-    //   state.model.employee = userDetails;
-    //   emit(
-    //     state.copyWith(
-    //       model: state.model,
-    //       status: FormStatus.initial,
-    //     ),
-    //   );
-    // }
+    if ( employee!= null) {
+      state.model.depositor?.employeeId = employee.employeeId;
+      String name = employee.name ?? '';
+      String email = employee.email ?? '';
+      List<String> nameParts = employee.name!.split(' '); // Split by space
+      String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
+      String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
+      User userDetails = User(
+        name:name,
+        userId : employee.id,
+        email: email,
+        employeeId: employee.employeeId,
+        firstName: firstName,
+        lastName: lastName,
+      );
+      state.model.depositor = userDetails;
+      emit(
+        state.copyWith(
+          model: state.model,
+          status: FormStatus.initial,
+        ),
+      );
+    }
 
-    // if (host != null) {
-    //   // Ensure employeeId is explicitly assigned to receiverEmployeeId
-    //   state.model.hostEmployeeId = host.employeeId;
-    //   state.model.hostName = host.name;
-    //   // Format the name and email for receiverEmail
-    //   String name = host.name ?? '';
-    //   String email = host.email ?? '';
-    //   List<String> nameParts = host.name!.split(' '); // Split by space
-    //   String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
-    //   String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
-    //   User userDetails = User(
-    //     name:name,
-    //     userId: host.id,
-    //     email: email,
-    //     employeeId: host.employeeId,
-    //     firstName: firstName,
-    //     lastName: lastName,
-    //   );
-    //   state.model.host = userDetails;
-    //   emit(
-    //     state.copyWith(
-    //       model: state.model,
-    //       status: FormStatus.initial,
-    //     ),
-    //   );
-    // }
-    // if (department != null) {
-    //   state.model.department = department;
-    // }
+    if ( claimant!= null) {
+      state.model.claimant?.employeeId = claimant.employeeId;
+      String name = claimant.name ?? '';
+      String email = claimant.email ?? '';
+      List<String> nameParts = claimant.name!.split(' '); // Split by space
+      String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
+      String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
+      User userDetails = User(
+        name:name,
+        userId : claimant.id,
+        email: email,
+        employeeId: claimant.employeeId,
+        firstName: firstName,
+        lastName: lastName,
+      );
+      state.model.claimant = userDetails;
+      emit(
+        state.copyWith(
+          model: state.model,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+    if (department != null) {
+      state.model.depositorDepartment = department;
+    }
+
+    if(claimantDepartment !=null){
+      state.model.claimantDepartment = claimantDepartment;
+    }
     //
     // if (dayPassReason != null) {
     //   state.model.dayPassReason = dayPassReason;

@@ -259,6 +259,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
         state.model.companyName = null;
         state.model.employee= null;
         state.model.employeeId = null;
+        state.model.email = null;
 
         companyTypeList = await commonServices.getOrganisations(
           name: 'ATOM_SEZ_COMPANY_TYPES',
@@ -281,12 +282,15 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
       }
     if (passCategory != null && state.model.category == 1) {
       state.model.companyType = null;
+      state.model.employeeId = null;
       state.model.employee?.employeeId = null;
-      state.model.employee?.name = null;
-      state.model.employee= null;
+      state.model.employee?.firstName = null;
+      state.model.employee?.lastName = null;
+      state.model.employee = null;
+      state.model.employeeId = null;
       state.model.employeeName = null;
       state.model.companyName = null;
-      state.model.employeeId = null;
+      state.model.email = null;
 
       companyTypeList = await commonServices.getOrganisations(
         name: 'ATOM_SEZ_COMPANY_TYPES',
@@ -313,10 +317,15 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
 
     if (companyType != null) {
       state.model.companyType = companyType;
+      state.model.employeeId = null;
       state.model.employee?.employeeId = null;
-      state.model.employee?.name = null;
-      state.model.host?.employeeId = null;
-      state.model.host?.name = null;
+      state.model.employee?.firstName = null;
+      state.model.employee?.lastName = null;
+      state.model.employee = null;
+      state.model.employeeId = null;
+      state.model.employeeName = null;
+      state.model.companyName = null;
+      state.model.email = null;
     }
 
     if ( employee!= null) {

@@ -74,6 +74,9 @@ class VendorPassManagementDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter SL No');
     }
 
+    if (!model.contactNo.isEmptyOrNull && model.contactNo!.length < 10 ) {
+      return const ErrorResponse(status: false, message: 'Please enter valid Contact No');
+    }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -111,6 +114,9 @@ class VendorPassManagementDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter Contact No');
     }
 
+    if (!model.contactNo.isEmptyOrNull && model.contactNo!.length < 10 ) {
+      return const ErrorResponse(status: false, message: 'Please enter valid Contact No');
+    }
     if (model.companyName.isEmptyOrNull) {
       return const ErrorResponse(status: false, message: 'Please enter Company Name');
     }

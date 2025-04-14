@@ -754,7 +754,7 @@ class _SezPassManagementDetailsViewState
                             BaseDate().datePickerWidgetLoading(
                               textController: passValidFromController,
                               isDisabled: state.model.status !=null && state.model.status !=0,
-                              onlyDate: true,
+                              onlyDate: false,
                               showPastDate: true,
                               showFutureDate: false,
                               onChange: (String value) {

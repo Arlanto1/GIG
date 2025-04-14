@@ -175,7 +175,7 @@ class _DayPassManagementDetailsViewState
           Constants.fulldateFormat) : '';
     }
     state.model.startTime == passValidFromController.text;
-    state.model.endTime == passValidUntilController.text;
+    // state.model.endTime == passValidUntilController.text;
 
   }
 
@@ -941,9 +941,12 @@ class _DayPassManagementDetailsViewState
 
                             BaseDate().datePickerWidgetLoading(
                               textController: passValidUntilController,
-                              isDisabled: true,
+                              isDisabled: state.model.companyType?.name == 'Exceptions' && !isReadOnly ? false : true,
                               onlyDate: false,
+                              showPastDate: false,
+                              showFutureDate: true,
                               onChange: (String value) {
+                                state.model.endTime = Utils().formatTime(value);
                                 BlocProvider.of<
                                     DayPassManagementDetailsCubit>(
                                     context)

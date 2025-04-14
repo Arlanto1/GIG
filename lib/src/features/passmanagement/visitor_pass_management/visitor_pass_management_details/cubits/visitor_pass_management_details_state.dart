@@ -73,6 +73,9 @@ class VisitorPassManagementDetailsState extends Equatable {
     if (model.slNo.isEmptyOrNull) {
       return const ErrorResponse(status: false, message: 'Please enter SL No');
     }
+    if (!model.contactNo.isEmptyOrNull && model.contactNo!.length < 10 ) {
+      return const ErrorResponse(status: false, message: 'Please enter valid Contact No');
+    }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
@@ -108,6 +111,10 @@ class VisitorPassManagementDetailsState extends Equatable {
 
     if (model.contactNo.isEmptyOrNull) {
       return const ErrorResponse(status: false, message: 'Please enter Contact No');
+    }
+
+    if (!model.contactNo.isEmptyOrNull && model.contactNo!.length < 10 ) {
+      return const ErrorResponse(status: false, message: 'Please enter valid Contact No');
     }
 
     if (model.visitorComingFrom.isEmptyOrNull) {

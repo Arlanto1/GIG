@@ -195,6 +195,27 @@ class _VendorPassManagementListViewState extends State<VendorPassManagementListV
                                         value:
                                         '${state.items[index].passInfo?.passNo ?? ''} '));
 
+                                    labels.add(Label(
+                                        key: state.labels?.locale.returnedTime ??
+                                            state.labels?.defaultLocale
+                                                .returnedTime ??
+                                            Constants.passReturnedOn,
+                                        value: state.items[index]. returnedTime != null
+                                            ? Utils.timestampToDateConversion(
+                                            int.parse(
+                                                state.items[index].returnedTime ??
+                                                    '0'),
+                                            Constants
+                                                .twentyFourHourDateTimeFormat)
+                                            : ''));
+
+                                    labels.add(Label(
+                                        key: state.labels?.locale.handoverSecurity ??
+                                            state.labels?.defaultLocale.handoverSecurity ??
+                                            Constants.passCollectedBy,
+                                        value: state.items[index].handoverSecurity?.name != null ?state.items[index].handoverSecurity?.name ??
+                                            '':''));
+
                                     // labels.add(Label(
                                     //     key: state.labels?.locale.companyType ??
                                     //         state.labels?.defaultLocale.companyType ??
