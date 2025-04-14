@@ -74,23 +74,23 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                 backgroundColor: AppColors.navigationSkyBlueColor,
                 foregroundColor: AppColors.backgroundWhiteColor,
                 onPressed: () => {
-                  Navigator.pushNamed(context, lawEnforcementNewDetailsViewRoute,
+                  Navigator.pushNamed(context, createFoundScreenRoute,
                       arguments: {
-                        "title": Constants.createlawenforcement
+                        "title": Constants.createFound
                       }),
                 },
               )
                   : const SizedBox(),
               appBar: BaseAppBar().buildAppHeader(
                 context: context,
-                title: Constants.lawEnforcementListTitle,
+                title: Constants.foundListTitle,
                 showPopUp: true,
                 showSaveButton: false,
                 showSubmitButton: false,
                 showDisLikeButton: false,
                 showLikeButton: false,
-                excelAPIName: 'exportLEOExcel',
-                pdfAPIName: 'exportLEOPDF',
+                excelAPIName: 'exportFoundExcel',
+                pdfAPIName: 'exportFoundPDF',
               ),
               body:
               BlocBuilder<ArticleFoundBloc, ArticleFoundState>(
@@ -274,7 +274,7 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
       ArticleFoundModel? model, bool hasWritePermission) {
     dismissLoadingDialog(context);
     if (model != null) {
-      Navigator.pushNamed(context, lawEnforcementNewDetailsViewRoute, arguments: {
+      Navigator.pushNamed(context, createFoundScreenRoute, arguments: {
         "model": model,
         "title": Constants.editFound,
         ConstantsArgument.extraProperties:

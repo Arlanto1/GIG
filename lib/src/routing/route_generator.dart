@@ -7,7 +7,9 @@ import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shu
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/views/annual_power_shutdown_list_details_view.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/services/annual_power_shutdown_services.dart';
+import 'package:db_atom/src/features/article_found/article_found_details/views/article_found_details_view.dart';
 import 'package:db_atom/src/features/article_found/article_found_list/bloc/article_found_list_bloc.dart';
+import 'package:db_atom/src/features/article_found/models/article_found_model.dart';
 import 'package:db_atom/src/features/article_found_register_module/article_found_list/bloc/article_found_bloc.dart'
     as af;
 import 'package:db_atom/src/features/article_found_register_module/article_found_list/views/article_found_list_view.dart';
@@ -2155,6 +2157,31 @@ class RouteGenerator {
               child: const ArticleFoundNewListView(),
             ));
 
+      case articleFoundNewDetailsRoute:
+        String title = '';
+        if (settings.arguments != null) {
+          final arguments = settings.arguments as Map<String, dynamic>;
+          ArticleFoundModel? model = arguments["UserElement"];
+          title = arguments[ConstantsArgument.title];
+          ExtraProperties? extraProperties =
+          arguments[ConstantsArgument.extraProperties];
+          int? eventId = arguments[ConstantsArgument.eventId];
+          String? eventProtectionId =
+          arguments[ConstantsArgument.eventProtectionId];
+          Organisation? location = arguments[ConstantsArgument.location];
+          return MaterialPageRoute(
+            builder: (context) => ArticleFoundDetailsView(
+              model: model,
+              eventId: eventId,
+              eventProtectionId: eventProtectionId,
+              extraProperties: extraProperties,
+              eventProtectionLocation: location,
+              title: title,
+            ),
+          );
+        } else {
+          return MaterialPageRoute(builder: (context) => const CreateFound());
+        }
 
       default:
         log('--default---${settings.name}-');

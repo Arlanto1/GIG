@@ -9,12 +9,19 @@ class ArticleFoundDetailsView extends StatefulWidget {
   final ArticleFoundModel? model;
   final String title;
   final ExtraProperties? extraProperties;
+  final int? eventId; // For creating Article Found inside Event Protection
+  final String?
+  eventProtectionId; // For creating Article Found inside Event Protection
+  final Organisation? eventProtectionLocation;
 
   const ArticleFoundDetailsView({
     super.key,
     this.model,
     required this.title,
     this.extraProperties,
+    this.eventId,
+    this.eventProtectionId,
+    this.eventProtectionLocation,
   });
 
   @override
@@ -75,6 +82,23 @@ class _ArticleFoundDetailsViewState
         log('123 ${state.message}--');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
+        if (widget.eventId != null && state.status == FormStatus.success) {
+          // Navigator.pop(context);
+          Navigator.popAndPushNamed(
+            context,
+            eventInfoRoute,
+            arguments: {
+              ConstantsArgument.title: Constants.afterEventInformation,
+              ConstantsArgument.id: widget.eventProtectionId.toString(),
+              'eventDuration': 2,
+
+              /// 2 is for After the Event
+              ConstantsArgument.editForm: true,
+              ConstantsArgument.isEventProtection: true,
+            },
+          );
+          return;
+        }
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: Constants.articleFoundRegisterListTitle,

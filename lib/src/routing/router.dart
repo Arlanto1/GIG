@@ -126,3 +126,4 @@ const String lawVisitingOfficialViewRoute = '/lawVisitingOfficialViewRoute';
 
 
 const String articleFoundNewListRoute = '/articleFoundNewListRoute';
+const String articleFoundNewDetailsRoute = '/articleFoundNewDetailsRoute';
