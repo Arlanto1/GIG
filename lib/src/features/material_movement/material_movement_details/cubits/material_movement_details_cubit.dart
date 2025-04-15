@@ -656,14 +656,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     //       .millisecondsSinceEpoch ~/ 1000;
     //   state.model.approvedDate = approvedDate.toString();
     // }
-    if(state.model.rejectedDate !=null) {
-      DateTime date =
-      DateFormat("dd/MM/yyyy a HH:mm:ss").parse(state.model.rejectedDate!);
-      int rejectedDate = date
-          .toUtc()
-          .millisecondsSinceEpoch ~/ 1000;
-      state.model.rejectedDate = rejectedDate.toString();
-    }
+
+    state.model.rejectedDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     /// Adding Signature to request Body
     await pushSignature(
