@@ -16,55 +16,59 @@ class ArticleFoundBloc extends Bloc<ArticleFoundEvent, ArticleFoundState>{
   ArticleFoundServices services = ArticleFoundServices();
   final CommonServices commonServices = CommonServices();
 
-  FutureOr<void> _initializeValues(InitializeValuesAF event,Emitter<ArticleFoundState> emit) async {
-     try {
-       emit(state.copyWith
-         (status: FormStatus.loading));
+  FutureOr<void> _initializeValues(
+      InitializeValuesAF event, Emitter<ArticleFoundState> emit) async {
+    try {
+      emit(state.copyWith(status: FormStatus.loading));
 
-       ExtraProperties extraProperties =
-       await UtilsCommon().checkWritePermission(
-         moduleCode: Constants.materialMovementModuleCode,
-         commonServices: commonServices,
-       );
+      ExtraProperties extraProperties =
+      await UtilsCommon().checkWritePermission(
+        moduleCode: Constants.leoModuleCode,
+        commonServices: commonServices,
+      );
 
-       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-           module: Constants.materialMovementModuleCode);
+      List<Organisation> statuses = await commonServices.getStatusesByModuleId(
+          module: Constants.articleFoundModuleCode);
 
-       List<Organisation> regions =
-       await commonServices.getRegionsOrLocationsByRegionId();
+      List<Organisation> regions =
+      await commonServices.getRegionsOrLocationsByRegionId();
 
-       CommonFilters commonFilters =
-       CommonFilters(regions: regions, statuses: statuses);
+      CommonFilters commonFilters =
+      CommonFilters(regions: regions, statuses: statuses);
 
-       Locations locations =
-       await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+      Locations locations =
+      await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
-       // dynamic responseLabels = await commonServices.getUiLabels(
-       //     language: await SharedPrefs.getLanguageCode(),
-       //     moduleCode: Constants.articleFoundModuleCode);
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: await SharedPrefs.getLanguageCode(),
+          moduleCode: Constants.articleFoundModuleCode);
 
-       return emit(
-       state.copyWith(
-         location: locations,
-         extraProperties: extraProperties,
-         // labels: responseLabels,
-         commonFilters: commonFilters,
-       )
-       );
-     }on GenericResponse catch (e){
-       emit(state.copyWith(
-         message: e.message,
-         status: FormStatus.formError
-       )
-       );
-       return;
-     }
-     on Exception catch(e){
-       return UtilsCommon().exceptionHandling(e, emit, state);
-     }
+      AFUiLabels labels = AFUiLabels.fromJson(responseLabels);
+
+      return emit(
+        state.copyWith(
+          location: locations,
+          regions: regions,
+          statuses: statuses,
+          commonFilters: commonFilters,
+          hasReachedMax: false,
+          status: FormStatus.initial,
+          labels: labels,
+          extraProperties: extraProperties,
+        ),
+      );
+    } on GenericResponse catch (e) {
+      emit(
+        state.copyWith(
+          message: e.message,
+          status: FormStatus.formError,
+        ),
+      );
+      return;
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
+    }
   }
-
-
   FutureOr<void> _refreshList(
       RefreshList event, Emitter<ArticleFoundState> emit) async {
     try {
@@ -93,41 +97,47 @@ class ArticleFoundBloc extends Bloc<ArticleFoundEvent, ArticleFoundState>{
       )
     );
 
-    try{
-      if(state.status == FormStatus.initial || event.newSearch) {
-        ArticleFoundResponseModel response = await services.getListWithFilters(
+    try {
+      if (state.status == FormStatus.initial || event.newSearch) {
+        ArticleFoundResponseModel response;
+
+        response = await services.getListWithFilters(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           filters: event.filters,
         );
-        emit(
+
+        return emit(
           state.copyWith(
             items: response.list,
-            status: FormStatus.success,
             hasReachedMax: false,
-          )
+            status: FormStatus.success,
+          ),
         );
       }
-      ArticleFoundResponseModel response = await services.getListWithFilters(
+
+      ArticleFoundResponseModel response;
+
+      response = await services.getListWithFilters(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
+        // passType: 0,
         filters: event.filters,
       );
 
       if (response.list?.isEmpty == true) {
-        return emit(
-          state.copyWith(
-            hasReachedMax: true,
-            status: FormStatus.success,
-          )
-        );
+        return emit(state.copyWith(hasReachedMax: true));
       }
-        return emit(state.copyWith(
-        items: List.of(state.items)..addAll(response.list ?? []),
-        hasReachedMax: false,
-        status: FormStatus.success
-      ));
-    }on TokenExpiredException catch(e){
+      return emit(
+        state.copyWith(
+          items: List.of(state.items)..addAll(response.list ?? []),
+          hasReachedMax: false,
+          status: FormStatus.success,
+        ),
+      );
+    }
+
+    on TokenExpiredException catch(e){
       emit(
         state.copyWith(
           message: e.message,

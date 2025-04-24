@@ -6,7 +6,7 @@ class ArticleFoundDetailsState extends Equatable {
   final ArticleFoundModel model;
   final Locations? locations;
   final User? loggedInUserDetails;
-   final List<Organisation>? articleType;
+   final List<Organisation> articleType;
   final List<BaseUser>? emailUsers;
   final List<BaseUser>? employee;
   final List<BaseUser>? claimant;
@@ -20,7 +20,7 @@ class ArticleFoundDetailsState extends Equatable {
   factory ArticleFoundDetailsState.initial({
     required ArticleFoundModel model,
     required Locations locations,
-    required final List<Organisation> articleType,
+    required List<Organisation> articleType,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required String errorMessage,
@@ -180,7 +180,7 @@ class ArticleFoundDetailsState extends Equatable {
       status: status ?? this.status,
       model: model ?? this.model,
       locations: locations ?? this.locations,
-      articleType: articleType ?? articleType,
+      articleType: articleType ?? this.articleType,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       emailUsers: emailUsers ?? this.emailUsers,
       employee: employee ?? this.employee,

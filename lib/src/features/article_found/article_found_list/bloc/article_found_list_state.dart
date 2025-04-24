@@ -32,6 +32,8 @@ class ArticleFoundState extends Equatable{
     bool? hasReachedMax,
     AFUiLabels? labels,
     CommonFilters? commonFilters,
+    List<Organisation>? regions,
+    List<Organisation>? statuses,
   }) {
     return ArticleFoundState(
       items: items ?? this.items,

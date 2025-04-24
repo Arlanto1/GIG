@@ -52,7 +52,7 @@ class LawEnforcementBloc
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.passManagementRolesModuleCode);
+          moduleCode: Constants.leoModuleCode);
 
       LeoUiLabels labels = LeoUiLabels.fromJson(responseLabels);
       return emit(

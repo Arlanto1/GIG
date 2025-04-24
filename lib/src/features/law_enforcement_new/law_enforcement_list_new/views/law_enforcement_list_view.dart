@@ -1,5 +1,7 @@
 
 
+import 'dart:developer';
+
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/law_enforcement_new/law_enforcement_list_new/bloc/law_enforcement_bloc_new.dart';
 import 'package:db_atom/src/features/law_enforcement_new/models/law_enforcement_model_new.dart';
@@ -65,6 +67,7 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
     return BlocConsumer<LawEnforcementBloc, LawEnforcementNewState>(
         listener: (context, state) {},
         builder: (context, state) {
+          log('plus ${state.extraProperties?.hasWritePermission}');
           return Scaffold(
               backgroundColor: AppColors.cardBgColor,
               floatingActionButton: state.extraProperties?.hasWritePermission ??

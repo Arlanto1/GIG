@@ -116,14 +116,6 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       List<Organisation> articleType = futures[5];
       EmployeeDepartments departments = futures[6];
 
-
-      // state.model.passType ??= 0;
-      // state.model.passInfo?.passType ??= 0;
-      //
-      // if (getPassType.isNotEmpty && state.model.passTypeName == null) {
-      //   Organisation defaultPassType = getPassType.first;
-      //   state.model.passTypeName = defaultPassType.name;
-      // }
       // Get Date of Creation
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
@@ -217,13 +209,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       getPassType = await commonServices.getPassType(
           passType: 0,
           locationId: state.model.location!.id!);
-
     }
-    // if (getPassType.isNotEmpty) {
-    //   Organisation defaultPassType = getPassType.first;
-    //   state.model.passTypeName = defaultPassType.name;
-    // }
-    // state.model.passNo = null;
 
     emit(state.copyWith(
       model: state.model,
@@ -319,34 +305,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
     if(claimantDepartment !=null){
       state.model.claimantDepartment = claimantDepartment;
     }
-    //
-    // if (dayPassReason != null) {
-    //   state.model.dayPassReason = dayPassReason;
-    // }
-    //
-    // if (passNo != null) {
-    //   // Ensure employeeId is explicitly assigned to receiverEmployeeId
-    //   state.model.passInfo?.passNo = passNo.name;
-    //
-    //   // Format the name and email for receiverEmail
-    //   String name = passNo.name ?? '';
-    //   int id = passNo.id ?? 0;
-    //   PassInfo userDetails = PassInfo(
-    //     passNo:name,
-    //     id: passNo.id,
-    //   );
-    //   state.model.passInfo = userDetails;
-    //   emit(
-    //     state.copyWith(
-    //       model: state.model,
-    //       status: FormStatus.initial,
-    //     ),
-    //   );
-    // }
 
-    // if (updatedStatus != null) {
-    //   state.model.updatedStatus = updatedStatus.id;
-    // }
 
     emit(state.copyWith(
       model: state.model,
@@ -407,21 +366,6 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.inputDate = inputDate.toString();
     }
-
-    // state.model.startTime = state.model.startTime != null
-    //     ? ((int.tryParse(state.model.startTime ?? '') ?? DateTime.now().millisecondsSinceEpoch)).toString()
-    //     : (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-    //
-    // state.model.endTime = state.model.endTime != null
-    //     ? ((int.tryParse(state.model.endTime ?? '') ?? DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch)).toString()
-    //     : (DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch ~/ 1000).toString();
-
-
-    // if(state.model.status == 1 && (state.model.updatedStatus == 2||state.model.updatedStatus == 8 || state.model.updatedStatus == 9)){
-    //   state.model.returnedTime = state.model.returnedTime != null
-    //       ? ((int.tryParse(state.model.returnedTime ?? '') ?? DateTime.now().millisecondsSinceEpoch)).toString()
-    //       : (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-    // }
 
     ArticleFoundRequest request =
     ArticleFoundRequest(articleFoundModel: state.model);
@@ -488,7 +432,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
     log('---response--msg--${response.message}---');
     emit(
       state.copyWith(
-        message:response.message,
+        message:response.Message,
         status: FormStatus.success,
       ),
     );

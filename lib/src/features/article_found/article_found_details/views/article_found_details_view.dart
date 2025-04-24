@@ -120,11 +120,9 @@ class _ArticleFoundDetailsViewState
         }
       },
       builder: (context, state) {
-        // nameController.text = state.model.employee !=null ? '${state.model.employee?.firstName ?? ''} ${state.model.employee?.lastName ?? ''}': state.model.employeeName ??'';
         depositorController.text = '${state.model.depositor?.firstName ?? ''} ${state.model.depositor?.lastName ?? ''}';
         depositorTextController.text = state.model.depositorName ?? '';
         colorController.text = state.model.color ??  '';
-        quantityController.text = '${state.model.quantity ?? 0}';
         foundLocationController.text= state.model.foundLocation ??'';
         claimantController.text = '${state.model.claimant?.firstName ?? ''} ${state.model.claimant?.lastName ?? ''}';
         claimantTextController.text = state.model.claimantName ?? '';
@@ -138,6 +136,9 @@ class _ArticleFoundDetailsViewState
         if(state.model.status != null && state.model.status !=0 && state.model.status !=1){
           isReadOnly = true;
         }
+        if(state.model.status == 1){
+          isReadOnly = true;
+        }
 
         showSaveSubmitButtons = (widget.model == null ||
             state.model.status == 0 ||state.model.status == 1) && state.model.lock.isEmptyOrNull;
@@ -147,8 +148,7 @@ class _ArticleFoundDetailsViewState
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: (widget.model == null ||
-                state.model.status == 0) && state.status != FormStatus.loading,
+            showSaveButton: showSaveSubmitButtons && state.status != FormStatus.loading,
             pdfAPIName:
             '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.articleFoundModuleCode}',
             onTapSave: () {
@@ -175,13 +175,13 @@ class _ArticleFoundDetailsViewState
   }
 
   void initializeDates(ArticleFoundDetailsState state) {
-    foundDateController.text = state.model.foundDate == null
-        ? Utils.timestampToDateConversion(
-        DateTime.now().millisecondsSinceEpoch,
-        Constants.fulldateFormat) : Utils.timestampToDateConversion(
+    foundDateController.text =
+    state.model.foundDate != null ? Utils.timestampToDateConversion(
         int.tryParse(state.model.foundDate ?? '') ??
-            DateTime.now().millisecondsSinceEpoch,
-        Constants.fulldateFormat);
+            DateTime
+                .now()
+                .millisecondsSinceEpoch, // Use current timestamp if null
+        Constants.fulldateFormat) : '';
   }
 
   getBodybuilder(ArticleFoundDetailsState state, height) {
@@ -252,7 +252,7 @@ class _ArticleFoundDetailsViewState
                             BaseDropDown().getDropDown(
                               isDisabled: true,
                               textController: statusController,
-                              items: passManagementStatusValues,
+                              items: articleFoundStatus,
                               initialValue: '${state.model.status ?? 0}',
                               onTap: () {
                               },
@@ -315,46 +315,6 @@ class _ArticleFoundDetailsViewState
                               state.model.slNo ?? '',
                               isMandatory: true,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            // /// Pass Type
-                            // CommonWidgets.textDisplay(
-                            //     state.labels?.locale.passType ??
-                            //         state.labels?.defaultLocale
-                            //             .passType ??
-                            //         Constants.passtype,
-                            //     Styles.textStyleBlack14,
-                            //     isMandatory: true),
-                            // TextFieldAddButton(
-                            //   title: state.model.passTypeName,
-                            //   height: 70,
-                            //   isDisableColor:  isReadOnly,
-                            //   onTap: () {
-                            //     if(!isReadOnly) {
-                            //       BaseOrganisationDialog().departmentDialog(
-                            //         context: context,
-                            //         organisations: state.passType!,
-                            //         onTap: (Organisation passType) {
-                            //           state.model.passTypeName = passType.name;
-                            //           BlocProvider.of<
-                            //               ArticleFoundDetailsCubit>(
-                            //               context)
-                            //               .updateDropdownValues(
-                            //               passType: passType);
-                            //         },
-                            //         leftImage: false,
-                            //         functionToCall: () {
-                            //           // refresh the list
-                            //           BlocProvider.of<
-                            //               ArticleFoundDetailsCubit>(
-                            //               context)
-                            //               .refreshList();
-                            //         },
-                            //       );
-                            //     }
-                            //   },
-                            // ),
-                            // CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Article Type
                             CommonWidgets.textDisplay(
@@ -372,7 +332,7 @@ class _ArticleFoundDetailsViewState
                                 if(!isReadOnly) {
                                   BaseOrganisationDialog().departmentDialog(
                                     context: context,
-                                    organisations: state.articleType!,
+                                    organisations: state.articleType,
                                     onTap: (Organisation articleType) {
                                       BlocProvider.of<
                                           ArticleFoundDetailsCubit>(
@@ -394,11 +354,12 @@ class _ArticleFoundDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Found Date
+
+                             /// Found Date
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.passIssuedOn ??
+                              // state.labels?.locale.timeOfVisit ??
                               //     state.labels?.defaultLocale
-                              //         .passIssuedOn ??
+                              //         .timeOfVisit ??
                                   Constants.founddate,
                               isMandatory: true,
                               Styles.textStyleBlack14,
@@ -408,7 +369,7 @@ class _ArticleFoundDetailsViewState
 
                             BaseDate().datePickerWidgetLoading(
                               textController: foundDateController,
-                              isDisabled: state.model.status !=null && state.model.status !=0,
+                              isDisabled: isReadOnly,
                               onlyDate: false,
                               showPastDate: true,
                               showFutureDate: false,
@@ -443,8 +404,8 @@ class _ArticleFoundDetailsViewState
                               characterLimit:
                               Constants.characterLimitIdTextFormField,
                               hintText: '',
-                              isEnable:  true,
-                              isDisableColor:false,
+                              isEnable:  !isReadOnly,
+                              isDisableColor:isReadOnly,
                               onChange: (String value) {
                                 state.model.foundLocation = value;
                                 context
@@ -474,8 +435,8 @@ class _ArticleFoundDetailsViewState
                               textInputAction: TextInputAction.newline,
                               textInputType:
                               TextInputType.multiline,
-                              // isEnable: isEdit,
-                              // isDisableColor: !isEdit,
+                              isEnable: !isReadOnly,
+                              isDisableColor: isReadOnly,
                               onChange: (String value) {
                                 state.model.additionalInformation =
                                     value;
@@ -500,14 +461,15 @@ class _ArticleFoundDetailsViewState
                             FlutterInputField(
                               textInputType: TextInputType.number,
                               textFormKey: Keys.challanKey,
-                              controller: quantityController,
+                              initialValue: '${state.model.quantity ?? ''}',
                               characterLimit:
                               Constants.characterLimitIdTextFormField,
                               hintText: '',
-                              isEnable:  true,
-                              isDisableColor:false,
-                              onChange: (int value) {
-                                state.model.quantity = value;
+                              isEnable:  !isReadOnly,
+                              isDisableColor: isReadOnly,
+                              onChange: (String value) {
+                                state.model.quantity = int.tryParse(value);
+                                // state.model.quantity = value;
                                 context
                                     .read<ArticleFoundDetailsCubit>()
                                     .onModelValueChange(state.model);
@@ -532,8 +494,8 @@ class _ArticleFoundDetailsViewState
                               characterLimit:
                               Constants.characterLimitIdTextFormField,
                               hintText: '',
-                              isEnable:  true,
-                              isDisableColor:false,
+                              isEnable:  !isReadOnly,
+                              isDisableColor:isReadOnly,
                               onChange: (String value) {
                                 state.model.color = value;
                                 context
@@ -578,7 +540,7 @@ class _ArticleFoundDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
 
-                              if(widget.model?.depositorDbEmp == true)...[
+                              if(state.model.depositorDbEmp == true)...[
                               ///  Depositor Employee Id
                               CommonWidgets.textDisplay(
                                   // state.labels?.locale.employeeId ??
@@ -590,9 +552,9 @@ class _ArticleFoundDetailsViewState
                               TextFieldAddButton(
                                 title: state.model.depositor?.employeeId,
                                 height: 60,
-                                isDisableColor: isReadOnly,
+                                isDisableColor: !showSaveSubmitButtons,
                                 onTap: () {
-                                  if (!isReadOnly) {
+                                  if (showSaveSubmitButtons) {
                                     BaseOrganisationDialog().userDialog(
                                       employeeId: true,
                                       context: context,
@@ -664,9 +626,9 @@ class _ArticleFoundDetailsViewState
                             TextFieldAddButton(
                               title: state.model.depositorDepartment?.name,
                               height: 70,
-                              isDisableColor: isReadOnly,
+                              isDisableColor: !showSaveSubmitButtons,
                               onTap: () {
-                                if (!isReadOnly) {
+                                if (showSaveSubmitButtons) {
                                   BaseOrganisationDialog().departmentDialog(
                                       context: context,
                                       organisations: state.departments,
@@ -696,7 +658,7 @@ class _ArticleFoundDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 ],
 
-                            if(widget.model?.depositorDbEmp == false)...[
+                            if(state.model.depositorDbEmp == false)...[
                               /// Depositor
                               CommonWidgets.textDisplay(
                                 // state.labels?.locale.companyName ??
@@ -713,13 +675,12 @@ class _ArticleFoundDetailsViewState
                                 characterLimit:
                                 Constants.characterLimitIdTextFormField,
                                 hintText: '',
-                                isEnable:  true,
-                                isDisableColor:false,
+                                isEnable:  !isReadOnly,
+                                isDisableColor: isReadOnly,
                                 onChange: (String value) {
                                   state.model.depositor?.name = value;
                                   state.model.depositorName = value;
-                                  context
-                                      .read<ArticleFoundDetailsCubit>()
+                                  context.read<ArticleFoundDetailsCubit>()
                                       .onModelValueChange(state.model);
                                 },
                                 validateTextField: (String? user) {},
@@ -741,7 +702,7 @@ class _ArticleFoundDetailsViewState
                                 status: state.model.status ?? 0,
                                 selectedValue:
                                 state.model.claimantDbEmp ? 1 : 0,
-                                onChangedYes: isReadOnly
+                                onChangedYes: widget.model?.status != 1
                                     ? null
                                     : (val) {
                                   state.model.claimantDbEmp= true;
@@ -750,7 +711,7 @@ class _ArticleFoundDetailsViewState
                                       context)
                                       .onCheckBoxChange(state.model);
                                 },
-                                onChangedNo: isReadOnly
+                                onChangedNo: widget.model?.status != 1
                                     ? null
                                     : (val) {
                                   state.model.claimantDbEmp = false;
@@ -774,9 +735,9 @@ class _ArticleFoundDetailsViewState
                               TextFieldAddButton(
                                 title: state.model.claimant?.employeeId,
                                 height: 60,
-                                isDisableColor: isReadOnly,
+                                isDisableColor: !showSaveSubmitButtons,
                                 onTap: () {
-                                  if (!isReadOnly) {
+                                  if (showSaveSubmitButtons) {
                                     BaseOrganisationDialog().userDialog(
                                       employeeId: true,
                                       context: context,
@@ -848,12 +809,12 @@ class _ArticleFoundDetailsViewState
                               TextFieldAddButton(
                                 title: state.model.claimantDepartment?.name,
                                 height: 70,
-                                isDisableColor: isReadOnly,
+                                isDisableColor: !showSaveSubmitButtons,
                                 onTap: () {
-                                  if (!isReadOnly) {
+                                  if (showSaveSubmitButtons) {
                                     BaseOrganisationDialog().departmentDialog(
                                         context: context,
-                                        organisations: state.claimantDepartments,
+                                        organisations: state.departments,
                                         onTap: (Organisation department) {
                                           state.model.claimantDepartment
                                               ?.name = department.name;
@@ -925,24 +886,26 @@ class _ArticleFoundDetailsViewState
                                     status: state.model.status ?? 0,
                                     selectedValue:
                                     state.model.claimantConfirmByEmail ? 1 : 0,
-                                    onChangedYes: isReadOnly
-                                        ? null
-                                        : (val) {
-                                      // state.model.claimantConfirmByEmail= true;
-                                      BlocProvider.of<
-                                          ArticleFoundDetailsCubit>(
-                                          context)
-                                          .onCheckBoxChange(state.model);
-                                    },
-                                    onChangedNo: isReadOnly
-                                        ? null
-                                        : (val) {
-                                      // state.model.claimantConfirmByEmail = false;
-                                      BlocProvider.of<
-                                          ArticleFoundDetailsCubit>(
-                                          context)
-                                          .onCheckBoxChange(state.model);
-                                    }),
+                                    onChangedYes: null,// onChangedYes: isReadOnly
+                                    //     ? null
+                                    //     : (val) {
+                                    //   // state.model.claimantConfirmByEmail= true;
+                                    //   BlocProvider.of<
+                                    //       ArticleFoundDetailsCubit>(
+                                    //       context)
+                                    //       .onCheckBoxChange(state.model);
+                                    // },
+                                    onChangedNo: null,
+                                    // isReadOnly
+                                    //     ? null
+                                    //     : (val) {
+                                    //   // state.model.claimantConfirmByEmail = false;
+                                    //   BlocProvider.of<
+                                    //       ArticleFoundDetailsCubit>(
+                                    //       context)
+                                    //       .onCheckBoxChange(state.model);
+                                    // }
+                                    ),
                                 CommonWidgets.verticalSpacerWidget(height * 0.01),
                               ]
                             ],
@@ -964,8 +927,8 @@ class _ArticleFoundDetailsViewState
                                 characterLimit:
                                 Constants.characterLimitIdTextFormField,
                                 hintText: '',
-                                isEnable:  true,
-                                isDisableColor:false,
+                                isEnable:  showSaveSubmitButtons,
+                                isDisableColor:!showSaveSubmitButtons,
                                 onChange: (String value) {
                                   state.model.claimant?.name = value;
                                   state.model.claimantName = value;

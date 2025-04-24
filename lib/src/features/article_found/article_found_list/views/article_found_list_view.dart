@@ -1,5 +1,7 @@
 
 
+import 'dart:developer';
+
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/article_found/article_found_list/bloc/article_found_list_bloc.dart';
 import 'package:db_atom/src/features/article_found/models/article_found_model.dart';
@@ -66,12 +68,13 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
     return BlocConsumer<ArticleFoundBloc, ArticleFoundState>(
         listener: (context, state) {},
         builder: (context, state) {
+          log('plus ${state.extraProperties?.hasWritePermission}');
           return Scaffold(
               backgroundColor: AppColors.cardBgColor,
               floatingActionButton:
-              // state.extraProperties?.hasWritePermission ??
-              //     false
-              //     ?
+              state.extraProperties?.hasWritePermission ??
+                  false
+                  ?
               Flutterfloatingbutton(
                 backgroundColor: AppColors.navigationSkyBlueColor,
                 foregroundColor: AppColors.backgroundWhiteColor,
@@ -81,8 +84,8 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                         "title": Constants.createFound
                       }),
                 },
-              ),
-                  // : const SizedBox(),
+              )
+                  : const SizedBox(),
               appBar: BaseAppBar().buildAppHeader(
                 context: context,
                 title: Constants.foundListTitle,
@@ -146,6 +149,20 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                                 itemBuilder: (context, index) {
                                   List<Label> labels = [];
                                   if (index < state.items.length) {
+                                    labels.add(Label(
+                                        key:
+                                        // state.labels?.locale.inputDate ??
+                                        //     state.labels?.defaultLocale
+                                        //         .inputDate ??
+                                        Constants.dateofcreation,
+                                        value: state.items[index].inputDate != null
+                                            ? Utils.timestampToDateConversion(
+                                            int.parse(
+                                                state.items[index].inputDate ??
+                                                    '0'),
+                                            Constants
+                                                .twentyFourHourDateTimeFormat)
+                                            : ''));
                                     labels.add(Label(
                                         key:
                                         // state.labels?.locale.inputDate ??
@@ -220,11 +237,9 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                                       },
                                       showEditButton: state
                                           .items[index].status ==
-                                          ConstantsIntValue.lawDraftStatus || state
+                                          ConstantsIntValue.articleFoundStatusFound || state
                                           .items[index].status ==
-                                          ConstantsIntValue.lawSubmittedStatus ||  state
-                                          .items[index].status ==
-                                          ConstantsIntValue.lawUnderVerificationStatus,
+                                          ConstantsIntValue.articleFoundStatusUnderSecurityCustody,
                                       onViewTap: (selectedIndex) {
                                         showDialog(
                                           context: context,
