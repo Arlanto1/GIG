@@ -51,6 +51,7 @@ class BaseListTileItem extends StatefulWidget {
   final bool? showEditButton;
   final bool isPassManagementStatus;
   final bool isLawEnforcementStatus;
+  final bool isArticleFoundStatus;
 
   const BaseListTileItem({
     super.key,
@@ -101,6 +102,7 @@ class BaseListTileItem extends StatefulWidget {
     this.showLinkOffButton = false,
     this.isPassManagementStatus = false,
     this.isLawEnforcementStatus = false,
+    this.isArticleFoundStatus = false,
   });
 
   @override
@@ -365,6 +367,13 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils()
                             .buildLeoStatusRow(widget.status ?? 0),
+                      ],
+
+                      if (widget.status != null &&
+                          widget.isArticleFoundStatus == true && !widget.isShiftScheduleStatus) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Utils()
+                            .buildFoundStatusRow(widget.status ?? 0),
                       ],
                     ],
                   ),

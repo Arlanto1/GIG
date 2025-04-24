@@ -20,7 +20,7 @@ class ArticleFoundServices {
     required BaseFilterModel filters,
   }) async {
     String url =
-        '${Apis._getList}startPos=$startPosition&maxResults=$maximumRecords';
+        '${Apis._getList}?startPos=$startPosition&maxResults=$maximumRecords';
     var response = await BaseApiService().postRequest(
       requestedData: filters.toJson(),
       isAuthenticated: true,

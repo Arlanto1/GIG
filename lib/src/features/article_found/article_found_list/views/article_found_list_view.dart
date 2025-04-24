@@ -23,8 +23,8 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
   @override
   void initState() {
     super.initState();
-    context.read<LawEnforcementBloc>().add(
-      const InitializeLeoValues(),
+    context.read<ArticleFoundBloc>().add(
+      const InitializeValuesAF(),
     );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
@@ -68,19 +68,21 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
         builder: (context, state) {
           return Scaffold(
               backgroundColor: AppColors.cardBgColor,
-              floatingActionButton: state.extraProperties?.hasWritePermission ??
-                  false
-                  ? Flutterfloatingbutton(
+              floatingActionButton:
+              // state.extraProperties?.hasWritePermission ??
+              //     false
+              //     ?
+              Flutterfloatingbutton(
                 backgroundColor: AppColors.navigationSkyBlueColor,
                 foregroundColor: AppColors.backgroundWhiteColor,
                 onPressed: () => {
-                  Navigator.pushNamed(context, createFoundScreenRoute,
+                  Navigator.pushNamed(context, articleFoundNewDetailsRoute,
                       arguments: {
                         "title": Constants.createFound
                       }),
                 },
-              )
-                  : const SizedBox(),
+              ),
+                  // : const SizedBox(),
               appBar: BaseAppBar().buildAppHeader(
                 context: context,
                 title: Constants.foundListTitle,
@@ -188,7 +190,7 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                                       id: state.items[index].id,
                                       status: state.items[index].status,
                                       labels: labels,
-                                      isLawEnforcementStatus: true,
+                                      isArticleFoundStatus: true,
                                       isEventProtectionStatus: false,
                                       onTap: (selectedIndex) {
                                         showDialog(
@@ -204,7 +206,7 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                                               labels: labels,
                                               isEventProtectionStatus: false,
                                               isMasterGuard: false,
-                                              isLawEnforcementStatus: true,
+                                              isArticleFoundStatus: true,
                                             );
                                           },
                                         );
@@ -236,7 +238,7 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                                               status: state.items[index].status,
                                               labels: labels,
                                               isEventProtectionStatus: false,
-                                              isLawEnforcementStatus: true,
+                                              isArticleFoundStatus: true,
                                               isMasterGuard: false,
                                             );
                                           },
@@ -274,7 +276,7 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
       ArticleFoundModel? model, bool hasWritePermission) {
     dismissLoadingDialog(context);
     if (model != null) {
-      Navigator.pushNamed(context, createFoundScreenRoute, arguments: {
+      Navigator.pushNamed(context, articleFoundNewDetailsRoute, arguments: {
         "model": model,
         "title": Constants.editFound,
         ConstantsArgument.extraProperties:

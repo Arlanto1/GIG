@@ -98,10 +98,11 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
         if (state.model.status == null) {
           isReadOnly = false;
         }
-        if (widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) {
-          isReadOnly = true;
-        }
+
+        // if (widget.extraProperties != null &&
+        //     !widget.extraProperties!.hasWritePermission!) {
+        //   isReadOnly = true;
+        // }
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,

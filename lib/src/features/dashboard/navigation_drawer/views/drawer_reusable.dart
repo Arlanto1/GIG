@@ -1017,7 +1017,7 @@ class NavigationDrawer1 extends StatelessWidget {
         Navigator.pushNamed(context, annualPowerShutdownListRoute);
         break;
       case Constants.articleFoundRegisterListTitle:
-        Navigator.pushNamed(context, articleFoundListRoute);
+        Navigator.pushNamed(context, articleFoundNewListRoute);
         break;
       case Constants.eventProtectionList:
         Navigator.pushNamed(context, eventProtectionListRoute);

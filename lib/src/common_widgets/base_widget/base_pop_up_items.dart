@@ -88,6 +88,7 @@ class BasePopUpItems extends StatefulWidget {
   final String? dbOfficialWantToMeet;
   final Organisation? visitPurpose;
   final Organisation? dbOfficialDep;
+  final bool isArticleFoundStatus;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -181,6 +182,8 @@ class BasePopUpItems extends StatefulWidget {
     this.dbOfficialWantToMeet,
     this.visitPurpose,
     this.dbOfficialDep,
+    this.isArticleFoundStatus = false,
+
   });
 }
 
@@ -891,6 +894,18 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
+
+      if (widget.status != null &&
+          widget.isArticleFoundStatus == true) ...[
+        CommonWidgets.horizontalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().buildFoundStatusRow(widget.status ?? 0),
+          ],
+        ),
+      ],
+
       if (widget.status != null && widget.isShiftScheduleStatus == true) ...[
         CommonWidgets.horizontalSpacerWidget(5),
         Row(

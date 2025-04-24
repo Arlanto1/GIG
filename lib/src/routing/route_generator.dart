@@ -97,7 +97,9 @@ import 'package:db_atom/src/features/ticketing_system/ticketing_system_details/v
 import 'package:db_atom/src/features/ticketing_system/ticketing_systems/bloc/ticketing_system_bloc.dart';
 import 'package:db_atom/src/features/ticketing_system/ticketing_systems/views/ticketing_system_view.dart';
 
+import '../features/article_found/article_found_details/cubits/article_found_details_cubit.dart';
 import '../features/article_found/article_found_list/views/article_found_list_view.dart';
+import '../features/article_found/services/article_found_service.dart';
 import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_details/cubits/key_loss_destruction_details_cubit.dart';
 import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_details/views/key_loss_destruction_details_view.dart';
 import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart';
@@ -2156,32 +2158,61 @@ class RouteGenerator {
                     filters: BaseFilterModel())),
               child: const ArticleFoundNewListView(),
             ));
+      //
+      // case articleFoundNewDetailsRoute:
+      //   String title = '';
+      //   if (settings.arguments != null) {
+      //     final arguments = settings.arguments as Map<String, dynamic>;
+      //     ArticleFoundModel? model = arguments["UserElement"];
+      //     title = arguments[ConstantsArgument.title];
+      //     ExtraProperties? extraProperties =
+      //     arguments[ConstantsArgument.extraProperties];
+      //     int? eventId = arguments[ConstantsArgument.eventId];
+      //     String? eventProtectionId =
+      //     arguments[ConstantsArgument.eventProtectionId];
+      //     Organisation? location = arguments[ConstantsArgument.location];
+      //     return MaterialPageRoute(
+      //       builder: (context) =>
+      //           ArticleFoundDetailsView(
+      //             model: model,
+      //             eventId: eventId,
+      //             eventProtectionId: eventProtectionId,
+      //             extraProperties: extraProperties,
+      //             eventProtectionLocation: location,
+      //             title: title,
+      //           ),
+      //     );
+      //   }
 
       case articleFoundNewDetailsRoute:
-        String title = '';
-        if (settings.arguments != null) {
-          final arguments = settings.arguments as Map<String, dynamic>;
-          ArticleFoundModel? model = arguments["UserElement"];
-          title = arguments[ConstantsArgument.title];
-          ExtraProperties? extraProperties =
-          arguments[ConstantsArgument.extraProperties];
-          int? eventId = arguments[ConstantsArgument.eventId];
-          String? eventProtectionId =
-          arguments[ConstantsArgument.eventProtectionId];
-          Organisation? location = arguments[ConstantsArgument.location];
-          return MaterialPageRoute(
-            builder: (context) => ArticleFoundDetailsView(
-              model: model,
-              eventId: eventId,
-              eventProtectionId: eventProtectionId,
-              extraProperties: extraProperties,
-              eventProtectionLocation: location,
-              title: title,
-            ),
-          );
-        } else {
-          return MaterialPageRoute(builder: (context) => const CreateFound());
-        }
+        ArticleFoundServices services = ArticleFoundServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        String? eventProtectionId;
+        ExtraProperties? extraProperties;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        eventProtectionId= arguments[ConstantsArgument.eventProtectionId];
+        ArticleFoundModel? model = arguments["model"];
+        extraProperties = arguments[ConstantsArgument.extraProperties];
+
+        return MaterialPageRoute(
+          builder: (context) =>
+              BlocProvider<ArticleFoundDetailsCubit>(
+                create: (_) =>
+                    ArticleFoundDetailsCubit(
+                      articleFoundServices: services,
+                      model: model,
+                      commonServices: commonServices,
+                    ),
+                child: ArticleFoundDetailsView(
+                    model: model,
+                    title: title,
+                    eventProtectionId: eventProtectionId,
+                    extraProperties: extraProperties),
+              ),
+        );
 
       default:
         log('--default---${settings.name}-');

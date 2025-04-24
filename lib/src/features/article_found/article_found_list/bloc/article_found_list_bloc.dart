@@ -39,15 +39,15 @@ class ArticleFoundBloc extends Bloc<ArticleFoundEvent, ArticleFoundState>{
        Locations locations =
        await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
-       dynamic responseLabels = await commonServices.getUiLabels(
-           language: await SharedPrefs.getLanguageCode(),
-           moduleCode: Constants.materialMovementModuleCode);
+       // dynamic responseLabels = await commonServices.getUiLabels(
+       //     language: await SharedPrefs.getLanguageCode(),
+       //     moduleCode: Constants.articleFoundModuleCode);
 
        return emit(
        state.copyWith(
          location: locations,
          extraProperties: extraProperties,
-         labels: responseLabels,
+         // labels: responseLabels,
          commonFilters: commonFilters,
        )
        );
