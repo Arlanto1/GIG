@@ -1017,7 +1017,7 @@ class NavigationDrawer1 extends StatelessWidget {
         Navigator.pushNamed(context, annualPowerShutdownListRoute);
         break;
       case Constants.articleFoundRegisterListTitle:
-        Navigator.pushNamed(context, articleFoundNewListRoute);
+        Navigator.pushNamed(context, articleFoundListRoute);
         break;
       case Constants.eventProtectionList:
         Navigator.pushNamed(context, eventProtectionListRoute);
@@ -1066,7 +1066,7 @@ class NavigationDrawer1 extends StatelessWidget {
     switch (index) {
       case 0:
         log('day pass management index0');
-        Navigator.pushNamed(context, dayPassManagementListRoute, arguments: {
+        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
           "passMngDetails": PassMngArguments(0, 'Day Pass Management', false)
         });
         break;
@@ -1079,7 +1079,7 @@ class NavigationDrawer1 extends StatelessWidget {
         break;
       case 2:
         log('Sez pass Management index6');
-        Navigator.pushNamed(context, sezPassManagementListRoute, arguments: {
+        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
           "passMngDetails": PassMngArguments(3, 'Sez Pass Management', false)
         });
         break;
@@ -1092,7 +1092,7 @@ class NavigationDrawer1 extends StatelessWidget {
         break;
       case 4:
         log('vendor pass management index4');
-        Navigator.pushNamed(context, vendorPassManagementListRoute, arguments: {
+        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
           "passMngDetails": PassMngArguments(2, 'Vendor Pass Management', false)
         });
         break;
@@ -1105,7 +1105,7 @@ class NavigationDrawer1 extends StatelessWidget {
         break;
       case 6:
         log('visitor pass management index2');
-        Navigator.pushNamed(context, visitorPassManagementListRoute, arguments: {
+        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
           "passMngDetails":
               PassMngArguments(1, 'Visitor Pass Management', false)
         });

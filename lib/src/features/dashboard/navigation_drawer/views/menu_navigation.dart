@@ -8,22 +8,22 @@ class MenuNavigation {
   }) {
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, dayPassManagementListRoute, arguments: {
+        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
           "passMngDetails": PassMngArguments(0, 'Day Pass Management', false)
         });
         break;
       case 1:
-        Navigator.pushNamed(context, sezPassManagementListRoute, arguments: {
+        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
           "passMngDetails": PassMngArguments(3, 'SEZ Pass Management', false)
         });
         break;
       case 2:
-        Navigator.pushNamed(context, vendorPassManagementListRoute, arguments: {
+        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
           "passMngDetails": PassMngArguments(2, 'Vendor Pass Management', false)
         });
         break;
       case 3:
-        Navigator.pushNamed(context, visitorPassManagementListRoute, arguments: {
+        Navigator.pushNamed(context, daypassmanagementListRoute, arguments: {
           "passMngDetails":
               PassMngArguments(1, 'Visitor Pass Management', false)
         });
