@@ -108,4 +108,22 @@ const String vipVisitorsRecordsRoute = '/vipVisitorsRecordsRoute';
 const String ticketingSystemListRoute = '/ticketingSystemListRoute';
 const String ticketingSystemDetailsRoute = '/ticketingSystemDetailsRoute';
 
+const String dayPassManagementListRoute = '/dayPassManagementListRoute';
+const String dayPassManagementDetailsRoute = '/dayPassManagementDetailsRoute';
 
+const String vendorPassManagementListRoute = '/vendorPassManagementListRoute';
+const String vendorPassManagementDetailsRoute = '/vendorPassManagementDetailsRoute';
+
+const String visitorPassManagementListRoute = '/visitorPassManagementListRoute';
+const String visitorPassManagementDetailsRoute = '/visitorPassManagementDetailsRoute';
+
+const String sezPassManagementListRoute = '/sezPassManagementListRoute';
+const String sezPassManagementDetailsRoute = '/sezPassManagementDetailsRoute';
+
+const String lawEnforcementNewListRoute = '/lawEnforcementNewListRoute';
+const String lawEnforcementNewDetailsViewRoute = '/lawEnforcementNewDetailsViewRoute';
+const String lawVisitingOfficialViewRoute = '/lawVisitingOfficialViewRoute';
+
+
+const String articleFoundNewListRoute = '/articleFoundNewListRoute';
+const String articleFoundNewDetailsRoute = '/articleFoundNewDetailsRoute';

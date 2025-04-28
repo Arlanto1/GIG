@@ -7,6 +7,9 @@ import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shu
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/views/annual_power_shutdown_list_details_view.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/services/annual_power_shutdown_services.dart';
+import 'package:db_atom/src/features/article_found/article_found_details/views/article_found_details_view.dart';
+import 'package:db_atom/src/features/article_found/article_found_list/bloc/article_found_list_bloc.dart';
+import 'package:db_atom/src/features/article_found/models/article_found_model.dart';
 import 'package:db_atom/src/features/article_found_register_module/article_found_list/bloc/article_found_bloc.dart'
     as af;
 import 'package:db_atom/src/features/article_found_register_module/article_found_list/views/article_found_list_view.dart';
@@ -61,6 +64,11 @@ import 'package:db_atom/src/features/guarding_operations/vvip_visitor/vvip_visit
 import 'package:db_atom/src/features/incident_management/incident_managements/bloc/incident_management_bloc.dart'
     as im;
 import 'package:db_atom/src/features/incident_management/services/incident_management_services.dart';
+import 'package:db_atom/src/features/law_enforcement_new/law_enforcement_list_new/bloc/law_enforcement_bloc_new.dart';
+import 'package:db_atom/src/features/law_enforcement_new/models/law_enforcement_model_new.dart';
+import 'package:db_atom/src/features/law_enforcement_new/services/law_enforcement_services_new.dart';
+// import 'package:db_atom/src/features/law_enforcement_new/visiting_officials/bloc/visiting_officials_bloc.dart';
+// import 'package:db_atom/src/features/law_enforcement_new/visiting_officials/views/visiting_officials_view.dart';
 import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_bloc.dart'
     as vo;
 import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/views/visiting_officials_list_view.dart';
@@ -70,9 +78,15 @@ import 'package:db_atom/src/features/material_movement/material_movements/bloc/m
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import 'package:db_atom/src/features/occurrenceList/bloc/occurrences_bloc.dart'
     as ocb;
+import 'package:db_atom/src/features/passmanagement/day_pass_mangement/day_passmanagement_list/bloc/day_passmanagement_list_bloc.dart';
+import 'package:db_atom/src/features/passmanagement/day_pass_mangement/services/day_passmanagement_service.dart';
 import 'package:db_atom/src/features/passmanagement/pass_management_list/bloc/pass_management_list_bloc.dart'
     as pm;
 import 'package:db_atom/src/features/passmanagement/pass_management_list/views/pass_manangement_list_view.dart';
+import 'package:db_atom/src/features/passmanagement/vendor_pass_management/models/vendor_pass_management_model.dart';
+import 'package:db_atom/src/features/passmanagement/vendor_pass_management/services/vendor_pass_management_service.dart';
+import 'package:db_atom/src/features/passmanagement/visitor_pass_management/models/visitor_pass_management_model.dart';
+import 'package:db_atom/src/features/passmanagement/visitor_pass_management/services/visitor_pass_management_service.dart';
 import 'package:db_atom/src/features/security_systems/services/sst_incident_services.dart';
 import 'package:db_atom/src/features/security_systems/sst_incident_list/bloc/sst_incident_bloc.dart'
     as sv;
@@ -83,6 +97,9 @@ import 'package:db_atom/src/features/ticketing_system/ticketing_system_details/v
 import 'package:db_atom/src/features/ticketing_system/ticketing_systems/bloc/ticketing_system_bloc.dart';
 import 'package:db_atom/src/features/ticketing_system/ticketing_systems/views/ticketing_system_view.dart';
 
+import '../features/article_found/article_found_details/cubits/article_found_details_cubit.dart';
+import '../features/article_found/article_found_list/views/article_found_list_view.dart';
+import '../features/article_found/services/article_found_service.dart';
 import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_details/cubits/key_loss_destruction_details_cubit.dart';
 import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_details/views/key_loss_destruction_details_view.dart';
 import '../features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart';
@@ -114,6 +131,27 @@ import '../features/guarding_operations/vvip_visitor/vvip_visitors/bloc/vvip_vis
 import '../features/guarding_operations/vvip_visitor/vvip_visitors_record/bloc/vvip_visitors_record_bloc.dart'
     as vipr;
 import '../features/guarding_operations/vvip_visitor/vvip_visitors_record/views/vvip_visitors_record_view.dart';
+import '../features/law_enforcement_new/law_enforcement_details_new/cubits/law_enforcement_details_cubit_new.dart';
+import '../features/law_enforcement_new/law_enforcement_details_new/views/law_enforcement_details_view_new.dart';
+import '../features/law_enforcement_new/law_enforcement_list_new/views/law_enforcement_list_view.dart';
+import '../features/passmanagement/day_pass_mangement/day_passmanagement_details/cubits/day_passmanagement_details_cubit.dart';
+import '../features/passmanagement/day_pass_mangement/day_passmanagement_details/views/day_passmanagement_details_view.dart';
+import '../features/passmanagement/day_pass_mangement/day_passmanagement_list/views/day_passmanagement_list_view.dart';
+import '../features/passmanagement/day_pass_mangement/models/day_pass_management_model.dart';
+import '../features/passmanagement/sez_pass_management/models/sez_pass_management_model.dart';
+import '../features/passmanagement/sez_pass_management/services/sez_pass_management_service.dart';
+import '../features/passmanagement/sez_pass_management/sez_pass_managememt_list/bloc/sez_pass_management_list_bloc.dart';
+import '../features/passmanagement/sez_pass_management/sez_pass_managememt_list/views/sez_pass_management_list_view.dart';
+import '../features/passmanagement/sez_pass_management/sez_pass_management_details/cubits/sez_pass_management_details_cubit.dart';
+import '../features/passmanagement/sez_pass_management/sez_pass_management_details/views/sez_pass_management_details_view.dart';
+import '../features/passmanagement/vendor_pass_management/vendor_pass_management_details/cubits/vendor_pass_management_details_cubit.dart';
+import '../features/passmanagement/vendor_pass_management/vendor_pass_management_details/views/vendor_pass_management_details_view.dart';
+import '../features/passmanagement/vendor_pass_management/vendor_pass_management_list/bloc/vendor_pass_management_list_bloc.dart';
+import '../features/passmanagement/vendor_pass_management/vendor_pass_management_list/views/vendor_pass_management_list_view.dart';
+import '../features/passmanagement/visitor_pass_management/visitor_pass_management_details/cubits/visitor_pass_management_details_cubit.dart';
+import '../features/passmanagement/visitor_pass_management/visitor_pass_management_details/views/visitor_pass_management_details_view.dart';
+import '../features/passmanagement/visitor_pass_management/visitor_pass_management_list/bloc/visitor_pass_management_list_bloc.dart';
+import '../features/passmanagement/visitor_pass_management/visitor_pass_management_list/views/visitor_pass_management_list_view.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -955,6 +993,7 @@ class RouteGenerator {
           editForm = arguments[ConstantsArgument.editForm];
           isEventProtection = arguments[ConstantsArgument.isEventProtection];
         }
+        log('edit ${editForm}');
         return MaterialPageRoute(
           builder: (context) => BlocProvider<EventInfoCubit>(
             create: (_) => EventInfoCubit(
@@ -1850,6 +1889,329 @@ class RouteGenerator {
               // extraProperties: extraProperties,
             ),
           ),
+        );
+
+      case dayPassManagementListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<DayPassManagementListBloc>(
+              create: (_) => DayPassManagementListBloc(passId: 0)
+                ..add(FetchDayPassData(
+                    startPos: 0,
+                    maxPos: Constants.maxResults,
+                    newSearch: true,
+                    filters: BaseFilterModel())),
+              child: const DayPassManagementListView(),
+            ));
+
+      case dayPassManagementDetailsRoute:
+        DayPassManagementServices services = DayPassManagementServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        ExtraProperties? extraProperties;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        DayPassManagementModel? model = arguments["model"];
+        extraProperties = arguments[ConstantsArgument.extraProperties];
+
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<DayPassManagementDetailsCubit>(
+            create: (_) => DayPassManagementDetailsCubit(
+              model: model,
+              commonServices: commonServices, dayPassManagementServices: services,
+            ),
+            child: DayPassManagementDetailsView(
+                model: model, title: title, extraProperties: extraProperties),
+          ),
+        );
+
+      case vendorPassManagementListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<VendorPassManagementListBloc>(
+              create: (_) => VendorPassManagementListBloc(passId: 2)
+                ..add(FetchVendorPassData(
+                    startPos: 0,
+                    maxPos: Constants.maxResults,
+                    newSearch: true,
+                    filters: BaseFilterModel())),
+              child: const VendorPassManagementListView(),
+            ));
+
+      case vendorPassManagementDetailsRoute:
+        VendorPassManagementServices services = VendorPassManagementServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        ExtraProperties? extraProperties;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        VendorPassManagementModel? model = arguments["model"];
+        extraProperties = arguments[ConstantsArgument.extraProperties];
+
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<VendorPassManagementDetailsCubit>(
+            create: (_) => VendorPassManagementDetailsCubit(
+              model: model,
+              commonServices: commonServices, vendorPassManagementServices: services,
+            ),
+            child: VendorPassManagementDetailsView(
+                model: model, title: title, extraProperties: extraProperties),
+          ),
+        );
+
+
+
+      case visitorPassManagementListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<VisitorPassManagementListBloc>(
+              create: (_) => VisitorPassManagementListBloc(passId: 1)
+                ..add(FetchVisitorPassData(
+                    startPos: 0,
+                    maxPos: Constants.maxResults,
+                    newSearch: true,
+                    filters: BaseFilterModel())),
+              child: const VisitorPassManagementListView(),
+            ));
+
+      case visitorPassManagementDetailsRoute:
+        VisitorPassManagementServices services = VisitorPassManagementServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        ExtraProperties? extraProperties;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        VisitorPassManagementModel? model = arguments["model"];
+        extraProperties = arguments[ConstantsArgument.extraProperties];
+
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<VisitorPassManagementDetailsCubit>(
+            create: (_) => VisitorPassManagementDetailsCubit(
+              model: model,
+              commonServices: commonServices, visitorPassManagementServices: services,
+            ),
+            child: VisitorPassManagementDetailsView(
+                model: model, title: title, extraProperties: extraProperties),
+          ),
+        );
+
+
+      case sezPassManagementListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<SezPassManagementListBloc>(
+              create: (_) => SezPassManagementListBloc(passId: 1)
+                ..add(FetchSezPassData(
+                    startPos: 0,
+                    maxPos: Constants.maxResults,
+                    newSearch: true,
+                    filters: BaseFilterModel())),
+              child: const SezPassManagementListView(),
+            ));
+
+
+      case sezPassManagementDetailsRoute:
+        SezPassManagementServices services = SezPassManagementServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        ExtraProperties? extraProperties;
+        Organisation? location;
+        Organisation? locationRegion;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        SezPassManagementModel? model = arguments["model"];
+        extraProperties = arguments[ConstantsArgument.extraProperties];
+        location = arguments[ConstantsArgument.location];
+        locationRegion = arguments[ConstantsArgument.locationRegion];
+
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<SezPassManagementDetailsCubit>(
+            create: (_) => SezPassManagementDetailsCubit(
+              model: model,
+              commonServices: commonServices, sezPassManagementServices: services, location: location, locationRegion: locationRegion,
+            ),
+            child: SezPassManagementDetailsView(
+                model: model, title: title, extraProperties: extraProperties),
+          ),
+        );
+
+
+      case lawEnforcementNewListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<LawEnforcementBloc>(
+              create: (_) => LawEnforcementBloc(passId: 0)
+                ..add(FetchLeoData(
+                    startPos: 0,
+                    maxPos: Constants.maxResults,
+                    newSearch: true,
+                    filters: BaseFilterModel())),
+              child: const LawEnforcementListView(),
+            ));
+
+
+      case lawEnforcementNewDetailsViewRoute:
+        LawEnforcementServicesNew services = LawEnforcementServicesNew();
+        CommonServices commonServices = CommonServices();
+        String title;
+        ExtraProperties? extraProperties;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        LawEnforcementModelNew? model = arguments["model"];
+        extraProperties = arguments[ConstantsArgument.extraProperties];
+
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<LawEnforcementDetailsCubit>(
+            create: (_) => LawEnforcementDetailsCubit(
+              services: services,
+              model: model,
+              commonServices: commonServices,
+            ),
+            child: LawEnforcementNewDetailsView(
+                model: model, title: title, extraProperties: extraProperties),
+          ),
+        );
+
+
+      // case lawVisitingOfficialViewRoute:
+      //   String title = '';
+      //   int id = 0;
+      //   ExtraProperties? extraProperties;
+      //   String? lock;
+      //   int parentStatus = 0;
+      //   // String violationDescription = '';
+      //   if (settings.arguments != null) {
+      //     Map<String, dynamic> arguments =
+      //     settings.arguments as Map<String, dynamic>;
+      //     id = arguments[ConstantsArgument.id];
+      //     title = arguments[ConstantsArgument.title];
+      //     extraProperties = arguments[ConstantsArgument.extraProperties];
+      //     // lock = arguments[ConstantsArgument.isLocked];
+      //     parentStatus = arguments[ConstantsArgument.parentStatus];
+      //     // violationDescription =
+      //     //     arguments[ConstantsArgument.violationDescription] ?? '';
+      //   }
+      //   return MaterialPageRoute(
+      //     builder: (context) => BlocProvider<VisitingOfficialsBloc>(
+      //       create: (_) => VisitingOfficialsBloc(
+      //         //violationDescription: violationDescription,
+      //       )
+      //         ..add(FetchVisitingOfficialsData(
+      //           id: id,
+      //           startPos: 0,
+      //           maxPos: 100,
+      //         )),
+      //       child: VisitingOfficialsView(
+      //         id: id,
+      //         title: title,
+      //         extraProperties: extraProperties,
+      //         // lock: lock,
+      //         parentStatus: parentStatus,
+      //       ),
+      //     ),
+      //   );
+
+      // case lawVisitingOfficialViewRoute:
+      //   String title = '';
+      //   int id = 0;
+      //   ExtraProperties? extraProperties;
+      //   String? lock;
+      //   int parentStatus = 0;
+      //   if (settings.arguments != null) {
+      //     Map<String, dynamic> arguments =
+      //     settings.arguments as Map<String, dynamic>;
+      //     id = arguments[ConstantsArgument.id];
+      //     title = arguments[ConstantsArgument.title];
+      //     extraProperties = arguments[ConstantsArgument.extraProperties];
+      //     lock = arguments[ConstantsArgument.isLocked];
+      //     parentStatus = arguments[ConstantsArgument.parentStatus];
+      //   }
+      //   return MaterialPageRoute(
+      //     builder: (context) => BlocProvider<VisitingOfficialsBloc>(
+      //       create: (_) => VisitingOfficialsBloc(
+      //         //violationDescription: violationDescription,
+      //       )
+      //         ..add(FetchVisitingOfficialsData(
+      //           id: id,
+      //           startPos: 0,
+      //           maxPos: 100,
+      //         )),
+      //       child: VisitingOfficialsView(
+      //         id: id,
+      //         title: title,
+      //         extraProperties: extraProperties,
+      //         lock: lock,
+      //         parentStatus: parentStatus,
+      //       ),
+      //     ),
+      //   );
+
+
+      case articleFoundNewListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<ArticleFoundBloc>(
+              create: (_) => ArticleFoundBloc()
+                ..add(FetchArticleData(
+                    startPos: 0,
+                    maxPos: Constants.maxResults,
+                    newSearch: true,
+                    filters: BaseFilterModel())),
+              child: const ArticleFoundNewListView(),
+            ));
+      //
+      // case articleFoundNewDetailsRoute:
+      //   String title = '';
+      //   if (settings.arguments != null) {
+      //     final arguments = settings.arguments as Map<String, dynamic>;
+      //     ArticleFoundModel? model = arguments["UserElement"];
+      //     title = arguments[ConstantsArgument.title];
+      //     ExtraProperties? extraProperties =
+      //     arguments[ConstantsArgument.extraProperties];
+      //     int? eventId = arguments[ConstantsArgument.eventId];
+      //     String? eventProtectionId =
+      //     arguments[ConstantsArgument.eventProtectionId];
+      //     Organisation? location = arguments[ConstantsArgument.location];
+      //     return MaterialPageRoute(
+      //       builder: (context) =>
+      //           ArticleFoundDetailsView(
+      //             model: model,
+      //             eventId: eventId,
+      //             eventProtectionId: eventProtectionId,
+      //             extraProperties: extraProperties,
+      //             eventProtectionLocation: location,
+      //             title: title,
+      //           ),
+      //     );
+      //   }
+
+      case articleFoundNewDetailsRoute:
+        ArticleFoundServices services = ArticleFoundServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        String? eventProtectionId;
+        ExtraProperties? extraProperties;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        eventProtectionId= arguments[ConstantsArgument.eventProtectionId];
+        ArticleFoundModel? model = arguments["model"];
+        extraProperties = arguments[ConstantsArgument.extraProperties];
+
+        return MaterialPageRoute(
+          builder: (context) =>
+              BlocProvider<ArticleFoundDetailsCubit>(
+                create: (_) =>
+                    ArticleFoundDetailsCubit(
+                      articleFoundServices: services,
+                      model: model,
+                      commonServices: commonServices,
+                    ),
+                child: ArticleFoundDetailsView(
+                    model: model,
+                    title: title,
+                    eventProtectionId: eventProtectionId,
+                    extraProperties: extraProperties),
+              ),
         );
 
       default:

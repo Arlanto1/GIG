@@ -335,3 +335,56 @@ const List<Label> issueTypeDropDownValues = [
   Label(key: 'Software', value: '2'),
   Label(key: 'Network Issue', value: '3'),
 ];
+
+const List<Label> passManagementStatusValues = [
+  Label(key: 'Created', value: '0'),
+  Label(key: 'Handed Over', value: '1'),
+  Label(key: 'Returned', value: '2'),
+  Label(key: 'Non Returned', value: '3'),
+  Label(key: 'Lost', value: '4'),
+  Label(key: 'Damaged/De-Activated', value: '5'),
+  Label(key: 'Defaced/De-Activated', value: '6'),
+  Label(key: 'Cancelled', value: '7'),
+  Label(key: 'Returned/Damaged', value: '8'),
+  Label(key: 'Returned/Defaced', value: '9'),
+  Label(key: 'Record Cancelled', value: '-1'),
+];
+
+const List<Label> passTypeValues = [
+  Label(key: 'Day Pass', value: '0'),
+  Label(key: 'Visitor Pass', value: '1'),
+  Label(key: 'Vendor Pass', value: '2'),
+  Label(key: 'SEZ Pass', value: '3'),
+  Label(key: 'DWS Day Pass', value: '4'),
+  Label(key: 'DWS Visitor Pass', value: '5'),
+  Label(key: 'DWS Vendor Pass', value: '6'),
+];
+
+const List<Label> dayPassTypeValues = [
+  Label(key: 'Day Pass', value: '0'),
+];
+
+
+const List<Label> photoIdentityValidationValues = [
+  Label(key: 'Aadhaar Card', value: '0'),
+  Label(key: 'Pan Card', value: '1'),
+  Label(key: 'Passport', value: '2'),
+  Label(key: 'Driving License', value: '3'),
+  Label(key: 'Voter Card', value: '4'),
+];
+
+const List<Label> passCategoryValues = [
+  Label(key: 'Permanent', value: '1'),
+  Label(key: 'Temporary', value: '2'),
+];
+
+
+const List<Label> articleFoundStatus = [
+  Label(key: 'Found', value: '0'),
+  Label(key: 'Under Security Custody', value: '1'),
+  Label(key: 'Handed Over/ Claimed', value: '2'),
+  Label(key: 'Cancelled', value: '-1'),
+
+];
+
+

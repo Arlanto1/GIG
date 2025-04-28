@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/passmanagement/models/day_pass_reason_model.dart';
+import 'package:db_atom/src/features/passmanagement/models/vendor_pass_reason_model.dart';
 
 class   CommonApis {
   static final String baseUrl = Environment().config.apiHost;
@@ -34,6 +36,10 @@ class   CommonApis {
   static final String _logout = '$baseUrl/logout';
 
   static const String exportDetailPagePDF = 'exportDeatilPagePDF?id=';
+  static final String _getPassNo = '$baseUrl/getActivePassInfo?passType=';
+  static final String _getPassType = '$baseUrl/getPassType?passType=';
+  static final String _getPassValidUntil = '$baseUrl/getPassValidUntil?';
+  static final String _getGroup = '$baseUrl/getGroup';
 
 }
 
@@ -453,4 +459,80 @@ class CommonServices {
     final String url = CommonApis._logout;
     await BaseApiService().postRequest(url: url, requestedData: {});
   }
+
+  Future<DayPassNumberLists> getPassNo({
+    required int passType,
+    required int locationId,
+    required bool isDwsPass,
+  }) async {
+    String url = '${CommonApis._getPassNo}$passType&locationId=$locationId&isDwsPass=$isDwsPass';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return DayPassNumberLists.fromJson(response);
+  }
+
+  Future<List<Organisation>> getPassType({
+    required int passType,
+    required int locationId,
+  }) async {
+    String url = '${CommonApis._getPassType}$passType&locationId=$locationId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    if (response == null) {
+      return [];
+    }
+    return List<Organisation>.from(
+        response.map((x) => Organisation.fromJson(x)));
+  }
+
+  Future<String> getPassValidUntil({required int passCategory}) async {
+    final String url = '${CommonApis._getPassValidUntil}category=$passCategory';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return response['date'];
+  }
+
+  Future<LeoDepartments> getLeoDepartments({
+    required String name,
+  }) async {
+    String url = '${CommonApis._getOrganisations}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return LeoDepartments.fromJson(response);
+  }
+
+  Future<LeoPurposeVisit> getLeoVisitPurpose({
+    required String name,
+  }) async {
+    String url = '${CommonApis._getOrganisations}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return LeoPurposeVisit.fromJson(response);
+  }
+
+  Future<LeoDepartments> getLeoVisitDepartment({
+    required String name,
+  }) async {
+    String url = '${CommonApis._getOrganisations}$name';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return LeoDepartments.fromJson(response);
+  }
+
+  Future<DistributionGroupModel> getLeoDistributionGroup() async {
+    String url = CommonApis._getGroup;
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return DistributionGroupModel.fromJson(response);
+  }
+
 }
+

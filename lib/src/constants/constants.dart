@@ -25,9 +25,9 @@ class Constants {
   static const String materialMovementOutwardReturnableModule = 'MMOUTY';
   static const String materialMovementOutwardNonReturnableModule = 'MMOUTN';
   static const String guardingMasterDataModule = 'GM';
-  static const String passManagementModule = 'PMDYP';
-  static const String passManagementSEZModule = 'PMSEZ';
-  static const String visitorManagementModule = 'PMVSP';
+  static const String dayPassManagementModule = 'PMDYP';
+  static const String sezPassManagementModule = 'PMSEZ';
+  static const String visitorPassManagementModule = 'PMVSP';
   static const String vendorPassManagementModule = 'PMVNP';
   static const String eventProtectionModule = 'EP';
   static const String securitySystemModule = 'SSSLA';
@@ -319,7 +319,7 @@ class Constants {
   static const String internationalization = 'Internationalization';
   static const String nodata = 'No Data Found';
   static const String ok = 'Ok';
-  static const String isclaimantdbemployee = 'Is Claimant DB Employee';
+  static const String isclaimantdbemployee = 'Is Claimant Company Employee';
   static const String isclaimantacceptedtosign = 'Claimant accepted to Sign';
   static const String isclaimantacceptedbyemail = 'Claimant Confirmed by Email';
   static const String addedSuccessfully = 'Added Successfully.';
@@ -367,6 +367,7 @@ class Constants {
   static const String visitingOfficialDetails = "Visiting Official Details";
   static const String visitingOfficials = "Visiting Officials";
   static const String visitingOfficialsEmailId = "Email Id Visiting Officials";
+  static const String addOrViewVisitingOfficialDetails = "Add/View Visiting Official Details";
 
   // Pass mgmt
   static const String companyType = 'Company Type';
@@ -1005,6 +1006,30 @@ class Constants {
   static const String history = 'History';
   static const String notes = 'Notes';
 
+
+  ///Day Pass Management
+  static const String dayPassManagementTitle = 'Day Pass Management List';
+  static const String createDayPassManagementTitle = 'Create Day Pass Management';
+  static const String editDayPassManagementTitle = 'Edit Day Pass Management';
+  static const String dayPassNo = 'Day Pass No';
+
+
+  ///Vendor Pass Management
+  static const String vendorPassManagementTitle = 'Vendor Pass Management List';
+  static const String createVendorPassManagementTitle = 'Create Vendor Pass Management';
+  static const String editVendorPassManagementTitle = 'Edit Vendor Pass Management';
+
+  ///Visitor Pass Management
+  static const String visitorPassManagementTitle = 'Visitor Pass Management List';
+  static const String createVisitorPassManagementTitle = 'Create Visitor Pass Management';
+  static const String editVisitorPassManagementTitle = 'Edit Visitor Pass Management';
+
+
+  ///Sez Pass Management
+
+  static const String sezPassManagementTitle = 'Sez Pass Management List';
+  static const String createSezPassManagementTitle = 'Create Sez Pass Management';
+  static const String editSezPassManagementTitle = 'Edit Sez Pass Management';
 
 }
 
