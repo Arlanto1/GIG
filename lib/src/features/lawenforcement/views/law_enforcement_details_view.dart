@@ -1449,8 +1449,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
     await lawEnforcementCubit.getEmployeeDepartments(
       'EMPLOYEE_DEPARTMENTS',
     );
-    await lawEnforcementCubit.getDBofficialByRoleDepositor(
-        ConstantUserRoles.atomStaticUser, widget.model?.location?.id);
+    // await lawEnforcementCubit.getDBofficialByRoleDepositor(
+    //     ConstantUserRoles.atomStaticUser,);
     await lawEnforcementCubit.getUserDetails(
       userid,
     );
@@ -1546,6 +1546,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   }
 
   dbOfficialDialog(LawEnforcementState state) {
+    log('123${state.locationSelectedlist?.id}');
     showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
@@ -1922,7 +1923,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       LawEnforcementState state) {
     return TextFieldAddButton(
       title: state.dBOfficialEmailIdAccompaniedLeoOfficial != null
-          ? ('${state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? ''}${state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? ''}')
+          ? ('${state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? ''}   ${state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? ''}')
           : '',
       height: 90,
       isDisableColor: isReadOnly,
@@ -1949,13 +1950,18 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                 locationList: state.getLocationsResponse,
                 //GetLocations(),
                 onTap: (Organisation? org) async {
+                  // await lawEnforcementCubit.getDBofficialByRoleDepositor(
+                  //     ConstantUserRoles.atomStaticUser, org?.id ?? 0);
                   await lawEnforcementCubit.getSerialnumberDetails(
                     org?.id ?? 0,
                     Constants.leoModuleCode,
                   );
+                  // await lawEnforcementCubit.getDBofficialByRoleDepositor(
+                  //     ConstantUserRoles.atomStaticUser, org?.id ?? 0);
                   // locationselectedText = list?.name ?? '';
                   // locationSelectedlist = list;
                   lawEnforcementCubit.getlocationsResponseData(org);
+                  state.dBOfficialEmailIdAccompaniedLeoOfficial = null;
                 },
               );
             },
@@ -2104,7 +2110,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail:
               state.dBOfficialEmailIdAccompaniedLeoOfficial != null
-                  ? (state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')
+                  ? '${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '')}   ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')}'
                   : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
@@ -2126,9 +2132,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail:
-              state.dBOfficialEmailIdAccompaniedLeoOfficial != null
-                  ? (state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')
-                  : '',
+          state.dBOfficialEmailIdAccompaniedLeoOfficial != null
+              ? '${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '')}   ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')}'
+              : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
           mailList: loadGroups);

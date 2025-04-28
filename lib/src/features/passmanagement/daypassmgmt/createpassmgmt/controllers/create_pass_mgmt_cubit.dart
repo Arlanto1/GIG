@@ -410,10 +410,11 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
   Future<void> getPassNumber(
     int passType,
     int locationId,
+      bool isDwsPass,
   ) async {
     try {
       DayPassNumberLists companyTypes = await createpassmgmtServices.getPassNo(
-          passType: passType, locationId: locationId);
+          passType: passType, locationId: locationId, isDwsPass:isDwsPass);
       emit(
         state.copyWith(
           passnumbelistresponse: companyTypes,
@@ -827,7 +828,8 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
         passTypes = await createpassmgmtServices.getPassTypes(
             passId: passId, locationId: defaultLocation.id!);
         companyTypes = await createpassmgmtServices.getPassNo(
-            passType: passId, locationId: defaultLocation.id!);
+            passType: passId, locationId: defaultLocation.id!, isDwsPass: passId == 4?true:false);
+
       }
 
       List<Organisation> updateStatuses = [];

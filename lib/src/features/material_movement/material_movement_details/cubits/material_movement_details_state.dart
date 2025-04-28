@@ -75,6 +75,17 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter SL No');
     }
 
+    if (model.inwardMovement== false && model.requestorEmail !=null && model.requestorEmail == model.approver1Email) {
+      return const ErrorResponse(status: false, message: 'Selected Approver1 Email is already selected in other list');
+    }
+
+    if (model.inwardMovement== false && model.requestorEmail !=null && model.requestorEmail == model.approver2Email) {
+      return const ErrorResponse(status: false, message: 'Selected Approver2 Email is already selected in other list');
+    }
+
+    if (model.inwardMovement== false && model.approver1Email !=null && model.approver1Email == model.approver2Email) {
+      return const ErrorResponse(status: false, message: 'Selected Approver2 Email is already selected in other list ');
+    }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -83,10 +94,10 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Location');
     }
-    if (model.challanNo.isEmptyOrNull) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Challan/Invoice Nos/Gate Pass');
-    }
+    // if ( model.isI && model.challanNo.isEmptyOrNull) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Challan/Invoice Nos/Gate Pass');
+    // }
 
     if (model.inwardMovement == false && model.requestorEmployeeId.isEmptyOrNull) {
       return const ErrorResponse(
@@ -281,6 +292,19 @@ class MaterialMovementDetailsState extends Equatable {
         message: 'Please enter valid Taken Out By Contact Number',
       );
     }
+
+    if (model.inwardMovement== false && model.requestorEmail !=null && model.requestorEmail == model.approver1Email) {
+      return const ErrorResponse(status: false, message: 'Selected Approver1 Email is already selected in other list');
+    }
+
+    if (model.inwardMovement== false && model.requestorEmail !=null && model.requestorEmail == model.approver2Email) {
+      return const ErrorResponse(status: false, message: 'Selected Approver2 Email is already selected in other list');
+    }
+
+    if (model.inwardMovement== false && model.approver1Email !=null && model.approver1Email == model.approver2Email) {
+      return const ErrorResponse(status: false, message: 'Selected Approver2 Email is already selected in other list ');
+    }
+
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 

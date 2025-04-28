@@ -445,13 +445,13 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.requestorEmail = '$name ($email)';
       // state.model.requestorEmail =
       //     '${requesterEmailUser.name} ${requesterEmailUser.email != null ? '(${requesterEmailUser.email})' : ''}';
-      state.approver1Users?.remove(requesterEmailUser);
-      state.approver2Users?.remove(requesterEmailUser);
+      // state.approver1Users?.remove(requesterEmailUser);
+      // state.approver2Users?.remove(requesterEmailUser);
       emit(
         state.copyWith(
           model: state.model,
-          approver2Users: state.approver2Users,
-          approver1Users: state.approver1Users,
+          // approver2Users: state.approver2Users,
+          // approver1Users: state.approver1Users,
           status: FormStatus.initial,
         ),
       );
@@ -459,22 +459,22 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
     if (approver1EmailUser != null) {
       if (state.model.approver1Email != null) {
-        BaseUser preSelectedUser = BaseUser(
-          name: state.model.approver1Email,
-          // email: state.model.approver1Email,
-        );
-        state.approver2Users?.add(preSelectedUser);
+        // BaseUser preSelectedUser = BaseUser(
+        //   name: state.model.approver1Email,
+        //   // email: state.model.approver1Email,
+        // );
+        // state.approver2Users?.add(preSelectedUser);
       }
       state.model.approver1Email =
           '${approver1EmailUser.name} ${approver1EmailUser.email != null ? '(${approver1EmailUser.email})' : ''}';
-      state.approver2Users?.remove(approver1EmailUser);
-      state.requestorEmailUsers?.remove(approver1EmailUser);
+      // state.approver2Users?.remove(approver1EmailUser);
+      // state.requestorEmailUsers?.remove(approver1EmailUser);
 
       emit(
         state.copyWith(
           model: state.model,
-          requestorEmailUsers: state.requestorEmailUsers,
-          approver2Users: state.approver2Users,
+          // requestorEmailUsers: state.requestorEmailUsers,
+          // approver2Users: state.approver2Users,
           status: FormStatus.initial,
         ),
       );
@@ -482,23 +482,23 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
     if (approver2EmailUser != null) {
       if (state.model.approver2Email != null) {
-        BaseUser preSelectedUser = BaseUser(
-          name: state.model.approver2Email,
-          // email:state.model.approver2Email,
-        );
-        state.approver1Users?.add(preSelectedUser);
+        // BaseUser preSelectedUser = BaseUser(
+        //   name: state.model.approver2Email,
+        //   // email:state.model.approver2Email,
+        // );
+        // state.approver1Users?.add(preSelectedUser);
       }
       state.model.approver2Email =
           '${approver2EmailUser.name} ${approver2EmailUser.email != null ? '(${approver2EmailUser.email})' : ''}';
-      state.approver1Users?.remove(approver2EmailUser);
-      state.requestorEmailUsers?.remove(approver2EmailUser);
+      // state.approver1Users?.remove(approver2EmailUser);
+      // state.requestorEmailUsers?.remove(approver2EmailUser);
 
       emit(
         state.copyWith(
           model: state.model,
           status: FormStatus.initial,
-          requestorEmailUsers: state.requestorEmailUsers,
-          approver1Users: state.approver1Users,
+          // requestorEmailUsers: state.requestorEmailUsers,
+          // approver1Users: state.approver1Users,
         ),
       );
     }
@@ -638,6 +638,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         state.model.approvedDate = inputDate.toString();
       }
     }
+
+    state.model.modifiedDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
     // if (!Utils().isTimestamp(state.model.approvedDate!)) {
     //   dateTime =
     //       DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.approvedDate!);
@@ -653,14 +656,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     //       .millisecondsSinceEpoch ~/ 1000;
     //   state.model.approvedDate = approvedDate.toString();
     // }
-    if(state.model.rejectedDate !=null) {
-      DateTime date =
-      DateFormat("dd/MM/yyyy a HH:mm:ss").parse(state.model.rejectedDate!);
-      int rejectedDate = date
-          .toUtc()
-          .millisecondsSinceEpoch ~/ 1000;
-      state.model.rejectedDate = rejectedDate.toString();
-    }
+
+    state.model.rejectedDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     /// Adding Signature to request Body
     await pushSignature(
@@ -688,6 +685,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
               : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
+          state.model.modifiedDate = state.model.modifiedDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.modifiedDate ?? '0'),
+              Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.formError,
@@ -706,6 +708,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
+          state.model.modifiedDate = state.model.modifiedDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.modifiedDate ?? '0'),
               Constants.fulldateFormat);
           emit(
             state.copyWith(
@@ -728,6 +735,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
               : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
+          state.model.modifiedDate = state.model.modifiedDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.modifiedDate ?? '0'),
+              Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.formError,
@@ -746,6 +758,11 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
+          state.model.modifiedDate = state.model.modifiedDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.modifiedDate ?? '0'),
               Constants.fulldateFormat);
           emit(
             state.copyWith(

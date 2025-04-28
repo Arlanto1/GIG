@@ -221,6 +221,14 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                                           state.labels?.defaultLocale
                                               .nonReturnable ??
                                           Constants.nonReturnable));
+                            if (widget.isInward) {
+                                labels.add(Label(
+                                   key: Constants.challan,
+                                   value: state.items[index].challanNo ?? ''));
+                                }
+                                labels.add(Label(
+                                    key: !widget.isInward ? 'Gate Pass No' : Constants.slno,
+                                    value: state.items[index].slNo ?? ''));
 
                               return index >= state.items.length
                                   ? const BaseLoader()
@@ -246,8 +254,8 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                                               challanNo: state
                                                   .items[selectedIndex]
                                                   .challanNo,
-                                              slNo: state
-                                                  .items[selectedIndex].slNo,
+                                              // slNo: state
+                                              //     .items[selectedIndex].slNo,
                                               status: state
                                                   .items[selectedIndex].status,
                                               entrySecurityName: state
@@ -288,8 +296,8 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                                               challanNo: state
                                                   .items[selectedIndex]
                                                   .challanNo,
-                                              slNo: state
-                                                  .items[selectedIndex].slNo,
+                                              // slNo: state
+                                              //     .items[selectedIndex].slNo,
                                               status: state
                                                   .items[selectedIndex].status,
                                               entrySecurityName: state

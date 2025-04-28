@@ -411,30 +411,43 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                       TextFieldAddButton(
                                         title: updateStatusTextController.text,
                                         height: 60,
-                                        isDisableColor: widget.model != null &&
-                                            !widget.model!.lock.isEmptyOrNull,
+                                        isDisableColor: widget.model != null && !widget.model!.lock.isEmptyOrNull,
                                         onTap: () {
-                                          if (widget
-                                              .model!.lock.isEmptyOrNull) {
-                                            BaseOrganisationDialog()
-                                                .departmentDialog(
+                                          if (widget.model!.lock.isEmptyOrNull) {
+                                            BaseOrganisationDialog().departmentDialog(
                                               context: context,
-                                              organisations:
-                                                  state.updateStatuses ?? [],
-                                              onTap: (Organisation org) {
-                                                updateStatusTextController
-                                                    .text = org.name!;
-                                                setState(() {});
-                                                BlocProvider.of<
-                                                            CreatePassMgmtCubit>(
-                                                        context)
-                                                    .updateDropdownValues(
-                                                        updateStatus: org);
+                                              organisations: state.updateStatuses ?? [],
+                                              onTap: (Organisation org) async {
+                                                if (org.name != null) {
+                                                  // Delay showing the alert to ensure the previous dialog is fully dismissed
+                                                  Future.delayed(const Duration(milliseconds: 200), () {
+                                                    var dialog = CustomAlertDialog(
+                                                      title: Constants.updatestatus,
+                                                      message: "Are you sure you want to select \"${org.name}\"?",
+                                                      onPositivePressed: () {
+                                                        Navigator.pop(context);
+                                                        updateStatusTextController.text = org.name!;
+                                                        setState(() {});
+                                                        BlocProvider.of<CreatePassMgmtCubit>(context)
+                                                            .updateDropdownValues(updateStatus: org);
+                                                      },
+                                                      positiveBtnText: Constants.yes,
+                                                      negativeBtnText: Constants.no,
+                                                    );
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context) => dialog,
+                                                    );
+                                                  });
+                                                }
                                               },
                                             );
                                           }
                                         },
                                       ),
+
+
+
                                       CommonWidgets.verticalSpacerWidget(
                                           height * 0.01),
                                     ],
@@ -889,8 +902,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         '')
                                         .toLowerCase() !=
                                         'cwr t2' )||
-                                        widget.passId ==
-                                            ConstantsIntValue.passIdSez) ...[
+                                        (widget.passId ==
+                                            ConstantsIntValue.passIdSez && passCategoryTextController.text == 'Permanent')) ...[
                                       CommonWidgets.textDisplay(
                                           state.labels?.locale.employeeId ??
                                               state.labels?.defaultLocale
@@ -905,7 +918,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                                     ///Sez Name
                                     if (widget.passId ==
-                                        ConstantsIntValue.passIdSez) ...[
+                                        ConstantsIntValue.passIdSez && passCategoryTextController.text == 'Permanent') ...[
                                       CommonWidgets.textDisplay(
                                           state.labels?.locale.employeeName ??
                                               state.labels?.defaultLocale
@@ -938,7 +951,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         ConstantsIntValue.passIdDayPass && (state.selectedCompanyType?.name ??
                                         '')
                                         .toLowerCase() ==
-                                        'cwr t2') ...[
+                                        'cwr t2' || (widget.passId ==
+                                        ConstantsIntValue.passIdSez && passCategoryTextController.text == 'Temporary')) ...[
                                       CommonWidgets.textDisplay(
                                           state.labels?.locale.employeeId ??
                                               state.labels?.defaultLocale
@@ -961,9 +975,10 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         validateTextField: (String? user) {},
                                       )
                                     ],
-                                    ///Day Pass Name
+                                    ///Day Pass Name/ Sez Pass Name
                                     if (widget.passId ==
-                                        ConstantsIntValue.passIdDayPass) ...[
+                                        ConstantsIntValue.passIdDayPass || (widget.passId ==
+                                        ConstantsIntValue.passIdSez && passCategoryTextController.text == 'Temporary')) ...[
                                       CommonWidgets.textDisplay(
                                           state.labels?.locale.employeeName ??
                                               state.labels?.defaultLocale
@@ -979,13 +994,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         // focusNode: companyNameFocusNode,
                                         isEnable: ((widget.model?.status == 0 || widget.model == null)
                                            &&
-                                            ((state.selectedCompanyType?.name ??
+                                            (((state.selectedCompanyType?.name ??
                                                             '')
                                                         .toLowerCase() ==
                                                     'exceptions' || (state.selectedCompanyType?.name ??
                                             '')
                                             .toLowerCase() ==
-                                            'cwr t2'))
+                                            'cwr t2') || widget.passId ==
+                                            ConstantsIntValue.passIdSez))
                                                 ? true
                                                 : false,
                                         isDisableColor:
@@ -1183,7 +1199,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     .sezPassInfo ??
                                                 state.labels?.defaultLocale
                                                     .sezPassInfo ??
-                                                Constants.sezPass,
+                                                Constants.sezPassInfo,
                                         Styles.textStyleBlack14,
                                         isMandatory: true,
                                       ),
@@ -2423,7 +2439,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       //     (widget.dayPassItem?.location?.id ?? 0).toString(),
       //     'SEZPass',
       //     context);
-      createPassMgmtCubit.getPassNumber(0, widget.model?.location?.id ?? 0);
+      createPassMgmtCubit.getPassNumber(0, widget.model?.location?.id ?? 0, widget.model?.passType == 4 ? true : false);
       createPassMgmtCubit.getlocationsResponseData(widget.model?.location);
       // createPassMgmtCubit.getRadioButtonSelected(widget.model?.exceptionalApproval == true ? 1 :0);
       if ((widget.model?.entities?.length ?? 0) > 0) {
@@ -2483,7 +2499,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       visitorcomingfromTextController.text =
           widget.model?.visitorComingFrom ?? '';
       contactnoTextController.text = widget.model?.contactNo ?? '';
-      employeeIdTextController.text = companyType.name == 'CWR T2'?widget.model?.employeeId ?? '' :widget.model?.employee?.employeeId ?? '' ;
+      employeeIdTextController.text = companyType.name == 'CWR T2' || ( widget.passId == ConstantsIntValue.passIdSez  && companyType.name == 'CWR T1')?widget.model?.employeeId ?? '' :widget.model?.employee?.employeeId ?? '' ;
       sezpassinfoTextController.text = widget.model?.passNo ?? '';
       //sezpassinfoTextController.text = widget.model?.passNo ?? '';
       //sezpassinfoTextController.text = widget.model?.passNo ?? '';
@@ -2608,7 +2624,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
     BaseOrganisationDialog().departmentDialog(
       context: context,
       organisations: state.passTypes ?? [],
-      onTap: (Organisation org) {
+      onTap: (Organisation org) async {
         log('---org.name-${org.name}-');
 
         log('---widget.model-${widget.model}-');
@@ -2616,6 +2632,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         state.model.passType = org.id;
 
         passTypeTextController.text = org.name ?? '';
+         // await ser.getPassNo(
+         //    passType: 1, locationId: locationId);
+        await createPassMgmtCubit.getPassNumber(
+          widget.passId, state.location!.id!, state.model.passType == 4 ? true : false );
+
+        widget.model?.passInfo?.passNo = null;
+        widget.model?.passNo = null;
+        daypassnoTextController.text = '';
       },
     );
 
@@ -3486,7 +3510,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                           locationId: location.id!, passId: widget.passId);
 
                   await createPassMgmtCubit.getPassNumber(
-                      widget.passId, location.id!);
+                      widget.passId, location.id!,widget.model?.passType == 4 ? true : false);
                   createPassMgmtCubit.getlocationsResponseData(location);
                   daypassnoTextController.text = '';
                   hostEmployeeIdTextController.text = '';
@@ -3847,7 +3871,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               : nameTextController.text)
               : vendorVisitorNameTextController.text,
         employeeId: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
-            ? ((widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2') || widget.passId == ConstantsIntValue.passIdSez
+            ? ((widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2') || widget.passId == ConstantsIntValue.passIdSez &&(companyType?.name == 'FTE' )
             ? state.nameResponse?.employeeId
             : employeeIdTextController.text)
             : null,
@@ -3925,7 +3949,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               : nameTextController.text)
               : vendorVisitorNameTextController.text,
           employeeId: widget.passId == ConstantsIntValue.passIdDayPass || widget.passId == ConstantsIntValue.passIdSez
-              ? ( (widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2') || widget.passId == ConstantsIntValue.passIdSez
+              ? ((widget.passId == ConstantsIntValue.passIdDayPass && companyType?.name != 'CWR T2') || (widget.passId == ConstantsIntValue.passIdSez && companyType?.name == 'FTE')
               ? state.nameResponse?.employeeId
               : employeeIdTextController.text)
               : null,
@@ -4517,3 +4541,24 @@ class CreatePassMngArguments {
   CreatePassMngArguments(
       this.passType, this.title, this.isRegistry, this.model);
 }
+//
+// Future<bool> confirmationPopup(BuildContext context, String orgName) async {
+//   return await showDialog<bool>(
+//     context: context,
+//     builder: (BuildContext dialogContext) {
+//       return CustomAlertDialog(
+//         title: Constants.confirmation,
+//         message: "Are you sure you want to select \"$orgName\"?",
+//         onPositivePressed: () {
+//           Navigator.pop(dialogContext, true); // Return `true` when "Yes" is pressed
+//         },
+//         onNegativePressed: () {
+//           Navigator.pop(dialogContext, false); // Return `false` when "No" is pressed
+//         },
+//         positiveBtnText: Constants.yes,
+//         negativeBtnText: Constants.no,
+//       );
+//     },
+//   ) ?? false; // Return `false` if dialog is dismissed
+// }
+
