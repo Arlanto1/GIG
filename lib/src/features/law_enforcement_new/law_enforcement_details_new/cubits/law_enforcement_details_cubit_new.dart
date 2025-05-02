@@ -248,7 +248,8 @@ class LawEnforcementDetailsCubit
       // Format the name and email for receiverEmail
       String name = dbOfficialEmail.name ?? '';
       String email = dbOfficialEmail.email ?? '';
-      state.model.dbOfficialAccompaniedEmail = '$name ($email)';
+      String employeeId = dbOfficialEmail.employeeId ?? '';
+      state.model.dbOfficialAccompaniedEmail = '$name ($email , $employeeId)';
       emit(
         state.copyWith(
           model: state.model,
