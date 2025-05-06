@@ -266,13 +266,13 @@ class _DayPassManagementDetailsViewState
 
 
                             /// Updated Status
-                            if(widget.model?.status == 0 || widget.model?.status == 1)...[
+                            if(widget.model?.status == 0 || widget.model?.status == 1 || widget.model?.status == 3)...[
                               CommonWidgets.textDisplay(
                                   isMandatory: true,
                                   state.labels?.locale.updateStatus ??
                                       state.labels?.defaultLocale
                                           .updateStatus ??
-                                  Constants.updatestatus,
+                                      Constants.updatestatus,
                                   Styles.textStyleBlack14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -288,26 +288,45 @@ class _DayPassManagementDetailsViewState
                                     organisations:
                                     state.getStatus ?? [],
                                     onTap: (Organisation org) {
-                                      Future.delayed(const Duration(milliseconds: 200), () {
-                                        var dialog = CustomAlertDialog(
-                                          title: Constants.updatestatus,
-                                          message: "Are you sure you want to select \"${org.name}\"?",
-                                          onPositivePressed: () {
-                                            Navigator.pop(context);
-                                            updateStatusTextController.text = org.name!;
-                                            setState(() {});
-                                            BlocProvider.of<DayPassManagementDetailsCubit>(context)
-                                                .updateDropdownValues(updatedStatus: org);
-                                          },
-                                          positiveBtnText: Constants.yes,
-                                          negativeBtnText: Constants.no,
-                                        );
+                                      if(org.name == 'Lost') {
+                                        Future.delayed(const Duration(
+                                            milliseconds: 200), () {
+                                          var dialog = CustomAlertDialog(
+                                            title: Constants.updatestatus,
+                                            message: "Are you sure you want to select \"${org
+                                                .name}\"?",
+                                            onPositivePressed: () {
+                                              Navigator.pop(context);
+                                              updateStatusTextController.text =
+                                              org.name!;
+                                              setState(() {});
+                                              BlocProvider.of<
+                                                  DayPassManagementDetailsCubit>(
+                                                  context)
+                                                  .updateDropdownValues(
+                                                  updatedStatus: org);
+                                            },
+                                            positiveBtnText: Constants.yes,
+                                            negativeBtnText: Constants.no,
+                                          );
 
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) => dialog,
-                                        );
-                                      });
+                                          showDialog(
+                                            context: context,
+                                            builder: (
+                                                BuildContext context) => dialog,
+                                          );
+                                        });
+                                      }
+                                      else{
+                                        updateStatusTextController.text =
+                                        org.name!;
+                                        setState(() {});
+                                        BlocProvider.of<
+                                            DayPassManagementDetailsCubit>(
+                                            context)
+                                            .updateDropdownValues(
+                                            updatedStatus: org);
+                                      }
                                     },
                                   );
                                 },
