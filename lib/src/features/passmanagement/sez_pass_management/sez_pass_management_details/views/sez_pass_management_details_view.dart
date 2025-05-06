@@ -292,26 +292,44 @@ class _SezPassManagementDetailsViewState
                                     organisations:
                                     state.getStatus ?? [],
                                     onTap: (Organisation org) {
-                                      Future.delayed(const Duration(milliseconds: 200), () {
-                                        var dialog = CustomAlertDialog(
-                                          title: Constants.updatestatus,
-                                          message: "Are you sure you want to select \"${org.name}\"?",
-                                          onPositivePressed: () {
-                                            Navigator.pop(context);
-                                            updateStatusTextController.text = org.name!;
-                                            setState(() {});
-                                            BlocProvider.of<SezPassManagementDetailsCubit>(context)
-                                                .updateDropdownValues(updatedStatus: org);
-                                          },
-                                          positiveBtnText: Constants.yes,
-                                          negativeBtnText: Constants.no,
-                                        );
+                                      if(org.name == "Lost") {
+                                        Future.delayed(const Duration(
+                                            milliseconds: 200), () {
+                                          var dialog = CustomAlertDialog(
+                                            title: Constants.updatestatus,
+                                            message: "Are you sure you want to select \"${org
+                                                .name}\"?",
+                                            onPositivePressed: () {
+                                              Navigator.pop(context);
+                                              updateStatusTextController.text =
+                                              org.name!;
+                                              setState(() {});
+                                              BlocProvider.of<
+                                                  SezPassManagementDetailsCubit>(
+                                                  context)
+                                                  .updateDropdownValues(
+                                                  updatedStatus: org);
+                                            },
+                                            positiveBtnText: Constants.yes,
+                                            negativeBtnText: Constants.no,
+                                          );
 
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) => dialog,
-                                        );
-                                      });
+                                          showDialog(
+                                            context: context,
+                                            builder: (
+                                                BuildContext context) => dialog,
+                                          );
+                                        });
+                                      }else{
+                                        updateStatusTextController.text =
+                                        org.name!;
+                                        setState(() {});
+                                        BlocProvider.of<
+                                            SezPassManagementDetailsCubit>(
+                                            context)
+                                            .updateDropdownValues(
+                                            updatedStatus: org);
+                                      }
                                     },
                                   );
                                   // }
