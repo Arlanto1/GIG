@@ -418,7 +418,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                               context: context,
                                               organisations: state.updateStatuses ?? [],
                                               onTap: (Organisation org) async {
-                                                if (org.name != null) {
+                                                if (org.name != null && org.name == "Lost") {
                                                   // Delay showing the alert to ensure the previous dialog is fully dismissed
                                                   Future.delayed(const Duration(milliseconds: 200), () {
                                                     var dialog = CustomAlertDialog(
@@ -439,6 +439,12 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                       builder: (BuildContext context) => dialog,
                                                     );
                                                   });
+                                                }
+                                                else{
+                                                  updateStatusTextController.text = org.name!;
+                                                  setState(() {});
+                                                  BlocProvider.of<CreatePassMgmtCubit>(context)
+                                                      .updateDropdownValues(updateStatus: org);
                                                 }
                                               },
                                             );
