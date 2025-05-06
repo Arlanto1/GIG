@@ -213,13 +213,14 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       );
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
-
       state.model.host?.employeeId = null;
       state.model.host?.firstName = null;
       state.model.host?.lastName = null;
       state.model.host = null;
       state.model.hostEmployeeId = null;
+      state.model.hostName = null;
 
+      state.model.employeeName = null;
       state.model.employee?.employeeId = null;
       state.model.employee?.firstName = null;
       state.model.employee?.lastName = null;

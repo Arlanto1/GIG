@@ -223,6 +223,7 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       state.model.host?.lastName = null;
       state.model.host = null;
       state.model.hostEmployeeId = null;
+      state.model.hostName = null;
 
       emailUsers = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomStaticUser,
