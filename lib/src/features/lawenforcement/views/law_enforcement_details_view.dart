@@ -1344,7 +1344,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           !widget.model!.dbOfficialAccompaniedEmail.isEmptyOrNull
               ? BaseUser(
                   // id: widget.model?.dbOfficialAccompaniedEmail,
-                  email: widget.model?.dbOfficialAccompaniedEmail ?? "",
+                  name: widget.model?.dbOfficialAccompaniedEmail ?? "",
                 )
               : BaseUser();
 
@@ -1925,7 +1925,6 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       title: state.dBOfficialEmailIdAccompaniedLeoOfficial != null
           ? ('${state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? ''}   ${state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? ''} ${state.dBOfficialEmailIdAccompaniedLeoOfficial?.employeeId ?? ''}')
           : '',
-
       height: 90,
       isDisableColor: isReadOnly,
       onTap: () {
@@ -2111,7 +2110,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail:
           state.dBOfficialEmailIdAccompaniedLeoOfficial != null
-              ? '${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '')}  ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')} ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.employeeId ?? '')}'
+              ? '${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '')}   ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')}'
               : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
