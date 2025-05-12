@@ -1216,6 +1216,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
 
   populateData() async {
     if (widget.model != null) {
+      LawEnforcementState state = LawEnforcementState(status: FormStatus.initial);
       await SharedPrefs.setFoundId(widget.model?.id ?? 0);
 
       additionalInformationTextController.text =
@@ -1344,7 +1345,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           !widget.model!.dbOfficialAccompaniedEmail.isEmptyOrNull
               ? BaseUser(
                   // id: widget.model?.dbOfficialAccompaniedEmail,
-                  name: widget.model?.dbOfficialAccompaniedEmail ?? "",
+                 name: widget.model!.dbOfficialAccompaniedEmail ?? "",
                 )
               : BaseUser();
 
@@ -1923,7 +1924,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
       LawEnforcementState state) {
     return TextFieldAddButton(
       title: state.dBOfficialEmailIdAccompaniedLeoOfficial != null
-          ? ('${state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? ''}   ${state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? ''} ${state.dBOfficialEmailIdAccompaniedLeoOfficial?.employeeId ?? ''}')
+          ? ('${state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? ''}   ${state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? ''}  ${state.dBOfficialEmailIdAccompaniedLeoOfficial?.employeeId ?? ''}')
           : '',
       height: 90,
       isDisableColor: isReadOnly,
@@ -2110,7 +2111,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail:
           state.dBOfficialEmailIdAccompaniedLeoOfficial != null
-              ? '${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '')}   ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')}'
+              ? '${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '')} (${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')}, ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.employeeId ?? '')})'
               : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
@@ -2133,7 +2134,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail:
           state.dBOfficialEmailIdAccompaniedLeoOfficial != null
-              ? '${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '')}  ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')} ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.employeeId ?? '')}'
+              ? '${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '')} (${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')}, ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.employeeId ?? '')})'
               : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
