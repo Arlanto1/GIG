@@ -1922,9 +1922,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   Widget dBOfficialEmailIDAccompaniedLeoOfficialWidget(
       LawEnforcementState state) {
     return TextFieldAddButton(
-      title: state.dBOfficialEmailIdAccompaniedLeoOfficial != null && state.model?.dbOfficialAccompaniedEmail == null
-          ? '${state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? ''} (${state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? ''}  ${state.dBOfficialEmailIdAccompaniedLeoOfficial?.employeeId ?? ''})'
-          : (state.model?.dbOfficialAccompaniedEmail ?? ''),
+      title: state.dBOfficialEmailIdAccompaniedLeoOfficial != null
+          ? ('${state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? ''}   ${state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? ''} ${state.dBOfficialEmailIdAccompaniedLeoOfficial?.employeeId ?? ''}')
+          : '',
 
       height: 90,
       isDisableColor: isReadOnly,
@@ -2110,8 +2110,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail:
-          state.dBOfficialEmailIdAccompaniedLeoOfficial != null && state.dBOfficialEmailIdAccompaniedLeoOfficial?.employeeId !=null
-              ? '${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '')}   (${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')}, ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.employeeId ?? '')})'
+          state.dBOfficialEmailIdAccompaniedLeoOfficial != null
+              ? '${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '')}  ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')} ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.employeeId ?? '')}'
               : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
@@ -2133,8 +2133,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail:
-          state.dBOfficialEmailIdAccompaniedLeoOfficial != null && state.dBOfficialEmailIdAccompaniedLeoOfficial?.employeeId !=null
-              ? '${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '')}   (${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')}, ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.employeeId ?? '')})'
+          state.dBOfficialEmailIdAccompaniedLeoOfficial != null
+              ? '${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '')}  ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')} ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.employeeId ?? '')}'
               : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
