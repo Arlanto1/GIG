@@ -1922,7 +1922,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
   Widget dBOfficialEmailIDAccompaniedLeoOfficialWidget(
       LawEnforcementState state) {
     return TextFieldAddButton(
-      title: state.dBOfficialEmailIdAccompaniedLeoOfficial != null
+      title: state.dBOfficialEmailIdAccompaniedLeoOfficial != null && state.model?.dbOfficialAccompaniedEmail == null
           ? '${state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? ''} (${state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? ''}, ${state.dBOfficialEmailIdAccompaniedLeoOfficial?.employeeId ?? ''})'
           : (state.model?.dbOfficialAccompaniedEmail ?? ''),
 
