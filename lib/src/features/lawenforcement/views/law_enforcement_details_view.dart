@@ -2109,9 +2109,9 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail:
-              state.dBOfficialEmailIdAccompaniedLeoOfficial != null
-                  ? '${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '')}   ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')}'
-                  : '',
+          state.dBOfficialEmailIdAccompaniedLeoOfficial != null && state.dBOfficialEmailIdAccompaniedLeoOfficial?.employeeId !=null
+              ? '${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '')}   (${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')}  ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.employeeId ?? '')})'
+              : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
           mailList: loadGroups);
@@ -2132,8 +2132,8 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
           visitingOfficials: visitingOfficials,
           dbOfficialEmailDepartment: dbOfficialEmailDepartment,
           dbOfficialAccompaniedEmail:
-          state.dBOfficialEmailIdAccompaniedLeoOfficial != null
-              ? '${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '')}   ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')}'
+          state.dBOfficialEmailIdAccompaniedLeoOfficial != null && state.dBOfficialEmailIdAccompaniedLeoOfficial?.employeeId !=null
+              ? '${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.name ?? '')}   (${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.email ?? '')}  ${(state.dBOfficialEmailIdAccompaniedLeoOfficial?.employeeId ?? '')})'
               : '',
           dbOfficialEmail: dbOfficailWanttimeetTextController.text,
           visitPurpose: visitPurpose,
