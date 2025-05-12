@@ -1029,7 +1029,7 @@ class NavigationDrawer1 extends StatelessWidget {
         Navigator.pushNamed(context, incidentManagementsRoute);
         break;
       case Constants.lawEnforcementVisitsListTitle:
-        Navigator.pushNamed(context, lawEnforcementListRoute);
+        Navigator.pushNamed(context, lawEnforcementNewListRoute);
         break;
       case Constants.vVipVisitorsTitle:
         Navigator.pushNamed(context, vipVisitorsListRoute);
