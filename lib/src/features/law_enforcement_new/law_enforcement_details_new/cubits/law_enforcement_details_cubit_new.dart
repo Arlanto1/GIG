@@ -137,16 +137,26 @@ class LawEnforcementDetailsCubit
           state.model.slNo = slNo.serialNo;
         }
       }
+
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
+
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.modifiedDate ?? '0'),
+          Constants.fulldateFormat);
+
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.leoModuleCode);
       LeoUiLabels labels = LeoUiLabels.fromJson(responseLabels);
       state.model.entrySecurity ??= loggedInUserDetails;
+      state.model.modifiedBy ??= (loggedInUserDetails.firstName ?? "") +
+          (loggedInUserDetails.lastName ?? "");
       emit(
         state.copyWith(
           locations: getLocationsData,
@@ -284,6 +294,9 @@ class LawEnforcementDetailsCubit
       state.model.inputDate = inputDate.toString();
     }
 
+    state.model.modifiedDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+
     // Create/Update API Call
     LawEnforcementRequestBodyNew request =
     LawEnforcementRequestBodyNew(lawEnforcementModel: state.model);
@@ -300,6 +313,11 @@ class LawEnforcementDetailsCubit
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
+          state.model.modifiedDate = state.model.modifiedDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.modifiedDate ?? '0'),
               Constants.fulldateFormat);
           emit(
             state.copyWith(
@@ -318,6 +336,11 @@ class LawEnforcementDetailsCubit
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
+          state.model.modifiedDate = state.model.modifiedDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.modifiedDate ?? '0'),
               Constants.fulldateFormat);
           emit(
             state.copyWith(
@@ -353,6 +376,11 @@ class LawEnforcementDetailsCubit
           : Utils.timestampToDateConversion(
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.modifiedDate ?? '0'),
+          Constants.fulldateFormat);
       return true;
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
@@ -361,12 +389,22 @@ class LawEnforcementDetailsCubit
           : Utils.timestampToDateConversion(
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.modifiedDate ?? '0'),
+          Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
           int.tryParse(state.model.inputDate ?? '0'),
+          Constants.fulldateFormat);
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.modifiedDate ?? '0'),
           Constants.fulldateFormat);
       emit(
         state.copyWith(
