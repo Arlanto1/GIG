@@ -266,7 +266,7 @@ class MaterialMovementDetailsState extends Equatable {
           status: false, message: 'Please enter Prepared By Department');
     }
     if (model.expectedDateOfReturn == null &&
-        model.returnable!) {
+        model.returnable! && model.status !=0 && model.status !=null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Expected date of Return');
     }
