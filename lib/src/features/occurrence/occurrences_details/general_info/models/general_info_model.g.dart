@@ -54,6 +54,7 @@ OccurrenceModel _$OccurrenceModelFromJson(Map<String, dynamic> json) =>
       cwmVisit: json['cwmVisit'] as bool? ?? false,
       comments: json['comments'] as String?,
       dgWrking: json['dgWrking'] as bool? ?? false,
+      modifiedDate: json['modifiedDate'] as String?,
       modifiedBy: json['modifiedBy'] as String?,
       incidentItems: (json['incidentItems'] as List<dynamic>?)
           ?.map((e) => IncidentModel.fromJson(e as Map<String, dynamic>))
@@ -106,6 +107,7 @@ Map<String, dynamic> _$OccurrenceModelToJson(OccurrenceModel instance) =>
       'cwmVisit': instance.cwmVisit,
       'comments': instance.comments,
       'dgWrking': instance.dgWrking,
+      'modifiedDate': instance.modifiedDate,
       'modifiedBy': instance.modifiedBy,
       'powerFailures': instance.powerFailures,
       'incidentItems': instance.incidentItems,

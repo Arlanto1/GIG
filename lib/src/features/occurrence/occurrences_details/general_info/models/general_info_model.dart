@@ -73,7 +73,7 @@ class OccurrenceModel {
   String? comments;
   bool dgWrking;
 
-  // String? modifiedDate;
+  String? modifiedDate;
   String? modifiedBy;
   List<PowerFailureModel>? powerFailures;
   List<IncidentModel>? incidentItems;
@@ -120,7 +120,7 @@ class OccurrenceModel {
     this.cwmVisit = false,
     this.comments,
     this.dgWrking = false,
-    // this.modifiedDate,
+    this.modifiedDate,
     this.modifiedBy,
     this.incidentItems,
     this.secSysFailureIncident,

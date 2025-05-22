@@ -159,6 +159,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         }
       }
       model.entrySecurity ??= loggedInUserDetails;
+      model.modifiedBy ??= (loggedInUserDetails.firstName ?? "") +
+          (loggedInUserDetails.lastName ?? "");
       List<BaseUser>? shiftTakenOverBy =
           await commonServices.getBaseUsers(
               roleName: ConstantUserRoles.atomGuardingStaffUser,
@@ -448,6 +450,9 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       }
     }
 
+    state.model.modifiedDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+
     /// Create/Update API Call
     OccurrenceGeneralInfoRequest request =
         OccurrenceGeneralInfoRequest(occurrence: state.model);
@@ -462,6 +467,11 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
+          state.model.modifiedDate = state.model.modifiedDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.modifiedDate ?? '0'),
               Constants.fulldateFormat);
           emit(
             state.copyWith(
@@ -483,6 +493,11 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
               : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
+          state.model.modifiedDate = state.model.modifiedDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.modifiedDate ?? '0'),
+              Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.formError,
@@ -502,6 +517,11 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.modifiedDate ?? '0'),
+          Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.inputDate = state.model.inputDate == null
@@ -509,6 +529,11 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.modifiedDate ?? '0'),
+          Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {
       emit(
