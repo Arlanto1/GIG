@@ -818,7 +818,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                               .showFields(infraIssue: false);
                                         }),
 
-                              if (state.model.infraIssue == true) ...[
+                              if (state.model.infraIssue == false) ...[
                                 /// Any Infrastructural Issue Comments
                                 FlutterInputField(
                                   lineHeight: 6,
