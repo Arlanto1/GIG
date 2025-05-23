@@ -114,6 +114,12 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           : Utils.timestampToDateConversion(
               int.tryParse(model.inputDate ?? '0'), Constants.fulldateFormat);
 
+      model.modifiedDate = model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(model.modifiedDate ?? '0'),
+          Constants.fulldateFormat);
+
       AddEntities entities =
           await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
@@ -167,6 +173,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
               locationId: model.location!.id!,
             isDbUser: false,
             );
+
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
       model.status ?? 0;
@@ -431,6 +438,9 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       state.model.inputDate = inputDate.toString();
     }
 
+    state.model.modifiedDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+
     for (PowerFailureModel powerFailureModel
         in state.model.powerFailures ?? []) {
       if (!powerFailureModel.powerFailureStartDate.isEmptyOrNull &&
@@ -449,8 +459,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         powerFailureModel.powerFailureEndDate = inputDate.toString();
       }
     }
-
-    state.model.modifiedDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
 
     /// Create/Update API Call
