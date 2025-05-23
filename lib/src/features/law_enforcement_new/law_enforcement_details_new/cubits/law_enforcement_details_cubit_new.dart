@@ -259,7 +259,7 @@ class LawEnforcementDetailsCubit
       String name = dbOfficialEmail.name ?? '';
       String email = dbOfficialEmail.email ?? '';
       String employeeId = dbOfficialEmail.employeeId ?? '';
-      state.model.dbOfficialAccompaniedEmail = '$name ($email , $employeeId)';
+      state.model.dbOfficialAccompaniedEmail = email;
       emit(
         state.copyWith(
           model: state.model,
