@@ -105,7 +105,7 @@ class OccurrenceGeneralInfoState extends Equatable {
           message: 'Please enter Social Engineering Incidents Comments');
     }
 
-    if (model.infraIssue && model.infraIssueComments.isEmptyOrNull) {
+    if (model.infraIssue == false && model.infraIssueComments.isEmptyOrNull) {
       return const ErrorResponse(
           status: false,
           message: 'Please enter Any Infrastructural Issue Comments');
