@@ -69,6 +69,11 @@ class OccurrenceGeneralInfoState extends Equatable {
           status: false, message: 'Please enter Medical Emergency Comments');
     }
 
+    if (model.handoverSecurity != null && model.entrySecurity !=null && (model.entrySecurity?.email == model.handoverSecurity?.email)) {
+      return const ErrorResponse(
+          status: false, message: 'Please select other user, this user is already selected in Shift Handover By');
+    }
+
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -149,6 +154,11 @@ class OccurrenceGeneralInfoState extends Equatable {
       return const ErrorResponse(
           status: false,
           message: 'Please enter Follow Up Actions For Next Shift');
+    }
+
+    if (model.handoverSecurity != null && model.entrySecurity !=null && (model.entrySecurity?.email == model.handoverSecurity?.email)) {
+      return const ErrorResponse(
+          status: false, message: 'Please select other user, this user is already selected in Shift Handover By');
     }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
