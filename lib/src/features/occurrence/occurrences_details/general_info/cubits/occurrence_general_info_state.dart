@@ -113,7 +113,7 @@ class OccurrenceGeneralInfoState extends Equatable {
     if (model.infraIssue == false && model.infraIssueComments.isEmptyOrNull) {
       return const ErrorResponse(
           status: false,
-          message: 'Please enter Any Infrastructural Issue Comments');
+          message: 'Please enter a Privacy Screen present on the Teller computer screen Comments');
     }
 
     if (model.fireAlarmEmrgncy &&
