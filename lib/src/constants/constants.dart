@@ -723,7 +723,7 @@ class Constants {
   static const String addPowerFailuresDates = 'Add Power Failure Date';
   static const String foundArticleTransaction = 'Found Article Transaction?';
   static const String processBreachIncident = 'Process Breach Incident?';
-  static const String anyInfrastructuralIssue = 'Any Infrastructural Issue? ';
+  static const String anyInfrastructuralIssue = 'Is a Privacy Screen present on the Teller computer screen? ';
   static const String anySuspiciousActivity = 'Any Suspicious Activity?';
   static const String fireAlarmEmergencyOccurred =
       'Fire Alarm Emergency Occurred';
