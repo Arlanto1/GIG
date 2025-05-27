@@ -110,10 +110,10 @@ class OccurrenceGeneralInfoState extends Equatable {
           message: 'Please enter Social Engineering Incidents Comments');
     }
 
-    if (model.infraIssue == false && model.infraIssueComments.isEmptyOrNull) {
+    if (model.infraIssue == true && model.infraIssueComments.isEmptyOrNull) {
       return const ErrorResponse(
           status: false,
-          message: 'Please enter a Privacy Screen present on the Teller computer screen Comments');
+          message: 'Please enter Any Infrastructural Issue Comments');
     }
 
     if (model.fireAlarmEmrgncy &&
