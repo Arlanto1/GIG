@@ -299,6 +299,7 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
         "title": Constants.editlawenforcement,
         ConstantsArgument.extraProperties:
         ExtraProperties(hasWritePermission: hasWritePermission),
+        ConstantsArgument.isEligibleToEdit:  lawEnforcementModel.isEligibleToEdit,
       });
     }
   }

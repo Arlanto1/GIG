@@ -13,6 +13,7 @@ class VisitingOfficialListView extends StatefulWidget {
     required this.title,
     required this.type,
     required this.showSaveButton,
+    required this.parentIsEligibleToEdit,
     this.lock,
   });
 
@@ -21,6 +22,7 @@ class VisitingOfficialListView extends StatefulWidget {
   final int type;
   final bool showSaveButton;
   final String? lock;
+  final bool parentIsEligibleToEdit;
 
   @override
   State<VisitingOfficialListView> createState() =>
@@ -78,7 +80,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
         },
         child: Scaffold(
           backgroundColor: AppColors.cardBgColor,
-          floatingActionButton: widget.showSaveButton
+          floatingActionButton: widget.showSaveButton && widget.parentIsEligibleToEdit
               ? Flutterfloatingbutton(
                   backgroundColor: AppColors.navigationSkyBlueColor,
                   foregroundColor: AppColors.backgroundWhiteColor,
@@ -259,7 +261,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
                       );
                     },
                     showDeleteButton:
-                        widget.showSaveButton && widget.lock.isEmptyOrNull,
+                        widget.showSaveButton && widget.lock.isEmptyOrNull && widget.parentIsEligibleToEdit,
                     onDeleteTap: (selectedIndex) async {
                       // Call Delete API
                       BlocProvider.of<VisitingOfficialListBloc>(context).add(
@@ -289,7 +291,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
           model: visitingOfficialDetails,
           mainContext: context,
           departments: departments,
-          showSaveButton: widget.showSaveButton && widget.lock.isEmptyOrNull,
+          showSaveButton: widget.showSaveButton && widget.lock.isEmptyOrNull && widget.parentIsEligibleToEdit,
           onSubmit: (LawVisitingOfficial model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();
@@ -311,12 +313,12 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
   getDetails(int id) async {
     showLoadingDialog(context);
 
-    ContactRecord contactsModel = await ContactDetailsServices().getCdById(id);
+    LawVisitingOfficial contactsModel = await LawEnforcementServices().getLeoVisitingOfficialById(id:id);
 
     editDataLoading(contactsModel);
   }
 
-  void editDataLoading(ContactRecord? model) {
+  void editDataLoading(LawVisitingOfficial? model) {
     dismissLoadingDialog(context);
     if (model != null) {
       Navigator.pushNamed(
@@ -325,6 +327,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
         arguments: {
           "model": model,
           "title": Constants.visitingOfficials,
+          ConstantsArgument.isEligibleToEdit: widget.parentIsEligibleToEdit,
         },
       );
     }

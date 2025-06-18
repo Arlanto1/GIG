@@ -339,6 +339,7 @@ class RouteGenerator {
         int id = 0;
         int type = 0;
         bool showSaveButton = true;
+        bool isEligibleToEdit = false;
         String? lock;
         // List<LawVisitingOfficial> visitingOfficials = [];
         List<Organisation> departments = [];
@@ -352,6 +353,7 @@ class RouteGenerator {
           departments = arguments[ConstantsArgument.departments] ?? [];
           showSaveButton = arguments[ConstantsArgument.showSaveButton];
           lock = arguments[ConstantsArgument.isLocked];
+          isEligibleToEdit = arguments[ConstantsArgument.isEligibleToEdit];
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<vo.VisitingOfficialListBloc>(
@@ -370,6 +372,7 @@ class RouteGenerator {
               title: title,
               showSaveButton: showSaveButton,
               lock: lock,
+              parentIsEligibleToEdit: isEligibleToEdit,
             ),
           ),
         );

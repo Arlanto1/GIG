@@ -12,6 +12,7 @@ class AddVisitingOfficialPopUp extends StatefulWidget {
     required this.mainContext,
     required this.departments,
     required this.showSaveButton,
+    // required this.parentIsEligibleToEdit,
   });
 
   final String title;
@@ -20,6 +21,8 @@ class AddVisitingOfficialPopUp extends StatefulWidget {
   final List<Organisation> departments;
   final BuildContext mainContext;
   final bool showSaveButton;
+  // final bool parentIsEligibleToEdit;
+
 
   @override
   State<AddVisitingOfficialPopUp> createState() =>
@@ -97,7 +100,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                         textInputType: TextInputType.text,
                         textFormKey: Keys.nameKey,
                         hintText: '',
-                        isEnable: widget.showSaveButton,
+                        isEnable: widget.showSaveButton ,
                         isDisableColor: false,
                         onChange: (String value) {
                           log('-widget.contact.rank?.name--value--$value-');

@@ -84,15 +84,17 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
         if (state.model.status == null) {
           isEdit = true;
         }
-        if (state.model.status == 0 && state.model.lock.isEmptyOrNull) {
+
+
+        if (state.model.status == 0 && state.model.lock.isEmptyOrNull && state.model.isEligibleToEdit == true) {
           isEdit = true;
         }
 
-        if (state.model.status == 1 && state.model.lock.isEmptyOrNull) {
+        if (state.model.status == 1 && state.model.lock.isEmptyOrNull && state.model.isEligibleToEdit == true) {
           isEdit = true;
         }
 
-        if (state.model.status == 2 && state.model.lock.isEmptyOrNull) {
+        if (state.model.status == 2 && state.model.lock.isEmptyOrNull && state.model.isEligibleToEdit == true) {
           isEdit = true;
         }
         if (state.model.status == null) {
@@ -792,6 +794,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                     !isReadOnly
                                     ? true
                                     : false,
+                                ConstantsArgument.isEligibleToEdit:widget.model?.id == null ? true: state.model.isEligibleToEdit
                               },
                             );
                           },

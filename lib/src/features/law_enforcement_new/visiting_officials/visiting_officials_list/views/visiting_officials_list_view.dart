@@ -290,6 +290,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
           mainContext: context,
           departments: departments,
           showSaveButton: widget.showSaveButton && widget.lock.isEmptyOrNull,
+          // parentIsEligibleToEdit: widget.showSaveButton,
           onSubmit: (LawVisitingOfficial model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();
