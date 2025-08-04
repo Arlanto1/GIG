@@ -960,7 +960,7 @@ class _DayPassManagementDetailsViewState
 
                             BaseDate().datePickerWidgetLoading(
                               textController: passValidUntilController,
-                              isDisabled: state.model.companyType?.name == 'Exceptions' && !isReadOnly ? false : true,
+                              isDisabled: (state.model.companyType?.name == 'Exceptions' || state.model.dayPassReason?.name == 'New joiner waiting for access card' || state.model.dayPassReason?.name == 'New Joiner waiting for photo ID' )&& !isReadOnly ? false : true,
                               onlyDate: false,
                               showPastDate: false,
                               showFutureDate: true,

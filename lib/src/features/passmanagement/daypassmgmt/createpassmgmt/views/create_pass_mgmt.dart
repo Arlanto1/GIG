@@ -1769,18 +1769,23 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     //     passvaliduntilTextController),
 
                                     BaseDate().datePickerWidgetLoading(
-                                      isDisabled:
-                                          (state.selectedCompanyType?.name ??
-                                                          '')
-                                                      .toLowerCase() !=
-                                                  'exceptions' ||
-                                              (widget.model?.status != 0 &&
-                                                      widget.model?.status !=
-                                                          null) &&
-                                                  !(widget.extraProperties !=
-                                                          null &&
-                                                      !widget.extraProperties!
-                                                          .hasWritePermission!),
+                                      // isDisabled:
+                                      // ((state.selectedCompanyType?.name ??
+                                      //                     '')
+                                      //                 .toLowerCase() !=
+                                      //             'exceptions' || (state.model.dayPassReason?.name != 'New joiner waiting for access card' && state.model.dayPassReason?.name != 'New Joiner waiting for photo ID')) ||
+                                      //         (widget.model?.status != 0 &&
+                                      //                 widget.model?.status !=
+                                      //                     null) &&
+                                      //             !(widget.extraProperties !=
+                                      //                     null &&
+                                      //                 !widget.extraProperties!
+                                      //                     .hasWritePermission!),
+                                      isDisabled: ((state.selectedCompanyType?.name ??'').toLowerCase() =='exceptions' || state.dayPasselementReason?.name == 'New joiner waiting for access card' ||  state.dayPasselementReason?.name == 'New Joiner waiting for photo ID' ) && (widget.model?.status == 0 ||
+                              widget.model?.status ==
+                                  null) ||  (widget.extraProperties !=
+                                  null &&
+                              !widget.extraProperties!.hasWritePermission!)? false : true,
                                       showPastDate: false,
                                       textController:
                                           passValidUntilTextController,
