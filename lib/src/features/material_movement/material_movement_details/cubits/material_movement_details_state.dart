@@ -201,11 +201,11 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter Material Brief Description');
     }
-    if (model.quantity == null && model.status != 0 && model.status != null) {
+    if (model.quantity == null && model.status! >0 && model.status != null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Quantity');
     }
-    if (model.quantity == 0) {
+    if (model.status! >0 && model.quantity == 0) {
       return const ErrorResponse(
           status: false, message: 'Quantity cannot be zero!');
     }
@@ -214,7 +214,7 @@ class MaterialMovementDetailsState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Only positive number are allowed');
     }
-    if (model.unit == null && model.status != 0) {
+    if (model.unit == null && model.status! >0) {
       return const ErrorResponse(status: false, message: 'Please enter Unit');
     }
     if (model.modelInfo.isEmptyOrNull &&
