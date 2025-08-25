@@ -285,7 +285,6 @@ class MaterialMovementDetailsState extends Equatable {
 
     if (
     (!model.takenOutContactNo.isEmptyOrNull &&
-        !Utils().isNumeric(model.takenOutContactNo!) &&
             model.takenOutContactNo!.length < 10)) {
       return const ErrorResponse(
         status: false,
