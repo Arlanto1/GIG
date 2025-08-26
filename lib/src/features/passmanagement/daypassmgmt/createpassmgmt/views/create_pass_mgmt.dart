@@ -1795,16 +1795,16 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           : true,
                                       onChange: (String value) {
                                         /// Make Pass Valid Date Editable if the Company Type is 'Exceptions'
-                                        if (
-                                            !widget.model!.companyType!.name!
-                                                .contains('Exceptions')) {
-                                          passValidUntilTextController.text =
-                                              Utils.timestampToDateConversion(
-                                                  int.parse(
-                                                      widget.model?.endTime ??
-                                                          '0'),
-                                                  Constants.dateFormat);
-                                        }
+                                        // if (
+                                        //     !widget.model!.companyType!.name!
+                                        //         .contains('Exceptions')) {
+                                        //   passValidUntilTextController.text =
+                                        //       Utils.timestampToDateConversion(
+                                        //           int.parse(
+                                        //               widget.model?.endTime ??
+                                        //                   '0'),
+                                        //           Constants.dateFormat);
+                                        // }
                                       },
                                       context: context,
                                     ),
@@ -2883,7 +2883,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
   // }
 
   final currentDate = DateTime.now();
-
+  late String currentFormattedDate;
   void _getCurrentDate() {
     String currentFormattedDate =
         DateFormat(Constants.fulldateFormat).format(currentDate);
@@ -3145,6 +3145,15 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               // });
               createPassMgmtCubit.getVendorPassReasonResponseData(organisation);
               createPassMgmtCubit.getdaypassreasonResponseData(organisation);
+              if(state.dayPasselementReason?.name != 'New joiner waiting for access card' ||  state.dayPasselementReason?.name != 'New Joiner waiting for photo ID' ) {
+                String currentFormattedDate =
+                DateFormat(Constants.fulldateFormat).format(currentDate);
+                passValidFromTextController.text = currentFormattedDate;
+                String nextFormattedDate = DateFormat(Constants.fulldateFormat)
+                    .format(currentDate.add(const Duration(hours: 12)));
+                log('---nextFormattedDate----$nextFormattedDate------');
+                passValidUntilTextController.text = nextFormattedDate;
+              }
             },
           );
         });
