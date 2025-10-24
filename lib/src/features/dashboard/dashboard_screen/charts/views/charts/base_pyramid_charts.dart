@@ -34,7 +34,7 @@ class BasePyramidChartsState extends State<BasePyramidCharts> {
             visible: isChartVisible,
             child: Container(
               height: 300,
-              width: 350,
+              width: 450,
               decoration: const ShapeDecoration(
                 color: AppColors.white,
                 shape: RoundedRectangleBorder(

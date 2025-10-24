@@ -19,114 +19,309 @@ class BaseVerticleBarCharts extends StatefulWidget {
 class BaseVerticleBarChartsState extends State<BaseVerticleBarCharts> {
   bool isChartVisible = true;
 
-  @override
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       mainAxisAlignment: MainAxisAlignment.start,
+//       children: [
+//         Visibility(
+//           visible: isChartVisible,
+//           child: Container(
+//             height: 300,
+//             width: 350,
+//             decoration: const ShapeDecoration(
+//               color: AppColors.white,
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.vertical(
+//                   top: Radius.circular(0.0),
+//                   bottom: Radius.circular(0.0),
+//                 ),
+//               ),
+//             ),
+//             child: Column(
+//               children: [
+//                 Row(
+//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                   children: [
+//                     Padding(
+//                       padding: const EdgeInsets.all(8.0),
+//                       child: Text(
+//                         widget.chartTitle,
+//                         style: const TextStyle(
+//                           fontWeight: FontWeight.bold,
+//                           color: AppColors.navigationSkyBlueColor,
+//                           fontSize: 16,
+//                         ),
+//                       ),
+//                     ),
+//                     // IconButton(
+//                     //   icon: const Icon(Icons.cancel_rounded),
+//                     //   onPressed: () {
+//                     //     setState(() {
+//                     //       isChartVisible = false;
+//                     //     });
+//                     //   },
+//                     // ),
+//                   ],
+//                 ),
+//                 widget.chartData.isEmptyOrNull
+//                     ? const Padding(
+//                         padding: EdgeInsets.only(top: 100.0),
+//                         child: Center(
+//                           child: Text('No Data Found.'),
+//                         ),
+//                       )
+//                     : Expanded(
+//                         child: SfCartesianChart(
+//                           primaryXAxis: const NumericAxis(),
+//                           primaryYAxis: const NumericAxis(),
+//                           series: <CartesianSeries>[
+//                             StackedColumnSeries<PieChartData, num>(
+//                               enableTooltip: true,
+//                               dataLabelSettings: const DataLabelSettings(
+//                                 isVisible: true,
+//                                 labelPosition: ChartDataLabelPosition.outside,
+//                                 labelAlignment: ChartDataLabelAlignment.outer,
+//                               ),
+//                               dataSource: widget.chartData,
+//                               xValueMapper: (PieChartData data, _) =>
+//                                   widget.chartData.indexOf(data),
+//                               yValueMapper: (PieChartData data, _) => data.y,
+//                               pointColorMapper: (PieChartData data, _) =>
+//                                   data.color,
+//                               emptyPointSettings: const EmptyPointSettings(
+//                                 mode: EmptyPointMode.average,
+//                               ),
+//                             ),
+//                           ],
+//                           tooltipBehavior: TooltipBehavior(
+//                             enable: true,
+//                             builder: (dynamic data,
+//                                 dynamic point,
+//                                 dynamic series,
+//                                 int pointIndex,
+//                                 int seriesIndex) {
+//                               return Container(
+//                                 padding: const EdgeInsets.all(8),
+//                                 decoration: BoxDecoration(
+//                                   color: Colors.white,
+//                                   borderRadius: BorderRadius.circular(5),
+//                                   boxShadow: [
+//                                     BoxShadow(
+//                                         color: Colors.black.withOpacity(0.2),
+//                                         spreadRadius: 2,
+//                                         blurRadius: 5),
+//                                   ],
+//                                 ),
+//                                 child: Text(
+//                                   '${data.x} : ${data.y}',
+//                                   style: const TextStyle(color: Colors.black),
+//                                 ),
+//                               );
+//                             },
+//                           ),
+//                         ),
+//                       ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
+
+
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Visibility(
-          visible: isChartVisible,
-          child: Container(
-            height: 300,
-            width: 350,
-            decoration: const ShapeDecoration(
-              color: AppColors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(0.0),
-                  bottom: Radius.circular(0.0),
-                ),
-              ),
+    return Visibility(
+      visible: isChartVisible,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 3),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Colors.white10,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.white.withOpacity(0.02),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
-            child: Column(
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header Row
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Header Row
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        widget.chartTitle,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.navigationSkyBlueColor,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    // IconButton(
-                    //   icon: const Icon(Icons.cancel_rounded),
-                    //   onPressed: () {
-                    //     setState(() {
-                    //       isChartVisible = false;
-                    //     });
-                    //   },
-                    // ),
-                  ],
-                ),
-                widget.chartData.isEmptyOrNull
-                    ? const Padding(
-                        padding: EdgeInsets.only(top: 100.0),
-                        child: Center(
-                          child: Text('No Data Found.'),
-                        ),
-                      )
-                    : Expanded(
-                        child: SfCartesianChart(
-                          primaryXAxis: const NumericAxis(),
-                          primaryYAxis: const NumericAxis(),
-                          series: <CartesianSeries>[
-                            StackedColumnSeries<PieChartData, num>(
-                              enableTooltip: true,
-                              dataLabelSettings: const DataLabelSettings(
-                                isVisible: true,
-                                labelPosition: ChartDataLabelPosition.outside,
-                                labelAlignment: ChartDataLabelAlignment.outer,
-                              ),
-                              dataSource: widget.chartData,
-                              xValueMapper: (PieChartData data, _) =>
-                                  widget.chartData.indexOf(data),
-                              yValueMapper: (PieChartData data, _) => data.y,
-                              pointColorMapper: (PieChartData data, _) =>
-                                  data.color,
-                              emptyPointSettings: const EmptyPointSettings(
-                                mode: EmptyPointMode.average,
-                              ),
-                            ),
-                          ],
-                          tooltipBehavior: TooltipBehavior(
-                            enable: true,
-                            builder: (dynamic data,
-                                dynamic point,
-                                dynamic series,
-                                int pointIndex,
-                                int seriesIndex) {
-                              return Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(5),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black.withOpacity(0.2),
-                                        spreadRadius: 2,
-                                        blurRadius: 5),
-                                  ],
-                                ),
-                                child: Text(
-                                  '${data.x} : ${data.y}',
-                                  style: const TextStyle(color: Colors.black),
-                                ),
-                              );
-                            },
+                    Expanded(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Text(
+                          widget.chartTitle,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 19,
                           ),
                         ),
                       ),
-              ],
+                    ),
+                    if (widget.moreIcon != null) widget.moreIcon!,
+                  ],
+                ),
+              ],),
+
+            const SizedBox(height: 12),
+
+            // Chart or No Data
+            widget.chartData.isEmpty
+                ? Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: const Center(
+                child: Text(
+                  'No Data Found',
+                  style: TextStyle(color: Colors.black54, fontSize: 14),
+                ),
+              ),
+            )
+                : SizedBox(
+              height: 250,
+              // width: 900,
+              child: SfCartesianChart(
+                backgroundColor: Colors.white10,
+                tooltipBehavior: TooltipBehavior(enable: true),
+                primaryXAxis: const CategoryAxis(
+                  labelStyle: TextStyle(color: Colors.white),
+                ),
+                primaryYAxis: const NumericAxis(
+                  labelStyle: TextStyle(color: Colors.white),
+                ),
+                series: <CartesianSeries>[
+                  ColumnSeries<PieChartData, String>(
+                    dataSource: widget.chartData,
+                    xValueMapper: (PieChartData data, _) => data.x,
+                    yValueMapper: (PieChartData data, _) => data.y,
+                    // pointColorMapper: (PieChartData data, _) =>
+                    // data.color,
+                    pointColorMapper: (PieChartData data, index) =>
+                    customColors[index % customColors.length],
+                    dataLabelSettings: const DataLabelSettings(
+                      isVisible: true,
+                      textStyle: TextStyle(color: Colors.white),
+                    ),
+                    enableTooltip: true,
+                    width: 0.3,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(6),
+                      topRight: Radius.circular(6),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
+
+            const SizedBox(height: 10),
+
+            // Custom Scrollable Legend
+            if (widget.chartData.isNotEmpty)
+              SizedBox(
+                height: 50,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: widget.chartData.map((data) {
+                      final color = customColors[
+                      widget.chartData.indexOf(data) %
+                          customColors.length];
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 6),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: Colors.white30,
+                          borderRadius: BorderRadius.circular(30),
+                          border: Border.all(color: color, width: 1.5),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 10,
+                              height: 10,
+                              decoration: BoxDecoration(
+                                color: color,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              '${data.x} (${data.y}%)',
+                              style: const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF333333),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+          ],
         ),
-      ],
+      ),
     );
-  }
-}
+  }}
+
+
+
+final List<Color> presetColors = [
+  const Color(0xFF0093F9),
+  const Color(0xFF15CAB4),
+  const Color(0xFFFFA516),
+  const Color(0xFFFF4051),
+  const Color(0xFF9665ED),
+  const Color(0xFFB2DEFD),
+  const Color(0xFF007bff),
+  const Color(0xFF6610f2),
+  const Color(0xFF6f42c1),
+  const Color(0xFFe83e8c),
+  const Color(0xFFdc3545),
+  const Color(0xFFfd7e14),
+  const Color(0xFFffc107),
+  const Color(0xFF28a745),
+  const Color(0xFF20c997),
+  const Color(0xFF17a2b8),
+];
+
+final List<Color> customColors = [ // const Color(0xFFffc107),
+  const Color(0xFF1E40AF),
+  const Color(0xFF2563EB),
+  const Color(0xFF6366F1),
+  const Color(0xFF4B67F2),
+  const Color(0xFF3B82F6),
+  const Color(0xFF0EA5E9),
+  const Color(0xFF29C3D1),
+  const Color(0xFF22A9F3),
+  const Color(0xFFEC4899),
+  const Color(0xFFDB2777),
+  const Color(0xFFdc3545),
+  const Color(0xFFfd7e14),
+  const Color(0xFF14B8A6),
+  const Color(0xFF10B981),
+  const Color(0xFF84CC16),
+  const Color(0xFF28a745),
+  const Color(0xFF15803D),
+];

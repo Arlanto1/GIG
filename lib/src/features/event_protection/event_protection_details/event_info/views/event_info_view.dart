@@ -94,7 +94,7 @@ class _EventInfoViewState extends State<EventInfoView> {
           Navigator.pop(context);
           Navigator.pushNamed(
             context,
-            createFoundScreenRoute,
+            articleFoundNewDetailsRoute,
             arguments: {
               ConstantsArgument.eventId: state.model.id,
               ConstantsArgument.eventProtectionId: widget.eventProtectionId,
@@ -463,7 +463,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                           onTap: () {
                                             Navigator.pushNamed(
                                               context,
-                                              createFoundScreenRoute,
+                                              articleFoundNewDetailsRoute,
                                               arguments: {
                                                 ConstantsArgument.eventId:
                                                     state.model.id,
@@ -489,7 +489,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                             onTap: () {
                                               Navigator.pushNamed(
                                                 context,
-                                                articleFoundListRoute,
+                                                articleFoundNewListRoute,
                                                 arguments: {
                                                   ConstantsArgument.eventId:
                                                       state.model.id,

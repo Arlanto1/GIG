@@ -132,10 +132,10 @@ class _PasswordFieldState extends State<PasswordField> {
       decoration: InputDecoration(
         labelText: widget.hintText,
         labelStyle: const TextStyle(
-          color: Colors.grey,
+          color: Colors.black38,
         ),
         focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
+          borderSide: BorderSide(color: Color(0xFF5026bc)),
         ),
         suffixIcon: IconButton(
           icon: Icon(

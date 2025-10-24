@@ -1,8 +1,381 @@
 import 'dart:developer';
-
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/arlanto_ai_chat_assistance/ai_chat_list/views/ai_chat_list_view.dart' show AiChatListView;
 
 import 'charts/base_pyramid_charts.dart';
+
+// class DashboardView extends StatefulWidget {
+//   const DashboardView({super.key});
+//
+//   @override
+//   State<DashboardView> createState() => DashboardViewState();
+// }
+//
+// class DashboardViewState extends State<DashboardView>
+//     with WidgetsBindingObserver {
+//   String userName = '';
+//   String email = '';
+//
+//   @override
+//   void initState() {
+//     log('-DashboardView---initState--');
+//     super.initState();
+//     getUserDetails();
+//     WidgetsBinding.instance.addObserver(this);
+//     // BlocProvider.of<ChartsCubit>(context).initializeValues();
+//     chartsCubit.initializeValues();
+//     // Navigator.of(context).popUntil((route) => route.isFirst);
+//   }
+//
+//   Future<void> getUserDetails() async {
+//     userName = await SharedPrefs.getUsername();
+//     email = await SharedPrefs.getEmail();
+//     log('username : $userName email is : $email');
+//
+//     // try {
+//     //   await FCMHandler.initializeFCM();
+//     //   FCMHandler.setupForegroundMessageHandler();
+//     //   FCMHandler.setupBackgroundMessageHandler();
+//     // } catch (e) {
+//     //   // Handle Firebase initialization error
+//     //   log('Firebase initialization failed: $e');
+//     // }
+//     setState(() {});
+//   }
+//
+//   final scaffoldKey = GlobalKey<ScaffoldState>();
+//
+//   bool isToggled = false;
+//
+//   void _onToggleChanged(bool value) async {
+//     setState(() {
+//       isToggled = value;
+//     });
+//     await setLogsToggle(value);
+//   }
+//
+//   static Future<void> setLogsToggle(bool value) async {
+//     // Call the provided function
+//     // instance.setBool(Constants.logsToggle, value);
+//     SharedPrefs.setLogsToggle(value);
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocConsumer<ChartsCubit, ChartsState>(
+//       listener: (context, state) {
+//         log('-state---${state.status}---');
+//         Utils().errorAndLogout(state, context);
+//
+//         if (state.status == FormStatus.sessionExpired) {
+//           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+//               backgroundColor: Colors.red,
+//               content: Text(state.message ?? 'Session Expired...')));
+//           Validator.logoutAction(context);
+//           InactivityFunctions().logoutUser(navigatorKey);
+//         }
+//       },
+//       bloc: chartsCubit,
+//       builder: (context, state) {
+//         return Scaffold(
+//           key: scaffoldKey,
+//           drawer: NavigationDrawer1(scaffoldKey, userName, email),
+//           appBar: AppHeader(
+//             isTitleCenter: false,
+//             title: Constants.dashboard,
+//             backgroundColour:  Color(0xFF5026bc),
+//             action: [
+//               if (Environment().config.apiHost.contains('api.qa.')) ...[
+//                 const Text(
+//                   'Logs',
+//                   style: TextStyle(color: AppColors.white),
+//                 ),
+//                 Switch(
+//                   value: isToggled,
+//                   onChanged: _onToggleChanged,
+//                 ),
+//               ],
+//               // GestureDetector(
+//               //   onTap: () {
+//               //     showDialog(
+//               //       context: context,
+//               //       builder: (BuildContext context) {
+//               //         return const ArticleDialog(
+//               //           labels: languagesDropDownValues,
+//               //           title: 'Choose Language',
+//               //         );
+//               //       },
+//               //     );
+//               //   },
+//               //   child: const Padding(
+//               //     padding: EdgeInsets.all(5.0),
+//               //     child: Icon(
+//               //       Icons.translate,
+//               //       color: Colors.white,
+//               //     ),
+//               //   ),
+//               // ),
+//               /// to test crash
+//               // TextButton(
+//               //   onPressed: () => throw Exception(),
+//               //   child: const Text("Throw Test Exception"),
+//               // ),
+//
+//               GestureDetector(
+//                 onTap: () {
+//                   Navigator.push(
+//                     context,
+//                     MaterialPageRoute(
+//                       builder: (_) => const AiChatListView(),
+//                     ),
+//                   );
+//                 },
+//                 child: const Padding(
+//                   padding: EdgeInsets.all(5.0),
+//                   child: Icon(
+//                     Icons.chat,
+//                     color: Colors.white,
+//                   ),
+//                 ),
+//               ),
+//
+//               NotificationBell(notificationCount: state.notificationCount ?? 0),
+//               GestureDetector(
+//                 onTap: () {
+//                   _logout(context);
+//                 },
+//                 child: const Padding(
+//                   padding: EdgeInsets.all(5.0),
+//                   child: Icon(
+//                     Icons.logout,
+//                     color: Colors.white,
+//                   ),
+//                 ),
+//               ),
+//             ],
+//             // backgroundColor: AppColors.navigationSkyBlueColor,
+//             backBtn: IconButton(
+//               icon:
+//                   const Icon(Icons.menu, color: AppColors.backgroundWhiteColor),
+//               onPressed: () {
+//                 if (scaffoldKey.currentState!.isDrawerOpen) {
+//                   scaffoldKey.currentState!.closeDrawer();
+//                   //close drawer, if drawer is open
+//                 } else {
+//                   scaffoldKey.currentState!.openDrawer();
+//                   //open drawer, if drawer is closed
+//                 }
+//               },
+//             ),
+//           ),
+//           // body: RefreshIndicator(
+//           //     color: AppColors.navigationSkyBlueColor,
+//           //     onRefresh: () async {
+//           //       BlocProvider.of<ChartsCubit>(context).initializeValues();
+//           //     },
+//           //     child: getBody(state)),
+//
+//           /// Bottom Navigation Bar
+//           bottomNavigationBar: state.displayMenu != null
+//               ? CustomBottomNavigationBar(
+//                   scaffoldKey: scaffoldKey,
+//                   context: context,
+//                   displayMenu: state.displayMenu!,
+//                 )
+//               : const SizedBox(),
+//           body: getBody(state),
+//         );
+//       },
+//     );
+//   }
+//
+//   Widget getBody(ChartsState state) {
+//     // log('--getBody---');
+//     Utils().errorAndLogout(state, context);
+//     if (state.status == FormStatus.loading) {
+//       return const BaseLoader();
+//     }
+//     return Container(
+//       decoration: const BoxDecoration(
+//         gradient: LinearGradient(
+//           colors: [
+//             Color(0xFF845EF7),
+//             Color(0xFF6A89CC),
+//             Color(0xFF7589E9),
+//           ],
+//           begin: Alignment.topLeft,
+//           end: Alignment.bottomRight,
+//         ),
+//       ),
+//       // color: AppColors.navigationSkyBlueColor,
+//       // child: Padding(
+//       //   padding: const EdgeInsets.only(top: 10.0),
+//         child: SingleChildScrollView(
+//           // scrollDirection: Axis.horizontal,
+//           // child: Container(
+//           //   padding: const EdgeInsets.all(10.0),
+//             // decoration: const ShapeDecoration(
+//             //   color: AppColors.backgroundWhiteColor,
+//             //   shape: RoundedRectangleBorder(
+//             //     borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+//             //   ),
+//             // ),
+//             child: Column(
+//               children: [
+//                 buildChartHorizontalWidget(
+//                     title: Constants.lawEnforcementVisitsByEntity,
+//                     chartValues: state.lawEnforcementVisitByEntity ?? []),
+//                 buildChartHorizontalWidget(
+//                     title: Constants.lawEnforcementVisitsByRegion,
+//                     chartValues: state.lawEnforcementVisitByRegion ?? []),
+//                 buildChartHorizontalWidget(
+//                     title: Constants.eventProtectionByRegion,
+//                     chartValues: state.eventProtectionByRegion ?? []),
+//               ],
+//             ),
+//           ),
+//         // ),
+//       // ),
+//     );
+//   }
+//
+//   _logout(BuildContext context) {
+//     var dialog = CustomAlertDialog(
+//         title: Constants.logout,
+//         message: Constants.logoutValidation,
+//         onPositivePressed: () {
+//           CommonServices().unlock();
+//           Validator.logoutAction(context);
+//         },
+//         positiveBtnText: Constants.yes,
+//         negativeBtnText: Constants.no);
+//     showDialog(context: context, builder: (BuildContext context) => dialog);
+//   }
+//
+//   // SingleChildScrollView buildChartHorizontalWidget({
+//   //   required String title,
+//   //   required List<PieChartData> chartValues,
+//   // }) {
+//   //   return SingleChildScrollView(
+//   //     scrollDirection: Axis.horizontal,
+//   //     child: Row(
+//   //       children: [
+//   //         BasePieChart(
+//   //           chartTitle: title,
+//   //           moreIcon: SvgPicture.asset(AppIcon.moreicon),
+//   //           chartData: chartValues,
+//   //         ),
+//   //         BaseVerticleBarCharts(
+//   //           chartTitle: title,
+//   //           moreIcon: SvgPicture.asset(AppIcon.moreicon),
+//   //           chartData: chartValues,
+//   //         ),
+//   //         BaseBarChart(
+//   //           chartTitle: title,
+//   //           moreIcon: SvgPicture.asset(AppIcon.moreicon),
+//   //           chartData: chartValues,
+//   //         ),
+//   //         BasePyramidCharts(
+//   //           chartTitle: title,
+//   //           moreIcon: SvgPicture.asset(AppIcon.moreicon),
+//   //           chartData: chartValues,
+//   //         ),
+//   //         // Add more charts as needed
+//   //       ],
+//   //     ),
+//   //   );
+//   // // }
+//   // import 'package:flutter/material.dart';
+//   // import 'package:flutter_svg/flutter_svg.dart';
+// // import your custom chart widgets
+//
+//   SingleChildScrollView buildChartHorizontalWidget({
+//     required String title,
+//     required List<PieChartData> chartValues,
+//   }) {
+//     List<Widget> chartCards = [
+//       BasePieChart(
+//         chartTitle: title,
+//         moreIcon: SvgPicture.asset(AppIcon.moreicon),
+//         chartData: chartValues,
+//       ),
+//       BaseVerticleBarCharts(
+//         chartTitle: title,
+//         moreIcon: SvgPicture.asset(AppIcon.moreicon),
+//         chartData: chartValues,
+//       ),
+//       BaseBarChart(
+//         chartTitle: title,
+//         moreIcon: SvgPicture.asset(AppIcon.moreicon),
+//         chartData: chartValues,
+//       ),
+//       BasePyramidCharts(
+//         chartTitle: title,
+//         moreIcon: SvgPicture.asset(AppIcon.moreicon),
+//         chartData: chartValues,
+//       ),
+//       // Add more as needed
+//     ];
+//
+//     return SingleChildScrollView(
+//       scrollDirection: Axis.horizontal,
+//       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+//       child: Row(
+//         children: chartCards.map((chart) {
+//           return Container(
+//             width: 410,
+//             margin: const EdgeInsets.only(right: 16),
+//             decoration: BoxDecoration(
+//               color: Colors.white.withOpacity(0.95),
+//               borderRadius: BorderRadius.circular(20),
+//               boxShadow: [
+//                 BoxShadow(
+//                   color: Colors.black.withOpacity(0.12),
+//                   blurRadius: 8,
+//                   offset: Offset(0, 4),
+//                 ),
+//               ],
+//             ),
+//             child: Column(
+//               mainAxisSize: MainAxisSize.min,
+//               children: [
+//                 // Top row: title + more icon
+//                 Padding(
+//                   padding: const EdgeInsets.only(left: 16, right: 8, top: 14, bottom: 2),
+//                   child: Row(
+//                     children: [
+//                       Expanded(
+//                         child: Text(
+//                           title,
+//                           style: const TextStyle(
+//                             fontWeight: FontWeight.w600,
+//                             fontSize: 16,
+//                           ),
+//                           overflow: TextOverflow.ellipsis,
+//                         ),
+//                       ),
+//                       SvgPicture.asset(AppIcon.moreicon, height: 20, width: 20),
+//                     ],
+//                   ),
+//                 ),
+//                 // Chart content
+//                 Container(
+//                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+//                   child: chart,
+//                   height: 350,
+//                 ),
+//               ],
+//             ),
+//           );
+//         }).toList(),
+//       ),
+//     );
+//   }
+//
+// }
+
+
+
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -22,24 +395,13 @@ class DashboardViewState extends State<DashboardView>
     super.initState();
     getUserDetails();
     WidgetsBinding.instance.addObserver(this);
-    // BlocProvider.of<ChartsCubit>(context).initializeValues();
     chartsCubit.initializeValues();
-    // Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
   Future<void> getUserDetails() async {
     userName = await SharedPrefs.getUsername();
     email = await SharedPrefs.getEmail();
-    log('username : $userName email is : $email');
 
-    // try {
-    //   await FCMHandler.initializeFCM();
-    //   FCMHandler.setupForegroundMessageHandler();
-    //   FCMHandler.setupBackgroundMessageHandler();
-    // } catch (e) {
-    //   // Handle Firebase initialization error
-    //   log('Firebase initialization failed: $e');
-    // }
     setState(() {});
   }
 
@@ -55,8 +417,6 @@ class DashboardViewState extends State<DashboardView>
   }
 
   static Future<void> setLogsToggle(bool value) async {
-    // Call the provided function
-    // instance.setBool(Constants.logsToggle, value);
     SharedPrefs.setLogsToggle(value);
   }
 
@@ -83,6 +443,7 @@ class DashboardViewState extends State<DashboardView>
           appBar: AppHeader(
             isTitleCenter: false,
             title: Constants.dashboard,
+            backgroundColour:  const Color(0xFF5026bc),
             action: [
               if (Environment().config.apiHost.contains('api.qa.')) ...[
                 const Text(
@@ -119,6 +480,25 @@ class DashboardViewState extends State<DashboardView>
               //   onPressed: () => throw Exception(),
               //   child: const Text("Throw Test Exception"),
               // ),
+
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const AiChatListView(),
+                    ),
+                  );
+                },
+                child: const Padding(
+                  padding: EdgeInsets.all(5.0),
+                  child: Icon(
+                    Icons.chat,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+
               NotificationBell(notificationCount: state.notificationCount ?? 0),
               GestureDetector(
                 onTap: () {
@@ -136,7 +516,7 @@ class DashboardViewState extends State<DashboardView>
             // backgroundColor: AppColors.navigationSkyBlueColor,
             backBtn: IconButton(
               icon:
-                  const Icon(Icons.menu, color: AppColors.backgroundWhiteColor),
+              const Icon(Icons.menu, color: AppColors.backgroundWhiteColor),
               onPressed: () {
                 if (scaffoldKey.currentState!.isDrawerOpen) {
                   scaffoldKey.currentState!.closeDrawer();
@@ -158,66 +538,85 @@ class DashboardViewState extends State<DashboardView>
           /// Bottom Navigation Bar
           bottomNavigationBar: state.displayMenu != null
               ? CustomBottomNavigationBar(
-                  scaffoldKey: scaffoldKey,
-                  context: context,
-                  displayMenu: state.displayMenu!,
-                )
+            scaffoldKey: scaffoldKey,
+            context: context,
+            displayMenu: state.displayMenu!,
+          )
               : const SizedBox(),
           body: getBody(state),
         );
       },
     );
   }
-
   Widget getBody(ChartsState state) {
-    // log('--getBody---');
     Utils().errorAndLogout(state, context);
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      // color: Colors.white,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            // Color(0xFF845EF7),
+            Color(0xFF6A89CC),
+            Color(0xFF7589E9),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
       child: Padding(
-        padding: const EdgeInsets.only(top: 10.0),
+        padding: const EdgeInsets.only(top: 20.0),
         child: SingleChildScrollView(
-          // scrollDirection: Axis.horizontal,
           child: Container(
-            padding: const EdgeInsets.all(10.0),
-            decoration: const ShapeDecoration(
-              color: AppColors.backgroundWhiteColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+            // padding: const EdgeInsets.all(10.0),
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  // Color(0xFF845EF7),
+                  Color(0xFF6A89CC),
+                  Color(0xFF7589E9),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
             ),
             child: Column(
               children: [
                 buildChartHorizontalWidget(
-                    title: Constants.lawEnforcementVisitsByEntity,
-                    chartValues: state.lawEnforcementVisitByEntity ?? []),
+                  title: Constants.lawEnforcementVisitsByEntity,
+                  chartValues: state.lawEnforcementVisitByEntity ?? [],
+                ),
+                const SizedBox(height: 20),
                 buildChartHorizontalWidget(
-                    title: Constants.lawEnforcementVisitsByRegion,
-                    chartValues: state.lawEnforcementVisitByRegion ?? []),
+                  title: Constants.lawEnforcementVisitsByRegion,
+                  chartValues: state.lawEnforcementVisitByRegion ?? [],
+                ),
+                const SizedBox(height: 20),
                 buildChartHorizontalWidget(
-                    title: Constants.eventProtectionByRegion,
-                    chartValues: state.eventProtectionByRegion ?? []),
+                  title: Constants.eventProtectionByRegion,
+                  chartValues: state.eventProtectionByRegion ?? [],
+                ),
               ],
             ),
           ),
-        ),
+         ),
       ),
     );
   }
 
   _logout(BuildContext context) {
     var dialog = CustomAlertDialog(
-        title: Constants.logout,
-        message: Constants.logoutValidation,
-        onPositivePressed: () {
-          CommonServices().unlock();
-          Validator.logoutAction(context);
-        },
-        positiveBtnText: Constants.yes,
-        negativeBtnText: Constants.no);
+      title: Constants.logout,
+      message: Constants.logoutValidation,
+      onPositivePressed: () {
+        CommonServices().unlock();
+        Validator.logoutAction(context);
+      },
+      positiveBtnText: Constants.yes,
+      negativeBtnText: Constants.no,
+    );
     showDialog(context: context, builder: (BuildContext context) => dialog);
   }
 
@@ -229,29 +628,546 @@ class DashboardViewState extends State<DashboardView>
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          BasePieChart(
-            chartTitle: title,
-            moreIcon: SvgPicture.asset(AppIcon.moreicon),
-            chartData: chartValues,
+          SizedBox(
+            width: 430,
+            child: BasePieChart(
+              chartTitle: title,
+              moreIcon: SvgPicture.asset(AppIcon.moreicon),
+              chartData: chartValues,
+            ),
           ),
-          BaseVerticleBarCharts(
-            chartTitle: title,
-            moreIcon: SvgPicture.asset(AppIcon.moreicon),
-            chartData: chartValues,
+          SizedBox(
+            width: 430,
+            child: BaseVerticleBarCharts(
+              chartTitle: title,
+              moreIcon: SvgPicture.asset(AppIcon.moreicon),
+              chartData: chartValues,
+            ),
           ),
-          BaseBarChart(
-            chartTitle: title,
-            moreIcon: SvgPicture.asset(AppIcon.moreicon),
-            chartData: chartValues,
+          SizedBox(
+            width: 430,
+            child: BaseBarChart(
+              chartTitle: title,
+              moreIcon: SvgPicture.asset(AppIcon.moreicon),
+              chartData: chartValues,
+            ),
           ),
-          BasePyramidCharts(
-            chartTitle: title,
-            moreIcon: SvgPicture.asset(AppIcon.moreicon),
-            chartData: chartValues,
+          SizedBox(
+            width: 430,
+            child: BasePyramidCharts(
+              chartTitle: title,
+              moreIcon: SvgPicture.asset(AppIcon.moreicon),
+              chartData: chartValues,
+            ),
           ),
-          // Add more charts as needed
         ],
       ),
     );
   }
 }
+//------------------------------------------------------------
+//
+// class AppThemes {
+//   // Light Theme
+//   static final ThemeData lightTheme = ThemeData(
+//     brightness: Brightness.light,
+//     primaryColor: Colors.blue,
+//     scaffoldBackgroundColor: Colors.white,
+//     appBarTheme: const AppBarTheme(
+//       backgroundColor: Colors.blue,
+//       foregroundColor: Colors.white,
+//     ),
+//     textTheme: const TextTheme(
+//       bodyLarge: TextStyle(color: Colors.black),
+//       bodyMedium: TextStyle(color: Colors.black87),
+//     ),
+//   );
+//
+//   // Dark Theme
+//   static final ThemeData darkTheme = ThemeData(
+//     brightness: Brightness.dark,
+//     primaryColor: Colors.blueGrey,
+//     scaffoldBackgroundColor: Colors.black,
+//     appBarTheme: const AppBarTheme(
+//       backgroundColor: Colors.blueGrey,
+//       foregroundColor: Colors.white,
+//     ),
+//     textTheme: const TextTheme(
+//       bodyLarge: TextStyle(color: Colors.white),
+//       bodyMedium: TextStyle(color: Colors.white70),
+//     ),
+//   );
+//
+//   // Glass Theme
+//   static final ThemeData glassTheme = ThemeData(
+//     brightness: Brightness.light,
+//     primaryColor: Colors.blue,
+//     scaffoldBackgroundColor: Colors.transparent,
+//     appBarTheme: const AppBarTheme(
+//       backgroundColor: Colors.transparent,
+//       foregroundColor: Colors.white,
+//       elevation: 0,
+//     ),
+//     textTheme: const TextTheme(
+//       bodyLarge: TextStyle(color: Colors.white),
+//       bodyMedium: TextStyle(color: Colors.white70),
+//     ),
+//   );
+// }
+//
+//
+// // import 'package:flutter/material.dart';
+// // import 'theme.dart';
+//
+//
+// enum AppTheme { Light, Dark, Glass }
+//
+// class ThemeProvider extends ChangeNotifier {
+//   ThemeData _themeData = AppThemes.lightTheme;
+//   AppTheme _currentTheme = AppTheme.Light;
+//
+//   ThemeData get themeData => _themeData;
+//   AppTheme get currentTheme => _currentTheme;
+//
+//   void setTheme(AppTheme theme) {
+//     _currentTheme = theme;
+//     switch (theme) {
+//       case AppTheme.Light:
+//         _themeData = AppThemes.lightTheme;
+//         break;
+//       case AppTheme.Dark:
+//         _themeData = AppThemes.darkTheme;
+//         break;
+//       case AppTheme.Glass:
+//         _themeData = AppThemes.glassTheme;
+//         break;
+//     }
+//     notifyListeners();
+//   }
+// }
+//
+//
+// // import 'dart:ui';
+// // import 'package:flutter/material.dart';
+//
+// class GlassContainer extends StatelessWidget {
+//   final Widget child;
+//   final double borderRadius;
+//   final double blur;
+//
+//   const GlassContainer({
+//     required this.child,
+//     this.borderRadius = 20,
+//     this.blur = 10,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return ClipRRect(
+//       borderRadius: BorderRadius.circular(borderRadius),
+//       child: BackdropFilter(
+//         filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+//         child: Container(
+//           decoration: BoxDecoration(
+//             color: Colors.white.withOpacity(0.2),
+//             borderRadius: BorderRadius.circular(borderRadius),
+//             border: Border.all(
+//               color: Colors.white.withOpacity(0.3),
+//             ),
+//           ),
+//           child: child,
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// import 'dart:developer';
+// import 'dart:ui';
+//
+// import 'package:db_atom/index.dart';
+// import 'package:db_atom/src/features/arlanto_ai_chat_assistance/ai_chat_details/views/ai_chat_details_view.dart';
+// import 'package:db_atom/src/features/arlanto_ai_chat_assistance/ai_chat_list/views/ai_chat_list_view.dart' show AiChatListView;
+// import 'package:flutter/material.dart';
+// import 'package:provider/provider.dart';
+// import 'charts/base_pyramid_charts.dart';
+//
+// class DashboardView extends StatefulWidget {
+//   const DashboardView({super.key});
+//
+//   @override
+//   State<DashboardView> createState() => DashboardViewState();
+// }
+//
+// class DashboardViewState extends State<DashboardView>
+//     with WidgetsBindingObserver {
+//   String userName = '';
+//   String email = '';
+//   final scaffoldKey = GlobalKey<ScaffoldState>();
+//   bool isToggled = false;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     log('-DashboardView---initState--');
+//     getUserDetails();
+//     WidgetsBinding.instance.addObserver(this);
+//     chartsCubit.initializeValues();
+//   }
+//
+//   Future<void> getUserDetails() async {
+//     userName = await SharedPrefs.getUsername();
+//     email = await SharedPrefs.getEmail();
+//     log('username: $userName, email: $email');
+//     setState(() {});
+//   }
+//
+//   void _onToggleChanged(bool value) async {
+//     setState(() {
+//       isToggled = value;
+//     });
+//     await SharedPrefs.setLogsToggle(value);
+//   }
+//
+//   _logout(BuildContext context) {
+//     var dialog = CustomAlertDialog(
+//         title: Constants.logout,
+//         message: Constants.logoutValidation,
+//         onPositivePressed: () {
+//           CommonServices().unlock();
+//           Validator.logoutAction(context);
+//         },
+//         positiveBtnText: Constants.yes,
+//         negativeBtnText: Constants.no);
+//     showDialog(context: context, builder: (BuildContext context) => dialog);
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final themeProvider = context.watch<ThemeProvider>();
+//
+//     return BlocConsumer<ChartsCubit, ChartsState>(
+//       listener: (context, state) {
+//         log('-state---${state.status}---');
+//         Utils().errorAndLogout(state, context);
+//         if (state.status == FormStatus.sessionExpired) {
+//           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+//               backgroundColor: Colors.red,
+//               content: Text(state.message ?? 'Session Expired...')));
+//           Validator.logoutAction(context);
+//           InactivityFunctions().logoutUser(navigatorKey);
+//         }
+//       },
+//       bloc: chartsCubit,
+//       builder: (context, state) {
+//         // Determine if glass theme is active
+//         bool isGlassTheme = themeProvider.currentTheme == AppTheme.Glass;
+//
+//         return Stack(
+//           children: [
+//             // Background for glass theme
+//             if (isGlassTheme)
+//               Container(
+//                 decoration: const BoxDecoration(
+//                   gradient: LinearGradient(
+//                     colors: [Colors.blueAccent, Colors.purpleAccent],
+//                     begin: Alignment.topLeft,
+//                     end: Alignment.bottomRight,
+//                   ),
+//                 ),
+//               ),
+//             Scaffold(
+//               key: scaffoldKey,
+//               backgroundColor: isGlassTheme
+//                   ? Colors.transparent
+//                   : themeProvider.themeData.scaffoldBackgroundColor,
+//               drawer: NavigationDrawer1(scaffoldKey, userName, email),
+//               appBar: AppHeader(
+//                 isTitleCenter: false,
+//                 title: Constants.dashboard,
+//                 action: [
+//                   if (Environment().config.apiHost.contains('api.qa.')) ...[
+//                     const Text('Logs',
+//                         style: TextStyle(color: AppColors.white)),
+//                     Switch(value: isToggled, onChanged: _onToggleChanged),
+//                   ],
+//
+//                   // Theme Dropdown
+//                   DropdownButton<AppTheme>(
+//                     value: themeProvider.currentTheme,
+//                     icon: const Icon(Icons.color_lens, color: Colors.white),
+//                     underline: const SizedBox(),
+//                     items: AppTheme.values.map((theme) {
+//                       return DropdownMenuItem<AppTheme>(
+//                         value: theme,
+//                         child: Text(
+//                           theme.toString().split('.').last,
+//                           style: const TextStyle(color: Colors.black),
+//                         ),
+//                       );
+//                     }).toList(),
+//                     onChanged: (theme) {
+//                       if (theme != null) themeProvider.setTheme(theme);
+//                     },
+//                   ),
+//
+//                   GestureDetector(
+//                     onTap: () {
+//                       Navigator.push(
+//                         context,
+//                         MaterialPageRoute(
+//                           builder: (_) => const AiChatListView(),
+//                         ),
+//                       );
+//                     },
+//                     child: const Padding(
+//                       padding: EdgeInsets.all(5.0),
+//                       child: Icon(
+//                         Icons.chat,
+//                         color: Colors.white,
+//                       ),
+//                     ),
+//                   ),
+//
+//                   NotificationBell(
+//                       notificationCount: state.notificationCount ?? 0),
+//                   GestureDetector(
+//                     onTap: () => _logout(context),
+//                     child: const Padding(
+//                       padding: EdgeInsets.all(5.0),
+//                       child: Icon(Icons.logout, color: Colors.white),
+//                     ),
+//                   ),
+//                 ],
+//                 backBtn: IconButton(
+//                   icon: const Icon(Icons.menu,
+//                       color: AppColors.backgroundWhiteColor),
+//                   onPressed: () {
+//                     scaffoldKey.currentState!.isDrawerOpen
+//                         ? scaffoldKey.currentState!.closeDrawer()
+//                         : scaffoldKey.currentState!.openDrawer();
+//                   },
+//                 ),
+//               ),
+//               bottomNavigationBar: state.displayMenu != null
+//                   ? CustomBottomNavigationBar(
+//                 scaffoldKey: scaffoldKey,
+//                 context: context,
+//                 displayMenu: state.displayMenu!,
+//               )
+//                   : const SizedBox(),
+//               body: isGlassTheme
+//                   ? GlassContainer(
+//                 child: getBody(state),
+//               )
+//                   : getBody(state),
+//             ),
+//           ],
+//         );
+//       },
+//     );
+//   }
+//
+//   Widget getBody(ChartsState state) {
+//     if (state.status == FormStatus.loading) {
+//       return const BaseLoader();
+//     }
+//     return Container(
+//       color: Colors.transparent,
+//       child: Padding(
+//         padding: const EdgeInsets.only(top: 10.0),
+//         child: SingleChildScrollView(
+//           child: Container(
+//             padding: const EdgeInsets.all(10.0),
+//             decoration: const ShapeDecoration(
+//               color: AppColors.backgroundWhiteColor,
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+//               ),
+//             ),
+//             child: Column(
+//               children: [
+//                 buildChartHorizontalWidget(
+//                     title: Constants.lawEnforcementVisitsByEntity,
+//                     chartValues: state.lawEnforcementVisitByEntity ?? []),
+//                 buildChartHorizontalWidget(
+//                     title: Constants.lawEnforcementVisitsByRegion,
+//                     chartValues: state.lawEnforcementVisitByRegion ?? []),
+//                 buildChartHorizontalWidget(
+//                     title: Constants.eventProtectionByRegion,
+//                     chartValues: state.eventProtectionByRegion ?? []),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+//
+//   SingleChildScrollView buildChartHorizontalWidget({
+//     required String title,
+//     required List<PieChartData> chartValues,
+//   }) {
+//     return SingleChildScrollView(
+//       scrollDirection: Axis.horizontal,
+//       child: Row(
+//         children: [
+//           BasePieChart(
+//             chartTitle: title,
+//             moreIcon: SvgPicture.asset(AppIcon.moreicon),
+//             chartData: chartValues,
+//           ),
+//           BaseVerticleBarCharts(
+//             chartTitle: title,
+//             moreIcon: SvgPicture.asset(AppIcon.moreicon),
+//             chartData: chartValues,
+//           ),
+//           BaseBarChart(
+//             chartTitle: title,
+//             moreIcon: SvgPicture.asset(AppIcon.moreicon),
+//             chartData: chartValues,
+//           ),
+//           BasePyramidCharts(
+//             chartTitle: title,
+//             moreIcon: SvgPicture.asset(AppIcon.moreicon),
+//             chartData: chartValues,
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+//
+// class AppThemes {
+//   // Light Theme
+//   static final ThemeData lightTheme = ThemeData(
+//     brightness: Brightness.light,
+//     primaryColor: Colors.blue,
+//     scaffoldBackgroundColor: Colors.white,
+//     appBarTheme: const AppBarTheme(
+//       backgroundColor: Colors.blue,
+//       foregroundColor: Colors.white,
+//     ),
+//     textTheme: const TextTheme(
+//       bodyLarge: TextStyle(color: Colors.black),
+//       bodyMedium: TextStyle(color: Colors.black87),
+//     ),
+//   );
+//
+//   // Dark Theme
+//   static final ThemeData darkTheme = ThemeData(
+//     brightness: Brightness.dark,
+//     primaryColor: Colors.black,
+//     scaffoldBackgroundColor: Colors.black,
+//     appBarTheme: const AppBarTheme(
+//       backgroundColor: Colors.black,
+//       foregroundColor: Colors.white,
+//     ),
+//     textTheme: const TextTheme(
+//       bodyLarge: TextStyle(color: Colors.white),
+//       bodyMedium: TextStyle(color: Colors.white70),
+//     ),
+//   );
+//
+//   // Glass Theme
+//   static final ThemeData glassTheme = ThemeData(
+//     brightness: Brightness.light,
+//     primaryColor: Colors.blue,
+//     scaffoldBackgroundColor: Colors.transparent,
+//     appBarTheme: const AppBarTheme(
+//       backgroundColor: Colors.transparent,
+//       foregroundColor: Colors.white,
+//       elevation: 0,
+//     ),
+//     textTheme: const TextTheme(
+//       bodyLarge: TextStyle(color: Colors.white),
+//       bodyMedium: TextStyle(color: Colors.white70),
+//     ),
+//   );
+// }
+//
+//
+// // import 'package:flutter/material.dart';
+// // import 'theme.dart';
+//
+//
+// enum AppTheme { Light, Dark, Glass }
+//
+// class ThemeProvider extends ChangeNotifier {
+//   ThemeData _themeData = AppThemes.lightTheme;
+//   AppTheme _currentTheme = AppTheme.Light;
+//
+//   ThemeData get themeData => _themeData;
+//   AppTheme get currentTheme => _currentTheme;
+//
+//   void setTheme(AppTheme theme) {
+//     _currentTheme = theme;
+//     switch (theme) {
+//       case AppTheme.Light:
+//         _themeData = AppThemes.lightTheme;
+//         break;
+//       case AppTheme.Dark:
+//         _themeData = AppThemes.darkTheme;
+//         break;
+//       case AppTheme.Glass:
+//         _themeData = AppThemes.glassTheme;
+//         break;
+//     }
+//     notifyListeners();
+//   }
+// }
+//
+//
+// // import 'dart:ui';
+// // import 'package:flutter/material.dart';
+//
+//
+// class GlassContainer extends StatelessWidget {
+//   final Widget child;
+//   final double borderRadius;
+//   final double blur;
+//   final String? backgroundImage; // Optional image path or network URL
+//   final BoxFit fit; // How the image should fit
+//
+//   const GlassContainer({
+//     super.key,
+//     required this.child,
+//     this.borderRadius = 20,
+//     this.blur = 10,
+//     this.backgroundImage,
+//     this.fit = BoxFit.cover,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return ClipRRect(
+//       borderRadius: BorderRadius.circular(borderRadius),
+//       child: Stack(
+//         children: [
+//           // Background image
+//           if (backgroundImage != null)
+//             Positioned.fill(
+//               child: Image.network(
+//                 backgroundImage!, // use Image.asset() if local
+//                 fit: fit,
+//               ),
+//             ),
+//           // Glass blur effect
+//           BackdropFilter(
+//             filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+//             child: Container(
+//               decoration: BoxDecoration(
+//                 color: Colors.white.withOpacity(1), // semi-transparent
+//                 borderRadius: BorderRadius.circular(borderRadius),
+//                 border: Border.all(
+//                   color: Colors.white.withOpacity(0.3),
+//                 ),
+//               ),
+//               child: child,
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

@@ -49,7 +49,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       centerTitle: isTitleCenter,
       elevation: 0,
-      backgroundColor: AppColors.navigationSkyBlueColor,
+      backgroundColor: backgroundColour ?? AppColors.navigationSkyBlueColor,
       titleSpacing: 0.0,
       title: Transform(
           // you can forcefully translate values left side using Transform

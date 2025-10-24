@@ -5,6 +5,8 @@ class AppColors {
   static const Color textGreyThemeColor = Color(0xFF5A585D);
   static const Color backgroundWhiteColor = Color(0xFFFFFFFF);
   static const Color divideLineGreyColor = Color(0xFFDFE7ED);
+  static const Color chatDarkThemeColor = Color(0xFF081D22);
+
 
   // static const Color navigationSkyBlueColor = Color(0xFF2CAAE0);
   static const Color navigationSkyBlueColor = Color(0xFF425563);

@@ -157,7 +157,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       log('--loginData---${loginData.toString()}----');
 
       var data = event.user;
-      userName = data.userName.trim();
+      userName = data.username.trim();
 
       deviceToken = await SharedPrefs.getDeviceToken();
 

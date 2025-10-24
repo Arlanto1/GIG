@@ -126,7 +126,7 @@ class FlutterInputField extends StatelessWidget {
               // Initial label color
               focusedBorder: const UnderlineInputBorder(
                 borderSide:
-                    BorderSide(color: Colors.blue), // Color when focused
+                    BorderSide(color: Color(0xFF5026bc)), // Color when focused
               ),
               suffixIcon: Icon(suffixIcon),
             ),

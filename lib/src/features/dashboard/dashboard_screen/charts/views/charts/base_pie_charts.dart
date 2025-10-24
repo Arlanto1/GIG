@@ -32,14 +32,14 @@ class BasePieChartState extends State<BasePieChart> {
         Visibility(
           visible: isChartVisible,
           child: Container(
-            height: 300,
-            width: 350,
+            height: 400,
+            width: 380,
             decoration: const ShapeDecoration(
-              color: AppColors.white,
+              color: Colors.white54,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(0.0),
-                  bottom: Radius.circular(0.0),
+                  top: Radius.circular(2.0),
+                  bottom: Radius.circular(2.0),
                 ),
               ),
             ),

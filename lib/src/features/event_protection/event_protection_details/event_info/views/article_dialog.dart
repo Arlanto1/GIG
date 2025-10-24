@@ -72,7 +72,7 @@ class ArticleDialog extends StatelessWidget {
                               articles[index].id!, context);
 
                       log('-onTap----foundArticleDetailsResponse--${foundArticleDetailsResponse.id}-');
-                      nav.pushNamed(createFoundScreenRoute, arguments: {
+                      nav.pushNamed(articleFoundNewDetailsRoute, arguments: {
                         "UserElement": foundArticleDetailsResponse
                       });
                     },

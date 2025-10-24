@@ -194,11 +194,11 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                                     //ClipRRect(
                                     //borderRadius: BorderRadius.circular(20.0),
                                     DottedBorder(
-                                  borderType: BorderType.RRect,
-                                  radius: const Radius.circular(20),
-                                  dashPattern: const [5, 5],
-                                  color: Colors.black,
-                                  strokeWidth: 1,
+                                  // borderType: BorderType.RRect,
+                                  // radius: const Radius.circular(20),
+                                  // dashPattern: const [5, 5],
+                                  // color: Colors.black,
+                                  // strokeWidth: 1,
                                   child: ClipRRect(
                                       borderRadius: BorderRadius.circular(20.0),
                                       child: FittedBox(
