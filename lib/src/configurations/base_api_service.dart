@@ -41,28 +41,29 @@ class BaseApiService {
     Position position;
     bool isIOS = Platform.isIOS;
     // log('---isIOS-$isIOS--');
-    if (isIOS) {
-      LocationPermission locationPermission =
-          await Geolocator.checkPermission();
-      // log('-locationPermission.name--${locationPermission.name}-----');
-      if (locationPermission != LocationPermission.deniedForever) {
-        position = await determinePosition();
-        headers.addAll({"Latitude": position.latitude.toString()});
-        headers.addAll({"Longitude": position.longitude.toString()});
-      } else {
-        // throw PermissionError(message: Constants.locationPermissionError);
-      }
-    } else {
-      PermissionStatus permissionStatus = await requestLocationPermission();
-      log('-permissionStatus--${permissionStatus.toString()}-----');
-      if (!permissionStatus.isPermanentlyDenied) {
-        position = await determinePosition();
-        headers.addAll({"Latitude": position.latitude.toString()});
-        headers.addAll({"Longitude": position.longitude.toString()});
-      } else {
-        // throw PermissionError(message: Constants.locationPermissionError);
-      }
-    }
+    // if (isIOS) {
+    //   LocationPermission locationPermission =
+    //       await Geolocator.checkPermission();
+    //   // log('-locationPermission.name--${locationPermission.name}-----');
+    //   if (locationPermission != LocationPermission.deniedForever) {
+    //     position = await determinePosition();
+    //     headers.addAll({"Latitude": position.latitude.toString()});
+    //     headers.addAll({"Longitude": position.longitude.toString()});
+    //   } else {
+    //     // throw PermissionError(message: Constants.locationPermissionError);
+    //   }
+    // }
+    // else {
+    //   PermissionStatus permissionStatus   = await requestLocationPermission();
+    //   log('-permissionStatus--${permissionStatus.toString()}-----');
+    //   if (!permissionStatus.isPermanentlyDenied) {
+    //     position = await determinePosition();
+    //     headers.addAll({"Latitude": position.latitude.toString()});
+    //     headers.addAll({"Longitude": position.longitude.toString()});
+    //   } else {
+    //     // throw PermissionError(message: Constants.locationPermissionError);
+    //   }
+    // }
 
     if (isAuthenticated != null && isAuthenticated) {
       String token = await SharedPrefs.getToken();
