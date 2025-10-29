@@ -314,31 +314,31 @@ class _LoginState extends State<Login> {
                     Container(
                       width: double.infinity,
                       height: double.infinity,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            // const Color(0xFF1E40AF),
-                            // const Color(0xFF2563EB),
-                            Colors.white,
-                            const Color(0xFF6366F1),
-                            Colors.black45,
-                            const Color(0xFF4B67F2),
-                            Colors.black45,
-                            const Color(0xFF3B82F6),
-                            Colors.white,
-                            // Color(0xFF845EF7),
-                            // Color(0xFF6A89CC),
-                            // Color(0xFF7589E9),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                      ),
-                      // child: Image.asset(
-                      //   'assets/images/wavy-bg.png',
-                      //   fit: BoxFit.fitHeight,
-                      //   width: double.infinity,
+                      // decoration: const BoxDecoration(
+                      //   gradient: LinearGradient(
+                      //     colors: [
+                      //       // const Color(0xFF1E40AF),
+                      //       // const Color(0xFF2563EB),
+                      //       Colors.white,
+                      //       const Color(0xFF6366F1),
+                      //       Colors.black45,
+                      //       const Color(0xFF4B67F2),
+                      //       Colors.black45,
+                      //       const Color(0xFF3B82F6),
+                      //       Colors.white,
+                      //       // Color(0xFF845EF7),
+                      //       // Color(0xFF6A89CC),
+                      //       // Color(0xFF7589E9),
+                      //     ],
+                      //     begin: Alignment.topLeft,
+                      //     end: Alignment.bottomRight,
+                      //   ),
                       // ),
+                      child: Image.asset(
+                        'assets/images/login4.png',
+                        fit: BoxFit.fitHeight,
+                        width: double.infinity,
+                      ),
                     ),
                     // Centered Glassmorphic Card with Blur
                     // Logo or heading text

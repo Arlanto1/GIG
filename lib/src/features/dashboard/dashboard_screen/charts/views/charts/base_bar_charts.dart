@@ -19,110 +19,265 @@ class BaseBarChart extends StatefulWidget {
 class BaseBarChartState extends State<BaseBarChart> {
   bool isChartVisible = true;
 
-  @override
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       mainAxisAlignment: MainAxisAlignment.start,
+//       children: [
+//         Visibility(
+//           visible: isChartVisible,
+//           child: Container(
+//             height: 300,
+//             width: 350,
+//             decoration: const ShapeDecoration(
+//               color: AppColors.white,
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.vertical(
+//                   top: Radius.circular(0.0),
+//                   bottom: Radius.circular(0.0),
+//                 ),
+//               ),
+//             ),
+//             child: Column(
+//               children: [
+//                 Row(
+//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                   children: [
+//                     Padding(
+//                       padding: const EdgeInsets.all(8.0),
+//                       child: Text(
+//                         widget.chartTitle,
+//                         style: const TextStyle(
+//                           fontWeight: FontWeight.bold,
+//                           color: AppColors.navigationSkyBlueColor,
+//                           fontSize: 16,
+//                         ),
+//                       ),
+//                     ),
+//                     // IconButton(
+//                     //   icon: const Icon(Icons.cancel),
+//                     //   onPressed: () {
+//                     //     setState(() {
+//                     //       isChartVisible = false;
+//                     //     });
+//                     //   },
+//                     // ),
+//                   ],
+//                 ),
+//                 CommonWidgets.verticalSpacerWidget(0.1),
+//                 Expanded(
+//                   child: SfCartesianChart(
+//                     // tooltipBehavior: TooltipBehavior(
+//                     //   enable: true,
+//                     //   format: 'point.y',
+//                     // ),
+//                     series: <CartesianSeries>[
+//                       BarSeries<PieChartData, num>(
+//                         dataSource: widget.chartData,
+//                         legendIconType: LegendIconType.seriesType,
+//                         width: 0.3,
+//                         xValueMapper: (PieChartData data, _) =>
+//                             widget.chartData.indexOf(data),
+//                         yValueMapper: (PieChartData data, _) => data.y,
+//                         pointColorMapper: (PieChartData data, _) => data.color,
+//                         emptyPointSettings: const EmptyPointSettings(
+//                           mode: EmptyPointMode.average,
+//                         ),
+//                         dataLabelSettings: const DataLabelSettings(
+//                           isVisible: true,
+//                         ),
+//                         enableTooltip: true,
+//                         //selectionBehavior: SelectionBehavior(enable: true),
+//                       ),
+//                     ],
+//                     tooltipBehavior: TooltipBehavior(
+//                       enable: true,
+//                       builder: (dynamic data, dynamic point, dynamic series,
+//                           int pointIndex, int seriesIndex) {
+//                         return Container(
+//                           padding: const EdgeInsets.all(8),
+//                           decoration: BoxDecoration(
+//                             color: Colors.white,
+//                             borderRadius: BorderRadius.circular(5),
+//                             boxShadow: [
+//                               BoxShadow(
+//                                   color: Colors.black.withOpacity(0.2),
+//                                   spreadRadius: 2,
+//                                   blurRadius: 5),
+//                             ],
+//                           ),
+//                           child: Text(
+//                             '${data.x} : ${data.y}',
+//                             style: const TextStyle(color: Colors.black),
+//                           ),
+//                         );
+//                       },
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
+
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Visibility(
-          visible: isChartVisible,
-          child: Container(
-            height: 300,
-            width: 350,
-            decoration: const ShapeDecoration(
-              color: AppColors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(0.0),
-                  bottom: Radius.circular(0.0),
-                ),
-              ),
+    return Visibility(
+      visible: isChartVisible,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 3),
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Colors.white10,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.white.withOpacity(0.02),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
-            child: Column(
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header Row
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Header Row
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        widget.chartTitle,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.navigationSkyBlueColor,
-                          fontSize: 16,
+                    Expanded(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Text(
+                          widget.chartTitle,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 19,
+                          ),
                         ),
                       ),
                     ),
-                    // IconButton(
-                    //   icon: const Icon(Icons.cancel),
-                    //   onPressed: () {
-                    //     setState(() {
-                    //       isChartVisible = false;
-                    //     });
-                    //   },
-                    // ),
+                    if (widget.moreIcon != null) widget.moreIcon!,
                   ],
                 ),
-                CommonWidgets.verticalSpacerWidget(0.1),
-                Expanded(
-                  child: SfCartesianChart(
-                    // tooltipBehavior: TooltipBehavior(
-                    //   enable: true,
-                    //   format: 'point.y',
-                    // ),
-                    series: <CartesianSeries>[
-                      BarSeries<PieChartData, num>(
-                        dataSource: widget.chartData,
-                        legendIconType: LegendIconType.seriesType,
-                        width: 0.3,
-                        xValueMapper: (PieChartData data, _) =>
-                            widget.chartData.indexOf(data),
-                        yValueMapper: (PieChartData data, _) => data.y,
-                        pointColorMapper: (PieChartData data, _) => data.color,
-                        emptyPointSettings: const EmptyPointSettings(
-                          mode: EmptyPointMode.average,
-                        ),
-                        dataLabelSettings: const DataLabelSettings(
-                          isVisible: true,
-                        ),
-                        enableTooltip: true,
-                        //selectionBehavior: SelectionBehavior(enable: true),
-                      ),
-                    ],
-                    tooltipBehavior: TooltipBehavior(
-                      enable: true,
-                      builder: (dynamic data, dynamic point, dynamic series,
-                          int pointIndex, int seriesIndex) {
-                        return Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  spreadRadius: 2,
-                                  blurRadius: 5),
-                            ],
-                          ),
-                          child: Text(
-                            '${data.x} : ${data.y}',
-                            style: const TextStyle(color: Colors.black),
-                          ),
-                        );
-                      },
+              ],),
+
+            const SizedBox(height: 12),
+
+            // Chart or No Data
+            widget.chartData.isEmpty
+                ? Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: const Center(
+                child: Text(
+                  'No Data Found',
+                  style: TextStyle(color: Colors.black54, fontSize: 14),
+                ),
+              ),
+            )
+                : SizedBox(
+              height: 300,
+              // width: 900,
+              child: SfCartesianChart(
+                backgroundColor: Colors.white10,
+                tooltipBehavior: TooltipBehavior(enable: true),
+                primaryXAxis: const CategoryAxis(
+                  labelStyle: TextStyle(color: Colors.white),
+                  majorGridLines: MajorGridLines(width: 0), // ❌ Removes vertical grid lines
+
+                ),
+                primaryYAxis: const NumericAxis(
+                  labelStyle: TextStyle(color: Colors.white),
+                  majorGridLines: MajorGridLines(width: 0), // ❌ Removes vertical grid lines
+
+                ),
+                series: <CartesianSeries>[
+                  BarSeries<PieChartData, num>(
+                    dataSource: widget.chartData,
+                    legendIconType: LegendIconType.seriesType,
+                    width: 0.3,
+                    xValueMapper: (PieChartData data, _) =>
+                        widget.chartData.indexOf(data),
+                    yValueMapper: (PieChartData data, _) => data.y,
+                    pointColorMapper: (PieChartData data, _) => data.color,
+                    emptyPointSettings: const EmptyPointSettings(
+                      mode: EmptyPointMode.average,
                     ),
+                    dataLabelSettings: const DataLabelSettings(
+                      isVisible: true,
+                    ),
+                    enableTooltip: true,
+                    //selectionBehavior: SelectionBehavior(enable: true),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            // Custom Scrollable Legend
+            if (widget.chartData.isNotEmpty)
+              SizedBox(
+                height: 50,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: widget.chartData.map((data) {
+                      final color = customColors[
+                      widget.chartData.indexOf(data) %
+                          customColors.length];
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 6),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: Colors.white30,
+                          borderRadius: BorderRadius.circular(30),
+                          border: Border.all(color: color, width: 1.5),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 10,
+                              height: 10,
+                              decoration: BoxDecoration(
+                                color: color,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            Text(
+                              '${data.x} (${data.y}%)',
+                              style: const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFF333333),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ),
-              ],
-            ),
-          ),
+              ),
+          ],
         ),
-      ],
+      ),
     );
-  }
-}
+  }}
 
 
 //   Widget build(BuildContext context) {

@@ -443,7 +443,7 @@ class DashboardViewState extends State<DashboardView>
           appBar: AppHeader(
             isTitleCenter: false,
             title: Constants.dashboard,
-            backgroundColour:  const Color(0xFF5026bc),
+            backgroundColour:  const Color(0xFF0000CC),
             action: [
               if (Environment().config.apiHost.contains('api.qa.')) ...[
                 const Text(
@@ -561,6 +561,8 @@ class DashboardViewState extends State<DashboardView>
             // Color(0xFF845EF7),
             Color(0xFF6A89CC),
             Color(0xFF7589E9),
+            Colors.orange,
+
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -582,6 +584,12 @@ class DashboardViewState extends State<DashboardView>
                 end: Alignment.bottomRight,
               ),
             ),
+            // decoration: const BoxDecoration(
+            //   image: DecorationImage(
+            //     image: AssetImage('assets/images/login4.png'),
+            //     fit: BoxFit.fitHeight,
+            //   ),
+            // ),
             child: Column(
               children: [
                 buildChartHorizontalWidget(
@@ -630,7 +638,7 @@ class DashboardViewState extends State<DashboardView>
         children: [
           SizedBox(
             width: 430,
-            child: BasePieChart(
+            child: BaseVerticleBarCharts(
               chartTitle: title,
               moreIcon: SvgPicture.asset(AppIcon.moreicon),
               chartData: chartValues,
@@ -638,12 +646,20 @@ class DashboardViewState extends State<DashboardView>
           ),
           SizedBox(
             width: 430,
-            child: BaseVerticleBarCharts(
+            child: BasePieChart(
               chartTitle: title,
               moreIcon: SvgPicture.asset(AppIcon.moreicon),
               chartData: chartValues,
             ),
           ),
+          // SizedBox(
+          //   width: 430,
+          //   child: BaseVerticleBarCharts(
+          //     chartTitle: title,
+          //     moreIcon: SvgPicture.asset(AppIcon.moreicon),
+          //     chartData: chartValues,
+          //   ),
+          // ),
           SizedBox(
             width: 430,
             child: BaseBarChart(

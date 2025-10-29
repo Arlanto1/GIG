@@ -783,46 +783,46 @@ class _CustomBottomNavigationBarState
             ).openShiftScheduleSubMenu();
           },
         ),
-      if ((displayMenu.aF ?? false) ||
-          (displayMenu.eP ?? false) ||
-          (displayMenu.aps ?? false) ||
-          (displayMenu.iM ?? false) ||
-          (displayMenu.lEO ?? false) ||
-          (displayMenu.vIP ?? false))
-        _BottomItem(
-          isVisible: true,
-          icon: Icons.more_horiz,
-          label: 'More',
-          onTap: (visibleIndex, visibleCount) {
-            showGeneralDialog(
-              context: context,
-              barrierDismissible: true,
-              barrierLabel: '',
-              transitionDuration: const Duration(milliseconds: 300),
-              pageBuilder: (context, animation1, animation2) {
-                return Align(
-                  alignment: Alignment.centerRight,
-                  child: Material(
-                    color: Colors.transparent,
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.75,
-                      // child: const MoreMenuDrawerWidget(),
-                    ),
-                  ),
-                );
-              },
-              transitionBuilder: (context, animation1, animation2, child) {
-                return SlideTransition(
-                  position: Tween<Offset>(
-                    begin: const Offset(1, 0),
-                    end: Offset.zero,
-                  ).animate(animation1),
-                  child: child,
-                );
-              },
-            );
-          },
-        ),
+      // if ((displayMenu.aF ?? false) ||
+      //     (displayMenu.eP ?? false) ||
+      //     (displayMenu.aps ?? false) ||
+      //     (displayMenu.iM ?? false) ||
+      //     (displayMenu.lEO ?? false) ||
+      //     (displayMenu.vIP ?? false))
+      //   _BottomItem(
+      //     isVisible: true,
+      //     icon: Icons.more_horiz,
+      //     label: 'More',
+      //     onTap: (visibleIndex, visibleCount) {
+      //       showGeneralDialog(
+      //         context: context,
+      //         barrierDismissible: true,
+      //         barrierLabel: '',
+      //         transitionDuration: const Duration(milliseconds: 300),
+      //         pageBuilder: (context, animation1, animation2) {
+      //           return Align(
+      //             alignment: Alignment.centerRight,
+      //             child: Material(
+      //               color: Colors.transparent,
+      //               child: SizedBox(
+      //                 width: MediaQuery.of(context).size.width * 0.75,
+      //                 // child: const MoreMenuDrawerWidget(),
+      //               ),
+      //             ),
+      //           );
+      //         },
+      //         transitionBuilder: (context, animation1, animation2, child) {
+      //           return SlideTransition(
+      //             position: Tween<Offset>(
+      //               begin: const Offset(1, 0),
+      //               end: Offset.zero,
+      //             ).animate(animation1),
+      //             child: child,
+      //           );
+      //         },
+      //       );
+      //     },
+      //   ),
     ];
 
     // Filter only visible items
@@ -846,7 +846,7 @@ class _CustomBottomNavigationBarState
             painter: _NavBarPainter(
               selectedIndex: selectedIndex,
               itemCount: visibleItems.length,
-              backgroundColor: const Color(0xFF5026bc),
+              backgroundColor: const Color(0xFF0000CC),
             ),
           ),
           // Icons

@@ -168,11 +168,11 @@ class _OtpVerifyState extends State<OtpVerify> {
                           end: Alignment.bottomRight,
                         ),
                       ),
-                      // child: Image.asset(
-                      //   'assets/images/wavy-bg.png',
-                      //   fit: BoxFit.fitHeight,
-                      //   width: double.infinity,
-                      // ),
+                      child: Image.asset(
+                        'assets/images/login4.png',
+                        fit: BoxFit.fitHeight,
+                        width: double.infinity,
+                      ),
                     ),
 
                     // Logo or heading text
@@ -249,7 +249,7 @@ class _OtpVerifyState extends State<OtpVerify> {
                                         style: TextStyle(
                                           fontSize: 32,
                                           fontFamily: 'Bungee',
-                                          color: Color(0xFF5026bc),
+                                          color: Color(0xFF000080),
                                           fontWeight: FontWeight.w900,
                                           letterSpacing: 2,
                                         ),
@@ -259,7 +259,7 @@ class _OtpVerifyState extends State<OtpVerify> {
                                       // Instruction text
                                       Text(
                                         'Enter OTP sent to this user ${widget.userName}',
-                                        style: Styles.textStyleRegularGrey14.copyWith(fontSize: 16),
+                                        style: Styles.textStyleBlack14.copyWith(fontSize: 16),
                                         textAlign: TextAlign.center,
                                       ),
 
@@ -268,7 +268,7 @@ class _OtpVerifyState extends State<OtpVerify> {
                                       // 6-box OTP Field
                                       OtpTextField(
                                         numberOfFields: 6,
-                                        borderColor: const Color(0xFF512DA8),
+                                        borderColor: const Color(0xFF000080),
                                         showFieldAsBox: true,
                                         fieldWidth: 48,
                                         fillColor: Colors.blueAccent,
@@ -311,7 +311,7 @@ class _OtpVerifyState extends State<OtpVerify> {
                                       const SizedBox(height: 24),
                                       const Text(
                                         "Didn't receive any code?",
-                                        style: Styles.textStyleRegularGrey14,
+                                        style: Styles.textStyleBlack14,
                                       ),
                                       const SizedBox(height: 8),
 
@@ -330,7 +330,7 @@ class _OtpVerifyState extends State<OtpVerify> {
                                         },
                                         child: const Text(
                                           'Resend OTP?',
-                                          style: Styles.textStyleNavigator16,
+                                          style: Styles.textStyleBlack14,
                                         ),
                                       ),
 
