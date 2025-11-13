@@ -51,7 +51,7 @@ class DrawerHeaderWidget extends StatelessWidget {
                 children: [
                   Text(
                     username,
-                    style: Styles.textStyleBlack16,
+                    style: Styles.textStyleGrey16,
                   ),
                   Text(
                     email,

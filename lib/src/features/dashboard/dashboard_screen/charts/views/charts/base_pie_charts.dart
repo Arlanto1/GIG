@@ -118,13 +118,27 @@ class BasePieChartState extends State<BasePieChart> {
         margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 3),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: Colors.white10,
-          borderRadius: BorderRadius.circular(10),
+          gradient: LinearGradient(
+            colors: [
+              Colors.white.withValues(alpha: 0.2),
+              Colors.transparent,
+              Colors.white.withValues(alpha: 0.2),
+            ],
+            stops: [0.02, 0.35, 1],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+          borderRadius: BorderRadius.circular(27),
+          border: Border.all(
+            color: Colors.white.withValues(alpha: 0.80),
+            width: 0.8,
+          ),
           boxShadow: [
             BoxShadow(
-              color: Colors.white.withOpacity(0.02),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
+              color:
+              const Color(0xFF6474C6).withValues(alpha: 0.09),
+              blurRadius: 12,
+              offset: const Offset(0, 2),
             ),
           ],
         ),
@@ -146,13 +160,13 @@ class BasePieChartState extends State<BasePieChart> {
                           widget.chartTitle,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: Colors.black,
                             fontSize: 19,
                           ),
                         ),
                       ),
                     ),
-                    if (widget.moreIcon != null) widget.moreIcon!,
+                    // if (widget.moreIcon != null) widget.moreIcon!,
                   ],
                 ),
               ],
@@ -163,10 +177,31 @@ class BasePieChartState extends State<BasePieChart> {
             // Chart or No Data
             widget.chartData.isEmpty
                 ? Container(
-              height: 50,
+              height: 200,
               decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(16),
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.white.withValues(alpha: 0.2),
+                    Colors.transparent,
+                    Colors.white.withValues(alpha: 0.2),
+                  ],
+                  stops: [0.02, 0.35, 1],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+                borderRadius: BorderRadius.circular(27),
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.80),
+                  width: 0.8,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color:
+                    const Color(0xFF6474C6).withValues(alpha: 0.09),
+                    blurRadius: 12,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
               child: const Center(
                 child: Text(
@@ -175,33 +210,20 @@ class BasePieChartState extends State<BasePieChart> {
                 ),
               ),
             )
-                : Container(
-              margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 3),
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.white10, // same as bar chart container
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.white.withOpacity(0.02),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: SizedBox(
+                : SizedBox(
                 height: 300,
                 child: SfCircularChart(
-                  legend: const Legend(isVisible: true),
+                  // legend: const Legend(isVisible: true),
                   tooltipBehavior: TooltipBehavior(enable: true),
                   series: <CircularSeries>[
                     PieSeries<PieChartData, String>(
-                      radius: '85',
+                      radius: '110',
                       legendIconType: LegendIconType.seriesType,
                       dataSource: widget.chartData,
                       xValueMapper: (PieChartData data, _) => data.x,
                       yValueMapper: (PieChartData data, _) => data.y,
-                      pointColorMapper: (PieChartData data, _) => data.color,
+                      pointColorMapper: (PieChartData data, index) =>
+                      customColors[index % customColors.length],
                       dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
                       ),
@@ -211,7 +233,7 @@ class BasePieChartState extends State<BasePieChart> {
                   ],
                 ),
               ),
-            ),
+
 
             const SizedBox(height: 10),
 
@@ -231,9 +253,29 @@ class BasePieChartState extends State<BasePieChart> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
-                          color: Colors.white30,
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(color: color, width: 1.5),
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.white.withValues(alpha: 0.2),
+                              Colors.transparent,
+                              Colors.white.withValues(alpha: 0.2),
+                            ],
+                            stops: [0.02, 0.35, 1],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                          borderRadius: BorderRadius.circular(27),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.80),
+                            width: 0.8,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color:
+                              const Color(0xFF6474C6).withValues(alpha: 0.09),
+                              blurRadius: 12,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
                         ),
                         child: Row(
                           children: [

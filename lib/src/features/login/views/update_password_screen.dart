@@ -103,7 +103,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                     alignment: Alignment.topLeft,
                                     child: const Text(
                                       Constants.username,
-                                      style: Styles.textStyleBlack16,
+                                      style: Styles.textStyleGrey16,
                                     ),
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
@@ -151,7 +151,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                         alignment: Alignment.topLeft,
                                         child: const Text(
                                           Constants.oldPassword,
-                                          style: Styles.textStyleBlack16,
+                                          style: Styles.textStyleGrey16,
                                         ),
                                       ),
                                       CommonWidgets.verticalSpacerWidget(
@@ -189,7 +189,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                                         alignment: Alignment.topLeft,
                                         child: const Text(
                                           Constants.newPassword,
-                                          style: Styles.textStyleBlack16,
+                                          style: Styles.textStyleGrey16,
                                         ),
                                       ),
                                       CommonWidgets.verticalSpacerWidget(

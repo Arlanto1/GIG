@@ -81,10 +81,10 @@ class BaseDate {
                 child: SvgPicture.asset(
                   AppIcon.calendaricon,
                   colorFilter: const ColorFilter.mode(
-                    AppColors.textGreyThemeColor,
+                    AppColors.white,
                     BlendMode.srcIn,
                   ),
-                  width: 20,
+                  width: 25,
                   key: const Key(Keys.userIcon),
                 ),
               ),

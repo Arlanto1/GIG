@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:db_atom/index.dart';
 
 class BasePopUpItems extends StatefulWidget {
@@ -183,7 +185,6 @@ class BasePopUpItems extends StatefulWidget {
     this.visitPurpose,
     this.dbOfficialDep,
     this.isArticleFoundStatus = false,
-
   });
 }
 
@@ -196,22 +197,93 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
     final height = size.height;
     final width = size.width;
     return Center(
-      child: Container(
-        padding: const EdgeInsets.all(20.0),
-        decoration: const ShapeDecoration(
-            color: AppColors.backgroundWhiteColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
-            )),
-        // color: Colors.white,
-        height: height / 1.8,
-        width: width - 10,
-        child:
-            // Row(
-            //  children: [
-            SingleChildScrollView(
-          child: Column(
-            children: getChildren(context, widget.labels),
+      // child: Container(
+      //   padding: const EdgeInsets.all(20.0),
+      //   // decoration:  ShapeDecoration(
+      //   //     color: AppColors.lavender.withValues(alpha: 1),
+      //   //     shape: const RoundedRectangleBorder(
+      //   //       borderRadius: BorderRadius.all(Radius.circular(20.0)),
+      //   //     )),
+      //   decoration: BoxDecoration(
+      //     borderRadius: BorderRadius.circular(18),
+      //     gradient: const LinearGradient(
+      //       begin: Alignment.topLeft,
+      //       end: Alignment.bottomRight,
+      //       colors: [
+      //         // Color(0xFF09132B),   // Deep blue start
+      //         AppColors.lavender,
+      //         // Color(0xFF163856),
+      //         AppColors.lavender,
+      //
+      //         AppColors.lavender
+      //    // Dark teal midpoint
+      //
+      //       ],
+      //       stops: [0.0, 0.7, 1.0],
+      //     ),
+      //     border: Border.all(
+      //       color: Colors.white.withOpacity(0.8), // Very subtle white border
+      //       width: 1,
+      //     ),
+      //     boxShadow: [
+      //       BoxShadow(
+      //         color:Colors.white.withOpacity(0.09), // Very soft blue shadow
+      //         blurRadius: 20,
+      //         spreadRadius: 10,
+      //         offset: const Offset(0, 2),
+      //       ),
+      //     ],
+      //   ),
+      //   height: height / 1.8,
+      //   width: width - 18,
+      //   child:
+      //       // Row(
+      //       //  children: [
+      //       SingleChildScrollView(
+      //     child: Column(
+      //       children: getChildren(context, widget.labels),
+      //     ),
+      //   ),
+      // ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+          // Frosted glass blur
+          child: Container(
+            padding: const EdgeInsets.all(20.0),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.white.withOpacity(0.3),
+                  Colors.transparent,
+                  Colors.white.withOpacity(0.3),
+                  // Color(0xFF6474C6).withOpacity(0.14)
+                ],
+                stops: [0.02, 0.35, 1],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+              borderRadius: BorderRadius.circular(27),
+              border: Border.all(
+                color: Colors.white.withOpacity(0.80),
+                width: 0.8,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF6474C6).withOpacity(0.1),
+                  blurRadius:12,
+                  offset: const Offset(8, 0),
+                ),
+              ],
+            ),
+            height: height / 1.8,
+            width: width - 18,
+            child: SingleChildScrollView(
+              child: Column(
+                children: getChildren(context, widget.labels),
+              ),
+            ),
           ),
         ),
       ),
@@ -228,7 +300,13 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             onTap: () {
               Navigator.of(context).pop();
             },
-            child: SvgPicture.asset(AppIcon.closeicon) //Icon(Icons.cancel)
+            child: SvgPicture.asset(
+              AppIcon.closeicon,
+              colorFilter: const ColorFilter.mode(
+                AppColors.white,
+                BlendMode.srcIn,
+              ),
+            ) //Icon(Icons.cancel)
             ),
       ),
       Row(
@@ -239,7 +317,6 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ],
       ),
       CommonWidgets.verticalSpacerWidget(8),
-
       if (widget.slNo != null && widget.slNo!.isNotEmpty) ...[
         Row(
           children: [
@@ -884,8 +961,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      if (widget.status != null &&
-          widget.isLawEnforcementStatus == true) ...[
+      if (widget.status != null && widget.isLawEnforcementStatus == true) ...[
         CommonWidgets.horizontalSpacerWidget(5),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -894,9 +970,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-
-      if (widget.status != null &&
-          widget.isArticleFoundStatus == true) ...[
+      if (widget.status != null && widget.isArticleFoundStatus == true) ...[
         CommonWidgets.horizontalSpacerWidget(5),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -905,7 +979,6 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-
       if (widget.status != null && widget.isShiftScheduleStatus == true) ...[
         CommonWidgets.horizontalSpacerWidget(5),
         Row(
@@ -972,7 +1045,6 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-
       if (widget.passValidFrom != null) ...[
         Row(
           children: [
@@ -980,14 +1052,13 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
                 widget.sez == true ? 'Pass Issued On: ' : 'Pass Valid From: ',
                 widget.passValidFrom != null
                     ? Utils.timestampToDateConversion(
-                    int.tryParse(widget.passValidFrom ?? '0'),
-                    Constants.fulldateFormat)
+                        int.tryParse(widget.passValidFrom ?? '0'),
+                        Constants.fulldateFormat)
                     : ''),
           ],
         ),
       ],
       CommonWidgets.verticalSpacerWidget(8),
-
       if (widget.passValidUntil != null) ...[
         Row(
           children: [
@@ -995,8 +1066,8 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
                 'Pass Valid Until: ',
                 widget.passValidUntil != null
                     ? Utils.timestampToDateConversion(
-                    int.tryParse(widget.passValidUntil ?? '0'),
-                    Constants.fulldateFormat)
+                        int.tryParse(widget.passValidUntil ?? '0'),
+                        Constants.fulldateFormat)
                     : ''),
           ],
         ),
@@ -1006,8 +1077,8 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         // CommonWidgets.verticalSpacerWidget(8),
         Row(
           children: [
-            Utils().textHandling(
-                'Company Name : ', widget.companyName.toString()),
+            Utils()
+                .textHandling('Company Name : ', widget.companyName.toString()),
           ],
         ),
       ],
@@ -1020,27 +1091,26 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-
       if (widget.visitPurpose != null) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Utils().textHandling('Purpose of visit: ', widget.visitPurpose?.name ?? ''),
+            Utils().textHandling(
+                'Purpose of visit: ', widget.visitPurpose?.name ?? ''),
           ],
         ),
       ],
-
       if (widget.dbOfficialDep != null) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Utils().textHandling('DB Official Department: ', widget.dbOfficialDep?.name ?? ''),
+            Utils().textHandling(
+                'DB Official Department: ', widget.dbOfficialDep?.name ?? ''),
           ],
         ),
       ],
-
     ];
 
     for (Label label in labels ?? []) {
@@ -1075,14 +1145,14 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             title,
             overflow: TextOverflow.visible,
             softWrap: true,
-            style: Styles.textStyleRegularNormalGrey14,
+            style: Styles.textStyleNavigator,
           ),
           Flexible(
             child: Text(
               desc,
               overflow: TextOverflow.visible,
               softWrap: true,
-              style: Styles.textStyleBoldGrey14,
+              style: Styles.textStyleNavigator600,
             ),
           ),
         ],

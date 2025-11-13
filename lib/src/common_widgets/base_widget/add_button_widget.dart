@@ -13,18 +13,18 @@ class AddButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height ?? 60,
-      width: 50,
+      height: height ?? 75,
+      width: 60,
       decoration: BoxDecoration(
           color: (isDisableColor ?? false)
-              ? AppColors.geryLightBackground
-              : AppColors.navigationSkyBlueColor,
+              ? Colors.transparent
+              : const Color(0xFF071130).withValues(alpha: 0.4),
           border: Border.all(
             color: (isDisableColor ?? false)
-                ? AppColors.geryLightBackground
-                : AppColors.navigationSkyBlueColor,
+                ? Colors.white12
+                : Colors.white,
           ),
-          borderRadius: const BorderRadius.all(Radius.circular(8))),
+          borderRadius: const BorderRadius.all(Radius.circular(24))),
       child: const Center(
         child: Icon(
           Icons.keyboard_arrow_down_rounded,

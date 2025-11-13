@@ -10,6 +10,7 @@ class ArticleFoundState extends Equatable{
   final bool hasReachedMax;
   final AFUiLabels? labels;
   final CommonFilters? commonFilters;
+  final DisplayMenu? displayMenu;
 
 
   const ArticleFoundState({required this.items,
@@ -20,6 +21,7 @@ class ArticleFoundState extends Equatable{
     this.hasReachedMax = false,
     this.labels,
     this.commonFilters,
+    this.displayMenu,
 
   });
 

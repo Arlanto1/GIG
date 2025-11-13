@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_list/bloc/notifications_bloc.dart'
@@ -73,7 +74,7 @@ class _NotificationsViewState extends State<NotificationsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.cardBgColor,
+      backgroundColor: AppColors.lavender,
       appBar: BaseAppBar().buildAppHeader(
         context: context,
         title: Constants.notifications,
@@ -116,7 +117,7 @@ class _NotificationsViewState extends State<NotificationsView> {
           return Container(
             margin: allMargin4,
             decoration: const ShapeDecoration(
-              color: AppColors.backgroundWhiteColor,
+              color: AppColors.lavender,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
               ),
@@ -159,6 +160,117 @@ class _NotificationsViewState extends State<NotificationsView> {
   }
 }
 
+// class NotificationTile extends StatelessWidget {
+//   const NotificationTile({
+//     super.key,
+//     required this.item,
+//   });
+//
+//   final NotificationModel item;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.all(0.5),
+//       child: Slidable(
+//         key: key,
+//         // The end action pane is the one at the right or the bottom side.
+//         endActionPane: ActionPane(
+//           motion: const ScrollMotion(),
+//           children: [
+//             SlidableAction(
+//               onPressed: deleteNotification,
+//               backgroundColor: const Color(0xFFFE4A49),
+//               foregroundColor: Colors.white,
+//               icon: Icons.delete,
+//               label: 'Remove',
+//             ),
+//           ],
+//         ),
+//         child: InkWell(
+//           onTap: () {
+//             // Mark Notification as Read
+//             // BlocProvider.of<nb.NotificationsBloc>(context).add(nb.ReadRecord(item.id!));
+//             Navigator.pushNamed(
+//               context,
+//               notificationDetailsViewRoute,
+//               arguments: {
+//                 ConstantsArgument.id: item.id.toString(),
+//               },
+//             );
+//             // Your onTap logic here
+//             // showDialog(
+//             //   context: context,
+//             //   builder: (BuildContext dialogContext) {
+//             //     return const NotificationPopUpItems();
+//             //   },
+//             // );
+//           },
+//           borderRadius: BorderRadius.circular(8),
+//           child: ColoredBox(
+//             color: item.status == 0
+//                 ? AppColors.white
+//                 : Colors.transparent,
+//             child: Padding(
+//               padding: const EdgeInsets.all(15),
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.start,
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: [
+//                   Row(
+//                     children: [
+//                       Expanded(
+//                         flex: 9,
+//                         child: Text(
+//                           '${item.content?.subject}',
+//                           overflow: TextOverflow.ellipsis,
+//                           style: const TextStyle(
+//                             fontWeight: FontWeight.bold,
+//                           ),
+//                         ),
+//                       ),
+//                       const Spacer(),
+//                       Text(
+//                         Utils.timestampToDateConversion(
+//                           int.tryParse(item.createdDate ?? ''),
+//                           Constants.dateFormat,
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                   Row(
+//                     children: [
+//                       Expanded(
+//                         flex: 2,
+//                         child: Text(
+//                           '${item.email}',
+//                           overflow: TextOverflow.ellipsis,
+//                         ),
+//                       ),
+//                       const Spacer(),
+//                       Text(
+//                         Utils.timestampToDateConversion(
+//                           int.tryParse(item.createdDate ?? ''),
+//                           Constants.timeFormat,
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+//
+//   void deleteNotification(BuildContext context) {
+//     BlocProvider.of<nb.NotificationsBloc>(context)
+//         .add(nb.DeleteRecord(item.id!));
+//   }
+// }
+
 class NotificationTile extends StatelessWidget {
   const NotificationTile({
     super.key,
@@ -172,125 +284,167 @@ class NotificationTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(0.5),
       child: Slidable(
-        key: key,
-        // startActionPane: ActionPane(
-        //   // A motion is a widget used to control how the pane animates.
-        //   motion: const ScrollMotion(),
-        //
-        //   // A pane can dismiss the Slidable.
-        //   dismissible: DismissiblePane(onDismissed: () {}),
-        //
-        //   // All actions are defined in the children parameter.
-        //   children: [
-        //     // A SlidableAction can have an icon and/or a label.
-        //     SlidableAction(
-        //       onPressed: deleteNotification,
-        //       backgroundColor: const Color(0xFFFE4A49),
-        //       foregroundColor: Colors.white,
-        //       icon: Icons.delete,
-        //       label: 'Delete',
-        //     ),
-        //     SlidableAction(
-        //       onPressed: deleteNotification,
-        //       backgroundColor: const Color(0xFF21B7CA),
-        //       foregroundColor: Colors.white,
-        //       icon: Icons.share,
-        //       label: 'Share',
-        //     ),
-        //   ],
-        // ),
-        // The end action pane is the one at the right or the bottom side.
+        key: ValueKey(item.id),
         endActionPane: ActionPane(
           motion: const ScrollMotion(),
+          extentRatio: 0.23, // how much space the button occupies
           children: [
-            // SlidableAction(
-            //   // An action can be bigger than the others.
-            //   flex: 2,
-            //   onPressed: deleteNotification,
-            //   backgroundColor: const Color(0xFF7BC043),
-            //   foregroundColor: Colors.white,
-            //   icon: Icons.archive,
-            //   label: 'Archive',
-            // ),
-            SlidableAction(
-              onPressed: deleteNotification,
-              backgroundColor: const Color(0xFFFE4A49),
-              foregroundColor: Colors.white,
-              icon: Icons.save,
-              label: 'Remove',
+            CustomSlidableAction(
+              onPressed: (context) => deleteNotification(context),
+              borderRadius: BorderRadius.circular(40),
+              padding: const EdgeInsets.all(0.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  // color: Colors.red.shade600,
+                  gradient: LinearGradient(
+                    colors: [Colors.red, Colors.red[600]!,Colors.orange[600]!],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                alignment: Alignment.center,
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.delete, color: Colors.white),
+                    SizedBox(height: 4),
+                    Text(
+                      'Remove',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
+
         child: InkWell(
           onTap: () {
-            // Mark Notification as Read
-            // BlocProvider.of<nb.NotificationsBloc>(context).add(nb.ReadRecord(item.id!));
             Navigator.pushNamed(
               context,
               notificationDetailsViewRoute,
-              arguments: {
-                ConstantsArgument.id: item.id.toString(),
-              },
+              arguments: {ConstantsArgument.id: item.id.toString()},
             );
-            // Your onTap logic here
-            // showDialog(
-            //   context: context,
-            //   builder: (BuildContext dialogContext) {
-            //     return const NotificationPopUpItems();
-            //   },
-            // );
           },
-          borderRadius: BorderRadius.circular(8),
-          child: ColoredBox(
-            color: item.status == 0
-                ? AppColors.white
-                : AppColors.disableTextFieldBackground,
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 9,
-                        child: Text(
-                          '${item.content?.subject}',
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
+          borderRadius: BorderRadius.circular(16),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Container(
+               margin: const EdgeInsets.symmetric(horizontal: 6),
+                // decoration: BoxDecoration(
+                //   gradient: LinearGradient(
+                //     colors: [
+                //       Colors.white.withValues(alpha: 0.15),
+                //       Colors.white.withValues(alpha: 0.20),
+                //     ],
+                //     begin: Alignment.topLeft,
+                //     end: Alignment.bottomRight,
+                //   ),
+                //   borderRadius: BorderRadius.circular(16),
+                //   border: Border.all(
+                //     color: Colors.white.withValues(alpha: 0.4),
+                //     width: 1,
+                //   ),
+                //   boxShadow: [
+                //     BoxShadow(
+                //       color: Colors.white.withValues(alpha: 0.05),
+                //       blurRadius: 8,
+                //       offset: const Offset(0, 4),
+                //     ),
+                //   ],
+                // ),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.white.withValues(alpha: 0.2),
+                      Colors.transparent,
+                      Colors.white.withValues(alpha: 0.2),
+                      // Color(0xFF6474C6).withOpacity(0.14)
+                    ],
+                    stops: [0.02, 0.35, 1],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                  borderRadius: BorderRadius.circular(27),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.80),
+                    width: 0.8,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF6474C6).withValues(alpha: 0.09),
+                      blurRadius: 12,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                padding: const EdgeInsets.all(15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 9,
+                          child: Text(
+                            '${item.content?.subject}',
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                      const Spacer(),
-                      Text(
-                        Utils.timestampToDateConversion(
-                          int.tryParse(item.createdDate ?? ''),
-                          Constants.dateFormat,
+                        const Spacer(),
+                        Text(
+                          Utils.timestampToDateConversion(
+                            int.tryParse(item.createdDate ?? ''),
+                            Constants.dateFormat,
+                          ),
+                          style: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.8),
+                            fontSize: 12,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          '${item.email}',
-                          overflow: TextOverflow.ellipsis,
+                      ],
+                    ),
+                    const SizedBox(height: 6),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            '${item.email}',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Colors.white.withValues(alpha: 0.8),
+                              fontSize: 13,
+                            ),
+                          ),
                         ),
-                      ),
-                      const Spacer(),
-                      Text(
-                        Utils.timestampToDateConversion(
-                          int.tryParse(item.createdDate ?? ''),
-                          Constants.timeFormat,
+                        const Spacer(),
+                        Text(
+                          Utils.timestampToDateConversion(
+                            int.tryParse(item.createdDate ?? ''),
+                            Constants.timeFormat,
+                          ),
+                          style: TextStyle(
+                            color: Colors.white.withValues(alpha: 0.8),
+                            fontSize: 12,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

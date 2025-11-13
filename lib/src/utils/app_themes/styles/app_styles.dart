@@ -16,7 +16,7 @@ class Styles {
     color: AppColors.textGreyThemeColor,
   );
 
-  static const TextStyle textStyleBlack16 = TextStyle(
+  static const TextStyle textStyleGrey16 = TextStyle(
     fontSize: 16,
     fontFamily: Constants.customFontSemiBoldFamily,
     fontWeight: FontWeight.w600,
@@ -29,6 +29,32 @@ class Styles {
     color: AppColors.black,
   );
 
+  static const TextStyle textStyleWhite14 = TextStyle(
+    fontSize: 14,
+    fontFamily: Constants.customFontSemiBoldFamily,
+    fontWeight: FontWeight.w600,
+    color: AppColors.white,
+  );
+  static const TextStyle textStyleWhite16 = TextStyle(
+    fontSize: 16,
+    fontFamily: Constants.customFontSemiBoldFamily,
+    fontWeight: FontWeight.w600,
+    color: AppColors.white,
+  );
+  static const TextStyle textStyleWhite17 = TextStyle(
+    fontSize: 16,
+    fontFamily: Constants.customFontRegularFamily,
+    fontWeight: FontWeight.w900,
+    color: AppColors.white,
+  );
+
+
+  static const TextStyle textStyleBlack16 = TextStyle(
+    fontSize: 16,
+    fontFamily: Constants.customFontSemiBoldFamily,
+    fontWeight: FontWeight.w600,
+    color: AppColors.black,
+  );
   static const TextStyle textStyleDarkGrey16 = TextStyle(
     fontSize: 15,
     fontFamily: Constants.customFontSemiBoldFamily,
@@ -69,6 +95,20 @@ class Styles {
     fontWeight: FontWeight.w400,
     color: AppColors.textGreyThemeColor,
   );
+  static const TextStyle textStyleRegularNormalWhite14 = TextStyle(
+    fontSize: 14,
+    fontFamily: Constants.customFontRegularFamily,
+    fontWeight: FontWeight.w400,
+    color: AppColors.white,
+  );
+
+  static const TextStyle textStyleRegularWhite14 = TextStyle(
+    fontSize: 16,
+    fontFamily: Constants.customFontRegularFamily,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+  );
+
 
   static const TextStyle textStyleRegularNormalWhite18 = TextStyle(
     fontSize: 18,
@@ -94,6 +134,12 @@ class Styles {
     fontWeight: FontWeight.w600,
     color: AppColors.textGreyThemeColor,
   );
+  static const TextStyle textStyleBoldWhite14 = TextStyle(
+    fontSize: 14,
+    fontFamily: Constants.customFontRegularFamily,
+    fontWeight: FontWeight.w600,
+    color: Colors.white54,
+  );
   static const TextStyle textStyleSemiBoldheighGrey14 = TextStyle(
     fontSize: 14,
     fontFamily: Constants.customFontRegularFamily,
@@ -112,6 +158,12 @@ class Styles {
     fontWeight: FontWeight.w600,
     color: Colors.white,
   );
+  static const TextStyle textStyleSemiBold16DarkBlue = TextStyle(
+    fontSize: 16,
+    fontFamily: Constants.customFontSemiBoldFamily,
+    fontWeight: FontWeight.w600,
+    color: const Color(0xFF071130),
+  );
 
   static TextStyle textStyleAppBar = const TextStyle(
     fontSize: 18,
@@ -125,6 +177,18 @@ class Styles {
     fontFamily: Constants.customFontSemiBoldFamily,
     fontWeight: FontWeight.w600,
     color: AppColors.navigationSkyBlueColor,
+  );
+  static const TextStyle textStyleNavigator = TextStyle(
+    fontSize: 16,
+    fontFamily: Constants.customFontSemiBoldFamily,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+  );
+  static const TextStyle textStyleNavigator600 = TextStyle(
+    fontSize: 16,
+    fontFamily: Constants.customFontSemiBoldFamily,
+    fontWeight: FontWeight.w900,
+    color: Colors.white,
   );
 
   // static TextStyle styleHeaderGreyText12 = const TextStyle(

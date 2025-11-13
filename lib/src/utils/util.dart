@@ -245,33 +245,112 @@ class Utils {
     return outputFormat.format(dateTime);
   }
 
+  // Widget buildFoundStatusRow(int status) {
+  //   String statusText;
+  //
+  //   switch (status) {
+  //     case 0:
+  //       statusText = 'Found';
+  //       break;
+  //     case 1:
+  //       statusText = 'Under Security Custody';
+  //       break;
+  //     case 2:
+  //       statusText = 'Handed Over/ Claimed';
+  //       break;
+  //     case -1:
+  //       statusText = 'Cancelled';
+  //       break;
+  //     default:
+  //       statusText = ''; // Handle the default case if needed
+  //   }
+  //   return IntrinsicWidth(
+  //     child: Row(
+  //       children: [
+  //         textHandling('Status : ', statusText),
+  //       ],
+  //     ),
+  //   );
+  // }
+
   Widget buildFoundStatusRow(int status) {
     String statusText;
+    Color bgColor;
+    Color textColor;
+    Color borderColor;
 
     switch (status) {
       case 0:
         statusText = 'Found';
+        bgColor =  const Color(0xFF33B249); // light green
+        borderColor = const Color(0xFF1E5C1E); //green; // dark green border
+        textColor =  Colors.white; // dark green text
         break;
       case 1:
         statusText = 'Under Security Custody';
+        bgColor = const Color(0xFF6B0B98);// light blue
+        borderColor = const Color(0xFF40075A); // medium blue
+        textColor =  Colors.white; // dark blue
+        bgColor =const Color(0xFFBFA5C4);
+        // bgColor =const Color(0xFFD8A7A7);
+        // bgColor =const Color(0xFFFFD3AC);
+        // bgColor =  const Color(0xFF4C0519);
         break;
       case 2:
-        statusText = 'Handed Over/ Claimed';
+        statusText = 'Handed Over / Claimed';
+        // bgColor = const Color(0xFFFFC107); // light yellow
+        // borderColor = const Color(0xFFFFECB3); // amber border
+        // textColor = const Color(0xFF795548); // brown text
+        // bgColor = const Color(0xFF1E40AF); //
+        bgColor =const Color(0xFF42A5F5);
+        borderColor =const Color(0xFF42A5F5);
+        textColor = Colors.white;
         break;
       case -1:
         statusText = 'Cancelled';
+        bgColor = const Color(0xFFFFCDD2); // light red
+        borderColor = const Color(0xFFE53935); // red border
+        textColor = const Color(0xFFB71C1C); // dark red
         break;
       default:
-        statusText = ''; // Handle the default case if needed
+        statusText = 'Unknown';
+        bgColor = const Color(0xFFE0E0E0);
+        borderColor = const Color(0xFF9E9E9E);
+        textColor = const Color(0xFF424242);
     }
-    return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status : ', statusText),
-        ],
-      ),
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text(
+          'Status:',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          decoration: BoxDecoration(
+            color: bgColor.withOpacity(0.9),
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(color: borderColor, width: 0.1),
+          ),
+          child: Text(
+            statusText,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
+            ),
+          ),
+        ),
+      ],
     );
   }
+
 
   dynamic buildLeoStatusRow(int status, {bool? returnTextOnly}) {
     String statusText;
@@ -1590,7 +1669,7 @@ class Utils {
     return RichText(
       overflow: TextOverflow.ellipsis,
       text: TextSpan(
-        style: Styles.textStyleRegularNormalGrey14,
+        style: Styles.textStyleNavigator,
         children: <TextSpan>[
           TextSpan(text: title),
           // if (desc.length > 15) ...[
@@ -1600,7 +1679,7 @@ class Utils {
           // ],
           TextSpan(
             text: desc,
-            style: Styles.textStyleBoldGrey14,
+            style: Styles.textStyleNavigator600,
           ),
         ],
       ),

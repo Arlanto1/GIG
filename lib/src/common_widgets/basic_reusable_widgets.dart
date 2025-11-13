@@ -182,7 +182,7 @@ class CommonWidgets {
             children: [
               Text(
                 title,
-                style: Styles.textStyleBlack14,
+                style: Styles.textStyleWhite16,
               ),
               if (isMandatory ?? false) ...[
                 const Text(
@@ -201,7 +201,7 @@ class CommonWidgets {
               alignment: Alignment.topLeft,
               child: Text(
                 desc,
-                style: Styles.textStyleBoldGreydark14,
+                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 17),
               )),
         ),
       ],

@@ -424,11 +424,13 @@ class _LoginState extends State<Login> {
                                       alignment: Alignment.centerLeft,
                                       child: Text(
                                         Constants.username,
-                                        style: Styles.textStyleBlack16.copyWith(fontWeight: FontWeight.w600, fontSize: 17),
+                                        style: Styles.textStyleGrey16.copyWith(fontWeight: FontWeight.w600, fontSize: 17),
                                       ),
                                     ),
                                     const SizedBox(height: 7),
                                     FlutterInputField(
+                                      isLoginScreen: true,
+                                      showCounter: false,
                                       controller: userNameTextController,
                                       textFormKey: Keys.userTextField,
                                       textCapitalization: false,
@@ -436,6 +438,7 @@ class _LoginState extends State<Login> {
                                       textInputAction: TextInputAction.next,
                                       focusNode: _usernameFocus,
                                       textInputType: TextInputType.text,
+
                                       onFieldSubmitted: (term) {
                                         _usernameFocus.unfocus();
                                         FocusScope.of(context).requestFocus(_passwordFocus);
@@ -472,7 +475,7 @@ class _LoginState extends State<Login> {
                                       alignment: Alignment.centerLeft,
                                       child: Text(
                                         Constants.password,
-                                        style: Styles.textStyleBlack16.copyWith(fontWeight: FontWeight.w900, fontSize: 18),
+                                        style: Styles.textStyleGrey16.copyWith(fontWeight: FontWeight.w900, fontSize: 18),
                                       ),
                                     ),
                                     const SizedBox(height: 7),
@@ -540,16 +543,16 @@ class _LoginState extends State<Login> {
 
                     // Positioned OR + SSO block
                     Positioned(
-                      top: size.height * 0.730,
+                      top: size.height * 0.700,
                       left: 0,
                       right: 0,
                       child: Column(
                         children: [
                           const Text(
                             "OR",
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,color: Colors.white),
                           ),
-                          const SizedBox(height: 2),
+                          const SizedBox(height: 20),
                           Container(
                             width: size.width * 0.9,
                             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),

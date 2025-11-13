@@ -196,22 +196,37 @@ class _ArticleFoundDetailsViewState
       uploadFiles = state.model.images ?? [];
     }
 
-    return Container(
-      color: AppColors.navigationSkyBlueColor,
+
+
+    return Stack(
+      children: [
+    // 🌄 Background Image
+    Positioned.fill(
+    // child: Image.asset(
+    //   'assets/images/bc.png', // 🔹 Replace with your image path
+    //   fit: BoxFit.cover,              // makes it fill the screen
+    // ),
+        child: Container(
+    color: const Color(0xFF6474C6),
+    ),
+    ),
+    // Positioned.fill(
+    //   child: Container(
+    //     color: Colors.white.withValues(alpha: 0.1), // adjust opacity as needed
+    //   ),
+    // ),
+  Container(
+      color: Colors.transparent,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
-              height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
-            ),
-            Container(
-              decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(20.0)),
-                  )),
+              // decoration: const ShapeDecoration(
+              //     color: AppColors.white,
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius:
+              //       BorderRadius.vertical(top: Radius.circular(0.0)),
+              //     )),
               child: Form(
                 key: _formKey,
                 autovalidateMode: isReadOnly
@@ -231,11 +246,12 @@ class _ArticleFoundDetailsViewState
                             // if (!state.model.lock.isEmptyOrNull) ...[
                             //   RecordLockedWidget(text: '${state.model.lock}'),
                             // ],
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
                             Container(
                               alignment: Alignment.topLeft,
-                              child: Text(
+                              child: const Text(
                                 Constants.generalinformation,
-                                style: Styles.styleHeaderGreyText16,
+                                style: Styles.textStyleWhite16,
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -245,19 +261,19 @@ class _ArticleFoundDetailsViewState
                               state.labels?.locale.status ??
                                   state.labels?.defaultLocale.status ??
                                   Constants.status,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                              isDisabled: true,
+                              isDisabled: false,
                               textController: statusController,
                               items: articleFoundStatus,
                               initialValue: '${state.model.status ?? 0}',
                               onTap: () {
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.03),
 
                             /// Created By
                             CommonWidgets.horizentaltextHandling(
@@ -266,6 +282,7 @@ class _ArticleFoundDetailsViewState
                                     Constants.createdby,
                                 isMandatory: true,
                                 '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
 
@@ -274,7 +291,7 @@ class _ArticleFoundDetailsViewState
                               state.labels?.locale.location ??
                                   state.labels?.defaultLocale.location ??
                                   Constants.location,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -292,20 +309,20 @@ class _ArticleFoundDetailsViewState
                                       location: location);
                                 }),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.03),
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
                               state.labels?.locale.inputDate ??
                                   state.labels?.defaultLocale.inputDate ??
                                   Constants.dateofcreation,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             dateCreateWidgetDisplay(
                                 state.model.inputDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.03),
 
                             /// Sl No.
                             CommonWidgets.horizentaltextHandling(
@@ -315,6 +332,7 @@ class _ArticleFoundDetailsViewState
                               state.model.slNo ?? '',
                               isMandatory: true,
                             ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.03),
 
                             /// Article Type
                             CommonWidgets.textDisplay(
@@ -322,11 +340,11 @@ class _ArticleFoundDetailsViewState
                                 //     state.labels?.defaultLocale
                                 //         .companyType ??
                                     Constants.articleType,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             TextFieldAddButton(
                               title: state.model.typeOfArticle?.name,
-                              height: 70,
+                              height: 75,
                               isDisableColor: isReadOnly,
                               onTap: () {
                                 if(!isReadOnly) {
@@ -352,7 +370,7 @@ class _ArticleFoundDetailsViewState
                                 }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.03),
 
 
                              /// Found Date
@@ -362,7 +380,7 @@ class _ArticleFoundDetailsViewState
                               //         .timeOfVisit ??
                                   Constants.founddate,
                               isMandatory: true,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                             ),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.001),
@@ -393,7 +411,7 @@ class _ArticleFoundDetailsViewState
                               // state.labels?.locale.companyName ??
                               //     state.labels?.defaultLocale.companyName ??
                                   Constants.foundlocation,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -414,17 +432,17 @@ class _ArticleFoundDetailsViewState
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.03),
 
                             /// Additional Information
                             CommonWidgets.textDisplay(
                                 // state.labels?.locale.additionalInformation ??
                                 //     state.labels?.defaultLocale.additionalInformation ??
                                     Constants.additionalinformation,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: false),
                             FlutterInputField(
-                              lineHeight: 6,
+                              lineHeight: 5,
                               characterLimit:
                               Constants.characterLimitDescTextFormField,
                               initialValue:
@@ -447,14 +465,14 @@ class _ArticleFoundDetailsViewState
                               validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
+                                height * 0.03),
 
                             /// Quantity
                             CommonWidgets.textDisplay(
                               // state.labels?.locale.companyName ??
                               //     state.labels?.defaultLocale.companyName ??
                               Constants.quantity,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -476,14 +494,14 @@ class _ArticleFoundDetailsViewState
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.03),
 
                             /// Color
                             CommonWidgets.textDisplay(
                               // state.labels?.locale.companyName ??
                               //     state.labels?.defaultLocale.companyName ??
                               Constants.colour,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -504,7 +522,7 @@ class _ArticleFoundDetailsViewState
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.03),
 
 
                             /// is Depositor Db Employee
@@ -514,7 +532,7 @@ class _ArticleFoundDetailsViewState
                                 //         .exceptionalApproval ??
                                     Constants.isdepositordbemployee,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
                                 selectedValue:
@@ -537,7 +555,7 @@ class _ArticleFoundDetailsViewState
                                       context)
                                       .onCheckBoxChange(state.model);
                                 }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.03),
 
 
                               if(state.model.depositorDbEmp == true)...[
@@ -547,11 +565,11 @@ class _ArticleFoundDetailsViewState
                                   //     state.labels?.defaultLocale
                                   //         .employeeId ??
                                       Constants.depositoremployeeid,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.depositor?.employeeId,
-                                height: 60,
+                                height: 75,
                                 isDisableColor: !showSaveSubmitButtons,
                                 onTap: () {
                                   if (showSaveSubmitButtons) {
@@ -589,7 +607,7 @@ class _ArticleFoundDetailsViewState
                                 },
                               ),
                               CommonWidgets.verticalSpacerWidget(
-                                  height * 0.01),
+                                  height * 0.03),
 
                               /// Depositor
                               CommonWidgets.textDisplay(
@@ -598,7 +616,7 @@ class _ArticleFoundDetailsViewState
                                   //         .cwrSponsor ??
                                       Constants.depositor,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -612,7 +630,7 @@ class _ArticleFoundDetailsViewState
                                 validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(
-                                  height * 0.01),
+                                  height * 0.03),
 
                             ///  Depositor Department
                             CommonWidgets.textDisplay(
@@ -620,12 +638,12 @@ class _ArticleFoundDetailsViewState
                                   state.labels?.defaultLocale
                                       .department ??
                                   Constants.department,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             TextFieldAddButton(
                               title: state.model.depositorDepartment?.name,
-                              height: 70,
+                              height: 75,
                               isDisableColor: !showSaveSubmitButtons,
                               onTap: () {
                                 if (showSaveSubmitButtons) {
@@ -655,7 +673,7 @@ class _ArticleFoundDetailsViewState
                                 }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.03),
 ],
 
                             if(state.model.depositorDbEmp == false)...[
@@ -664,7 +682,7 @@ class _ArticleFoundDetailsViewState
                                 // state.labels?.locale.companyName ??
                                 //     state.labels?.defaultLocale.companyName ??
                                 Constants.depositor,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -697,7 +715,7 @@ class _ArticleFoundDetailsViewState
                               //         .exceptionalApproval ??
                                 Constants.isclaimantdbemployee,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
                                 selectedValue:
@@ -730,11 +748,11 @@ class _ArticleFoundDetailsViewState
                                 //     state.labels?.defaultLocale
                                 //         .employeeId ??
                                   Constants.claimantemployeeid,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.claimant?.employeeId,
-                                height: 60,
+                                height: 75,
                                 isDisableColor: !showSaveSubmitButtons,
                                 onTap: () {
                                   if (showSaveSubmitButtons) {
@@ -772,7 +790,7 @@ class _ArticleFoundDetailsViewState
                                 },
                               ),
                               CommonWidgets.verticalSpacerWidget(
-                                  height * 0.01),
+                                  height * 0.03),
 
                               /// Claimant
                               CommonWidgets.textDisplay(
@@ -781,7 +799,7 @@ class _ArticleFoundDetailsViewState
                                 //         .cwrSponsor ??
                                   Constants.claimant,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -795,7 +813,7 @@ class _ArticleFoundDetailsViewState
                                 validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(
-                                  height * 0.01),
+                                  height * 0.03),
 
                               ///  Claimant Department
                               CommonWidgets.textDisplay(
@@ -803,12 +821,12 @@ class _ArticleFoundDetailsViewState
                                 //     state.labels?.defaultLocale
                                 //         .department ??
                                     Constants.claimantdepartment,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               TextFieldAddButton(
                                 title: state.model.claimantDepartment?.name,
-                                height: 70,
+                                height: 75,
                                 isDisableColor: !showSaveSubmitButtons,
                                 onTap: () {
                                   if (showSaveSubmitButtons) {
@@ -838,7 +856,7 @@ class _ArticleFoundDetailsViewState
                                   }
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.03),
 
                               /// Claimant Accepted to sign
                               CommonWidgets.textDisplay(
@@ -847,7 +865,7 @@ class _ArticleFoundDetailsViewState
                                 //         .exceptionalApproval ??
                                   Constants.isclaimantacceptedtosign,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue:
@@ -870,7 +888,7 @@ class _ArticleFoundDetailsViewState
                                         context)
                                         .onCheckBoxChange(state.model);
                                   }),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.03),
 
 
                               if(widget.model?.claimantNoSign == false)...[
@@ -881,7 +899,7 @@ class _ArticleFoundDetailsViewState
                                   //         .exceptionalApproval ??
                                     Constants.isclaimantacceptedbyemail,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 RadioButtonsYesNo(
                                     status: state.model.status ?? 0,
                                     selectedValue:
@@ -906,7 +924,7 @@ class _ArticleFoundDetailsViewState
                                     //       .onCheckBoxChange(state.model);
                                     // }
                                     ),
-                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                CommonWidgets.verticalSpacerWidget(height * 0.03),
                               ]
                             ],
 
@@ -916,7 +934,7 @@ class _ArticleFoundDetailsViewState
                                 // state.labels?.locale.companyName ??
                                 //     state.labels?.defaultLocale.companyName ??
                                 Constants.claimant,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -946,7 +964,7 @@ class _ArticleFoundDetailsViewState
                                 state.labels?.locale.evidenceInfo ??
                                     state.labels?.defaultLocale.evidenceInfo ??
                                     Constants.evidenceDocuments,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             widget.model == null
                                 ? CommonWidgets.verticalSpacerWidget(
                                 height * 0.001)
@@ -992,7 +1010,7 @@ class _ArticleFoundDetailsViewState
                                 ),
                               ),
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// SubmitButton
                             if (showSaveSubmitButtons) ...[
@@ -1006,6 +1024,10 @@ class _ArticleFoundDetailsViewState
                                 ],
                               ),
                             ],
+                            if(!showSaveSubmitButtons)...[
+                              cancelButtonDisplay(),
+
+                            ],
                             CommonWidgets.verticalSpacerWidget(height * 0.04),
                           ],
                         ),
@@ -1013,27 +1035,28 @@ class _ArticleFoundDetailsViewState
                     ],
                   ),
                 ),),),
-            if (!showSaveSubmitButtons) ...[
-              Container(
-                padding: const EdgeInsets.all(5.0),
-                decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(00.0)),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    cancelButtonDisplay(),
-                  ],
-                ),
-              ),
-            ],
+            // if (!showSaveSubmitButtons) ...[
+            //   Container(
+            //     padding: const EdgeInsets.all(5.0),
+            //     decoration: const ShapeDecoration(
+            //       color: AppColors.backgroundWhiteColor,
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius:
+            //         BorderRadius.vertical(top: Radius.circular(00.0)),
+            //       ),
+            //     ),
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       children: [
+            //         cancelButtonDisplay(),
+            //       ],
+            //     ),
+            //   ),
+            // ],
           ],
         ),
       ),
+    ),]
     );
   }
 
@@ -1068,10 +1091,11 @@ class _ArticleFoundDetailsViewState
   Widget dateCreateWidgetDisplay(String date) {
     return FlutterInputField(
       textFormKey: Keys.dateofcreationTextController,
+      showBorder: true,
       initialValue: date,
       hintText: '',
       isEnable: false,
-      isDisableColor: true,
+      isDisableColor: false,
       onChange: (String value) {},
       validateTextField: (String? user) {},
     );

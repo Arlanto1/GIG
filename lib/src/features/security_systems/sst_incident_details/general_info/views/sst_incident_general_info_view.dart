@@ -1074,7 +1074,7 @@ class _SstIncidentGeneralInfoViewState
                             if (showSystemIntegratorFields) ...[
                               CommonWidgets.textDisplay(
                                   Constants.systemIntegratorForVendorAction,
-                                  Styles.textStyleBlack16),
+                                  Styles.textStyleGrey16),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Acknowledge Integrator for Vendor Action

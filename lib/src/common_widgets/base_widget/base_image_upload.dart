@@ -15,34 +15,111 @@ class BaseImageUpload {
     return Opacity(
       opacity: isDisabled == true ? .5 : 1,
       child: Container(
-        height: 60,
+        height: 70,
         decoration: BoxDecoration(
-            border: Border.all(
-              color: const Color(0xFFCACACA),
-              width: 1.0,
+          gradient: LinearGradient(
+            colors: [
+              // Colors.white.withValues(alpha: 0.2),
+              // Colors.white.withValues(alpha: 0.28),
+              const Color(0xFF6474C6).withValues(alpha: 0.2),
+              // const Color(0xFF6474C6).withValues(alpha: 0),
+              Colors.white.withValues(alpha: 0.3),
+
+            ],
+            // stops: [0.02, 0.35, 0.9,],
+            begin: Alignment.topRight,
+            end: Alignment.bottomCenter,
+          ),
+          borderRadius: BorderRadius.circular(25),
+          border: Border.all(
+            color: Colors.white.withValues(alpha: 90),
+            width: 0.7,
+          ),
+          boxShadow: [
+            // BoxShadow(
+            //   color: Colors.white.withValues(alpha: 3),
+            //   blurRadius: 90,
+            //   offset: const Offset(3, 3), // white glow on top-left
+            // ),
+            BoxShadow(
+              color: AppColors.lavender.withValues(alpha: 20),
+              blurRadius: 60,
+              offset: const Offset(0, 7), // soft shadow bottom-right
             ),
-            borderRadius: const BorderRadius.all(Radius.circular(8))),
+          ],
+        ),
+           // color: Colors.white12,
+           //  border: Border.all(
+           //    color: const Color(0xFFCACACA),
+           //    width: 1.0,
+           //  ),
+           //  borderRadius: const BorderRadius.all(Radius.circular(8))),
         child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           Padding(
             padding: const EdgeInsets.only(right: 5.0),
+            // child: ElevatedButton.icon(
+            //   style: ElevatedButton.styleFrom(
+            //     fixedSize: const Size(140, 50),
+            //     backgroundColor: const Color(0xFF2C3E7E),
+            //   ),
+            //   onPressed: () {
+            //     if (isDisabled ?? false) {
+            //       return;
+            //     }
+            //     showDialog(
+            //         context: context,
+            //         builder: (BuildContext dialogContext) {
+            //           return UploadAttachment(
+            //             userdetails: loggedInUserDetails,
+            //             getFiles: getFiles ?? [],
+            //             onImageSelected: onImageSelected,
+            //           );
+            //         });
+            //   },
+            //   icon: SvgPicture.asset(
+            //     AppIcon.uploadicon,
+            //     colorFilter: const ColorFilter.mode(
+            //       AppColors.backgroundWhiteColor,
+            //       BlendMode.srcIn,
+            //     ),
+            //     width: 13,
+            //     height: 13,
+            //     key: const Key(Keys.userIcon),
+            //   ),
+            //   label: const Text(
+            //     Constants.clicktoupload,
+            //     style: Styles.textStyleRegularNormalWhite12,
+            //   ),
+            // ),
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 fixedSize: const Size(140, 50),
-                backgroundColor: AppColors.navigationSkyBlueColor,
+                backgroundColor: const Color(0xFF071130).withValues(alpha: 0.4),
+                // foregroundColor: Colors.black,
+                elevation: 10,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20), // rounded corners
+                  side: const BorderSide(
+                    color: Colors.white, // border color
+                    width: 0.7,          // border thickness
+                  ),
+                ),
               ),
+
               onPressed: () {
                 if (isDisabled ?? false) {
                   return;
                 }
                 showDialog(
-                    context: context,
-                    builder: (BuildContext dialogContext) {
-                      return UploadAttachment(
-                        userdetails: loggedInUserDetails,
-                        getFiles: getFiles ?? [],
-                        onImageSelected: onImageSelected,
-                      );
-                    });
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return UploadAttachment(
+                      userdetails: loggedInUserDetails,
+                      getFiles: getFiles ?? [],
+                      onImageSelected: onImageSelected,
+                    );
+                  },
+                );
               },
               icon: SvgPicture.asset(
                 AppIcon.uploadicon,
@@ -59,6 +136,7 @@ class BaseImageUpload {
                 style: Styles.textStyleRegularNormalWhite12,
               ),
             ),
+
           ),
         ]),
       ),

@@ -66,7 +66,7 @@ class _AiChatListViewState extends State<AiChatListView> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => const AiChatDetailsView(),
+              builder: (_) =>  const AiChatDetailsView(),
             ),
           ),
         },
@@ -99,7 +99,7 @@ class _AiChatListViewState extends State<AiChatListView> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const AiChatDetailsView(),
+                      builder: (_) =>  AiChatDetailsView(),
                     ),
                   );
                 },

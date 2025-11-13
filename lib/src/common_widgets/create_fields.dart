@@ -144,7 +144,7 @@ class AddNewFieldsState extends State<AddNewFields> {
                           alignment: Alignment.topLeft,
                           child: const Text(
                             Constants.key,
-                            style: Styles.textStyleBlack16,
+                            style: Styles.textStyleGrey16,
                           ),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -163,7 +163,7 @@ class AddNewFieldsState extends State<AddNewFields> {
                           alignment: Alignment.topLeft,
                           child: const Text(
                             'Description',
-                            style: Styles.textStyleBlack16,
+                            style: Styles.textStyleGrey16,
                           ),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -182,7 +182,7 @@ class AddNewFieldsState extends State<AddNewFields> {
                           alignment: Alignment.topLeft,
                           child: const Text(
                             'Options (<key>=<value>)',
-                            style: Styles.textStyleBlack16,
+                            style: Styles.textStyleGrey16,
                           ),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -201,7 +201,7 @@ class AddNewFieldsState extends State<AddNewFields> {
                           alignment: Alignment.topLeft,
                           child: const Text(
                             'Weight',
-                            style: Styles.textStyleBlack16,
+                            style: Styles.textStyleGrey16,
                           ),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),

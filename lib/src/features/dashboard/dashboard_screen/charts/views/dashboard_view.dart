@@ -443,7 +443,7 @@ class DashboardViewState extends State<DashboardView>
           appBar: AppHeader(
             isTitleCenter: false,
             title: Constants.dashboard,
-            backgroundColour:  const Color(0xFF0000CC),
+            backgroundColour:  const  Color(0xFF071130),
             action: [
               if (Environment().config.apiHost.contains('api.qa.')) ...[
                 const Text(
@@ -555,14 +555,19 @@ class DashboardViewState extends State<DashboardView>
     }
     return Container(
       // color: Colors.white,
-      decoration: const BoxDecoration(
+      decoration:  const BoxDecoration(
         gradient: LinearGradient(
           colors: [
             // Color(0xFF845EF7),
-            Color(0xFF6A89CC),
-            Color(0xFF7589E9),
-            Colors.orange,
+            // Color(0xFF6A89CC).withValues(alpha: 0.4),
+            // Color(0xFF6A89CC),
+            // Color(0xFF6A89CC),
 
+            // Color(0xFF6A89CC).withValues(alpha: 0.4),
+            // Color(0xFF7589E9),
+            // Colors.orange,
+            Color(0xFF6474C6),
+            Color(0xFF6474C6),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -573,12 +578,22 @@ class DashboardViewState extends State<DashboardView>
         child: SingleChildScrollView(
           child: Container(
             // padding: const EdgeInsets.all(10.0),
-            decoration: const BoxDecoration(
+            decoration:  const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
                   // Color(0xFF845EF7),
-                  Color(0xFF6A89CC),
-                  Color(0xFF7589E9),
+                  // Color(0xFF6A89CC),
+                  // Color(0xFF7589E9),
+                  // Color(0xFF7589E9),
+                  // Color(0xFF6A89CC).withValues(alpha: 0.1),
+                  // Color(0xFF6A89CC).withValues(alpha: 0.1),
+                  Color(0xFF6474C6),
+                  Color(0xFF6474C6),
+                  // Color(0xFF6A89CC),
+                  // Color(0xFF6A89CC),
+                  // Colors.white,
+                  // Colors.white,
+
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -637,6 +652,18 @@ class DashboardViewState extends State<DashboardView>
       child: Row(
         children: [
           SizedBox(
+            width: 425,
+            child: SizedBox(
+              width: 400,
+              child: BaseDonutChart(
+                chartTitle: title,
+                moreIcon: SvgPicture.asset(AppIcon.moreicon),
+                chartData: chartValues,
+              ),
+            ),
+
+          ),
+          SizedBox(
             width: 430,
             child: BaseVerticleBarCharts(
               chartTitle: title,
@@ -660,22 +687,26 @@ class DashboardViewState extends State<DashboardView>
           //     chartData: chartValues,
           //   ),
           // ),
-          SizedBox(
-            width: 430,
-            child: BaseBarChart(
-              chartTitle: title,
-              moreIcon: SvgPicture.asset(AppIcon.moreicon),
-              chartData: chartValues,
-            ),
-          ),
-          SizedBox(
-            width: 430,
-            child: BasePyramidCharts(
-              chartTitle: title,
-              moreIcon: SvgPicture.asset(AppIcon.moreicon),
-              chartData: chartValues,
-            ),
-          ),
+          // SizedBox(
+          //   width: 430,
+          //   child: SizedBox(
+          //     width: 430,
+          //     child: BaseDonutChart(
+          //       chartTitle: title,
+          //       moreIcon: SvgPicture.asset(AppIcon.moreicon),
+          //       chartData: chartValues,
+          //     ),
+          //   ),
+          //
+          // ),
+          // SizedBox(
+          //   width: 430,
+          //   child: BasePyramidCharts(
+          //     chartTitle: title,
+          //     moreIcon: SvgPicture.asset(AppIcon.moreicon),
+          //     chartData: chartValues,
+          //   ),
+          // ),
         ],
       ),
     );

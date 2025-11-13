@@ -123,7 +123,7 @@ class AddEmployeeDepartmentState extends State<AddEmployeeDepartment> {
                         alignment: Alignment.topLeft,
                         child: const Text(
                           Constants.key,
-                          style: Styles.textStyleBlack16,
+                          style: Styles.textStyleGrey16,
                         ),
                       ),
                       FlutterInputField(

@@ -6,8 +6,8 @@ class AppColors {
   static const Color backgroundWhiteColor = Color(0xFFFFFFFF);
   static const Color divideLineGreyColor = Color(0xFFDFE7ED);
   static const Color chatDarkThemeColor = Color(0xFF081D22);
-
-
+  static const Color lavender = Color(0xFF6474C6);
+  static const Color lightLavender = Color(0xFF9F9FDF);
   // static const Color navigationSkyBlueColor = Color(0xFF2CAAE0);
   static const Color navigationSkyBlueColor = Color(0xFF425563);
   static const Color cardBorder = Color(0XFFF0F0F0);
@@ -68,10 +68,10 @@ final List<Color> presetColors = [
   // const Color(0xFF0093F9),
   // const Color(0xFF15CAB4),
   const Color(0xFF78350F),
-  const Color(0xFFFFA516),
+  // const Color(0xFFFFA516),
   const Color(0xFFFF4051),
   const Color(0xFF9665ED),
-const Color(0xFF081D22),
+// const Color(0xFF081D22),
 // const Color(0xFFB2DEFD),
   const Color(0xFF007bff),
   const Color(0xFF6610f2),
@@ -87,22 +87,49 @@ const Color(0xFF081D22),
   // const Color(0xFF17a2b8),
 ];
 
-final List<Color> customColors = [ // const Color(0xFFffc107),
+final List<Color> customColors = [ // c
+  const Color(0xFFFFA500),
+  // Color(0xFF006400),
+  // const Color(0xFFFF6B6B),
+  const Color(0xFFFF1493),
+  const Color(0xFF9D4EDD),
+  const Color(0xFF5A189A),// onst Color(0xFFffc107),
   const Color(0xFF1E40AF),
+  const Color.fromRGBO(136, 14, 79, 1),
+  const Color(0xFF003f5c),
+  // Color(0xFFFFC300), // Bright yellow – strong pop on blue
+  Color(0xFFFF5733), // Vibrant orange-red
+  // Color(0xFFDAF7A6), // Light lime green
+  // Color(0xFFFF8C00), // Deep orange
+  // Color(0xFFFF1493), // Neon pink
+  // Color(0xFF00FA9A), // Mint green
+  // Color(0xFF7CFC00), // Electric lime
+  // Color(0xFFFFE135), // Banana yellow
+  // Color(0xFFB19CD9), // Soft lavender
+  // Color(0xFFF5DEB3),
+  // const Color(0xFF58508d),
+
   const Color(0xFF2563EB),
-  const Color(0xFF6366F1),
-  const Color(0xFF4B67F2),
+  // const Color(0xFF6366F1),
+  // const Color(0xFFDB2777),
+  const Color(0xFFdc3545),
+  // const Color(0xFFbc5090),
+  // const Color(0xFF4B67F2),
+  const Color(0xFFffa600),
+  const Color(0xFF003f5c),
+  const Color.fromRGBO(136, 14, 79, 1),
+  const Color.fromRGBO(136, 14, 79, .5),
   const Color(0xFF3B82F6),
   const Color(0xFF0EA5E9),
   const Color(0xFF29C3D1),
   const Color(0xFF22A9F3),
+  const Color(0xFF58508d),
   const Color(0xFFEC4899),
   const Color(0xFFDB2777),
   const Color(0xFFdc3545),
   const Color(0xFFfd7e14),
   const Color(0xFF14B8A6),
   const Color(0xFF10B981),
-  const Color(0xFF84CC16),
-  const Color(0xFF28a745),
-  const Color(0xFF15803D),
+  const Color(0xFF003f5c),
+
 ];

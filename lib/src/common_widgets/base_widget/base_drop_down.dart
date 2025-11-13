@@ -39,14 +39,14 @@ class BaseDropDown {
             isDisableColor: !isDisabled,
             onChange: (String value) {},
             validateTextField: (String? user) {},
-            suffixWidget: IconButton(
-              icon: SvgPicture.asset(
-                  width: 10,
-                  height: 10,
-                  AppIcon.dropdownicon,
-                  key: const Key('closed_eye')),
-              onPressed: () {},
-            ),
+            // suffixWidget: IconButton(
+            //   icon: SvgPicture.asset(
+            //       width: 10,
+            //       height: 10,
+            //       AppIcon.dropdownicon,
+            //       key: const Key('closed_eye')),
+            //   onPressed: () {},
+            // ),
           ),
         ),
       ),

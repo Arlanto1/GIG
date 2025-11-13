@@ -126,7 +126,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                           alignment: Alignment.topLeft,
                           child: const Text(
                             Constants.depositor,
-                            style: Styles.textStyleBlack16,
+                            style: Styles.textStyleGrey16,
                           ),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -145,7 +145,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                             alignment: Alignment.topLeft,
                             child: const Text(
                               Constants.depositoremployeeid,
-                              style: Styles.textStyleBlack16,
+                              style: Styles.textStyleGrey16,
                             )),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         FlutterInputField(
@@ -164,7 +164,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                           alignment: Alignment.topLeft,
                           child: const Text(
                             Constants.employeedepartment,
-                            style: Styles.textStyleBlack16,
+                            style: Styles.textStyleGrey16,
                           ),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -183,7 +183,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                           alignment: Alignment.topLeft,
                           child: const Text(
                             Constants.uploadfile,
-                            style: Styles.textStyleBlack16,
+                            style: Styles.textStyleGrey16,
                           ),
                         ),
                         _image != null || file != null
