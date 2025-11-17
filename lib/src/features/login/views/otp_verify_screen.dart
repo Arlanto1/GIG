@@ -144,8 +144,8 @@ class _OtpVerifyState extends State<OtpVerify> {
                 body: Stack(
                   children: [
                     Positioned(
-                      top: MediaQuery.of(context).padding.top + 10, // to avoid notch/status bar
-                      left: 10,
+                      // top: MediaQuery.of(context).padding.top + 10, // to avoid notch/status bar
+                      // left: 10,
                       child: BackButton(
                         color: Colors.white, // or choose suitable color
                         onPressed: () {
@@ -176,53 +176,46 @@ class _OtpVerifyState extends State<OtpVerify> {
                     ),
 
                     // Logo or heading text
-                    Positioned(
-                      top: size.height * 0.11, // adjust this value to move up/down
-                      left: 0,
-                      right: 0,
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            'assets/images/logo1.png', // your logo asset
-                            height: 100,
+                    // Positioned(
+                    //   top: size.height * 0.11, // adjust this value to move up/down
+                    //   left: 0,
+                    //   right: 0,
+                    //   child: Column(
+                    //     children: [
+                    //       Image.asset(
+                    //         'assets/images/logo1.png', // your logo asset
+                    //         height: 100,
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: FractionallySizedBox(
+                        widthFactor: 0.6,   // responsive width
+                        child: Padding(
+                          padding: EdgeInsets.only(top: size.height * 0.1),
+                          child: Image.asset(
+                            'assets/images/logo1.png',
+                            fit: BoxFit.contain,
                           ),
-                          // const SizedBox(height: 2),
-                          // Text(
-                          //   "ATOM",
-                          //   style: TextStyle(
-                          //     fontSize: 48, // slightly bigger for impact
-                          //     color: Colors.white,
-                          //     fontWeight: FontWeight.w900, // extra bold
-                          //     letterSpacing: 1.5,
-                          //     shadows: [
-                          //       Shadow(
-                          //         color: Colors.black38, // subtle shadow for depth
-                          //         offset: Offset(2, 2),
-                          //         blurRadius: 4,
-                          //       ),
-                          //       Shadow(
-                          //         color: Colors.white24, // subtle light glow
-                          //         offset: Offset(-1, -1),
-                          //         blurRadius: 6,
-                          //       ),
-                          //     ],
-                          //   ),
-                          //  )
-                        ],
+                        ),
                       ),
                     ),
 
 
+
+
                     // Centered OTP Form Container
                     Padding(
-                      padding: const EdgeInsets.only(top: 60.0),
+                      padding: const EdgeInsets.only(),
                       child: Center(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(30),
                           child: BackdropFilter(
                             filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
                             child: Container(
-                              width: size.width * 0.9,
+                              width: MediaQuery.of(context).size.width * 0.9,
                               padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 18),
                               decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.30),
@@ -270,7 +263,7 @@ class _OtpVerifyState extends State<OtpVerify> {
                                         numberOfFields: 6,
                                         borderColor: const Color(0xFF000080),
                                         showFieldAsBox: true,
-                                        fieldWidth: 48,
+                                        fieldWidth: (MediaQuery.of(context).size.width-129)/6,
                                         fillColor: Colors.blueAccent,
                                         hasCustomInputDecoration: true,
                                         decoration: InputDecoration(

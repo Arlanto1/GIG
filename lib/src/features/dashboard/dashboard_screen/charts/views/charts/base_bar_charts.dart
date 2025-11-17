@@ -475,6 +475,7 @@
 // // ];
 
 import 'dart:async';
+import 'dart:ui' as ui;
 import 'package:db_atom/index.dart';
 class BaseDonutChart extends StatefulWidget {
   final String chartTitle;
@@ -622,35 +623,96 @@ class _BaseDonutChartState extends State<BaseDonutChart>
                 ),
               ),
             )
-                : SizedBox(
-              height: 300,
-              child: SfCircularChart(
-                backgroundColor: Colors.transparent,
-                tooltipBehavior: TooltipBehavior(enable: true),
-                legend: const Legend(isVisible: false),
-                series: <CircularSeries>[
-                  DoughnutSeries<PieChartData, String>(
-                    dataSource: widget.chartData,
-                    xValueMapper: (PieChartData data, _) => data.x,
-                    yValueMapper: (PieChartData data, _) => data.y,
-                    pointColorMapper: (PieChartData data, index) =>
-                    customColors[index % customColors.length],
-                    dataLabelSettings: const DataLabelSettings(
-                      isVisible: true,
-                      textStyle: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
+                :
+            // SizedBox(
+            //   height: 300,
+            //   child: SfCircularChart(
+            //     backgroundColor: Colors.transparent,
+            //     tooltipBehavior: TooltipBehavior(enable: true),
+            //     legend: const Legend(isVisible: false),
+            //     series: <CircularSeries>[
+            //       DoughnutSeries<PieChartData, String>(
+            //         dataSource: widget.chartData,
+            //         xValueMapper: (PieChartData data, _) => data.x,
+            //         yValueMapper: (PieChartData data, _) => data.y,
+            //         pointColorMapper: (PieChartData data, index) =>
+            //         customColors[index % customColors.length],
+            //         dataLabelSettings: const DataLabelSettings(
+            //           isVisible: true,
+            //           textStyle: TextStyle(
+            //             color: Colors.white,
+            //             fontWeight: FontWeight.w500,
+            //           ),
+            //         ),
+            //         radius: '80%',
+            //         innerRadius: '40%', // makes it donut-shaped
+            //         explode: true,
+            //         explodeIndex: 0,
+            //         explodeOffset: '8%',
+            //         animationDuration: 1200,
+            //       ),
+            //     ],
+            //   ),
+            // ),
+
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                // 1. Your original, textured or gradient background
+                // Positioned.fill(
+                // child: Image.asset('assets/your_blurred_background.jpg', fit: BoxFit.cover),
+                // ),
+                // 2. Circular blur overlay, matching the pie's size and position
+                Center(
+                  child: ClipOval(
+                    child: BackdropFilter(
+                      filter: ui.ImageFilter.blur(sigmaX: 14, sigmaY: 14),
+                      child: Container(
+                        width: 300,
+                        height: 300,
+                        color:
+                        Colors.white.withOpacity(0.30), // Slight tint
                       ),
                     ),
-                    radius: '80%',
-                    innerRadius: '40%', // makes it donut-shaped
-                    explode: true,
-                    explodeIndex: 0,
-                    explodeOffset: '8%',
-                    animationDuration: 1200,
                   ),
-                ],
-              ),
+                ),
+                // 3. The actual PieChart, with translucent colors
+                SfCircularChart(
+                  backgroundColor: Colors.transparent,
+                  // palette: <Color>[Colors.amber.withValues(alpha: 0.5), Colors.brown.withValues(alpha: 0.5), Colors.green.withValues(alpha: 0.5), Colors.purple.withValues(alpha: 0.5), Colors.teal.withValues(alpha: 0.5),const Color(0xFFFF4500).withValues(alpha: 0.5), const Color(0xFFdc3545).withValues(alpha: 0.5),   const Color(0xFF003f5c).withValues(alpha: 0.4)],
+                  palette: customGlassColors,
+                  // legend: const Legend(isVisible: true),
+                  tooltipBehavior: TooltipBehavior(enable: true),
+                  series: <CircularSeries>[
+                    DoughnutSeries<PieChartData, String>(
+                      radius: '140',
+                      // legendIconType: LegendIconType.seriesType,
+
+                      dataSource: widget.chartData,
+                      xValueMapper: (d, _) => d.x,
+                      yValueMapper: (d, _) => d.y,
+                      strokeColor: Colors.white.withOpacity(0.8),
+                      pointRenderMode: PointRenderMode.gradient,
+
+                      strokeWidth: 1.2,
+                      explode: true,
+                      explodeOffset: '10%',
+                      // pointColorMapper: (PieChartData d, int? i) {
+                      //   final index = i ?? 0;
+                      //   // Return gradient start color
+                      //   return gradientColors[
+                      //   index % gradientColors.length]
+                      //       .first;
+                      // },
+
+                      dataLabelSettings: const DataLabelSettings(
+                        isVisible: true,
+                        textStyle: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  ],
+                ),
+              ],
             ),
 
             const SizedBox(height: 10),

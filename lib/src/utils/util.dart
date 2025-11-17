@@ -334,7 +334,7 @@ class Utils {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
           decoration: BoxDecoration(
-            color: bgColor.withOpacity(0.9),
+            color: bgColor.withValues(alpha: 0.9),
             borderRadius: BorderRadius.circular(30),
             border: Border.all(color: borderColor, width: 0.1),
           ),
@@ -781,111 +781,381 @@ class Utils {
     );
   }
 
+  // Widget buildEventProtectionStatusRow(int status) {
+  //   String statusText;
+  //
+  //   switch (status) {
+  //     case 0:
+  //       statusText = 'Draft';
+  //       break;
+  //     case 1:
+  //       statusText = 'Business User Review';
+  //       break;
+  //     case 2:
+  //       statusText = 'LSM Review';
+  //       break;
+  //     case 3:
+  //       statusText = 'LSM Approved';
+  //       break;
+  //     case 4:
+  //       statusText = 'LSM Rejected';
+  //       break;
+  //     case 5:
+  //       statusText = 'Vendor Review';
+  //       break;
+  //     case 6:
+  //       statusText = 'Vendor Approved';
+  //       break;
+  //     case 7:
+  //       statusText = 'Vendor Rejected';
+  //       break;
+  //     case 8:
+  //       statusText = 'Business User POC Review';
+  //       break;
+  //     case 9:
+  //       statusText = 'Business User POC Approved';
+  //       break;
+  //     case 10:
+  //       statusText = 'Business User POC Rejected';
+  //       break;
+  //     case 11:
+  //       statusText = 'Security Vendor Review';
+  //       break;
+  //     case 12:
+  //       statusText = 'Security Vendor Submitted';
+  //       break;
+  //     case 13:
+  //       statusText = 'EP Pre Review';
+  //       break;
+  //     case 14:
+  //       statusText = 'EP Pre Approved';
+  //       break;
+  //     case 15:
+  //       statusText = 'EP Pre Rejected';
+  //       break;
+  //     case 16:
+  //       statusText = 'SRH Review';
+  //       break;
+  //     case 17:
+  //       statusText = 'SRH Approved';
+  //       break;
+  //     case 18:
+  //       statusText = 'SRH Rejected';
+  //       break;
+  //     case 19:
+  //       statusText = 'EP PO Required';
+  //       break;
+  //     case 20:
+  //       statusText = 'PO Updated';
+  //       break;
+  //     case 21:
+  //       statusText = 'Event Started';
+  //       break;
+  //     case 22:
+  //       statusText = 'During Event';
+  //       break;
+  //     case 23:
+  //       statusText = 'Event Concluded';
+  //       break;
+  //     case 24:
+  //       statusText = 'EP Post Review';
+  //       break;
+  //     case 25:
+  //       statusText = 'EP Post Approved';
+  //       break;
+  //     case 26:
+  //       statusText = 'EP Post Rejected';
+  //       break;
+  //     case 27:
+  //       statusText = 'Invoice Requested';
+  //       break;
+  //     case 28:
+  //       statusText = 'Invoice Raised';
+  //       break;
+  //     case 29:
+  //       statusText = 'Invoice Submitted';
+  //       break;
+  //     case 30:
+  //       statusText = 'Closed';
+  //       break;
+  //     case -1:
+  //       statusText = 'Cancelled';
+  //       break;
+  //     default:
+  //       statusText = ''; // Handle the default case if needed
+  //   }
+  //   return IntrinsicWidth(
+  //     child: textHandling('Status : ', statusText),
+  //   );
+  // }
+
   Widget buildEventProtectionStatusRow(int status) {
     String statusText;
+    Color bgColor;
+    Color textColor;
+    Color borderColor;
 
     switch (status) {
       case 0:
         statusText = 'Draft';
+        bgColor =  Colors.orange.shade200;
+        borderColor = const Color(0xFF9E9E9E);
+        textColor = Colors.black87;
         break;
+
       case 1:
         statusText = 'Business User Review';
+        bgColor = const Color(0xFF90CAF9);
+        borderColor = const Color(0xFF42A5F5);
+        textColor = Colors.white;
         break;
+
       case 2:
         statusText = 'LSM Review';
+        bgColor = const Color(0xFFFFF59D);
+        borderColor = const Color(0xFFFDD835);
+        textColor = Colors.black87;
         break;
+
       case 3:
         statusText = 'LSM Approved';
+        bgColor = const Color(0xFF4CAF50);
+        borderColor = const Color(0xFF2E7D32);
+        textColor = Colors.white;
         break;
+
       case 4:
         statusText = 'LSM Rejected';
+        bgColor = const Color(0xFFFFCDD2);
+        borderColor = const Color(0xFFD32F2F);
+        textColor = const Color(0xFFB71C1C);
         break;
+
       case 5:
         statusText = 'Vendor Review';
+        bgColor = const Color(0xFFB39DDB);
+        borderColor = const Color(0xFF673AB7);
+        textColor = Colors.white;
         break;
+
       case 6:
         statusText = 'Vendor Approved';
+        bgColor = const Color(0xFF26A69A);
+        borderColor = const Color(0xFF004D40);
+        textColor = Colors.white;
         break;
+
       case 7:
         statusText = 'Vendor Rejected';
+        bgColor = const Color(0xFFFFAB91);
+        borderColor = const Color(0xFFD84315);
+        textColor = Colors.white;
         break;
+
       case 8:
         statusText = 'Business User POC Review';
+        bgColor = const Color(0xFFA5D6A7);
+        borderColor = const Color(0xFF388E3C);
+        textColor = Colors.white;
         break;
+
       case 9:
         statusText = 'Business User POC Approved';
+        bgColor = const Color(0xFF2E7D32);
+        borderColor = const Color(0xFF1B5E20);
+        textColor = Colors.white;
         break;
+
       case 10:
         statusText = 'Business User POC Rejected';
+        bgColor = const Color(0xFFFFCDD2);
+        borderColor = const Color(0xFFD32F2F);
+        textColor = Colors.white;
         break;
+
       case 11:
         statusText = 'Security Vendor Review';
+        bgColor = const Color(0xFF80CBC4);
+        borderColor = const Color(0xFF00897B);
+        textColor = Colors.white;
         break;
+
       case 12:
         statusText = 'Security Vendor Submitted';
+        bgColor = const Color(0xFF4DD0E1);
+        borderColor = const Color(0xFF006064);
+        textColor = Colors.white;
         break;
+
       case 13:
         statusText = 'EP Pre Review';
+        bgColor = const Color(0xFFFFE082);
+        borderColor = const Color(0xFFF9A825);
+        textColor = Colors.black87;
         break;
+
       case 14:
         statusText = 'EP Pre Approved';
+        bgColor = const Color(0xFF43A047);
+        borderColor = const Color(0xFF2E7D32);
+        textColor = Colors.white;
         break;
+
       case 15:
         statusText = 'EP Pre Rejected';
+        bgColor = const Color(0xFFFFCDD2);
+        borderColor = const Color(0xFFD32F2F);
+        textColor = Colors.white;
         break;
+
       case 16:
         statusText = 'SRH Review';
+        bgColor = const Color(0xFFCE93D8);
+        borderColor = const Color(0xFF8E24AA);
+        textColor = Colors.white;
         break;
+
       case 17:
         statusText = 'SRH Approved';
+        bgColor = const Color(0xFF66BB6A);
+        borderColor = const Color(0xFF2E7D32);
+        textColor = Colors.white;
         break;
+
       case 18:
         statusText = 'SRH Rejected';
+        bgColor = const Color(0xFFFFAB91);
+        borderColor = const Color(0xFFD84315);
+        textColor = Colors.white;
         break;
+
       case 19:
         statusText = 'EP PO Required';
+        bgColor = const Color(0xFFFFF59D);
+        borderColor = const Color(0xFFFBC02D);
+        textColor = Colors.black87;
         break;
+
       case 20:
         statusText = 'PO Updated';
+        bgColor = const Color(0xFF81D4FA);
+        borderColor = const Color(0xFF0288D1);
+        textColor = Colors.white;
         break;
+
       case 21:
         statusText = 'Event Started';
+        bgColor = const Color(0xFF42A5F5);
+        borderColor = const Color(0xFF1E88E5);
+        textColor = Colors.white;
         break;
+
       case 22:
         statusText = 'During Event';
+        bgColor = const Color(0xFF5C6BC0);
+        borderColor = const Color(0xFF283593);
+        textColor = Colors.white;
         break;
+
       case 23:
         statusText = 'Event Concluded';
+        bgColor = const Color(0xFF8D6E63);
+        borderColor = const Color(0xFF4E342E);
+        textColor = Colors.white;
         break;
+
       case 24:
         statusText = 'EP Post Review';
+        bgColor = const Color(0xFFFFE082);
+        borderColor = const Color(0xFFF9A825);
+        textColor = Colors.black87;
         break;
+
       case 25:
         statusText = 'EP Post Approved';
+        bgColor = const Color(0xFF43A047);
+        borderColor = const Color(0xFF1B5E20);
+        textColor = Colors.white;
         break;
+
       case 26:
         statusText = 'EP Post Rejected';
+        bgColor = const Color(0xFFFFCDD2);
+        borderColor = const Color(0xFFD32F2F);
+        textColor = Colors.white;
         break;
+
       case 27:
         statusText = 'Invoice Requested';
+        bgColor = const Color(0xFFFFCC80);
+        borderColor = const Color(0xFFEF6C00);
+        textColor = Colors.black;
         break;
+
       case 28:
         statusText = 'Invoice Raised';
+        bgColor = const Color(0xFFA1887F);
+        borderColor = const Color(0xFF5D4037);
+        textColor = Colors.white;
         break;
+
       case 29:
         statusText = 'Invoice Submitted';
+        bgColor = const Color(0xFF4DB6AC);
+        borderColor = const Color(0xFF004D40);
+        textColor = Colors.white;
         break;
+
       case 30:
         statusText = 'Closed';
+        bgColor = const Color(0xFF78909C);
+        borderColor = const Color(0xFF455A64);
+        textColor = Colors.white;
         break;
+
       case -1:
         statusText = 'Cancelled';
+        bgColor = const Color(0xFFFFCDD2);
+        borderColor = const Color(0xFFE53935);
+        textColor = const Color(0xFFB71C1C);
         break;
+
       default:
-        statusText = ''; // Handle the default case if needed
+        statusText = 'Unknown';
+        bgColor = const Color(0xFFE0E0E0);
+        borderColor = const Color(0xFF9E9E9E);
+        textColor = const Color(0xFF424242);
     }
-    return IntrinsicWidth(
-      child: textHandling('Status : ', statusText),
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text(
+          'Status:',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          decoration: BoxDecoration(
+            color: bgColor.withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(color: borderColor, width: 0.1),
+          ),
+          child: Text(
+            statusText,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
+            ),
+          ),
+        ),
+      ],
     );
   }
 

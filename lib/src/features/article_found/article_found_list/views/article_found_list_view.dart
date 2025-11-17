@@ -2677,6 +2677,7 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
         log('plus ${state.extraProperties?.hasWritePermission}');
         return Scaffold(
           bottomNavigationBar: CustomBottomNavigationBar(
+            hasAddPermission: true,
             scaffoldKey: scaffoldKey,
             context: context,
             displayMenu: state.displayMenu,
@@ -3093,109 +3094,7 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                                 ),
                               ),
                             );
-//                             return Container(
-//                               margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-//                               decoration: BoxDecoration(
-//                                 borderRadius: BorderRadius.circular(20),
-//                                 border: Border.all(
-//                                   color: Colors.white.withOpacity(0.4), // soft pink border
-//                                   width: 2.0,
-//                                 ),
-//                                 gradient:  const LinearGradient(
-//                                   begin: Alignment.topLeft,
-//                                   end: Alignment.bottomRight,
-//                                   colors: [
-//                                     // const Color(0xFFE2A7EA), // light lavender-pink
-//                                     Color(0xFF6474C6),
-//                                     // const Color(0xFF6474C6).withOpacity(0.1),
-//                                     Colors.white54,
-//                                     // Color(0xFF6D66B3), // deep lavender
-// // deep lavender
-//                                   ],
-//                                   stops: [0.9, 2.0],
-//                                 ),
-//                                 boxShadow: [
-//                                   BoxShadow(
-//                                     color: const Color(0xFF463A7C).withOpacity(0.96),
-//                                     blurRadius: 28,
-//                                     spreadRadius: 2,
-//                                     offset: const Offset(8, 8),
-//                                   ),
-//                                   BoxShadow(
-//                                     color: Colors.white.withOpacity(0.12),
-//                                     blurRadius: 18,
-//                                     offset: const Offset(-6, -6),
-//                                   ),
-//                                 ],
-//                               ),
-//                               child: ClipRRect(
-//                                 borderRadius: BorderRadius.circular(18),
-//                                 child: BackdropFilter(
-//                                   filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-//                                   child: Container(
-//                                     decoration: BoxDecoration(
-//                                       borderRadius: BorderRadius.circular(18),
-//                                       gradient: LinearGradient(
-//                                         begin: Alignment.topLeft,
-//                                         end: Alignment.bottomRight,
-//                                         colors: [
-//                                           const Color(0xFF6D66B3).withOpacity(0.1),
-//                                           const Color(0xFF6D66B3).withOpacity(0.1),
-//                                           // Colors.pinkAccent.withOpacity(0.16),
-//                                           Colors.white.withOpacity(0.10),
-//                                         ],
-//                                       ),
-//                                     ),
-//                                     child: BaseListTileItem(
-//                                       id: item.id,
-//                                       labels: labels,
-//                                       status: item.status,
-//                                       isArticleFoundStatus: true,
-//                                       isEventProtectionStatus: false,
-//                                       onTap: (selectedIndex) {
-//                                         showDialog(
-//                                           context: context,
-//                                           builder: (_) => BasePopUpItems(
-//                                             id: item.id.toString(),
-//                                             status: item.status,
-//                                             slNo: item.slNo,
-//                                             labels: labels,
-//                                             isEventProtectionStatus: false,
-//                                             isArticleFoundStatus: true,
-//                                             isMasterGuard: false,
-//                                           ),
-//                                         );
-//                                       },
-//                                       onEditTap: (selectedIndex) {
-//                                         getById(
-//                                           state.extraProperties?.hasWritePermission ?? false,
-//                                           item.id ?? 0,
-//                                         );
-//                                       },
-//                                       showEditButton: item.status ==
-//                                           ConstantsIntValue.articleFoundStatusFound ||
-//                                           item.status ==
-//                                               ConstantsIntValue.articleFoundStatusUnderSecurityCustody,
-//                                       onViewTap: (selectedIndex) {
-//                                         showDialog(
-//                                           context: context,
-//                                           builder: (_) => BasePopUpItems(
-//                                             id: item.id.toString(),
-//                                             slNo: item.slNo,
-//                                             status: item.status,
-//                                             labels: labels,
-//                                             isEventProtectionStatus: false,
-//                                             isArticleFoundStatus: true,
-//                                             isMasterGuard: false,
-//                                           ),
-//                                         );
-//                                       },
-//                                       index: index,
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                             );
+//
 
                           },
                         ),
@@ -3353,13 +3252,6 @@ class _GlassBottomNavExampleState extends State<GlassBottomNavExample> {
             ),
           ),
         ],
-      ),
-
-      body: const Center(
-        child: Text(
-          'Found List Screen',
-          style: TextStyle(color: Colors.white, fontSize: 22),
-        ),
       ),
     );
   }

@@ -76,6 +76,8 @@ dependencies:
   shared_preferences: ^2.5.3
   provider: ^6.0.5
   flutter_tts: ^3.8.5
+  fl_chart: ^1.1.1
+  mailer: ^6.6.0
 dependency_overrides:
   uuid: ^4.5.1
   path_provider: ^2.0.1
@@ -107,6 +109,7 @@ dependency_overrides:
   app_settings:
   dotted_border:
   flutter_bloc:
+#  flutter_cube:
   bloc:
 #  file_picker: ^6.2.1
   syncfusion_flutter_charts: ^31.1.23
@@ -131,14 +134,16 @@ dependency_overrides:
   flutter_otp_text_field: ^1.1.0+2
   firebase_core: any
   firebase_crashlytics: ^4.0.3
-  #  firebase_messaging: ^14.7.9
+  firebase_auth: any
+  cloud_firestore: any
+#  firebase_messaging: ^14.7.9
   firebase_analytics: ^11.2.0
   rxdart:
   flutter_slidable:
   intl: ^0.18.1
   internet_connection_checker: ^1.0.0+1
   #  flutter_html: ^3.0.0-beta.2
-  url_launcher: ^6.2.2
+  url_launcher: ^6.3.0
   flutter_widget_from_html_core: ^0.16.0
   flutter_widget_from_html: ^0.16.0
   device_info_plus: ^9.1.1
@@ -154,7 +159,7 @@ dependency_overrides:
   custom_refresh_indicator: ^4.0.1
   floating_bottom_navigation_bar: ^1.5.2
   fluttertoast: ^8.2.8
-
+  fl_chart: ^1.1.1
 #dev_dependencies:
 #  #  flutter_launcher_icons:
 #  #  flutter_native_splash: ^2.4.0
@@ -162,7 +167,6 @@ dependency_overrides:
 dev dependencies:
   firebase_auth_platform_interface: ^7.7.2
   firebase_core_platform_interface: ^6.0.0
-
   flutter_test:
     sdk: flutter
   build_runner: ^2.4.6
@@ -210,7 +214,12 @@ flutter:
     - assets/app_icon/
     - assets/images/
     - assets/translation/
-#    - assets/images/wavy-pg.png
+    - assets/images/login2.png
+    - assets/images/login4.png
+    - assets/images/filter1.png
+    - assets/images/viewList.png
+    - assets/images/eye.png
+
 
   fonts:
 

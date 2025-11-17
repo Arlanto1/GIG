@@ -1276,6 +1276,7 @@ class CustomBottomNavigationBar extends StatefulWidget {
   final BuildContext context;
   final DisplayMenu? displayMenu;
   final VoidCallback? onAddPressed; // new callback
+  final bool hasAddPermission;
 
   /// When true → shows only a central "+" button (for list screens)
   final bool list;
@@ -1287,6 +1288,7 @@ class CustomBottomNavigationBar extends StatefulWidget {
     required this.context,
     this.list = false,
     this.onAddPressed,
+    required this.hasAddPermission
 
   });
 
@@ -2012,7 +2014,7 @@ class _CustomBottomNavigationBarState
               children: List.generate(3, (index) {
                 final items = [
                   {'icon': Icons.home_rounded, 'label': 'Home'},
-                  {'icon': Icons.add, 'label': ''},
+                    {'icon': widget.hasAddPermission ? Icons.add : Icons.cancel, 'label': ''},
                   {'icon': Icons.chat, 'label': 'Chat'},
                 ];
 

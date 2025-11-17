@@ -9,6 +9,8 @@ class EventProtectionsState extends Equatable {
   final String? message;
   final EPUiLabels? labels;
   final ExtraProperties? extraProperties;
+  final DisplayMenu? displayMenu;
+
 
   const EventProtectionsState({
     this.items = const <EventProtectionModel>[],
@@ -19,6 +21,7 @@ class EventProtectionsState extends Equatable {
     this.labels,
     this.status = FormStatus.initial,
     this.extraProperties,
+    this.displayMenu
   });
 
   EventProtectionsState copyWith({

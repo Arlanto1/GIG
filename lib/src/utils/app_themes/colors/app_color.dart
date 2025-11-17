@@ -133,3 +133,36 @@ final List<Color> customColors = [ // c
   const Color(0xFF003f5c),
 
 ];
+
+
+
+final List<Color> customGlassColors = [
+  const Color(0xFFFFA500).withValues(alpha: 1),
+  const Color(0xFFdc3545).withValues(alpha: 1),
+
+  const Color(0xFF006400).withValues(alpha: 1),
+  const Color(0xFFFF6B6B).withValues(alpha: 1),
+  const Color(0xFFFF1493).withValues(alpha: 1),
+  const Color(0xFF9D4EDD).withValues(alpha: 1),
+  const Color(0xFF5A189A).withValues(alpha: 1),// onst Color(0xFFffc107),
+  const Color(0xFF1E40AF).withValues(alpha: 1),
+  const Color.fromRGBO(136, 14, 79, 1).withValues(alpha: 1),
+  const Color(0xFF003f5c).withValues(alpha: 1),
+  // Color(0xFFFFC300).withValues(alpha: 0.5), // Bright yellow – strong pop on blue
+  // const Color(0xFF2563EB).withValues(alpha: 0.5),
+// const Color(0xFFdc3545).withValues(alpha: 0.8),
+  // const Color(0xFF003f5c).withValues(alpha: 0.3),
+  // const Color(0xFF3B82F6).withValues(alpha: 0.3),
+  // const Color(0xFF0EA5E9).withValues(alpha: 0.3),
+  // const Color(0xFF29C3D1).withValues(alpha: 0.3),
+  // const Color(0xFF22A9F3).withValues(alpha: 0.3),
+  const Color(0xFF58508d).withValues(alpha: 1),
+  const Color(0xFFEC4899).withValues(alpha: 1),
+  const Color(0xFFDB2777).withValues(alpha: 1),
+  const Color(0xFFdc3545).withValues(alpha: 1),
+  const Color(0xFFfd7e14).withValues(alpha: 1),
+  // const Color(0xFF14B8A6).withValues(alpha: 0.3),
+  const Color(0xFF10B981).withValues(alpha: 1),
+  const Color(0xFF003f5c).withValues(alpha: 1),
+
+];

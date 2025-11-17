@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import '../../../event_protection/services/event_protection_services.dart';
@@ -61,6 +62,7 @@ class _AnnualPowerShutdownListViewState
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     final size = MediaQuery.of(context).size;
     double height = size.height;
     return BlocConsumer<AnnualPowerShutdownListBloc,
@@ -71,7 +73,7 @@ class _AnnualPowerShutdownListViewState
       Utils().errorAndLogout(state, context);
     }, builder: (context, state) {
       return Scaffold(
-        backgroundColor: AppColors.cardBgColor,
+        backgroundColor:AppColors.lavender,
         // floatingActionButton: state.extraProperties?.hasWritePermission ?? false
         //     ? Flutterfloatingbutton(
         //         backgroundColor: AppColors.navigationSkyBlueColor,
@@ -84,6 +86,20 @@ class _AnnualPowerShutdownListViewState
         //         },
         //       )
         //     : const SizedBox(),
+        bottomNavigationBar: CustomBottomNavigationBar(
+          hasAddPermission: false,
+          scaffoldKey: scaffoldKey,
+          context: context,
+          displayMenu: state.displayMenu,
+          list: true, // 🔥 only "+" button mode
+          onAddPressed: () {
+            // Navigator.pushNamed(
+            //   context,
+            //   articleFoundNewDetailsRoute,
+            //   arguments: {"title": Constants.createFound},
+            // );
+          },
+        ),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.annualPowerShutdownListTitle,
@@ -98,23 +114,21 @@ class _AnnualPowerShutdownListViewState
         body: BlocBuilder<AnnualPowerShutdownListBloc,
             AnnualPowerShutdownListState>(
           builder: (context, state) {
-            // if (state.status == FormStatus.initial) {
-            //   return const BaseLoader();
-            // }
-            // if (state.items.isEmptyOrNull) {
-            //   return const NoRecordFoundWidget();
-            // }
             return Container(
-              margin: allMargin16,
-              decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
-                  )),
+              width:double.infinity,
+              height: double.infinity,
+              color: const Color(0xFF6474C6),
+              // margin: allMargin16,
+              // decoration: const ShapeDecoration(
+              //     color: AppColors.backgroundWhiteColor,
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius:
+              //           BorderRadius.vertical(top: Radius.circular(20.0)),
+              //     )),
               child: Column(
                 // crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
                   BaseSearchWidget(
                     applySearchFilters: applySearchFilters,
                     applyFilters: applyFilters,
@@ -213,9 +227,47 @@ class _AnnualPowerShutdownListViewState
                                   '0.0'),
                             ));
 
-                            return index >= state.items.length
-                                ? const BaseLoader()
-                                : BaseListTileItem(
+                            return Container(
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [Color(0xFF6474C6), Color(0xFF6474C6)],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                ),
+                                margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(18),
+                                  child: BackdropFilter(
+                                    filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Colors.white.withValues(alpha: 0.2),
+                                              Colors.transparent,
+                                              Colors.white.withValues(alpha: 0.2),
+                                              // Color(0xFF6474C6).withOpacity(0.14)
+                                            ],
+                                            stops: [0.02, 0.35, 1],
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                          ),
+                                          borderRadius: BorderRadius.circular(27),
+                                          border: Border.all(
+                                            color: Colors.white.withValues(alpha: 0.80),
+                                            width: 0.8,
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: const Color(0xFF6474C6).withValues(alpha: 0.09),
+                                              blurRadius: 12,
+                                              offset: const Offset(0, 2),
+                                            ),
+                                          ],
+                                        ),
+                                        child:
+                           BaseListTileItem(
                                     id: state.items[index].id,
                                     labels: labels,
                                     status: state.items[index].status,
@@ -275,7 +327,7 @@ class _AnnualPowerShutdownListViewState
                                       );
                                     },
                                     index: index,
-                                  );
+                           ), ))));
                           }
                           return const Center(
                             child: SizedBox(),

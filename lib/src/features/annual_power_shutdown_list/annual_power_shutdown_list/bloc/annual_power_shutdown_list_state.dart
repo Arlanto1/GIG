@@ -9,6 +9,8 @@ class AnnualPowerShutdownListState extends Equatable {
   final String? message;
   final APSUILabels? labels;
   final ExtraProperties? extraProperties;
+  final DisplayMenu? displayMenu;
+
 
   const AnnualPowerShutdownListState({
     this.items = const <AnnualPowerShutDownModel>[],
@@ -19,6 +21,8 @@ class AnnualPowerShutdownListState extends Equatable {
     this.labels,
     this.status = FormStatus.initial,
     this.extraProperties,
+    this.displayMenu,
+
   });
 
   AnnualPowerShutdownListState copyWith({

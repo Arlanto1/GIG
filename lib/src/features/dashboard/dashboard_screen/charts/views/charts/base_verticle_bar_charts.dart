@@ -1520,10 +1520,6 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header Row
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
                 // Header Row
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1544,7 +1540,7 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
                     // if (widget.moreIcon != null) widget.moreIcon!,
                   ],
                 ),
-              ],),
+              // ],),
 
             const SizedBox(height: 12),
 
@@ -1671,7 +1667,8 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
                 //     ),
                 //   ],
                 // )
-                child:  SfCartesianChart(
+                child:
+                SfCartesianChart(
                   backgroundColor: Colors.transparent,
                   tooltipBehavior: TooltipBehavior(enable: true),
                   plotAreaBorderWidth: 0,
@@ -1689,33 +1686,153 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
                     majorGridLines: MajorGridLines(width: 0), //  remove vertical grid lines
                     minorGridLines: MinorGridLines(width: 0),
                   ),
+                  palette: customGlassColors,
+                  // series: <CartesianSeries>[
+                  //   ColumnSeries<PieChartData, String>(
+                  //     dataSource:  widget.chartData,
+                  //     xValueMapper: (PieChartData data, _) => data.x,
+                  //     yValueMapper: (PieChartData data, _) => data.y,
+                  //     width: 0.6, // Thicker bars for better 3D illusion
+                  //     borderRadius: const BorderRadius.only(
+                  //       topLeft: Radius.circular(8),
+                  //       topRight: Radius.circular(8),
+                  //     ),
+                  //     borderColor: Colors.white,
+                  //     borderWidth: 0.5,
+                  //
+                  //     // pointColorMapper: (PieChartData data, index) => customColors[index % customColors.length],
+                  //     dataLabelSettings: const DataLabelSettings(
+                  //       isVisible: true,
+                  //       textStyle: TextStyle(color: Colors.white),
+                  //     ),
+                  //     enableTooltip: true,
+                  //
+                  //     // Gradient for pseudo-light effect
+                  //     pointColorMapper: (PieChartData data, index) {
+                  //       // Create a gradient for each bar by using a custom Paint
+                  //       return customGlassColors[index % customGlassColors.length];
+                  //     },
+                  //     // Shadow effect using decoration (inside chart, pseudo)
+                  //     // Note: Flutter Charts doesn't directly support shadow, so we use gradient + thickness
+                  //     spacing: 0, // Slight gap between bars to emphasize depth
+                  //   ),
+                  // ],
+                  //   series: <CartesianSeries>[
+                  //     GradientColumnSeries<PieChartData, String>(
+                  //       dataSource: widget.chartData,
+                  //       xValueMapper: (data, _) => data.x,
+                  //       yValueMapper: (data, _) => data.y,
+                  //     ),
+                  //   ]
                   series: <CartesianSeries>[
+                    // ColumnSeries<PieChartData, String>(
+                    //   dataSource: widget.chartData,
+                    //   xValueMapper: (data, _) => data.x,
+                    //   yValueMapper: (data, _) => data.y,
+                    //   width: 0.7,
+                    //   borderRadius: const BorderRadius.only(
+                    //     topLeft: Radius.circular(8),
+                    //     topRight: Radius.circular(8),
+                    //   ),
+                    // borderWidth: 1,
+                    //   borderColor: Colors.white,
+                    //   gradient:[ Colors.white, Colors.red],
+                    //   // ⭐ EACH BAR GETS ITS OWN GRADIENT
+                    //   onCreateShader: (ShaderDetails details) {
+                    //     // final index = details.pointIndex!;
+                    //     // final selected = barGradients[index % barGradients.length];
+                    //
+                    //     return const LinearGradient(
+                    //       begin: Alignment.topCenter,
+                    //       end: Alignment.bottomCenter,
+                    //       colors: [AppColors.redColor, Colors.grey, Colors.purple, Colors.pink, Colors.green] ,
+                    //     ).createShader(details.rect);
+                    //   },
+                    //
+                    //   // remove pointColorMapper if exists (it overwrites gradients!)
+                    //   // pointColorMapper: null,
+                    //
+                    //   dataLabelSettings: const DataLabelSettings(
+                    //     isVisible: true,
+                    //     textStyle: TextStyle(color: Colors.white),
+                    //   ),
+                    // )
                     ColumnSeries<PieChartData, String>(
-                      dataSource:  widget.chartData,
-                      xValueMapper: (PieChartData data, _) => data.x,
-                      yValueMapper: (PieChartData data, _) => data.y,
-                      width: 0.6, // Thicker bars for better 3D illusion
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(8),
-                        topRight: Radius.circular(8),
+                      dataSource: widget.chartData,
+                      xValueMapper: (data, _) => data.x,
+                      yValueMapper: (data, _) => data.y,
+                      width: 1,
+
+                      // borderRadius: const BorderRadius.only(
+                      //   topLeft: Radius.circular(8),
+                      //   topRight: Radius.circular(8),
+                      // ),
+
+                      // ⭐ BORDER
+                      borderWidth: 0.7,
+                      borderColor: Colors.white,
+
+                      // ⭐ BORDER GRADIENT
+                      borderGradient: const LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.white,
+                          Colors.white,
+                          // Colors.grey,
+                          // Colors.purple,
+                          // Colors.pink,
+                          // Colors.green,
+                        ],
                       ),
-                      // pointColorMapper: (PieChartData data, index) => customColors[index % customColors.length],
+
+                      // ⭐ BASE GRADIENT (will be overridden if onCreateShader is used)
+                      gradient: const LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.white,
+                          Colors.red,
+                        ],
+                      ),
+
+                      // ⭐ CUSTOM PER-BAR GRADIENT (completely overrides `gradient`)
+                      onCreateShader: (ShaderDetails details) {
+                        return const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            // Color(0xFFFFA500),
+                            Colors.red,
+                            Color(0xFFdc3545),
+                            Colors.purple,
+                            // Color(0xFF003f5c),
+                            Color(0xFFFFA500),
+                            // Colors.pink,
+                            // Colors.green,
+                            //  Color(0xFFFFA500),
+                             Color(0xFFdc3545),
+
+                            // const Color(0xFF006400),
+                            // const Color(0xFFFF6B6B),
+                            const Color(0xFFFF1493),
+                            const Color(0xFF9D4EDD),
+                            const Color(0xFF5A189A),// onst Color(0xFFffc107),
+                            const Color(0xFF1E40AF),
+                            // const Color.fromRGBO(136, 14, 79, 1),
+                            // const Color(0xFF003f5c),
+                          ],
+                        ).createShader(details.rect);
+                      },
+
                       dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
                         textStyle: TextStyle(color: Colors.white),
                       ),
-                      enableTooltip: true,
+                    )
 
-                      // Gradient for pseudo-light effect
-                      pointColorMapper: (PieChartData data, index) {
-                        // Create a gradient for each bar by using a custom Paint
-                        return customColors[index % customColors.length];
-                      },
-                      // Shadow effect using decoration (inside chart, pseudo)
-                      // Note: Flutter Charts doesn't directly support shadow, so we use gradient + thickness
-                      spacing: 0, // Slight gap between bars to emphasize depth
-                    ),
                   ],
+
                 )
             ),
 
@@ -2130,3 +2247,47 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
 //     );
 //   }
 // }
+
+class GradientColumnSeries<T, D> extends ColumnSeries<T, D> {
+  GradientColumnSeries({
+    super.dataSource,
+    super.xValueMapper,
+    super.yValueMapper,
+    super.dataLabelSettings,
+    super.borderRadius,
+    super.width,
+  });
+
+  @override
+  ChartSegment createSegment() => GradientColumnSegment();
+}
+class GradientColumnSegment extends ColumnSegment {
+  static List<List<Color>> gradients = [
+    [Color(0xFF00C6FF), Color(0xFF0072FF)],
+    [Color(0xFFFFB199), Color(0xFFFF0844)],
+    [Color(0xFFA1FFCE), Color(0xFFFAFFD1)],
+    [Color(0xFFFFD194), Color(0xFF70E1F5)],
+  ];
+
+  @override
+  void onPaint(Canvas canvas) {
+    final index = currentSegmentIndex;
+
+    final colors = gradients[index % gradients.length];
+
+    // FIX: Convert RRect → Rect
+    final rect = segmentRect!.outerRect;
+
+    final shader = LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: colors,
+    ).createShader(rect);
+
+    final paint = Paint()..shader = shader;
+
+    // Draw using rect or drawRRect
+    canvas.drawRRect(segmentRect!, paint);
+  }
+}
+

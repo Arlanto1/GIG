@@ -538,6 +538,7 @@ class DashboardViewState extends State<DashboardView>
           /// Bottom Navigation Bar
           bottomNavigationBar: state.displayMenu != null
               ? CustomBottomNavigationBar(
+            hasAddPermission: false,
             scaffoldKey: scaffoldKey,
             context: context,
             displayMenu: state.displayMenu!,

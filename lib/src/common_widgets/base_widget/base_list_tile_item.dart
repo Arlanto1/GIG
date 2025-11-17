@@ -270,13 +270,6 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         ),
                       ],
                       if (widget.status != null &&
-                          widget.isEventProtectionStatus &&
-                          !widget.isMasterGuard) ...[
-                        CommonWidgets.horizontalSpacerWidget(5),
-                        Utils()
-                            .buildEventProtectionStatusRow(widget.status ?? 0),
-                      ],
-                      if (widget.status != null &&
                           widget.isKeyManagementIssuanceStatus) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils().keyManagementIssuanceStatus(widget.status ?? 0),
@@ -398,6 +391,13 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                   CommonWidgets.horizontalSpacerWidget(5),
                   Utils().buildFoundStatusRow(widget.status ?? 0),
                   CommonWidgets.verticalSpacerWidget(6),
+                ],
+                if (widget.status != null &&
+                    widget.isEventProtectionStatus &&
+                    !widget.isMasterGuard) ...[
+                  CommonWidgets.horizontalSpacerWidget(5),
+                  Utils()
+                      .buildEventProtectionStatusRow(widget.status ?? 0),
                 ],
               ],
             ),
