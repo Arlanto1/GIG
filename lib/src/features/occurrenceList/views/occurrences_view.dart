@@ -1,5 +1,6 @@
 import 'package:db_atom/index.dart';
 import '../bloc/occurrences_bloc.dart';
+import 'dart:ui';
 
 class OccurrencesView extends StatefulWidget {
   const OccurrencesView({
@@ -57,25 +58,42 @@ class _OccurrencesViewState extends State<OccurrencesView> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     double height = size.height;
     return BlocConsumer<OccurrencesBloc, OccurrencesState>(
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-            backgroundColor: AppColors.cardBgColor,
-            floatingActionButton: state.extraProperties?.hasWritePermission ??
-                    false
-                ? Flutterfloatingbutton(
-                    backgroundColor: AppColors.navigationSkyBlueColor,
-                    foregroundColor: AppColors.backgroundWhiteColor,
-                    onPressed: () => {
-                      Navigator.pushNamed(context, shiftOccurrenceDetailsRoute,
-                          arguments: {
-                            "title": Constants.createOccurrence,
-                          }),
-                    },
-                  )
-                : const SizedBox(),
+            backgroundColor: AppColors.lavender,
+            bottomNavigationBar: CustomBottomNavigationBar(
+              hasAddPermission: true,
+              scaffoldKey: scaffoldKey,
+              context: context,
+              displayMenu: state.displayMenu,
+              list: true, // 🔥 only "+" button mode
+              onAddPressed: () {
+                Navigator.pushNamed(
+                  context,
+                  shiftOccurrenceDetailsRoute,
+                  arguments: {
+                    "title": Constants.createOccurrence,
+                  },
+                );
+              },
+            ),
+            // floatingActionButton: state.extraProperties?.hasWritePermission ??
+            //         false
+            //     ? Flutterfloatingbutton(
+            //         backgroundColor: AppColors.navigationSkyBlueColor,
+            //         foregroundColor: AppColors.backgroundWhiteColor,
+            //         onPressed: () => {
+            //           Navigator.pushNamed(context, shiftOccurrenceDetailsRoute,
+            //               arguments: {
+            //                 "title": Constants.createOccurrence,
+            //               }),
+            //         },
+            //       )
+            //     : const SizedBox(),
             appBar: BaseAppBar().buildAppHeader(
               context: context,
               title: Constants.occurrenceListTitle,
@@ -96,16 +114,21 @@ class _OccurrencesViewState extends State<OccurrencesView> {
               //   return const NoRecordFoundWidget();
               // }
               return Container(
-                margin: allMargin16,
-                decoration: const ShapeDecoration(
-                    color: AppColors.backgroundWhiteColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20.0)),
-                    )),
+                width: double.infinity,
+                height: double.infinity,
+                color: const Color(0xFF6474C6),
+                // color: Colors.black,
+                // margin: allMargin16,
+                // decoration: const ShapeDecoration(
+                //     color: AppColors.backgroundWhiteColor,
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius:
+                //           BorderRadius.vertical(top: Radius.circular(20.0)),
+                //     )),
                 child: Column(
                   // crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    const SizedBox(height: 10),
                     BaseSearchWidget(
                       applySearchFilters: applySearchFilters,
                       applyFilters: applyFilters,
@@ -178,89 +201,158 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                                       Constants.shiftHandoverBy,
                                   value:
                                       '${state.list[index].entrySecurity?.firstName ?? ''} ${state.list[index].entrySecurity?.lastName ?? ''}'));
-                              return index >= state.list.length
-                                  ? const BaseLoader()
-                                  : BaseListTileItem(
-                                      id: state.list[index].id,
-                                      labels: labels,
-                                      status: state.list[index].status,
-                                      isOccurrenceStatus: true,
-                                      isEventProtectionStatus: false,
-                                      onTap: (selectedIndex) {
-                                        showDialog(
-                                          context: context,
-                                          builder:
-                                              (BuildContext dialogContext) {
-                                            return BasePopUpItems(
-                                              id: state.list[selectedIndex].id
-                                                  .toString(),
-                                              slNo: state
-                                                  .list[selectedIndex].slNo,
-                                              status: state
-                                                  .list[selectedIndex].status,
-                                              labels: labels,
-                                              shiftBrfngAttnded: state
-                                                  .list[selectedIndex]
-                                                  .shiftBrfngAttnded,
-                                              materialMovement: state
-                                                  .list[selectedIndex]
-                                                  .materialMovement,
-                                              leoVisit: state
-                                                  .list[selectedIndex].leoVisit,
-                                              handOverSecurity: state
-                                                  .list[selectedIndex]
-                                                  .handoverSecurity,
-                                              isOccurrenceStatus: true,
-                                              isMasterGuard: false,
-                                              isEventProtectionStatus: false,
-                                            );
-                                          },
-                                        );
-                                      },
-                                      showEditButton:
-                                          state.list[index].status ==
-                                              ConstantsIntValue
-                                                  .occurrenceStatusCreated,
-                                      onEditTap: (selectedIndex) {
-                                        getId(
-                                            state.extraProperties
-                                                    ?.hasWritePermission ??
-                                                false,
-                                            id: state.list[index].id ?? 0);
-                                      },
-                                      onViewTap: (selectedIndex) {
-                                        showDialog(
-                                          context: context,
-                                          builder:
-                                              (BuildContext dialogContext) {
-                                            return BasePopUpItems(
-                                              id: state.list[selectedIndex].id
-                                                  .toString(),
-                                              slNo: state
-                                                  .list[selectedIndex].slNo,
-                                              status: state
-                                                  .list[selectedIndex].status,
-                                              labels: labels,
-                                              shiftBrfngAttnded: state
-                                                  .list[selectedIndex]
-                                                  .shiftBrfngAttnded,
-                                              materialMovement: state
-                                                  .list[selectedIndex]
-                                                  .materialMovement,
-                                              leoVisit: state
-                                                  .list[selectedIndex].leoVisit,
-                                              handOverSecurity: state
-                                                  .list[selectedIndex]
-                                                  .handoverSecurity,
-                                              isEventProtectionStatus: false,
-                                              isMasterGuard: false,
-                                              isOccurrenceStatus: true,
-                                            );
-                                          },
-                                        );
-                                      },
-                                      index: index,
-                                    );
+                              return Container(
+                                  decoration: const BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFF6474C6),
+                                        Color(0xFF6474C6)
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                  ),
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 8),
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(18),
+                                      child: BackdropFilter(
+                                          filter: ImageFilter.blur(
+                                              sigmaX: 18, sigmaY: 18),
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  colors: [
+                                                    Colors.white
+                                                        .withValues(alpha: 0.2),
+                                                    Colors.transparent,
+                                                    Colors.white
+                                                        .withValues(alpha: 0.2),
+                                                    // Color(0xFF6474C6).withOpacity(0.14)
+                                                  ],
+                                                  stops: [0.02, 0.35, 1],
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(27),
+                                                border: Border.all(
+                                                  color: Colors.white
+                                                      .withValues(alpha: 0.80),
+                                                  width: 0.8,
+                                                ),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color:
+                                                        const Color(0xFF6474C6)
+                                                            .withValues(
+                                                                alpha: 0.09),
+                                                    blurRadius: 12,
+                                                    offset: const Offset(0, 2),
+                                                  ),
+                                                ],
+                                              ),
+
+                                              // index >= state.list.length
+                                              //   ? const BaseLoader()
+                                              child: BaseListTileItem(
+                                                id: state.list[index].id,
+                                                labels: labels,
+                                                status:
+                                                    state.list[index].status,
+                                                isOccurrenceStatus: true,
+                                                isEventProtectionStatus: false,
+                                                onTap: (selectedIndex) {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext
+                                                        dialogContext) {
+                                                      return BasePopUpItems(
+                                                        id: state
+                                                            .list[selectedIndex]
+                                                            .id
+                                                            .toString(),
+                                                        slNo: state
+                                                            .list[selectedIndex]
+                                                            .slNo,
+                                                        status: state
+                                                            .list[selectedIndex]
+                                                            .status,
+                                                        labels: labels,
+                                                        shiftBrfngAttnded: state
+                                                            .list[selectedIndex]
+                                                            .shiftBrfngAttnded,
+                                                        materialMovement: state
+                                                            .list[selectedIndex]
+                                                            .materialMovement,
+                                                        leoVisit: state
+                                                            .list[selectedIndex]
+                                                            .leoVisit,
+                                                        handOverSecurity: state
+                                                            .list[selectedIndex]
+                                                            .handoverSecurity,
+                                                        isOccurrenceStatus:
+                                                            true,
+                                                        isMasterGuard: false,
+                                                        isEventProtectionStatus:
+                                                            false,
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                showEditButton: state
+                                                        .list[index].status ==
+                                                    ConstantsIntValue
+                                                        .occurrenceStatusCreated,
+                                                onEditTap: (selectedIndex) {
+                                                  getId(
+                                                      state.extraProperties
+                                                              ?.hasWritePermission ??
+                                                          false,
+                                                      id: state
+                                                              .list[index].id ??
+                                                          0);
+                                                },
+                                                onViewTap: (selectedIndex) {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext
+                                                        dialogContext) {
+                                                      return BasePopUpItems(
+                                                        id: state
+                                                            .list[selectedIndex]
+                                                            .id
+                                                            .toString(),
+                                                        slNo: state
+                                                            .list[selectedIndex]
+                                                            .slNo,
+                                                        status: state
+                                                            .list[selectedIndex]
+                                                            .status,
+                                                        labels: labels,
+                                                        shiftBrfngAttnded: state
+                                                            .list[selectedIndex]
+                                                            .shiftBrfngAttnded,
+                                                        materialMovement: state
+                                                            .list[selectedIndex]
+                                                            .materialMovement,
+                                                        leoVisit: state
+                                                            .list[selectedIndex]
+                                                            .leoVisit,
+                                                        handOverSecurity: state
+                                                            .list[selectedIndex]
+                                                            .handoverSecurity,
+                                                        isEventProtectionStatus:
+                                                            false,
+                                                        isMasterGuard: false,
+                                                        isOccurrenceStatus:
+                                                            true,
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                index: index,
+                                              )))));
                             }
 
                             // Handle the case where index is out of bounds

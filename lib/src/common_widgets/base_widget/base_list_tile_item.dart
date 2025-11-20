@@ -151,9 +151,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
       borderRadius: BorderRadius.circular(12),
       child: Padding(
         padding: const EdgeInsets.all(10),
-        child: Wrap(
-          children: getChildren(widget.labels, width),
-        ),
+        child: Wrap(children: getChildren(widget.labels, width)),
       ),
     );
   }
@@ -176,7 +174,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
               // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 IntrinsicWidth(
-                  stepWidth: width * .2,
+                  stepWidth: width * .4,
                   child: Wrap(
                     children: [
                       Utils().textHandling('ID : ', widget.id.toString()),
@@ -184,7 +182,9 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         Row(
                           children: [
                             Utils().textHandling(
-                                'Region : ', widget.locationRegion?.name ?? ''),
+                              'Region : ',
+                              widget.locationRegion?.name ?? '',
+                            ),
                           ],
                         ),
                       ],
@@ -194,7 +194,9 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Utils().textHandling(
-                                'Location : ', widget.location?.name ?? ''),
+                              'Location : ',
+                              widget.location?.name ?? '',
+                            ),
                           ],
                         ),
                       ],
@@ -204,7 +206,9 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Utils().textHandling(
-                                'Location : ', widget.locationStr.toString()),
+                              'Location : ',
+                              widget.locationStr.toString(),
+                            ),
                           ],
                         ),
                       ],
@@ -214,7 +218,9 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Utils().textHandling(
-                                'Vendor : ', widget.vendors?.name ?? ''),
+                              'Vendor : ',
+                              widget.vendors?.name ?? '',
+                            ),
                           ],
                         ),
                       ],
@@ -224,7 +230,9 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Utils().textHandling(
-                                'Guard Count : ', widget.guardCount.toString()),
+                              'Guard Count : ',
+                              widget.guardCount.toString(),
+                            ),
                           ],
                         ),
                       ],
@@ -234,8 +242,9 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Utils().textHandling(
-                                'Total No of Staff PVC Expired : ',
-                                widget.pvcExpired.toString()),
+                              'Total No of Staff PVC Expired : ',
+                              widget.pvcExpired.toString(),
+                            ),
                           ],
                         ),
                       ],
@@ -244,7 +253,9 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         Row(
                           children: [
                             Utils().textHandling(
-                                'Vendor : ', widget.vendor.toString()),
+                              'Vendor : ',
+                              widget.vendor.toString(),
+                            ),
                           ],
                         ),
                       ],
@@ -252,8 +263,9 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                               widget.isMaterialMovementStatus == true) &&
                           !widget.isMasterGuard) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
-                        Utils()
-                            .buildMaterialMovementStatusRow(widget.status ?? 0),
+                        Utils().buildMaterialMovementStatusRow(
+                          widget.status ?? 0,
+                        ),
                       ],
                       if (widget.status != 0 && widget.isMasterGuard) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
@@ -265,7 +277,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Utils().buildGuardRank(
-                                guardRank: widget.guardRank ?? 0),
+                              guardRank: widget.guardRank ?? 0,
+                            ),
                           ],
                         ),
                       ],
@@ -278,7 +291,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           widget.isAttendanceStatus == true) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils().buildAttendanceStatusRow(
-                            status: widget.status ?? 0),
+                          status: widget.status ?? 0,
+                        ),
                       ],
                       if (widget.status != null &&
                           widget.isKeyManagementStatus) ...[
@@ -289,7 +303,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           widget.isKeyManagementHistoryStatus) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Utils().keyManagementMasterHistoryStatus(
-                            widget.status ?? 0),
+                          widget.status ?? 0,
+                        ),
                       ],
                       if (widget.status != null &&
                           widget.isOccurrenceStatus == true) ...[
@@ -340,8 +355,9 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           widget.isEventProtectionStatus == false &&
                           widget.isSecuritySystemSLA == true) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
-                        Utils()
-                            .buildSecuritySystemStatusRow(widget.status ?? 0),
+                        Utils().buildSecuritySystemStatusRow(
+                          widget.status ?? 0,
+                        ),
                       ],
                       if (widget.isVipStatus == true) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
@@ -363,17 +379,19 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Utils()
-                                .dutyPostNameMasterStatus(widget.status ?? 0),
+                            Utils().dutyPostNameMasterStatus(
+                              widget.status ?? 0,
+                            ),
                           ],
-                        )
+                        ),
                       ],
                       if (widget.status != null &&
                           widget.isPassManagementStatus == true &&
                           !widget.isShiftScheduleStatus) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
-                        Utils()
-                            .buildPassManagementStatusRow(widget.status ?? 0),
+                        Utils().buildPassManagementStatusRow(
+                          widget.status ?? 0,
+                        ),
                       ],
                       if (widget.status != null &&
                           widget.isLawEnforcementStatus == true &&
@@ -396,8 +414,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                     widget.isEventProtectionStatus &&
                     !widget.isMasterGuard) ...[
                   CommonWidgets.horizontalSpacerWidget(5),
-                  Utils()
-                      .buildEventProtectionStatusRow(widget.status ?? 0),
+                  Utils().buildEventProtectionStatusRow(widget.status ?? 0),
                 ],
               ],
             ),
@@ -414,7 +431,10 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                   },
                   icon: widget.showEditButton ?? true
                       ? const Icon(Icons.edit, color: Color(0xFF0000CC))
-                      : const Icon(Icons.edit_off_outlined, color:  Color(0xFF0000CC),),
+                      : const Icon(
+                          Icons.edit_off_outlined,
+                          color: Color(0xFF0000CC),
+                        ),
                 ),
 
                 // if (widget.showNonEditButton ?? true) ...[
@@ -468,7 +488,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                             ? widget.onEmailTap!(widget.index)
                             : null;
                       },
-                      icon: const Icon(Icons.email, color:  Color(0xFF0000CC)),
+                      icon: const Icon(Icons.email, color: Color(0xFF0000CC)),
                     ),
                   ],
                 ],
@@ -479,7 +499,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ? widget.onLinkOffTap!(widget.index)
                           : null;
                     },
-                    icon: const Icon(Icons.link_off, color:  Color(0xFF0000CC)),
+                    icon: const Icon(Icons.link_off, color: Color(0xFF0000CC)),
                   ),
                 ],
                 if (widget.showDeleteButton ?? true) ...[
@@ -491,9 +511,9 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                             ? widget.onDeleteTap!(widget.index)
                             : null;
                       },
-                      icon: const Icon(Icons.delete, color:  Color(0xFF0000CC)),
+                      icon: const Icon(Icons.delete, color: Color(0xFF0000CC)),
                     ),
-                  ]
+                  ],
                 ],
               ],
             ),
@@ -577,7 +597,6 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
     return widgets;
   }
 
-
   // Widget _buildIconButton({
   //   required IconData icon,
   //   required Color color,
@@ -630,17 +649,13 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
             padding: const EdgeInsets.only(right: 8.0),
             child: Wrap(
               // mainAxisSize: MainAxisSize.min,
-              children: [
-                Utils().textHandling('${label.key} : ', label.value),
-              ],
+              children: [Utils().textHandling('${label.key} : ', label.value)],
             ),
           ),
         ),
       );
     }
-    return Wrap(
-      children: widgets,
-    );
+    return Wrap(children: widgets);
   }
 }
 
@@ -648,10 +663,7 @@ class Label {
   final String key;
   final String value;
 
-  const Label({
-    required this.key,
-    required this.value,
-  });
+  const Label({required this.key, required this.value});
 }
 
 // import 'dart:ui';

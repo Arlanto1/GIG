@@ -31,28 +31,27 @@ class TextFieldAddButton extends StatelessWidget {
           },
           child: AddButtonWidget(isDisableColor: isDisableColor),
         ),
-        const SizedBox(
-          width: 8,
-        ),
+        const SizedBox(width: 8),
         Expanded(
           child: Container(
             height: height,
             decoration: BoxDecoration(
-              gradient: (isDisableColor ?? false) ?
-              const LinearGradient(colors: [Colors.transparent, Colors.transparent])
-              :LinearGradient(
-                colors: [
-                  // Colors.white.withValues(alpha: 0.2),
-                  // Colors.white.withValues(alpha: 0.28),
-                  const Color(0xFF6474C6).withValues(alpha: 0.4),
-                  // const Color(0xFF6474C6).withValues(alpha: 0),
-                  Colors.white.withValues(alpha: 0.35),
-
-                ],
-                // stops: [0.02, 0.35, 0.9,],
-                begin: Alignment.topRight,
-                end: Alignment.bottomCenter,
-              ) ,
+              gradient: (isDisableColor ?? false)
+                  ? const LinearGradient(
+                      colors: [Colors.transparent, Colors.transparent],
+                    )
+                  : LinearGradient(
+                      colors: [
+                        // Colors.white.withValues(alpha: 0.2),
+                        // Colors.white.withValues(alpha: 0.28),
+                        const Color(0xFF6474C6).withValues(alpha: 0.4),
+                        // const Color(0xFF6474C6).withValues(alpha: 0),
+                        Colors.white.withValues(alpha: 0.35),
+                      ],
+                      // stops: [0.02, 0.35, 0.9,],
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomCenter,
+                    ),
               borderRadius: BorderRadius.circular(25),
               border: Border.all(
                 color: Colors.white.withValues(alpha: 90),
@@ -71,23 +70,27 @@ class TextFieldAddButton extends StatelessWidget {
                 ),
               ],
             ),
-                // color: (isDisableColor ?? false)
-                //     ? Colors.transparent
-                //     : Colors.white12,
-                // border: Border.all(
-                //   color: (isDisableColor ?? false)
-                //       ? Colors.white12
-                //       : Colors.white,
-                //   width: 1.0,
-                // ),
-                // borderRadius: const BorderRadius.all(Radius.circular(8))),
+            // color: (isDisableColor ?? false)
+            //     ? Colors.transparent
+            //     : Colors.white12,
+            // border: Border.all(
+            //   color: (isDisableColor ?? false)
+            //       ? Colors.white12
+            //       : Colors.white,
+            //   width: 1.0,
+            // ),
+            // borderRadius: const BorderRadius.all(Radius.circular(8))),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
                   title ?? '',
-                  style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
 
                   textAlign: TextAlign.left, //Icon(Icons.cancel)
                 ),
@@ -99,3 +102,5 @@ class TextFieldAddButton extends StatelessWidget {
     );
   }
 }
+
+//

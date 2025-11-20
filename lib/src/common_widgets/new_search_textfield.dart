@@ -33,7 +33,6 @@ class FlutterInputField extends StatelessWidget {
   final bool showCounter;
   final bool isLoginScreen;
 
-
   const FlutterInputField({
     super.key,
     required this.hintText,
@@ -167,23 +166,22 @@ class FlutterInputField extends StatelessWidget {
   //     },
   //   );
 
-
-// Wrap with gradient background container
-//     return Container(
-//       decoration: BoxDecoration(
-//         gradient: const LinearGradient(
-//           colors: [
-//             Color(0xFFDB2777), // main pink shade
-//             Color(0xFFF472B6), // light pink
-//             Color(0xFFE9D5FF), // lavender tint
-//           ],
-//           begin: Alignment.topLeft,
-//           end: Alignment.bottomRight,
-//         ),
-//         borderRadius: BorderRadius.circular(8.0),
-//       ),
-//       child: textFormField, // the widget above
-//     );
+  // Wrap with gradient background container
+  //     return Container(
+  //       decoration: BoxDecoration(
+  //         gradient: const LinearGradient(
+  //           colors: [
+  //             Color(0xFFDB2777), // main pink shade
+  //             Color(0xFFF472B6), // light pink
+  //             Color(0xFFE9D5FF), // lavender tint
+  //           ],
+  //           begin: Alignment.topLeft,
+  //           end: Alignment.bottomRight,
+  //         ),
+  //         borderRadius: BorderRadius.circular(8.0),
+  //       ),
+  //       child: textFormField, // the widget above
+  //     );
 
   // }
   @override
@@ -206,41 +204,59 @@ class FlutterInputField extends StatelessWidget {
       enableSuggestions: true,
       keyboardType: textInputType,
       focusNode: focusNode,
-      style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w600),
+      style: const TextStyle(
+        color: Colors.black,
+        fontSize: 15,
+        fontWeight: FontWeight.w600,
+      ),
       decoration: showBorder ?? true
           ? InputDecoration(
               filled: true,
               fillColor: Colors.transparent,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.0),
-                borderSide:
-                    const BorderSide(color: Colors.transparent, width: 1.0),
+                borderSide: const BorderSide(
+                  color: Colors.transparent,
+                  width: 1.0,
+                ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.0),
-                borderSide:
-                    const BorderSide(color: Colors.transparent, width: 1.0),
+                borderSide: const BorderSide(
+                  color: Colors.transparent,
+                  width: 1.0,
+                ),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.0),
-                borderSide:
-                    const BorderSide(color: Colors.transparent, width: 1.0),
+                borderSide: const BorderSide(
+                  color: Colors.transparent,
+                  width: 1.0,
+                ),
               ),
               disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.0),
-                borderSide:
-                    const BorderSide(color: Colors.transparent, width: 1.0),
+                borderSide: const BorderSide(
+                  color: Colors.transparent,
+                  width: 1.0,
+                ),
               ),
               hintText: hintText,
               prefixIcon: prefixWidget,
               suffixIcon: suffixWidget,
-              hintStyle:
-                  TextStyle(fontSize: hintFontSize, color: Colors.white70),
+              hintStyle: TextStyle(
+                fontSize: hintFontSize,
+                color: Colors.white70,
+              ),
             )
           : InputDecoration(
               filled: true,
               labelText: labelText,
-              labelStyle: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+              labelStyle: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
               focusedBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.white),
               ),
@@ -251,32 +267,32 @@ class FlutterInputField extends StatelessWidget {
       },
       inputFormatters: [
         if (textInputType == TextInputType.number) ...[
-          FilteringTextInputFormatter.digitsOnly
-        ]
+          FilteringTextInputFormatter.digitsOnly,
+        ],
       ],
       // maxLength: maxLength?  characterLimit: maxLength,
-      maxLength: showCounter == true
-          ? characterLimit
-          : null,
-      buildCounter: (
-          BuildContext context, {
+      maxLength: showCounter == true ? characterLimit : null,
+      buildCounter:
+          (
+            BuildContext context, {
             required int currentLength,
             required bool isFocused,
             required int? maxLength,
           }) {
-        if (maxLength == null) return null; // no counter when maxLength is null
-        return Padding(
-          padding: const EdgeInsets.only(right: 4.0),
-          child: Text(
-            '$currentLength/$maxLength',
-            style: const TextStyle(
-              color: Colors.white, // <-- desired counter color
-              fontWeight: FontWeight.w400,
-              fontSize: 12,
-            ),
-          ),
-        );
-      },
+            if (maxLength == null)
+              return null; // no counter when maxLength is null
+            return Padding(
+              padding: const EdgeInsets.only(right: 4.0),
+              child: Text(
+                '$currentLength/$maxLength',
+                style: const TextStyle(
+                  color: Colors.white, // <-- desired counter color
+                  fontWeight: FontWeight.w400,
+                  fontSize: 12,
+                ),
+              ),
+            );
+          },
       validator: (String? value) {
         if (validateTextField != null) {
           return validateTextField!(value);
@@ -336,7 +352,7 @@ class FlutterInputField extends StatelessWidget {
     //   child: textFormField,
     // );
     // ✅ Clean Glass Container Wrapper
-// ✅ Glassmorphism Container Wrapper
+    // ✅ Glassmorphism Container Wrapper
     // ✅ Lavender Glassmorphism Container Wrapper
     // return ClipRRect(
     //   borderRadius: BorderRadius.circular(25
@@ -407,7 +423,7 @@ class FlutterInputField extends StatelessWidget {
     // );
 
     return
-      // isLoginScreen
+    // isLoginScreen
     //     ? TextFormField(
     //   decoration: const InputDecoration(
     //     labelStyle: TextStyle(
@@ -426,107 +442,104 @@ class FlutterInputField extends StatelessWidget {
       borderRadius: BorderRadius.circular(25),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
-  //       child: Container(
-  //           decoration: isLoginScreen ?
-  // InputDecoration(
-  //             labelStyle: TextStyle(
-  //               color: Colors.black,
-  //             ),
-  //             // focusedBorder: UnderlineInputBorder(
-  //             //   borderSide: BorderSide(color: Color(0xFF5026bc)),
-  //             // ),
-  //           ): BoxDecoration(
-  //           gradient: LinearGradient(
-  //             colors: [
-  //               const Color(0xFF6474C6).withValues(alpha: 0.2),
-  //               Colors.white.withValues(alpha: 0.3),
-  //             ],
-  //             begin: Alignment.topRight,
-  //             end: Alignment.bottomCenter,
-  //           ),
-  //           borderRadius: BorderRadius.circular(25),
-  //           border: Border.all(
-  //             color: Colors.white.withValues(alpha: 90),
-  //             width: 0.7,
-  //           ),
-  //           boxShadow: [
-  //             BoxShadow(
-  //               color: Colors.white.withValues(alpha: 3),
-  //               blurRadius: 90,
-  //               offset: const Offset(3, 3),
-  //             ),
-  //             BoxShadow(
-  //               color: AppColors.lavender.withValues(alpha: 20),
-  //               blurRadius: 30,
-  //               offset: const Offset(6, 7),
-  //             ),
-  //           ],
-  //         ),
-  //         child: textFormField,
-  //       ),
+        //       child: Container(
+        //           decoration: isLoginScreen ?
+        // InputDecoration(
+        //             labelStyle: TextStyle(
+        //               color: Colors.black,
+        //             ),
+        //             // focusedBorder: UnderlineInputBorder(
+        //             //   borderSide: BorderSide(color: Color(0xFF5026bc)),
+        //             // ),
+        //           ): BoxDecoration(
+        //           gradient: LinearGradient(
+        //             colors: [
+        //               const Color(0xFF6474C6).withValues(alpha: 0.2),
+        //               Colors.white.withValues(alpha: 0.3),
+        //             ],
+        //             begin: Alignment.topRight,
+        //             end: Alignment.bottomCenter,
+        //           ),
+        //           borderRadius: BorderRadius.circular(25),
+        //           border: Border.all(
+        //             color: Colors.white.withValues(alpha: 90),
+        //             width: 0.7,
+        //           ),
+        //           boxShadow: [
+        //             BoxShadow(
+        //               color: Colors.white.withValues(alpha: 3),
+        //               blurRadius: 90,
+        //               offset: const Offset(3, 3),
+        //             ),
+        //             BoxShadow(
+        //               color: AppColors.lavender.withValues(alpha: 20),
+        //               blurRadius: 30,
+        //               offset: const Offset(6, 7),
+        //             ),
+        //           ],
+        //         ),
+        //         child: textFormField,
+        //       ),
         child: Container(
           decoration: isLoginScreen
-              ?   BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                const Color(0xFF6474C6).withValues(alpha: 0.0),
-                Colors.white.withValues(alpha: 0.3),
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.topCenter,
-            ),
-            borderRadius: BorderRadius.circular(25),
-            border: Border.all(
-              color: Colors.white.withValues(alpha: 0.6),
-              width: 0.7,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.white.withValues(alpha: 0.03),
-                blurRadius: 90,
-                offset: const Offset(3, 3),
-              ),
-              BoxShadow(
-                color: AppColors.lavender.withValues(alpha: 0.0),
-                blurRadius: 30,
-                offset: const Offset(6, 7),
-              ),
-            ],
-          )
+              ? BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      const Color(0xFF6474C6).withValues(alpha: 0.0),
+                      Colors.white.withValues(alpha: 0.3),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.topCenter,
+                  ),
+                  borderRadius: BorderRadius.circular(25),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.6),
+                    width: 0.7,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.white.withValues(alpha: 0.03),
+                      blurRadius: 90,
+                      offset: const Offset(3, 3),
+                    ),
+                    BoxShadow(
+                      color: AppColors.lavender.withValues(alpha: 0.0),
+                      blurRadius: 30,
+                      offset: const Offset(6, 7),
+                    ),
+                  ],
+                )
               : BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                const Color(0xFF6474C6).withValues(alpha: 0.2),
-                Colors.white.withValues(alpha: 0.3),
-              ],
-              begin: Alignment.topRight,
-              end: Alignment.bottomCenter,
-            ),
-            borderRadius: BorderRadius.circular(25),
-            border: Border.all(
-              color: Colors.white.withValues(alpha: 0.9),
-              width: 0.7,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.white.withValues(alpha: 0.03),
-                blurRadius: 90,
-                offset: const Offset(3, 3),
-              ),
-              BoxShadow(
-                color: AppColors.lavender.withValues(alpha: 0.2),
-                blurRadius: 30,
-                offset: const Offset(6, 7),
-              ),
-            ],
-          ),
+                  gradient: LinearGradient(
+                    colors: [
+                      const Color(0xFF6474C6).withValues(alpha: 0.2),
+                      Colors.white.withValues(alpha: 0.3),
+                    ],
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomCenter,
+                  ),
+                  borderRadius: BorderRadius.circular(25),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.9),
+                    width: 0.7,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.white.withValues(alpha: 0.03),
+                      blurRadius: 90,
+                      offset: const Offset(3, 3),
+                    ),
+                    BoxShadow(
+                      color: AppColors.lavender.withValues(alpha: 0.2),
+                      blurRadius: 30,
+                      offset: const Offset(6, 7),
+                    ),
+                  ],
+                ),
           child: textFormField,
         ),
-
       ),
     );
-
-
   }
 }
 

@@ -1281,209 +1281,206 @@ class CustomBottomNavigationBar extends StatefulWidget {
   /// When true → shows only a central "+" button (for list screens)
   final bool list;
 
-  const CustomBottomNavigationBar({
-    super.key,
-    required this.displayMenu,
-    required this.scaffoldKey,
-    required this.context,
-    this.list = false,
-    this.onAddPressed,
-    required this.hasAddPermission
-
-  });
+  const CustomBottomNavigationBar(
+      {super.key,
+      required this.displayMenu,
+      required this.scaffoldKey,
+      required this.context,
+      this.list = false,
+      this.onAddPressed,
+      required this.hasAddPermission});
 
   @override
   State<CustomBottomNavigationBar> createState() =>
       _CustomBottomNavigationBarState();
 }
 
-class _CustomBottomNavigationBarState
-    extends State<CustomBottomNavigationBar> {
+class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   int selectedIndex = 1;
 
   @override
   Widget build(BuildContext context) {
     // 🟣 If list == true → show only central add button
     if (widget.list) {
-    // return SizedBox(
-    //   height: 75,
-    //   child: Stack(
-    //     alignment: Alignment.center,
-    //     clipBehavior: Clip.none,
-    //     children: [
-    //       // Background curved bar
-    //       CustomPaint(
-    //         size: const Size(double.infinity, 95),
-    //         painter: _ListModeNavBarPainter(
-    //           backgroundColor: const Color(0xFF6474C6),
-    //             // backgroundColor: C
-    //         ),
-    //       ),
-    //
-    //       // Central "+" Glass Button
-    //       Positioned(
-    //         top: 1,
-    //         child: Container(
-    //           width: 68,
-    //           height: 68,
-    //           decoration: BoxDecoration(
-    //             shape: BoxShape.circle,
-    //             color: Colors.white.withOpacity(0.12),
-    //             boxShadow: [
-    //               BoxShadow(
-    //                 color: Colors.white.withOpacity(0.25),
-    //                 blurRadius: 20,
-    //                 spreadRadius: 1,
-    //                 offset: const Offset(0, 4),
-    //               ),
-    //             ],
-    //           ),
-    //           child: ClipOval(
-    //             child: BackdropFilter(
-    //               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-    //               child: Container(
-    //                 decoration: BoxDecoration(
-    //                   shape: BoxShape.circle,
-    //                   gradient:  const LinearGradient(
-    //                     colors: [Colors.white70, Color(0xFF0C4C99)],
-    //                     begin: Alignment.topLeft,
-    //                     end: Alignment.bottomRight,
-    //                   ),
-    //                   boxShadow:[
-    //                     BoxShadow(
-    //                       color: Colors.blueAccent.withOpacity(0.5),
-    //                       blurRadius: 10,
-    //                       spreadRadius: 2,
-    //                     ),
-    //                   ],
-    //                 ),
-    //                 child: IconButton(
-    //                   icon: const Icon(Icons.add, color: Colors.white, size: 32),
-    //                   onPressed: () {
-    //                     widget.onAddPressed ??
-    //                             () {
-    //                               log("onAddPressed ");
-    //
-    //                               // fallback if no callback is provided
-    //                         };
-    //                     // ➕ handle FAB tap
-    //                   },
-    //                 ),
-    //               ),
-    //             ),
-    //           ),
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // );
-    // return SizedBox(
-    //   height: 80,
-    //   child: Stack(
-    //     alignment: Alignment.center,
-    //     clipBehavior: Clip.none,
-    //     children: [
-    //       CustomPaint(
-    //         size: const Size(double.infinity, 100),
-    //         painter: _ListModeNavBarPainter(
-    //           backgroundColor: const Color(0xFF6474C6), // or your gradient background
-    //         ),
-    //       ),
-    //
-    //       // 🩵 Background Glass Bar
-    //       Positioned.fill(
-    //         child: ClipRRect(
-    //           borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-    //           child: BackdropFilter(
-    //             filter: ImageFilter.blur(sigmaX: 35, sigmaY: 25),
-    //             child: Container(
-    //               decoration: BoxDecoration(
-    //                 gradient: LinearGradient(
-    //                   colors: [
-    //                   //   AppColors.lavender.withValues(alpha: 0.8),
-    //                   //   // const Color(0xFF6474C6).withOpacity(0.1),
-    //                   //   AppColors.lightLavender.withValues(alpha: 1),
-    //                   //   AppColors.lavender.withValues(alpha: 0.8),
-    //                     // AppColors.lightLavender.withOpacity(0.6),
-    //                     // const Color(0xFF6474C6).withOpacity(0.25),
-    //                     const Color(0xFF6474C6).withValues(alpha: 0.4),
-    //                     Colors.white54.withValues(alpha: 0.1),
-    //                     const Color(0xFF6474C6).withValues(alpha: 0.9),
-    //                   ],
-    //                   begin: Alignment.topLeft,
-    //                   end: Alignment.bottomRight,
-    //                 ),
-    //                 border: Border.all(
-    //                   color: Colors.white.withOpacity(0.1),
-    //                   width: 1,
-    //                 ),
-    //                 boxShadow: [
-    //                   BoxShadow(
-    //                     color: Colors.black.withOpacity(0.2),
-    //                     blurRadius: 0,
-    //                     offset: const Offset(0, -2),
-    //                   ),
-    //                 ],
-    //               ),
-    //             ),
-    //           ),
-    //         ),
-    //       ),
-    //
-    //       // 🧊 Central "+" Glass Button
-    //       Positioned(
-    //         top: -15,
-    //         child: Container(
-    //           width: 68,
-    //           height: 68,
-    //           decoration: BoxDecoration(
-    //             shape: BoxShape.circle,
-    //             color: Colors.white.withOpacity(0.1),
-    //             border: Border.all(
-    //               color: Colors.white.withOpacity(0.4),
-    //               width: 1.5,
-    //             ),
-    //             boxShadow: [
-    //               BoxShadow(
-    //                 color: Colors.white.withOpacity(0.15),
-    //                 blurRadius: 10,
-    //                 spreadRadius: 1,
-    //                 offset: const Offset(0, 2),
-    //               ),
-    //             ],
-    //           ),
-    //           child: ClipOval(
-    //             child: BackdropFilter(
-    //               filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-    //               child: Container(
-    //                 decoration:  BoxDecoration(
-    //                   shape: BoxShape.circle,
-    //                   gradient: LinearGradient(
-    //                     colors: [
-    //                       const Color(0xFF6474C6).withValues(alpha: 0.9),
-    //                       // Colors.blue.withValues(alpha: 0.2),
-    //                       const Color(0xFF6474C6).withValues(alpha: 0.9),
-    //                       // Color(0xFF6474C6),
-    //                     ],
-    //                     begin: Alignment.topLeft,
-    //                     end: Alignment.bottomRight,
-    //                   ),
-    //                 ),
-    //                 child: IconButton(
-    //                   icon: const Icon(Icons.add, color: Colors.black, size: 32),
-    //                   onPressed: widget.onAddPressed ??
-    //                           () {
-    //                         debugPrint("onAddPressed fallback");
-    //                       },
-    //                 ),
-    //               ),
-    //             ),
-    //           ),
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // );
+      // return SizedBox(
+      //   height: 75,
+      //   child: Stack(
+      //     alignment: Alignment.center,
+      //     clipBehavior: Clip.none,
+      //     children: [
+      //       // Background curved bar
+      //       CustomPaint(
+      //         size: const Size(double.infinity, 95),
+      //         painter: _ListModeNavBarPainter(
+      //           backgroundColor: const Color(0xFF6474C6),
+      //             // backgroundColor: C
+      //         ),
+      //       ),
+      //
+      //       // Central "+" Glass Button
+      //       Positioned(
+      //         top: 1,
+      //         child: Container(
+      //           width: 68,
+      //           height: 68,
+      //           decoration: BoxDecoration(
+      //             shape: BoxShape.circle,
+      //             color: Colors.white.withOpacity(0.12),
+      //             boxShadow: [
+      //               BoxShadow(
+      //                 color: Colors.white.withOpacity(0.25),
+      //                 blurRadius: 20,
+      //                 spreadRadius: 1,
+      //                 offset: const Offset(0, 4),
+      //               ),
+      //             ],
+      //           ),
+      //           child: ClipOval(
+      //             child: BackdropFilter(
+      //               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+      //               child: Container(
+      //                 decoration: BoxDecoration(
+      //                   shape: BoxShape.circle,
+      //                   gradient:  const LinearGradient(
+      //                     colors: [Colors.white70, Color(0xFF0C4C99)],
+      //                     begin: Alignment.topLeft,
+      //                     end: Alignment.bottomRight,
+      //                   ),
+      //                   boxShadow:[
+      //                     BoxShadow(
+      //                       color: Colors.blueAccent.withOpacity(0.5),
+      //                       blurRadius: 10,
+      //                       spreadRadius: 2,
+      //                     ),
+      //                   ],
+      //                 ),
+      //                 child: IconButton(
+      //                   icon: const Icon(Icons.add, color: Colors.white, size: 32),
+      //                   onPressed: () {
+      //                     widget.onAddPressed ??
+      //                             () {
+      //                               log("onAddPressed ");
+      //
+      //                               // fallback if no callback is provided
+      //                         };
+      //                     // ➕ handle FAB tap
+      //                   },
+      //                 ),
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // );
+      // return SizedBox(
+      //   height: 80,
+      //   child: Stack(
+      //     alignment: Alignment.center,
+      //     clipBehavior: Clip.none,
+      //     children: [
+      //       CustomPaint(
+      //         size: const Size(double.infinity, 100),
+      //         painter: _ListModeNavBarPainter(
+      //           backgroundColor: const Color(0xFF6474C6), // or your gradient background
+      //         ),
+      //       ),
+      //
+      //       // 🩵 Background Glass Bar
+      //       Positioned.fill(
+      //         child: ClipRRect(
+      //           borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+      //           child: BackdropFilter(
+      //             filter: ImageFilter.blur(sigmaX: 35, sigmaY: 25),
+      //             child: Container(
+      //               decoration: BoxDecoration(
+      //                 gradient: LinearGradient(
+      //                   colors: [
+      //                   //   AppColors.lavender.withValues(alpha: 0.8),
+      //                   //   // const Color(0xFF6474C6).withOpacity(0.1),
+      //                   //   AppColors.lightLavender.withValues(alpha: 1),
+      //                   //   AppColors.lavender.withValues(alpha: 0.8),
+      //                     // AppColors.lightLavender.withOpacity(0.6),
+      //                     // const Color(0xFF6474C6).withOpacity(0.25),
+      //                     const Color(0xFF6474C6).withValues(alpha: 0.4),
+      //                     Colors.white54.withValues(alpha: 0.1),
+      //                     const Color(0xFF6474C6).withValues(alpha: 0.9),
+      //                   ],
+      //                   begin: Alignment.topLeft,
+      //                   end: Alignment.bottomRight,
+      //                 ),
+      //                 border: Border.all(
+      //                   color: Colors.white.withOpacity(0.1),
+      //                   width: 1,
+      //                 ),
+      //                 boxShadow: [
+      //                   BoxShadow(
+      //                     color: Colors.black.withOpacity(0.2),
+      //                     blurRadius: 0,
+      //                     offset: const Offset(0, -2),
+      //                   ),
+      //                 ],
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //       ),
+      //
+      //       // 🧊 Central "+" Glass Button
+      //       Positioned(
+      //         top: -15,
+      //         child: Container(
+      //           width: 68,
+      //           height: 68,
+      //           decoration: BoxDecoration(
+      //             shape: BoxShape.circle,
+      //             color: Colors.white.withOpacity(0.1),
+      //             border: Border.all(
+      //               color: Colors.white.withOpacity(0.4),
+      //               width: 1.5,
+      //             ),
+      //             boxShadow: [
+      //               BoxShadow(
+      //                 color: Colors.white.withOpacity(0.15),
+      //                 blurRadius: 10,
+      //                 spreadRadius: 1,
+      //                 offset: const Offset(0, 2),
+      //               ),
+      //             ],
+      //           ),
+      //           child: ClipOval(
+      //             child: BackdropFilter(
+      //               filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+      //               child: Container(
+      //                 decoration:  BoxDecoration(
+      //                   shape: BoxShape.circle,
+      //                   gradient: LinearGradient(
+      //                     colors: [
+      //                       const Color(0xFF6474C6).withValues(alpha: 0.9),
+      //                       // Colors.blue.withValues(alpha: 0.2),
+      //                       const Color(0xFF6474C6).withValues(alpha: 0.9),
+      //                       // Color(0xFF6474C6),
+      //                     ],
+      //                     begin: Alignment.topLeft,
+      //                     end: Alignment.bottomRight,
+      //                   ),
+      //                 ),
+      //                 child: IconButton(
+      //                   icon: const Icon(Icons.add, color: Colors.black, size: 32),
+      //                   onPressed: widget.onAddPressed ??
+      //                           () {
+      //                         debugPrint("onAddPressed fallback");
+      //                       },
+      //                 ),
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // );
 //----------
 //     return SizedBox(
 //       height: 80,
@@ -1976,16 +1973,17 @@ class _CustomBottomNavigationBarState
             // Background unchanged
             Positioned.fill(
               child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(20)),
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
                   child: Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          const Color(0xFF6474C6).withOpacity(0.4),
-                          const Color(0xFF5C63B0).withOpacity(0.4),
-                          const Color(0xFF4E56A5).withOpacity(0.6),
+                          const Color(0xFF6474C6).withValues(alpha: 0.4),
+                          const Color(0xFF5C63B0).withValues(alpha: 0.4),
+                          const Color(0xFF4E56A5).withValues(alpha: 0.6),
                         ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -2014,7 +2012,10 @@ class _CustomBottomNavigationBarState
               children: List.generate(3, (index) {
                 final items = [
                   {'icon': Icons.home_rounded, 'label': 'Home'},
-                    {'icon': widget.hasAddPermission ? Icons.add : Icons.cancel, 'label': ''},
+                  {
+                    'icon': widget.hasAddPermission ? Icons.add : Icons.cancel,
+                    'label': ''
+                  },
                   {'icon': Icons.chat, 'label': 'Chat'},
                 ];
 
@@ -2027,18 +2028,20 @@ class _CustomBottomNavigationBarState
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 150),
                       width: isSelected ? 70 : 60,
-                      height:  isSelected ? 70 : 60,
+                      height: isSelected ? 70 : 60,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(isSelected ? 0.1 : 0.05),
+                        color:
+                            Colors.white.withOpacity(isSelected ? 0.1 : 0.05),
                         border: Border.all(
-                          color: Colors.white.withOpacity(isSelected ? 0.6 : 0.25),
+                          color:
+                              Colors.white.withOpacity(isSelected ? 0.6 : 0.25),
                           width: 1.5,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color:
-                            Colors.white.withOpacity(isSelected ? 0.22 : 0.15),
+                            color: Colors.white
+                                .withOpacity(isSelected ? 0.22 : 0.15),
                             blurRadius: isSelected ? 20 : 10,
                             spreadRadius: 0,
                             offset: const Offset(0, 2),
@@ -2053,18 +2056,18 @@ class _CustomBottomNavigationBarState
                               shape: BoxShape.circle,
                               gradient: isSelected
                                   ? const LinearGradient(
-                                colors: [
-                                  // Color(0xFF6474C6),
-                                  // Color(0xFF6474C6),
-                                  // AppColors.lavender,
-                                  Color(0xFF0C4C99),
-                                  Color(0xFF071130),
-                                  Color(0xFF0C4C99),
-                                  AppColors.lavender
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              )
+                                      colors: [
+                                        // Color(0xFF6474C6),
+                                        // Color(0xFF6474C6),
+                                        // AppColors.lavender,
+                                        Color(0xFF0C4C99),
+                                        Color(0xFF071130),
+                                        Color(0xFF0C4C99),
+                                        AppColors.lavender
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    )
                                   : null,
                             ),
                             child: IconButton(
@@ -2079,15 +2082,19 @@ class _CustomBottomNavigationBarState
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const DashboardView()),
+                                        builder: (context) =>
+                                            const DashboardView()),
                                   );
                                 } else if (index == 1) {
-                                  (widget.onAddPressed ?? () => debugPrint("onAddPressed fallback"))();
+                                  (widget.onAddPressed ??
+                                      () => debugPrint(
+                                          "onAddPressed fallback"))();
                                 } else if (index == 2) {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const AiChatListView()),
+                                        builder: (context) =>
+                                            const AiChatListView()),
                                   );
                                   debugPrint("Chat bot pressed");
                                 }
@@ -2339,100 +2346,99 @@ class _CustomBottomNavigationBarState
       //   ),
       // );
 
-
       //   return SizedBox(
-    //     height: 90,
-    //     child: Stack(
-    //       alignment: Alignment.center,
-    //       clipBehavior: Clip.none,
-    //       children: [
-    //         // 🔹 Full-width flat background
-    //         Positioned.fill(
-    //           // bottom: 0,
-    //           child: BackdropFilter(
-    //             filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
-    //             child: Container(
-    //               decoration: BoxDecoration(
-    //                 gradient: LinearGradient(
-    //                   colors: [
-    //                     const Color(0xFF6474C6).withOpacity(0.6),
-    //                     Colors.white.withOpacity(0.08),
-    //                     const Color(0xFF6474C6).withOpacity(0.85),
-    //                   ],
-    //                   begin: Alignment.topLeft,
-    //                   end: Alignment.bottomRight,
-    //                 ),
-    //                 border: Border(
-    //                   top: BorderSide(
-    //                     color: Colors.white.withOpacity(0.15),
-    //                     width: 0.8,
-    //                   ),
-    //                 ),
-    //                 boxShadow: [
-    //                   BoxShadow(
-    //                     color: Colors.black.withOpacity(0.25),
-    //                     blurRadius: 10,
-    //                     offset: const Offset(0, -2),
-    //                   ),
-    //                 ],
-    //               ),
-    //             ),
-    //           ),
-    //         ),
-    //
-    //         // 🧊 Floating "+" button
-    //         Positioned(
-    //           top: -10,
-    //           child: Container(
-    //             width: 70,
-    //             height: 70,
-    //             decoration: BoxDecoration(
-    //               shape: BoxShape.circle,
-    //               color: Colors.white.withOpacity(0.1),
-    //               border: Border.all(
-    //                 color: Colors.white.withOpacity(0.4),
-    //                 width: 1.2,
-    //               ),
-    //               boxShadow: [
-    //                 BoxShadow(
-    //                   color: Colors.black.withOpacity(0.25),
-    //                   blurRadius: 8,
-    //                   spreadRadius: 1,
-    //                   offset: const Offset(0, 2),
-    //                 ),
-    //               ],
-    //             ),
-    //             child: ClipOval(
-    //               child: BackdropFilter(
-    //                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-    //                 child: Container(
-    //                   decoration: BoxDecoration(
-    //                     shape: BoxShape.circle,
-    //                     gradient: LinearGradient(
-    //                       colors: [
-    //                         const Color(0xFF6474C6).withOpacity(0.6),
-    //                         Colors.white.withOpacity(0.1),
-    //                         const Color(0xFF6474C6).withOpacity(0.9),
-    //                       ],
-    //                       begin: Alignment.topLeft,
-    //                       end: Alignment.bottomRight,
-    //                     ),
-    //                   ),
-    //                   child: IconButton(
-    //                     icon: const Icon(Icons.add, color: Colors.black, size: 32),
-    //                     onPressed: widget.onAddPressed ??
-    //                             () {
-    //                           debugPrint("onAddPressed fallback");
-    //                         },
-    //                   ),
-    //                 ),
-    //               ),
-    //             ),
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   );
+      //     height: 90,
+      //     child: Stack(
+      //       alignment: Alignment.center,
+      //       clipBehavior: Clip.none,
+      //       children: [
+      //         // 🔹 Full-width flat background
+      //         Positioned.fill(
+      //           // bottom: 0,
+      //           child: BackdropFilter(
+      //             filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
+      //             child: Container(
+      //               decoration: BoxDecoration(
+      //                 gradient: LinearGradient(
+      //                   colors: [
+      //                     const Color(0xFF6474C6).withOpacity(0.6),
+      //                     Colors.white.withOpacity(0.08),
+      //                     const Color(0xFF6474C6).withOpacity(0.85),
+      //                   ],
+      //                   begin: Alignment.topLeft,
+      //                   end: Alignment.bottomRight,
+      //                 ),
+      //                 border: Border(
+      //                   top: BorderSide(
+      //                     color: Colors.white.withOpacity(0.15),
+      //                     width: 0.8,
+      //                   ),
+      //                 ),
+      //                 boxShadow: [
+      //                   BoxShadow(
+      //                     color: Colors.black.withOpacity(0.25),
+      //                     blurRadius: 10,
+      //                     offset: const Offset(0, -2),
+      //                   ),
+      //                 ],
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //
+      //         // 🧊 Floating "+" button
+      //         Positioned(
+      //           top: -10,
+      //           child: Container(
+      //             width: 70,
+      //             height: 70,
+      //             decoration: BoxDecoration(
+      //               shape: BoxShape.circle,
+      //               color: Colors.white.withOpacity(0.1),
+      //               border: Border.all(
+      //                 color: Colors.white.withOpacity(0.4),
+      //                 width: 1.2,
+      //               ),
+      //               boxShadow: [
+      //                 BoxShadow(
+      //                   color: Colors.black.withOpacity(0.25),
+      //                   blurRadius: 8,
+      //                   spreadRadius: 1,
+      //                   offset: const Offset(0, 2),
+      //                 ),
+      //               ],
+      //             ),
+      //             child: ClipOval(
+      //               child: BackdropFilter(
+      //                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+      //                 child: Container(
+      //                   decoration: BoxDecoration(
+      //                     shape: BoxShape.circle,
+      //                     gradient: LinearGradient(
+      //                       colors: [
+      //                         const Color(0xFF6474C6).withOpacity(0.6),
+      //                         Colors.white.withOpacity(0.1),
+      //                         const Color(0xFF6474C6).withOpacity(0.9),
+      //                       ],
+      //                       begin: Alignment.topLeft,
+      //                       end: Alignment.bottomRight,
+      //                     ),
+      //                   ),
+      //                   child: IconButton(
+      //                     icon: const Icon(Icons.add, color: Colors.black, size: 32),
+      //                     onPressed: widget.onAddPressed ??
+      //                             () {
+      //                           debugPrint("onAddPressed fallback");
+      //                         },
+      //                   ),
+      //                 ),
+      //               ),
+      //             ),
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   );
     }
 
     // 🧭 Else, normal bottom navigation
@@ -2512,7 +2518,7 @@ class _CustomBottomNavigationBarState
     ];
 
     final visibleItems =
-    items.where((item) => item.isVisible).toList(growable: false);
+        items.where((item) => item.isVisible).toList(growable: false);
     final visibleIndices = [
       for (int i = 0; i < items.length; i++)
         if (items[i].isVisible) i,
@@ -2551,7 +2557,8 @@ class _CustomBottomNavigationBarState
                       transform: isSelected
                           ? Matrix4.translationValues(0, -15, 0)
                           : Matrix4.identity(),
-                      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 6, horizontal: 8),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -2562,19 +2569,23 @@ class _CustomBottomNavigationBarState
                               shape: BoxShape.circle,
                               gradient: isSelected
                                   ? const LinearGradient(
-                                colors: [Colors.white70, Color(0xFF0C4C99)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              )
+                                      colors: [
+                                        Colors.white70,
+                                        Color(0xFF0C4C99)
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    )
                                   : null,
                               boxShadow: isSelected
                                   ? [
-                                BoxShadow(
-                                  color: Colors.blueAccent.withOpacity(0.5),
-                                  blurRadius: 10,
-                                  spreadRadius: 2,
-                                ),
-                              ]
+                                      BoxShadow(
+                                        color:
+                                            Colors.blueAccent.withOpacity(0.5),
+                                        blurRadius: 10,
+                                        spreadRadius: 2,
+                                      ),
+                                    ]
                                   : [],
                             ),
                             child: Icon(
@@ -2594,7 +2605,7 @@ class _CustomBottomNavigationBarState
                               fontWeight: FontWeight.w500,
                               color: isSelected
                                   ? Colors.white
-                                  : Colors.white.withOpacity(0.7),
+                                  : Colors.white.withValues(alpha: 0.7),
                             ),
                           ),
                         ],
@@ -2612,7 +2623,7 @@ class _CustomBottomNavigationBarState
 
   double getItemPositionX(int visibleIndex, int visibleCount) {
     final RenderBox? renderBox =
-    widget.scaffoldKey.currentContext?.findRenderObject() as RenderBox?;
+        widget.scaffoldKey.currentContext?.findRenderObject() as RenderBox?;
     if (renderBox == null) return 0.0;
     final Offset offset = renderBox.localToGlobal(Offset.zero);
     final double itemWidth = renderBox.size.width / visibleCount;
@@ -2668,10 +2679,6 @@ class _ListModeNavBarPainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
 
-
-
-
-
 class _NavBarPainter extends CustomPainter {
   final int selectedIndex;
   final int itemCount;
@@ -2722,7 +2729,6 @@ class _BottomItem {
   });
 }
 
-
 class _GlassAnimatedIcon extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -2756,19 +2762,19 @@ class _GlassAnimatedIcon extends StatelessWidget {
                 shape: BoxShape.circle,
                 gradient: isSelected
                     ? const LinearGradient(
-                  colors: [Colors.white70, Color(0xFF6474C6)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                )
+                        colors: [Colors.white70, Color(0xFF6474C6)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      )
                     : null,
                 boxShadow: isSelected
                     ? [
-                  BoxShadow(
-                    color: Colors.white.withOpacity(0.4),
-                    blurRadius: 12,
-                    spreadRadius: 1,
-                  ),
-                ]
+                        BoxShadow(
+                          color: Colors.white.withOpacity(0.4),
+                          blurRadius: 12,
+                          spreadRadius: 1,
+                        ),
+                      ]
                     : [],
               ),
               child: Icon(

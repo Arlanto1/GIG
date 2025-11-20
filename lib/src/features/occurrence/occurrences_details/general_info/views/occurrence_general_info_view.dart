@@ -106,8 +106,10 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
             context: context,
             //title: widget.title,
             showPopUp: false,
-            showSaveButton: showSaveSubmitButtons && state.status != FormStatus.loading,
-            showSubmitButton: showSaveSubmitButtons && state.status != FormStatus.loading,
+            showSaveButton:
+                showSaveSubmitButtons && state.status != FormStatus.loading,
+            showSubmitButton:
+                showSaveSubmitButtons && state.status != FormStatus.loading,
             showDisLikeButton: false,
             showLikeButton: false,
             pdfAPIName:
@@ -159,21 +161,19 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
     // }
 
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: const Color(0xFF6474C6),
+      // color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
-              height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
-            ),
-            Container(
-              decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
-                  )),
+              color: Colors.transparent,
+              // decoration: const ShapeDecoration(
+              //     color: AppColors.backgroundWhiteColor,
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius:
+              //           BorderRadius.vertical(top: Radius.circular(20.0)),
+              //     )),
               child: Form(
                 key: _formKey,
                 autovalidateMode: state.model.status == 1
@@ -199,7 +199,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 alignment: Alignment.topLeft,
                                 child: Text(
                                   Constants.generalinformation,
-                                  style: Styles.styleHeaderGreyText16,
+                                  style: Styles.styleHeaderWhiteText16,
                                 ),
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -210,7 +210,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       state.labels?.defaultLocale.status ??
                                       Constants.status,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               CommonWidgets.verticalSpacerWidget(
@@ -268,7 +268,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                         .handoverSecurity ??
                                     Constants.shiftTakenOverBy,
                                 isMandatory: true,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite14,
                               ),
                               TextFieldAddButton(
                                   title:
@@ -315,7 +315,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       state.labels?.defaultLocale.location ??
                                       Constants.location,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               BaseLocationDropdown().locationWidgetDisplay(
@@ -342,7 +342,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       state.labels?.defaultLocale.inputDate ??
                                       Constants.dateofcreation,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               BaseDate().creationDateDisplay(
@@ -365,7 +365,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           .shiftBrfngAttnded ??
                                       Constants.shiftBriefingAttended,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue:
@@ -400,7 +400,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           .premisesRoundTkn ??
                                       Constants.premisesRoundTaken,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue:
@@ -409,7 +409,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.premisesRoundTkn = true;
-                                          state.model.premisesRoundTknComments = null;
+                                          state.model.premisesRoundTknComments =
+                                              null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -422,7 +423,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.premisesRoundTkn = false;
-                                          state.model.premisesRoundTknComments = null;
+                                          state.model.premisesRoundTknComments =
+                                              null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -435,15 +437,14 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 FlutterInputField(
                                   lineHeight: 6,
                                   characterLimit:
-                                  Constants.characterLimitDescTextFormField,
+                                      Constants.characterLimitDescTextFormField,
                                   initialValue:
                                       state.model.premisesRoundTknComments,
                                   textFormKey: Keys.premisesRoundTknCommentsKey,
                                   hintText: Constants.informationhere,
                                   showBorder: true,
                                   textInputAction: TextInputAction.newline,
-                                  textInputType:
-                                  TextInputType.multiline,
+                                  textInputType: TextInputType.multiline,
                                   isEnable: showSaveSubmitButtons,
                                   isDisableColor: !showSaveSubmitButtons,
                                   onChange: (String value) {
@@ -466,7 +467,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           .medicalEmrgncy ??
                                       Constants.medicalEmergency,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue:
@@ -475,7 +476,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.medicalEmrgncy = true;
-                                          state.model.medicalEmrgncyComments = null;
+                                          state.model.medicalEmrgncyComments =
+                                              null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -487,7 +489,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.medicalEmrgncy = false;
-                                          state.model.medicalEmrgncyComments = null;
+                                          state.model.medicalEmrgncyComments =
+                                              null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -499,7 +502,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 FlutterInputField(
                                   lineHeight: 6,
                                   characterLimit:
-                                  Constants.characterLimitDescTextFormField,
+                                      Constants.characterLimitDescTextFormField,
                                   initialValue:
                                       state.model.medicalEmrgncyComments,
                                   showBorder: true,
@@ -508,8 +511,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   isEnable: showSaveSubmitButtons,
                                   isDisableColor: !showSaveSubmitButtons,
                                   textInputAction: TextInputAction.newline,
-                                  textInputType:
-                                  TextInputType.multiline,
+                                  textInputType: TextInputType.multiline,
                                   onChange: (String value) {
                                     state.model.medicalEmrgncyComments = value;
                                     context
@@ -529,7 +531,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           .materialMovement ??
                                       Constants.materialMovement,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue:
@@ -563,7 +565,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       state.labels?.defaultLocale.leoVisit ??
                                       Constants.lEOVisit,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue: state.model.leoVisit ? 1 : 0,
@@ -595,7 +597,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           .socialEnggIncdnt ??
                                       Constants.socialEngineeringIncidents,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue:
@@ -604,7 +606,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.socialEnggIncdnt = true;
-                                          state.model.socialEnggIncdntComments = null;
+                                          state.model.socialEnggIncdntComments =
+                                              null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -617,7 +620,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.socialEnggIncdnt = false;
-                                          state.model.socialEnggIncdntComments = null;
+                                          state.model.socialEnggIncdntComments =
+                                              null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -630,7 +634,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 FlutterInputField(
                                   lineHeight: 6,
                                   characterLimit:
-                                  Constants.characterLimitDescTextFormField,
+                                      Constants.characterLimitDescTextFormField,
                                   initialValue:
                                       state.model.socialEnggIncdntComments,
                                   showBorder: true,
@@ -639,8 +643,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   isEnable: showSaveSubmitButtons,
                                   isDisableColor: !showSaveSubmitButtons,
                                   textInputAction: TextInputAction.newline,
-                                  textInputType:
-                                  TextInputType.multiline,
+                                  textInputType: TextInputType.multiline,
                                   onChange: (String value) {
                                     state.model.socialEnggIncdntComments =
                                         value;
@@ -661,7 +664,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           .foundArticleTrnsctn ??
                                       Constants.foundArticleTransaction,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue:
@@ -698,7 +701,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           .processBreachIncdnt ??
                                       Constants.processBreachIncident,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
                                 selectedValue:
@@ -791,7 +794,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       state.labels?.defaultLocale.infraIssue ??
                                       Constants.anyInfrastructuralIssue,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue: state.model.infraIssue ? 1 : 0,
@@ -823,7 +826,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 FlutterInputField(
                                   lineHeight: 6,
                                   characterLimit:
-                                  Constants.characterLimitDescTextFormField,
+                                      Constants.characterLimitDescTextFormField,
                                   initialValue: state.model.infraIssueComments,
                                   textFormKey: Keys.infraIssueCommentsKey,
                                   showBorder: true,
@@ -831,8 +834,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   isEnable: showSaveSubmitButtons,
                                   isDisableColor: !showSaveSubmitButtons,
                                   textInputAction: TextInputAction.newline,
-                                  textInputType:
-                                  TextInputType.multiline,
+                                  textInputType: TextInputType.multiline,
                                   onChange: (String value) {
                                     state.model.infraIssueComments = value;
                                     context
@@ -852,7 +854,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           .suspiciousActivity ??
                                       Constants.anySuspiciousActivity,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
                                 selectedValue:
@@ -938,7 +940,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           .fireAlarmEmrgncy ??
                                       Constants.fireAlarmEmergencyOccurred,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue:
@@ -947,7 +949,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.fireAlarmEmrgncy = true;
-                                          state.model.fireAlarmEmrgncyComments = null;
+                                          state.model.fireAlarmEmrgncyComments =
+                                              null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -958,7 +961,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.fireAlarmEmrgncy = false;
-                                          state.model.fireAlarmEmrgncyComments = null;
+                                          state.model.fireAlarmEmrgncyComments =
+                                              null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -971,7 +975,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 FlutterInputField(
                                   lineHeight: 6,
                                   characterLimit:
-                                  Constants.characterLimitDescTextFormField,
+                                      Constants.characterLimitDescTextFormField,
                                   initialValue:
                                       state.model.fireAlarmEmrgncyComments,
                                   showBorder: true,
@@ -980,8 +984,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   isEnable: showSaveSubmitButtons,
                                   isDisableColor: !showSaveSubmitButtons,
                                   textInputAction: TextInputAction.newline,
-                                  textInputType:
-                                  TextInputType.multiline,
+                                  textInputType: TextInputType.multiline,
                                   onChange: (String value) {
                                     state.model.fireAlarmEmrgncyComments =
                                         value;
@@ -1002,7 +1005,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           .landlordIssue ??
                                       Constants.landlordIssue,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue:
@@ -1011,7 +1014,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.landlordIssue = true;
-                                          state.model.landlordIssueComments = null;
+                                          state.model.landlordIssueComments =
+                                              null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -1021,7 +1025,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       ? null
                                       : (val) {
                                           state.model.landlordIssue = false;
-                                          state.model.landlordIssueComments = null;
+                                          state.model.landlordIssueComments =
+                                              null;
                                           BlocProvider.of<
                                                       OccurrenceGeneralInfoCubit>(
                                                   context)
@@ -1033,7 +1038,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 FlutterInputField(
                                   lineHeight: 6,
                                   characterLimit:
-                                  Constants.characterLimitDescTextFormField,
+                                      Constants.characterLimitDescTextFormField,
                                   initialValue:
                                       state.model.landlordIssueComments,
                                   showBorder: true,
@@ -1042,8 +1047,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   isEnable: showSaveSubmitButtons,
                                   isDisableColor: !showSaveSubmitButtons,
                                   textInputAction: TextInputAction.newline,
-                                  textInputType:
-                                  TextInputType.multiline, onChange: (String value) {
+                                  textInputType: TextInputType.multiline,
+                                  onChange: (String value) {
                                     state.model.landlordIssueComments = value;
                                     context
                                         .read<OccurrenceGeneralInfoCubit>()
@@ -1062,7 +1067,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           .secSysFailureIncdnt ??
                                       Constants.securitySystemFailureIncidents,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
                                 selectedValue:
@@ -1153,7 +1158,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   state.labels?.defaultLocale.sysAlarmRcvd ??
                                   Constants.anySystemAlarmReceived,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
+                              Styles.textStyleWhite14),
                           RadioButtonsYesNo(
                               status: state.model.status ?? 0,
                               selectedValue: state.model.sysAlarmRcvd ? 1 : 0,
@@ -1183,7 +1188,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             FlutterInputField(
                               lineHeight: 6,
                               characterLimit:
-                              Constants.characterLimitDescTextFormField,
+                                  Constants.characterLimitDescTextFormField,
                               initialValue: state.model.sysAlarmRcvdComments,
                               textFormKey: Keys.sysAlarmRcvdCommentsKey,
                               showBorder: true,
@@ -1191,8 +1196,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               isEnable: showSaveSubmitButtons,
                               isDisableColor: !showSaveSubmitButtons,
                               textInputAction: TextInputAction.newline,
-                              textInputType:
-                              TextInputType.multiline,  onChange: (String value) {
+                              textInputType: TextInputType.multiline,
+                              onChange: (String value) {
                                 state.model.sysAlarmRcvdComments = value;
                                 context
                                     .read<OccurrenceGeneralInfoCubit>()
@@ -1209,7 +1214,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   state.labels?.defaultLocale.transportIncdnt ??
                                   Constants.transportIncident,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
+                              Styles.textStyleWhite14),
                           RadioButtonsYesNo(
                             status: state.model.status ?? 0,
                             selectedValue: state.model.transportIncdnt ? 1 : 0,
@@ -1238,7 +1243,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             FlutterInputField(
                               lineHeight: 6,
                               characterLimit:
-                              Constants.characterLimitDescTextFormField,
+                                  Constants.characterLimitDescTextFormField,
                               initialValue: state.model.transportIncdntComments,
                               textFormKey: Keys.transportIncdntCommentsKey,
                               hintText: Constants.informationhere,
@@ -1246,8 +1251,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               isEnable: showSaveSubmitButtons,
                               isDisableColor: !showSaveSubmitButtons,
                               textInputAction: TextInputAction.newline,
-                              textInputType:
-                              TextInputType.multiline,  onChange: (String value) {
+                              textInputType: TextInputType.multiline,
+                              onChange: (String value) {
                                 state.model.transportIncdntComments = value;
                                 context
                                     .read<OccurrenceGeneralInfoCubit>()
@@ -1264,7 +1269,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   state.labels?.defaultLocale.anyEvent ??
                                   Constants.anyEvent,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
+                              Styles.textStyleWhite14),
                           RadioButtonsYesNo(
                             status: state.model.status ?? 0,
                             selectedValue: state.model.anyEvent ? 1 : 0,
@@ -1272,7 +1277,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 ? null
                                 : (val) {
                                     state.model.anyEvent = true;
-                                    state.model.notifyScri= null;
+                                    state.model.notifyScri = null;
                                     BlocProvider.of<OccurrenceGeneralInfoCubit>(
                                             context)
                                         .showFields(anyEvent: true);
@@ -1300,7 +1305,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             FlutterInputField(
                               lineHeight: 6,
                               characterLimit:
-                              Constants.characterLimitDescTextFormField,
+                                  Constants.characterLimitDescTextFormField,
                               initialValue: state.model.notifyScri,
                               textFormKey: Keys.notifyScriKey,
                               hintText: Constants.informationhere,
@@ -1308,8 +1313,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               showBorder: true,
                               isDisableColor: !showSaveSubmitButtons,
                               textInputAction: TextInputAction.newline,
-                              textInputType:
-                              TextInputType.multiline,  onChange: (String value) {
+                              textInputType: TextInputType.multiline,
+                              onChange: (String value) {
                                 state.model.notifyScri = value;
                                 context
                                     .read<OccurrenceGeneralInfoCubit>()
@@ -1326,7 +1331,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   state.labels?.defaultLocale.powerFailure ??
                                   Constants.powerFailure,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
+                              Styles.textStyleWhite14),
                           RadioButtonsYesNo(
                               status: state.model.status ?? 0,
                               selectedValue: state.model.powerFailure ? 1 : 0,
@@ -1442,7 +1447,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   state.labels?.defaultLocale.dgWrking ??
                                   Constants.dgWrking,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
+                              Styles.textStyleWhite14),
                           RadioButtonsYesNo(
                               status: state.model.status ?? 0,
                               selectedValue: state.model.dgWrking ? 1 : 0,
@@ -1473,7 +1478,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   state.labels?.defaultLocale.atmVendorVisit ??
                                   Constants.aTMVendorVisit,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
+                              Styles.textStyleWhite14),
                           RadioButtonsYesNo(
                               status: state.model.status ?? 0,
                               selectedValue: state.model.atmVendorVisit ? 1 : 0,
@@ -1504,7 +1509,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   state.labels?.defaultLocale.cwmVisit ??
                                   Constants.cWMVisit,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
+                              Styles.textStyleWhite14),
                           RadioButtonsYesNo(
                               status: state.model.status ?? 0,
                               selectedValue: state.model.cwmVisit ? 1 : 0,
@@ -1535,11 +1540,11 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   state.labels?.defaultLocale.followedUp ??
                                   Constants.followUp,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
+                              Styles.textStyleWhite14),
                           FlutterInputField(
                             lineHeight: 6,
                             characterLimit:
-                            Constants.characterLimitDescTextFormField,
+                                Constants.characterLimitDescTextFormField,
                             initialValue: state.model.comments,
                             textFormKey: Keys.commentsKey,
                             hintText: Constants.informationhere,
@@ -1547,8 +1552,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             isEnable: showSaveSubmitButtons,
                             isDisableColor: !showSaveSubmitButtons,
                             textInputAction: TextInputAction.newline,
-                            textInputType:
-                            TextInputType.multiline, onChange: (String value) {
+                            textInputType: TextInputType.multiline,
+                            onChange: (String value) {
                               state.model.comments = value;
                               context
                                   .read<OccurrenceGeneralInfoCubit>()
@@ -1564,7 +1569,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   state.labels?.defaultLocale.followedUp ??
                                   Constants.followedUp,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
+                              Styles.textStyleWhite14),
                           RadioButtonsYesNo(
                               status: state.model.status ?? 0,
                               selectedValue: state.model.followedUp ? 1 : 0,
@@ -1589,30 +1594,29 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           .showFields(followedUp: false);
                                     }),
 
-
                           if (state.model.id != null) ...[
                             /// Modified Date
                             CommonWidgets.textDisplay(
                               // state.labels?.locale.date ??
                               //     state.labels?.defaultLocale.date ??
                               Constants.modifiedOn,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite14,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            datecreateWidgetdisplay(state.model.modifiedDate ?? ''),
+                            datecreateWidgetdisplay(
+                                state.model.modifiedDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Modified By
                             CommonWidgets.horizentaltextHandling(
-                              // state.labels?.locale.entrySecurity ??
-                              //     state.labels?.defaultLocale.entrySecurity ??
+                                // state.labels?.locale.entrySecurity ??
+                                //     state.labels?.defaultLocale.entrySecurity ??
                                 Constants.modifiedBy,
                                 isMandatory: true,
                                 state.model.modifiedBy ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ],
-
                         ],
                       ),
                     ),
@@ -1626,7 +1630,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
               Container(
                 padding: const EdgeInsets.all(15.0),
                 decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
+                  color: const Color(0xFF6474C6),
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(00.0)),

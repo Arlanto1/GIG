@@ -164,17 +164,17 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.lavender,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
+              color: AppColors.lavender,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
+                  color: AppColors.lavender,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -202,7 +202,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             alignment: Alignment.topLeft,
                             child: Text(
                               Constants.generalinformation,
-                              style: Styles.styleHeaderGreyText16,
+                              style: Styles.styleHeaderWhiteText16,
                             ),
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -221,7 +221,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             state.labels?.locale.status ??
                                 state.labels?.defaultLocale.status ??
                                 Constants.status,
-                            Styles.textStyleBlack14,
+                            Styles.textStyleWhite14,
                             isMandatory: true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -242,7 +242,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             state.labels?.locale.date ??
                                 state.labels?.defaultLocale.date ??
                                 Constants.dateofcreation,
-                            Styles.textStyleBlack14,
+                            Styles.textStyleWhite14,
                             isMandatory: true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -254,7 +254,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             state.labels?.locale.location ??
                                 state.labels?.defaultLocale.location ??
                                 Constants.location,
-                            Styles.textStyleBlack14,
+                            Styles.textStyleWhite14,
                             isMandatory: true,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -286,7 +286,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               // state.labels?.locale.date ??
                               //     state.labels?.defaultLocale.date ??
                               Constants.modifiedOn,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite14,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -311,7 +311,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               state.labels?.locale.generalContact ??
                                   state.labels?.defaultLocale.generalContact ??
                                   Constants.generalContact,
-                              style: Styles.styleHeaderGreyText16,
+                              style: Styles.styleHeaderWhiteText16,
                             ),
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -383,7 +383,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   state.labels?.defaultLocale
                                       .guardingAgencyEscalationContact ??
                                   Constants.guardingAgencyContact,
-                              style: Styles.styleHeaderGreyText16,
+                              style: Styles.styleHeaderWhiteText16,
                             ),
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -454,7 +454,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   state.labels?.defaultLocale
                                       .systemEscalationContact ??
                                   Constants.systemEscalationContact,
-                              style: Styles.styleHeaderGreyText16,
+                              style: Styles.styleHeaderWhiteText16,
                             ),
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -525,7 +525,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               state.labels?.locale.supervisorRank ??
                                   state.labels?.defaultLocale.supervisorRank ??
                                   Constants.cmsEscalationContact,
-                              style: Styles.styleHeaderGreyText16,
+                              style: Styles.styleHeaderWhiteText16,
                             ),
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -596,7 +596,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   state.labels?.defaultLocale
                                       .guardingAgencyZonalManager ??
                                   Constants.guardingAgencyZonalManagerContact,
-                              style: Styles.styleHeaderGreyText16,
+                              style: Styles.styleHeaderWhiteText16,
                             ),
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
