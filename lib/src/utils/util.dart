@@ -18,8 +18,9 @@ class Utils {
 
     // Find the Label with the matching value
     final label = dropdownValues.firstWhere(
-        (label) => label.value == valueString,
-        orElse: () => const Label(key: '', value: ''));
+      (label) => label.value == valueString,
+      orElse: () => const Label(key: '', value: ''),
+    );
 
     // Return the key, or null if not found
     return label.key.isNotEmpty ? label.key : null;
@@ -34,7 +35,7 @@ class Utils {
     'webp',
     'tiff',
     'tif',
-    'svg'
+    'svg',
   ];
 
   bool isImageFile(String fileName) {
@@ -148,9 +149,10 @@ class Utils {
       },
     );
     showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) => dialog);
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => dialog,
+    );
   }
 
   static String idGenerator() {
@@ -178,12 +180,14 @@ class Utils {
       int unixTimestamp = int.parse(timestampString);
 
       // Convert the Unix timestamp to a DateTime object
-      DateTime dateTime =
-          DateTime.fromMillisecondsSinceEpoch(unixTimestamp * 1000);
+      DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
+        unixTimestamp * 1000,
+      );
 
       // Format the DateTime object as a string
-      String formattedDate =
-          DateFormat('dd/MM/yyyy a HH:mm:ss').format(dateTime);
+      String formattedDate = DateFormat(
+        'dd/MM/yyyy a HH:mm:ss',
+      ).format(dateTime);
 
       return formattedDate;
     } catch (e) {
@@ -200,8 +204,9 @@ class Utils {
     if (dateTimeString.length == 10 &&
         dateTimeString.contains(RegExp(r'^\d+$'))) {
       // Convert Unix timestamp to DateTime
-      final dateTime =
-          DateTime.fromMillisecondsSinceEpoch(int.parse(dateTimeString) * 1000);
+      final dateTime = DateTime.fromMillisecondsSinceEpoch(
+        int.parse(dateTimeString) * 1000,
+      );
       return DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
     }
 
@@ -282,16 +287,16 @@ class Utils {
     switch (status) {
       case 0:
         statusText = 'Found';
-        bgColor =  const Color(0xFF33B249); // light green
+        bgColor = const Color(0xFF33B249); // light green
         borderColor = const Color(0xFF1E5C1E); //green; // dark green border
-        textColor =  Colors.white; // dark green text
+        textColor = Colors.white; // dark green text
         break;
       case 1:
         statusText = 'Under Security Custody';
-        bgColor = const Color(0xFF6B0B98);// light blue
+        bgColor = const Color(0xFF6B0B98); // light blue
         borderColor = const Color(0xFF40075A); // medium blue
-        textColor =  Colors.white; // dark blue
-        bgColor =const Color(0xFFBFA5C4);
+        textColor = Colors.white; // dark blue
+        bgColor = const Color(0xFFBFA5C4);
         // bgColor =const Color(0xFFD8A7A7);
         // bgColor =const Color(0xFFFFD3AC);
         // bgColor =  const Color(0xFF4C0519);
@@ -302,8 +307,8 @@ class Utils {
         // borderColor = const Color(0xFFFFECB3); // amber border
         // textColor = const Color(0xFF795548); // brown text
         // bgColor = const Color(0xFF1E40AF); //
-        bgColor =const Color(0xFF42A5F5);
-        borderColor =const Color(0xFF42A5F5);
+        bgColor = const Color(0xFF42A5F5);
+        borderColor = const Color(0xFF42A5F5);
         textColor = Colors.white;
         break;
       case -1:
@@ -351,7 +356,6 @@ class Utils {
     );
   }
 
-
   dynamic buildLeoStatusRow(int status, {bool? returnTextOnly}) {
     String statusText;
 
@@ -380,11 +384,7 @@ class Utils {
     }
 
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status : ', statusText),
-        ],
-      ),
+      child: Row(children: [textHandling('Status : ', statusText)]),
     );
   }
 
@@ -432,42 +432,78 @@ class Utils {
         statusText = ''; // Handle the default case if needed
     }
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status : ', statusText),
-        ],
-      ),
+      child: Row(children: [textHandling('Status : ', statusText)]),
     );
   }
 
   Widget buildMasterDataStatusRow(int status) {
     String statusText;
+    Color bgColor;
+    Color textColor;
 
     switch (status) {
       case 1:
         statusText = 'Active';
+        bgColor = const Color(0xFF4CAF50);
+        textColor = Colors.white;
         break;
       case 2:
         statusText = 'InActive';
+        bgColor = Colors.grey;
+        textColor = Colors.white;
         break;
       case 3:
         statusText = 'Leave';
+        bgColor = const Color(0xFF673AB7);
+        textColor = Colors.white;
         break;
       case 4:
         statusText = 'WeekOff';
+
+        bgColor = const Color(0xFFFDD835);
+        textColor = Colors.white;
         break;
       case -1:
         statusText = 'Cancelled';
+        bgColor = const Color(0xFFB71C1C);
+        textColor = Colors.white;
         break;
       default:
-        statusText = ''; // Handle the default case if needed
+        statusText = '';
+        bgColor = Colors.grey;
+        textColor = Colors.white; // Handle the default case if needed
     }
-    return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status : ', statusText),
-        ],
-      ),
+    // return IntrinsicWidth(
+    //   child: Row(children: [textHandling('Status : ', statusText)]),
+    // );
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text(
+          'Status:',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          decoration: BoxDecoration(
+            color: bgColor,
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: Text(
+            statusText,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -491,11 +527,7 @@ class Utils {
         dutyTypeText = ''; // Handle the default case if needed
     }
 
-    return Row(
-      children: [
-        textHandling('DutyType : ', dutyTypeText),
-      ],
-    );
+    return Row(children: [textHandling('DutyType : ', dutyTypeText)]);
   }
 
   Row buildAttendanceDutyTypeRow(int dutyType) {
@@ -515,15 +547,13 @@ class Utils {
         dutyTypeText = ''; // Handle the default case if needed
     }
 
-    return Row(
-      children: [
-        textHandling('DutyType : ', dutyTypeText),
-      ],
-    );
+    return Row(children: [textHandling('DutyType : ', dutyTypeText)]);
   }
 
-  dynamic buildAttendanceStatusRow(
-      {required int status, bool? returnTextOnly}) {
+  dynamic buildAttendanceStatusRow({
+    required int status,
+    bool? returnTextOnly,
+  }) {
     String statusText;
 
     switch (status) {
@@ -545,15 +575,13 @@ class Utils {
     if (returnTextOnly ?? false) {
       return statusText;
     }
-    return Row(
-      children: [
-        textHandling('Status : ', statusText),
-      ],
-    );
+    return Row(children: [textHandling('Status : ', statusText)]);
   }
 
-  dynamic buildAttendanceShiftStatusRow(
-      {required int status, bool? returnTextOnly}) {
+  dynamic buildAttendanceShiftStatusRow({
+    required int status,
+    bool? returnTextOnly,
+  }) {
     String statusText;
 
     switch (status) {
@@ -578,11 +606,7 @@ class Utils {
     if (returnTextOnly ?? false) {
       return statusText;
     }
-    return Row(
-      children: [
-        textHandling('Status : ', statusText),
-      ],
-    );
+    return Row(children: [textHandling('Status : ', statusText)]);
   }
 
   dynamic buildGuardRank({required int guardRank, bool? returnTextOnly}) {
@@ -614,20 +638,14 @@ class Utils {
         guardRankText = ''; // Handle the default case if needed
     }
 
-
     if (returnTextOnly ?? false) {
       return guardRankText;
     }
 
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('GuardRank : ', guardRankText),
-        ],
-      ),
+      child: Row(children: [textHandling('GuardRank : ', guardRankText)]),
     );
   }
-
 
   Widget dutyGuardRank({required int dutyGuardRank}) {
     String guardRankText;
@@ -655,13 +673,10 @@ class Utils {
         guardRankText = ''; // Handle the default case if needed
     }
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Rank : ', guardRankText),
-        ],
-      ),
+      child: Row(children: [textHandling('Rank : ', guardRankText)]),
     );
   }
+
   Widget buildMaritalStatus(int maritalStatus) {
     String maritalStatusText;
 
@@ -677,9 +692,7 @@ class Utils {
     }
     return IntrinsicWidth(
       child: Row(
-        children: [
-          textHandling('MaritalStatus : ', maritalStatusText),
-        ],
+        children: [textHandling('MaritalStatus : ', maritalStatusText)],
       ),
     );
   }
@@ -698,11 +711,7 @@ class Utils {
         keyTypeText = ''; // Handle the default case if needed
     }
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Key Type : ', keyTypeText),
-        ],
-      ),
+      child: Row(children: [textHandling('Key Type : ', keyTypeText)]),
     );
   }
 
@@ -726,11 +735,7 @@ class Utils {
         typeText = ''; // Handle the default case if needed
     }
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Type : ', typeText),
-        ],
-      ),
+      child: Row(children: [textHandling('Type : ', typeText)]),
     );
   }
 
@@ -751,11 +756,7 @@ class Utils {
         genderText = ''; // Handle the default case if needed
     }
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Gender : ', genderText),
-        ],
-      ),
+      child: Row(children: [textHandling('Gender : ', genderText)]),
     );
   }
 
@@ -773,121 +774,9 @@ class Utils {
         assetTypeText = ''; // Handle the default case if needed
     }
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Asset Type : ', assetTypeText),
-        ],
-      ),
+      child: Row(children: [textHandling('Asset Type : ', assetTypeText)]),
     );
   }
-
-  // Widget buildEventProtectionStatusRow(int status) {
-  //   String statusText;
-  //
-  //   switch (status) {
-  //     case 0:
-  //       statusText = 'Draft';
-  //       break;
-  //     case 1:
-  //       statusText = 'Business User Review';
-  //       break;
-  //     case 2:
-  //       statusText = 'LSM Review';
-  //       break;
-  //     case 3:
-  //       statusText = 'LSM Approved';
-  //       break;
-  //     case 4:
-  //       statusText = 'LSM Rejected';
-  //       break;
-  //     case 5:
-  //       statusText = 'Vendor Review';
-  //       break;
-  //     case 6:
-  //       statusText = 'Vendor Approved';
-  //       break;
-  //     case 7:
-  //       statusText = 'Vendor Rejected';
-  //       break;
-  //     case 8:
-  //       statusText = 'Business User POC Review';
-  //       break;
-  //     case 9:
-  //       statusText = 'Business User POC Approved';
-  //       break;
-  //     case 10:
-  //       statusText = 'Business User POC Rejected';
-  //       break;
-  //     case 11:
-  //       statusText = 'Security Vendor Review';
-  //       break;
-  //     case 12:
-  //       statusText = 'Security Vendor Submitted';
-  //       break;
-  //     case 13:
-  //       statusText = 'EP Pre Review';
-  //       break;
-  //     case 14:
-  //       statusText = 'EP Pre Approved';
-  //       break;
-  //     case 15:
-  //       statusText = 'EP Pre Rejected';
-  //       break;
-  //     case 16:
-  //       statusText = 'SRH Review';
-  //       break;
-  //     case 17:
-  //       statusText = 'SRH Approved';
-  //       break;
-  //     case 18:
-  //       statusText = 'SRH Rejected';
-  //       break;
-  //     case 19:
-  //       statusText = 'EP PO Required';
-  //       break;
-  //     case 20:
-  //       statusText = 'PO Updated';
-  //       break;
-  //     case 21:
-  //       statusText = 'Event Started';
-  //       break;
-  //     case 22:
-  //       statusText = 'During Event';
-  //       break;
-  //     case 23:
-  //       statusText = 'Event Concluded';
-  //       break;
-  //     case 24:
-  //       statusText = 'EP Post Review';
-  //       break;
-  //     case 25:
-  //       statusText = 'EP Post Approved';
-  //       break;
-  //     case 26:
-  //       statusText = 'EP Post Rejected';
-  //       break;
-  //     case 27:
-  //       statusText = 'Invoice Requested';
-  //       break;
-  //     case 28:
-  //       statusText = 'Invoice Raised';
-  //       break;
-  //     case 29:
-  //       statusText = 'Invoice Submitted';
-  //       break;
-  //     case 30:
-  //       statusText = 'Closed';
-  //       break;
-  //     case -1:
-  //       statusText = 'Cancelled';
-  //       break;
-  //     default:
-  //       statusText = ''; // Handle the default case if needed
-  //   }
-  //   return IntrinsicWidth(
-  //     child: textHandling('Status : ', statusText),
-  //   );
-  // }
 
   Widget buildEventProtectionStatusRow(int status) {
     String statusText;
@@ -898,7 +787,7 @@ class Utils {
     switch (status) {
       case 0:
         statusText = 'Draft';
-        bgColor =  Colors.orange.shade200;
+        bgColor = Colors.orange.shade200;
         borderColor = const Color(0xFF9E9E9E);
         textColor = Colors.black87;
         break;
@@ -1162,11 +1051,7 @@ class Utils {
   Widget buildPassManagementStatusRow(int status) {
     String statusText = buildPassManagementStatus(status);
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status: ', statusText),
-        ],
-      ),
+      child: Row(children: [textHandling('Status: ', statusText)]),
     );
   }
 
@@ -1242,37 +1127,74 @@ class Utils {
         passTypeText = ''; // Handle the default case if needed
     }
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('PassType : ', passTypeText),
-        ],
-      ),
+      child: Row(children: [textHandling('PassType : ', passTypeText)]),
     );
   }
 
   Widget buildOccurrenceStatus(int status) {
     String statusText;
+    Color bgColor;
+    Color textColor;
 
     switch (status) {
       case 0:
         statusText = 'Created';
+        bgColor = const Color(0xFF66BB6A);
+        // borderColor = const Color(0xFF2E7D32);
+        textColor = Colors.white;
         break;
       case 1:
         statusText = 'Submitted';
+        bgColor = const Color(0xFFFFF59D);
+        // borderColor = const Color(0xFFFDD835);
+        textColor = Colors.black87;
         break;
       case -1:
         statusText = 'Cancelled';
+        bgColor = const Color(0xFFCE93D8);
+        // borderColor = const Color(0xFF8E24AA);
+        textColor = Colors.white;
         break;
       default:
-        statusText = ''; // Handle the default case if needed
+        statusText = 'Unknown';
+        bgColor = const Color(0xFFE0E0E0);
+        // borderColor = const Color(0xFF9E9E9E);
+        textColor =
+            const Color(0xFF424242); // Handle the default case if needed
     }
-    return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status : ', statusText),
-        ],
-      ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text(
+          'Status:',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          decoration: BoxDecoration(
+            color: bgColor.withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(30),
+            // border: Border.all(color: borderColor, width: 0.1),
+          ),
+          child: Text(
+            statusText,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
+            ),
+          ),
+        ),
+      ],
     );
+    //   IntrinsicWidth(
+    //   child: Row(children: [textHandling('Status : ', statusText)]),
+    // );
   }
 
   Widget keyLossDestructionStatus(int status) {
@@ -1319,11 +1241,7 @@ class Utils {
         statusText = ''; // Handle the default case if needed
     }
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status : ', statusText),
-        ],
-      ),
+      child: Row(children: [textHandling('Status : ', statusText)]),
     );
   }
 
@@ -1347,11 +1265,7 @@ class Utils {
         statusText = ''; // Handle the default case if needed
     }
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status : ', statusText),
-        ],
-      ),
+      child: Row(children: [textHandling('Status : ', statusText)]),
     );
   }
 
@@ -1405,11 +1319,7 @@ class Utils {
         statusText = '';
     }
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status : ', statusText),
-        ],
-      ),
+      child: Row(children: [textHandling('Status : ', statusText)]),
     );
   }
 
@@ -1457,11 +1367,7 @@ class Utils {
         statusText = ''; // Handle the default case if needed
     }
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status : ', statusText),
-        ],
-      ),
+      child: Row(children: [textHandling('Status : ', statusText)]),
     );
   }
 
@@ -1599,44 +1505,75 @@ class Utils {
         statusText = ''; // Handle the default case if needed
     }
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status : ', statusText),
-        ],
-      ),
+      child: Row(children: [textHandling('Status : ', statusText)]),
     );
   }
 
   dynamic buildSLAViolationStatus(int status, {bool? returnTextOnly}) {
     String statusText;
+    Color bgColor;
+    Color textColor;
 
     switch (status) {
       case 0:
         statusText = 'Draft';
+        bgColor = Colors.grey;
+        textColor = Colors.white;
         break;
       case 1:
         statusText = 'Active';
+        bgColor = const Color(0xFFF9A825);
+        textColor = Colors.white;
         break;
       case 2:
         statusText = 'Finalized';
+        bgColor = const Color(0xFF4CAF50);
+        textColor = Colors.white;
         break;
       case -1:
         statusText = 'Cancelled';
+        bgColor = const Color(0xFFB71C1C);
+        textColor = Colors.white;
         break;
       default:
-        statusText = ''; // Handle the default case if needed
+        statusText = '';
+        bgColor = const Color(0xFFB71C1C);
+        textColor = Colors.white;
+      // Handle the default case if needed
     }
 
-    if (returnTextOnly ?? false) {
-      return statusText;
-    }
+    // if (returnTextOnly ?? false) {
+    //   return statusText;
+    // }
 
-    return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status : ', statusText),
-        ],
-      ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text(
+          'Status:',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          decoration: BoxDecoration(
+            color: bgColor.withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: Text(
+            statusText,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -1650,11 +1587,7 @@ class Utils {
         statusText = 'No'; // Handle the default case if needed
     }
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('LEO Visit : ', statusText),
-        ],
-      ),
+      child: Row(children: [textHandling('LEO Visit : ', statusText)]),
     );
   }
 
@@ -1668,11 +1601,7 @@ class Utils {
         statusText = 'No'; // Handle the default case if needed
     }
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Material Movement : ', statusText),
-        ],
-      ),
+      child: Row(children: [textHandling('Material Movement : ', statusText)]),
     );
   }
 
@@ -1687,9 +1616,7 @@ class Utils {
     }
     return IntrinsicWidth(
       child: Row(
-        children: [
-          textHandling('Shift Briefing Attended : ', statusText),
-        ],
+        children: [textHandling('Shift Briefing Attended : ', statusText)],
       ),
     );
   }
@@ -1717,9 +1644,7 @@ class Utils {
     }
     return IntrinsicWidth(
       child: Row(
-        children: [
-          textHandling('Incident Type : ', incidentTypeText),
-        ],
+        children: [textHandling('Incident Type : ', incidentTypeText)],
       ),
     );
   }
@@ -1738,60 +1663,129 @@ class Utils {
     }
     return IntrinsicWidth(
       child: Row(
-        children: [
-          textHandling('Pass Category : ', categoryTypeText),
-        ],
+        children: [textHandling('Pass Category : ', categoryTypeText)],
       ),
     );
   }
 
   Widget contactDetailsStatus(int status) {
     String statusText;
+    Color bgColor;
+    Color textColor;
 
     switch (status) {
       case 0:
         statusText = 'Draft';
+        bgColor = Colors.grey;
+        textColor = Colors.white;
         break;
       case 1:
         statusText = 'Active';
+        bgColor = const Color(0xFFF9A825);
+        textColor = Colors.white;
         break;
       case -1:
         statusText = 'Cancelled';
+        bgColor = const Color(0xFFB71C1C);
+        textColor = Colors.white;
         break;
       default:
-        statusText = ''; // Handle the default case if needed
+        statusText = '';
+        bgColor = const Color(0xFFB71C1C);
+        textColor = Colors.white; // Handle the default case if needed
     }
-    return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status : ', statusText),
-        ],
-      ),
+    // return IntrinsicWidth(
+    //   child: Row(children: [textHandling('Status : ', statusText)]),
+    // );
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text(
+          'Status:',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          decoration: BoxDecoration(
+            color: bgColor.withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: Text(
+            statusText,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
   Widget dutyPostNameMasterStatus(int status) {
     String statusText;
+    Color bgColor;
+    Color textColor;
 
     switch (status) {
       case -1:
         statusText = 'Cancelled';
+        bgColor = const Color(0xFFB71C1C);
+        textColor = Colors.white;
         break;
       case 0:
         statusText = 'Draft';
+        bgColor = Colors.grey;
+        textColor = Colors.white;
         break;
       case 1:
         statusText = 'Active';
+        bgColor = const Color(0xFF4CAF50);
+        textColor = Colors.white;
         break;
       default:
-        statusText = ''; // Handle the default case if needed
+        statusText = '';
+        bgColor = const Color(0xFFB71C1C);
+        textColor = Colors.white;
+      // Handle the default case if needed
     }
-    return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status : ', statusText),
-        ],
-      ),
+    // return IntrinsicWidth(
+    //   child: Row(children: [textHandling('Status : ', statusText)]),
+    // );
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text(
+          'Status:',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          decoration: BoxDecoration(
+            color: bgColor,
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: Text(
+            statusText,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -1813,9 +1807,7 @@ class Utils {
     }
     return IntrinsicWidth(
       child: Row(
-        children: [
-          textHandling('Employee Type : ', employeeTypeText),
-        ],
+        children: [textHandling('Employee Type : ', employeeTypeText)],
       ),
     );
   }
@@ -1874,11 +1866,7 @@ class Utils {
         statusText = ''; // Handle the default case if needed
     }
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status : ', statusText),
-        ],
-      ),
+      child: Row(children: [textHandling('Status : ', statusText)]),
     );
   }
 
@@ -1899,11 +1887,7 @@ class Utils {
         statusText = ''; // Handle the default case if needed
     }
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status : ', statusText),
-        ],
-      ),
+      child: Row(children: [textHandling('Status : ', statusText)]),
     );
   }
 
@@ -1927,11 +1911,7 @@ class Utils {
         statusText = ''; // Handle the default case if needed
     }
     return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status : ', statusText),
-        ],
-      ),
+      child: Row(children: [textHandling('Status : ', statusText)]),
     );
   }
 
@@ -1947,10 +1927,7 @@ class Utils {
           //     text: '\n', // Add '\n' before desc
           //   ),
           // ],
-          TextSpan(
-            text: desc,
-            style: Styles.textStyleNavigator600,
-          ),
+          TextSpan(text: desc, style: Styles.textStyleNavigator600),
         ],
       ),
     );
@@ -1991,10 +1968,7 @@ class Utils {
   void formError(dynamic state, BuildContext context) {
     if (state.status == FormStatus.formError) {
       log('FORM Error STATUS: ${state.status}');
-      Validator().showToast(
-        context,
-        state.message ?? 'Invalid Information',
-      );
+      Validator().showToast(context, state.message ?? 'Invalid Information');
     }
   }
 
@@ -2007,37 +1981,33 @@ class Utils {
 
     log('STATUS: ${state.status}');
     if (state.status == FormStatus.error && context.mounted) {
-      UtilsCommon()
-          .logCustomEvent(msg: state.message, customKey: 'ERROR_AND_LOGOUT');
-      InactivityFunctions().logoutUser(navigatorKey);
-      Validator().showToast(
-        context,
-        state.message ?? 'Invalid Information',
+      UtilsCommon().logCustomEvent(
+        msg: state.message,
+        customKey: 'ERROR_AND_LOGOUT',
       );
+      InactivityFunctions().logoutUser(navigatorKey);
+      Validator().showToast(context, state.message ?? 'Invalid Information');
     }
     if (state.status == FormStatus.permissionLocationError && context.mounted) {
       log('');
       var dialog = CustomAlertDialog(
-          title: 'Location Permission',
-          message: state.message,
-          onPositivePressed: () async {
-            openAppSettings();
-            Navigator.of(context).pop();
-          },
-          onNegativePressed: () {
-            log('--onNegativePressed--');
-          },
-          positiveBtnText: Constants.settings,
-          negativeBtnText: Constants.no);
+        title: 'Location Permission',
+        message: state.message,
+        onPositivePressed: () async {
+          openAppSettings();
+          Navigator.of(context).pop();
+        },
+        onNegativePressed: () {
+          log('--onNegativePressed--');
+        },
+        positiveBtnText: Constants.settings,
+        negativeBtnText: Constants.no,
+      );
       showDialog(context: context, builder: (BuildContext context) => dialog);
     }
   }
 
-  void emitErrorState(
-    GenericResponse e,
-    dynamic emit,
-    dynamic state,
-  ) {
+  void emitErrorState(GenericResponse e, dynamic emit, dynamic state) {
     emit(
       state.copyWith(
         message: e.message,
