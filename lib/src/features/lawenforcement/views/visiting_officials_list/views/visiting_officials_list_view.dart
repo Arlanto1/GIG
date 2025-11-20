@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
@@ -65,6 +66,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     return BlocConsumer<VisitingOfficialListBloc, VisitingOfficialListState>(
         listener: (context, state) {
       Utils().formError(state, context);
@@ -79,26 +81,47 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
           await backButtonFunction(context);
         },
         child: Scaffold(
-          backgroundColor: AppColors.cardBgColor,
-          floatingActionButton: widget.showSaveButton && widget.parentIsEligibleToEdit
-              ? Flutterfloatingbutton(
-                  backgroundColor: AppColors.navigationSkyBlueColor,
-                  foregroundColor: AppColors.backgroundWhiteColor,
-                  onPressed: () {
-                    showAddContactPopUp(
-                      context: context,
-                      visitingOfficialDetails: LawVisitingOfficial(
-                        id: null,
-                        email: '',
-                        contactNo: '',
-                        department: Organisation(),
-                        designation: '',
-                      ),
-                      departments: state.departments,
-                    );
-                  },
-                )
-              : Container(),
+          backgroundColor: AppColors.lavender,
+          // floatingActionButton: widget.showSaveButton && widget.parentIsEligibleToEdit
+          //     ? Flutterfloatingbutton(
+          //         backgroundColor: AppColors.navigationSkyBlueColor,
+          //         foregroundColor: AppColors.backgroundWhiteColor,
+          //         onPressed: () {
+          //           showAddContactPopUp(
+          //             context: context,
+          //             visitingOfficialDetails: LawVisitingOfficial(
+          //               id: null,
+          //               email: '',
+          //               contactNo: '',
+          //               department: Organisation(),
+          //               designation: '',
+          //             ),
+          //             departments: state.departments,
+          //           );
+          //         },
+          //       )
+          //     : Container(),
+          bottomNavigationBar: CustomBottomNavigationBar(
+            hasAddPermission: widget.showSaveButton && widget.parentIsEligibleToEdit ? true : false,
+            scaffoldKey: scaffoldKey,
+            context: context,
+            // displayMenu: state.displayMenu,
+            list: true,
+            // 🔥 only "+" button mode
+            onAddPressed: () {
+              showAddContactPopUp(
+                context: context,
+                visitingOfficialDetails: LawVisitingOfficial(
+                  id: null,
+                  email: '',
+                  contactNo: '',
+                  department: Organisation(),
+                  designation: '',
+                ),
+                departments: state.departments,
+              );
+            },
+          ),
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: Constants.visitingOfficials,
@@ -154,9 +177,9 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
       return const NoRecordFoundWidget();
     }
     return Container(
-      margin: allMargin16,
+      // margin: allMargin16,
       decoration: const ShapeDecoration(
-          color: AppColors.backgroundWhiteColor,
+          color: AppColors.lavender,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
           )),
@@ -215,9 +238,58 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
                 value: state.items![index].email ?? '',
               ),
             );
-            return index >= state.items!.length
-                ? const BaseLoader()
-                : BaseListTileItem(
+            return Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color(0xFF6474C6),
+                      Color(0xFF6474C6)
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                margin: const EdgeInsets.symmetric(
+                    horizontal: 12, vertical: 8),
+
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(18),
+                    child: BackdropFilter(
+                        filter: ImageFilter.blur(
+                            sigmaX: 18, sigmaY: 18),
+                        child: Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.white.withValues(
+                                      alpha: 0.2),
+                                  Colors.transparent,
+                                  Colors.white.withValues(
+                                      alpha: 0.2),
+                                  // Color(0xFF6474C6).withOpacity(0.14)
+                                ],
+                                stops: [0.02, 0.35, 1],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                              borderRadius: BorderRadius
+                                  .circular(27),
+                              border: Border.all(
+                                color: Colors.white
+                                    .withValues(alpha: 0.80),
+                                width: 0.8,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(
+                                      0xFF6474C6).withValues(
+                                      alpha: 0.09),
+                                  blurRadius: 12,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: BaseListTileItem(
                     id: state.items?[index].id,
                     labels: labels,
                     onTap: (selectedIndex) {
@@ -269,7 +341,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
                               widget.id));
                     },
                     index: index,
-                  );
+                            )))) );
           }
           return null;
         },

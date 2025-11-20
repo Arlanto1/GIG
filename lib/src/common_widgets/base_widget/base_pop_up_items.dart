@@ -320,11 +320,16 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
       if (widget.slNo != null && widget.slNo!.isNotEmpty) ...[
         Row(
           children: [
-            // CommonWidgets.verticalSpacerWidget(8),
-            Utils().textHandling('Sl No : ', widget.slNo.toString()),
+            Expanded(   // 👈 REQUIRED to avoid overflow
+              child: Utils().textHandling(
+                'Sl No : ',
+                widget.slNo.toString(),
+              ),
+            ),
           ],
         ),
       ],
+
       if (widget.locationRegion != null) ...[
         // CommonWidgets.verticalSpacerWidget(8),
         Row(

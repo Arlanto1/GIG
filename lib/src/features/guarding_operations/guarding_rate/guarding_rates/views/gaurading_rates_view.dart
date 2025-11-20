@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import '../../services/guarding_services.dart';
@@ -62,208 +63,294 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     final size = MediaQuery.of(context).size;
     double height = size.height;
-    return Scaffold(
-        backgroundColor: AppColors.cardBgColor,
-        // floatingActionButton: Flutterfloatingbutton(
-        //   backgroundColor: AppColors.navigationSkybluecolor,
-        //   foregroundColor: AppColors.backgroundWhitecolor,
-        //   onPressed: () => {
-        //     Navigator.pushNamed(
-        //       context,
-        //       guardingRateDetailsRoute,
-        //       arguments: {
-        //         "title": Constants.createGuardingRatingCards,
-        //         "gmRate": GMRate(),
-        //       },
-        //     )
-        //   },
-        // ),
-        appBar: BaseAppBar().buildAppHeader(
-          context: context,
-          title: Constants.guardingRates,
-          showPopUp: true,
-          showSaveButton: false,
-          showSubmitButton: false,
-          showDisLikeButton: false,
-          showLikeButton: false,
-          excelAPIName: 'exportGMRateExcel',
-          pdfAPIName: 'exportGMRatePDF',
-        ),
-        body: BlocConsumer<GuardingRatesBloc, GuardingRatesState>(
-            listener: (context, state) {
+    return BlocConsumer<GuardingRatesBloc, GuardingRatesState>(
+        listener: (context, state) {
           Utils().formError(state, context);
           Utils().errorAndLogout(state, context);
-
-          if (state.status == FormStatus.sessionExpired) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                backgroundColor: Colors.red,
-                content: Text(state.message ?? 'Session Expired...')));
-            Validator.logoutAction(context);
-          }
         }, builder: (context, state) {
-          // if (state.status == FormStatus.initial) {
-          //   return const BaseLoader();
-          // }
-          // if (state.items.isEmptyOrNull) {
-          //   return const NoRecordFoundWidget();
-          // }
-          return Container(
-            margin: allMargin16,
-            decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhiteColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20.0)),
-                )),
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                BaseSearchWidget(
-                  applySearchFilters: applySearchFilters,
-                  applyFilters: applyFilters,
-                  commonFilters: state.commonFilters ??
-                      CommonFilters(
-                        statuses: [],
-                        regions: [],
-                      ),
-                ),
-                CommonWidgets.verticalSpacerWidget(height * 0.001),
-                // Text('-state.status-${state.status}----'),
-                if (state.status == FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  const BaseLoader(),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                ],
-                // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
-                // Text('state.status=====${state.status}'),
-                // if (state.items.isEmptyOrNull &&
-                //     state.status != FormStatus.initial &&
-                //     state.status != FormStatus.loading) ...[
-                //   CommonWidgets.verticalSpacerWidget(height * 0.1),
-                //   const NoRecordFoundWidget(),
-                // ],
+      return Scaffold(
+          backgroundColor: AppColors.lavender,
+          // floatingActionButton: Flutterfloatingbutton(
+          //   backgroundColor: AppColors.navigationSkybluecolor,
+          //   foregroundColor: AppColors.backgroundWhitecolor,
+          //   onPressed: () => {
+          //     Navigator.pushNamed(
+          //       context,
+          //       guardingRateDetailsRoute,
+          //       arguments: {
+          //         "title": Constants.createGuardingRatingCards,
+          //         "gmRate": GMRate(),
+          //       },
+          //     )
+          //   },
+          // ),
+          bottomNavigationBar: CustomBottomNavigationBar(
+            hasAddPermission: false,
+            scaffoldKey: scaffoldKey,
+            context: context,
+            displayMenu: state.displayMenu,
+            list: true,
+            // 🔥 only "+" button mode
+            onAddPressed: () {
+            },
+          ),
+          appBar: BaseAppBar().buildAppHeader(
+            context: context,
+            title: Constants.guardingRates,
+            showPopUp: true,
+            showSaveButton: false,
+            showSubmitButton: false,
+            showDisLikeButton: false,
+            showLikeButton: false,
+            excelAPIName: 'exportGMRateExcel',
+            pdfAPIName: 'exportGMRatePDF',
+          ),
+          body: BlocConsumer<GuardingRatesBloc, GuardingRatesState>(
+              listener: (context, state) {
+                Utils().formError(state, context);
+                Utils().errorAndLogout(state, context);
 
-                if (state.items.isEmptyOrNull) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.1),
-                  if (state.status != FormStatus.loading)
-                    const NoRecordFoundWidget(),
-                ],
-                Expanded(
-                  child: CustomMaterialIndicator(
-                    onRefresh: () => _onRefresh(),
-                    backgroundColor: Colors.white,
-                    indicatorBuilder: (context, controller) {
-                      return const Padding(
-                        padding: EdgeInsets.all(6.0),
-                        child: BaseLoader(),
-                      );
-                    },
-                    child: ListView.builder(
-                        controller: _scrollController,
-                        itemCount: state.hasReachedMax
-                            ? state.items.length
-                            : state.items.length + 1,
-                        itemBuilder: (context, index) {
-                          List<Label> labels = [];
-                          if (index < state.items.length) {
-                            labels.add(Label(
-                                key: state.labels?.locale.inputDate ??
-                                    state.labels?.defaultLocale.inputDate ??
-                                    Constants.dateofcreation,
-                                value: state.items[index].inputDate != null
-                                    ? Utils.timestampToDateConversion(
-                                        int.parse(
-                                            state.items[index].inputDate ??
-                                                '0'),
-                                        Constants.twentyFourHourDateTimeFormat)
-                                    : ''));
-                            labels.add(Label(
-                                key: state.labels?.locale.locationRegion ??
-                                    state
-                                        .labels?.defaultLocale.locationRegion ??
-                                    Constants.region,
-                                value:
-                                    state.items[index].locationRegion?.name ??
-                                        ''));
-                            labels.add(Label(
-                                key: state.labels?.locale.location ??
-                                    state.labels?.defaultLocale.location ??
-                                    Constants.buildingLocation,
-                                value:
-                                    state.items[index].location?.name ?? ''));
-                            labels.add(Label(
-                                key: state.labels?.locale.slNo ??
-                                    state.labels?.defaultLocale.slNo ??
-                                    Constants.slno,
-                                value: state.items[index].slNo ?? ''));
-                            return BaseListTileItem(
-                              id: state.items[index].id,
-                              // inputDate: state.items[index].inputDate,
-                              vendors: state.items[index].vendor,
-                              labels: labels,
-                              onTap: (selectedIndex) {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext dialogContext) {
-                                    return BasePopUpItems(
-                                      id: state.items[selectedIndex].id
-                                          .toString(),
-                                      labels: labels,
-                                      // inputDate: state
-                                      //     .items[selectedIndex].inputDate,
-                                      // slNo:
-                                      //     state.items[selectedIndex].slNo,
-                                      vendors:
-                                          state.items[selectedIndex].vendor,
-                                    );
-                                  },
-                                );
-                              },
-                              showEditButton: false,
-                              onEditTap: (selectedIndex) {
-                                getId(
-                                    state.extraProperties?.hasWritePermission ??
-                                        false,
-                                    state.items[index].id ?? 0);
-                              },
-                              onViewTap: (selectedIndex) {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext dialogContext) {
-                                    return BasePopUpItems(
-                                      id: state.items[selectedIndex].id
-                                          .toString(),
-                                      // inputDate: state
-                                      //     .items[selectedIndex].inputDate,
-                                      labels: labels,
-                                      // slNo:
-                                      //     state.items[selectedIndex].slNo,
-                                      vendors:
-                                          state.items[selectedIndex].vendor,
-
-                                      // status: state.items[selectedIndex].status
-                                      //     .toString(),
-                                      // entrySecurityName: state
-                                      //     .items[selectedIndex].entrySecurityName,
-                                    );
-                                  },
-                                );
-                              },
-                              index: index,
-                            );
-                          }
-                          return const Center(
-                            child: SizedBox(),
-                          );
-                        }),
+                if (state.status == FormStatus.sessionExpired) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      backgroundColor: Colors.red,
+                      content: Text(state.message ?? 'Session Expired...')));
+                  Validator.logoutAction(context);
+                }
+              }, builder: (context, state) {
+            // if (state.status == FormStatus.initial) {
+            //   return const BaseLoader();
+            // }
+            // if (state.items.isEmptyOrNull) {
+            //   return const NoRecordFoundWidget();
+            // }
+            return Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: const Color(0xFF6474C6),
+              // margin: allMargin16,
+              // decoration: const ShapeDecoration(
+              //     color: AppColors.backgroundWhiteColor,
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius:
+              //           BorderRadius.vertical(top: Radius.circular(20.0)),
+              //     )),
+              child: Column(
+                // crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  BaseSearchWidget(
+                    applySearchFilters: applySearchFilters,
+                    applyFilters: applyFilters,
+                    commonFilters: state.commonFilters ??
+                        CommonFilters(
+                          statuses: [],
+                          regions: [],
+                        ),
                   ),
-                ),
-              ],
-            ),
-          );
-        }));
+                  CommonWidgets.verticalSpacerWidget(height * 0.001),
+                  // Text('-state.status-${state.status}----'),
+                  if (state.status == FormStatus.loading) ...[
+                    CommonWidgets.verticalSpacerWidget(height * 0.01),
+                    const BaseLoader(),
+                    CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  ],
+                  // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
+                  // Text('state.status=====${state.status}'),
+                  // if (state.items.isEmptyOrNull &&
+                  //     state.status != FormStatus.initial &&
+                  //     state.status != FormStatus.loading) ...[
+                  //   CommonWidgets.verticalSpacerWidget(height * 0.1),
+                  //   const NoRecordFoundWidget(),
+                  // ],
+
+                  if (state.items.isEmptyOrNull) ...[
+                    CommonWidgets.verticalSpacerWidget(height * 0.1),
+                    if (state.status != FormStatus.loading)
+                      const NoRecordFoundWidget(),
+                  ],
+                  Expanded(
+                    child: CustomMaterialIndicator(
+                      onRefresh: () => _onRefresh(),
+                      backgroundColor: Colors.white,
+                      indicatorBuilder: (context, controller) {
+                        return const Padding(
+                          padding: EdgeInsets.all(6.0),
+                          child: BaseLoader(),
+                        );
+                      },
+                      child: ListView.builder(
+                          controller: _scrollController,
+                          itemCount: state.hasReachedMax
+                              ? state.items.length
+                              : state.items.length + 1,
+                          itemBuilder: (context, index) {
+                            List<Label> labels = [];
+                            if (index < state.items.length) {
+                              labels.add(Label(
+                                  key: state.labels?.locale.inputDate ??
+                                      state.labels?.defaultLocale.inputDate ??
+                                      Constants.dateofcreation,
+                                  value: state.items[index].inputDate != null
+                                      ? Utils.timestampToDateConversion(
+                                      int.parse(
+                                          state.items[index].inputDate ??
+                                              '0'),
+                                      Constants.twentyFourHourDateTimeFormat)
+                                      : ''));
+                              labels.add(Label(
+                                  key: state.labels?.locale.locationRegion ??
+                                      state
+                                          .labels?.defaultLocale
+                                          .locationRegion ??
+                                      Constants.region,
+                                  value:
+                                  state.items[index].locationRegion?.name ??
+                                      ''));
+                              labels.add(Label(
+                                  key: state.labels?.locale.location ??
+                                      state.labels?.defaultLocale.location ??
+                                      Constants.buildingLocation,
+                                  value:
+                                  state.items[index].location?.name ?? ''));
+                              labels.add(Label(
+                                  key: state.labels?.locale.slNo ??
+                                      state.labels?.defaultLocale.slNo ??
+                                      Constants.slno,
+                                  value: state.items[index].slNo ?? ''));
+                              return Container(
+                                  decoration: const BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFF6474C6),
+                                        Color(0xFF6474C6)
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                  ),
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 8),
+
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(18),
+                                      child: BackdropFilter(
+                                          filter: ImageFilter.blur(
+                                              sigmaX: 18, sigmaY: 18),
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  colors: [
+                                                    Colors.white.withValues(
+                                                        alpha: 0.2),
+                                                    Colors.transparent,
+                                                    Colors.white.withValues(
+                                                        alpha: 0.2),
+                                                    // Color(0xFF6474C6).withOpacity(0.14)
+                                                  ],
+                                                  stops: [0.02, 0.35, 1],
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                ),
+                                                borderRadius: BorderRadius
+                                                    .circular(27),
+                                                border: Border.all(
+                                                  color: Colors.white
+                                                      .withValues(alpha: 0.80),
+                                                  width: 0.8,
+                                                ),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: const Color(
+                                                        0xFF6474C6).withValues(
+                                                        alpha: 0.09),
+                                                    blurRadius: 12,
+                                                    offset: const Offset(0, 2),
+                                                  ),
+                                                ],
+                                              ),
+                                              child: BaseListTileItem(
+                                                id: state.items[index].id,
+                                                // inputDate: state.items[index].inputDate,
+                                                vendors: state.items[index]
+                                                    .vendor,
+                                                labels: labels,
+                                                onTap: (selectedIndex) {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (
+                                                        BuildContext dialogContext) {
+                                                      return BasePopUpItems(
+                                                        id: state
+                                                            .items[selectedIndex]
+                                                            .id
+                                                            .toString(),
+                                                        labels: labels,
+                                                        // inputDate: state
+                                                        //     .items[selectedIndex].inputDate,
+                                                        // slNo:
+                                                        //     state.items[selectedIndex].slNo,
+                                                        vendors:
+                                                        state
+                                                            .items[selectedIndex]
+                                                            .vendor,
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                showEditButton: false,
+                                                onEditTap: (selectedIndex) {
+                                                  getId(
+                                                      state.extraProperties
+                                                          ?.hasWritePermission ??
+                                                          false,
+                                                      state.items[index].id ??
+                                                          0);
+                                                },
+                                                onViewTap: (selectedIndex) {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (
+                                                        BuildContext dialogContext) {
+                                                      return BasePopUpItems(
+                                                        id: state
+                                                            .items[selectedIndex]
+                                                            .id
+                                                            .toString(),
+                                                        // inputDate: state
+                                                        //     .items[selectedIndex].inputDate,
+                                                        labels: labels,
+                                                        // slNo:
+                                                        //     state.items[selectedIndex].slNo,
+                                                        vendors:
+                                                        state
+                                                            .items[selectedIndex]
+                                                            .vendor,
+
+                                                        // status: state.items[selectedIndex].status
+                                                        //     .toString(),
+                                                        // entrySecurityName: state
+                                                        //     .items[selectedIndex].entrySecurityName,
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                index: index,
+                                              )))));
+                            }
+                            return const Center(
+                              child: SizedBox(),
+                            );
+                          }),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }));
+    });
   }
 
   getId(bool hasWritePermission, int id) async {

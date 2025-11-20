@@ -64,18 +64,18 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
         alignment: Alignment.center,
         child: Text(
           widget.title,
-          style: Styles.textFontSet(18, AppColors.textGreyThemeColor,
+          style: Styles.textFontSet(18, AppColors.white,
               FontWeight.normal, Constants.customFontSemiBoldFamily),
         ),
       ),
-      backgroundColor: AppColors.backgroundWhiteColor,
+      backgroundColor: AppColors.lavender,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
 
         return SizedBox(
-          height: height / 1.8,
+          height: height / 1.5,
           width: width,
           child: Stack(
             clipBehavior: Clip.none,
@@ -92,7 +92,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                             state.labels?.defaultLocale.visitingOfficialName ??
                             Constants.name,
                         //isMandatory: true,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite16,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
@@ -122,7 +122,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                                 .visitingOfficialDesignation ??
                             Constants.designation,
                         //isMandatory: true,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite16,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
@@ -151,7 +151,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                             state.labels?.defaultLocale
                                 .visitingOfficialDepartment ??
                             Constants.department,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite16,
                         //  isMandatory: true,
                       ),
                       TextFieldAddButton(
@@ -194,6 +194,8 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                         },
                       ),
 
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                       /// Office Address
                       CommonWidgets.textDisplay(
                         state.labels?.locale.visitingOfficialAddress ??
@@ -201,9 +203,9 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                                 .visitingOfficialAddress ??
                             Constants.officeAddress,
                         //isMandatory: true,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite16,
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.001),
                       FlutterInputField(
                         initialValue: officeAddressController.text,
                         textInputType: TextInputType.text,
@@ -231,7 +233,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                             state.labels?.defaultLocale.visitingOfficialEmail ??
                             Constants.emailId,
                         //isMandatory: true,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite16,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
@@ -260,7 +262,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
                             state.labels?.defaultLocale
                                 .visitingOfficialContactNo ??
                             Constants.phoneNumber,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite16,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
@@ -313,9 +315,9 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
       key: const Key(Keys.cancelButton),
       buttonText: Constants.close,
       buttonTextKey: Keys.cancelButtonText,
-      foregroundColor: AppColors.textGreyThemeColor,
-      textStyle: Styles.styleHeaderGreyText16,
-      backgroundColor: AppColors.white,
+      foregroundColor: const Color(0xFF071130),
+      textStyle: Styles.textStyleSemiBold16DarkBlue,
+      backgroundColor: Colors.white,
       boarderColor: AppColors.textGreyThemeColor,
       onTap: () {
         //loginFormKey.currentState!.validate();
@@ -331,8 +333,8 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
       key: const Key(Keys.saveButton),
       buttonText: Constants.save,
       buttonTextKey: Keys.saveButtonText,
-      boarderColor: AppColors.navigationSkyBlueColor,
-      backgroundColor: AppColors.navigationSkyBlueColor,
+      boarderColor: AppColors.white,
+      backgroundColor:  const Color(0xFF071130),
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {

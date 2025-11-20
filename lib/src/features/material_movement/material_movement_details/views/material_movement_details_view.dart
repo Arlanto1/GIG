@@ -300,7 +300,7 @@ class _MaterialMovementDetailsViewState
               );
             },
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.lavender,
           body: getBodybuilder(state, height),
         );
       },
@@ -375,17 +375,17 @@ class _MaterialMovementDetailsViewState
         state.model.status == ConstantsIntValue.mmStatusInwardWaiting ||
         !state.model.lock.isEmptyOrNull;
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.lavender,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
+              color: AppColors.lavender,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
+                  color: AppColors.lavender,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -411,9 +411,9 @@ class _MaterialMovementDetailsViewState
                             ],
                             Container(
                               alignment: Alignment.topLeft,
-                              child: Text(
+                              child: const Text(
                                 Constants.generalinformation,
-                                style: Styles.styleHeaderGreyText16,
+                                style: Styles.textStyleRegularNormalWhite18,
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -423,7 +423,7 @@ class _MaterialMovementDetailsViewState
                               state.labels?.locale.type ??
                                   state.labels?.defaultLocale.type ??
                                   'Material Movement Type',
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
 
@@ -438,7 +438,7 @@ class _MaterialMovementDetailsViewState
                               onChange: (String value) {},
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Returnable/Non Returnable
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -470,14 +470,14 @@ class _MaterialMovementDetailsViewState
                                 // }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Status
                             CommonWidgets.textDisplay(
                               state.labels?.locale.status ??
                                   state.labels?.defaultLocale.status ??
                                   Constants.status,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -513,7 +513,7 @@ class _MaterialMovementDetailsViewState
                                 // }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Created By
                             CommonWidgets.horizentaltextHandling(
@@ -522,14 +522,14 @@ class _MaterialMovementDetailsViewState
                                     Constants.createdby,
                                 isMandatory: true,
                                 '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Location
                             CommonWidgets.textDisplay(
                               state.labels?.locale.location ??
                                   state.labels?.defaultLocale.location ??
                                   Constants.location,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -550,20 +550,20 @@ class _MaterialMovementDetailsViewState
                                           location: location);
                                 }),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
                               state.labels?.locale.inputDate ??
                                   state.labels?.defaultLocale.inputDate ??
                                   Constants.dateofcreation,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             datecreateWidgetdisplay(
                                 state.model.inputDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Sl No.
                             CommonWidgets.horizentaltextHandling(
@@ -573,7 +573,7 @@ class _MaterialMovementDetailsViewState
                               state.model.slNo ?? '',
                               isMandatory: true,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             if(widget.isInward)...[
                             /// Challan/ Invoice Nos/ Gate Pass
@@ -581,7 +581,7 @@ class _MaterialMovementDetailsViewState
                               state.labels?.locale.challanNo ??
                                   state.labels?.defaultLocale.challanNo ??
                                   Constants.challan,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -626,7 +626,7 @@ class _MaterialMovementDetailsViewState
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 ],
                             if (widget.isInward) ...[
                               /// PO Number
@@ -634,7 +634,7 @@ class _MaterialMovementDetailsViewState
                                 state.labels?.locale.poNumber ??
                                     state.labels?.defaultLocale.poNumber ??
                                     Constants.poNumber,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -667,7 +667,7 @@ class _MaterialMovementDetailsViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ],
 
                             /// Material Brief Description
@@ -676,7 +676,7 @@ class _MaterialMovementDetailsViewState
                                   state.labels?.defaultLocale
                                       .materialDescription ??
                                   Constants.materialBriefDescription,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: (state.model.status !=
                                               ConstantsIntValue.mmStatusDraft &&
                                           widget.model != null) ||
@@ -727,14 +727,14 @@ class _MaterialMovementDetailsViewState
                                   TextInputType.multiline, // Add this line
                             ),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Quantity
                             CommonWidgets.textDisplay(
                               state.labels?.locale.quantity ??
                                   state.labels?.defaultLocale.quantity ??
                                   Constants.quantity,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: (state.model.status !=
                                               ConstantsIntValue.mmStatusDraft &&
                                           widget.model != null) ||
@@ -748,7 +748,7 @@ class _MaterialMovementDetailsViewState
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 SizedBox(
-                                  width: 100,
+                                  width: 120,
                                   child: FlutterInputField(
                                     characterLimit: 5,
                                     textInputType:
@@ -833,7 +833,7 @@ class _MaterialMovementDetailsViewState
                             ),
 
                             // quantityUnitPopUp(state),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Outward Details Fields
                             if (!widget.isInward) ...[
@@ -842,7 +842,7 @@ class _MaterialMovementDetailsViewState
                                 state.labels?.locale.modelInfo ??
                                     state.labels?.defaultLocale.modelInfo ??
                                     Constants.equipmentNo,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: state.model.status !=
                                             ConstantsIntValue.mmStatusDraft &&
                                         widget.model != null
@@ -894,14 +894,14 @@ class _MaterialMovementDetailsViewState
                                 textInputType: TextInputType.multiline,
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Sent to Address
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.address ??
                                     state.labels?.defaultLocale.address ??
                                     Constants.address,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: state.model.status !=
                                             ConstantsIntValue.mmStatusDraft &&
                                         widget.model != null
@@ -954,7 +954,7 @@ class _MaterialMovementDetailsViewState
                                 //
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Requester Employee Id
                               Column(
@@ -964,7 +964,7 @@ class _MaterialMovementDetailsViewState
                                         state.labels?.defaultLocale
                                             .requestorEmployeeId ??
                                         Constants.requestorEmployeeId,
-                                    Styles.textStyleBlack14,
+                                    Styles.textStyleWhite16,
                                     isMandatory: true,
                                   ),
                                   TextFieldAddButton(
@@ -1058,7 +1058,7 @@ class _MaterialMovementDetailsViewState
                                   //   ),
                                 ],
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Requestor Email
                               CommonWidgets.textDisplay(
@@ -1066,7 +1066,7 @@ class _MaterialMovementDetailsViewState
                                     state
                                         .labels?.defaultLocale.requestorEmail ??
                                     Constants.requestorEmployeeId,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               CommonWidgets.verticalSpacerWidget(
@@ -1088,7 +1088,7 @@ class _MaterialMovementDetailsViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Requester Department
                               CommonWidgets.textDisplay(
@@ -1096,7 +1096,7 @@ class _MaterialMovementDetailsViewState
                                     state.labels?.defaultLocale
                                         .requestorDepartment ??
                                     Constants.requestorDepartment,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: state.model.status !=
                                             ConstantsIntValue.mmStatusDraft &&
                                         widget.model != null
@@ -1199,14 +1199,14 @@ class _MaterialMovementDetailsViewState
                               ),
 
                               // dbwanttodepartmentaddButtonwidgetLoading(state),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Sent To
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.sentTo ??
                                     state.labels?.defaultLocale.sentTo ??
                                     Constants.sentTo,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: state.model.status !=
                                             ConstantsIntValue.mmStatusDraft &&
                                         widget.model != null
@@ -1256,14 +1256,14 @@ class _MaterialMovementDetailsViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Purpose
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.purpose ??
                                     state.labels?.defaultLocale.purpose ??
                                     Constants.purpose,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: state.model.status !=
                                             ConstantsIntValue.mmStatusDraft &&
                                         widget.model != null
@@ -1312,14 +1312,14 @@ class _MaterialMovementDetailsViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Prepared By
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.preparedBy ??
                                     state.labels?.defaultLocale.preparedBy ??
                                     Constants.preparedBy,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: state.model.status !=
                                             ConstantsIntValue.mmStatusDraft &&
                                         widget.model != null
@@ -1368,7 +1368,7 @@ class _MaterialMovementDetailsViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Prepared By Department
                               CommonWidgets.textDisplay(
@@ -1376,7 +1376,7 @@ class _MaterialMovementDetailsViewState
                                     state.labels?.defaultLocale
                                         .preparedByDepartment ??
                                     Constants.preparedByDepartment,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: state.model.status !=
                                             ConstantsIntValue.mmStatusDraft &&
                                         widget.model != null
@@ -1478,7 +1478,7 @@ class _MaterialMovementDetailsViewState
                                   }
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Approver1 Email
                               Column(
@@ -1488,7 +1488,7 @@ class _MaterialMovementDetailsViewState
                                         state.labels?.defaultLocale
                                             .approver1Email ??
                                         Constants.approver1Email,
-                                    Styles.textStyleBlack14,
+                                    Styles.textStyleWhite16,
                                     isMandatory: true,
                                   ),
                                   TextFieldAddButton(
@@ -1573,7 +1573,7 @@ class _MaterialMovementDetailsViewState
                                   //   ),
                                 ],
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Approver1 By Department
                               CommonWidgets.textDisplay(
@@ -1581,7 +1581,7 @@ class _MaterialMovementDetailsViewState
                                     state.labels?.defaultLocale
                                         .approver1Department ??
                                     Constants.approver1Department,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               TextFieldAddButton(
@@ -1635,7 +1635,7 @@ class _MaterialMovementDetailsViewState
                                   }
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Approver2 Email
                               Column(
@@ -1645,7 +1645,7 @@ class _MaterialMovementDetailsViewState
                                         state.labels?.defaultLocale
                                             .approver2Email ??
                                         Constants.approver2Email,
-                                    Styles.textStyleBlack14,
+                                    Styles.textStyleWhite16,
                                     isMandatory: true,
                                   ),
                                   TextFieldAddButton(
@@ -1730,7 +1730,7 @@ class _MaterialMovementDetailsViewState
                                   //   ),
                                 ],
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Approver2 By Department
                               CommonWidgets.textDisplay(
@@ -1738,7 +1738,7 @@ class _MaterialMovementDetailsViewState
                                     state.labels?.defaultLocale
                                         .approver2Department ??
                                     Constants.approver2Department,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               TextFieldAddButton(
@@ -1792,7 +1792,7 @@ class _MaterialMovementDetailsViewState
                                   }
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                               // if (widget.materialMovement?.status == 5) ...[
                               //   /// Rejection Comment
                               //   CommonWidgets.textDisplay(
@@ -1827,7 +1827,7 @@ class _MaterialMovementDetailsViewState
                                       state.labels?.defaultLocale
                                           .rejectionComment ??
                                       Constants.rejectionComment,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory:
                                       widget.model == null ? false : true,
                                 ),
@@ -1850,7 +1850,7 @@ class _MaterialMovementDetailsViewState
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Rejected By
                                 CommonWidgets.horizentaltextHandling(
@@ -1861,7 +1861,7 @@ class _MaterialMovementDetailsViewState
                                     isMandatory: true,
                                     '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Rejected Date
                                 CommonWidgets.textDisplay(
@@ -1869,7 +1869,7 @@ class _MaterialMovementDetailsViewState
                                       state
                                           .labels?.defaultLocale.rejectedDate ??
                                       Constants.rejectedDate,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
@@ -1877,7 +1877,7 @@ class _MaterialMovementDetailsViewState
                                 datecreateWidgetdisplay(
                                     state.model.rejectedDate ?? ''),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
                                 //],
                               ],
 
@@ -1888,7 +1888,7 @@ class _MaterialMovementDetailsViewState
                                       state.labels?.defaultLocale
                                           .expectedDateOfReturn ??
                                       Constants.expectedDateOfReturn,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: state.model.status !=0 && state.model.status !=null ? true : false,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
@@ -1925,7 +1925,7 @@ class _MaterialMovementDetailsViewState
                                   context: context,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
                               ],
 
                               /// If Status is Approved(status=6), Inward Pending(status=9), Submitted(status=2)
@@ -1938,7 +1938,7 @@ class _MaterialMovementDetailsViewState
                                     state.model.status == 9 ||
                                     state.model.status == 10) ...[
                                   /// Approved By
-                                  CommonWidgets.verticalTextHandling(
+                                  CommonWidgets.horizentaltextHandling(
                                       state.labels?.locale.approvedBy ??
                                           state.labels?.defaultLocale
                                               .approvedBy ??
@@ -1954,7 +1954,7 @@ class _MaterialMovementDetailsViewState
                                         state.labels?.defaultLocale
                                             .approvedDate ??
                                         Constants.dateofcreation,
-                                    Styles.textStyleBlack14,
+                                    Styles.textStyleWhite16,
                                     isMandatory: true,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
@@ -1970,7 +1970,7 @@ class _MaterialMovementDetailsViewState
                                         state.labels?.defaultLocale
                                             .takenOutName ??
                                         Constants.takenOutBy,
-                                    Styles.textStyleBlack14,
+                                    Styles.textStyleWhite16,
                                     isMandatory: true,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
@@ -1996,7 +1996,7 @@ class _MaterialMovementDetailsViewState
                                     validateTextField: (String? user) {},
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
+                                      height * 0.02),
 
                                   /// Taken Out By Contact No.
                                   CommonWidgets.textDisplay(
@@ -2004,7 +2004,7 @@ class _MaterialMovementDetailsViewState
                                         state.labels?.defaultLocale
                                             .takenOutContactNo ??
                                         Constants.takenOutByContactNo,
-                                    Styles.textStyleBlack14,
+                                    Styles.textStyleWhite16,
                                     isMandatory: true,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
@@ -2034,7 +2034,7 @@ class _MaterialMovementDetailsViewState
                                     validateTextField: (String? user) {},
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
+                                      height * 0.02),
 
                                   /// Taken Out Address
                                   CommonWidgets.textDisplay(
@@ -2042,7 +2042,7 @@ class _MaterialMovementDetailsViewState
                                         state.labels?.defaultLocale
                                             .takenOutAddress ??
                                         Constants.takenOutAddress,
-                                    Styles.textStyleBlack14,
+                                    Styles.textStyleWhite16,
                                     isMandatory: true,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
@@ -2070,7 +2070,7 @@ class _MaterialMovementDetailsViewState
                                     validateTextField: (String? user) {},
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
+                                      height * 0.02),
 
                                   //if (state.materialMovement.status == 2 && state.isInward == false) ...[
                                   /// Taken Out On
@@ -2079,7 +2079,7 @@ class _MaterialMovementDetailsViewState
                                         state.labels?.defaultLocale
                                             .takenOutDate ??
                                         Constants.takenOutOn,
-                                    Styles.textStyleBlack14,
+                                    Styles.textStyleWhite16,
                                     isMandatory: true,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
@@ -2110,14 +2110,14 @@ class _MaterialMovementDetailsViewState
                                     context: context,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
+                                      height * 0.02),
                                 ]
                               ],
 
                               /// If Status is Rejected(status=7)
                               if (state.model.status == 7) ...[
                                 /// Rejected By
-                                CommonWidgets.verticalTextHandling(
+                                CommonWidgets.horizentaltextHandling(
                                     state.labels?.locale.rejectedBy ??
                                         state
                                             .labels?.defaultLocale.rejectedBy ??
@@ -2127,7 +2127,7 @@ class _MaterialMovementDetailsViewState
                                     height * 0.01),
 
                                 /// Rejected Date
-                                CommonWidgets.verticalTextHandling(
+                                CommonWidgets.horizentaltextHandling(
                                     state.labels?.locale.rejectedDate ??
                                         state.labels?.defaultLocale
                                             .rejectedDate ??
@@ -2137,7 +2137,7 @@ class _MaterialMovementDetailsViewState
                                     height * 0.01),
 
                                 /// Rejected Comment
-                                CommonWidgets.verticalTextHandling(
+                                CommonWidgets.horizentaltextHandling(
                                     state.labels?.locale.rejectionComment ??
                                         state.labels?.defaultLocale
                                             .rejectionComment ??
@@ -2155,7 +2155,7 @@ class _MaterialMovementDetailsViewState
                                     state.labels?.defaultLocale
                                         .materialComingFrom ??
                                     Constants.sendersName,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               CommonWidgets.verticalSpacerWidget(
@@ -2175,7 +2175,7 @@ class _MaterialMovementDetailsViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Material Coming From Address
                               CommonWidgets.textDisplay(
@@ -2184,7 +2184,7 @@ class _MaterialMovementDetailsViewState
                                         .materialComingFromAddress ??
                                     Constants
                                         .materialComingFromBriefDescription,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               CommonWidgets.verticalSpacerWidget(
@@ -2213,7 +2213,7 @@ class _MaterialMovementDetailsViewState
                                 textInputType: TextInputType.multiline, //
                               ),
 
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Is original receiver receiving
                               CommonWidgets.textDisplay(
@@ -2221,7 +2221,7 @@ class _MaterialMovementDetailsViewState
                                     state.labels?.defaultLocale
                                         .originalReceiver ??
                                     Constants.isOriginalReceiverReceiving,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               RadioButtonsYesNo(
@@ -2267,6 +2267,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.receiverDepartmenttName = null;
                                       },
                               ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               if (state.model.originalReceiver == false) ...[
                                 // /// Received For
@@ -2336,7 +2337,7 @@ class _MaterialMovementDetailsViewState
                                           state.labels?.defaultLocale
                                               .receiverEmployeeId ??
                                           Constants.receivedForEmployeeId,
-                                      Styles.textStyleBlack14,
+                                      Styles.textStyleWhite16,
                                       isMandatory: true,
                                     ),
                                     TextFieldAddButton(
@@ -2383,7 +2384,7 @@ class _MaterialMovementDetailsViewState
                                           }
                                         }),
                                     CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                        height * 0.02),
                                   ],
                                 ),
 
@@ -2393,7 +2394,7 @@ class _MaterialMovementDetailsViewState
                                       state.labels?.defaultLocale
                                           .otherReceiverName ??
                                       Constants.receivedFor,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
@@ -2415,7 +2416,7 @@ class _MaterialMovementDetailsViewState
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
                               ],
 
                               /// Receiver Department
@@ -2424,7 +2425,7 @@ class _MaterialMovementDetailsViewState
                                     state.labels?.defaultLocale
                                         .receiverDepartment ??
                                     Constants.receiverDepartment,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               TextFieldAddButton(
@@ -2466,7 +2467,7 @@ class _MaterialMovementDetailsViewState
                                   }
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                               if (state.model.originalReceiver == true) ...[
                                 /// Received by Employee Id
                                 Column(
@@ -2477,7 +2478,7 @@ class _MaterialMovementDetailsViewState
                                           state.labels?.defaultLocale
                                               .otherReceiverEmployeeId ??
                                           Constants.receiverEmployeeId,
-                                      Styles.textStyleBlack14,
+                                      Styles.textStyleWhite16,
                                       isMandatory: true,
                                     ),
                                     TextFieldAddButton(
@@ -2526,7 +2527,7 @@ class _MaterialMovementDetailsViewState
                                   ],
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Received by
                                 CommonWidgets.textDisplay(
@@ -2534,7 +2535,7 @@ class _MaterialMovementDetailsViewState
                                       state
                                           .labels?.defaultLocale.receiverName ??
                                       Constants.receivedBy,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true,
                                 ),
 
@@ -2555,7 +2556,7 @@ class _MaterialMovementDetailsViewState
                                   validateTextField: (String? user) {},
                                 ),
                               ],
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               if (state.model.originalReceiver == false) ...[
                                 /// Received by Employee Id
@@ -2704,7 +2705,7 @@ class _MaterialMovementDetailsViewState
                                       state.labels?.defaultLocale
                                           .otherReceiverEmployeeId ??
                                       Constants.receiverEmployeeId,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
@@ -2725,7 +2726,7 @@ class _MaterialMovementDetailsViewState
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
 
                               ///Received By
@@ -2734,7 +2735,7 @@ class _MaterialMovementDetailsViewState
                                     state
                                         .labels?.defaultLocale.receiverName ??
                                     Constants.receivedBy,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               CommonWidgets.verticalSpacerWidget(
@@ -2755,7 +2756,7 @@ class _MaterialMovementDetailsViewState
                                 validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(
-                                  height * 0.01),
+                                  height * 0.02),
                             ],
 
                               /// Receiver Signature test
@@ -2795,7 +2796,7 @@ class _MaterialMovementDetailsViewState
                                     state.labels?.defaultLocale
                                         .materialPhysicallyChecked ??
                                     Constants.isPhysicallyChecked,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               RadioButtonsYesNo(
@@ -2841,7 +2842,7 @@ class _MaterialMovementDetailsViewState
                                       state.labels?.defaultLocale
                                           .materialNotCheckedComment ??
                                       Constants.comment,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true,
                                 ),
                                 FlutterInputField(
@@ -2851,7 +2852,7 @@ class _MaterialMovementDetailsViewState
                                   hintText: '',
                                   isEnable: state.model.status == 0 ||
                                       state.model.status == null,
-                                  isDisableColor: state.model.status != 0,
+                                  isDisableColor: state.model.status != 0 && state.model.status != null,
                                   onChange: (String value) {
                                     state.model.materialNotCheckedComment =
                                         value;
@@ -2862,7 +2863,7 @@ class _MaterialMovementDetailsViewState
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
                               ],
                             ],
 
@@ -2880,7 +2881,7 @@ class _MaterialMovementDetailsViewState
                                     state.labels?.defaultLocale
                                         .materialPhysicallyChecked ??
                                     Constants.isPhysicallyChecked,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               RadioButtonsYesNo(
@@ -2926,7 +2927,7 @@ class _MaterialMovementDetailsViewState
                                       state.labels?.defaultLocale
                                           .materialNotCheckedComment ??
                                       Constants.comment,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true,
                                 ),
                                 FlutterInputField(
@@ -2947,7 +2948,7 @@ class _MaterialMovementDetailsViewState
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
                               ],
 
                               /// Security Signature
@@ -2985,7 +2986,7 @@ class _MaterialMovementDetailsViewState
                                     state.labels?.defaultLocale
                                         .actualDateOfReturn ??
                                     Constants.actualDateOfReturn,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               CommonWidgets.verticalSpacerWidget(
@@ -3009,7 +3010,7 @@ class _MaterialMovementDetailsViewState
                                 },
                                 context: context,
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Material Returned Challan No
                               CommonWidgets.textDisplay(
@@ -3017,7 +3018,7 @@ class _MaterialMovementDetailsViewState
                                     state.labels?.defaultLocale
                                         .materialReturnedChallanNo ??
                                     Constants.materialReturnedChallanNo,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               CommonWidgets.verticalSpacerWidget(
@@ -3045,7 +3046,7 @@ class _MaterialMovementDetailsViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Return Receiver Email
                               Column(
@@ -3055,7 +3056,7 @@ class _MaterialMovementDetailsViewState
                                         state.labels?.defaultLocale
                                             .returnReceiverMailId ??
                                         Constants.returnReceiverEmail,
-                                    Styles.textStyleBlack14,
+                                    Styles.textStyleWhite16,
                                     isMandatory: true,
                                   ),
                                   widget.model?.status != 6
@@ -3128,7 +3129,7 @@ class _MaterialMovementDetailsViewState
                                         ),
                                 ],
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Returned Quantity
                               CommonWidgets.textDisplay(
@@ -3136,7 +3137,7 @@ class _MaterialMovementDetailsViewState
                                     state
                                         .labels?.defaultLocale.returnQuantity ??
                                     Constants.returnedQuantity,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               FlutterInputField(
@@ -3161,7 +3162,7 @@ class _MaterialMovementDetailsViewState
                                 },
                                 // validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Comment
                               CommonWidgets.textDisplay(
@@ -3169,7 +3170,7 @@ class _MaterialMovementDetailsViewState
                                     state.labels?.defaultLocale
                                         .materialNotCheckedComment ??
                                     Constants.comment,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               FlutterInputField(
@@ -3189,14 +3190,14 @@ class _MaterialMovementDetailsViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ],
 
                             /// upload
                             widget.model?.status == null ||
                                     widget.model?.status == 0
                                 ? CommonWidgets.textDisplay(
-                                    Constants.upload, Styles.textStyleBlack14)
+                                    Constants.upload, Styles.textStyleWhite16)
                                 : Container(),
                             widget.model?.status == null ||
                                     widget.model?.status == 0
@@ -3232,7 +3233,7 @@ class _MaterialMovementDetailsViewState
                           // state.labels?.locale.date ??
                           //     state.labels?.defaultLocale.date ??
                           Constants.modifiedOn,
-                          Styles.textStyleBlack14,
+                          Styles.textStyleWhite16,
                           isMandatory: true,
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -3286,7 +3287,7 @@ class _MaterialMovementDetailsViewState
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
+                  color: AppColors.lavender,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(00.0)),
@@ -3336,7 +3337,7 @@ class _MaterialMovementDetailsViewState
             children: [
               CommonWidgets.textDisplay(
                 label,
-                Styles.textStyleBlack14,
+                Styles.textStyleWhite16,
               ),
               Row(
                 children: [
@@ -3353,7 +3354,7 @@ class _MaterialMovementDetailsViewState
                       }
                     },
                     iconSize: 20,
-                    color: Colors.grey,
+                    color: Colors.white,
                     icon: const Icon(Icons.refresh),
                   ),
                 ],
@@ -3364,13 +3365,13 @@ class _MaterialMovementDetailsViewState
           ClipRect(
             child: Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(2.0),
+                borderRadius: BorderRadius.circular(8.0),
                 border: Border.all(
                   color: AppColors.geryLightBackground,
                   width: 1, // Border width
                 ),
               ),
-              height: 100,
+              height: 150,
               width: double.infinity,
               child: (!isEditable && isSigned)
                   ? Image.memory(
@@ -3386,7 +3387,7 @@ class _MaterialMovementDetailsViewState
                     )
                   : Signature(
                       controller: controller,
-                      backgroundColor: Colors.white,
+                      backgroundColor: Colors.transparent,
                     ),
             ),
           ),
@@ -3452,7 +3453,7 @@ class _MaterialMovementDetailsViewState
   Widget cancelButtonDisplay() {
     return AppButton(
       width: Constants.cancelButtonWidth,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.lavender,
       key: const Key(Keys.cancelButton),
       buttonText: Constants.close,
       buttonTextKey: Keys.cancelButton,
@@ -3539,10 +3540,10 @@ class _MaterialMovementDetailsViewState
                 padding: const EdgeInsets.only(right: 5.0),
                 child: ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(140, 50),
+                    fixedSize: const Size(120, 50),
                     backgroundColor: !isReadOnly && showSaveSubmitButtons
-                        ? AppColors.navigationSkyBlueColor
-                        : AppColors.geryLightBackground,
+                        ? const Color(0xFF071130).withValues(alpha: 0.4)
+                        : AppColors.lightLavender,
                   ),
                   onPressed: () {
                     showDialog(

@@ -9,6 +9,7 @@ class TicketingSystemState extends Equatable {
   final CommonFilters? commonFilters;
   final SSLAUiLabels? labels;
   final ExtraProperties? extraProperties;
+  final DisplayMenu? displayMenu;
 
   const TicketingSystemState({
     this.items = const <TicketingSystems>[],
@@ -19,6 +20,7 @@ class TicketingSystemState extends Equatable {
     this.commonFilters,
     this.labels,
     this.extraProperties,
+    this.displayMenu
   });
 
   TicketingSystemState copyWith({

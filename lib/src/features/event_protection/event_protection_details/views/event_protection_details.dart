@@ -25,7 +25,7 @@ class EventProtectionDetails extends StatelessWidget {
 
     final height = size.height;
     return Scaffold(
-      backgroundColor: AppColors.cardBgColor,
+      backgroundColor: AppColors.lavender,
       appBar: BaseAppBar().buildAppHeader(
         context: context,
         title: title ?? Constants.eventProtectionTitle,

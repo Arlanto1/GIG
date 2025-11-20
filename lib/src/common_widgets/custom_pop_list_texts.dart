@@ -221,7 +221,7 @@ class CustomListTextsState extends State<CustomListTexts> {
       }
 
       // for (var userDetail in widget.duplicateDepostorList!) {
-      if (text.length > 2 ) {
+      if (text.length >= 5 ) {
         // Call the API only once when the search text length is greater than 2
         try {
           final response = await CommonServices().getBaseUsers(

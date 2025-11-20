@@ -2373,7 +2373,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
       // List<VisitingOfficial>? visitingOfficials = widget.listuser?.visitingOfficials != null ? widget.listuser?.visitingOfficials ?? [] : [];
 
       statusTextController.text =
-          Utils().buildPassManagementStatus(widget.model?.status);
+          Utils().buildPassManagementStatusRow(widget.model?.status) as String;
 
       log('---statusTextController.text--${statusTextController.text}-');
       if (widget.model?.passType == 1) {

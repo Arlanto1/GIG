@@ -85,7 +85,7 @@ class _GuardInfoViewState extends State<GuardInfoView> {
                   .submitForm(isSaveOnly: false);
             },
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.lavender,
           body: getBodybuilder(state, height),
         );
       },

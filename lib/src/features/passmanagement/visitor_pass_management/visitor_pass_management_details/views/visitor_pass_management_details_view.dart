@@ -144,7 +144,7 @@ class _VisitorPassManagementDetailsViewState
             showLikeButton: false,
             showDisLikeButton: false,
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.lavender,
           body: getBodybuilder(state, height),
         );
       },
@@ -193,17 +193,17 @@ class _VisitorPassManagementDetailsViewState
       getFiles = state.loadAttachments ?? [];
     }
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.lavender,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
+              color: AppColors.lavender,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
+                  color: AppColors.lavender,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                     BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -231,7 +231,7 @@ class _VisitorPassManagementDetailsViewState
                               alignment: Alignment.topLeft,
                               child: Text(
                                 Constants.generalinformation,
-                                style: Styles.styleHeaderGreyText16,
+                                style: Styles.textStyleRegularNormalWhite18,
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -241,7 +241,7 @@ class _VisitorPassManagementDetailsViewState
                               state.labels?.locale.status ??
                                   state.labels?.defaultLocale.status ??
                                   Constants.status,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -274,12 +274,12 @@ class _VisitorPassManagementDetailsViewState
                                     state.labels?.defaultLocale
                                         .updateStatus ??
                                     Constants.updatestatus,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.001),
                             TextFieldAddButton(
                               title: updateStatusTextController.text,
-                              height: 60,
+                              height: 70,
                               isDisableColor: widget.model != null &&
                                   !widget.model!.lock.isEmptyOrNull,
                               onTap: () {
@@ -341,7 +341,7 @@ class _VisitorPassManagementDetailsViewState
                               state.labels?.locale.location ??
                                   state.labels?.defaultLocale.location ??
                                   Constants.location,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -366,7 +366,7 @@ class _VisitorPassManagementDetailsViewState
                               state.labels?.locale.inputDate ??
                                   state.labels?.defaultLocale.inputDate ??
                                   Constants.dateofcreation,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -389,7 +389,7 @@ class _VisitorPassManagementDetailsViewState
                                 state.labels?.locale.entity ??
                                     state.labels?.defaultLocale.entity ??
                                     Constants.entity,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             BaseEntitiesSelection().entityDropDownSelection(
                               context: context,
@@ -421,7 +421,7 @@ class _VisitorPassManagementDetailsViewState
                                   state.labels?.defaultLocale
                                       .passType ??
                                 Constants.passtype,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             TextFieldAddButton(
                               title: state.model.passTypeName,
@@ -460,7 +460,7 @@ class _VisitorPassManagementDetailsViewState
                               state.labels?.locale.visitorName ??
                                   state.labels?.defaultLocale.visitorName ??
                               Constants.visitorName,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -492,7 +492,7 @@ class _VisitorPassManagementDetailsViewState
                                       .contactNo ??
                                 Constants.contactNo,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.001),
                             FlutterInputField(
@@ -518,7 +518,7 @@ class _VisitorPassManagementDetailsViewState
                                       .visitorComingFrom ??
                                 Constants.visitorComingFrom,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.001),
                             FlutterInputField(
@@ -543,7 +543,7 @@ class _VisitorPassManagementDetailsViewState
                                       .visitorImage ??
                                 Constants.photoIdentityType,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.001),
                             BaseDropDown().getDropDown(
@@ -583,7 +583,7 @@ class _VisitorPassManagementDetailsViewState
                                       .visitingPurpose ??
                                 Constants.purposeOfVisit,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.001),
                             FlutterInputField(
@@ -607,11 +607,11 @@ class _VisitorPassManagementDetailsViewState
                                     state.labels?.defaultLocale
                                         .hostEmployeeId ??
                                   Constants.hostemployeeid,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.hostEmployeeId,
-                                height: 60,
+                                height: 70,
                                 isDisableColor: isReadOnly,
                                 onTap: () {
                                   if (!isReadOnly) {
@@ -658,7 +658,7 @@ class _VisitorPassManagementDetailsViewState
                                         .host ??
                                   Constants.host,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -682,7 +682,7 @@ class _VisitorPassManagementDetailsViewState
                                   state.labels?.defaultLocale
                                       .visitingDepartment ??
                               Constants.visitingDepartment,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             TextFieldAddButton(
@@ -729,12 +729,12 @@ class _VisitorPassManagementDetailsViewState
                                   state.labels?.defaultLocale
                                       .visitorPassInfo ??
                               Constants.visitorPassNo,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             TextFieldAddButton(
                               title: state.model.passNo,
-                              height: 60,
+                              height: 70,
                               isDisableColor: isReadOnly,
                               onTap: () {
                                 if (!isReadOnly) {
@@ -763,7 +763,7 @@ class _VisitorPassManagementDetailsViewState
                               .startTime ??
                               Constants.passvlidfrom,
                               isMandatory: true,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                             ),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.001),
@@ -793,7 +793,7 @@ class _VisitorPassManagementDetailsViewState
                               .endTime ??
                               Constants.passvliduntil,
                               isMandatory: true,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                             ),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.001),
@@ -821,7 +821,7 @@ class _VisitorPassManagementDetailsViewState
                                       .escortedByHost ??
                                 Constants.escortedByHost,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
                                 selectedValue:
@@ -855,7 +855,7 @@ class _VisitorPassManagementDetailsViewState
                                     .escortedBy ??
                               Constants.escortedby,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
+                              Styles.textStyleWhite16),
                           CommonWidgets.verticalSpacerWidget(
                               height * 0.001),
                           FlutterInputField(
@@ -880,7 +880,7 @@ class _VisitorPassManagementDetailsViewState
                                     .escortedEmployeeId ??
                               Constants.escortedbyemployeeid,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
+                              Styles.textStyleWhite16),
                           CommonWidgets.verticalSpacerWidget(
                               height * 0.001),
                           FlutterInputField(
@@ -915,7 +915,7 @@ class _VisitorPassManagementDetailsViewState
                               state.labels?.locale.returnedTime ??
                                   state.labels?.defaultLocale.returnedTime ??
                                   Constants.passReturnedOn,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -938,7 +938,7 @@ class _VisitorPassManagementDetailsViewState
                               state.labels?.locale.visitorImage ??
                                   state.labels?.defaultLocale.visitorImage ??
                                 Constants.photoOfVisitor,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             widget.model == null
                                 ? CommonWidgets.verticalSpacerWidget(
                                 height * 0.001)

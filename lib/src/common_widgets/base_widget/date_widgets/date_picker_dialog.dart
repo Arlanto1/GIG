@@ -84,7 +84,7 @@ class BaseDate {
                     AppColors.white,
                     BlendMode.srcIn,
                   ),
-                  width: 25,
+                  width: 20,
                   key: const Key(Keys.userIcon),
                 ),
               ),

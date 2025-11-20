@@ -1,6 +1,7 @@
 
 
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/law_enforcement_new/law_enforcement_list_new/bloc/law_enforcement_bloc_new.dart';
@@ -62,6 +63,7 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     final size = MediaQuery.of(context).size;
     double height = size.height;
     return BlocConsumer<LawEnforcementBloc, LawEnforcementNewState>(
@@ -69,20 +71,34 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
         builder: (context, state) {
           log('plus ${state.extraProperties?.hasWritePermission}');
           return Scaffold(
-              backgroundColor: AppColors.cardBgColor,
-              floatingActionButton: state.extraProperties?.hasWritePermission ??
-                  false
-                  ? Flutterfloatingbutton(
-                backgroundColor: AppColors.navigationSkyBlueColor,
-                foregroundColor: AppColors.backgroundWhiteColor,
-                onPressed: () => {
+              backgroundColor: AppColors.lavender,
+              // floatingActionButton: state.extraProperties?.hasWritePermission ??
+              //     false
+              //     ? Flutterfloatingbutton(
+              //   backgroundColor: AppColors.navigationSkyBlueColor,
+              //   foregroundColor: AppColors.backgroundWhiteColor,
+              //   onPressed: () => {
+              //     Navigator.pushNamed(context, lawEnforcementNewDetailsViewRoute,
+              //         arguments: {
+              //           "title": Constants.createlawenforcement
+              //         }),
+              //   },
+              // )
+              //     : const SizedBox(),
+              bottomNavigationBar: CustomBottomNavigationBar(
+                hasAddPermission: state.extraProperties?.hasWritePermission ??
+                    false ? true : false,
+                scaffoldKey: scaffoldKey,
+                context: context,
+                displayMenu: state.displayMenu,
+                list: true, // 🔥 only "+" button mode
+                onAddPressed: () {
                   Navigator.pushNamed(context, lawEnforcementNewDetailsViewRoute,
                       arguments: {
                         "title": Constants.createlawenforcement
-                      }),
+                      });
                 },
-              )
-                  : const SizedBox(),
+              ),
               appBar: BaseAppBar().buildAppHeader(
                 context: context,
                 title: Constants.lawEnforcementListTitle,
@@ -98,15 +114,19 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
               BlocBuilder<LawEnforcementBloc, LawEnforcementNewState>(
                   builder: (context, state) {
                     return Container(
-                      margin: allMargin16,
-                      decoration: const ShapeDecoration(
-                          color: AppColors.backgroundWhiteColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(20.0)),
-                          )),
+                      width: double.infinity,
+                      height: double.infinity,
+                      color: const Color(0xFF6474C6),
+                      // margin: allMargin16,
+                      // decoration: const ShapeDecoration(
+                      //     color: AppColors.backgroundWhiteColor,
+                      //     shape: RoundedRectangleBorder(
+                      //       borderRadius:
+                      //       BorderRadius.vertical(top: Radius.circular(20.0)),
+                      //     )),
                       child: Column(
                         children: [
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
                           BaseSearchWidget(
                             applySearchFilters: applySearchFilters,
                             applyFilters: applyFilters,
@@ -196,9 +216,47 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
                                                 .twentyFourHourDateTimeFormat)
                                             : ''));
 
-                                    return index >= state.items.length
-                                        ? const BaseLoader()
-                                        : BaseListTileItem(
+                                    return Container(
+                                        decoration: const BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [Color(0xFF6474C6), Color(0xFF6474C6)],
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                          ),
+                                        ),
+                                        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+
+                                        child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(18),
+                                            child: BackdropFilter(
+                                              filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                                              child: Container(
+                                                  decoration: BoxDecoration(
+                                                    gradient: LinearGradient(
+                                                      colors: [
+                                                        Colors.white.withValues(alpha: 0.2),
+                                                        Colors.transparent,
+                                                        Colors.white.withValues(alpha: 0.2),
+                                                        // Color(0xFF6474C6).withOpacity(0.14)
+                                                      ],
+                                                      stops: [0.02, 0.35, 1],
+                                                      begin: Alignment.topCenter,
+                                                      end: Alignment.bottomCenter,
+                                                    ),
+                                                    borderRadius: BorderRadius.circular(27),
+                                                    border: Border.all(
+                                                      color: Colors.white.withValues(alpha: 0.80),
+                                                      width: 0.8,
+                                                    ),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: const Color(0xFF6474C6).withValues(alpha: 0.09),
+                                                        blurRadius: 12,
+                                                        offset: const Offset(0, 2),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  child: BaseListTileItem(
                                       id: state.items[index].id,
                                       status: state.items[index].status,
                                       labels: labels,
@@ -263,7 +321,7 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
                                         );
                                       },
                                       index: index,
-                                    );
+                                                  ),),),), );
                                   }
 
                                   // Handle the case where index is out of bounds

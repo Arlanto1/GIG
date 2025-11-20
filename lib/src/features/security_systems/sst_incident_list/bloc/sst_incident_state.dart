@@ -9,6 +9,7 @@ class SstIncidentState extends Equatable {
   final CommonFilters? commonFilters;
   final SSLAUiLabels? labels;
   final ExtraProperties? extraProperties;
+  final DisplayMenu? displayMenu;
 
   const SstIncidentState({
     this.items = const <SstIncident>[],
@@ -19,6 +20,7 @@ class SstIncidentState extends Equatable {
     this.commonFilters,
     this.labels,
     this.extraProperties,
+    this.displayMenu
   });
 
   SstIncidentState copyWith({

@@ -139,17 +139,17 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
     }
 
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.lavender,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
+              color: AppColors.lavender,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
+                  color: AppColors.lavender,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -174,9 +174,9 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             ],
                             Container(
                               alignment: Alignment.topLeft,
-                              child: Text(
+                              child: const Text(
                                 Constants.generalinformation,
-                                style: Styles.styleHeaderGreyText16,
+                                style: Styles.textStyleRegularNormalWhite18,
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -186,7 +186,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 state.labels?.locale.status ??
                                     state.labels?.defaultLocale.status ??
                                     Constants.status,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -219,14 +219,14 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     );
                                   }
                                 }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Location
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.location ??
                                     state.labels?.defaultLocale.location ??
                                     Constants.location,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             // locationWidgetdislay(state),
@@ -241,19 +241,19 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       .updateLocationDropdownValue(
                                           location: location);
                                 }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.inputDate ??
                                     state.labels?.defaultLocale.inputDate ??
                                     Constants.dateofcreation,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDate().creationDateDisplay(
                                 state.model.inputDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Created By
                             CommonWidgets.horizentaltextHandling(
@@ -262,7 +262,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 Constants.createdby,
                                 isMandatory: true,
                                 '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Sl No.
                             CommonWidgets.horizentaltextHandling(
@@ -271,7 +271,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     Constants.slno,
                                 state.model.slNo ?? '',
                                 isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///  Is Annual Power Shutdown?
                             // CommonWidgets.textDisplay(
@@ -313,7 +313,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 state.labels?.locale.entity ??
                                     state.labels?.defaultLocale.entity ??
                                     Constants.entity,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseEntitiesSelection().entityDropDownSelection(
@@ -335,7 +335,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     .refreshList();
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Event Start Date
                             CommonWidgets.textDisplay(
@@ -343,7 +343,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     state
                                         .labels?.defaultLocale.eventStartDate ??
                                     Constants.eventStartDate,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -366,14 +366,14 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               },
                               context: context,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Event End Date
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.eventEndDate ??
                                     state.labels?.defaultLocale.eventEndDate ??
                                     Constants.eventEndDate,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -394,7 +394,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               },
                               context: context,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             if (state.model.annualPowerShutdown) ...[
                               /// Sub Regional Head (SRH) 1
@@ -402,11 +402,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   state.labels?.locale.srh1 ??
                                       state.labels?.defaultLocale.srh1 ??
                                       Constants.subRegionalHead1,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.srh1?.userInfo,
-                                height: 60,
+                                height: 70,
                                 isDisableColor: true,
                                 onTap: () {
                                   BaseOrganisationDialog().userDialog(
@@ -433,18 +433,18 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   );
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Sub Regional Head (SRH) 2
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.srh2 ??
                                       state.labels?.defaultLocale.srh2 ??
                                       Constants.subRegionalHead2,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.srh2?.userInfo,
-                                height: 60,
+                                height: 70,
                                 isDisableColor: true,
                                 onTap: () {
                                   BaseOrganisationDialog().userDialog(
@@ -471,7 +471,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   );
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ],
                             if (!state.model.annualPowerShutdown) ...[
                               /// Event Protection Manager 1
@@ -479,12 +479,12 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   state.labels?.locale.epManager1 ??
                                       state.labels?.defaultLocale.epManager1 ??
                                       Constants.eventProtectionManager1,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.epManager1?.userInfo ??
                                     state.model.epManager1?.name,
-                                height: 60,
+                                height: 70,
                                 isDisableColor: true,
                                 onTap: () {
                                   BaseOrganisationDialog().userDialog(
@@ -513,19 +513,19 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   );
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Event Protection Manager 2
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.epManager2 ??
                                       state.labels?.defaultLocale.epManager2 ??
                                       Constants.eventProtectionManager2,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.epManager2?.userInfo ??
                                     state.model.epManager2?.name,
-                                height: 60,
+                                height: 70,
                                 isDisableColor: true,
                                 onTap: () {
                                   BaseOrganisationDialog().userDialog(
@@ -553,7 +553,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   );
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ],
 
                             /// Location Security  Manager 1
@@ -561,12 +561,12 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 state.labels?.locale.lsm1 ??
                                     state.labels?.defaultLocale.lsm1 ??
                                     Constants.locationSecurityManager1,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             TextFieldAddButton(
                               title: state.model.lsm1?.userInfo ??
                                   state.model.lsm1?.name,
-                              height: 60,
+                              height: 70,
                               isDisableColor: true,
                               onTap: () {
                                 BaseOrganisationDialog().userDialog(
@@ -598,14 +598,14 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 );
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///LSM 1 Contact No
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.lsm1ContactNo ??
                                     state.labels?.defaultLocale.lsm1ContactNo ??
                                     Constants.lsm1ContactNo,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
@@ -625,19 +625,19 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Location Security  Manager 2
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.lsm2 ??
                                     state.labels?.defaultLocale.lsm2 ??
                                     Constants.locationSecurityManager2,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             TextFieldAddButton(
                               title: state.model.lsm2?.userInfo ??
                                   state.model.lsm2?.name,
-                              height: 60,
+                              height: 70,
                               isDisableColor: true,
                               onTap: () {
                                 BaseOrganisationDialog().userDialog(
@@ -676,7 +676,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 state.labels?.locale.lsm2ContactNo ??
                                     state.labels?.defaultLocale.lsm2ContactNo ??
                                     Constants.lsm2ContactNo,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
@@ -697,18 +697,18 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               },
                               validateTextField: (String? user) {},
                             ),
-
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ///Business POC 1
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.bu1 ??
                                     state.labels?.defaultLocale.bu1 ??
                                     Constants.businessPoc,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             TextFieldAddButton(
                               title: state.model.bu1?.userInfo ??
                                   state.model.bu1?.name,
-                              height: 60,
+                              height: 70,
                               isDisableColor: true,
                               onTap: () {
                                 BaseOrganisationDialog().userDialog(
@@ -746,7 +746,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 state.labels?.locale.bu1ContactNo ??
                                     state.labels?.defaultLocale.bu1ContactNo ??
                                     Constants.businessPocContactNo,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
@@ -766,7 +766,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///Business POC Escalation
 
@@ -774,12 +774,12 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 state.labels?.locale.bu2 ??
                                     state.labels?.defaultLocale.bu2 ??
                                     Constants.businessPocEscalation,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             TextFieldAddButton(
                               title: state.model.bu2?.userInfo ??
                                   state.model.bu2?.name,
-                              height: 60,
+                              height: 70,
                               isDisableColor: true,
                               onTap: () {
                                 BaseOrganisationDialog().userDialog(
@@ -817,7 +817,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 state.labels?.locale.bu2ContactNo ??
                                     state.labels?.defaultLocale.bu2ContactNo ??
                                     Constants.businessPocEscalationContactNo,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
@@ -837,7 +837,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             if (state.model.annualPowerShutdown) ...[
                               ///Business POC 1Department
@@ -845,11 +845,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   state.labels?.locale.bu1Dept ??
                                       state.labels?.defaultLocale.bu1Dept ??
                                       Constants.businessPocDepartment,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.bu1Dept?.name,
-                                height: 60,
+                                height: 70,
                                 isDisableColor: true,
                                 onTap: () {
                                   BaseOrganisationDialog().departmentDialog(
@@ -863,17 +863,18 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   );
                                 },
                               ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Business POC 2 Department
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.bu2Dept ??
                                       state.labels?.defaultLocale.bu2Dept ??
                                       Constants.businessPocEscalationDepartment,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.bu2Dept?.name,
-                                height: 60,
+                                height: 70,
                                 isDisableColor: true,
                                 onTap: () {
                                   BaseOrganisationDialog().departmentDialog(
@@ -888,7 +889,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                               ),
                             ],
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
                             if (state.model.annualPowerShutdown) ...[
                               ///System Vendor 1 Email
                               CommonWidgets.textDisplay(
@@ -896,7 +897,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       state.labels?.defaultLocale
                                           .systemVendor1 ??
                                       Constants.systemVendor1Email,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -916,7 +917,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Vendor 1 Contact No
                               CommonWidgets.textDisplay(
@@ -924,7 +925,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       state.labels?.defaultLocale
                                           .systemVendor1ContactNo ??
                                       Constants.vendor1ContactNO,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -944,7 +945,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                               //
                               // ///Primary Service Engineer Name
                               // CommonWidgets.horizentaltextHandling(
@@ -976,7 +977,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       state.labels?.defaultLocale
                                           .systemVendor2 ??
                                       Constants.systemVendor2Email,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -997,7 +998,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
+                                  height * 0.02),
 
                               ///Vendor 2 Contact No
                               CommonWidgets.textDisplay(
@@ -1005,7 +1006,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       state.labels?.defaultLocale
                                           .systemVendor2ContactNo ??
                                       Constants.vendor2ContactNO,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -1027,7 +1028,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               // ///Primary Service Engineer Contact
                               // CommonWidgets.horizentaltextHandling(
@@ -1059,7 +1060,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       state.labels?.defaultLocale
                                           .systemVendor3 ??
                                       Constants.systemVendor3Email,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -1078,7 +1079,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Vendor 3 Contact No
                               CommonWidgets.textDisplay(
@@ -1086,7 +1087,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       state.labels?.defaultLocale
                                           .systemVendor3ContactNo ??
                                       Constants.vendor3ContactNO,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -1107,7 +1108,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              // CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               // ///Primary Service Engineer Contact
                               // CommonWidgets.horizentaltextHandling(
@@ -1140,11 +1141,11 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     state.labels?.defaultLocale
                                         .requesterDepartment ??
                                     Constants.requesterDepartment,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             TextFieldAddButton(
                               title: state.model.requesterDepartment?.name,
-                              height: 60,
+                              height: 70,
                               isDisableColor: true,
                               onTap: () {
                                 BaseOrganisationDialog().departmentDialog(
@@ -1166,14 +1167,14 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               },
                             ),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Event Protection Officer
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.epOfficers ??
                                     state.labels?.defaultLocale.epOfficers ??
                                     Constants.eventProtectionOfficers,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             //if (!disableForm) ...[
                             Column(
@@ -1290,7 +1291,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             ),
                             //],
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             if (state.model.annualPowerShutdown) ...[
                               ///Is Extra Security Deployment Required
@@ -1301,7 +1302,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                           .extraSecurityDeployed ??
                                       Constants
                                           .isExtraSecurityDeploymentRequired,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                 ),
                                 Checkbox(
                                     activeColor:
@@ -1317,6 +1318,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     })
                               ]),
                             ],
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             if (state.model.annualPowerShutdown &&
                                 state.model.extraSecurityDeployed) ...[
@@ -1325,7 +1327,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                   state.labels?.locale.vendorId ??
                                       state.labels?.defaultLocale.vendorId ??
                                       Constants.guardingVendorId,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -1343,7 +1345,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Guarding Agency POC
                               CommonWidgets.textDisplay(
@@ -1351,7 +1353,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       state.labels?.defaultLocale
                                           .guardingVendorPoc ??
                                       Constants.guardingAgencyPOC,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -1370,7 +1372,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///No. Of Security Officers
                               CommonWidgets.textDisplay(
@@ -1378,7 +1380,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     state.labels?.defaultLocale
                                         .securityOfficerCount ??
                                     Constants.numOfSecurityOfficers,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                               ),
                               FlutterInputField(
                                 initialValue:
@@ -1398,7 +1400,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 // validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Total Duty Hours
                               CommonWidgets.textDisplay(
@@ -1406,7 +1408,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     state.labels?.defaultLocale
                                         .securityOfficerCountHrs ??
                                     Constants.totalDutyHours,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                               ),
                               FlutterInputField(
                                 initialValue:
@@ -1426,7 +1428,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 // validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///No. Of Security Supervisors
                               CommonWidgets.textDisplay(
@@ -1434,7 +1436,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     state.labels?.defaultLocale
                                         .securitySupervisorCount ??
                                     Constants.numOfSecuritySupervisor,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                               ),
                               FlutterInputField(
                                 initialValue:
@@ -1454,7 +1456,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 // validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Total Duty Hours
                               CommonWidgets.textDisplay(
@@ -1463,7 +1465,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     state.labels?.defaultLocale
                                         .securitySupervisorCountHrs ??
                                     Constants.totalDutyHours,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                               ),
                               FlutterInputField(
                                 initialValue:
@@ -1483,7 +1485,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 // validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///No. Of Security Guards
                               CommonWidgets.textDisplay(
@@ -1491,7 +1493,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     state.labels?.defaultLocale
                                         .securityGuardCount ??
                                     Constants.numOfSecurityGuards,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                               ),
                               FlutterInputField(
                                 initialValue:
@@ -1511,7 +1513,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 // validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Total Duty Hours
                               CommonWidgets.textDisplay(
@@ -1519,7 +1521,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     state.labels?.defaultLocale
                                         .securityGuardCountHrs ??
                                     Constants.totalDutyHours,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                               ),
                               FlutterInputField(
                                 initialValue:
@@ -1539,7 +1541,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 // validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///No. Of Security Facilitators
                               CommonWidgets.textDisplay(
@@ -1547,7 +1549,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     state.labels?.defaultLocale
                                         .securityFacilitatorCount ??
                                     Constants.numOfSecurityFacilitators,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                               ),
                               FlutterInputField(
                                 initialValue:
@@ -1567,7 +1569,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 // validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Total Duty Hours
                               CommonWidgets.textDisplay(
@@ -1576,7 +1578,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     state.labels?.defaultLocale
                                         .securityFacilitatorCountHrs ??
                                     Constants.totalDutyHours,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                               ),
                               FlutterInputField(
                                 initialValue:
@@ -1596,7 +1598,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 // validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                               // /// Proposed Vendors
                               // CommonWidgets.textDisplay(
                               //   Constants.proposedVendors,
@@ -1625,7 +1627,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     state.labels?.defaultLocale
                                         .proposedVendors ??
                                     Constants.proposedVendors,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -1644,14 +1646,14 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     Navigator.of(context)
                                         .pop(); // Close the dialog
                                   }),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Budget Costs
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.budget ??
                                       state.labels?.defaultLocale.budget ??
                                       Constants.budget,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -1684,7 +1686,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 validateTextField: (String? user) {},
                               ),
                             ],
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             //     ///Po Number
                             //     CommonWidgets.textDisplay(Constants.poNumber,
@@ -1708,7 +1710,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             //     ),
                             //     CommonWidgets.verticalSpacerWidget(height * 0.01),
                             //
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            // CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ]),
                         ),
                       ),

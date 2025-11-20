@@ -19,6 +19,8 @@ import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:db_atom/src/utils/utils_common.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../../../index.dart';
+
 part 'day_passmanagement_list_event.dart';
 part 'day_passmanagement_list_state.dart';
 

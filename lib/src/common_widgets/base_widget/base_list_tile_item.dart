@@ -208,16 +208,30 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ],
                         ),
                       ],
+                      // if (widget.vendors != null) ...[
+                      //   CommonWidgets.horizontalSpacerWidget(5),
+                      //   Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       Utils().textHandling(
+                      //           'Vendor : ', widget.vendors?.name ?? ''),
+                      //     ],
+                      //   ),
+                      // ],
                       if (widget.vendors != null) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Utils().textHandling(
-                                'Vendor : ', widget.vendors?.name ?? ''),
+                            Expanded(
+                              child: Utils().textHandling(
+                                'Vendor: ','${widget.vendors?.name ?? ''}'
+                              ),
+                            ),
                           ],
                         ),
                       ],
+
                       if (widget.guardCount != null) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Row(
@@ -248,17 +262,17 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ],
                         ),
                       ],
-                      if ((widget.status != null &&
-                              widget.isMaterialMovementStatus == true) &&
-                          !widget.isMasterGuard) ...[
-                        CommonWidgets.horizontalSpacerWidget(5),
-                        Utils()
-                            .buildMaterialMovementStatusRow(widget.status ?? 0),
-                      ],
-                      if (widget.status != 0 && widget.isMasterGuard) ...[
-                        CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().buildMasterDataStatusRow(widget.status ?? 0),
-                      ],
+                      // if ((widget.status != null &&
+                      //         widget.isMaterialMovementStatus == true) &&
+                      //     !widget.isMasterGuard) ...[
+                      //   CommonWidgets.horizontalSpacerWidget(5),
+                      //   Utils()
+                      //       .buildMaterialMovementStatusRow(widget.status ?? 0),
+                      // ],
+                      // if (widget.status != 0 && widget.isMasterGuard) ...[
+                      //   CommonWidgets.horizontalSpacerWidget(5),
+                      //   Utils().buildMasterDataStatusRow(widget.status ?? 0),
+                      // ],
                       if (widget.guardRank != -1 && widget.isMasterGuard) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Row(
@@ -269,58 +283,58 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ],
                         ),
                       ],
-                      if (widget.status != null &&
-                          widget.isKeyManagementIssuanceStatus) ...[
-                        CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().keyManagementIssuanceStatus(widget.status ?? 0),
-                      ],
-                      if (widget.status != null &&
-                          widget.isAttendanceStatus == true) ...[
-                        CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().buildAttendanceStatusRow(
-                            status: widget.status ?? 0),
-                      ],
-                      if (widget.status != null &&
-                          widget.isKeyManagementStatus) ...[
-                        CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().keyManagementStatus(widget.status ?? 0),
-                      ],
-                      if (widget.status != null &&
-                          widget.isKeyManagementHistoryStatus) ...[
-                        CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().keyManagementMasterHistoryStatus(
-                            widget.status ?? 0),
-                      ],
-                      if (widget.status != null &&
-                          widget.isOccurrenceStatus == true) ...[
-                        CommonWidgets.horizontalSpacerWidget(5),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Utils().buildOccurrenceStatus(widget.status ?? 0),
-                          ],
-                        ),
-                      ],
-                      if (widget.status != null &&
-                          widget.isKeyLossStatus == true) ...[
-                        CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().keyLossDestructionStatus(widget.status ?? 0),
-                      ],
-                      if (widget.status != null &&
-                          widget.isSLAViolationStatus == true) ...[
-                        CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().buildSLAViolationStatus(widget.status ?? 0),
-                      ],
-                      if (widget.status != null &&
-                          widget.isIncident == true) ...[
-                        CommonWidgets.verticalSpacerWidget(5),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Utils().buildIncidentStatus(widget.status ?? 0),
-                          ],
-                        ),
-                      ],
+                      // if (widget.status != null &&
+                      //     widget.isKeyManagementIssuanceStatus) ...[
+                      //   CommonWidgets.horizontalSpacerWidget(5),
+                      //   Utils().keyManagementIssuanceStatus(widget.status ?? 0),
+                      // ],
+                      // if (widget.status != null &&
+                      //     widget.isAttendanceStatus == true) ...[
+                      //   CommonWidgets.horizontalSpacerWidget(5),
+                      //   Utils().buildAttendanceStatusRow(
+                      //       status: widget.status ?? 0),
+                      // ],
+                      // if (widget.status != null &&
+                      //     widget.isKeyManagementStatus) ...[
+                      //   CommonWidgets.horizontalSpacerWidget(5),
+                      //   Utils().keyManagementStatus(widget.status ?? 0),
+                      // ],
+                      // if (widget.status != null &&
+                      //     widget.isKeyManagementHistoryStatus) ...[
+                      //   CommonWidgets.horizontalSpacerWidget(5),
+                      //   Utils().keyManagementMasterHistoryStatus(
+                      //       widget.status ?? 0),
+                      // ],
+                      // if (widget.status != null &&
+                      //     widget.isOccurrenceStatus == true) ...[
+                      //   CommonWidgets.horizontalSpacerWidget(5),
+                      //   Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       Utils().buildOccurrenceStatus(widget.status ?? 0),
+                      //     ],
+                      //   ),
+                      // ],
+                      // if (widget.status != null &&
+                      //     widget.isKeyLossStatus == true) ...[
+                      //   CommonWidgets.horizontalSpacerWidget(5),
+                      //   Utils().keyLossDestructionStatus(widget.status ?? 0),
+                      // ],
+                      // if (widget.status != null &&
+                      //     widget.isSLAViolationStatus == true) ...[
+                      //   CommonWidgets.horizontalSpacerWidget(5),
+                      //   Utils().buildSLAViolationStatus(widget.status ?? 0),
+                      // ],
+                      // if (widget.status != null &&
+                      //     widget.isIncident == true) ...[
+                      //   CommonWidgets.verticalSpacerWidget(5),
+                      //   Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       Utils().buildIncidentStatus(widget.status ?? 0),
+                      //     ],
+                      //   ),
+                      // ],
                       if (widget.incidentType != null) ...[
                         CommonWidgets.verticalSpacerWidget(5),
                         Row(
@@ -330,57 +344,51 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ],
                         ),
                       ],
-                      if (widget.status != null &&
-                          widget.isContactDetailsStatus == true &&
-                          widget.isEventProtectionStatus == false) ...[
-                        CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().contactDetailsStatus(widget.status ?? 0),
-                      ],
-                      if (widget.status != null &&
-                          widget.isEventProtectionStatus == false &&
-                          widget.isSecuritySystemSLA == true) ...[
-                        CommonWidgets.horizontalSpacerWidget(5),
-                        Utils()
-                            .buildSecuritySystemStatusRow(widget.status ?? 0),
-                      ],
-                      if (widget.isVipStatus == true) ...[
-                        CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().vIPVisitorStatusRow(widget.status ?? 0),
-                      ],
-                      if (widget.status != null &&
-                          widget.isShiftScheduleStatus == true) ...[
-                        CommonWidgets.horizontalSpacerWidget(5),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Utils().shiftScheduleStatusRow(widget.status ?? 0),
-                          ],
-                        ),
-                      ],
-                      if (widget.status != null &&
-                          widget.isDutyPostNameMasterStatus == true) ...[
-                        CommonWidgets.horizontalSpacerWidget(5),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Utils()
-                                .dutyPostNameMasterStatus(widget.status ?? 0),
-                          ],
-                        )
-                      ],
-                      if (widget.status != null &&
-                          widget.isPassManagementStatus == true &&
-                          !widget.isShiftScheduleStatus) ...[
-                        CommonWidgets.horizontalSpacerWidget(5),
-                        Utils()
-                            .buildPassManagementStatusRow(widget.status ?? 0),
-                      ],
-                      if (widget.status != null &&
-                          widget.isLawEnforcementStatus == true &&
-                          !widget.isShiftScheduleStatus) ...[
-                        CommonWidgets.horizontalSpacerWidget(5),
-                        Utils().buildLeoStatusRow(widget.status ?? 0),
-                      ],
+                      // if (widget.status != null &&
+                      //     widget.isContactDetailsStatus == true &&
+                      //     widget.isEventProtectionStatus == false) ...[
+                      //   CommonWidgets.horizontalSpacerWidget(5),
+                      //   Utils().contactDetailsStatus(widget.status ?? 0),
+                      // ],
+                      // if (widget.status != null &&
+                      //     widget.isEventProtectionStatus == false &&
+                      //     widget.isSecuritySystemSLA == true) ...[
+                      //   CommonWidgets.horizontalSpacerWidget(5),
+                      //   Utils()
+                      //       .buildSecuritySystemStatusRow(widget.status ?? 0),
+                      // ],
+                      // if (widget.isVipStatus == true) ...[
+                      //   CommonWidgets.horizontalSpacerWidget(5),
+                      //   Utils().vIPVisitorStatusRow(widget.status ?? 0),
+                      // ],
+                      // if (widget.status != null &&
+                      //     widget.isShiftScheduleStatus == true) ...[
+                      //   CommonWidgets.horizontalSpacerWidget(5),
+                      //   Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       Utils().shiftScheduleStatusRow(widget.status ?? 0),
+                      //     ],
+                      //   ),
+                      // ],
+                      // if (widget.status != null &&
+                      //     widget.isDutyPostNameMasterStatus == true) ...[
+                      //   CommonWidgets.horizontalSpacerWidget(5),
+                      //   Row(
+                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //     children: [
+                      //       Utils()
+                      //           .dutyPostNameMasterStatus(widget.status ?? 0),
+                      //     ],
+                      //   )
+                      // ],
+                      // if (widget.status != null &&
+                      //     widget.isPassManagementStatus == true &&
+                      //     !widget.isShiftScheduleStatus) ...[
+                      //   CommonWidgets.horizontalSpacerWidget(5),
+                      //   Utils()
+                      //       .buildPassManagementStatusRow(widget.status ?? 0),
+                      // ],
                     ],
                   ),
                 ),
@@ -398,6 +406,120 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                   CommonWidgets.horizontalSpacerWidget(5),
                   Utils()
                       .buildEventProtectionStatusRow(widget.status ?? 0),
+                ],
+                if (widget.status != null &&
+                    widget.isIncident == true) ...[
+                  CommonWidgets.verticalSpacerWidget(5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Utils().buildIncidentStatus(widget.status ?? 0),
+                    ],
+                  ),
+                ],
+                if (widget.status != null &&
+                    widget.isLawEnforcementStatus == true &&
+                    !widget.isShiftScheduleStatus) ...[
+                  CommonWidgets.horizontalSpacerWidget(5),
+                  Utils().buildLeoStatusRow(widget.status ?? 0),
+                ],
+                if ((widget.status != null &&
+                    widget.isMaterialMovementStatus == true) &&
+                    !widget.isMasterGuard) ...[
+                  CommonWidgets.horizontalSpacerWidget(5),
+                  Utils()
+                      .buildMaterialMovementStatusRow(widget.status ?? 0),
+                ],
+                if (widget.status != 0 && widget.isMasterGuard) ...[
+                  CommonWidgets.horizontalSpacerWidget(5),
+                  Utils().buildMasterDataStatusRow(widget.status ?? 0),
+                ],
+                if (widget.status != null &&
+                    widget.isKeyManagementIssuanceStatus) ...[
+                  CommonWidgets.horizontalSpacerWidget(5),
+                  Utils().keyManagementIssuanceStatus(widget.status ?? 0),
+                ],
+                if (widget.status != null &&
+                    widget.isAttendanceStatus == true) ...[
+                  CommonWidgets.horizontalSpacerWidget(5),
+                  Utils().buildAttendanceStatusRow(
+                      status: widget.status ?? 0),
+                ],
+                if (widget.status != null &&
+                    widget.isKeyManagementStatus) ...[
+                  CommonWidgets.horizontalSpacerWidget(5),
+                  Utils().keyManagementStatus(widget.status ?? 0),
+                ],
+                if (widget.status != null &&
+                    widget.isKeyManagementHistoryStatus) ...[
+                  CommonWidgets.horizontalSpacerWidget(5),
+                  Utils().keyManagementMasterHistoryStatus(
+                      widget.status ?? 0),
+                ],
+                if (widget.status != null &&
+                    widget.isOccurrenceStatus == true) ...[
+                  CommonWidgets.horizontalSpacerWidget(5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Utils().buildOccurrenceStatus(widget.status ?? 0),
+                    ],
+                  ),
+                ],
+                if (widget.status != null &&
+                    widget.isKeyLossStatus == true) ...[
+                  CommonWidgets.horizontalSpacerWidget(5),
+                  Utils().keyLossDestructionStatus(widget.status ?? 0),
+                ],
+                if (widget.status != null &&
+                    widget.isSLAViolationStatus == true) ...[
+                  CommonWidgets.horizontalSpacerWidget(5),
+                  Utils().buildSLAViolationStatus(widget.status ?? 0),
+                ],
+                if (widget.status != null &&
+                    widget.isContactDetailsStatus == true &&
+                    widget.isEventProtectionStatus == false) ...[
+                  CommonWidgets.horizontalSpacerWidget(5),
+                  Utils().contactDetailsStatus(widget.status ?? 0),
+                ],
+                if (widget.status != null &&
+                    widget.isEventProtectionStatus == false &&
+                    widget.isSecuritySystemSLA == true) ...[
+                  CommonWidgets.horizontalSpacerWidget(5),
+                  Utils()
+                      .buildSecuritySystemStatusRow(widget.status ?? 0),
+                ],
+                if (widget.isVipStatus == true) ...[
+                  CommonWidgets.horizontalSpacerWidget(5),
+                  Utils().vIPVisitorStatusRow(widget.status ?? 0),
+                ],
+                if (widget.status != null &&
+                    widget.isShiftScheduleStatus == true) ...[
+                  CommonWidgets.horizontalSpacerWidget(5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Utils().shiftScheduleStatusRow(widget.status ?? 0),
+                    ],
+                  ),
+                ],
+                if (widget.status != null &&
+                    widget.isDutyPostNameMasterStatus == true) ...[
+                  CommonWidgets.horizontalSpacerWidget(5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Utils()
+                          .dutyPostNameMasterStatus(widget.status ?? 0),
+                    ],
+                  )
+                ],
+                if (widget.status != null &&
+                    widget.isPassManagementStatus == true &&
+                    !widget.isShiftScheduleStatus) ...[
+                  CommonWidgets.horizontalSpacerWidget(5),
+                  Utils()
+                      .buildPassManagementStatusRow(widget.status ?? 0),
                 ],
               ],
             ),
@@ -468,7 +590,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                             ? widget.onEmailTap!(widget.index)
                             : null;
                       },
-                      icon: const Icon(Icons.email, color:  Color(0xFF0000CC)),
+                      icon: const Icon(Icons.email, color:  Color(0xFF0C4C99)),
                     ),
                   ],
                 ],

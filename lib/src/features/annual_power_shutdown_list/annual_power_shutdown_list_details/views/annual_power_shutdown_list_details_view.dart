@@ -136,7 +136,7 @@ class _AnnualPowerShutdownListDetailsViewState
                   .submitForm(isSaveOnly: false);
             },
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.lavender,
           body: getBodybuilder(state, height),
         );
       },
@@ -165,17 +165,17 @@ class _AnnualPowerShutdownListDetailsViewState
     }
 
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.lavender,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
+              color: AppColors.lavender,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
+                  color: AppColors.lavender,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -201,9 +201,9 @@ class _AnnualPowerShutdownListDetailsViewState
                               ],
                               Container(
                                 alignment: Alignment.topLeft,
-                                child: Text(
+                                child: const Text(
                                   Constants.generalinformation,
-                                  style: Styles.styleHeaderGreyText16,
+                                  style: Styles.textStyleRegularNormalWhite18,
                                 ),
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -213,7 +213,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   state.labels?.locale.status ??
                                       state.labels?.defaultLocale.status ??
                                       Constants.status,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -242,7 +242,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   state.labels?.locale.location ??
                                       state.labels?.defaultLocale.location ??
                                       Constants.location,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -254,7 +254,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   state.labels?.locale.inputDate ??
                                       state.labels?.defaultLocale.inputDate ??
                                       Constants.dateofcreation,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -276,7 +276,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   state.labels?.locale.entity ??
                                       state.labels?.defaultLocale.entity ??
                                       Constants.entity,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -304,7 +304,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state.labels?.defaultLocale
                                           .eventStartDate ??
                                       Constants.eventStartDate,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -335,7 +335,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state
                                           .labels?.defaultLocale.eventEndDate ??
                                       Constants.eventEndDate,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -364,7 +364,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   state.labels?.locale.srh1 ??
                                       state.labels?.defaultLocale.srh1 ??
                                       Constants.subRegionalHead1,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.srh1?.userInfo ??
@@ -410,7 +410,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   state.labels?.locale.srh2 ??
                                       state.labels?.defaultLocale.srh2 ??
                                       Constants.subRegionalHead2,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.srh2?.userInfo ??
@@ -456,13 +456,13 @@ class _AnnualPowerShutdownListDetailsViewState
                                   state.labels?.locale.lsm1 ??
                                       state.labels?.defaultLocale.lsm1 ??
                                       Constants.locationSecurityManager1,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.lsm1?.userInfo ??
                                     state.model.lsm1?.name,
-                                height: 60,
-                                isDisableColor: disableForm,
+                                height: 70,
+                                isDisableColor: true,
                                 onTap: () {
                                   BaseOrganisationDialog().userDialog(
                                     context: context,
@@ -507,7 +507,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state.labels?.defaultLocale
                                           .lsm1ContactNo ??
                                       Constants.lsm1ContactNo,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -520,7 +520,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 characterLimit:
                                     Constants.characterLimitContactNo,
                                 isEnable: !disableForm,
-                                isDisableColor: disableForm,
+                                isDisableColor: true,
                                 onChange: (String value) {
                                   state.model.lsm1ContactNo = value;
                                   context
@@ -537,12 +537,12 @@ class _AnnualPowerShutdownListDetailsViewState
                                   state.labels?.locale.lsm2 ??
                                       state.labels?.defaultLocale.lsm2 ??
                                       Constants.locationSecurityManager2,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.lsm2?.userInfo ??
                                     state.model.lsm2?.name,
-                                height: 60,
+                                height: 70,
                                 isDisableColor: disableForm,
                                 onTap: () {
                                   BaseOrganisationDialog().userDialog(
@@ -588,7 +588,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state.labels?.defaultLocale
                                           .lsm2ContactNo ??
                                       Constants.lsm2ContactNo,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -619,12 +619,12 @@ class _AnnualPowerShutdownListDetailsViewState
                                   state.labels?.locale.bu1 ??
                                       state.labels?.defaultLocale.bu1 ??
                                       Constants.businessPoc,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.bu1?.userInfo ??
                                     state.model.bu1?.name,
-                                height: 60,
+                                height: 70,
                                 isDisableColor: disableForm,
                                 onTap: () {
                                   BaseOrganisationDialog().userDialog(
@@ -669,7 +669,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state
                                           .labels?.defaultLocale.bu1ContactNo ??
                                       Constants.businessPocContactNo,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -699,12 +699,12 @@ class _AnnualPowerShutdownListDetailsViewState
                                   state.labels?.locale.bu2 ??
                                       state.labels?.defaultLocale.bu2 ??
                                       Constants.businessPocEscalation,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.bu2?.userInfo ??
                                     state.model.bu2?.name,
-                                height: 60,
+                                height: 70,
                                 isDisableColor: disableForm,
                                 onTap: () {
                                   BaseOrganisationDialog().userDialog(
@@ -749,7 +749,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state
                                           .labels?.defaultLocale.bu2ContactNo ??
                                       Constants.businessPocEscalationContactNo,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -779,11 +779,11 @@ class _AnnualPowerShutdownListDetailsViewState
                                   state.labels?.locale.bu1Dept ??
                                       state.labels?.defaultLocale.bu1Dept ??
                                       Constants.businessPocDepartment,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.bu1Dept?.name,
-                                height: 60,
+                                height: 70,
                                 isDisableColor: disableForm,
                                 onTap: () {
                                   BaseOrganisationDialog().departmentDialog(
@@ -814,11 +814,11 @@ class _AnnualPowerShutdownListDetailsViewState
                                   state.labels?.locale.bu2Dept ??
                                       state.labels?.defaultLocale.bu2Dept ??
                                       Constants.businessPocEscalationDepartment,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.bu2Dept?.name,
-                                height: 60,
+                                height: 70,
                                 isDisableColor: disableForm,
                                 onTap: () {
                                   BaseOrganisationDialog().departmentDialog(
@@ -854,7 +854,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state.labels?.defaultLocale
                                           .systemVendor1 ??
                                       Constants.systemVendor1Email,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -884,7 +884,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state.labels?.defaultLocale
                                           .systemVendor1ContactNo ??
                                       Constants.vendor1ContactNO,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -915,7 +915,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state.labels?.defaultLocale
                                           .systemVendor2 ??
                                       Constants.systemVendor2Email,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -944,7 +944,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state.labels?.defaultLocale
                                           .systemVendor2ContactNo ??
                                       Constants.vendor2ContactNO,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -975,7 +975,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state.labels?.defaultLocale
                                           .systemVendor3 ??
                                       Constants.systemVendor3Email,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -1003,7 +1003,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state.labels?.defaultLocale
                                           .systemVendor3ContactNo ??
                                       Constants.vendor3ContactNO,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -1033,11 +1033,11 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state.labels?.defaultLocale
                                           .requesterDepartment ??
                                       Constants.requesterDepartment,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.requesterDepartment?.name,
-                                height: 60,
+                                height: 70,
                                 isDisableColor: disableForm,
                                 onTap: () {
                                   BaseOrganisationDialog().departmentDialog(
@@ -1071,7 +1071,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   state.labels?.locale.epOfficers ??
                                       state.labels?.defaultLocale.epOfficers ??
                                       Constants.eventProtectionOfficers,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               //if (!disableForm) ...[
                               Opacity(
@@ -1170,7 +1170,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                               colorFilter:
                                                   const ColorFilter.mode(
                                                 AppColors
-                                                    .navigationSkyBlueColor,
+                                                    .lavender,
                                                 BlendMode.srcIn,
                                               ),
                                               // color:
@@ -1181,7 +1181,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                               'Add Officer',
                                               style: TextStyle(
                                                 color: AppColors
-                                                    .navigationSkyBlueColor,
+                                                    .lavender,
                                                 decoration:
                                                     TextDecoration.underline,
                                               ),
@@ -1203,15 +1203,15 @@ class _AnnualPowerShutdownListDetailsViewState
                                           .extraSecurityDeployed ??
                                       Constants
                                           .isExtraSecurityDeploymentRequired,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                 ),
                                 Opacity(
                                   opacity: disableForm ? 0.5 : 1,
                                   child: Checkbox(
                                       activeColor:
-                                          AppColors.navigationSkyBlueColor,
+                                          const Color(0xFF071130),
                                       focusColor:
-                                          AppColors.navigationSkyBlueColor,
+                                          const Color(0xFF071130),
                                       value: state.model.extraSecurityDeployed,
                                       onChanged: (bool? value) {
                                         state.model.extraSecurityDeployed =
@@ -1230,7 +1230,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                     state.labels?.locale.vendorId ??
                                         state.labels?.defaultLocale.vendorId ??
                                         Constants.guardingVendorId,
-                                    Styles.textStyleBlack14,
+                                    Styles.textStyleWhite16,
                                     isMandatory: true),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -1259,7 +1259,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                         state.labels?.defaultLocale
                                             .guardingVendorPoc ??
                                         Constants.guardingAgencyPOC,
-                                    Styles.textStyleBlack14,
+                                    Styles.textStyleWhite16,
                                     isMandatory: true),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -1289,7 +1289,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state.labels?.defaultLocale
                                           .securityOfficerCount ??
                                       Constants.numOfSecurityOfficers,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true,
                                 ),
                                 FlutterInputField(
@@ -1324,7 +1324,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state.labels?.defaultLocale
                                           .securityOfficerCountHrs ??
                                       Constants.totalDutyHours,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true,
                                 ),
                                 FlutterInputField(
@@ -1359,7 +1359,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state.labels?.defaultLocale
                                           .securitySupervisorCount ??
                                       Constants.numOfSecuritySupervisor,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true,
                                 ),
                                 FlutterInputField(
@@ -1395,7 +1395,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state.labels?.defaultLocale
                                           .securitySupervisorCountHrs ??
                                       Constants.totalDutyHours,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true,
                                 ),
                                 FlutterInputField(
@@ -1431,7 +1431,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state.labels?.defaultLocale
                                           .securityGuardCount ??
                                       Constants.numOfSecurityGuards,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true,
                                 ),
                                 FlutterInputField(
@@ -1466,7 +1466,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state.labels?.defaultLocale
                                           .securityGuardCountHrs ??
                                       Constants.totalDutyHours,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true,
                                 ),
                                 FlutterInputField(
@@ -1502,7 +1502,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state.labels?.defaultLocale
                                           .securityFacilitatorCount ??
                                       Constants.numOfSecurityFacilitators,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true,
                                 ),
                                 FlutterInputField(
@@ -1538,7 +1538,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state.labels?.defaultLocale
                                           .securityFacilitatorCountHrs ??
                                       Constants.totalDutyHours,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true,
                                 ),
                                 FlutterInputField(
@@ -1574,7 +1574,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       state.labels?.defaultLocale
                                           .proposedVendors ??
                                       Constants.proposedVendors,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -1610,7 +1610,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                     state.labels?.locale.budget ??
                                         state.labels?.defaultLocale.budget ??
                                         Constants.budget,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(

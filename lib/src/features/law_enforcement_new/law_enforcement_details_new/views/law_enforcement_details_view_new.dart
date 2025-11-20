@@ -137,7 +137,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
               );
             },
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.lavender,
           body: getBodybuilder(state, height),
         );
       },
@@ -167,17 +167,17 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
     }
 
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.lavender,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
+              color: AppColors.lavender,
             ),
             Container(
               decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhiteColor,
+                color: AppColors.lavender,
                 shape: RoundedRectangleBorder(
                   borderRadius:
                   BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -204,9 +204,9 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                             ],
                             Container(
                               alignment: Alignment.topLeft,
-                              child: Text(
+                              child: const Text(
                                 Constants.generalinformation,
-                                style: Styles.styleHeaderGreyText16,
+                                style: Styles.textStyleRegularNormalWhite18,
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -216,7 +216,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                               state.labels?.locale.status ??
                                   state.labels?.defaultLocale.status ??
                                   Constants.status,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -232,35 +232,37 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                               validateTextField: (String? user) {},
                             ),
 
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+
                             ///Date of Creation
                             CommonWidgets.textDisplay(
                               state.labels?.locale.inputDate ??
                                   state.labels?.defaultLocale.inputDate ??
                                   Constants.dateofcreation,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             dateCreateWidgetDisplay(
                                 state.model.inputDate ?? ''),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///Created By
-                            CommonWidgets.verticalTextHandling(
+                            CommonWidgets.horizentaltextHandling(
                               state.labels?.locale.entrySecurity ??
                                   state.labels?.defaultLocale.entrySecurity ??
                                   Constants.createdby,
                               '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}',
                               isMandatory: true,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///Location
                             CommonWidgets.textDisplay(
                               state.labels?.locale.location ??
                                   state.labels?.defaultLocale.location ??
                                   Constants.location,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -277,7 +279,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                       .updateLocationDropdownValue(
                                       location: location);
                                 }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///Sl no
                             CommonWidgets.horizentaltextHandling(
@@ -287,14 +289,14 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                               state.model.slNo ?? '',
                               isMandatory: true,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///Entity
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.entity ??
                                     state.labels?.defaultLocale.entity ??
                                     Constants.entity,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -319,7 +321,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                     .refreshList();
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Actual Time of Visit
                             CommonWidgets.textDisplay(
@@ -328,7 +330,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                               .timeOfVisit ??
                               Constants.actualtimeofvisit,
                               isMandatory: true,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                             ),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.001),
@@ -350,9 +352,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                               },
                               context: context,
                             ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Official ID Card Verified?
                             CommonWidgets.textDisplay(
@@ -361,7 +361,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                       .officialCardVerified ??
                                 Constants.officialsidcardverified,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
                                 selectedValue:
@@ -385,12 +385,14 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                       .onCheckBoxChange(state.model);
                                 }),
 
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+
                             /// Purpose of visit
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.visitPurpose ??
                                     state.labels?.defaultLocale.visitPurpose ??
                                     Constants.purposeOfVisit,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             TextFieldAddButton(
@@ -422,7 +424,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                 }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
 
                             /// Document if any to confirm purpose
@@ -432,7 +434,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                       .documentVerified ??
                                 Constants.documentifanytoconfirmpurpose,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
                                 selectedValue:
@@ -461,7 +463,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                         .visitorInUniform ??
                                     Constants.incaseofpolicewasofficialinuniform,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
                                 selectedValue:
@@ -482,6 +484,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                       LawEnforcementDetailsCubit>(
                                       context).onCheckBoxChange(state.model);
                                 }),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
 
                             /// DB official want to meet
@@ -491,7 +494,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                       .dbOfficialEmail ??
                                 Constants.dbofficialwanttomeet,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.001),
                             FlutterInputField(
@@ -507,7 +510,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                               validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
+                                height * 0.02),
 
 
                             ///DB official Department
@@ -515,7 +518,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                               state.labels?.locale.dbOfficialEmailDepartment ??
                                   state.labels?.defaultLocale.dbOfficialEmailDepartment ??
                                   Constants.dbofficialdepartment,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -548,7 +551,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                  }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
 
                             /// Db Official email ID Accompanied LEO Official
@@ -556,11 +559,11 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                 state.labels?.locale.dbOfficialAccompaniedEmail ??
                                     state.labels?.defaultLocale.dbOfficialAccompaniedEmail ??
                                     Constants.dbofficialemailidaccompaniedleoofficial,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             TextFieldAddButton(
                                 title: state.model.dbOfficialAccompaniedEmail,
-                                height: 90,
+                                height: 70,
                                 isDisableColor: !isEdit,
                                 onTap: () {
                                   if (isEdit) {
@@ -596,15 +599,14 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                     );
                                   }
                                 }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Additional Information
                             CommonWidgets.textDisplay(
                               state.labels?.locale.additionalInformation ??
                                   state.labels?.defaultLocale.additionalInformation ??
                                 Constants.additionalinformation,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: false),
                               FlutterInputField(
                                 lineHeight: 6,
@@ -630,12 +632,12 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                 validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(
-                                  height * 0.01),
+                                  height * 0.02),
 
                             ///Attachments
                             CommonWidgets.textDisplay(
                                 Constants.attachments,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             widget.model == null
                                 ? CommonWidgets.verticalSpacerWidget(
                                 height * 0.001)
@@ -681,7 +683,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                 ),
                               ),
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             if(widget.model?.status == ConstantsIntValue.leoStatusSubmitted || widget.model?.status == ConstantsIntValue.leoStatusVerificationUnderProgress || widget.model?.status == ConstantsIntValue.leoStatusDistributed)...[
                             ///Distribution Groups
@@ -689,7 +691,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                 state.labels?.locale.distributionList ??
                                     state.labels?.defaultLocale.distributionList ??
                                     Constants.distributiongroups,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -713,7 +715,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                                     .refreshList();
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ]
                           ],
                         ),
@@ -726,7 +728,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                       // state.labels?.locale.date ??
                       //     state.labels?.defaultLocale.date ??
                       Constants.modifiedOn,
-                      Styles.textStyleBlack14,
+                      Styles.textStyleWhite16,
                       isMandatory: true,
                     ),
                     CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -760,7 +762,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                               // state.labels?.locale.additionalInformation ??
                               //     state.labels?.defaultLocale.additionalInformation ??
                                   Constants.visitingOfficialDetails,
-                              Styles.styleHeaderGreyText16,
+                              Styles.textStyleWhite16,
                               isMandatory: true),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -804,7 +806,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                               SvgPicture.asset(
                                 AppIcon.pluscircle,
                                 colorFilter: const ColorFilter.mode(
-                                  AppColors.navigationSkyBlueColor,
+                                  Colors.white70,
                                   BlendMode.srcIn,
                                 ),
                                 // color: AppColors.navigationSkyBlueColor,
@@ -813,8 +815,9 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                               const Text(
                                 'Add/View Visiting Officials',
                                 style: TextStyle(
-                                  color: AppColors.navigationSkyBlueColor,
+                                  color: AppColors.white,
                                   decoration: TextDecoration.underline,
+                                    decorationColor: Colors.white
                                 ),
                               ),
                             ],

@@ -1283,7 +1283,7 @@ class CustomBottomNavigationBar extends StatefulWidget {
 
   const CustomBottomNavigationBar({
     super.key,
-    required this.displayMenu,
+     this.displayMenu,
     required this.scaffoldKey,
     required this.context,
     this.list = false,

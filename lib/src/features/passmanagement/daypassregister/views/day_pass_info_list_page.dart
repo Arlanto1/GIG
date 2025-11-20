@@ -79,43 +79,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
     final height = size.height;
     //_loadMore();
     return Scaffold(
-      backgroundColor: AppColors.cardBgColor,
-
-      // floatingActionButton: Flutterfloatingbutton(
-      //   backgroundColor: AppColors.navigationSkybluecolor,
-      //   foregroundColor: AppColors.backgroundWhitecolor,
-      //   onPressed: () {},
-      // ),
-      // appBar: AppHeader(
-      //   isTitleCenter: false,
-      //   title: widget.title,
-      //   backBtn: IconButton(
-      //     onPressed: () {
-      //       Navigator.pop(context);
-      //     },
-      //     icon: const Icon(Icons.arrow_back_ios_new_outlined,
-      //         color: Colors.white),
-      //   ),
-      //   action: [
-      //     CustomPopmenu(
-      //       //itemList :[],
-      //       itemList: const [
-      //         PopMenuItems("Export Excel", AppIcon.exportexcel),
-      //         PopMenuItems("Export PDF", AppIcon.exportpdf),
-      //       ],
-      //       itemTap: (value) async {
-      //         if (value == 0) {
-      //           DownloadImage().exportExcel(
-      //               context, 'export.xslx', '/exportPassMgmtExcel');
-      //         } else if (value == 1) {
-      //           DownloadImage()
-      //               .exportPdf(context, 'export.pdf', '/exportPassMgmtPDF');
-      //         }
-      //       },
-      //       popupimagename: AppIcon.morewhiteicon,
-      //     ),
-      //   ],
-      // ),
+      backgroundColor: AppColors.lavender,
       appBar: BaseAppBar().buildAppHeader(
         context: context,
         title:  widget.passId == '0'
@@ -196,25 +160,25 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
   Widget listWidgetLoading(double height, DayPassInfoState state,
       ScrollController? scrollController, List<PassInfo>? foundList) {
     return Container(
-        color: AppColors.navigationSkyBlueColor,
+        color: AppColors.lavender,
         child: SingleChildScrollView(
           controller: scrollController,
           child: Column(children: [
-            Container(
-              height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
-            ),
+            // Container(
+            //   height: height * 0.01,
+            //   color: AppColors.lavender,
+            // ),
             Container(
               //padding: const EdgeInsets.all(20.0),
-              decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
-                  )),
+              // decoration: const ShapeDecoration(
+              //     color: AppColors.lavender,
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius:
+              //           BorderRadius.vertical(top: Radius.circular(20.0)),
+              //     )),
               child: Column(
                 children: [
-                  // searchWidget(),
+                  searchWidget(),
                   (foundList != null)
                       ? _userFoundListWidget(
                           foundList, context, scrollController)
@@ -229,7 +193,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
   // Search Widget
   Widget searchWidget() {
     return Container(
-      padding: const EdgeInsets.only(left: 18, right: 18, top: 20, bottom: 2),
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 2),
       child: SearchWidget(
         controller: _searchCtrl,
         hintText: Constants.searchHintText,
@@ -260,7 +224,20 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
   Widget _userFoundListWidget(List<PassInfo>? userList, BuildContext cont,
       ScrollController? scrollController) {
     return Container(
-      padding: allMargin16,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Color(0xFF6474C6),
+            Color(0xFF6474C6)
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      // width: double.infinity,
+      // height: double.infinity,
+      // color: const Color(0xFF6474C6),
+      // padding: allMargin16,
       child: Visibility(
         visible: userList!.isNotEmpty,
         child: ListView.builder(

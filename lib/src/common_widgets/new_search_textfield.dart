@@ -272,7 +272,7 @@ class FlutterInputField extends StatelessWidget {
             style: const TextStyle(
               color: Colors.white, // <-- desired counter color
               fontWeight: FontWeight.w400,
-              fontSize: 12,
+              fontSize: 9,
             ),
           ),
         );
@@ -494,19 +494,42 @@ class FlutterInputField extends StatelessWidget {
             ],
           )
               : BoxDecoration(
-            gradient: LinearGradient(
+            gradient:
+            (isDisableColor ?? false) ?
+            LinearGradient( colors: [
+              AppColors.disableTextFieldBackground.withValues(alpha: 0.1),
+              AppColors.disableTextFieldBackground.withValues(alpha: 0.1),
+            ],)
+                :
+            LinearGradient(
               colors: [
-                const Color(0xFF6474C6).withValues(alpha: 0.2),
-                Colors.white.withValues(alpha: 0.3),
+                // Colors.white.withValues(alpha: 0.2),
+                // Colors.white.withValues(alpha: 0.28),
+                const Color(0xFF6474C6).withValues(alpha: 0.4),
+                // const Color(0xFF6474C6).withValues(alpha: 0),
+                Colors.white.withValues(alpha: 0.35),
+
               ],
+              // stops: [0.02, 0.35, 0.9,],
               begin: Alignment.topRight,
               end: Alignment.bottomCenter,
-            ),
+            ) ,
+            // gradient:  isDisableColor ? : LinearGradient(
+            //   colors: [
+            //     const Color(0xFF6474C6).withValues(alpha: 0.2),
+            //     Colors.white.withValues(alpha: 0.3),
+            //   ],
+            //   begin: Alignment.topRight,
+            //   end: Alignment.bottomCenter,
+            // ),
             borderRadius: BorderRadius.circular(25),
-            border: Border.all(
+            border: isDisableColor ?? false ? Border.all(
+              color: Colors.white.withValues(alpha: 0.5),
+              width: 0.4,
+            ) : Border.all(
               color: Colors.white.withValues(alpha: 0.9),
               width: 0.7,
-            ),
+            ) ,
             boxShadow: [
               BoxShadow(
                 color: Colors.white.withValues(alpha: 0.03),

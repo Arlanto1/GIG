@@ -13,6 +13,7 @@ class LawEnforcementNewState extends Equatable {
   final LeoUiLabels? labels;
   final ExtraProperties? extraProperties;
   final LawEnforcementModelNew? model;
+  final DisplayMenu? displayMenu;
 
   const LawEnforcementNewState({
     this.items = const <LawEnforcementModelNew>[],
@@ -25,6 +26,7 @@ class LawEnforcementNewState extends Equatable {
     this.labels,
     this.extraProperties,
     this.model,
+    this.displayMenu
   });
 
   LawEnforcementNewState copyWith({

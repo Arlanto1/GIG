@@ -14,6 +14,7 @@ class VendorPassManagementListState extends Equatable {
   final PMUiLabels? labels;
   final ExtraProperties? extraProperties;
   final VendorPassManagementModel? model;
+  final DisplayMenu? displayMenu;
 
   const VendorPassManagementListState({
     this.items = const <VendorPassManagementModel>[],
@@ -26,6 +27,7 @@ class VendorPassManagementListState extends Equatable {
     this.labels,
     this.extraProperties,
     this.model,
+    this.displayMenu,
   });
 
   VendorPassManagementListState copyWith({

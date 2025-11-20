@@ -13,6 +13,7 @@ class SezPassManagementListState extends Equatable {
   final PMUiLabels? labels;
   final ExtraProperties? extraProperties;
   final SezPassManagementModel? model;
+  final DisplayMenu? displayMenu;
 
   const SezPassManagementListState({
     this.items = const <SezPassManagementModel>[],
@@ -25,6 +26,7 @@ class SezPassManagementListState extends Equatable {
     this.labels,
     this.extraProperties,
     this.model,
+    this.displayMenu
   });
 
   SezPassManagementListState copyWith({

@@ -14,6 +14,7 @@ class VisitorPassManagementListState extends Equatable {
   final PMUiLabels? labels;
   final ExtraProperties? extraProperties;
   final VisitorPassManagementModel? model;
+  final DisplayMenu? displayMenu;
 
   const VisitorPassManagementListState({
     this.items = const <VisitorPassManagementModel>[],
@@ -26,6 +27,7 @@ class VisitorPassManagementListState extends Equatable {
     this.labels,
     this.extraProperties,
     this.model,
+    this.displayMenu,
   });
 
   VisitorPassManagementListState copyWith({

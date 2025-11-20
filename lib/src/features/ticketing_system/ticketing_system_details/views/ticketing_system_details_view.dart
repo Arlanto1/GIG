@@ -111,7 +111,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
               // );
             },
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.lavender,
           body: getBodybuilder(state, height),
         );
       },
@@ -154,17 +154,17 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
     // }
 
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.lavender,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
+              color: AppColors.lavender,
             ),
             Container(
               decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhiteColor,
+                color: AppColors.lavender,
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -191,12 +191,12 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                             ],
                             Container(
                               alignment: Alignment.topLeft,
-                              child: Text(
+                              child: const Text(
                                 Constants.generalinformation,
-                                style: Styles.styleHeaderGreyText16,
+                                style: Styles.textStyleRegularNormalWhite18,
                               ),
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Project Name
                             CommonWidgets.textDisplay(
@@ -204,11 +204,11 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                 //     state.labels?.defaultLocale
                                 //         .requesterDepartment ??
                                 Constants.project,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             TextFieldAddButton(
                               title: state.model.projectName ?? 'dbatom-uat',
-                              height: 60,
+                              height: 70,
                               isDisableColor: !showSaveSubmitButton,
                               onTap: () {
                                 BaseOrganisationDialog().departmentDialog(
@@ -234,11 +234,12 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                 );
                               },
                             ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Priority
                             CommonWidgets.textDisplay(
                               Constants.priority,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             TextFieldAddButton(
@@ -279,12 +280,12 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                 }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Title
                             CommonWidgets.textDisplay(
                               Constants.title,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -304,7 +305,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Assignee
                             Column(
@@ -314,7 +315,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                   //     state.labels?.defaultLocale
                                   //         .otherReceiverName ??
                                   Constants.assigneeName,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true,
                                 ),
                                 TextFieldAddButton(
@@ -360,10 +361,9 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                       // }
                                     }),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
                               ],
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Start Date
                             CommonWidgets.textDisplay(
@@ -372,7 +372,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               //         .keyHandOverDue ??
                               Constants.startDate,
                               isMandatory: true,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -393,11 +393,11 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               },
                               context: context,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Due Date
                             CommonWidgets.textDisplay(
-                                Constants.duedate, Styles.textStyleBlack14,
+                                Constants.duedate, Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -415,12 +415,12 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               },
                               context: context,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Tracker
                             CommonWidgets.textDisplay(
                               Constants.tracker,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             TextFieldAddButton(
@@ -461,7 +461,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                 // }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Description
                             CommonWidgets.textDisplay(
@@ -469,7 +469,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                 //     state.labels?.defaultLocale.detailDes ??
                                 Constants.description,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 6,
@@ -490,7 +490,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             if (state.model.id != null) ...[
                               /// History
@@ -499,7 +499,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                   //     state.labels?.defaultLocale.detailDes ??
                                   Constants.history,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -520,13 +520,13 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Notes
                               CommonWidgets.textDisplay(
                                   Constants.notes,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -548,12 +548,12 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ],
 
                             /// upload
                             CommonWidgets.textDisplay(
-                                Constants.uploadPhoto, Styles.textStyleBlack14),
+                                Constants.uploadPhoto, Styles.textStyleWhite16),
                             // widget.guardingMasterData == null
                             //     ? CommonWidgets.verticalSpacerWidget(
                             //     height * 0.001)

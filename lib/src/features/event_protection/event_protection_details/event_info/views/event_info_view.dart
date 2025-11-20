@@ -180,7 +180,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                   isSaveOnly: false, updatedEmailText: updatedEmailText ?? '');
             },
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.lavender,
           body: getBodybuilder(state, height),
         );
       },
@@ -200,17 +200,17 @@ class _EventInfoViewState extends State<EventInfoView> {
     }
 
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.lavender,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
+              color: AppColors.lavender,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
+                  color: AppColors.lavender,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),

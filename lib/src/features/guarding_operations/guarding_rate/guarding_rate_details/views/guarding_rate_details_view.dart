@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:db_atom/index.dart';
 
 class GuardingRateDetailsView extends StatefulWidget {
@@ -50,7 +52,7 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
         },
         builder: (context, state) {
           return Container(
-            color: AppColors.navigationSkyBlueColor,
+            color: AppColors.lavender,
             child: Padding(
               padding: const EdgeInsets.only(top: 10.0),
               child: SingleChildScrollView(
@@ -59,7 +61,7 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
                     Container(
                       padding: const EdgeInsets.all(20.0),
                       decoration: const ShapeDecoration(
-                          color: AppColors.backgroundWhiteColor,
+                          color: AppColors.lavender,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(20.0)),
@@ -68,9 +70,9 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             Constants.guardingOfficialRatingCards,
-                            style: Styles.styleHeaderGreyText16,
+                            style: Styles.textStyleRegularNormalWhite18,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.02),
                           // GuardingRectangle(rate: widget.rate),
@@ -267,20 +269,70 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
     final size = MediaQuery.of(context).size;
 
     return Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFF6474C6),
+                  Color(0xFF6474C6)
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+            margin: const EdgeInsets.symmetric(
+                horizontal: 12, vertical: 8),
+
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(18),
+                child: BackdropFilter(
+                    filter: ImageFilter.blur(
+                        sigmaX: 18, sigmaY: 18),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.white.withValues(
+                                alpha: 0.2),
+                            Colors.transparent,
+                            Colors.white.withValues(
+                                alpha: 0.2),
+                            // Color(0xFF6474C6).withOpacity(0.14)
+                          ],
+                          stops: [0.02, 0.35, 1],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                        borderRadius: BorderRadius
+                            .circular(27),
+                        border: Border.all(
+                          color: Colors.white
+                              .withValues(alpha: 0.80),
+                          width: 0.8,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(
+                                0xFF6474C6).withValues(
+                                alpha: 0.09),
+                            blurRadius: 12,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
       width: size.width * 0.42,
       height: 160,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10.0),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.navigationSkyBlueColor.withOpacity(0.5),
-            spreadRadius: 1.0,
-            blurRadius: 4.0,
-            offset: const Offset(0, 0),
-          ),
-        ],
-      ),
+      // decoration: BoxDecoration(
+      //   color: AppColors.lavender,
+      //   borderRadius: BorderRadius.circular(10.0),
+      //   boxShadow: [
+      //     BoxShadow(
+      //       color: AppColors.white.withValues(alpha: 0.5),
+      //       spreadRadius: 1.0,
+      //       blurRadius: 4.0,
+      //       offset: const Offset(0, 0),
+      //     ),
+      //   ],
+      // ),
       child: Stack(
         children: [
           Align(
@@ -298,11 +350,11 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
             child: Text(
               text,
               textAlign: TextAlign.center,
-              style: Styles.styleHeaderGreyText16,
+              style: Styles.textStyleWhite14,
             ),
           ),
         ],
       ),
-    );
+                    ))));
   }
 }

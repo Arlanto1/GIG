@@ -145,7 +145,7 @@ class _SezPassManagementDetailsViewState
             showLikeButton: false,
             showDisLikeButton: false,
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.lavender,
           body: getBodybuilder(state, height),
         );
       },
@@ -196,17 +196,17 @@ class _SezPassManagementDetailsViewState
       uploadFiles = state.model.evidenceDocuments ?? [];
     }
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.lavender,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
+              color: AppColors.lavender,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
+                  color: AppColors.lavender,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                     BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -232,9 +232,9 @@ class _SezPassManagementDetailsViewState
                             ],
                             Container(
                               alignment: Alignment.topLeft,
-                              child: Text(
+                              child: const Text(
                                 Constants.generalinformation,
-                                style: Styles.styleHeaderGreyText16,
+                                style: Styles.textStyleRegularNormalWhite18,
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -244,7 +244,7 @@ class _SezPassManagementDetailsViewState
                               state.labels?.locale.status ??
                                   state.labels?.defaultLocale.status ??
                                   Constants.status,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -277,12 +277,12 @@ class _SezPassManagementDetailsViewState
                                       state.labels?.defaultLocale
                                           .updateStatus ??
                                   Constants.updatestatus,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               TextFieldAddButton(
                                 title: updateStatusTextController.text,
-                                height: 60,
+                                height: 70,
                                 isDisableColor: widget.model != null &&
                                     !widget.model!.lock.isEmptyOrNull,
                                 onTap: () {
@@ -346,7 +346,7 @@ class _SezPassManagementDetailsViewState
                               state.labels?.locale.location ??
                                   state.labels?.defaultLocale.location ??
                                   Constants.location,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -371,7 +371,7 @@ class _SezPassManagementDetailsViewState
                               state.labels?.locale.inputDate ??
                                   state.labels?.defaultLocale.inputDate ??
                                   Constants.dateofcreation,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -394,7 +394,7 @@ class _SezPassManagementDetailsViewState
                                 state.labels?.locale.entity ??
                                     state.labels?.defaultLocale.entity ??
                                     Constants.entity,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             BaseEntitiesSelection().entityDropDownSelection(
                               context: context,
@@ -424,7 +424,7 @@ class _SezPassManagementDetailsViewState
                                   state.labels?.defaultLocale
                                       .passType ??
                                 Constants.passtype,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             TextFieldAddButton(
                               title: state.model.passTypeName,
@@ -464,7 +464,7 @@ class _SezPassManagementDetailsViewState
                                 state.labels?.locale.category ??
                                     state.labels?.defaultLocale.category ??
                                     Constants.passCategory,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -506,7 +506,7 @@ class _SezPassManagementDetailsViewState
                                   state.labels?.defaultLocale
                                       .companyType ??
                                 Constants.companyType,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             TextFieldAddButton(
                               title: state.model.companyType?.name,
@@ -544,7 +544,7 @@ class _SezPassManagementDetailsViewState
                               state.labels?.locale.companyName ??
                                   state.labels?.defaultLocale.companyName ??
                               Constants.companyName,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -577,11 +577,11 @@ class _SezPassManagementDetailsViewState
                                     state.labels?.defaultLocale
                                         .employeeId ??
                                   Constants.employeeid,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.employeeId,
-                                height: 60,
+                                height: 70,
                                 isDisableColor: isReadOnly,
                                 onTap: () {
                                   if (!isReadOnly) {
@@ -630,7 +630,7 @@ class _SezPassManagementDetailsViewState
                                         .employeeId ??
                                   Constants.employeeid,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -656,7 +656,7 @@ class _SezPassManagementDetailsViewState
                                       .employeeName ??
                                 Constants.name,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.001),
                             FlutterInputField(
@@ -685,7 +685,7 @@ class _SezPassManagementDetailsViewState
                                       .email ??
                                 Constants.email,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.001),
                             FlutterInputField(
@@ -710,7 +710,7 @@ class _SezPassManagementDetailsViewState
                                       .sezPassInfo ??
                                 Constants.sezPassInfo,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.001),
                             FlutterInputField(
@@ -736,7 +736,7 @@ class _SezPassManagementDetailsViewState
                                       .mtpPassNo ??
                                 Constants.mTPApplicationNo,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.001),
                             FlutterInputField(
@@ -764,7 +764,7 @@ class _SezPassManagementDetailsViewState
                               .passIssuedOn ??
                               Constants.passIssuedOn,
                               isMandatory: true,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                             ),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.001),
@@ -798,7 +798,7 @@ class _SezPassManagementDetailsViewState
                               .endTime ??
                               Constants.passvliduntil,
                               isMandatory: true,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                             ),
                             CommonWidgets.verticalSpacerWidget(
                                 height * 0.001),
@@ -833,7 +833,7 @@ class _SezPassManagementDetailsViewState
                               state.labels?.locale.returnedTime ??
                                   state.labels?.defaultLocale.returnedTime ??
                               Constants.passReturnedOn,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -859,7 +859,7 @@ class _SezPassManagementDetailsViewState
                               state.labels?.locale.evidenceInfo ??
                                   state.labels?.defaultLocale.evidenceInfo ??
                                 Constants.evidenceDocuments,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             widget.model == null
                                 ? CommonWidgets.verticalSpacerWidget(
                                 height * 0.001)

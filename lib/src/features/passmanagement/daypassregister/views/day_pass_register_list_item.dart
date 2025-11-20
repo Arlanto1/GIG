@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
@@ -37,12 +39,12 @@ class _DayPassRegisterListItemState extends State<DayPassRegisterListItem> {
         text: TextSpan(
           // Note: Styles for TextSpans must be explicitly defined.
           // Child text spans will inherit styles from parent
-          style: Styles.textStyleRegularNormalGrey14,
+          style: Styles.textStyleRegularWhite14,
           children: <TextSpan>[
             TextSpan(text: title),
             TextSpan(
               text: desc,
-              style: Styles.textStyleBoldGrey14,
+              style: Styles.textStyleRegularNormalWhite18,
             ),
           ],
         ),
@@ -52,101 +54,261 @@ class _DayPassRegisterListItemState extends State<DayPassRegisterListItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Card(
-            elevation: 5,
-            shape: RoundedRectangleBorder(
-              side:
-                  const BorderSide(color: AppColors.searchBarBorder, width: 1),
-              borderRadius: circularBorderRadius10,
-            ),
-            child: InkWell(
-                onTap: () {
-                  HapticFeedback.lightImpact();
-                  widget.onTap != null ? widget.onTap!(widget.index) : null;
-                },
-                borderRadius: BorderRadius.circular(8),
-                child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          textHandling('ID : ', widget.userItem.id.toString()),
+    return Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFF6474C6),
+              Color(0xFF6474C6)
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        margin: const EdgeInsets.symmetric(
+            horizontal: 12, vertical: 8),
+
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(18),
+            child: BackdropFilter(
+                filter: ImageFilter.blur(
+                    sigmaX: 18, sigmaY: 18),
+                child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.white.withValues(
+                              alpha: 0.2),
+                          Colors.transparent,
+                          Colors.white.withValues(
+                              alpha: 0.2),
+                          // Color(0xFF6474C6).withOpacity(0.14)
                         ],
+                        stops: [0.02, 0.35, 1],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
                       ),
-                      if (widget.userItem.region != null) ...[
-                        Row(
-                          children: [
-                            textHandling('Region : ',
-                                widget.userItem.region?.name ?? ''),
-                          ],
+                      borderRadius: BorderRadius
+                          .circular(27),
+                      border: Border.all(
+                        color: Colors.white
+                            .withValues(alpha: 0.80),
+                        width: 0.8,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(
+                              0xFF6474C6).withValues(
+                              alpha: 0.09),
+                          blurRadius: 12,
+                          offset: const Offset(0, 2),
                         ),
                       ],
-                      if (widget.userItem.location != null) ...[
-                        Column(
-                          children: [
-                            CommonWidgets.verticalSpacerWidget(5),
-                            Row(
-                              children: [
-                                textHandling('Location : ',
-                                    widget.userItem.location?.name ?? ''),
+                    ),
+                    child: InkWell(
+                        onTap: () {
+                          HapticFeedback.lightImpact();
+                          widget.onTap != null ? widget.onTap!(widget.index) : null;
+                        },
+                        borderRadius: BorderRadius.circular(8),
+                        child: Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: Column(children: [
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              //   children: [
+                              //     textHandling('ID : ', widget.userItem.id.toString()),
+                              //   ],
+                              // ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  textHandling('ID : ', widget.userItem.id.toString()),
+                                  IconButton(
+                                    onPressed: () {
+                                      if (widget.onviewTap != null) widget.onviewTap!(widget.index);
+                                    },
+                                    icon: Image.asset(
+                                      'assets/images/eye.png',
+                                      width: 30,
+                                      height: 30,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              if (widget.userItem.region != null) ...[
+                                Row(
+                                  children: [
+                                    textHandling('Region : ',
+                                        widget.userItem.region?.name ?? ''),
+                                  ],
+                                ),
                               ],
-                            ),
-                          ],
-                        ),
-                      ],
-                      if (widget.userItem.expiryDate != null) ...[
-                        CommonWidgets.verticalSpacerWidget(5),
-                        Row(
-                          children: [
-                            textHandling(
-                                'Expiry Date: ',
-                                widget.userItem.expiryDate != null
-                                    ? Utils.timestampToDateConversion(
-                                        int.tryParse(
-                                            widget.userItem.expiryDate ?? '0'),
-                                        Constants.dateFormat)
-                                    : ''),
-                          ],
-                        ),
-                      ],
-                      CommonWidgets.verticalSpacerWidget(5),
-                      Row(
-                        children: [
-                          // Text(
-                          //   'Status : ${widget.userItem.status}',
-                          //   style: Styles.textStyleSemiBoldGrey14,
-                          textHandling('PassNo : ',
-                              (widget.userItem.passNo ?? '').toString()),
-                        ],
-                      ),
-                      CommonWidgets.verticalSpacerWidget(5),
-                      Row(
-                        children: [
-                          Utils().buildPassManagementStatusRow(widget.userItem.status ?? 0),
-                        ],
-                      ),
-                      Container(
-                        alignment: Alignment.topCenter,
-                        child: Row(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                //do action on view
-                                widget.onviewTap != null
-                                    ? widget.onviewTap!(widget.index)
-                                    : null;
-                              },
-                              icon: SvgPicture.asset(AppIcon.viewIcon),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ])))),
-        CommonWidgets.verticalSpacerWidget(5),
-      ],
-    );
+                              if (widget.userItem.location != null) ...[
+                                Column(
+                                  children: [
+                                    CommonWidgets.verticalSpacerWidget(5),
+                                    Row(
+                                      children: [
+                                        textHandling('Location : ',
+                                            widget.userItem.location?.name ?? ''),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                              if (widget.userItem.expiryDate != null) ...[
+                                CommonWidgets.verticalSpacerWidget(5),
+                                Row(
+                                  children: [
+                                    textHandling(
+                                        'Expiry Date: ',
+                                        widget.userItem.expiryDate != null
+                                            ? Utils.timestampToDateConversion(
+                                            int.tryParse(
+                                                widget.userItem.expiryDate ?? '0'),
+                                            Constants.dateFormat)
+                                            : ''),
+                                  ],
+                                ),
+                              ],
+                              CommonWidgets.verticalSpacerWidget(5),
+                              Row(
+                                children: [
+                                  // Text(
+                                  //   'Status : ${widget.userItem.status}',
+                                  //   style: Styles.textStyleSemiBoldGrey14,
+                                  textHandling('PassNo : ',
+                                      (widget.userItem.passNo ?? '').toString()),
+                                ],
+                              ),
+                              CommonWidgets.verticalSpacerWidget(5),
+                              Row(
+                                children: [
+                                  Utils().buildPassManagementStatusRow(widget.userItem.status ?? 0),
+                                ],
+                              ),
+                              // Container(
+                              //   alignment: Alignment.topCenter,
+                              //   child: Row(
+                              //     children: [
+                              //       IconButton(
+                              //         onPressed: () {
+                              //           //do action on view
+                              //           widget.onviewTap != null
+                              //               ? widget.onviewTap!(widget.index)
+                              //               : null;
+                              //         },
+                              //         icon: Image.asset(
+                              //           'assets/images/eye.png',
+                              //           width: 30,
+                              //           height: 30,
+                              //         ),
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                            ]))
+                    )
+                ))));
+    // return Column(
+    //
+    //   children: [
+    //     Card(
+    //         // elevation: 5,
+    //         // shape: RoundedRectangleBorder(
+    //         //   side:
+    //         //       const BorderSide(color: AppColors.searchBarBorder, width: 1),
+    //         //   borderRadius: circularBorderRadius10,
+    //         // ),
+    //         child: InkWell(
+    //             onTap: () {
+    //               HapticFeedback.lightImpact();
+    //               widget.onTap != null ? widget.onTap!(widget.index) : null;
+    //             },
+    //             borderRadius: BorderRadius.circular(8),
+    //             child: Padding(
+    //                 padding: const EdgeInsets.all(20),
+    //                 child: Column(children: [
+    //                   Row(
+    //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //                     children: [
+    //                       textHandling('ID : ', widget.userItem.id.toString()),
+    //                     ],
+    //                   ),
+    //                   if (widget.userItem.region != null) ...[
+    //                     Row(
+    //                       children: [
+    //                         textHandling('Region : ',
+    //                             widget.userItem.region?.name ?? ''),
+    //                       ],
+    //                     ),
+    //                   ],
+    //                   if (widget.userItem.location != null) ...[
+    //                     Column(
+    //                       children: [
+    //                         CommonWidgets.verticalSpacerWidget(5),
+    //                         Row(
+    //                           children: [
+    //                             textHandling('Location : ',
+    //                                 widget.userItem.location?.name ?? ''),
+    //                           ],
+    //                         ),
+    //                       ],
+    //                     ),
+    //                   ],
+    //                   if (widget.userItem.expiryDate != null) ...[
+    //                     CommonWidgets.verticalSpacerWidget(5),
+    //                     Row(
+    //                       children: [
+    //                         textHandling(
+    //                             'Expiry Date: ',
+    //                             widget.userItem.expiryDate != null
+    //                                 ? Utils.timestampToDateConversion(
+    //                                     int.tryParse(
+    //                                         widget.userItem.expiryDate ?? '0'),
+    //                                     Constants.dateFormat)
+    //                                 : ''),
+    //                       ],
+    //                     ),
+    //                   ],
+    //                   CommonWidgets.verticalSpacerWidget(5),
+    //                   Row(
+    //                     children: [
+    //                       // Text(
+    //                       //   'Status : ${widget.userItem.status}',
+    //                       //   style: Styles.textStyleSemiBoldGrey14,
+    //                       textHandling('PassNo : ',
+    //                           (widget.userItem.passNo ?? '').toString()),
+    //                     ],
+    //                   ),
+    //                   CommonWidgets.verticalSpacerWidget(5),
+    //                   Row(
+    //                     children: [
+    //                       Utils().buildPassManagementStatusRow(widget.userItem.status ?? 0),
+    //                     ],
+    //                   ),
+    //                   Container(
+    //                     alignment: Alignment.topCenter,
+    //                     child: Row(
+    //                       children: [
+    //                         IconButton(
+    //                           onPressed: () {
+    //                             //do action on view
+    //                             widget.onviewTap != null
+    //                                 ? widget.onviewTap!(widget.index)
+    //                                 : null;
+    //                           },
+    //                           icon: SvgPicture.asset(AppIcon.viewIcon),
+    //                         ),
+    //                       ],
+    //                     ),
+    //                   ),
+    //                 ]))
+    // )
+    // ),
+    //     CommonWidgets.verticalSpacerWidget(5),
+    //   ],
+    // );
   }
 }

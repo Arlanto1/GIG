@@ -1095,7 +1095,7 @@ class _ArticleFoundDetailsViewState
       initialValue: date,
       hintText: '',
       isEnable: false,
-      isDisableColor: false,
+      isDisableColor: true,
       onChange: (String value) {},
       validateTextField: (String? user) {},
     );

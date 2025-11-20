@@ -38,9 +38,14 @@ class TextFieldAddButton extends StatelessWidget {
           child: Container(
             height: height,
             decoration: BoxDecoration(
-              gradient: (isDisableColor ?? false) ?
-              const LinearGradient(colors: [Colors.transparent, Colors.transparent])
-              :LinearGradient(
+              gradient:
+              (isDisableColor ?? false ) ?
+               LinearGradient( colors: [
+                AppColors.disableTextFieldBackground.withValues(alpha: 0.1),
+                AppColors.disableTextFieldBackground.withValues(alpha: 0.1),
+              ],)
+              :
+              LinearGradient(
                 colors: [
                   // Colors.white.withValues(alpha: 0.2),
                   // Colors.white.withValues(alpha: 0.28),
@@ -54,10 +59,13 @@ class TextFieldAddButton extends StatelessWidget {
                 end: Alignment.bottomCenter,
               ) ,
               borderRadius: BorderRadius.circular(25),
-              border: Border.all(
+              border:  (isDisableColor ?? false ) ? Border.all(
+                color: Colors.white.withValues(alpha: 0.4),
+                width: 0.7,
+              ) : Border.all(
                 color: Colors.white.withValues(alpha: 90),
                 width: 0.7,
-              ),
+              ) ,
               boxShadow: [
                 // BoxShadow(
                 //   color: Colors.white.withValues(alpha: 10),

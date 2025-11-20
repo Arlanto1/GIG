@@ -367,17 +367,17 @@ class _SstIncidentGeneralInfoViewState
       attachDocuments = state.additionalAttachments ?? [];
     }
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.lavender,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
+              color: AppColors.lavender,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
+                  color: AppColors.lavender,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -403,9 +403,9 @@ class _SstIncidentGeneralInfoViewState
                             children: [
                               Container(
                                 alignment: Alignment.topLeft,
-                                child: Text(
+                                child: const Text(
                                   Constants.generalinformation,
-                                  style: Styles.styleHeaderGreyText16,
+                                  style: Styles.textStyleRegularNormalWhite18,
                                 ),
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -425,7 +425,7 @@ class _SstIncidentGeneralInfoViewState
                                       state.labels?.defaultLocale.status ??
                                       Constants.status,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               // FlutterInputField(
@@ -469,7 +469,7 @@ class _SstIncidentGeneralInfoViewState
                                   }
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Date of creation
                               CommonWidgets.textDisplay(
@@ -477,12 +477,12 @@ class _SstIncidentGeneralInfoViewState
                                       state.labels?.defaultLocale.createDate ??
                                       Constants.createDate,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               BaseDate().creationDateDisplay(
                                   state.model.createdDate ?? ''),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Location
                               CommonWidgets.textDisplay(
@@ -490,7 +490,7 @@ class _SstIncidentGeneralInfoViewState
                                       state.labels?.defaultLocale.location ??
                                       Constants.location,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               locationWidgetdislay(
@@ -510,7 +510,7 @@ class _SstIncidentGeneralInfoViewState
                                         .updateLocationDropdownValue(
                                             location: location);
                                   }),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Sl No.
                               CommonWidgets.horizentaltextHandling(
@@ -527,11 +527,9 @@ class _SstIncidentGeneralInfoViewState
                                       state.labels?.defaultLocale.system ??
                                       Constants.system,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
+                                  height * 0.002),
                               BaseDropDown().getDropDown(
                                   isDisabled: state.model.status != 6,
                                   textController: systemController,
@@ -562,7 +560,7 @@ class _SstIncidentGeneralInfoViewState
                                           });
                                     }
                                   }),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Vendor
                               CommonWidgets.textDisplay(
@@ -570,7 +568,7 @@ class _SstIncidentGeneralInfoViewState
                                     state.labels?.defaultLocale.vendor ??
                                     Constants.vendor,
                                 isMandatory: true,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                               ),
                               TextFieldAddButton(
                                 title: state.model.vendor?.name,
@@ -603,7 +601,7 @@ class _SstIncidentGeneralInfoViewState
                                       });
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Vendor Poc
                               CommonWidgets.textDisplay(
@@ -611,7 +609,7 @@ class _SstIncidentGeneralInfoViewState
                                       state.labels?.defaultLocale.vendorPoc ??
                                       Constants.vendorPoc,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -619,7 +617,7 @@ class _SstIncidentGeneralInfoViewState
                                 controller: vendorPocController,
                                 // initialValue: state.model.vendorPoc,
                                 textFormKey: Keys.claimantTextController,
-                                hintText: Constants.informationhere,
+                                hintText: '',
                                 focusNode: vendorPocFocusNode,
                                 textCapitalization: false,
                                 isEnable: state.model.status != 2,
@@ -632,7 +630,7 @@ class _SstIncidentGeneralInfoViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Escalation 1 Poc
                               CommonWidgets.textDisplay(
@@ -641,7 +639,7 @@ class _SstIncidentGeneralInfoViewState
                                           .escalation1Poc ??
                                       Constants.escalation1Poc,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -650,7 +648,7 @@ class _SstIncidentGeneralInfoViewState
                                 // initialValue: state.model.escalation1Poc,
                                 textFormKey: Keys.claimantTextController,
                                 textCapitalization: false,
-                                hintText: Constants.informationhere,
+                                hintText: '',
                                 isEnable: state.model.status != 2,
                                 isDisableColor: state.model.status == 2,
                                 onChange: (String value) {
@@ -661,7 +659,7 @@ class _SstIncidentGeneralInfoViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Escalation 2 Poc
                               CommonWidgets.textDisplay(
@@ -670,7 +668,7 @@ class _SstIncidentGeneralInfoViewState
                                           .escalation2Poc ??
                                       Constants.escalation2Poc,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -678,7 +676,7 @@ class _SstIncidentGeneralInfoViewState
                                 controller: escalation2PocController,
                                 // initialValue: state.model.escalation2Poc,
                                 textFormKey: Keys.claimantTextController,
-                                hintText: Constants.informationhere,
+                                hintText: '',
                                 textCapitalization: false,
                                 isEnable: state.model.status != 2,
                                 isDisableColor: state.model.status == 2,
@@ -690,7 +688,7 @@ class _SstIncidentGeneralInfoViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Escalation 3 Poc
                               CommonWidgets.textDisplay(
@@ -699,7 +697,7 @@ class _SstIncidentGeneralInfoViewState
                                           .escalation3Poc ??
                                       Constants.escalation3Poc,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -708,7 +706,7 @@ class _SstIncidentGeneralInfoViewState
                                 // initialValue: state.model.escalation3Poc,
                                 textFormKey: Keys.claimantTextController,
                                 textCapitalization: false,
-                                hintText: Constants.informationhere,
+                                hintText: '',
                                 isEnable: state.model.status != 2,
                                 isDisableColor: state.model.status == 2,
                                 onChange: (String value) {
@@ -719,7 +717,7 @@ class _SstIncidentGeneralInfoViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// System Manager
                               CommonWidgets.textDisplay(
@@ -727,7 +725,7 @@ class _SstIncidentGeneralInfoViewState
                                     state.labels?.defaultLocale.sm ??
                                     Constants.systemManager,
                                 isMandatory: true,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                               ),
                               TextFieldAddButton(
                                 title: state.model.systemManager?.userInfo ??
@@ -766,7 +764,7 @@ class _SstIncidentGeneralInfoViewState
                                       });
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Security Manager
                               CommonWidgets.textDisplay(
@@ -774,7 +772,7 @@ class _SstIncidentGeneralInfoViewState
                                     state.labels?.defaultLocale.ssm ??
                                     Constants.securityManager,
                                 isMandatory: true,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                               ),
                               TextFieldAddButton(
                                 title: state.model.lsm?.userInfo ??
@@ -813,7 +811,7 @@ class _SstIncidentGeneralInfoViewState
                                       });
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Security Lead
                               CommonWidgets.textDisplay(
@@ -821,7 +819,7 @@ class _SstIncidentGeneralInfoViewState
                                     state.labels?.defaultLocale.asl ??
                                     Constants.securityLead,
                                 isMandatory: true,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                               ),
                               TextFieldAddButton(
                                 title: state.model.asl?.userInfo ??
@@ -860,7 +858,7 @@ class _SstIncidentGeneralInfoViewState
                                       });
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Location Team
                               CommonWidgets.textDisplay(
@@ -868,7 +866,7 @@ class _SstIncidentGeneralInfoViewState
                                     state.labels?.defaultLocale.lt ??
                                     Constants.locationTeam,
                                 isMandatory: true,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                               ),
                               TextFieldAddButton(
                                 title: state.model.lt?.userInfo ??
@@ -910,7 +908,7 @@ class _SstIncidentGeneralInfoViewState
                                       });
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Short Description of Incident
                               CommonWidgets.textDisplay(
@@ -919,7 +917,7 @@ class _SstIncidentGeneralInfoViewState
                                           .shortDecIncident ??
                                       Constants.shortIncidentDescription,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -942,7 +940,7 @@ class _SstIncidentGeneralInfoViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Detail Description
                               CommonWidgets.textDisplay(
@@ -950,7 +948,7 @@ class _SstIncidentGeneralInfoViewState
                                       state.labels?.defaultLocale.detailDes ??
                                       Constants.detailIncidentDescription,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -972,7 +970,7 @@ class _SstIncidentGeneralInfoViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// IPB Area
                               CommonWidgets.textDisplay(
@@ -980,7 +978,7 @@ class _SstIncidentGeneralInfoViewState
                                       state.labels?.defaultLocale.ipbArea ??
                                       Constants.ipbArea,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
                                 selectedValue: state.model.ipbArea == null
@@ -1008,12 +1006,14 @@ class _SstIncidentGeneralInfoViewState
                                       },
                               ),
 
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
                               ///Attachments
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.attachment ??
                                       state.labels?.defaultLocale.attachment ??
                                       Constants.attachments,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite16),
                               widget.model == null
                                   ? CommonWidgets.verticalSpacerWidget(
                                       height * 0.001)

@@ -171,7 +171,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
               );
             },
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.lavender,
           body: getBodybuilder(state, height),
         );
       },
@@ -213,17 +213,17 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
     log('-state.status--222-${state.status}-incidentType--2----${state.model.incidentType}--');
 
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.lavender,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
+              color: AppColors.lavender,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
+                  color: AppColors.lavender,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -248,9 +248,9 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             ],
                             Container(
                               alignment: Alignment.topLeft,
-                              child: Text(
+                              child: const Text(
                                 Constants.generalinformation,
-                                style: Styles.styleHeaderGreyText16,
+                                style: Styles.textStyleRegularNormalWhite18,
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -260,7 +260,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 state.labels?.locale.status ??
                                     state.labels?.defaultLocale.status ??
                                     Constants.status,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
@@ -295,19 +295,19 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     );
                                   }
                                 }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.inputDate ??
                                     state.labels?.defaultLocale.inputDate ??
                                     Constants.dateofcreation,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDate().creationDateDisplay(
                                 state.model.inputDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Created By
                             CommonWidgets.horizentaltextHandling(
@@ -316,14 +316,14 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     Constants.createdby,
                                 isMandatory: true,
                                 '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Location
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.location ??
                                     state.labels?.defaultLocale.location ??
                                     Constants.location,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             locationWidgetdislay(
@@ -343,7 +343,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       .updateLocationDropdownValue(
                                           location: location);
                                 }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Sl No.
                             CommonWidgets.horizentaltextHandling(
@@ -352,14 +352,14 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     Constants.slno,
                                 state.model.slNo ?? '',
                                 isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Entity
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.entity ??
                                     state.labels?.defaultLocale.entity ??
                                     Constants.entity,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             BaseEntitiesSelection().entityDropDownSelection(
                               context: context,
@@ -382,16 +382,15 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     .refreshList();
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             /// Incident Type
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.incidentType ??
                                     state.labels?.defaultLocale.incidentType ??
                                     Constants.incidentType,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -423,7 +422,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 );
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Asset Type
                             if (state.model.incidentType == null ||
@@ -433,7 +432,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   state.labels?.locale.typeOfAsset ??
                                       state.labels?.defaultLocale.typeOfAsset ??
                                       Constants.assetType,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -468,7 +467,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   );
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Article Type
                               CommonWidgets.textDisplay(
@@ -476,7 +475,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       state.labels?.defaultLocale
                                           .typeOfArticle ??
                                       Constants.articleType,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.typeOfArticle?.name,
@@ -503,14 +502,14 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   );
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Colour
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.color ??
                                       state.labels?.defaultLocale.color ??
                                       Constants.colourMake,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -529,7 +528,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ],
 
                             /// DB Complaint
@@ -538,7 +537,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     state.labels?.defaultLocale
                                         .complainantDbEmp ??
                                     Constants.dbComplaint,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             RadioButtonsYesNo(
                               status: state.model.status ?? 0,
@@ -576,13 +575,15 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   : null,
                             ),
 
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+
                             /// Complainant Employee Id
                             if (state.model.complainantDbEmp == true) ...[
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.employeeId ??
                                       state.labels?.defaultLocale.employeeId ??
                                       Constants.complaintEmployeeId,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.employeeId,
@@ -622,7 +623,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   );
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ],
 
                             if (state.model.complainantDbEmp == false) ...[
@@ -631,7 +632,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   state.labels?.locale.complainant ??
                                       state.labels?.defaultLocale.complainant ??
                                       Constants.complaint,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -662,7 +663,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   const Text('@db.com')
                                 ],
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ],
 
                             if (state.model.complainantDbEmp) ...[
@@ -671,7 +672,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   state.labels?.locale.complainant ??
                                       state.labels?.defaultLocale.complainant ??
                                       Constants.complaint,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
 
                               FlutterInputField(
@@ -692,7 +693,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 validateTextField: (String? user) {},
                               ),
 
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Complainant Department
                               CommonWidgets.textDisplay(
@@ -700,7 +701,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       state.labels?.defaultLocale
                                           .complainantDepartment ??
                                       Constants.complaintDepartment,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
                                 title: state.model.complainantDepartment?.name,
@@ -729,7 +730,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       });
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ],
 
                             /// Complainant HR / Complainant Manager/Host
@@ -743,7 +744,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                         state.labels?.defaultLocale
                                             .complainantHr ??
                                         Constants.complaintHR,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             TextFieldAddButton(
                               title: state.model.complainantHr?.userInfo ??
@@ -779,14 +780,14 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 );
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Incident Date and Time
                             CommonWidgets.textDisplay(
                               state.labels?.locale.incidentDate ??
                                   state.labels?.defaultLocale.incidentDate ??
                                   Constants.incidentDateTime,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -811,7 +812,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 log('---incidentDateTimeController----222--###-${incidentDateTimeController.text}------');
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Incident Location
                             CommonWidgets.textDisplay(
@@ -820,7 +821,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                         .incidentLocation ??
                                     Constants.incidentLocation,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               textInputType: TextInputType.text,
@@ -838,14 +839,14 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Incident Manager
                             CommonWidgets.textDisplay(
                               state.labels?.locale.incidentManager ??
                                   state.labels?.defaultLocale.incidentManager ??
                                   Constants.incidentManager,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             TextFieldAddButton(
@@ -885,14 +886,14 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Incident Owner
                             CommonWidgets.textDisplay(
                               state.labels?.locale.incidentOwner ??
                                   state.labels?.defaultLocale.incidentOwner ??
                                   Constants.incidentOwner,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             TextFieldAddButton(
@@ -936,7 +937,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                 }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Incident Description
                             CommonWidgets.textDisplay(
@@ -944,7 +945,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                     state.labels?.defaultLocale.description ??
                                     Constants.incidentDescription,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               showBorder: true,
@@ -967,7 +968,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               textInputType: TextInputType.multiline,
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Target Date of Closure
                             CommonWidgets.textDisplay(
@@ -975,7 +976,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   state.labels?.defaultLocale
                                       .closureTargetDate ??
                                   Constants.closureTargetDate,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -997,9 +998,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               },
                               context: context,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
                           ]),
                         ),
                       ),

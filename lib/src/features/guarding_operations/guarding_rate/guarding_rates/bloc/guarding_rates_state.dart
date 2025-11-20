@@ -9,6 +9,7 @@ class GuardingRatesState extends Equatable {
   final String? message;
   final GRUiLabels? labels;
   final ExtraProperties? extraProperties;
+  final DisplayMenu? displayMenu;
 
   const GuardingRatesState({
     this.items = const <GMRate>[],
@@ -19,6 +20,7 @@ class GuardingRatesState extends Equatable {
     this.labels,
     this.status = FormStatus.initial,
     this.extraProperties,
+    this.displayMenu
   });
 
   GuardingRatesState copyWith({

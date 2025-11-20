@@ -19,10 +19,10 @@ class Tile extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.transparent,
           border: Border.all(
-            color: AppColors.navigationSkyBlueColor, // Border color
-            width: .7, // Border width
+            color: AppColors.white, // Border color
+            width: 0.7, // Border width
           ),
           boxShadow: const [
             BoxShadow(
@@ -40,15 +40,46 @@ class Tile extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Container(
+                  // decoration: BoxDecoration(
+                  //   color: AppColors.white.withValues(alpha: 0.8),
+                  //   borderRadius: BorderRadius.circular(5),
+                  // ),
                   decoration: BoxDecoration(
-                    color: AppColors.navigationSkyBlueColor,
-                    borderRadius: BorderRadius.circular(5),
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.white.withValues(
+                            alpha: 0.2),
+                        Colors.transparent,
+                        Colors.white.withValues(
+                            alpha: 0.2),
+                        // Color(0xFF6474C6).withOpacity(0.14)
+                      ],
+                      stops: [0.02, 0.35, 1],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                    borderRadius: BorderRadius
+                        .circular(0),
+                    border: Border.all(
+                      color: Colors.white
+                          .withValues(alpha: 0.80),
+                      width: 0.8,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(
+                            0xFF6474C6).withValues(
+                            alpha: 0.09),
+                        blurRadius: 12,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(28.0),
                     child: Icon(
                       icon,
-                      color: Colors.white,
+                      color: AppColors.white,
                     ),
                   ),
                 ),
@@ -60,6 +91,7 @@ class Tile extends StatelessWidget {
                 textAlign: TextAlign.start,
                 maxLines: 2,
                 overflow: TextOverflow.clip, // Clip text when it overflows
+                style: const TextStyle(color: Colors.white),
               ),
             ],
           ),
