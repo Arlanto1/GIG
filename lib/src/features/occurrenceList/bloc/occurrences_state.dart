@@ -9,6 +9,7 @@ class OccurrencesState extends Equatable {
   final CommonFilters? commonFilters;
   final OCCUiLabels? labels;
   final ExtraProperties? extraProperties;
+  final DisplayMenu? displayMenu;
 
   const OccurrencesState({
     this.list = const <Occurrence>[],
@@ -19,6 +20,7 @@ class OccurrencesState extends Equatable {
     this.commonFilters,
     this.labels,
     this.extraProperties,
+    this.displayMenu,
   });
 
   OccurrencesState copyWith({

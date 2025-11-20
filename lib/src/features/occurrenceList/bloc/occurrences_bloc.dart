@@ -14,6 +14,7 @@ import 'package:db_atom/src/services/common_services.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../index.dart' hide OccurrenceResponse;
 import '../../../utils/utils_common.dart';
 import '../../occurrence/occurrences_details/general_info/models/occ_ui_labels.dart';
 import '../models/occurrence_response.dart';

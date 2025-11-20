@@ -9,6 +9,7 @@ class ContactDetailsListState extends Equatable {
   final Locations? locations;
   final CommonFilters? commonFilters;
   final ExtraProperties? extraProperties;
+  final DisplayMenu? displayMenu;
 
   const ContactDetailsListState({
     this.items = const <ContactDetailModel>[],
@@ -19,6 +20,7 @@ class ContactDetailsListState extends Equatable {
     this.locations,
     this.commonFilters,
     this.extraProperties,
+    this.displayMenu,
   });
 
   ContactDetailsListState copyWith({

@@ -9,6 +9,12 @@ class Styles {
     fontWeight: FontWeight.w600,
     color: AppColors.textGreyThemeColor,
   );
+  static TextStyle styleHeaderWhiteText16 = const TextStyle(
+    fontSize: 16,
+    fontFamily: Constants.customFontMediumFamily,
+    fontWeight: FontWeight.w600,
+    color: AppColors.white,
+  );
   static TextStyle styleHeaderGreyText30 = const TextStyle(
     fontSize: 30,
     fontFamily: Constants.customFontSemiBoldFamily,
@@ -47,7 +53,6 @@ class Styles {
     fontWeight: FontWeight.w900,
     color: AppColors.white,
   );
-
 
   static const TextStyle textStyleBlack16 = TextStyle(
     fontSize: 16,
@@ -108,7 +113,6 @@ class Styles {
     fontWeight: FontWeight.w500,
     color: Colors.white,
   );
-
 
   static const TextStyle textStyleRegularNormalWhite18 = TextStyle(
     fontSize: 18,

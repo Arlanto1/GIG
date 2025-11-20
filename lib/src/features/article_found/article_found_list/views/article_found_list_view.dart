@@ -2652,11 +2652,11 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context.read<ArticleFoundBloc>().add(FetchArticleData(
-        startPos: pageNumber,
-        maxPos: Constants.maxResults,
-        newSearch: false,
-        filters: filters,
-      ));
+            startPos: pageNumber,
+            maxPos: Constants.maxResults,
+            newSearch: false,
+            filters: filters,
+          ));
     }
   }
 
@@ -2691,7 +2691,7 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
             },
           ),
           // backgroundColor: const Color(0xFF071130),
-          backgroundColor:AppColors.lavender,
+          backgroundColor: AppColors.lavender,
           // backgroundColor: Colors.transparent,
           appBar: BaseAppBar().buildAppHeader(
             context: context,
@@ -2768,16 +2768,16 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                                 key: Constants.dateofcreation,
                                 value: item.inputDate != null
                                     ? Utils.timestampToDateConversion(
-                                    int.parse(item.inputDate ?? '0'),
-                                    Constants.twentyFourHourDateTimeFormat)
+                                        int.parse(item.inputDate ?? '0'),
+                                        Constants.twentyFourHourDateTimeFormat)
                                     : '',
                               ),
                               Label(
                                 key: Constants.founddate,
                                 value: item.foundDate != null
                                     ? Utils.timestampToDateConversion(
-                                    int.parse(item.foundDate ?? '0'),
-                                    Constants.twentyFourHourDateTimeFormat)
+                                        int.parse(item.foundDate ?? '0'),
+                                        Constants.twentyFourHourDateTimeFormat)
                                     : '',
                               ),
                               Label(
@@ -2789,7 +2789,7 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                               Label(
                                 key: Constants.createdby,
                                 value:
-                                '${item.entrySecurity?.firstName ?? ''} ${item.entrySecurity?.lastName ?? ''}',
+                                    '${item.entrySecurity?.firstName ?? ''} ${item.entrySecurity?.lastName ?? ''}',
                               ),
                             ];
 
@@ -2937,12 +2937,16 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                             return Container(
                               decoration: const BoxDecoration(
                                 gradient: LinearGradient(
-                                  colors: [Color(0xFF6474C6), Color(0xFF6474C6)],
+                                  colors: [
+                                    Color(0xFF6474C6),
+                                    Color(0xFF6474C6)
+                                  ],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 ),
                               ),
-                              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 8),
                               // decoration: BoxDecoration(
                               //   borderRadius: BorderRadius.circular(20),
                               //   border: Border.all(
@@ -3003,7 +3007,8 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(18),
                                 child: BackdropFilter(
-                                  filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                                  filter:
+                                      ImageFilter.blur(sigmaX: 18, sigmaY: 18),
                                   child: Container(
                                     // decoration: BoxDecoration(
                                     //   borderRadius: BorderRadius.circular(18),
@@ -3033,12 +3038,14 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                                       ),
                                       borderRadius: BorderRadius.circular(27),
                                       border: Border.all(
-                                        color: Colors.white.withValues(alpha: 0.80),
+                                        color: Colors.white
+                                            .withValues(alpha: 0.80),
                                         width: 0.8,
                                       ),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: const Color(0xFF6474C6).withValues(alpha: 0.09),
+                                          color: const Color(0xFF6474C6)
+                                              .withValues(alpha: 0.09),
                                           blurRadius: 12,
                                           offset: const Offset(0, 2),
                                         ),
@@ -3066,14 +3073,18 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                                       },
                                       onEditTap: (selectedIndex) {
                                         getById(
-                                          state.extraProperties?.hasWritePermission ?? false,
+                                          state.extraProperties
+                                                  ?.hasWritePermission ??
+                                              false,
                                           item.id ?? 0,
                                         );
                                       },
                                       showEditButton: item.status ==
-                                          ConstantsIntValue.articleFoundStatusFound ||
+                                              ConstantsIntValue
+                                                  .articleFoundStatusFound ||
                                           item.status ==
-                                              ConstantsIntValue.articleFoundStatusUnderSecurityCustody,
+                                              ConstantsIntValue
+                                                  .articleFoundStatusUnderSecurityCustody,
                                       onViewTap: (selectedIndex) {
                                         showDialog(
                                           context: context,
@@ -3095,7 +3106,6 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                               ),
                             );
 //
-
                           },
                         ),
                       ),
@@ -3105,7 +3115,6 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
               ),
             ],
           ),
-
         );
       },
     );
@@ -3124,7 +3133,7 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
         "model": model,
         "title": Constants.editFound,
         ConstantsArgument.extraProperties:
-        ExtraProperties(hasWritePermission: hasWritePermission),
+            ExtraProperties(hasWritePermission: hasWritePermission),
       });
     }
   }
@@ -3148,8 +3157,6 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
     Navigator.pop(context);
   }
 }
-
-
 
 // import 'dart:ui';
 // import 'package:flutter/material.dart';

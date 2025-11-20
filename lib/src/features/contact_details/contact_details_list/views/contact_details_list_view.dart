@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
@@ -81,24 +82,23 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     double height = size.height;
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     return BlocConsumer<ContactDetailsListBloc, ContactDetailsListState>(
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: AppColors.cardBgColor,
-          // floatingActionButton:
-          //     state.extraProperties?.hasWritePermission ?? false
-          //         ? Flutterfloatingbutton(
-          //             backgroundColor: AppColors.navigationSkyBlueColor,
-          //             foregroundColor: AppColors.backgroundWhiteColor,
-          //             onPressed: () => {
-          //               Navigator.pushNamed(context, contactDetailsRoute,
-          //                   arguments: {
-          //                     "title": Constants.escalationMatrix,
-          //                   })
-          //             },
-          //           )
-          //         : const SizedBox(),
+          backgroundColor: AppColors.lavender,
+          bottomNavigationBar: CustomBottomNavigationBar(
+              scaffoldKey: scaffoldKey,
+              context: context,
+              hasAddPermission: true,
+              displayMenu: state.displayMenu,
+              list: true,
+              onAddPressed: () {
+                Navigator.pushNamed(context, contactDetailsRoute, arguments: {
+                  "title": Constants.escalationMatrix,
+                });
+              }),
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: Constants.escalationMatrix,
@@ -130,9 +130,10 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
               //   return const NoRecordFoundWidget();
               // }
               return Container(
-                margin: allMargin16,
+                width: double.infinity,
+                height: double.infinity,
                 decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
+                  color: AppColors.lavender,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -141,6 +142,9 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                 child: Column(
                   // crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
                     BaseSearchWidget(
                       applySearchFilters: applySearchFilters,
                       applyFilters: applyFilters,
@@ -204,60 +208,139 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                                       Constants.location,
                                   value:
                                       state.items[index].location?.name ?? ''));
-                              return index >= state.items.length
-                                  ? const BaseLoader()
-                                  : BaseListTileItem(
-                                      id: state.items[index].id,
-                                      labels: labels,
-                                      status: state.items[index].status,
-                                      isEventProtectionStatus: false,
-                                      isContactDetailsStatus: true,
-                                      onTap: (selectedIndex) {
-                                        showDialog(
-                                          context: context,
-                                          builder:
-                                              (BuildContext dialogContext) {
-                                            return BasePopUpItems(
-                                              id: state.items[selectedIndex].id
-                                                  .toString(),
-                                              labels: labels,
-                                              status: state
-                                                  .items[selectedIndex].status,
-                                              isContactDetailsStatus: true,
-                                              isEventProtectionStatus: false,
-                                              isMasterGuard: false,
-                                            );
-                                          },
-                                        );
-                                      },
-                                      showEditButton: false,
-                                      onEditTap: (selectedIndex) {
-                                        getById(
-                                            state.extraProperties
-                                                    ?.hasWritePermission ??
-                                                false,
-                                            state.items[index].id ?? 0);
-                                      },
-                                      onViewTap: (selectedIndex) {
-                                        showDialog(
-                                          context: context,
-                                          builder:
-                                              (BuildContext dialogContext) {
-                                            return BasePopUpItems(
-                                              id: state.items[selectedIndex].id
-                                                  .toString(),
-                                              labels: labels,
-                                              status: state
-                                                  .items[selectedIndex].status,
-                                              isContactDetailsStatus: true,
-                                              isEventProtectionStatus: false,
-                                              isMasterGuard: false,
-                                            );
-                                          },
-                                        );
-                                      },
-                                      index: index,
-                                    );
+                              return
+                                  // index >= state.items.length
+                                  //   ? const BaseLoader()
+                                  Container(
+                                      decoration: const BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Color(0xFF6474C6),
+                                            Color(0xFF6474C6)
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        ),
+                                      ),
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 12, vertical: 8),
+                                      child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(18),
+                                          child: BackdropFilter(
+                                              filter: ImageFilter.blur(
+                                                  sigmaX: 18, sigmaY: 18),
+                                              child: Container(
+                                                  decoration: BoxDecoration(
+                                                    gradient: LinearGradient(
+                                                      colors: [
+                                                        Colors.white.withValues(
+                                                            alpha: 0.2),
+                                                        Colors.transparent,
+                                                        Colors.white.withValues(
+                                                            alpha: 0.2),
+                                                        // Color(0xFF6474C6).withOpacity(0.14)
+                                                      ],
+                                                      stops: [0.02, 0.35, 1],
+                                                      begin:
+                                                          Alignment.topCenter,
+                                                      end: Alignment
+                                                          .bottomCenter,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            27),
+                                                    border: Border.all(
+                                                      color: Colors.white
+                                                          .withValues(
+                                                              alpha: 0.80),
+                                                      width: 0.8,
+                                                    ),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: const Color(
+                                                                0xFF6474C6)
+                                                            .withValues(
+                                                                alpha: 0.09),
+                                                        blurRadius: 12,
+                                                        offset:
+                                                            const Offset(0, 2),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  child: BaseListTileItem(
+                                                    id: state.items[index].id,
+                                                    labels: labels,
+                                                    status: state
+                                                        .items[index].status,
+                                                    isEventProtectionStatus:
+                                                        false,
+                                                    isContactDetailsStatus:
+                                                        true,
+                                                    onTap: (selectedIndex) {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            dialogContext) {
+                                                          return BasePopUpItems(
+                                                            id: state
+                                                                .items[
+                                                                    selectedIndex]
+                                                                .id
+                                                                .toString(),
+                                                            labels: labels,
+                                                            status: state
+                                                                .items[
+                                                                    selectedIndex]
+                                                                .status,
+                                                            isContactDetailsStatus:
+                                                                true,
+                                                            isEventProtectionStatus:
+                                                                false,
+                                                            isMasterGuard:
+                                                                false,
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                    showEditButton: false,
+                                                    onEditTap: (selectedIndex) {
+                                                      getById(
+                                                          state.extraProperties
+                                                                  ?.hasWritePermission ??
+                                                              false,
+                                                          state.items[index]
+                                                                  .id ??
+                                                              0);
+                                                    },
+                                                    onViewTap: (selectedIndex) {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            dialogContext) {
+                                                          return BasePopUpItems(
+                                                            id: state
+                                                                .items[
+                                                                    selectedIndex]
+                                                                .id
+                                                                .toString(),
+                                                            labels: labels,
+                                                            status: state
+                                                                .items[
+                                                                    selectedIndex]
+                                                                .status,
+                                                            isContactDetailsStatus:
+                                                                true,
+                                                            isEventProtectionStatus:
+                                                                false,
+                                                            isMasterGuard:
+                                                                false,
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                    index: index,
+                                                  )))));
                             }
                             return null;
                           },

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
@@ -64,7 +65,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
-              backgroundColor: AppColors.cardBgColor,
+              backgroundColor: AppColors.lavender,
               // floatingActionButton: Flutterfloatingbutton(
               //   backgroundColor: AppColors.navigationSkybluecolor,
               //   foregroundColor: AppColors.backgroundWhitecolor,
@@ -96,9 +97,10 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                 // }
                 log('--labels-${state.labels?.locale.locationRegion}');
                 return Container(
-                  margin: allMargin16,
+                  width: double.infinity,
+                  height: double.infinity,
                   decoration: const ShapeDecoration(
-                      color: AppColors.backgroundWhiteColor,
+                      color: AppColors.lavender,
                       shape: RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -106,6 +108,9 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                   child: Column(
                     // crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
                       BaseSearchWidget(
                         applySearchFilters: applySearchFilters,
                         applyFilters: applyFilters,
@@ -181,84 +186,164 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                                         Constants.createdby,
                                     value:
                                         '${state.list[index].entrySecurity?.firstName ?? ''} ${state.list[index].entrySecurity?.lastName ?? ''}'));
-                                return index >= state.list.length
-                                    ? const BaseLoader()
-                                    : BaseListTileItem(
-                                        id: state.list[index].id,
-                                        labels: labels,
-                                        status: state.list[index].status,
-                                        isMasterGuard: true,
-                                        guardRank: state.list[index].guardRank,
-                                        onTap: (selectedIndex) {
-                                          showDialog(
-                                            context: context,
-                                            builder:
-                                                (BuildContext dialogContext) {
-                                              return BasePopUpItems(
-                                                id: state.list[selectedIndex].id
-                                                    .toString(),
-                                                slNo: state
-                                                    .list[selectedIndex].slNo,
-                                                guardRank: state
-                                                    .list[selectedIndex]
-                                                    .guardRank,
-                                                gender: state
-                                                    .list[selectedIndex].gender,
-                                                dutyType: state
-                                                    .list[selectedIndex]
-                                                    .dutyType,
-                                                maritalStatus: state
-                                                    .list[selectedIndex]
-                                                    .maritalStatus,
-                                                labels: labels,
-                                                isMaterGuard: true,
-                                                //isEventProtectionStatus: false,
-                                                status: state
-                                                    .list[selectedIndex].status,
-                                              );
-                                            },
-                                          );
-                                        },
-                                  showEditButton: false,
-                                  onEditTap: (selectedIndex) {
-                                          getById(
-                                              state.extraProperties
-                                                      ?.hasWritePermission ??
-                                                  false,
-                                              state.list[index].id ?? 0);
-                                        },
-                                        onViewTap: (selectedIndex) {
-                                          showDialog(
-                                            context: context,
-                                            builder:
-                                                (BuildContext dialogContext) {
-                                              return BasePopUpItems(
-                                                id: state.list[selectedIndex].id
-                                                    .toString(),
-                                                slNo: state
-                                                    .list[selectedIndex].slNo,
-                                                guardRank: state
-                                                    .list[selectedIndex]
-                                                    .guardRank,
-                                                gender: state
-                                                    .list[selectedIndex].gender,
-                                                dutyType: state
-                                                    .list[selectedIndex]
-                                                    .dutyType,
-                                                maritalStatus: state
-                                                    .list[selectedIndex]
-                                                    .maritalStatus,
-                                                labels: labels,
-                                                status: state
-                                                    .list[selectedIndex].status,
-                                                isMaterGuard: true,
-                                                // isEventProtectionStatus: false,
-                                              );
-                                            },
-                                          );
-                                        },
-                                        index: index,
-                                      );
+                                return Container(
+                                    decoration: const BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Color(0xFF6474C6),
+                                          Color(0xFF6474C6)
+                                        ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                      ),
+                                    ),
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 8),
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(18),
+                                        child: BackdropFilter(
+                                            filter: ImageFilter.blur(
+                                                sigmaX: 18, sigmaY: 18),
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                  gradient: LinearGradient(
+                                                    colors: [
+                                                      Colors.white.withValues(
+                                                          alpha: 0.2),
+                                                      Colors.transparent,
+                                                      Colors.white.withValues(
+                                                          alpha: 0.2),
+                                                      // Color(0xFF6474C6).withOpacity(0.14)
+                                                    ],
+                                                    stops: [0.02, 0.35, 1],
+                                                    begin: Alignment.topCenter,
+                                                    end: Alignment.bottomCenter,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(27),
+                                                  border: Border.all(
+                                                    color: Colors.white
+                                                        .withValues(
+                                                            alpha: 0.80),
+                                                    width: 0.8,
+                                                  ),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: const Color(
+                                                              0xFF6474C6)
+                                                          .withValues(
+                                                              alpha: 0.09),
+                                                      blurRadius: 12,
+                                                      offset:
+                                                          const Offset(0, 2),
+                                                    ),
+                                                  ],
+                                                ),
+                                                // index >= state.list.length
+                                                //   ? const BaseLoader()
+                                                child: BaseListTileItem(
+                                                  id: state.list[index].id,
+                                                  labels: labels,
+                                                  status:
+                                                      state.list[index].status,
+                                                  isMasterGuard: true,
+                                                  guardRank: state
+                                                      .list[index].guardRank,
+                                                  onTap: (selectedIndex) {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          dialogContext) {
+                                                        return BasePopUpItems(
+                                                          id: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .id
+                                                              .toString(),
+                                                          slNo: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .slNo,
+                                                          guardRank: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .guardRank,
+                                                          gender: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .gender,
+                                                          dutyType: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .dutyType,
+                                                          maritalStatus: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .maritalStatus,
+                                                          labels: labels,
+                                                          isMaterGuard: true,
+                                                          //isEventProtectionStatus: false,
+                                                          status: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .status,
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                  showEditButton: false,
+                                                  onEditTap: (selectedIndex) {
+                                                    getById(
+                                                        state.extraProperties
+                                                                ?.hasWritePermission ??
+                                                            false,
+                                                        state.list[index].id ??
+                                                            0);
+                                                  },
+                                                  onViewTap: (selectedIndex) {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          dialogContext) {
+                                                        return BasePopUpItems(
+                                                          id: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .id
+                                                              .toString(),
+                                                          slNo: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .slNo,
+                                                          guardRank: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .guardRank,
+                                                          gender: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .gender,
+                                                          dutyType: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .dutyType,
+                                                          maritalStatus: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .maritalStatus,
+                                                          labels: labels,
+                                                          status: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .status,
+                                                          isMaterGuard: true,
+                                                          // isEventProtectionStatus: false,
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                  index: index,
+                                                )))));
                               }
                               return const Center(
                                 child: SizedBox(),
