@@ -146,7 +146,7 @@ class _GuardingMasterDataDetailsViewState
                   .submitForm(isSaveOnly: false);
             },
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.lavender,
           body: getBodybuilder(state, height),
         );
       },
@@ -274,17 +274,17 @@ class _GuardingMasterDataDetailsViewState
     }
 
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.lavender,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
+              color: AppColors.lavender,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
+                  color: AppColors.lavender,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -314,9 +314,9 @@ class _GuardingMasterDataDetailsViewState
                                 ],
                                 Container(
                                   alignment: Alignment.topLeft,
-                                  child: Text(
+                                  child: const Text(
                                     Constants.generalinformation,
-                                    style: Styles.styleHeaderGreyText16,
+                                    style: Styles.textStyleRegularNormalWhite18,
                                   ),
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
@@ -327,7 +327,7 @@ class _GuardingMasterDataDetailsViewState
                                     state.labels?.locale.status ??
                                         state.labels?.defaultLocale.status ??
                                         Constants.status,
-                                    Styles.textStyleBlack14,
+                                    Styles.textStyleWhite16,
                                     isMandatory: true),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -365,7 +365,7 @@ class _GuardingMasterDataDetailsViewState
                                   },
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Created By
                                 CommonWidgets.horizentaltextHandling(
@@ -376,7 +376,7 @@ class _GuardingMasterDataDetailsViewState
                                     isMandatory: true,
                                     '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Date of creation
                                 CommonWidgets.textDisplay(
@@ -384,13 +384,13 @@ class _GuardingMasterDataDetailsViewState
                                         state.labels?.defaultLocale.inputDate ??
                                         Constants.dateofcreation,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 BaseDate().creationDateDisplay(
                                     state.model.inputDate ?? ''),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 ///Building  Location
                                 CommonWidgets.textDisplay(
@@ -398,18 +398,18 @@ class _GuardingMasterDataDetailsViewState
                                         state.labels?.defaultLocale.location ??
                                         Constants.buildingLocation,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 locationWidgetdislay(state),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Entity
                                 CommonWidgets.textDisplay(
                                   Constants.entity,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -443,7 +443,7 @@ class _GuardingMasterDataDetailsViewState
                                       //   );
                                     }),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Sl No.
                                 CommonWidgets.horizentaltextHandling(
@@ -454,7 +454,7 @@ class _GuardingMasterDataDetailsViewState
                                   isMandatory: true,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Guard Name
                                 Column(
@@ -464,7 +464,7 @@ class _GuardingMasterDataDetailsViewState
                                           state.labels?.defaultLocale.guard ??
                                           Constants.name,
                                       isMandatory: true,
-                                      Styles.textStyleBlack14,
+                                      Styles.textStyleWhite16,
                                     ),
                                     TextFieldAddButton(
                                       title: state.model.guard?.userInfo,
@@ -494,13 +494,13 @@ class _GuardingMasterDataDetailsViewState
                                       },
                                     ),
                                     CommonWidgets.verticalSpacerWidget(
-                                        height * 0.01),
+                                        height * 0.02),
                                   ],
                                 ),
 
                                 /// upload Photo
                                 CommonWidgets.textDisplay(Constants.uploadPhoto,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 widget.guardingMasterData == null
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.001)
@@ -549,18 +549,19 @@ class _GuardingMasterDataDetailsViewState
                                       Constants.guardingMasterModuleCode,
                                 ),
                                 //),
-
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
                                 /// Guarding Vendor
                                 CommonWidgets.textDisplay(
                                   state.labels?.locale.vendor ??
                                       state.labels?.defaultLocale.vendor ??
                                       Constants.guardingVendor,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                 ),
                                 TextFieldAddButton(
                                   title: state.model.vendor?.name,
-                                  height: 60,
+                                  height: 70,
                                   isDisableColor: true,
                                   onTap: () {
                                     // BaseOrganisationDialog().departmentDialog(
@@ -587,7 +588,7 @@ class _GuardingMasterDataDetailsViewState
                                 ),
 
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Guarding Partner POC
                                 CommonWidgets.textDisplay(
@@ -596,7 +597,7 @@ class _GuardingMasterDataDetailsViewState
                                             .guardingPOC ??
                                         Constants.guardingPoc,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(
@@ -615,7 +616,7 @@ class _GuardingMasterDataDetailsViewState
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Rank
                                 CommonWidgets.textDisplay(
@@ -623,7 +624,7 @@ class _GuardingMasterDataDetailsViewState
                                         state.labels?.defaultLocale.guardRank ??
                                         Constants.rank,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 CommonWidgets.verticalSpacerWidget(
@@ -661,7 +662,7 @@ class _GuardingMasterDataDetailsViewState
                                       // }
                                     }),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Guarding Agency Employee Code
                                 CommonWidgets.textDisplay(
@@ -670,7 +671,7 @@ class _GuardingMasterDataDetailsViewState
                                             .employeeCode ??
                                         Constants.guardingAgencyEmpCode,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(
@@ -697,7 +698,7 @@ class _GuardingMasterDataDetailsViewState
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// DB Employee ID
                                 CommonWidgets.textDisplay(
@@ -705,7 +706,7 @@ class _GuardingMasterDataDetailsViewState
                                         state.labels?.defaultLocale
                                             .dbEmployeeId ??
                                         Constants.dbEmployeeId,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(
@@ -732,7 +733,7 @@ class _GuardingMasterDataDetailsViewState
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Type of Duty
                                 CommonWidgets.textDisplay(
@@ -740,7 +741,7 @@ class _GuardingMasterDataDetailsViewState
                                         state.labels?.defaultLocale.dutyType ??
                                         Constants.typeOfDuty,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 CommonWidgets.verticalSpacerWidget(
@@ -778,7 +779,7 @@ class _GuardingMasterDataDetailsViewState
                                       // }
                                     }),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Gender
                                 CommonWidgets.textDisplay(
@@ -786,7 +787,7 @@ class _GuardingMasterDataDetailsViewState
                                         state.labels?.defaultLocale.gender ??
                                         Constants.gender,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 CommonWidgets.verticalSpacerWidget(
@@ -831,7 +832,7 @@ class _GuardingMasterDataDetailsViewState
                                   },
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Marital Status
                                 CommonWidgets.textDisplay(
@@ -840,7 +841,7 @@ class _GuardingMasterDataDetailsViewState
                                             .maritalStatus ??
                                         Constants.maritalStatus,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 CommonWidgets.verticalSpacerWidget(
@@ -880,7 +881,7 @@ class _GuardingMasterDataDetailsViewState
                                       // }
                                     }),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Contact Num
                                 CommonWidgets.textDisplay(
@@ -888,7 +889,7 @@ class _GuardingMasterDataDetailsViewState
                                         state.labels?.defaultLocale.contactNo ??
                                         Constants.mobileNum,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(
@@ -916,7 +917,7 @@ class _GuardingMasterDataDetailsViewState
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Dependents No
                                 CommonWidgets.textDisplay(
@@ -925,7 +926,7 @@ class _GuardingMasterDataDetailsViewState
                                             .dependentsNo ??
                                         Constants.dependentsNo,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(
@@ -946,7 +947,7 @@ class _GuardingMasterDataDetailsViewState
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Date of Birth
                                 CommonWidgets.textDisplay(
@@ -954,7 +955,7 @@ class _GuardingMasterDataDetailsViewState
                                       state.labels?.defaultLocale.dateOfBirth ??
                                       Constants.dateOfBirth,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -990,7 +991,7 @@ class _GuardingMasterDataDetailsViewState
                                   context: context,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Date Of Joining
                                 CommonWidgets.textDisplay(
@@ -999,7 +1000,7 @@ class _GuardingMasterDataDetailsViewState
                                           .dateOfJoining ??
                                       Constants.dateOfJoining,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -1021,9 +1022,8 @@ class _GuardingMasterDataDetailsViewState
                                   context: context,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
+
 
                                 /// Type of Deployment
                                 CommonWidgets.textDisplay(
@@ -1032,7 +1032,7 @@ class _GuardingMasterDataDetailsViewState
                                             .typeOfDeployment ??
                                         Constants.typeOfDeployment,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 CommonWidgets.verticalSpacerWidget(
@@ -1073,7 +1073,7 @@ class _GuardingMasterDataDetailsViewState
                                   },
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Deployment order Submitted?
                                 CommonWidgets.textDisplay(
@@ -1083,7 +1083,7 @@ class _GuardingMasterDataDetailsViewState
                                             .deploymentOrderSubmitted ??
                                         Constants.deploymentOrderSubmitted,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue:
@@ -1116,11 +1116,13 @@ class _GuardingMasterDataDetailsViewState
                                   //                                           deploymentOrderSubmitted: false);
                                   //                                 },
                                 ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
                                 if (state.model.deploymentOrderSubmitted) ...[
                                   /// upload Deployment Order File
                                   CommonWidgets.textDisplay(
                                       Constants.uploadDeploymentOrderFile,
-                                      Styles.textStyleBlack14),
+                                      Styles.textStyleWhite16),
                                   widget.guardingMasterData == null
                                       ? CommonWidgets.verticalSpacerWidget(
                                           height * 0.001)
@@ -1165,6 +1167,8 @@ class _GuardingMasterDataDetailsViewState
                                         Constants.guardingMasterModuleCode,
                                   ),
                                 ],
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
 
                                 /// Height
                                 CommonWidgets.textDisplay(
@@ -1172,7 +1176,7 @@ class _GuardingMasterDataDetailsViewState
                                         state.labels?.defaultLocale.height ??
                                         Constants.height,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(
@@ -1198,14 +1202,14 @@ class _GuardingMasterDataDetailsViewState
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Weight
                                 CommonWidgets.textDisplay(
                                     state.labels?.locale.weight ??
                                         state.labels?.defaultLocale.weight ??
                                         Constants.weight,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(
@@ -1230,7 +1234,7 @@ class _GuardingMasterDataDetailsViewState
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Show Chest Parameter only for Males and Transgenders
                                 if (genderController.text.toLowerCase() !=
@@ -1240,7 +1244,7 @@ class _GuardingMasterDataDetailsViewState
                                       state.labels?.locale.chest ??
                                           state.labels?.defaultLocale.chest ??
                                           Constants.chest,
-                                      Styles.textStyleBlack14),
+                                      Styles.textStyleWhite16),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   FlutterInputField(
@@ -1269,7 +1273,7 @@ class _GuardingMasterDataDetailsViewState
                                   ),
                                 ],
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Local Language
                                 CommonWidgets.textDisplay(
@@ -1278,7 +1282,7 @@ class _GuardingMasterDataDetailsViewState
                                             .localLanguage ??
                                         Constants.localLanguage,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(
@@ -1311,7 +1315,7 @@ class _GuardingMasterDataDetailsViewState
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 ///Local Language Proficiency
                                 CommonWidgets.textDisplay(
@@ -1320,7 +1324,7 @@ class _GuardingMasterDataDetailsViewState
                                             .localLangProficiency ??
                                         Constants.localLanguageProficiency,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
 
                                 localLanguageProficiency(state),
 
@@ -1331,7 +1335,7 @@ class _GuardingMasterDataDetailsViewState
                                             .hindiLangProficiency ??
                                         Constants.hindiLanguageProficiency,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 hindiLanguageProficiency(state),
 
                                 ///English Language Proficiency
@@ -1342,7 +1346,7 @@ class _GuardingMasterDataDetailsViewState
                                             .englishLangProficiency ??
                                         Constants.englishLanguageProficiency,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 englishLanguageProficiency(state),
 
                                 /// Physically Fit
@@ -1352,7 +1356,7 @@ class _GuardingMasterDataDetailsViewState
                                             .physicallyFit ??
                                         Constants.physicallyFit,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue:
@@ -1368,7 +1372,7 @@ class _GuardingMasterDataDetailsViewState
                                             .securityExperience ??
                                         Constants.securityExperience,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(
@@ -1392,14 +1396,14 @@ class _GuardingMasterDataDetailsViewState
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// upload Bio Data
                                 CommonWidgets.textDisplay(
                                     state.labels?.locale.bopData ??
                                         state.labels?.defaultLocale.bopData ??
                                         Constants.uploadBioData,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 AbsorbPointer(
@@ -1443,7 +1447,7 @@ class _GuardingMasterDataDetailsViewState
                                 ),
 
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 // CommonWidgets.textDisplay(Constants.uploadBioData,
                                 //     Styles.textStyleBlack14),
@@ -1488,7 +1492,7 @@ class _GuardingMasterDataDetailsViewState
                                             .permanentAddress ??
                                         Constants.permanentAddress,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(
@@ -1512,7 +1516,7 @@ class _GuardingMasterDataDetailsViewState
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// upload Permanent Address Proof
                                 CommonWidgets
@@ -1523,7 +1527,7 @@ class _GuardingMasterDataDetailsViewState
                                                 .permanentAddressProof ??
                                             Constants
                                                 .uploadPermanentAddressProof,
-                                        Styles.textStyleBlack14),
+                                        Styles.textStyleWhite16),
                                 widget.guardingMasterData == null
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.001)
@@ -1579,7 +1583,7 @@ class _GuardingMasterDataDetailsViewState
                                             .localAddress ??
                                         Constants.localAddress,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(
@@ -1603,7 +1607,7 @@ class _GuardingMasterDataDetailsViewState
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// upload Local Address Proof
                                 CommonWidgets.textDisplay(
@@ -1611,7 +1615,7 @@ class _GuardingMasterDataDetailsViewState
                                         state.labels?.defaultLocale
                                             .localAddressProof ??
                                         Constants.uploadLocalAddressProof,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 widget.guardingMasterData == null
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.001)
@@ -1653,7 +1657,7 @@ class _GuardingMasterDataDetailsViewState
                                 ),
 
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Qualifications
                                 CommonWidgets.textDisplay(
@@ -1662,7 +1666,7 @@ class _GuardingMasterDataDetailsViewState
                                           .qualifications ??
                                       Constants.qualifications,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -1675,7 +1679,7 @@ class _GuardingMasterDataDetailsViewState
                                   all: state.listOfQualifications ?? [],
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// PVC Issued Date
                                 CommonWidgets.textDisplay(
@@ -1684,7 +1688,7 @@ class _GuardingMasterDataDetailsViewState
                                           .pvcIssuedDate ??
                                       Constants.pvcIssuedDate,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -1707,7 +1711,7 @@ class _GuardingMasterDataDetailsViewState
                                 ),
 
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// PVC Expiry Date
                                 CommonWidgets.textDisplay(
@@ -1716,7 +1720,7 @@ class _GuardingMasterDataDetailsViewState
                                           .pvcExpiryDate ??
                                       Constants.pvcExpiryDate,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -1738,13 +1742,13 @@ class _GuardingMasterDataDetailsViewState
                                   context: context,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// upload File
                                 widget.guardingMasterData == null
                                     ? CommonWidgets.textDisplay(
                                         Constants.uploadfile,
-                                        Styles.textStyleBlack14)
+                                        Styles.textStyleWhite16)
                                     : Container(),
                                 widget.guardingMasterData == null
                                     ? CommonWidgets.verticalSpacerWidget(
@@ -1786,7 +1790,7 @@ class _GuardingMasterDataDetailsViewState
                                       Constants.guardingMasterModuleCode,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Training Certificate
                                 CommonWidgets.textDisplay(
@@ -1796,7 +1800,7 @@ class _GuardingMasterDataDetailsViewState
                                             .trainingCertificateProvided ??
                                         Constants.trainingCertificate,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue:
@@ -1837,7 +1841,7 @@ class _GuardingMasterDataDetailsViewState
                                           state.labels?.defaultLocale
                                               .trainingCertificates ??
                                           Constants.uploadTrainingCertificate,
-                                      Styles.textStyleBlack14),
+                                      Styles.textStyleWhite16),
                                   widget.guardingMasterData == null
                                       ? CommonWidgets.verticalSpacerWidget(
                                           height * 0.001)
@@ -1876,7 +1880,7 @@ class _GuardingMasterDataDetailsViewState
                                   ),
                                 ],
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Medical Certificate Valid Until
                                 CommonWidgets.textDisplay(
@@ -1886,7 +1890,7 @@ class _GuardingMasterDataDetailsViewState
                                           .medicalCertificateValidUntil ??
                                       Constants.medicalCertificateValidUntil,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -1909,7 +1913,7 @@ class _GuardingMasterDataDetailsViewState
                                   context: context,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// upload Medical Certificates
                                 CommonWidgets.textDisplay(
@@ -1917,7 +1921,7 @@ class _GuardingMasterDataDetailsViewState
                                         state.labels?.defaultLocale
                                             .medicalCertificates ??
                                         Constants.uploadMedicalCertificate,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 widget.guardingMasterData == null
                                     ? CommonWidgets.verticalSpacerWidget(
                                         height * 0.001)
@@ -1958,7 +1962,7 @@ class _GuardingMasterDataDetailsViewState
                                       Constants.guardingMasterModuleCode,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// System Access
                                 CommonWidgets.textDisplay(
@@ -1967,7 +1971,7 @@ class _GuardingMasterDataDetailsViewState
                                             .systemAccess ??
                                         Constants.systemAccess,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 CommonWidgets.verticalSpacerWidget(
@@ -2007,14 +2011,14 @@ class _GuardingMasterDataDetailsViewState
                                       // }
                                     }),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// OnBoarded
                                 CommonWidgets.textDisplay(
                                     state.labels?.locale.onboarded ??
                                         state.labels?.defaultLocale.onboarded ??
                                         Constants.onBoarded,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue: state.model.onboarded ? 1 : 0,
@@ -2045,7 +2049,7 @@ class _GuardingMasterDataDetailsViewState
                                     state.labels?.locale.esicNo ??
                                         state.labels?.defaultLocale.esicNo ??
                                         Constants.esicNo,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(
@@ -2076,14 +2080,14 @@ class _GuardingMasterDataDetailsViewState
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// UAN  No
                                 CommonWidgets.textDisplay(
                                     state.labels?.locale.uanNo ??
                                         state.labels?.defaultLocale.uanNo ??
                                         Constants.uanNo,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
                                 FlutterInputField(
@@ -2114,7 +2118,7 @@ class _GuardingMasterDataDetailsViewState
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 // Text('-${state.model.showMsgbData}--'),
                                 if(state.model.showMsgbData??false)...[
@@ -2124,7 +2128,7 @@ class _GuardingMasterDataDetailsViewState
                                         state.labels?.defaultLocale
                                             .msgbExempted ??
                                         Constants.mSGBExempted,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
                                 RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue:
@@ -2165,7 +2169,7 @@ class _GuardingMasterDataDetailsViewState
                                           state.labels?.defaultLocale
                                               .msgbExemptionDate ??
                                           Constants.mSGBExemptionDate,
-                                      Styles.textStyleBlack14),
+                                      Styles.textStyleWhite16),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
 
@@ -2194,7 +2198,7 @@ class _GuardingMasterDataDetailsViewState
                                           state.labels?.defaultLocale
                                               .msgbFormBSubmitted ??
                                           Constants.mSGBFormBSubmitted,
-                                      Styles.textStyleBlack14),
+                                      Styles.textStyleWhite16),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   CommonWidgets.verticalSpacerWidget(
@@ -2217,7 +2221,7 @@ class _GuardingMasterDataDetailsViewState
                                         state.labels?.defaultLocale
                                             .msgbFormBSubmitted ??
                                         Constants.mSGBFormBSubmitted,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite16),
 
                                 BaseDropDown().getDropDown(
                                     isDisabled: state.model.status != 6,
@@ -2238,7 +2242,7 @@ class _GuardingMasterDataDetailsViewState
                                           .covidFirstDoseDate ??
                                       Constants.dateOfFirstCovidDose,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -2261,7 +2265,7 @@ class _GuardingMasterDataDetailsViewState
                                   context: context,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Date of Second Covid Dose
                                 CommonWidgets.textDisplay(
@@ -2270,7 +2274,7 @@ class _GuardingMasterDataDetailsViewState
                                           .covidSecondDoseDate ??
                                       Constants.dateOfSecondCovidDose,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -2293,7 +2297,7 @@ class _GuardingMasterDataDetailsViewState
                                   context: context,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Date of Precautionary Covid Dose
                                 CommonWidgets.textDisplay(
@@ -2302,7 +2306,7 @@ class _GuardingMasterDataDetailsViewState
                                       state.labels?.defaultLocale
                                           .covidPrecautionaryDoseDate ??
                                       Constants.dateOfPrecautionaryCovidDose,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -2324,7 +2328,7 @@ class _GuardingMasterDataDetailsViewState
                                   context: context,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// ERT Certification Date
                                 CommonWidgets.textDisplay(
@@ -2332,7 +2336,7 @@ class _GuardingMasterDataDetailsViewState
                                       state.labels?.defaultLocale
                                           .ertCertificationDate ??
                                       Constants.ertCertificationDate,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -2354,7 +2358,7 @@ class _GuardingMasterDataDetailsViewState
                                   context: context,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// First Aid Training Completion Date
                                 CommonWidgets.textDisplay(
@@ -2363,7 +2367,7 @@ class _GuardingMasterDataDetailsViewState
                                       state.labels?.defaultLocale
                                           .firstAidTrainingCompletionDate ??
                                       Constants.firstAidTrainingCompletionDate,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite16,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -2386,7 +2390,7 @@ class _GuardingMasterDataDetailsViewState
                                   context: context,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 // /// CSR Participation
                                 // CommonWidgets.textDisplay(
@@ -2595,7 +2599,31 @@ class _GuardingMasterDataDetailsViewState
                                 ),
 
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
+                                if(state.model.id != null) ...[
+                                  /// Modified Date
+                                  CommonWidgets.textDisplay(
+                                    // state.labels?.locale.date ??
+                                    //     state.labels?.defaultLocale.date ??
+                                    Constants.modifiedOn,
+                                    Styles.textStyleWhite16,
+                                    isMandatory: true,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+                                  datecreateWidgetdisplay(
+                                      state.model.modifiedDate ?? ''),
+                                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                  /// Modified By
+                                  CommonWidgets.horizentaltextHandling(
+                                    // state.labels?.locale.entrySecurity ??
+                                    //     state.labels?.defaultLocale.entrySecurity ??
+                                      Constants.modifiedBy,
+                                      isMandatory: true,
+                                      state.model.modifiedBy ?? ''),
+                                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                ],
                               ],
                             ),
                           ),
@@ -2605,30 +2633,30 @@ class _GuardingMasterDataDetailsViewState
                     ),
                   ),
 
-                  if(state.model.id != null) ...[
-                    /// Modified Date
-                    CommonWidgets.textDisplay(
-                      // state.labels?.locale.date ??
-                      //     state.labels?.defaultLocale.date ??
-                      Constants.modifiedOn,
-                      Styles.textStyleBlack14,
-                      isMandatory: true,
-                    ),
-                    CommonWidgets.verticalSpacerWidget(
-                        height * 0.001),
-                    datecreateWidgetdisplay(
-                        state.model.modifiedDate ?? ''),
-                    CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                    /// Modified By
-                    CommonWidgets.horizentaltextHandling(
-                      // state.labels?.locale.entrySecurity ??
-                      //     state.labels?.defaultLocale.entrySecurity ??
-                        Constants.modifiedBy,
-                        isMandatory: true,
-                        state.model.modifiedBy ?? ''),
-                    CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  ],
+                  // if(state.model.id != null) ...[
+                  //   /// Modified Date
+                  //   CommonWidgets.textDisplay(
+                  //     // state.labels?.locale.date ??
+                  //     //     state.labels?.defaultLocale.date ??
+                  //     Constants.modifiedOn,
+                  //     Styles.textStyleWhite16,
+                  //     isMandatory: true,
+                  //   ),
+                  //   CommonWidgets.verticalSpacerWidget(
+                  //       height * 0.001),
+                  //   datecreateWidgetdisplay(
+                  //       state.model.modifiedDate ?? ''),
+                  //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  //
+                  //   /// Modified By
+                  //   CommonWidgets.horizentaltextHandling(
+                  //     // state.labels?.locale.entrySecurity ??
+                  //     //     state.labels?.defaultLocale.entrySecurity ??
+                  //       Constants.modifiedBy,
+                  //       isMandatory: true,
+                  //       state.model.modifiedBy ?? ''),
+                  //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  // ],
 
                   /// SubmitButton
                   Row(

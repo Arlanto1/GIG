@@ -244,7 +244,9 @@ class _VendorPassManagementListViewState extends State<VendorPassManagementListV
                                     //         Constants.companyType,
                                     //     value: state.items[index].companyType?.name ??
                                     //         ''));
-                                    return Container(
+                                    return index >= state.items.length
+                                        ? const BaseLoader()
+                                        : Container(
                                         decoration: const BoxDecoration(
                                           gradient: LinearGradient(
                                             colors: [

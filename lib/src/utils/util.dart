@@ -2699,26 +2699,64 @@ class Utils {
 
   Widget vIPVisitorStatusRow(int status) {
     String statusText;
+    Color bgColor;
+    Color textColor;
+    Color borderColor;
 
     switch (status) {
       case -1:
         statusText = 'Cancelled';
+        bgColor = const Color(0xFFFFCDD2);      // Light Red
+        borderColor = const Color(0xFFD32F2F);  // Red Border
+        textColor = const Color(0xFFB71C1C);
         break;
       case 0:
         statusText = 'Created';
+        bgColor = const Color(0xFFC5CAE9);      // Light Indigo
+        borderColor = const Color(0xFF3F51B5);  // Indigo Border
+        textColor = const Color(0xFF1A237E);
         break;
       case 1:
         statusText = 'Submitted';
+        bgColor = const Color(0xFFAED581);
+        borderColor = const Color(0xFF558B2F);
+        textColor = const Color(0xFF33691E);
         break;
       default:
-        statusText = ''; // Handle the default case if needed
+        statusText = '';
+        bgColor = const Color(0xFFE0E0E0);
+        borderColor = const Color(0xFF9E9E9E);
+        textColor = const Color(0xFF424242);// Handle the default case if needed
     }
-    return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status : ', statusText),
-        ],
-      ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text(
+          'Status:',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          decoration: BoxDecoration(
+            color: bgColor.withOpacity(0.9),
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(color: borderColor, width: 0.1),
+          ),
+          child: Text(
+            statusText,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
+            ),
+          ),
+        ),
+      ],
     );
   }
 

@@ -255,9 +255,9 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.white.withOpacity(0.3),
+                  Colors.white.withValues(alpha: 0.3),
                   Colors.transparent,
-                  Colors.white.withOpacity(0.3),
+                  Colors.white.withValues(alpha: 0.3),
                   // Color(0xFF6474C6).withOpacity(0.14)
                 ],
                 stops: [0.02, 0.35, 1],
@@ -266,12 +266,12 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
               ),
               borderRadius: BorderRadius.circular(27),
               border: Border.all(
-                color: Colors.white.withOpacity(0.80),
+                color: Colors.white.withValues(alpha: 0.80),
                 width: 0.8,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF6474C6).withOpacity(0.1),
+                  color: const Color(0xFF6474C6).withValues(alpha: 0.1),
                   blurRadius:12,
                   offset: const Offset(8, 0),
                 ),

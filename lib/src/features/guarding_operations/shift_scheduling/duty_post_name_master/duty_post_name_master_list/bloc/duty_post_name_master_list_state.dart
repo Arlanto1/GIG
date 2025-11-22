@@ -9,6 +9,7 @@ class DutyPostNameMasterListState extends Equatable {
   final Locations? locations;
   final DPNUiLabels? labels;
   final ExtraProperties? extraProperties;
+  final DisplayMenu? displayMenu;
 
   const DutyPostNameMasterListState({
     this.list = const <DutyPostNameMasterModel>[],
@@ -19,6 +20,7 @@ class DutyPostNameMasterListState extends Equatable {
     this.locations,
     this.commonFilters,
     this.extraProperties,
+    this.displayMenu
   });
 
   DutyPostNameMasterListState copyWith({

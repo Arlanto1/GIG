@@ -92,11 +92,11 @@ class AddContactPopUpState extends State<AddContactPopUp> {
         alignment: Alignment.center,
         child: Text(
           widget.title,
-          style: Styles.textFontSet(18, AppColors.textGreyThemeColor,
+          style: Styles.textFontSet(18, AppColors.white,
               FontWeight.normal, Constants.customFontSemiBoldFamily),
         ),
       ),
-      backgroundColor: AppColors.backgroundWhiteColor,
+      backgroundColor: AppColors.lavender,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         var height = MediaQuery.of(context).size.height;
@@ -119,7 +119,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                           /// Rank
                           CommonWidgets.textDisplay(
                             rank,
-                            Styles.textStyleBlack14,
+                            Styles.textStyleWhite16,
                             //  isMandatory: true,
                           ),
                           TextFieldAddButton(
@@ -197,7 +197,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         CommonWidgets.textDisplay(
                           Constants.state,
                           //isMandatory: true,
-                          Styles.textStyleBlack14,
+                          Styles.textStyleWhite16,
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
                         FlutterInputField(
@@ -221,7 +221,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         CommonWidgets.textDisplay(
                             Constants.escalationLevel,
                             //isMandatory: true,
-                            Styles.textStyleBlack14),
+                            Styles.textStyleWhite16),
                         BaseDropDown().getDropDown(
                           isDisabled: true,
                           textController: escalationLevelController,
@@ -256,7 +256,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       CommonWidgets.textDisplay(
                         name,
                         //isMandatory: true,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite16,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
@@ -285,7 +285,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                       /// Phone Number
                       CommonWidgets.textDisplay(
                         Constants.phoneNumber,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite16,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
@@ -336,9 +336,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButtonText,
-      foregroundColor: AppColors.textGreyThemeColor,
+      foregroundColor: AppColors.white,
       textStyle: Styles.styleHeaderGreyText16,
-      backgroundColor: AppColors.white,
+      backgroundColor:  const Color(0xFF071130),
       boarderColor: AppColors.textGreyThemeColor,
       onTap: () {
         //loginFormKey.currentState!.validate();
@@ -355,8 +355,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       buttonText: Constants.save,
       buttonTextKey: Keys.saveButtonText,
       boarderColor: AppColors.navigationSkyBlueColor,
-      backgroundColor: AppColors.navigationSkyBlueColor,
-      foregroundColor: Colors.white,
+      backgroundColor:  const Color(0xFF071130),
+      foregroundColor:  Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {
         if (!isFormValid.status) {

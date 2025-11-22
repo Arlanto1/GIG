@@ -55,7 +55,7 @@ class _RatesInfoState extends State<RatesInfo> {
             pdfAPIName:
             '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.guardingRatesModule}',
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.lavender,
           body: getBody(context, state, height),
         );
       },
@@ -69,16 +69,16 @@ class _RatesInfoState extends State<RatesInfo> {
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.lavender,
       child: SingleChildScrollView(
         child: Column(children: [
           Container(
             height: height * 0.01,
-            color: AppColors.navigationSkyBlueColor,
+            color: AppColors.lavender,
           ),
           Container(
             decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhiteColor,
+                color: AppColors.lavender,
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -100,28 +100,45 @@ class _RatesInfoState extends State<RatesInfo> {
                         if (!state.model.lock.isEmptyOrNull) ...[
                           RecordLockedWidget(text: '${state.model.lock}'),
                         ],
+                        CommonWidgets.horizentaltextHandling(
+                            state.labels?.locale.entrySecurity ??
+                                state.labels?.defaultLocale.entrySecurity ??
+                                Constants.createdby,
+                            isMandatory: true,
+                            '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+
 
                         /// Created By
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                CommonWidgets.verticalTextHandling(
-                                    state.labels?.locale.entrySecurity ??
-                                        state.labels?.defaultLocale
-                                            .entrySecurity ??
-                                        Constants.createdby,
-                                    isMandatory: true,
-                                    '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-                              ],
-                            ),
-                            // const Spacer(),
-                            const Text('1/6'),
-                          ],
-                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     CommonWidgets.verticalTextHandling(
+                        //         state.labels?.locale.entrySecurity ??
+                        //             state.labels?.defaultLocale.entrySecurity ??
+                        //             Constants.createdby,
+                        //         isMandatory: true,
+                        //         '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
+                        //     CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        //
+                        //     //
+                        //     // Row(
+                        //     //   children: [
+                        //     //     CommonWidgets.horizentaltextHandling(
+                        //     //         state.labels?.locale.entrySecurity ??
+                        //     //             state.labels?.defaultLocale
+                        //     //                 .entrySecurity ??
+                        //     //             Constants.createdby,
+                        //     //         isMandatory: true,
+                        //     //         '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
+                        //     //     CommonWidgets.verticalSpacerWidget(
+                        //     //         height * 0.01),
+                        //     //   ],
+                        //     // ),
+                        //
+                        //     // const Spacer(),
+                        //   ],
+                        // ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Location
@@ -130,7 +147,7 @@ class _RatesInfoState extends State<RatesInfo> {
                                 state.labels?.defaultLocale.location ??
                                 Constants.location,
                             isMandatory: true,
-                            Styles.textStyleBlack14),
+                            Styles.textStyleWhite16),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         locationWidgetdislay(state),
 
@@ -142,7 +159,7 @@ class _RatesInfoState extends State<RatesInfo> {
                                 state.labels?.defaultLocale.inputDate ??
                                 Constants.dateofcreation,
                             isMandatory: true,
-                            Styles.textStyleBlack14),
+                            Styles.textStyleWhite16),
                         CommonWidgets.verticalSpacerWidget(height * 0.001),
                         datecreateWidgetdisplay(state.model.inputDate ?? ''),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -162,7 +179,7 @@ class _RatesInfoState extends State<RatesInfo> {
                               state.labels?.defaultLocale.entity ??
                               Constants.entity,
                           isMandatory: true,
-                          Styles.textStyleBlack14,
+                          Styles.textStyleWhite16,
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -194,7 +211,7 @@ class _RatesInfoState extends State<RatesInfo> {
                               state.labels?.defaultLocale.vendor ??
                               Constants.vendor,
                           isMandatory: true,
-                          Styles.textStyleBlack14,
+                          Styles.textStyleWhite16,
                         ),
                         widget.rate == null
                             ? FlutterInputField(

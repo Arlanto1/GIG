@@ -100,7 +100,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         // isReadOnly = false; // TODO: remove this
 
         return Scaffold(
-          appBar: BaseAppBar().buildAppHeader(
+            backgroundColor: AppColors.lavender,
+            appBar: BaseAppBar().buildAppHeader(
               context: context,
               title: widget.selectedDutyPostModel.name ?? '',
               showPopUp: false,
@@ -251,7 +252,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         state.labels?.locale.rank ??
             state.labels?.defaultLocale.rank ??
             Constants.rank,
-        Styles.textStyleBlack14,
+        Styles.textStyleWhite16,
         isMandatory: true,
       ),
 
@@ -274,14 +275,14 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               .getShifts(rank: value!);
         },
       ),
-      CommonWidgets.verticalSpacerWidget(height * 0.01),
+      CommonWidgets.verticalSpacerWidget(height * 0.02),
 
       /// Select For Shift Dropdown
       CommonWidgets.textDisplay(
         state.labels?.locale.rank ??
             state.labels?.defaultLocale.rank ??
             Constants.selectForShift,
-        Styles.textStyleBlack14,
+        Styles.textStyleWhite16,
         isMandatory: true,
       ),
       DropdownWidget(
@@ -431,7 +432,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             CommonWidgets.textDisplay(
               'Briefing Points:',
               isMandatory: true,
-              Styles.textStyleBlack14,
+              Styles.textStyleWhite16,
             ),
             Opacity(
               opacity: state.model.attdStatus != 1 ? 0.5 : 1.0,
@@ -521,7 +522,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         CommonWidgets.textDisplay(
           label,
           isMandatory: false,
-          Styles.textStyleBlack14,
+          Styles.textStyleWhite16,
         ),
         CommonWidgets.verticalSpacerWidget(
             MediaQuery.of(context).size.height * 0.01),
@@ -576,19 +577,20 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           child: Row(
             children: <Widget>[
               const SizedBox(width: 14),
-              SvgPicture.asset(AppIcon.pluscircle),
+              SvgPicture.asset(AppIcon.pluscircle,  colorFilter: const ColorFilter.mode(
+                AppColors.white,
+                BlendMode.srcIn,
+              ),),
               const SizedBox(width: 10),
               const Text(
                 'Add SLA',
                 style: TextStyle(
-                  color: AppColors.navigationSkyBlueColor,
+                  color: AppColors.white,
                   decoration: TextDecoration.underline,
                 ),
               ),
               CommonWidgets.verticalSpacerWidget(
-                  MediaQuery.of(context).size.height * 0.01),
-              CommonWidgets.verticalSpacerWidget(
-                  MediaQuery.of(context).size.height * 0.01),
+                  MediaQuery.of(context).size.height * 0.08),
             ],
           ),
         ),
@@ -605,7 +607,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             ),
           ),
           CommonWidgets.verticalSpacerWidget(
-              MediaQuery.of(context).size.height * 0.01),
+              MediaQuery.of(context).size.height * 0.02),
         ],
       ],
     );
@@ -660,19 +662,20 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           child: Row(
             children: <Widget>[
               const SizedBox(width: 14),
-              SvgPicture.asset(AppIcon.pluscircle),
+              SvgPicture.asset(AppIcon.pluscircle, colorFilter: const ColorFilter.mode(
+                AppColors.white,
+                BlendMode.srcIn,
+              ),),
               const SizedBox(width: 10),
               const Text(
                 Constants.addReplacement,
                 style: TextStyle(
-                  color: AppColors.navigationSkyBlueColor,
+                  color: AppColors.white,
                   decoration: TextDecoration.underline,
                 ),
               ),
               CommonWidgets.verticalSpacerWidget(
-                  MediaQuery.of(context).size.height * 0.01),
-              CommonWidgets.verticalSpacerWidget(
-                  MediaQuery.of(context).size.height * 0.01),
+                  MediaQuery.of(context).size.height * 0.08),
             ],
           ),
         ),

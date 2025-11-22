@@ -141,7 +141,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                   .submitForm(isSaveOnly: false);
             },
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.lavender,
           body: getBodybuilder(state, height),
         );
       },
@@ -155,17 +155,17 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.lavender,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
+              color: AppColors.lavender,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
+                  color: AppColors.lavender,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -191,19 +191,19 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                             ],
                             Container(
                               alignment: Alignment.topLeft,
-                              child: Text(
+                              child: const Text(
                                 Constants.generalinformation,
-                                style: Styles.styleHeaderGreyText16,
+                                style: Styles.textStyleWhite16,
                               ),
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Status
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.status ??
                                     state.labels?.defaultLocale.status ??
                                     Constants.status,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -239,6 +239,8 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                 }
                               },
                             ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+
 
                             /// Created By
                             CommonWidgets.horizentaltextHandling(
@@ -247,7 +249,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                     Constants.createdby,
                                 isMandatory: true,
                                 state.model.entrySecurityName ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
@@ -255,11 +257,11 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                     state.labels?.defaultLocale.inputDate ??
                                     Constants.date,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDate().creationDateDisplay(
                                 state.model.inputDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Location
                             CommonWidgets.textDisplay(
@@ -267,7 +269,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                     state.labels?.defaultLocale.location ??
                                     Constants.location,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             AbsorbPointer(
                                 absorbing: true,
@@ -285,7 +287,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                               .updateDropdownValues(
                                                   location: location);
                                         })),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Sl No.
                             CommonWidgets.horizentaltextHandling(
@@ -295,7 +297,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                               state.model.slNo ?? '',
                               isMandatory: true,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Vendor
                             CommonWidgets.textDisplay(
@@ -303,11 +305,11 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                   state.labels?.defaultLocale.vendor ??
                                   Constants.vendor,
                               isMandatory: true,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                             ),
                             TextFieldAddButton(
                               title: state.model.vendor?.name,
-                              height: 60,
+                              height: 70,
                               isDisableColor: true,
                               onTap: () {
                                 if (state.model.status == null) {
@@ -324,6 +326,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                 }
                               },
                             ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Duty Type
                             CommonWidgets.textDisplay(
@@ -331,7 +334,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                     state.labels?.defaultLocale.dutyType ??
                                     Constants.dutyType,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
@@ -365,7 +368,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                         });
                                   }
                                 }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Attendance Type
                             CommonWidgets.textDisplay(
@@ -373,7 +376,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                 //    state.labels?.defaultLocale.guardRank ??
                                 Constants.attendanceType,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
@@ -408,7 +411,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                         });
                                   }
                                 }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             if (state.model.id != null) ...[
                               /// Modified Date
@@ -416,14 +419,14 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                 // state.labels?.locale.date ??
                                 //     state.labels?.defaultLocale.date ??
                                 Constants.modifiedOn,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               datecreateWidgetdisplay(
                                   state.model.modifiedDate ?? ''),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Modified By
                               CommonWidgets.horizentaltextHandling(
@@ -432,7 +435,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                   Constants.modifiedBy,
                                   isMandatory: true,
                                   state.model.modifiedBy ?? ''),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ],
                           ],
                         ),

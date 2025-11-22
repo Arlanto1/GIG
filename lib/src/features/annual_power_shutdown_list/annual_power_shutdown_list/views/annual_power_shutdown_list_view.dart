@@ -227,7 +227,9 @@ class _AnnualPowerShutdownListViewState
                                   '0.0'),
                             ));
 
-                            return Container(
+                            return index >= state.items.length
+                                ? const BaseLoader()
+                                : Container(
                                 decoration: const BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [Color(0xFF6474C6), Color(0xFF6474C6)],

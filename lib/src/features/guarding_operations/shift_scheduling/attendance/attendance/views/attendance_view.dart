@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/attendance/bloc/attendance_bloc.dart';
 
@@ -56,10 +58,23 @@ class _AttendanceViewState extends State<AttendanceView> {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     final size = MediaQuery.of(context).size;
     double height = size.height;
+    return BlocConsumer<AttendanceBloc,
+        AttendanceState>(
+        listener: (context, state) {},
+        builder: (context, state) {
     return Scaffold(
-        backgroundColor: AppColors.cardBgColor,
+        backgroundColor: AppColors.lavender,
+        bottomNavigationBar: CustomBottomNavigationBar(
+            scaffoldKey: scaffoldKey,
+            context: context,
+            hasAddPermission: false,
+            displayMenu: state.displayMenu,
+            list: true,
+            onAddPressed: () {
+            }),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.attendanceListTitle,
@@ -81,16 +96,13 @@ class _AttendanceViewState extends State<AttendanceView> {
           // }
           // log('--labels-${state.labels?.locale.locationRegion}');
           return Container(
-            margin: allMargin16,
-            decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhiteColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20.0)),
-                )),
+            width: double.infinity,
+            height: double.infinity,
+            color: AppColors.lavender,
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                CommonWidgets.verticalSpacerWidget(height * 0.01),
                 BaseSearchWidget(
                   applySearchFilters: applySearchFilters,
                   applyFilters: applyFilters,
@@ -139,14 +151,14 @@ class _AttendanceViewState extends State<AttendanceView> {
                                         .labels?.defaultLocale.locationRegion ??
                                     Constants.region,
                                 value:
-                                    state.items[index].locationRegion?.name ??
-                                        ''));
+                                state.items[index].locationRegion?.name ??
+                                    ''));
                             labels.add(Label(
                                 key: state.labels?.locale.location ??
                                     state.labels?.defaultLocale.location ??
                                     Constants.location,
                                 value:
-                                    state.items[index].location?.name ?? ''));
+                                state.items[index].location?.name ?? ''));
                             labels.add(Label(
                                 key: state.labels?.locale.slNo ??
                                     state.labels?.defaultLocale.slNo ??
@@ -158,89 +170,157 @@ class _AttendanceViewState extends State<AttendanceView> {
                                     Constants.dateofcreation,
                                 value: state.items[index].inputDate != null
                                     ? Utils.timestampToDateConversion(
-                                        int.parse(
-                                            state.items[index].inputDate ??
-                                                '0'),
-                                        Constants.twentyFourHourDateTimeFormat)
+                                    int.parse(
+                                        state.items[index].inputDate ??
+                                            '0'),
+                                    Constants.twentyFourHourDateTimeFormat)
                                     : ''));
                             labels.add(Label(
                                 key:
-                                    Constants.shiftScheduleId,
+                                Constants.shiftScheduleId,
                                 value:
                                 (state.items[index].shiftInfo?.id ??
                                     '').toString()));
                             return index >= state.items.length
-                                ? null
-                                : BaseListTileItem(
-                                    id: state.items[index].id,
-                                    labels: labels,
-                                    status: state.items[index].status,
-                                    isMasterGuard: false,
-                                    isAttendanceStatus: true,
-                                    isEventProtectionStatus: false,
-                                    onTap: (selectedIndex) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext dialogContext) {
-                                          return BasePopUpItems(
-                                            id: state.items[selectedIndex].id
-                                                .toString(),
-                                            labels: labels,
-                                            dutyType: state
-                                                .items[selectedIndex].dutyType,
-                                            isAttendance: true,
-                                            isMasterGuard: false,
-                                            isEventProtectionStatus: false,
-                                            status: state
-                                                .items[selectedIndex].status,
-                                          );
-                                        },
-                                      );
-                                    },
-                                    showEditButton: true,
-                                    onEditTap: (selectedIndex) {
-                                      getById(
-                                          state.extraProperties
-                                                  ?.hasWritePermission ??
-                                              false,
-                                          id: state.items[index].id ?? 0);
-                                    },
-                                    onViewTap: (selectedIndex) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext dialogContext) {
-                                          return BasePopUpItems(
-                                            id: state.items[selectedIndex].id
-                                                .toString(),
-                                            labels: labels,
-                                            dutyType: state
-                                                .items[selectedIndex].dutyType,
-                                            status: state
-                                                .items[selectedIndex].status,
-                                            isMaterGuard: false,
-                                            isMasterGuard: false,
-                                            isAttendance: true,
-                                            isEventProtectionStatus: false,
-                                          );
-                                        },
-                                      );
-                                    },
-                                    index: index,
-                                  );
-                          }
-
-                          // Handle the case where index is out of bounds
-                          return const Center(
-                            child: SizedBox(),
-                          );
+                                ? const BaseLoader()
+                                :
+                            // index >= state.items.length
+                            //   ? const BaseLoader()
+                            Container(
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color(0xFF6474C6),
+                                      Color(0xFF6474C6)
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                ),
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 8),
+                                child: ClipRRect(
+                                    borderRadius:
+                                    BorderRadius.circular(18),
+                                    child: BackdropFilter(
+                                        filter: ImageFilter.blur(
+                                            sigmaX: 18, sigmaY: 18),
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  Colors.white.withValues(
+                                                      alpha: 0.2),
+                                                  Colors.transparent,
+                                                  Colors.white.withValues(
+                                                      alpha: 0.2),
+                                                  // Color(0xFF6474C6).withOpacity(0.14)
+                                                ],
+                                                stops: [0.02, 0.35, 1],
+                                                begin:
+                                                Alignment.topCenter,
+                                                end: Alignment
+                                                    .bottomCenter,
+                                              ),
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  27),
+                                              border: Border.all(
+                                                color: Colors.white
+                                                    .withValues(
+                                                    alpha: 0.80),
+                                                width: 0.8,
+                                              ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: const Color(
+                                                      0xFF6474C6)
+                                                      .withValues(
+                                                      alpha: 0.09),
+                                                  blurRadius: 12,
+                                                  offset:
+                                                  const Offset(0, 2),
+                                                ),
+                                              ],
+                                            ),
+                                            child: BaseListTileItem(
+                                              id: state.items[index].id,
+                                              labels: labels,
+                                              status: state.items[index].status,
+                                              isMasterGuard: false,
+                                              isAttendanceStatus: true,
+                                              isEventProtectionStatus: false,
+                                              onTap: (selectedIndex) {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (
+                                                      BuildContext dialogContext) {
+                                                    return BasePopUpItems(
+                                                      id: state
+                                                          .items[selectedIndex]
+                                                          .id
+                                                          .toString(),
+                                                      labels: labels,
+                                                      dutyType: state
+                                                          .items[selectedIndex]
+                                                          .dutyType,
+                                                      isAttendance: true,
+                                                      isMasterGuard: false,
+                                                      isEventProtectionStatus: false,
+                                                      status: state
+                                                          .items[selectedIndex]
+                                                          .status,
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              showEditButton: true,
+                                              onEditTap: (selectedIndex) {
+                                                getById(
+                                                    state.extraProperties
+                                                        ?.hasWritePermission ??
+                                                        false,
+                                                    id: state.items[index].id ??
+                                                        0);
+                                              },
+                                              onViewTap: (selectedIndex) {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (
+                                                      BuildContext dialogContext) {
+                                                    return BasePopUpItems(
+                                                      id: state
+                                                          .items[selectedIndex]
+                                                          .id
+                                                          .toString(),
+                                                      labels: labels,
+                                                      dutyType: state
+                                                          .items[selectedIndex]
+                                                          .dutyType,
+                                                      status: state
+                                                          .items[selectedIndex]
+                                                          .status,
+                                                      isMaterGuard: false,
+                                                      isMasterGuard: false,
+                                                      isAttendance: true,
+                                                      isEventProtectionStatus: false,
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              index: index,
+                                            )))));
+                          };
                         }),
-                  ),
-                ),
+              ),
+              ),
               ],
-            ),
-          );
-        }));
-  }
+              ),
+              );
+              }));
+            },
+        );
+    }
 
   getById(
     bool hasWritePermission, {

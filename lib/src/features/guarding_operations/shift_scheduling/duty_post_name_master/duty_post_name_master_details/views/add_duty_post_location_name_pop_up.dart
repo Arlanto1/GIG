@@ -30,7 +30,7 @@ class AddDutyPostLocationNamePopUpState
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: AppColors.backgroundWhiteColor,
+      backgroundColor: AppColors.lavender,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
@@ -51,7 +51,7 @@ class AddDutyPostLocationNamePopUpState
                       /// Duty Post Location Name
                       CommonWidgets.textDisplay(
                         Constants.dutyPostLocationName,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite16,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
                       FlutterInputField(
@@ -72,12 +72,12 @@ class AddDutyPostLocationNamePopUpState
                         children: <Widget>[
                           CommonWidgets.textDisplay(
                             Constants.isTransportShift,
-                            Styles.textStyleBlack14,
+                            Styles.textStyleWhite16,
                           ),
                           Checkbox(
                             value: isTransportShift,
-                            activeColor: AppColors.navigationSkyBlueColor,
-                            focusColor: AppColors.navigationSkyBlueColor,
+                            activeColor: AppColors.black,
+                            focusColor: AppColors.black,
                             onChanged: (bool? value) {
                               setState(() {
                                 isTransportShift = value ?? false;
@@ -109,14 +109,14 @@ class AddDutyPostLocationNamePopUpState
   }
 
   Widget cancelButton(double width) {
-    return PopButton(
+    return AppButton(
       width: width / 3.5,
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButtonText,
-      foregroundColor: AppColors.textGreyThemeColor,
-      textStyle: Styles.styleHeaderGreyText16,
-      boarderColor: AppColors.textGreyThemeColor,
+      // foregroundColor: AppColors.white,
+      // textStyle: Styles.styleHeaderGreyText16,
+      // boarderColor: AppColors.white,
       onTap: () {
         FocusScope.of(context).unfocus();
         Navigator.of(context).pop();
@@ -130,7 +130,7 @@ class AddDutyPostLocationNamePopUpState
       key: const Key(Keys.saveButton),
       buttonText: Constants.save,
       buttonTextKey: Keys.saveButtonText,
-      backgroundColor: AppColors.navigationSkyBlueColor,
+      // backgroundColor: AppColors.navigationSkyBlueColor,
       onTap: () {
         DpName dpName = DpName();
         dpName.dutyPostName = dutyPostLocationNameController.text;

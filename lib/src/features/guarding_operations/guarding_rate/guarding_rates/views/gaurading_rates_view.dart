@@ -220,7 +220,9 @@ class _GuardingRatesViewState extends State<GuardingRatesView> {
                                       state.labels?.defaultLocale.slNo ??
                                       Constants.slno,
                                   value: state.items[index].slNo ?? ''));
-                              return Container(
+                              return index >= state.items.length
+                                  ? const BaseLoader()
+                                  : Container(
                                   decoration: const BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: [

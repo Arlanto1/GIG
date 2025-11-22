@@ -228,7 +228,9 @@ class _SezPassManagementListViewState extends State<SezPassManagementListView> {
                                         value: state.items[index].handoverSecurity?.name != null ?state.items[index].handoverSecurity?.name ??
                                             '':''));
 
-                                    return Container(
+                                    return index >= state.items.length
+                                        ? const BaseLoader()
+                                        : Container(
                                         decoration: const BoxDecoration(
                                           gradient: LinearGradient(
                                             colors: [

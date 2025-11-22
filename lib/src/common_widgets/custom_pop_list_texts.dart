@@ -105,7 +105,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                         Navigator.of(context).pop();
                       },
                       child: SvgPicture.asset(
-                          AppIcon.closeicon) //Icon(Icons.cancel)
+                          AppIcon.closeicon, colorFilter: const ColorFilter.mode(AppColors.redColor,BlendMode.srcIn,),) //Icon(Icons.cancel)
                       ),
                 ])
           : Align(
@@ -113,9 +113,9 @@ class CustomListTextsState extends State<CustomListTexts> {
               child: GestureDetector(
                   onTap: () {
                     Navigator.of(context).pop();
-                  },
-                  child:
-                      SvgPicture.asset(AppIcon.closeicon) //Icon(Icons.cancel)
+                  }, child: SvgPicture.asset(
+                AppIcon.closeicon, colorFilter: const ColorFilter.mode(AppColors.redColor,BlendMode.srcIn,),) //Icon(Icons.cancel)
+                //Icon(Icons.cancel)
                   )),
       backgroundColor: AppColors.backgroundWhiteColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),

@@ -114,7 +114,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                 BlocProvider.of<DutyPostMasterDetailsCubit>(context)
                     .submitForm(isSaveOnly: false);
               }),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.lavender,
           body: getBodybuilder(state, height),
         );
       },
@@ -128,17 +128,17 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.lavender,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
+              color: AppColors.lavender,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
+                  color: AppColors.lavender,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -164,12 +164,12 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                             ],
                             Container(
                               alignment: Alignment.topLeft,
-                              child: Text(
+                              child: const Text(
                                 Constants.generalinformation,
-                                style: Styles.styleHeaderGreyText16,
+                                style: Styles.textStyleWhite16,
                               ),
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Created By
                             CommonWidgets.horizentaltextHandling(
@@ -178,7 +178,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                     Constants.createdby,
                                 isMandatory: true,
                                 '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
@@ -186,18 +186,18 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                     state.labels?.defaultLocale.inputDate ??
                                     Constants.dateofcreation,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDate().creationDateDisplay(
                                 state.model.createdDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Status
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.status ??
                                     state.labels?.defaultLocale.status ??
                                     Constants.status,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -232,7 +232,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                 }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///Location
                             CommonWidgets.textDisplay(
@@ -240,7 +240,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                     state.labels?.defaultLocale.location ??
                                     Constants.location,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseLocationDropdown().locationWidgetDisplay(
                                 isEnabled: isReadOnly ||
@@ -256,7 +256,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                           context)
                                       .updateDropdownValues(location: location);
                                 }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Duty Post Name
                             CommonWidgets.textDisplay(
@@ -264,7 +264,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                     state.labels?.defaultLocale.postName ??
                                     Constants.dutyPostName,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             TextFieldAddButton(
                               title: state.model.dutyPostLocation?.name,
@@ -293,7 +293,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                 }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Rank
                             CommonWidgets.textDisplay(
@@ -301,11 +301,11 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                     state.labels?.defaultLocale.rankId ??
                                     Constants.rank,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled: false,
+                                isDisabled: isDisabled ?false: true,
                                 textController: rankController,
                                 items: guardRankDropDownValues,
                                 initialValue: state.model.rankId.toString(),
@@ -337,9 +337,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                         });
                                   }
                                 }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// A Shift(7AM-3PM)
                             CommonWidgets.textDisplay(
@@ -347,7 +345,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                     state.labels?.defaultLocale.shiftA ??
                                     Constants.aShift,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               textInputType: TextInputType.number,
@@ -374,7 +372,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// B Shift(3PM-11PM)
                             CommonWidgets.textDisplay(
@@ -382,7 +380,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                     state.labels?.defaultLocale.shiftB ??
                                     Constants.bShift,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               textInputType: TextInputType.number,
@@ -408,7 +406,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// C Shift(11PM-7AM)
                             CommonWidgets.textDisplay(
@@ -416,7 +414,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                     state.labels?.defaultLocale.shiftC ??
                                     Constants.cShift,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               textInputType: TextInputType.number,
@@ -442,7 +440,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// G Shift(9AM-6PM)
                             CommonWidgets.textDisplay(
@@ -450,7 +448,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                     state.labels?.defaultLocale.shiftG ??
                                     Constants.gShift,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               textInputType: TextInputType.number,
@@ -476,7 +474,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///  Total
                             CommonWidgets.textDisplay(
@@ -484,7 +482,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                     state.labels?.defaultLocale.total ??
                                     Constants.total,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite16),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               textInputType: TextInputType.number,
@@ -501,9 +499,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            CommonWidgets.verticalSpacerWidget(height * 0.03),
                           ],
                         ),
                       ),

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_list/bloc/duty_post_name_master_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
@@ -61,6 +63,7 @@ class _DutyPostNameMasterListViewState
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     final size = MediaQuery.of(context).size;
     double height = size.height;
     return BlocConsumer<DutyPostNameMasterListBloc,
@@ -68,23 +71,39 @@ class _DutyPostNameMasterListViewState
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-            backgroundColor: AppColors.cardBgColor,
-            floatingActionButton:
-                state.extraProperties?.hasWritePermission ?? false
-                    ? Flutterfloatingbutton(
-                        backgroundColor: AppColors.navigationSkyBlueColor,
-                        foregroundColor: AppColors.backgroundWhiteColor,
-                        onPressed: () => {
-                          Navigator.pushNamed(
-                              context, dutyPostNameMasterDetailsRoute,
-                              arguments: {
-                                "title": Constants.createDutyPostNameMaster,
-                                "dutyPostNameMasterModel":
-                                    DutyPostNameMasterModel(),
-                              }),
-                        },
-                      )
-                    : const SizedBox(),
+            backgroundColor: AppColors.lavender,
+            // floatingActionButton:
+            //     state.extraProperties?.hasWritePermission ?? false
+            //         ? Flutterfloatingbutton(
+            //             backgroundColor: AppColors.navigationSkyBlueColor,
+            //             foregroundColor: AppColors.backgroundWhiteColor,
+            //             onPressed: () => {
+            //               Navigator.pushNamed(
+            //                   context, dutyPostNameMasterDetailsRoute,
+            //                   arguments: {
+            //                     "title": Constants.createDutyPostNameMaster,
+            //                     "dutyPostNameMasterModel":
+            //                         DutyPostNameMasterModel(),
+            //                   }),
+            //             },
+            //           )
+            //         : const SizedBox(),
+            bottomNavigationBar: CustomBottomNavigationBar(
+                scaffoldKey: scaffoldKey,
+                context: context,
+                hasAddPermission:state.extraProperties?.hasWritePermission ??
+                    false ? true : false,
+                displayMenu: state.displayMenu,
+                list: true,
+                onAddPressed: () {
+                  Navigator.pushNamed(
+                      context, dutyPostNameMasterDetailsRoute,
+                      arguments: {
+                        "title": Constants.createDutyPostNameMaster,
+                        "dutyPostNameMasterModel":
+                        DutyPostNameMasterModel(),
+                      });
+                }),
             appBar: BaseAppBar().buildAppHeader(
               context: context,
               title: Constants.dutyPostNameMasterListTitle,
@@ -106,16 +125,13 @@ class _DutyPostNameMasterListViewState
               // }
               // log('--labels-${state.labels?.locale.locationRegion}');
               return Container(
-                margin: allMargin16,
-                decoration: const ShapeDecoration(
-                    color: AppColors.backgroundWhiteColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20.0)),
-                    )),
+                width: double.infinity,
+                height: double.infinity,
+                color: AppColors.lavender,
                 child: Column(
                   // crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    CommonWidgets.verticalSpacerWidget(height * 0.01),
                     BaseSearchWidget(
                       applySearchFilters: applySearchFilters,
                       applyFilters: applyFilters,
@@ -180,8 +196,68 @@ class _DutyPostNameMasterListViewState
                                       '${state.list[index].entrySecurity?.firstName ?? ''} ${state.list[index].entrySecurity?.lastName ?? ''}'));
                             }
                             return index >= state.list.length
-                                ? null
-                                : BaseListTileItem(
+                                ? const BaseLoader()
+                                :
+                            // index >= state.items.length
+                            //   ? const BaseLoader()
+                            Container(
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color(0xFF6474C6),
+                                      Color(0xFF6474C6)
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                ),
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 8),
+                                child: ClipRRect(
+                                    borderRadius:
+                                    BorderRadius.circular(18),
+                                    child: BackdropFilter(
+                                        filter: ImageFilter.blur(
+                                            sigmaX: 18, sigmaY: 18),
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  Colors.white.withValues(
+                                                      alpha: 0.2),
+                                                  Colors.transparent,
+                                                  Colors.white.withValues(
+                                                      alpha: 0.2),
+                                                  // Color(0xFF6474C6).withOpacity(0.14)
+                                                ],
+                                                stops: [0.02, 0.35, 1],
+                                                begin:
+                                                Alignment.topCenter,
+                                                end: Alignment
+                                                    .bottomCenter,
+                                              ),
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  27),
+                                              border: Border.all(
+                                                color: Colors.white
+                                                    .withValues(
+                                                    alpha: 0.80),
+                                                width: 0.8,
+                                              ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: const Color(
+                                                      0xFF6474C6)
+                                                      .withValues(
+                                                      alpha: 0.09),
+                                                  blurRadius: 12,
+                                                  offset:
+                                                  const Offset(0, 2),
+                                                ),
+                                              ],
+                                            ),
+                                            child:BaseListTileItem(
                                     id: state.list[index].id,
                                     labels: labels,
                                     status: state.list[index].status,
@@ -235,7 +311,7 @@ class _DutyPostNameMasterListViewState
                                       );
                                     },
                                     index: index,
-                                  );
+                                            ))))  );
                           },
                         ),
                       ),

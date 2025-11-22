@@ -59,11 +59,11 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
         alignment: Alignment.center,
         child: Text(
           widget.title,
-          style: Styles.textFontSet(18, AppColors.textGreyThemeColor,
-              FontWeight.normal, Constants.customFontSemiBoldFamily),
+          style: Styles.textFontSet(20, AppColors.white,
+              FontWeight.w700, Constants.customFontSemiBoldFamily),
         ),
       ),
-      backgroundColor: AppColors.backgroundWhiteColor,
+      backgroundColor: AppColors.lavender,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
@@ -86,7 +86,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       CommonWidgets.textDisplay(
                         Constants.visitorsName,
                         isMandatory: true,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite16,
                       ),
                       FlutterInputField(
                         controller: nameController,
@@ -119,7 +119,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       CommonWidgets.textDisplay(
                         Constants.visitorsEmailId,
                         isMandatory: true,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite16,
                       ),
                       FlutterInputField(
                         controller: emailIdController,
@@ -151,7 +151,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       CommonWidgets.textDisplay(
                         Constants.visitorsDesignation,
                         isMandatory: true,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite16,
                       ),
                       FlutterInputField(
                         controller: designationController,
@@ -182,7 +182,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       CommonWidgets.textDisplay(
                         Constants.purposeOfVisit,
                         isMandatory: true,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite16,
                       ),
                       FlutterInputField(
                         controller: purposeOfVisitController,
@@ -213,7 +213,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       CommonWidgets.textDisplay(
                         Constants.baseLocationOfVisitors,
                         isMandatory: true,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite16,
                       ),
                       FlutterInputField(
                         controller: baseLocationOfVisitorsController,
@@ -244,7 +244,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                       CommonWidgets.textDisplay(
                         Constants.startDateVisit,
                         isMandatory: true,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite16,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -266,13 +266,13 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                         },
                         context: widget.mainContext,
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// End Date of Visit
                       CommonWidgets.textDisplay(
                         Constants.endDateVisit,
                         isMandatory: true,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite16,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -332,10 +332,10 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButtonText,
-      foregroundColor: AppColors.textGreyThemeColor,
-      textStyle: Styles.styleHeaderGreyText16,
-      backgroundColor: AppColors.white,
-      boarderColor: AppColors.textGreyThemeColor,
+      foregroundColor: AppColors.white,
+      textStyle: Styles.styleHeaderWhiteText16,
+      backgroundColor: Colors.transparent,
+      boarderColor: AppColors.white,
       onTap: () {
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
@@ -350,8 +350,8 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
       key: const Key(Keys.saveButton),
       buttonText: Constants.save,
       buttonTextKey: Keys.saveButtonText,
-      boarderColor: AppColors.navigationSkyBlueColor,
-      backgroundColor: AppColors.navigationSkyBlueColor,
+      boarderColor: AppColors.white,
+      backgroundColor:  const Color(0xFF071130),
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {

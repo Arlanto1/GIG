@@ -241,7 +241,9 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                                       Constants.createdby,
                                   value:
                                       '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
-                              return Container(
+                              return index >= state.items.length
+                                  ? const BaseLoader()
+                                  : Container(
                                   decoration: const BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: [Color(0xFF6474C6), Color(0xFF6474C6)],

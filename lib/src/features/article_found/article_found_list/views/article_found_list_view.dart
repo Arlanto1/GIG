@@ -2934,7 +2934,9 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
 //                                 ),
 //                               ),
 //                             );
-                            return Container(
+                            return index >= state.items.length
+                                ? const BaseLoader()
+                                : Container(
                               decoration: const BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [

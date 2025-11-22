@@ -253,12 +253,26 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ],
                         ),
                       ],
+                      // if (widget.vendor != null) ...[
+                      //   CommonWidgets.horizontalSpacerWidget(5),
+                      //   Row(
+                      //     children: [
+                      //       Utils().textHandling(
+                      //           'Vendor : ', widget.vendor.toString()),
+                      //     ],
+                      //   ),
+                      // ],
+
                       if (widget.vendor != null) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Utils().textHandling(
-                                'Vendor : ', widget.vendor.toString()),
+                            Expanded(
+                              child: Utils().textHandling(
+                                  'Vendor: ','${widget.vendor?.toString()}'
+                              ),
+                            ),
                           ],
                         ),
                       ],

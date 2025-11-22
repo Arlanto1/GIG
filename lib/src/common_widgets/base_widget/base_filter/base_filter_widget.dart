@@ -593,6 +593,7 @@ class _BaseSearchWidgetState extends State<BaseSearchWidget> {
         children: [
           Expanded(
             child: Container(
+              margin: const EdgeInsets.only(left: 10, right: 1), // 👈 SAME WIDTH AS DATE INPUT
               height: 45,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
@@ -661,7 +662,8 @@ class _BaseSearchWidgetState extends State<BaseSearchWidget> {
           GestureDetector(
             onTap: () => _showRightFilterDrawer(context),
             child: Container(
-              height: 35,
+              margin: const EdgeInsets.only(left: 5, right: 10), // 👈 SAME WIDTH AS DATE INPUT
+              height: 40,
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.white),
@@ -1146,36 +1148,102 @@ class DropdownWidgetState extends State<DropdownWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // return Expanded(
+    //   child: DropdownButtonFormField<Organisation>(
+    //     initialValue: selectedElement,
+    //     hint: Text(widget.label),
+    //     // onChanged: widget.onChange,
+    //     onChanged: (Organisation? newValue) {
+    //       if (widget.shouldUpdate ?? false) {
+    //         setState(() {
+    //           selectedElement = newValue;
+    //         });
+    //       }
+    //       if (widget.onChange != null) {
+    //         widget.onChange!(newValue);
+    //       }
+    //     },
+    //     items: widget.items.map((item) {
+    //       return DropdownMenuItem<Organisation>(
+    //         value: item,
+    //         child: Text(item.name ?? ''),
+    //       );
+    //     }).toList(),
+    //     decoration: const InputDecoration(
+    //       focusedBorder: UnderlineInputBorder(
+    //         borderSide: BorderSide(
+    //           color: AppColors.navigationSkyBlueColor,
+    //         ),
+    //       ),
+    //     ),
+    //
+    //   ),
+    // );
     return Expanded(
-      child: DropdownButtonFormField<Organisation>(
-        initialValue: selectedElement,
-        hint: Text(widget.label),
-        // onChanged: widget.onChange,
-        onChanged: (Organisation? newValue) {
-          if (widget.shouldUpdate ?? false) {
-            setState(() {
-              selectedElement = newValue;
-            });
-          }
-          if (widget.onChange != null) {
-            widget.onChange!(newValue);
-          }
-        },
-        items: widget.items.map((item) {
-          return DropdownMenuItem<Organisation>(
-            value: item,
-            child: Text(item.name ?? ''),
-          );
-        }).toList(),
-        decoration: const InputDecoration(
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: AppColors.navigationSkyBlueColor,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.12), // Frosted white tint
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(
+            color: Colors.white.withOpacity(0.25),
+            width: 1.2,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.white.withOpacity(0.15),
+              blurRadius: 12,
+              spreadRadius: 1,
+              offset: const Offset(0, 4),
+            ),
+          ],
+          // Glass blur
+          backgroundBlendMode: BlendMode.overlay,
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(18),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: DropdownButtonFormField<Organisation>(
+                value: selectedElement,
+                hint: Text(
+                  widget.label,
+                  style: const TextStyle(color: Colors.white),
+                ),
+                dropdownColor: Colors.white.withOpacity(0.1), // glass dropdown
+                iconEnabledColor: Colors.white,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+                onChanged: (Organisation? newValue) {
+                  if (widget.shouldUpdate ?? false) {
+                    setState(() {
+                      selectedElement = newValue;
+                    });
+                  }
+                  widget.onChange?.call(newValue);
+                },
+                items: widget.items.map((item) {
+                  return DropdownMenuItem<Organisation>(
+                    value: item,
+                    child: Text(
+                      item.name ?? '',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  );
+                }).toList(),
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                ),
+              ),
             ),
           ),
         ),
       ),
     );
+
   }
 }
 

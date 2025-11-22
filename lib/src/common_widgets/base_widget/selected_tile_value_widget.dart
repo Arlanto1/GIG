@@ -77,9 +77,9 @@ class TileWidget extends StatelessWidget {
       children: [
         SizedBox(
           height: 50,
-          width: width ?? 160,
+          width: width ?? 200,
           child: Padding(
-            padding: const EdgeInsets.only(left: 20),
+            padding: const EdgeInsets.only(left: 10, right: 10),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: BackdropFilter(
@@ -94,7 +94,7 @@ class TileWidget extends StatelessWidget {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.white.withValues(alpha: 0.05),
+                        color: Colors.white.withValues(alpha: 0),
                         blurRadius: 20,
                         offset: const Offset(0, 4),
                       ),
@@ -117,7 +117,7 @@ class TileWidget extends StatelessWidget {
                       name,
                       style: Styles.textStyleBlack14.copyWith(
                         color: Colors.black,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),

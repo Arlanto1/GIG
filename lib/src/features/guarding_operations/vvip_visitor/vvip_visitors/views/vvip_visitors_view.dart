@@ -61,27 +61,42 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     final size = MediaQuery.of(context).size;
     double height = size.height;
     return BlocConsumer<VVIPVisitorsBloc, VVIPVisitorsState>(
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-            backgroundColor: AppColors.cardBgColor,
-            floatingActionButton:
-                (widget.model?.status != 0 || widget.model?.status != null) &&
-                        (state.extraProperties?.hasWritePermission ?? false)
-                    ? Flutterfloatingbutton(
-                        backgroundColor: AppColors.navigationSkyBlueColor,
-                        foregroundColor: AppColors.backgroundWhiteColor,
-                        onPressed: () => {
-                          Navigator.pushNamed(context, vipVisitorsDetailsRoute,
-                              arguments: {
-                                "title": Constants.vVipVisitorsTitle,
-                              })
-                        },
-                      )
-                    : null,
+            backgroundColor: AppColors.lavender,
+            // floatingActionButton:
+            //     (widget.model?.status != 0 || widget.model?.status != null) &&
+            //             (state.extraProperties?.hasWritePermission ?? false)
+            //         ? Flutterfloatingbutton(
+            //             backgroundColor: AppColors.navigationSkyBlueColor,
+            //             foregroundColor: AppColors.backgroundWhiteColor,
+            //             onPressed: () => {
+            //               Navigator.pushNamed(context, vipVisitorsDetailsRoute,
+            //                   arguments: {
+            //                     "title": Constants.vVipVisitorsTitle,
+            //                   })
+            //             },
+            //           )
+            //         : null,
+            bottomNavigationBar: CustomBottomNavigationBar(
+              hasAddPermission:  (widget.model?.status != 0 || widget.model?.status != null) &&
+                  (state.extraProperties?.hasWritePermission ?? false) ? true : false,
+              scaffoldKey: scaffoldKey,
+              context: context,
+              displayMenu: state.displayMenu,
+              list: true, // 🔥 only "+" button mode
+              onAddPressed: () {
+                Navigator.pushNamed(context, vipVisitorsDetailsRoute,
+                    arguments: {
+                      "title": Constants.vVipVisitorsTitle,
+                    });
+              },
+            ),
             appBar: BaseAppBar().buildAppHeader(
               context: context,
               title: Constants.vVipVisitorsListTitle,
@@ -102,16 +117,20 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
               //   return const NoRecordFoundWidget();
               // }
               return Container(
-                margin: allMargin16,
-                decoration: const ShapeDecoration(
-                    color: AppColors.backgroundWhiteColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20.0)),
-                    )),
+                width: double.infinity,
+                height: double.infinity,
+                color: const Color(0xFF6474C6),
+                // margin: allMargin16,
+                // decoration: const ShapeDecoration(
+                //     color: AppColors.lavender,
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius:
+                //           BorderRadius.vertical(top: Radius.circular(20.0)),
+                //     )),
                 child: Column(
                   // crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    CommonWidgets.verticalSpacerWidget(height * 0.01),
                     BaseSearchWidget(
                       applySearchFilters: applySearchFilters,
                       applyFilters: applyFilters,
@@ -181,8 +200,38 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
                                       state.items[index].location?.name ?? ''));
                             }
                             return index >= state.items.length
-                                ? const SizedBox()
-                                : BaseListTileItem(
+                                ? const BaseLoader()
+                                : Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 8),
+                                decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.white.withValues(alpha: 0.2),
+                                  Colors.transparent,
+                                  Colors.white.withValues(alpha: 0.2),
+                                  // Color(0xFF6474C6).withOpacity(0.14)
+                                ],
+                                stops: [0.02, 0.35, 1],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                              borderRadius: BorderRadius.circular(27),
+                              border: Border.all(
+                                color: Colors.white
+                                    .withValues(alpha: 0.80),
+                                width: 0.8,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(0xFF6474C6)
+                                      .withValues(alpha: 0.09),
+                                  blurRadius: 12,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                                child:BaseListTileItem(
                                     id: state.items[index].id,
                                     labels: labels,
                                     status: state.items[index].status,
@@ -233,7 +282,7 @@ class _VVIPVisitorsViewState extends State<VVIPVisitorsView> {
                                       );
                                     },
                                     index: index,
-                                  );
+                                ) );
                           },
                         ),
                       ),

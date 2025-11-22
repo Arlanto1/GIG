@@ -34,9 +34,10 @@ class BaseDropDown {
             textFormKey: Keys.returnableKey,
             hintText: '',
             isEnable: true,
-            textFormFieldBackgroundColor: textFormFieldBackgroundColor,
+            showBorder: true,
+            // disabledBorder: true,
             suffixIcon: Icons.arrow_drop_down,
-            isDisableColor: !isDisabled,
+            // isDisableColor: false,
             onChange: (String value) {},
             validateTextField: (String? user) {},
             // suffixWidget: IconButton(

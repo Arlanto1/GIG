@@ -6,6 +6,8 @@ class VVIPVisitorsRecordState extends Equatable {
   final FormStatus status;
   final String? message;
   final VVIPUiLabels? labels;
+  final DisplayMenu? displayMenu;
+
 
   const VVIPVisitorsRecordState({
     this.message,
@@ -13,6 +15,7 @@ class VVIPVisitorsRecordState extends Equatable {
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
     this.labels,
+    this.displayMenu
   });
 
   VVIPVisitorsRecordState copyWith({

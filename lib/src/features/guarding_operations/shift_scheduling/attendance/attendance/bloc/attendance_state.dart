@@ -9,6 +9,7 @@ class AttendanceState extends Equatable {
   final Locations? locations;
   final SSUiLabels? labels;
   final ExtraProperties? extraProperties;
+  final DisplayMenu? displayMenu;
 
   const AttendanceState({
     this.items = const <AttendanceModel>[],
@@ -19,6 +20,7 @@ class AttendanceState extends Equatable {
     this.locations,
     this.commonFilters,
     this.extraProperties,
+    this.displayMenu
   });
 
   AttendanceState copyWith({

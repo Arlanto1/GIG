@@ -365,7 +365,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 Text(
                                   'View Contact(s)',
                                   style: TextStyle(
-                                    color: AppColors.navigationSkyBlueColor,
+                                    color: AppColors.black,
                                     decoration: TextDecoration.underline,
                                   ),
                                 ),
@@ -437,7 +437,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 Text(
                                   'View Contact(s)',
                                   style: TextStyle(
-                                    color: AppColors.navigationSkyBlueColor,
+                                    color: AppColors.black,
                                     decoration: TextDecoration.underline,
                                   ),
                                 ),
@@ -509,7 +509,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 Text(
                                   'View Contact(s)',
                                   style: TextStyle(
-                                    color: AppColors.navigationSkyBlueColor,
+                                    color: AppColors.black,
                                     decoration: TextDecoration.underline,
                                   ),
                                 ),
@@ -579,7 +579,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 Text(
                                   'View Contact(s)',
                                   style: TextStyle(
-                                    color: AppColors.navigationSkyBlueColor,
+                                    color: AppColors.black,
                                     decoration: TextDecoration.underline,
                                   ),
                                 ),
@@ -650,7 +650,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 Text(
                                   'View Contact(s)',
                                   style: TextStyle(
-                                    color: AppColors.navigationSkyBlueColor,
+                                    color: AppColors.black,
                                     decoration: TextDecoration.underline,
                                   ),
                                 ),

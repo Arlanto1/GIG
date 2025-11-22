@@ -113,7 +113,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
               );
             },
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.lavender,
           body: getBodybuilder(state, height),
         );
       },
@@ -130,17 +130,17 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
     }
 
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.lavender,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
+              color: AppColors.lavender,
             ),
             Container(
               decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhiteColor,
+                color: AppColors.lavender,
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -167,28 +167,28 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                             ],
                             Container(
                               alignment: Alignment.topLeft,
-                              child: Text(
+                              child: const Text(
                                 Constants.generalinformation,
-                                style: Styles.styleHeaderGreyText16,
+                                style: Styles.textStyleRegularNormalWhite18,
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Created By
-                            CommonWidgets.verticalTextHandling(
+                            CommonWidgets.horizentaltextHandling(
                                 state.labels?.locale.entrySecurity ??
                                     state.labels?.defaultLocale.entrySecurity ??
                                     Constants.createdby,
                                 isMandatory: true,
                                 '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Status
                             CommonWidgets.textDisplay(
                               state.labels?.locale.status ??
                                   state.labels?.defaultLocale.status ??
                                   Constants.status,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -202,33 +202,33 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                               onChange: (String value) {},
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
                               state.labels?.locale.inputDate ??
                                   state.labels?.defaultLocale.inputDate ??
                                   Constants.dateofcreation,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             datecreateWidgetdisplay(
                                 state.model.inputDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Location
                             CommonWidgets.textDisplay(
                               state.labels?.locale.location ??
                                   state.labels?.defaultLocale.location ??
                                   Constants.location,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             locationWidgetdislay(state),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Sl No.
                             CommonWidgets.horizentaltextHandling(
@@ -238,14 +238,14 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                               state.model.slNo ?? '',
                               isMandatory: true,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
                             if (state.model.status != null) ...[
                               /// Modified Date
                               CommonWidgets.textDisplay(
                                 // state.labels?.locale.date ??
                                 //     state.labels?.defaultLocale.date ??
                                 Constants.modifiedOn,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               CommonWidgets.verticalSpacerWidget(
@@ -267,9 +267,9 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                             /// VVIP Visitors
                             Container(
                               alignment: Alignment.topLeft,
-                              child: Text(
+                              child: const Text(
                                 Constants.listVvipVisitors,
-                                style: Styles.styleHeaderGreyText16,
+                                style: Styles.textStyleWhite16,
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -311,7 +311,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
                                     colorFilter: const ColorFilter.mode(
-                                      AppColors.navigationSkyBlueColor,
+                                      AppColors.black,
                                       BlendMode.srcIn,
                                     ),
                                     // color: AppColors.navigationSkyBlueColor,
@@ -320,8 +320,10 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                                   const Text(
                                     'Add/View VVIP Visitors',
                                     style: TextStyle(
-                                      color: AppColors.navigationSkyBlueColor,
+                                      color: AppColors.black,
                                       decoration: TextDecoration.underline,
+                                        fontSize: 16,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                 ],

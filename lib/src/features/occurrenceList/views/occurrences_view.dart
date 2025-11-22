@@ -201,7 +201,9 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                                       Constants.shiftHandoverBy,
                                   value:
                                       '${state.list[index].entrySecurity?.firstName ?? ''} ${state.list[index].entrySecurity?.lastName ?? ''}'));
-                              return Container(
+                              return index >= state.list.length
+                                  ? const BaseLoader()
+                                  : Container(
                                   decoration: const BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: [

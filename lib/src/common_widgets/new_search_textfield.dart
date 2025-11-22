@@ -29,7 +29,6 @@ class FlutterInputField extends StatelessWidget {
   final bool? showBorder;
   final int? characterLimit;
   final bool? textCapitalization;
-  final Color? textFormFieldBackgroundColor;
   final bool showCounter;
   final bool isLoginScreen;
 
@@ -62,7 +61,6 @@ class FlutterInputField extends StatelessWidget {
     this.showBorder,
     this.characterLimit = Constants.characterLimitIdTextFormField,
     this.textCapitalization = true,
-    this.textFormFieldBackgroundColor,
     this.showCounter = true,
     this.isLoginScreen = false,
   });

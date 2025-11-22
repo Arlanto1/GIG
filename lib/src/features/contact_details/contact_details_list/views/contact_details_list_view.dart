@@ -208,10 +208,9 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                                       Constants.location,
                                   value:
                                       state.items[index].location?.name ?? ''));
-                              return
-                                  // index >= state.items.length
-                                  //   ? const BaseLoader()
-                                  Container(
+                              return index >= state.items.length
+                                  ? const BaseLoader()
+                                  : Container(
                                       decoration: const BoxDecoration(
                                         gradient: LinearGradient(
                                           colors: [

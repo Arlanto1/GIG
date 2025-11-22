@@ -232,7 +232,9 @@ class _DayPassManagementListViewState extends State<DayPassManagementListView> {
                                         value: state.items[index].handoverSecurity?.name != null ?state.items[index].handoverSecurity?.name ??
                                             '':''));
 
-                                    return Container(
+                                    return index >= state.items.length
+                                        ? const BaseLoader()
+                                        : Container(
                                         decoration: const BoxDecoration(
                                           gradient: LinearGradient(
                                             colors: [
