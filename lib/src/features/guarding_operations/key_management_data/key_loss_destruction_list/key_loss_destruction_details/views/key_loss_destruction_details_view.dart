@@ -50,8 +50,10 @@ class _KeyLossDestructionDetailsViewState
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    return BlocConsumer<KeyLossDestructionDetailsCubit,
-        KeyLossDestructionDetailsState>(
+    return BlocConsumer<
+      KeyLossDestructionDetailsCubit,
+      KeyLossDestructionDetailsState
+    >(
       listener: (context, state) {
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
@@ -73,9 +75,10 @@ class _KeyLossDestructionDetailsViewState
             },
           );
           showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (BuildContext context) => dialog);
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => dialog,
+          );
         }
       },
       builder: (context, state) {
@@ -114,18 +117,21 @@ class _KeyLossDestructionDetailsViewState
                 '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.keyLossDestructionModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<KeyLossDestructionDetailsCubit>(context)
-                  .submitForm(isSaveOnly: true);
+              BlocProvider.of<KeyLossDestructionDetailsCubit>(
+                context,
+              ).submitForm(isSaveOnly: true);
             },
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<KeyLossDestructionDetailsCubit>(context)
-                  .submitForm(isSaveOnly: false);
+              BlocProvider.of<KeyLossDestructionDetailsCubit>(
+                context,
+              ).submitForm(isSaveOnly: false);
             },
             onTapLikeButton: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<KeyLossDestructionDetailsCubit>(context)
-                  .submitForm(
+              BlocProvider.of<KeyLossDestructionDetailsCubit>(
+                context,
+              ).submitForm(
                 isApprovedOnly: true,
                 isSaveOnly: false,
                 isRejectOnly: false,
@@ -144,8 +150,9 @@ class _KeyLossDestructionDetailsViewState
                       // BlocProvider.of<KeyHistoryRecordsDetailsCubit>(context)
                       //     .onAddRejectionComment(value);
 
-                      BlocProvider.of<KeyLossDestructionDetailsCubit>(context)
-                          .submitForm(
+                      BlocProvider.of<KeyLossDestructionDetailsCubit>(
+                        context,
+                      ).submitForm(
                         isRejectOnly: true,
                         isSaveOnly: false,
                         isApprovedOnly: false,
@@ -157,7 +164,7 @@ class _KeyLossDestructionDetailsViewState
               );
             },
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.lavender,
           body: getBodybuilder(state, height),
         );
       },
@@ -171,21 +178,24 @@ class _KeyLossDestructionDetailsViewState
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.lavender,
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
-            ),
+            // Container(
+            //   height: height * 0.01,
+            //   color: AppColors.lavender,
+            // ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
-                  )),
+                // color: AppColors.lavender,
+                color: Colors.transparent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(20.0),
+                  ),
+                ),
+              ),
               child: AbsorbPointer(
                 absorbing: isReadOnly,
                 child: Form(
@@ -205,22 +215,24 @@ class _KeyLossDestructionDetailsViewState
                             if (!state.model.lock.isEmptyOrNull) ...[
                               RecordLockedWidget(text: '${state.model.lock}'),
                             ],
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
                                 Constants.generalinformation,
-                                style: Styles.styleHeaderGreyText16,
+                                style: Styles.styleHeaderWhiteText16,
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Status
                             CommonWidgets.textDisplay(
-                                state.labels?.locale.status ??
-                                    state.labels?.defaultLocale.status ??
-                                    Constants.status,
-                                Styles.textStyleBlack14,
-                                isMandatory: true),
+                              state.labels?.locale.status ??
+                                  state.labels?.defaultLocale.status ??
+                                  Constants.status,
+                              Styles.textStyleWhite14,
+                              isMandatory: true,
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
@@ -237,18 +249,20 @@ class _KeyLossDestructionDetailsViewState
                                         .toList(),
                                     onTap: (String value) {
                                       Label? selectedLabel;
-                                      selectedLabel =
-                                          keyManagementHistoryStatus.firstWhere(
-                                        (label) => label.key == value,
-                                        orElse: () =>
-                                            const Label(key: '', value: ''),
-                                      );
+                                      selectedLabel = keyManagementHistoryStatus
+                                          .firstWhere(
+                                            (label) => label.key == value,
+                                            orElse: () =>
+                                                const Label(key: '', value: ''),
+                                          );
                                       BlocProvider.of<
-                                                  KeyLossDestructionDetailsCubit>(
-                                              context)
+                                            KeyLossDestructionDetailsCubit
+                                          >(context)
                                           .updateDropdownValues(
-                                              status: int.tryParse(
-                                                  selectedLabel.value));
+                                            status: int.tryParse(
+                                              selectedLabel.value,
+                                            ),
+                                          );
                                     },
                                   );
                                 }
@@ -258,23 +272,26 @@ class _KeyLossDestructionDetailsViewState
 
                             /// Created By
                             CommonWidgets.horizentaltextHandling(
-                                state.labels?.locale.entrySecurity ??
-                                    state.labels?.defaultLocale.entrySecurity ??
-                                    Constants.createdby,
-                                isMandatory: true,
-                                '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
+                              state.labels?.locale.entrySecurity ??
+                                  state.labels?.defaultLocale.entrySecurity ??
+                                  Constants.createdby,
+                              isMandatory: true,
+                              '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}',
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
-                                // state.labels?.locale.inputDate ??
-                                //     state.labels?.defaultLocale.inputDate ??
-                                Constants.dateofcreation,
-                                isMandatory: true,
-                                Styles.textStyleBlack14),
+                              // state.labels?.locale.inputDate ??
+                              //     state.labels?.defaultLocale.inputDate ??
+                              Constants.dateofcreation,
+                              isMandatory: true,
+                              Styles.textStyleWhite14,
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDate().creationDateDisplay(
-                                state.model.createdDate ?? ''),
+                              state.model.createdDate ?? '',
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Sl No.
@@ -293,37 +310,41 @@ class _KeyLossDestructionDetailsViewState
                               //     state.labels?.defaultLocale.keyType ??
                               Constants.keyType,
                               isMandatory: true,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite14,
                             ),
                             BaseDropDown().getDropDown(
-                                isDisabled: isReadOnly,
-                                textController: keyTypeController,
-                                items: keyTypeDropDownValues,
-                                initialValue: state.model.keyType.toString(),
-                                onTap: () {
-                                  if (isReadOnly) {
-                                    BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues: keyTypeDropDownValues
-                                            .map((label) => label.key)
-                                            .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              keyTypeDropDownValues.firstWhere(
+                              isDisabled: isReadOnly,
+                              textController: keyTypeController,
+                              items: keyTypeDropDownValues,
+                              initialValue: state.model.keyType.toString(),
+                              onTap: () {
+                                if (isReadOnly) {
+                                  BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues: keyTypeDropDownValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel = keyTypeDropDownValues
+                                          .firstWhere(
                                             (label) => label.key == value,
                                             orElse: () =>
                                                 const Label(key: '', value: ''),
                                           );
-                                          BlocProvider.of<
-                                                      KeyLossDestructionDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  keyType: int.tryParse(
-                                                      selectedLabel.value));
-                                        });
-                                  }
-                                }),
+                                      BlocProvider.of<
+                                            KeyLossDestructionDetailsCubit
+                                          >(context)
+                                          .updateDropdownValues(
+                                            keyType: int.tryParse(
+                                              selectedLabel.value,
+                                            ),
+                                          );
+                                    },
+                                  );
+                                }
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             ///Type
@@ -332,49 +353,55 @@ class _KeyLossDestructionDetailsViewState
                               //  state.labels?.defaultLocale.type ??
                               Constants.type,
                               isMandatory: true,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite14,
                             ),
                             BaseDropDown().getDropDown(
-                                isDisabled: true,
-                                textController: typeController,
-                                items: typesDropDownValues,
-                                initialValue: '${state.model.type}',
-                                onTap: () {
-                                  if (!isDisabled) {
-                                    BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues: typesDropDownValues
-                                            .map((label) => label.key)
-                                            .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              typesDropDownValues.firstWhere(
+                              isDisabled: true,
+                              textController: typeController,
+                              items: typesDropDownValues,
+                              initialValue: '${state.model.type}',
+                              onTap: () {
+                                if (!isDisabled) {
+                                  BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues: typesDropDownValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel = typesDropDownValues
+                                          .firstWhere(
                                             (label) => label.key == value,
                                             orElse: () =>
                                                 const Label(key: '', value: ''),
                                           );
-                                          BlocProvider.of<
-                                                      KeyLossDestructionDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  type: int.tryParse(
-                                                      selectedLabel.value));
-                                        });
-                                  }
-                                }),
+                                      BlocProvider.of<
+                                            KeyLossDestructionDetailsCubit
+                                          >(context)
+                                          .updateDropdownValues(
+                                            type: int.tryParse(
+                                              selectedLabel.value,
+                                            ),
+                                          );
+                                    },
+                                  );
+                                }
+                              },
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             if (state.model.type ==
                                 ConstantsIntValue.keyDamageHistoryInt) ...[
                               /// SRH
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.srh ??
-                                  //     state.labels?.defaultLocale.srh ??
-                                  Constants.srh,
-                                  Styles.textStyleBlack14,
-                                  isMandatory: true),
+                                // state.labels?.locale.srh ??
+                                //     state.labels?.defaultLocale.srh ??
+                                Constants.srh,
+                                Styles.textStyleWhite14,
+                                isMandatory: true,
+                              ),
                               TextFieldAddButton(
-                                title: state.model.srh?.userInfo ??
+                                title:
+                                    state.model.srh?.userInfo ??
                                     state.model.srh?.name,
                                 height: 60,
                                 isDisableColor: isReadOnly,
@@ -385,25 +412,21 @@ class _KeyLossDestructionDetailsViewState
                                     users: state.srh,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<
-                                                  KeyLossDestructionDetailsCubit>(
-                                              context)
-                                          .updateDropdownValues(
-                                        srh: user,
-                                      );
+                                            KeyLossDestructionDetailsCubit
+                                          >(context)
+                                          .updateDropdownValues(srh: user);
                                     },
                                     locationId: 0,
                                     isDbUser: false,
                                     functionToCall: (BaseUser user) {
                                       BlocProvider.of<
-                                                  KeyLossDestructionDetailsCubit>(
-                                              context)
-                                          .updateDropdownValues(
-                                        srh: user,
-                                      );
+                                            KeyLossDestructionDetailsCubit
+                                          >(context)
+                                          .updateDropdownValues(srh: user);
                                       // refresh the list
                                       BlocProvider.of<
-                                                  KeyLossDestructionDetailsCubit>(
-                                              context)
+                                            KeyLossDestructionDetailsCubit
+                                          >(context)
                                           .refreshList();
                                     },
                                   );
@@ -412,17 +435,19 @@ class _KeyLossDestructionDetailsViewState
 
                               /// Details of Lost Key
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.additionalInformation ??
-                                  //     state.labels?.defaultLocale
-                                  //         .additionalInformation ??
-                                  Constants.detailsOfLostKey,
-                                  Styles.textStyleBlack14),
+                                // state.labels?.locale.additionalInformation ??
+                                //     state.labels?.defaultLocale
+                                //         .additionalInformation ??
+                                Constants.detailsOfLostKey,
+                                Styles.textStyleWhite14,
+                              ),
                               CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
+                                height * 0.001,
+                              ),
                               FlutterInputField(
                                 lineHeight: 6,
                                 characterLimit:
-                                Constants.characterLimitDescTextFormField,
+                                    Constants.characterLimitDescTextFormField,
                                 initialValue: state.model.lostKeyDetails,
                                 textFormKey: Keys.additionInitiativesKey,
                                 hintText: Constants.informationhere,
@@ -448,11 +473,12 @@ class _KeyLossDestructionDetailsViewState
                                 // state.labels?.locale.securityManager ??
                                 //     state.labels?.defaultLocale.securityManager ??
                                 Constants.securityManager,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite14,
                                 isMandatory: true,
                               ),
                               TextFieldAddButton(
-                                title: state.model.securityManager?.userInfo ??
+                                title:
+                                    state.model.securityManager?.userInfo ??
                                     state.model.securityManager?.name,
                                 height: 70,
                                 isDisableColor: isReadOnly,
@@ -465,25 +491,25 @@ class _KeyLossDestructionDetailsViewState
                                       users: state.securityManager,
                                       onTap: (BaseUser user) {
                                         BlocProvider.of<
-                                                    KeyLossDestructionDetailsCubit>(
-                                                context)
+                                              KeyLossDestructionDetailsCubit
+                                            >(context)
                                             .updateDropdownValues(
-                                          securityManager: user,
-                                        );
+                                              securityManager: user,
+                                            );
                                       },
                                       locationId: 0,
                                       isDbUser: false,
                                       functionToCall: (BaseUser user) {
                                         BlocProvider.of<
-                                                    KeyLossDestructionDetailsCubit>(
-                                                context)
+                                              KeyLossDestructionDetailsCubit
+                                            >(context)
                                             .updateDropdownValues(
-                                          securityManager: user,
-                                        );
+                                              securityManager: user,
+                                            );
                                         // refresh the list
                                         BlocProvider.of<
-                                                    KeyLossDestructionDetailsCubit>(
-                                                context)
+                                              KeyLossDestructionDetailsCubit
+                                            >(context)
                                             .refreshList();
                                       },
                                     );
@@ -498,7 +524,7 @@ class _KeyLossDestructionDetailsViewState
                                 //     state.labels?.defaultLocale.destructionReason ??
                                 Constants.destructionReason,
                                 isMandatory: true,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite14,
                               ),
                               TextFieldAddButton(
                                 title: state.model.destructionReason?.name,
@@ -513,10 +539,11 @@ class _KeyLossDestructionDetailsViewState
                                       organisations: state.destructionReasons,
                                       onTap: (Organisation department) {
                                         BlocProvider.of<
-                                                    KeyLossDestructionDetailsCubit>(
-                                                context)
+                                              KeyLossDestructionDetailsCubit
+                                            >(context)
                                             .updateDropdownValues(
-                                                destructionReason: department);
+                                              destructionReason: department,
+                                            );
                                       },
                                     );
                                   }
@@ -528,11 +555,12 @@ class _KeyLossDestructionDetailsViewState
 
                             /// No. of  Keys
                             CommonWidgets.textDisplay(
-                                //state.labels?.locale.employeeCode ??
-                                //state.labels?.defaultLocale.employeeCode ??
-                                Constants.noOfKeys,
-                                isMandatory: true,
-                                Styles.textStyleBlack14),
+                              //state.labels?.locale.employeeCode ??
+                              //state.labels?.defaultLocale.employeeCode ??
+                              Constants.noOfKeys,
+                              isMandatory: true,
+                              Styles.textStyleWhite14,
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               textInputType: TextInputType.number,
@@ -561,16 +589,17 @@ class _KeyLossDestructionDetailsViewState
 
                             /// Additional Information
                             CommonWidgets.textDisplay(
-                                // state.labels?.locale.additionalInformation ??
-                                //     state.labels?.defaultLocale
-                                //         .additionalInformation ??
-                                Constants.additionalinformation,
-                                Styles.textStyleBlack14),
+                              // state.labels?.locale.additionalInformation ??
+                              //     state.labels?.defaultLocale
+                              //         .additionalInformation ??
+                              Constants.additionalinformation,
+                              Styles.textStyleWhite14,
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               lineHeight: 6,
                               characterLimit:
-                              Constants.characterLimitDescTextFormField,
+                                  Constants.characterLimitDescTextFormField,
                               initialValue: state.model.additionalInformation,
                               textFormKey: Keys.additionInitiativesKey,
                               hintText: Constants.informationhere,
@@ -595,36 +624,39 @@ class _KeyLossDestructionDetailsViewState
                               //     widget.type ==
                               //         ConstantsIntValue.keyDamageHistoryInt) ...[
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.investigationRequired ??
-                                  //     state.labels?.defaultLocale
-                                  //         .investigationRequired ??
-                                  Constants.investigationRequired,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                // state.labels?.locale.investigationRequired ??
+                                //     state.labels?.defaultLocale
+                                //         .investigationRequired ??
+                                Constants.investigationRequired,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
                               RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.investigationRequired ? 1 : 0,
-                                  onChangedYes: isReadOnly
-                                      ? null
-                                      : (val) {
-                                          state.model.investigationRequired =
-                                              true;
-                                          BlocProvider.of<
-                                                      KeyLossDestructionDetailsCubit>(
-                                                  context)
-                                              .onCheckBoxChange(state.model);
-                                        },
-                                  onChangedNo: isReadOnly
-                                      ? null
-                                      : (val) {
-                                          state.model.investigationRequired =
-                                              false;
-                                          BlocProvider.of<
-                                                      KeyLossDestructionDetailsCubit>(
-                                                  context)
-                                              .onCheckBoxChange(state.model);
-                                        }),
+                                status: state.model.status ?? 0,
+                                selectedValue: state.model.investigationRequired
+                                    ? 1
+                                    : 0,
+                                onChangedYes: isReadOnly
+                                    ? null
+                                    : (val) {
+                                        state.model.investigationRequired =
+                                            true;
+                                        BlocProvider.of<
+                                              KeyLossDestructionDetailsCubit
+                                            >(context)
+                                            .onCheckBoxChange(state.model);
+                                      },
+                                onChangedNo: isReadOnly
+                                    ? null
+                                    : (val) {
+                                        state.model.investigationRequired =
+                                            false;
+                                        BlocProvider.of<
+                                              KeyLossDestructionDetailsCubit
+                                            >(context)
+                                            .onCheckBoxChange(state.model);
+                                      },
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
                             if (state.model.investigationRequired) ...[
@@ -632,20 +664,21 @@ class _KeyLossDestructionDetailsViewState
                                 alignment: Alignment.topLeft,
                                 child: Text(
                                   Constants.incident,
-                                  style: Styles.styleHeaderGreyText16,
+                                  style: Styles.styleHeaderWhiteText16,
                                 ),
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                               GestureDetector(
                                 onTap: () async {
                                   NavigatorState nav = Navigator.of(context);
-                                  bool isSaveSuccess = await BlocProvider.of<
-                                              KeyLossDestructionDetailsCubit>(
-                                          context)
-                                      .submitForm(
-                                    isSaveOnly: true,
-                                    navigateToNextScreen: true,
-                                  );
+                                  bool isSaveSuccess =
+                                      await BlocProvider.of<
+                                            KeyLossDestructionDetailsCubit
+                                          >(context)
+                                          .submitForm(
+                                            isSaveOnly: true,
+                                            navigateToNextScreen: true,
+                                          );
                                   if (!isSaveSuccess) {
                                     return;
                                   }
@@ -666,7 +699,7 @@ class _KeyLossDestructionDetailsViewState
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
                                       colorFilter: const ColorFilter.mode(
-                                        AppColors.navigationSkyBlueColor,
+                                        AppColors.lavender,
                                         BlendMode.srcIn,
                                       ),
                                       // color: AppColors.navigationSkyBlueColor,
@@ -675,7 +708,7 @@ class _KeyLossDestructionDetailsViewState
                                     const Text(
                                       'Add/View Incident(S)',
                                       style: TextStyle(
-                                        color: AppColors.navigationSkyBlueColor,
+                                        color: AppColors.lavender,
                                         decoration: TextDecoration.underline,
                                       ),
                                     ),
@@ -687,24 +720,28 @@ class _KeyLossDestructionDetailsViewState
                             if (state.model.id != null) ...[
                               /// Modified By
                               CommonWidgets.horizentaltextHandling(
-                                  // state.labels?.locale.modifiedBy ??
-                                  //     state.labels?.defaultLocale.modifiedBy ??
-                                  Constants.modifiedBy,
-                                  isMandatory: true,
-                                  '${state.model.modifiedBy ?? ''} '),
+                                // state.labels?.locale.modifiedBy ??
+                                //     state.labels?.defaultLocale.modifiedBy ??
+                                Constants.modifiedBy,
+                                isMandatory: true,
+                                '${state.model.modifiedBy ?? ''} ',
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Modified On
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.modifiedDate ??
-                                  //     state.labels?.defaultLocale.modifiedDate ??
-                                  Constants.modifiedOn,
-                                  isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                // state.labels?.locale.modifiedDate ??
+                                //     state.labels?.defaultLocale.modifiedDate ??
+                                Constants.modifiedOn,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
                               CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
+                                height * 0.001,
+                              ),
                               BaseDate().creationDateDisplay(
-                                  state.model.modifiedDate ?? ''),
+                                state.model.modifiedDate ?? '',
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
 
@@ -712,7 +749,10 @@ class _KeyLossDestructionDetailsViewState
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                if (!isReadOnly) ...[cancelButtonDisplay(),submitButtonDisplay()],
+                                if (!isReadOnly) ...[
+                                  cancelButtonDisplay(),
+                                  submitButtonDisplay(),
+                                ],
                               ],
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.04),
@@ -723,23 +763,21 @@ class _KeyLossDestructionDetailsViewState
                   ),
                 ),
               ),
-
             ),
             if (isReadOnly) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
+                  color: AppColors.lavender,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(00.0)),
+                      top: Radius.circular(00.0),
+                    ),
                   ),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    cancelButtonDisplay(),
-                  ],
+                  children: [cancelButtonDisplay()],
                 ),
               ),
               CommonWidgets.verticalSpacerWidget(height * 0.03),
@@ -813,8 +851,9 @@ class _KeyLossDestructionDetailsViewState
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-        BlocProvider.of<KeyLossDestructionDetailsCubit>(context)
-            .submitForm(isSaveOnly: false);
+        BlocProvider.of<KeyLossDestructionDetailsCubit>(
+          context,
+        ).submitForm(isSaveOnly: false);
       },
     );
   }

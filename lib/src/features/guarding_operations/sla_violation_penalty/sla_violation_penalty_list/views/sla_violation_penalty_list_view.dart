@@ -3,9 +3,7 @@ import '../../services/sla_violation_penalty_services.dart';
 import '../bloc/sla_violation_penalty_list_bloc.dart';
 
 class SLAViolationPenaltyListView extends StatefulWidget {
-  const SLAViolationPenaltyListView({
-    super.key,
-  });
+  const SLAViolationPenaltyListView({super.key});
 
   @override
   State<SLAViolationPenaltyListView> createState() =>
@@ -20,9 +18,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
   @override
   void initState() {
     super.initState();
-    context.read<SLAViolationPenaltyListBloc>().add(
-          const InitializeValues(),
-        );
+    context.read<SLAViolationPenaltyListBloc>().add(const InitializeValues());
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -40,18 +36,19 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context.read<SLAViolationPenaltyListBloc>().add(FetchData(
+      context.read<SLAViolationPenaltyListBloc>().add(
+        FetchData(
           startPos: pageNumber,
           maxPos: Constants.maxResults,
           newSearch: false,
-          filters: BaseFilterModel()));
+          filters: BaseFilterModel(),
+        ),
+      );
     }
   }
 
   Future<void> _onRefresh() async {
-    context.read<SLAViolationPenaltyListBloc>().add(
-          const RefreshList(),
-        );
+    context.read<SLAViolationPenaltyListBloc>().add(const RefreshList());
     await Future.delayed(const Duration(milliseconds: 2000));
   }
 
@@ -65,29 +62,31 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     double height = size.height;
-    return BlocConsumer<SLAViolationPenaltyListBloc,
-        SLAViolationPenaltyListState>(
+    return BlocConsumer<
+      SLAViolationPenaltyListBloc,
+      SLAViolationPenaltyListState
+    >(
       listener: (context, state) {
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
       },
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: AppColors.cardBgColor,
+          backgroundColor: AppColors.lavender,
           floatingActionButton:
               state.extraProperties?.hasWritePermission ?? false
-                  ? Flutterfloatingbutton(
-                      backgroundColor: AppColors.navigationSkyBlueColor,
-                      foregroundColor: AppColors.backgroundWhiteColor,
-                      onPressed: () => {
-                        Navigator.pushNamed(
-                            context, slaViolationPenaltyDetailsRoute,
-                            arguments: {
-                              "title": Constants.slaViolationPenaltyTitle,
-                            })
-                      },
-                    )
-                  : const SizedBox(),
+              ? Flutterfloatingbutton(
+                  backgroundColor: AppColors.navigationSkyBlueColor,
+                  foregroundColor: AppColors.backgroundWhiteColor,
+                  onPressed: () => {
+                    Navigator.pushNamed(
+                      context,
+                      slaViolationPenaltyDetailsRoute,
+                      arguments: {"title": Constants.slaViolationPenaltyTitle},
+                    ),
+                  },
+                )
+              : const SizedBox(),
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: Constants.slaViolationPenaltyTitle,
@@ -102,24 +101,23 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
           body: Container(
             margin: allMargin16,
             decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhiteColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20.0)),
-                )),
+              color: AppColors.backgroundWhiteColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+              ),
+            ),
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 BaseSearchWidget(
                   applySearchFilters: applySearchFilters,
                   applyFilters: applyFilters,
-                  commonFilters: state.commonFilters ??
-                      CommonFilters(
-                        statuses: [],
-                        regions: [],
-                      ),
+                  commonFilters:
+                      state.commonFilters ??
+                      CommonFilters(statuses: [], regions: []),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
+
                 // if (state.status == FormStatus.loading) ...[
                 //   CommonWidgets.verticalSpacerWidget(height * 0.01),
                 //   const BaseLoader(),
@@ -143,7 +141,6 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                 //   CommonWidgets.verticalSpacerWidget(height * 0.1),
                 //   if (state.status != FormStatus.loading) const NoRecordFoundWidget(),
                 // ],
-
                 if (state.status == FormStatus.loading) ...[
                   CommonWidgets.verticalSpacerWidget(height * 0.01),
                   const BaseLoader(),
@@ -152,7 +149,10 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                 // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                 // Text('state.status=====${state.status}'),
                 UtilsCommon().showNoRecordWidget(
-                    state: state, height: height, items: state.items),
+                  state: state,
+                  height: height,
+                  items: state.items,
+                ),
 
                 Expanded(
                   child: CustomMaterialIndicator(
@@ -172,54 +172,87 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                       itemBuilder: (context, index) {
                         List<Label> labels = [];
                         if (index < state.items.length) {
-                          labels.add(Label(
-                              key: state.labels?.locale.entrySecurity ??
+                          labels.add(
+                            Label(
+                              key:
+                                  state.labels?.locale.entrySecurity ??
                                   state.labels?.defaultLocale.entrySecurity ??
                                   Constants.createdby,
                               value:
-                                  '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
-                          labels.add(Label(
-                              key: state.labels?.locale.locationRegion ??
+                                  '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}',
+                            ),
+                          );
+                          labels.add(
+                            Label(
+                              key:
+                                  state.labels?.locale.locationRegion ??
                                   state.labels?.defaultLocale.locationRegion ??
                                   Constants.region,
-                              value: state.items[index].locationRegion?.name ??
-                                  ''));
-                          labels.add(Label(
-                              key: state.labels?.locale.location ??
+                              value:
+                                  state.items[index].locationRegion?.name ?? '',
+                            ),
+                          );
+                          labels.add(
+                            Label(
+                              key:
+                                  state.labels?.locale.location ??
                                   state.labels?.defaultLocale.location ??
                                   Constants.location,
-                              value: state.items[index].location?.name ?? ''));
-                          labels.add(Label(
-                              key: state.labels?.locale.slNo ??
+                              value: state.items[index].location?.name ?? '',
+                            ),
+                          );
+                          labels.add(
+                            Label(
+                              key:
+                                  state.labels?.locale.slNo ??
                                   state.labels?.defaultLocale.slNo ??
                                   Constants.slno,
-                              value: state.items[index].slNo ?? ''));
-                          labels.add(Label(
-                              key: state.labels?.locale.inputDate ??
+                              value: state.items[index].slNo ?? '',
+                            ),
+                          );
+                          labels.add(
+                            Label(
+                              key:
+                                  state.labels?.locale.inputDate ??
                                   state.labels?.defaultLocale.inputDate ??
                                   Constants.dateofcreation,
                               value: state.items[index].inputDate != null
                                   ? Utils.timestampToDateConversion(
                                       int.parse(
-                                          state.items[index].inputDate ?? '0'),
-                                      Constants.twentyFourHourDateTimeFormat)
-                                  : ''));
-                          labels.add(Label(
-                              key: state.labels?.locale.entity ??
+                                        state.items[index].inputDate ?? '0',
+                                      ),
+                                      Constants.twentyFourHourDateTimeFormat,
+                                    )
+                                  : '',
+                            ),
+                          );
+                          labels.add(
+                            Label(
+                              key:
+                                  state.labels?.locale.entity ??
                                   state.labels?.defaultLocale.entity ??
                                   Constants.entity,
-                              value: state.items[index].entitiesInfo ?? ''));
-                          labels.add(Label(
-                              key: state.labels?.locale.typeOfService ??
+                              value: state.items[index].entitiesInfo ?? '',
+                            ),
+                          );
+                          labels.add(
+                            Label(
+                              key:
+                                  state.labels?.locale.typeOfService ??
                                   state.labels?.defaultLocale.typeOfService ??
                                   Constants.typeOfService,
-                              value:
-                                  state.items[index].typeOfServiceInfo ?? ''));
-                          labels.add(Label(
-                              key: state.labels?.locale.vendor ??
+                              value: state.items[index].typeOfServiceInfo ?? '',
+                            ),
+                          );
+                          labels.add(
+                            Label(
+                              key:
+                                  state.labels?.locale.vendor ??
                                   state.labels?.defaultLocale.vendor ??
                                   Constants.vendor,
-                              value: state.items[index].vendorInfo ?? ''));
+                              value: state.items[index].vendorInfo ?? '',
+                            ),
+                          );
                           return index >= state.items.length
                               ? const BaseLoader()
                               : BaseListTileItem(
@@ -245,17 +278,20 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                                       },
                                     );
                                   },
-                                  showEditButton: state.items[index].status !=
+                                  showEditButton:
+                                      state.items[index].status !=
                                           ConstantsIntValue
                                               .slaStatusFinalized &&
                                       state.items[index].status !=
                                           ConstantsIntValue.cancelledStatus,
                                   onEditTap: (selectedIndex) {
                                     getById(
-                                        state.extraProperties
-                                                ?.hasWritePermission ??
-                                            false,
-                                        state.items[index].id ?? 0);
+                                      state
+                                              .extraProperties
+                                              ?.hasWritePermission ??
+                                          false,
+                                      state.items[index].id ?? 0,
+                                    );
                                   },
                                   onViewTap: (selectedIndex) {
                                     showDialog(
@@ -279,9 +315,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                         }
 
                         // Handle the case where index is out of bounds
-                        return const Center(
-                          child: SizedBox(),
-                        );
+                        return const Center(child: SizedBox());
                       },
                     ),
                   ),
@@ -297,14 +331,16 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
   getById(bool hasWritePermission, int id) async {
     showLoadingDialog(context);
 
-    SLAViolationPenaltyModel model =
-        await SLAViolationPenaltyServices().getGvpById(id);
+    SLAViolationPenaltyModel model = await SLAViolationPenaltyServices()
+        .getGvpById(id);
 
     editDataLoading(model, hasWritePermission);
   }
 
   void editDataLoading(
-      SLAViolationPenaltyModel? model, bool hasWritePermission) {
+    SLAViolationPenaltyModel? model,
+    bool hasWritePermission,
+  ) {
     dismissLoadingDialog(context);
     if (model != null) {
       Navigator.pushNamed(
@@ -313,16 +349,15 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
         arguments: {
           "model": model,
           "title": Constants.slaViolationPenaltyTitle,
-          ConstantsArgument.extraProperties:
-              ExtraProperties(hasWritePermission: hasWritePermission),
+          ConstantsArgument.extraProperties: ExtraProperties(
+            hasWritePermission: hasWritePermission,
+          ),
         },
       );
     }
   }
 
-  void applySearchFilters(
-    FilterCriteria model,
-  ) {
+  void applySearchFilters(FilterCriteria model) {
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<SLAViolationPenaltyListBloc>(context).add(
@@ -330,17 +365,16 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
     );
   }
 
-  void applyFilters(
-    Filters model,
-  ) {
+  void applyFilters(Filters model) {
     filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
 
     BlocProvider.of<SLAViolationPenaltyListBloc>(context).add(
       FetchData(
-          startPos: 0,
-          maxPos: Constants.maxResults,
-          newSearch: true,
-          filters: filters),
+        startPos: 0,
+        maxPos: Constants.maxResults,
+        newSearch: true,
+        filters: filters,
+      ),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

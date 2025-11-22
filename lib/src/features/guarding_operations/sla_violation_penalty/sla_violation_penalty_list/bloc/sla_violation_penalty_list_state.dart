@@ -9,7 +9,7 @@ class SLAViolationPenaltyListState extends Equatable {
   final CommonFilters? commonFilters;
   final Locations? locations;
   final ExtraProperties? extraProperties;
-
+  final DisplayMenu? displayMenu;
   const SLAViolationPenaltyListState({
     this.items = const <SLAViolationPenaltyModel>[],
     this.hasReachedMax = false,
@@ -19,6 +19,7 @@ class SLAViolationPenaltyListState extends Equatable {
     this.locations,
     this.commonFilters,
     this.extraProperties,
+    this.displayMenu,
   });
 
   SLAViolationPenaltyListState copyWith({

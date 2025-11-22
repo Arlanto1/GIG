@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
@@ -85,7 +86,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
       log('-k desc--${state.keyDescriptions?.length}---');
 
       return Scaffold(
-        backgroundColor: AppColors.cardBgColor,
+        backgroundColor: AppColors.lavender,
         floatingActionButton: !(widget.extraProperties != null &&
                     !widget.extraProperties!.hasWritePermission!) &&
                 widget.parentStatus == 0 &&
@@ -187,9 +188,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     // }
 
     return Container(
-      margin: allMargin16,
       decoration: const ShapeDecoration(
-          color: AppColors.backgroundWhiteColor,
+          color: AppColors.lavender,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
           )),
@@ -248,133 +248,196 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                 value: state.items[index].damaged.toString(),
               ),
             );
-            return index >= state.items.length
-                ? const BaseLoader()
-                : BaseListTileItem(
-                    id: state.items[index].id,
-                    labels: labels,
-                    isKeyManagementIssuanceStatus: true,
-                    onTap: (selectedIndex) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return BasePopUpItems(
-                            id: state.items[selectedIndex].id.toString(),
-                            labels: labels,
-                          );
-                        },
-                      );
-                    },
-                    showEditButton: !showNonEditIcon,
-                    onEditTap: (selectedIndex) async {
-                      KeyIssuanceProcessRecord keyIssuanceProcessModel =
-                          await KeyManagementIssuanceServices()
-                              .getIssuanceProcessById(
-                                  state.items[index].id ?? 0);
-
-                      /// Get Key Description
-                      bool isMasterKey =
-                          keyIssuanceProcessModel.kmId == 1 ? true : false;
-                      Organisation selectedKeyDescription =
-                          await KeyManagementIssuanceServices().getKeyDescById(
-                              id: keyIssuanceProcessModel.kmId!,
-                              isMasterKey: isMasterKey);
-
-                      List<Organisation> keyDescriptions =
-                          await KeyManagementIssuanceServices()
-                              .getKeyDescriptions(
-                        locationId: widget.locationId,
-                        isMasterKey: isMasterKey,
-                        kmIssuanceId: widget.parentId,
-                      );
-
-                      log('--state.keyDescriptions--onEditTap--${state.keyDescriptions?.length}---');
-
-                      showAddKeyIssuanceProcessPopUp(
-                          context: context,
-                          keyIssuanceProcessRecord: keyIssuanceProcessModel,
-                          keyDescriptions: keyDescriptions,
-                          selectedKeyDescription: selectedKeyDescription,
-                          parentStatus: widget.parentStatus,
-                          lock: widget.lock,
-                          state: state);
-                    },
-                    showViewButton: showIcons ? true : false,
-                    onViewTap: (selectedIndex) {
-                      getById(
-                          state.extraProperties?.hasWritePermission ?? false,
-                          state.items[index].kmId);
-                    },
-                    showLinkOffButton: showIcons ? true : false,
-                    onLinkOffTap: (selectedIndex) async {
-                      if (state.items[selectedIndex].lost == 0) {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text(Constants.valueNotAccepted),
-                              content: const Text(
-                                  Constants.enteredKeyLostValueNotAccepted),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: const Text(Constants.ok),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
+            return
+                // index >= state.items.length
+                //   ? const BaseLoader()
+                Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0xFF6474C6), Color(0xFF6474C6)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                    ),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(18),
+                        child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.white.withValues(alpha: 0.2),
+                                      Colors.transparent,
+                                      Colors.white.withValues(alpha: 0.2),
+                                      // Color(0xFF6474C6).withOpacity(0.14)
+                                    ],
+                                    stops: [0.02, 0.35, 1],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                  ),
+                                  borderRadius: BorderRadius.circular(27),
+                                  border: Border.all(
+                                    color: Colors.white.withValues(alpha: 0.80),
+                                    width: 0.8,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: const Color(0xFF6474C6)
+                                          .withValues(alpha: 0.09),
+                                      blurRadius: 12,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            );
-                          },
-                        );
-                      } else {
-                        getKeyHistoryById(
-                          state.extraProperties?.hasWritePermission ?? false,
-                          state.isEligibleToEdit ?? false,
-                          state.items[index].kmId,
-                          widget.parentId,
-                          state.items[selectedIndex].id,
-                          Constants.keyLostHistory,
-                          ConstantsIntValue.keyLostHistoryInt,
-                          keyIssuanceProcessModel: state.items[index],
-                        );
-                      }
-                    },
-                    showDeleteButton: showIcons ? true : false,
-                    onDeleteTap: (selectedIndex) async {
-                      if (state.items[selectedIndex].damaged == 0) {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text(Constants.valueNotAccepted),
-                              content: const Text(
-                                  Constants.enteredKeyDamageValueNotAccepted),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: const Text(Constants.ok),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
+                                // index >= state.list.length
+                                //   ? null
+                                child: BaseListTileItem(
+                                  id: state.items[index].id,
+                                  labels: labels,
+                                  isKeyManagementIssuanceStatus: true,
+                                  onTap: (selectedIndex) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext dialogContext) {
+                                        return BasePopUpItems(
+                                          id: state.items[selectedIndex].id
+                                              .toString(),
+                                          labels: labels,
+                                        );
+                                      },
+                                    );
                                   },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      } else {
-                        getKeyHistoryById(
-                          state.extraProperties?.hasWritePermission ?? false,
-                          state.isEligibleToEdit,
-                          state.items[index].kmId,
-                          widget.parentId,
-                          state.items[selectedIndex].id,
-                          Constants.keyDamageHistory,
-                          ConstantsIntValue.keyDamageHistoryInt,
-                          keyIssuanceProcessModel: state.items[index],
-                        );
-                      }
-                    },
-                    index: index,
-                  );
+                                  showEditButton: !showNonEditIcon,
+                                  onEditTap: (selectedIndex) async {
+                                    KeyIssuanceProcessRecord
+                                        keyIssuanceProcessModel =
+                                        await KeyManagementIssuanceServices()
+                                            .getIssuanceProcessById(
+                                                state.items[index].id ?? 0);
+
+                                    /// Get Key Description
+                                    bool isMasterKey =
+                                        keyIssuanceProcessModel.kmId == 1
+                                            ? true
+                                            : false;
+                                    Organisation selectedKeyDescription =
+                                        await KeyManagementIssuanceServices()
+                                            .getKeyDescById(
+                                                id: keyIssuanceProcessModel
+                                                    .kmId!,
+                                                isMasterKey: isMasterKey);
+
+                                    List<Organisation> keyDescriptions =
+                                        await KeyManagementIssuanceServices()
+                                            .getKeyDescriptions(
+                                      locationId: widget.locationId,
+                                      isMasterKey: isMasterKey,
+                                      kmIssuanceId: widget.parentId,
+                                    );
+
+                                    log('--state.keyDescriptions--onEditTap--${state.keyDescriptions?.length}---');
+
+                                    showAddKeyIssuanceProcessPopUp(
+                                        context: context,
+                                        keyIssuanceProcessRecord:
+                                            keyIssuanceProcessModel,
+                                        keyDescriptions: keyDescriptions,
+                                        selectedKeyDescription:
+                                            selectedKeyDescription,
+                                        parentStatus: widget.parentStatus,
+                                        lock: widget.lock,
+                                        state: state);
+                                  },
+                                  showViewButton: showIcons ? true : false,
+                                  onViewTap: (selectedIndex) {
+                                    getById(
+                                        state.extraProperties
+                                                ?.hasWritePermission ??
+                                            false,
+                                        state.items[index].kmId);
+                                  },
+                                  showLinkOffButton: showIcons ? true : false,
+                                  onLinkOffTap: (selectedIndex) async {
+                                    if (state.items[selectedIndex].lost == 0) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text(
+                                                Constants.valueNotAccepted),
+                                            content: const Text(Constants
+                                                .enteredKeyLostValueNotAccepted),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                child: const Text(Constants.ok),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    } else {
+                                      getKeyHistoryById(
+                                        state.extraProperties
+                                                ?.hasWritePermission ??
+                                            false,
+                                        state.isEligibleToEdit ?? false,
+                                        state.items[index].kmId,
+                                        widget.parentId,
+                                        state.items[selectedIndex].id,
+                                        Constants.keyLostHistory,
+                                        ConstantsIntValue.keyLostHistoryInt,
+                                        keyIssuanceProcessModel:
+                                            state.items[index],
+                                      );
+                                    }
+                                  },
+                                  showDeleteButton: showIcons ? true : false,
+                                  onDeleteTap: (selectedIndex) async {
+                                    if (state.items[selectedIndex].damaged ==
+                                        0) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text(
+                                                Constants.valueNotAccepted),
+                                            content: const Text(Constants
+                                                .enteredKeyDamageValueNotAccepted),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                child: const Text(Constants.ok),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    } else {
+                                      getKeyHistoryById(
+                                        state.extraProperties
+                                                ?.hasWritePermission ??
+                                            false,
+                                        state.isEligibleToEdit,
+                                        state.items[index].kmId,
+                                        widget.parentId,
+                                        state.items[selectedIndex].id,
+                                        Constants.keyDamageHistory,
+                                        ConstantsIntValue.keyDamageHistoryInt,
+                                        keyIssuanceProcessModel:
+                                            state.items[index],
+                                      );
+                                    }
+                                  },
+                                  index: index,
+                                )))));
           }
           return const SizedBox();
         },
@@ -442,8 +505,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     int kmId,
     KeyHistoryModel? keyHistoryModel,
     bool hasWritePermission,
-      bool? isEligibleToEdit,
-      int? id,
+    bool? isEligibleToEdit,
+    int? id,
     int? keyIssuanceId,
     String? title,
     int? type, {
@@ -469,7 +532,6 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
           ConstantsArgument.isEligibleToEdit: isEligibleToEdit,
           ConstantsArgument.locationId: widget.locationId,
           ConstantsArgument.parentStatus: widget.parentStatus,
-
         },
       );
     } else {

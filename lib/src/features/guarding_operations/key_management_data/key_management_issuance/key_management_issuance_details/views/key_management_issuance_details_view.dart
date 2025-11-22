@@ -113,15 +113,16 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       builder: (context, state) {
         DateTime now = DateTime.now();
         DateTime sixMonthsFromNow = now.add(const Duration(days: 180));
-         initialisedToDate = sixMonthsFromNow.toString();
+        initialisedToDate = sixMonthsFromNow.toString();
         // initialisedToDate = DateTime.fromMillisecondsSinceEpoch(
         //     (int.tryParse('${180}') ?? 0) * 1000)
         //     .toString();
         initialisedStartDate = DateTime.now().toString();
         log('initialisedStartDate ${initialisedStartDate}');
         log('initialisedToDate ${initialisedToDate}');
-        handedOverToController.text = state.model.employeeID!=null?
-            '${state.model.handedOverTo?.firstName ?? ''} ${state.model.handedOverTo?.lastName ?? ''}  (${state.model.handedOverTo?.email ?? ''})':'';
+        handedOverToController.text = state.model.employeeID != null
+            ? '${state.model.handedOverTo?.firstName ?? ''} ${state.model.handedOverTo?.lastName ?? ''}  (${state.model.handedOverTo?.email ?? ''})'
+            : '';
 
         if (state.model.status == -1 ||
             state.model.status == 3 ||
@@ -203,7 +204,10 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             // securitySignatureController: securitySignatureController,
             //   );
             // },
-            showSubmitButton: showSaveSubmitButton && state.status != FormStatus.loading? true : false,
+            showSubmitButton:
+                showSaveSubmitButton && state.status != FormStatus.loading
+                    ? true
+                    : false,
             onTapSubmit: () {
               BlocProvider.of<KeyManagementIssuanceDetailsCubit>(context)
                   .submitForm(
@@ -214,7 +218,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
               );
             },
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.lavender,
           body: getBodybuilder(state, height),
         );
       },
@@ -319,12 +323,14 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       if (!isDateSelectedByUser) {
         log('state.model.keyHandOverDue----${state.model.keyHandOverDue}');
         if (state.model.keyHandingOverDuration == 1 && !isDateSelectedByUser) {
-          dateTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
+          dateTime = DateTime(DateTime.now().year, DateTime.now().month,
+              DateTime.now().day, 23, 59, 59);
 
           keyReturnDueDateController.text = Utils.timestampToDateConversion(
               dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
           log('111 ${keyReturnDueDateController.text}');
-          state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
+          state.model.keyHandOverDue =
+              (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
         } else if (state.model.keyHandingOverDuration == 2 &&
             !isDateSelectedByUser) {
           if (DateTime.now().month < 6) {
@@ -336,44 +342,46 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
           }
           keyReturnDueDateController.text = Utils.timestampToDateConversion(
               dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
-          state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
-
+          state.model.keyHandOverDue =
+              (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
         } else if (state.model.keyHandingOverDuration == 1 &&
             !isDateSelectedByUser) {
-          dateTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
+          dateTime = DateTime(DateTime.now().year, DateTime.now().month,
+              DateTime.now().day, 23, 59, 59);
 
           keyReturnDueDateController.text = Utils.timestampToDateConversion(
               dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
-          state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
+          state.model.keyHandOverDue =
+              (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
           log('222 ${keyReturnDueDateController.text}');
-
-
-        }
-        else {
-          dateTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
+        } else {
+          dateTime = DateTime(DateTime.now().year, DateTime.now().month,
+              DateTime.now().day, 23, 59, 59);
 
           keyReturnDueDateController.text = Utils.timestampToDateConversion(
               dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
-          state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
+          state.model.keyHandOverDue =
+              (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
           log('333 ${keyReturnDueDateController.text}');
-
         }
         //
         // state.model.keyHandOverDue =
         //     Utils().formatTime(keyReturnDueDateController.text);
       }
-    }
-    else if (state.model.keyHandingOverDuration == 1 &&
-        !isDateSelectedByUser && ((state.model.status == 0 || state.model.status == null))) {
-      dateTime = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
+    } else if (state.model.keyHandingOverDuration == 1 &&
+        !isDateSelectedByUser &&
+        ((state.model.status == 0 || state.model.status == null))) {
+      dateTime = DateTime(DateTime.now().year, DateTime.now().month,
+          DateTime.now().day, 23, 59, 59);
 
       keyReturnDueDateController.text = Utils.timestampToDateConversion(
           dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
-      state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
+      state.model.keyHandOverDue =
+          (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
       log('444 ${keyReturnDueDateController.text}');
-    }
-    else if (state.model.keyHandingOverDuration == 2 &&
-        !isDateSelectedByUser && ((state.model.status == 0 || state.model.status == null))) {
+    } else if (state.model.keyHandingOverDuration == 2 &&
+        !isDateSelectedByUser &&
+        ((state.model.status == 0 || state.model.status == null))) {
       if (DateTime.now().month < 6) {
         // Set to June 30th of the current year
         dateTime = DateTime(DateTime.now().year, 6, 30);
@@ -383,10 +391,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
       }
       keyReturnDueDateController.text = Utils.timestampToDateConversion(
           dateTime.millisecondsSinceEpoch, Constants.fulldateFormat);
-      state.model.keyHandOverDue = (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
-
-    }
-    else {
+      state.model.keyHandOverDue =
+          (dateTime.millisecondsSinceEpoch ~/ 1000).toString();
+    } else {
       keyReturnDueDateController.text = Utils.timestampToDateConversion(
           int.tryParse(state.model.keyHandOverDue ?? '0'),
           Constants.fulldateFormat);
@@ -405,17 +412,18 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
     }
     initializeDates(state);
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.lavender,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
+              color: AppColors.lavender,
             ),
             Container(
               decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhiteColor,
+                color: AppColors.lavender,
+                // color: Colors.transparent,
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -447,11 +455,11 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     Constants.generalinformation,
-                                    style: Styles.styleHeaderGreyText16,
+                                    style: Styles.styleHeaderWhiteText16,
                                   ),
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Created By
                                 CommonWidgets.verticalTextHandling(
@@ -461,18 +469,18 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     isMandatory: true,
                                     '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Status
                                 CommonWidgets.textDisplay(
                                   state.labels?.locale.status ??
                                       state.labels?.defaultLocale.status ??
                                       Constants.status,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite14,
                                   isMandatory: true,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
+                                    height * 0.002),
                                 FlutterInputField(
                                   isEnable: false,
                                   isDisableColor: true,
@@ -491,30 +499,30 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   state.labels?.locale.createdDate ??
                                       state.labels?.defaultLocale.createdDate ??
                                       Constants.createDate,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite14,
                                   isMandatory: true,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
+                                    height * 0.002),
                                 datecreateWidgetdisplay(
                                     state.model.createdDate ?? ''),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Location
                                 CommonWidgets.textDisplay(
                                   state.labels?.locale.location ??
                                       state.labels?.defaultLocale.location ??
                                       Constants.location,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite14,
                                   isMandatory: true,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
+                                    height * 0.002),
                                 locationWidgetdislay(state),
 
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Sl No.
                                 CommonWidgets.horizentaltextHandling(
@@ -525,7 +533,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   isMandatory: true,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 if (state.model.status != null &&
                                     state.model.status != 0) ...[
@@ -536,14 +544,14 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                             .handedOverDate ??
                                         Constants.handedOverDate,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14,
+                                    Styles.textStyleWhite14,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001),
+                                      height * 0.002),
                                   datecreateWidgetdisplay(
                                       state.model.keyHandOverDate ?? ''),
                                   CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
+                                      height * 0.02),
                                 ],
                                 // BaseDate().datePickerWidgetLoading(
                                 //   textController: keyHandedOverDateController,
@@ -564,10 +572,10 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     state.labels?.locale.entities ??
                                         state.labels?.defaultLocale.entities ??
                                         Constants.entity,
-                                    Styles.textStyleBlack14,
+                                    Styles.textStyleWhite14,
                                     isMandatory: true),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
+                                    height * 0.002),
 
                                 BaseEntitiesSelection().entityDropDownSelection(
                                   context: context,
@@ -594,14 +602,14 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   },
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Department
                                 CommonWidgets.textDisplay(
                                   state.labels?.locale.department ??
                                       state.labels?.defaultLocale.department ??
                                       Constants.department,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite14,
                                   isMandatory: true,
                                 ),
                                 TextFieldAddButton(
@@ -640,7 +648,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   },
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Key Handing Over Duration
                                 CommonWidgets.textDisplay(
@@ -649,10 +657,10 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           .keyHandingOverDuration ??
                                       Constants.keyHandingOverDuration,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite14,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
+                                    height * 0.002),
                                 BaseDropDown().getDropDown(
                                   isDisabled: !isEnabled,
                                   textController:
@@ -712,10 +720,10 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           .keyHandOverDue ??
                                       Constants.keyReturnDueDate,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite14,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
+                                    height * 0.002),
 
                                 BaseDate().datePickerWidgetLoading(
                                   textController: keyReturnDueDateController,
@@ -755,11 +763,11 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                             .employeeType ??
                                         Constants.employeeType,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite14),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
+                                    height * 0.002),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
+                                    height * 0.002),
                                 BaseDropDown().getDropDown(
                                     isDisabled: !isEnabled,
                                     textController: employeeTypeController,
@@ -798,7 +806,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                       }
                                     }),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 if (employeeTypeController.text !=
                                     'CWR T2') ...[
@@ -808,7 +816,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           state.labels?.defaultLocale
                                               .employeeID ??
                                           Constants.employeeid,
-                                      Styles.textStyleBlack14,
+                                      Styles.textStyleWhite14,
                                       isMandatory: true),
                                   TextFieldAddButton(
                                     title: state.model.employeeID,
@@ -850,7 +858,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     },
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
+                                      height * 0.02),
 
                                   ///Handed Over To
                                   CommonWidgets.textDisplay(
@@ -859,9 +867,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                               .handedOverTo ??
                                           Constants.handedOverTo,
                                       isMandatory: true,
-                                      Styles.textStyleBlack14),
+                                      Styles.textStyleWhite14),
                                   CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001),
+                                      height * 0.002),
                                   FlutterInputField(
                                     controller: handedOverToController,
                                     textInputType: TextInputType.text,
@@ -874,7 +882,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     validateTextField: (String? user) {},
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
+                                      height * 0.02),
                                 ],
 
                                 if (employeeTypeController.text ==
@@ -888,7 +896,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                       isMandatory: false,
                                       Styles.textStyleBlack14),
                                   CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001),
+                                      height * 0.002),
                                   FlutterInputField(
                                     textInputType: TextInputType.text,
                                     initialValue: state.model.employeeID,
@@ -916,9 +924,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                               .handedOverTo ??
                                           Constants.handedOverTo,
                                       isMandatory: true,
-                                      Styles.textStyleBlack14),
+                                      Styles.textStyleWhite14),
                                   CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001),
+                                      height * 0.002),
                                   FlutterInputField(
                                     textInputType: TextInputType.text,
                                     initialValue: state.model.handedOverToCwrT2,
@@ -937,7 +945,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     validateTextField: (String? user) {},
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
+                                      height * 0.02),
 
                                   /// DB Sponser CWRT2
                                   CommonWidgets.textDisplay(
@@ -990,7 +998,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     },
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
+                                      height * 0.02),
                                 ],
 
                                 /// Security Signature
@@ -1026,7 +1034,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           Constants.totalAllocated,
                                       '${state.model.totalAllocated}'),
                                   CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
+                                      height * 0.02),
 
                                   /// Returned
                                   CommonWidgets.horizentaltextHandling(
@@ -1055,7 +1063,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           Constants.lost,
                                       '${state.model.totalLost ?? 0}'),
                                   CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
+                                      height * 0.02),
 
                                   /// Damaged
                                   CommonWidgets.horizentaltextHandling(
@@ -1064,7 +1072,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                           Constants.damaged,
                                       '${state.model.totalDamage ?? 0}'),
                                   CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
+                                      height * 0.02),
 
                                   /// Key Return Date And Time
                                   // Text('${state.model.keyReturnDateTime}'),
@@ -1076,14 +1084,16 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                             .keyReturnDateTime ??
                                         Constants.keyReturnDateAndTime,
                                     isMandatory: true,
-                                    Styles.textStyleBlack14,
+                                    Styles.textStyleWhite14,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   datecreateWidgetdisplay(
-                                      state.model.status! > 1 ? state.model.keyReturnDateTime ?? '' : ''),
+                                      state.model.status! > 1
+                                          ? state.model.keyReturnDateTime ?? ''
+                                          : ''),
                                   CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
+                                      height * 0.02),
 // ],
                                   /// Returned By Name
                                   CommonWidgets.textDisplay(
@@ -1092,9 +1102,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                               .returnedByName ??
                                           Constants.returnedByName,
                                       isMandatory: true,
-                                      Styles.textStyleBlack14),
+                                      Styles.textStyleWhite14),
                                   CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001),
+                                      height * 0.002),
                                   FlutterInputField(
                                     textInputType: TextInputType.text,
                                     initialValue: state.model.returnedByName,
@@ -1123,7 +1133,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     validateTextField: (String? user) {},
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
+                                      height * 0.02),
                                 ],
 
                                 /// Key Issuance Process
@@ -1131,11 +1141,11 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     Constants.keyIssuanceProcess,
-                                    style: Styles.styleHeaderGreyText16,
+                                    style: Styles.styleHeaderWhiteText16,
                                   ),
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
                               ],
                             ),
                           ],
@@ -1147,8 +1157,10 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                         NavigatorState nav = Navigator.of(context);
 
                         log('----1---');
-                        if ((state.model.status == 0 || state.model.status == null ||state.model.status == 1) && state.model.lock.isEmptyOrNull) {
-
+                        if ((state.model.status == 0 ||
+                                state.model.status == null ||
+                                state.model.status == 1) &&
+                            state.model.lock.isEmptyOrNull) {
                           bool isSaveSuccess = await BlocProvider.of<
                               KeyManagementIssuanceDetailsCubit>(
                             context,
@@ -1156,9 +1168,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             isSaveOnly: true,
                             navigateToNextScreen: true,
                             receiverSignatureController:
-                            receiverSignatureController,
+                                receiverSignatureController,
                             securitySignatureController:
-                            securitySignatureController,
+                                securitySignatureController,
                           );
                           log('----2---');
                           if (!isSaveSuccess) {
@@ -1188,7 +1200,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                           SvgPicture.asset(
                             AppIcon.pluscircle,
                             colorFilter: const ColorFilter.mode(
-                              AppColors.navigationSkyBlueColor,
+                              AppColors.white,
                               BlendMode.srcIn,
                             ),
                             // color: AppColors.navigationSkyBlueColor,
@@ -1197,7 +1209,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                           const Text(
                             'Add/View Key Issuance Process(S)',
                             style: TextStyle(
-                              color: AppColors.navigationSkyBlueColor,
+                              color: AppColors.white,
                               decoration: TextDecoration.underline,
                             ),
                           ),
@@ -1211,7 +1223,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                         // state.labels?.locale.date ??
                         //     state.labels?.defaultLocale.date ??
                         Constants.modifiedOn,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite14,
                         isMandatory: true,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -1262,7 +1274,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             Container(
               padding: const EdgeInsets.all(5.0),
               decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhiteColor,
+                color: AppColors.lavender,
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(00.0)),
@@ -1317,7 +1329,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
     return AbsorbPointer(
       absorbing: !state.model.lock.isEmptyOrNull ||
           state.model.status == 1 ||
-          state.model.status == -1 || state.model.status == 12,
+          state.model.status == -1 ||
+          state.model.status == 12,
 
       // state.model.status == ConstantsIntValue.closed ||
       //     state.model.status == ConstantsIntValue.issuanceHandedOverStatus,
@@ -1330,7 +1343,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                 children: [
                   CommonWidgets.textDisplay(
                     label,
-                    Styles.textStyleBlack14,
+                    Styles.textStyleWhite14,
                   ),
                   if (isMandatory) ...[
                     const Text(
@@ -1362,7 +1375,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                             }
                           },
                           iconSize: 20,
-                          color: Colors.grey,
+                          color: Colors.white,
                           icon: const Icon(Icons.refresh),
                         )
                       : SizedBox.fromSize(),
@@ -1380,7 +1393,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                   width: 1, // Border width
                 ),
               ),
-              height: 100,
+              height: 120,
               width: double.infinity,
               child: (!isEditable && isSigned)
                   ? Image.memory(
@@ -1395,7 +1408,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                     )
                   : Signature(
                       controller: controller,
-                      backgroundColor: Colors.white,
+                      backgroundColor: Colors.transparent,
                     ),
             ),
           ),

@@ -121,8 +121,14 @@ class _KeyManagementMasterDetailsViewState
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: showSaveSubmitButton && state.status != FormStatus.loading ? true : false,
-            showSubmitButton: showSaveSubmitButton && state.status != FormStatus.loading ? true : false,
+            showSaveButton:
+                showSaveSubmitButton && state.status != FormStatus.loading
+                    ? true
+                    : false,
+            showSubmitButton:
+                showSaveSubmitButton && state.status != FormStatus.loading
+                    ? true
+                    : false,
             showDisLikeButton: false,
             showLikeButton: false,
             pdfAPIName:
@@ -138,7 +144,7 @@ class _KeyManagementMasterDetailsViewState
                   .submitForm(isSaveOnly: false);
             },
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.lavender,
           body: getBodybuilder(state, height),
         );
       },
@@ -152,17 +158,17 @@ class _KeyManagementMasterDetailsViewState
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.lavender,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
+              color: AppColors.lavender,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
+                  color: AppColors.lavender,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -188,20 +194,20 @@ class _KeyManagementMasterDetailsViewState
                             alignment: Alignment.topLeft,
                             child: Text(
                               Constants.generalinformation,
-                              style: Styles.styleHeaderGreyText16,
+                              style: Styles.styleHeaderWhiteText16,
                             ),
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// Status
                           CommonWidgets.textDisplay(
                               state.labels?.locale.status ??
                                   state.labels?.defaultLocale.status ??
                                   Constants.status,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite14,
                               isMandatory: true),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          CommonWidgets.verticalSpacerWidget(height * 0.002),
+                          CommonWidgets.verticalSpacerWidget(height * 0.002),
                           BaseDropDown().getDropDown(
                             isDisabled: true,
                             textController: statusController,
@@ -233,7 +239,7 @@ class _KeyManagementMasterDetailsViewState
                               }
                             },
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// Created By
                           CommonWidgets.horizentaltextHandling(
@@ -242,7 +248,7 @@ class _KeyManagementMasterDetailsViewState
                                   Constants.createdby,
                               isMandatory: true,
                               '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// Date of creation
                           CommonWidgets.textDisplay(
@@ -250,11 +256,11 @@ class _KeyManagementMasterDetailsViewState
                                   state.labels?.defaultLocale.createdDate ??
                                   Constants.createDate,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
+                              Styles.textStyleWhite14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseDate().creationDateDisplay(
                               state.model.createdDate ?? ''),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// Location
                           CommonWidgets.textDisplay(
@@ -262,8 +268,8 @@ class _KeyManagementMasterDetailsViewState
                                   state.labels?.defaultLocale.location ??
                                   Constants.location,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              Styles.textStyleWhite14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.002),
                           BaseLocationDropdown().locationWidgetDisplay(
                               isEnabled: showSaveSubmitButton,
                               context: context,
@@ -276,7 +282,7 @@ class _KeyManagementMasterDetailsViewState
                                         context)
                                     .updateDropdownValues(location: location);
                               }),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// Entity
                           CommonWidgets.textDisplay(
@@ -284,9 +290,9 @@ class _KeyManagementMasterDetailsViewState
                                 state.labels?.defaultLocale.entities ??
                                 Constants.entity,
                             isMandatory: true,
-                            Styles.textStyleBlack14,
+                            Styles.textStyleWhite14,
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          CommonWidgets.verticalSpacerWidget(height * 0.002),
 
                           BaseEntitiesSelection().entityDropDownSelection(
                             context: context,
@@ -312,7 +318,7 @@ class _KeyManagementMasterDetailsViewState
                                   .refreshList();
                             },
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// Sl No.
                           CommonWidgets.horizentaltextHandling(
@@ -322,7 +328,7 @@ class _KeyManagementMasterDetailsViewState
                             state.model.slNo ?? '',
                             isMandatory: true,
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// Floor
                           CommonWidgets.textDisplay(
@@ -330,8 +336,8 @@ class _KeyManagementMasterDetailsViewState
                                   state.labels?.defaultLocale.floor ??
                                   Constants.floor,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              Styles.textStyleWhite14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.002),
                           FlutterInputField(
                             textInputType: TextInputType.text,
                             initialValue: state.model.floor,
@@ -348,7 +354,7 @@ class _KeyManagementMasterDetailsViewState
                             },
                             validateTextField: (String? user) {},
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// Key Type
                           CommonWidgets.textDisplay(
@@ -356,12 +362,13 @@ class _KeyManagementMasterDetailsViewState
                                 state.labels?.defaultLocale.keyType ??
                                 Constants.keyType,
                             isMandatory: true,
-                            Styles.textStyleBlack14,
+                            Styles.textStyleWhite14,
                           ),
                           TextFieldAddButton(
                             title: state.model.doorType?.name,
                             height: 70,
-                            isDisableColor: isReadOnly || state.model.status == -1,
+                            isDisableColor:
+                                isReadOnly || state.model.status == -1,
                             onTap: () {
                               if (showSaveSubmitButton) {
                                 BaseOrganisationDialog().departmentDialog(
@@ -396,7 +403,7 @@ class _KeyManagementMasterDetailsViewState
                               // leodepartmentsDialog(state);
                             },
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// Key Description
                           CommonWidgets.textDisplay(
@@ -404,8 +411,8 @@ class _KeyManagementMasterDetailsViewState
                                   state.labels?.defaultLocale.keyDescription ??
                                   Constants.keyDescription,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              Styles.textStyleWhite14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.002),
                           FlutterInputField(
                             textInputType: TextInputType.text,
                             initialValue: state.model.doorName,
@@ -422,7 +429,7 @@ class _KeyManagementMasterDetailsViewState
                             },
                             validateTextField: (String? user) {},
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// Door Has Access Control
                           CommonWidgets.textDisplay(
@@ -431,7 +438,7 @@ class _KeyManagementMasterDetailsViewState
                                       .doorAccessControl ??
                                   Constants.doorHasAccessControl,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
+                              Styles.textStyleWhite14),
                           RadioButtonsYesNo(
                               status: state.model.status ?? 0,
                               selectedValue:
@@ -461,7 +468,7 @@ class _KeyManagementMasterDetailsViewState
                                   state.labels?.defaultLocale.doorLockKey ??
                                   Constants.doorHasLockAndKeyMechanism,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
+                              Styles.textStyleWhite14),
                           RadioButtonsYesNo(
                               status: state.model.status ?? 0,
                               selectedValue: state.model.doorLockKey ? 1 : 0,
@@ -490,8 +497,8 @@ class _KeyManagementMasterDetailsViewState
                                   state.labels?.defaultLocale.keyNo ??
                                   Constants.keyNo,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              Styles.textStyleWhite14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.002),
                           FlutterInputField(
                             textInputType: TextInputType.text,
                             initialValue: state.model.keyNo,
@@ -507,7 +514,7 @@ class _KeyManagementMasterDetailsViewState
                             },
                             validateTextField: (String? user) {},
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// Key Tagging Done?
                           CommonWidgets.textDisplay(
@@ -515,7 +522,7 @@ class _KeyManagementMasterDetailsViewState
                                   state.labels?.defaultLocale.keyTagging ??
                                   Constants.keyTaggingDone,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
+                              Styles.textStyleWhite14),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseDropDown().getDropDown(
@@ -549,7 +556,7 @@ class _KeyManagementMasterDetailsViewState
                                       .requestFocus(noOfKeysFocusNode);
                                 }
                               }),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// No. of  Keys
                           CommonWidgets.textDisplay(
@@ -557,8 +564,8 @@ class _KeyManagementMasterDetailsViewState
                                   state.labels?.defaultLocale.noKeys ??
                                   Constants.noOfKeys,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              Styles.textStyleWhite14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.002),
                           FlutterInputField(
                             textInputType: TextInputType.number,
                             initialValue: '${state.model.noKeys ?? ''}',
@@ -582,7 +589,7 @@ class _KeyManagementMasterDetailsViewState
                             },
                             validateTextField: (String? user) {},
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// Number of  Master Keys
                           CommonWidgets.textDisplay(
@@ -590,14 +597,14 @@ class _KeyManagementMasterDetailsViewState
                                   state.labels?.defaultLocale.noMasterKey ??
                                   Constants.noOfMasterKeys,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              Styles.textStyleWhite14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.002),
                           FlutterInputField(
                             textInputType: TextInputType.number,
                             initialValue: '${state.model.noMasterKey ?? ''}',
                             textFormKey: Keys.guardingAgencyKey,
                             hintText: '',
-                            isEnable: !isReadOnly  && state.model.status != -1,
+                            isEnable: !isReadOnly && state.model.status != -1,
                             isDisableColor: isReadOnly,
                             onChange: (String value) {
                               state.model.noMasterKey = int.tryParse(value);
@@ -615,16 +622,16 @@ class _KeyManagementMasterDetailsViewState
                             },
                             validateTextField: (String? user) {},
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// Total Keys
                           CommonWidgets.textDisplay(
                               state.labels?.locale.total ??
                                   state.labels?.defaultLocale.total ??
                                   Constants.totalKeys,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite14,
                               isMandatory: true),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          CommonWidgets.verticalSpacerWidget(height * 0.002),
                           FlutterInputField(
                             textInputType: TextInputType.number,
                             controller: totalKeyController,
@@ -643,7 +650,7 @@ class _KeyManagementMasterDetailsViewState
                             },
                             validateTextField: (String? user) {},
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// How And Where The Keys Are Stored
                           CommonWidgets.textDisplay(
@@ -651,8 +658,8 @@ class _KeyManagementMasterDetailsViewState
                                   state.labels?.defaultLocale.keysStored ??
                                   Constants.howAndWhereTheKeysAreStored,
                               isMandatory: true,
-                              Styles.textStyleBlack14),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              Styles.textStyleWhite14),
+                          CommonWidgets.verticalSpacerWidget(height * 0.002),
                           FlutterInputField(
                             textInputType: TextInputType.text,
                             initialValue: state.model.keysStored,
@@ -668,7 +675,7 @@ class _KeyManagementMasterDetailsViewState
                             },
                             validateTextField: (String? user) {},
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           if (widget.model?.id != null) ...[
                             /// Modified Date
@@ -676,13 +683,13 @@ class _KeyManagementMasterDetailsViewState
                               state.labels?.locale.modifiedDate ??
                                   state.labels?.defaultLocale.modifiedDate ??
                                   Constants.modifiedOn,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite14,
                               isMandatory: true,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            CommonWidgets.verticalSpacerWidget(height * 0.002),
                             BaseDate().creationDateDisplay(
                                 state.model.modifiedDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Modified By
                             CommonWidgets.horizentaltextHandling(
@@ -691,7 +698,7 @@ class _KeyManagementMasterDetailsViewState
                                     Constants.modifiedBy,
                                 isMandatory: true,
                                 '${state.model.modifiedBy}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// No. keys issued
                             CommonWidgets.horizentaltextHandling(
@@ -700,7 +707,7 @@ class _KeyManagementMasterDetailsViewState
                                     Constants.noKeysIssued,
                                 isMandatory: true,
                                 ' ${state.model.noKeysIssued ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Number of Keys Available
                             CommonWidgets.horizentaltextHandling(
@@ -708,7 +715,7 @@ class _KeyManagementMasterDetailsViewState
                                     state.labels?.defaultLocale.available ??
                                     Constants.noOfKeysAvailable,
                                 '${state.model.available ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Number of Keys Returned
                             CommonWidgets.horizentaltextHandling(
@@ -716,7 +723,7 @@ class _KeyManagementMasterDetailsViewState
                                     state.labels?.defaultLocale.returned ??
                                     Constants.noOfKeysReturned,
                                 '${state.model.returned ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Number of Keys not Returned
                             CommonWidgets.horizentaltextHandling(
@@ -724,7 +731,7 @@ class _KeyManagementMasterDetailsViewState
                                     state.labels?.defaultLocale.notReturned ??
                                     Constants.noOfKeysNotReturned,
                                 '${state.model.notReturned ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Number of Keys Lost
                             CommonWidgets.horizentaltextHandling(
@@ -732,7 +739,7 @@ class _KeyManagementMasterDetailsViewState
                                     state.labels?.defaultLocale.lost ??
                                     Constants.noOfKeysLost,
                                 '${state.model.lost ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Number of Keys Damaged
                             CommonWidgets.horizentaltextHandling(
@@ -740,7 +747,7 @@ class _KeyManagementMasterDetailsViewState
                                     state.labels?.defaultLocale.damaged ??
                                     Constants.noOfKeysDamaged,
                                 '${state.model.damaged ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Number of Master Keys Issued
                             CommonWidgets.horizentaltextHandling(
@@ -749,7 +756,7 @@ class _KeyManagementMasterDetailsViewState
                                         .noKeysIssuedMaster ??
                                     Constants.noOfMasterKeysIssued,
                                 '${state.model.noKeysIssuedMaster ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Number of Master Keys Available
                             CommonWidgets.horizentaltextHandling(
@@ -758,7 +765,7 @@ class _KeyManagementMasterDetailsViewState
                                         .availableMaster ??
                                     Constants.noOfMasterKeysAvailable,
                                 '${state.model.availableMaster ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Number of Master Keys Returned
                             CommonWidgets.horizentaltextHandling(
@@ -767,7 +774,7 @@ class _KeyManagementMasterDetailsViewState
                                         .labels?.defaultLocale.returnedMaster ??
                                     Constants.noOfMasterKeysReturned,
                                 '${state.model.returnedMaster ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Number of Master Keys Not Returned
                             CommonWidgets.horizentaltextHandling(
@@ -776,7 +783,7 @@ class _KeyManagementMasterDetailsViewState
                                         .notReturnedMaster ??
                                     Constants.noOfMasterKeysNotReturned,
                                 '${state.model.notReturnedMaster ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Number of Master Keys Lost
                             CommonWidgets.horizentaltextHandling(
@@ -784,7 +791,7 @@ class _KeyManagementMasterDetailsViewState
                                     state.labels?.defaultLocale.lostMaster ??
                                     Constants.noOfMasterKeysLost,
                                 '${state.model.lostMaster ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Number of Master Keys Damaged
                             CommonWidgets.horizentaltextHandling(
@@ -792,7 +799,7 @@ class _KeyManagementMasterDetailsViewState
                                     state.labels?.defaultLocale.damagedMaster ??
                                     Constants.noOfMasterKeysDamaged,
                                 '${state.model.damagedMaster ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
                           ],
 
                           /// Lock Change History
@@ -805,18 +812,18 @@ class _KeyManagementMasterDetailsViewState
                               alignment: Alignment.topLeft,
                               child: Text(
                                 Constants.lockChangeHistory,
-                                style: Styles.styleHeaderGreyText16,
+                                style: Styles.styleHeaderWhiteText16,
                               ),
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             GestureDetector(
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
-                                if(showSaveSubmitButton) {
+                                if (showSaveSubmitButton) {
                                   bool isSaveSuccess = await BlocProvider.of<
-                                      KeyManagementMasterDetailsCubit>(
-                                      context)
+                                              KeyManagementMasterDetailsCubit>(
+                                          context)
                                       .submitForm(
                                     isSaveOnly: true,
                                     navigateToNextScreen: true,
@@ -837,8 +844,10 @@ class _KeyManagementMasterDetailsViewState
                                         state.model.lock,
                                     ConstantsArgument.isEligibleToEdit:
                                         state.model.isEligibleToEdit,
-                                    ConstantsArgument.parentStatus: state.model.status,
-                                    ConstantsArgument.locationId: state.model.location?.id,
+                                    ConstantsArgument.parentStatus:
+                                        state.model.status,
+                                    ConstantsArgument.locationId:
+                                        state.model.location?.id,
                                   },
                                 );
                               },
@@ -848,7 +857,7 @@ class _KeyManagementMasterDetailsViewState
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
                                     colorFilter: const ColorFilter.mode(
-                                      AppColors.navigationSkyBlueColor,
+                                      AppColors.white,
                                       BlendMode.srcIn,
                                     ),
                                     // color: AppColors.navigationSkyBlueColor,
@@ -857,7 +866,7 @@ class _KeyManagementMasterDetailsViewState
                                   const Text(
                                     'Add/View Lock Change History(S)',
                                     style: TextStyle(
-                                      color: AppColors.navigationSkyBlueColor,
+                                      color: AppColors.white,
                                       decoration: TextDecoration.underline,
                                     ),
                                   ),
@@ -865,14 +874,14 @@ class _KeyManagementMasterDetailsViewState
                               ),
                             ),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Key Lost History
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
                                 Constants.keyLostHistory,
-                                style: Styles.styleHeaderGreyText16,
+                                style: Styles.styleHeaderWhiteText16,
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -880,17 +889,16 @@ class _KeyManagementMasterDetailsViewState
                             GestureDetector(
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
-                                if(showSaveSubmitButton) {
+                                if (showSaveSubmitButton) {
                                   bool isSaveSuccess = await BlocProvider.of<
-                                      KeyManagementMasterDetailsCubit>(
-                                      context)
+                                              KeyManagementMasterDetailsCubit>(
+                                          context)
                                       .submitForm(
                                     isSaveOnly: true,
                                     navigateToNextScreen: true,
                                   );
 
-                                  log(
-                                      '-Key Lost History-isSaveSuccess--$isSaveSuccess---');
+                                  log('-Key Lost History-isSaveSuccess--$isSaveSuccess---');
                                   if (!isSaveSuccess) {
                                     return;
                                   }
@@ -908,7 +916,8 @@ class _KeyManagementMasterDetailsViewState
                                         state.model.lock,
                                     ConstantsArgument.isEligibleToEdit:
                                         state.model.isEligibleToEdit,
-                                    ConstantsArgument.parentStatus:state.model.status,
+                                    ConstantsArgument.parentStatus:
+                                        state.model.status,
                                   },
                                 );
                               },
@@ -926,38 +935,37 @@ class _KeyManagementMasterDetailsViewState
                                   Text(
                                     'View Key Lost History(S)',
                                     style: TextStyle(
-                                      color: AppColors.navigationSkyBlueColor,
+                                      color: AppColors.white,
                                       decoration: TextDecoration.underline,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Key Damage History
                             Container(
                               alignment: Alignment.topLeft,
                               child: Text(
                                 Constants.keyDamageHistory,
-                                style: Styles.styleHeaderGreyText16,
+                                style: Styles.styleHeaderWhiteText16,
                               ),
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             GestureDetector(
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
-                                if(showSaveSubmitButton) {
+                                if (showSaveSubmitButton) {
                                   bool isSaveSuccess = await BlocProvider.of<
-                                      KeyManagementMasterDetailsCubit>(
-                                      context)
+                                              KeyManagementMasterDetailsCubit>(
+                                          context)
                                       .submitForm(
                                     isSaveOnly: true,
                                     navigateToNextScreen: true,
                                   );
-                                  log(
-                                      '-Key Damage History-isSaveSuccess--$isSaveSuccess---');
+                                  log('-Key Damage History-isSaveSuccess--$isSaveSuccess---');
 
                                   if (!isSaveSuccess) {
                                     return;
@@ -977,7 +985,8 @@ class _KeyManagementMasterDetailsViewState
                                         state.model.lock,
                                     ConstantsArgument.isEligibleToEdit:
                                         state.model.isEligibleToEdit,
-                                    ConstantsArgument.parentStatus:state.model.status,
+                                    ConstantsArgument.parentStatus:
+                                        state.model.status,
                                   },
                                 );
                               },
@@ -995,7 +1004,7 @@ class _KeyManagementMasterDetailsViewState
                                   Text(
                                     'View Key Damage History(S)',
                                     style: TextStyle(
-                                      color: AppColors.navigationSkyBlueColor,
+                                      color: AppColors.white,
                                       decoration: TextDecoration.underline,
                                     ),
                                   ),
@@ -1009,7 +1018,7 @@ class _KeyManagementMasterDetailsViewState
                               alignment: Alignment.topLeft,
                               child: Text(
                                 Constants.keyDestroyHistory,
-                                style: Styles.styleHeaderGreyText16,
+                                style: Styles.styleHeaderWhiteText16,
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -1017,10 +1026,10 @@ class _KeyManagementMasterDetailsViewState
                             GestureDetector(
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
-                                if(showSaveSubmitButton) {
+                                if (showSaveSubmitButton) {
                                   bool isSaveSuccess = await BlocProvider.of<
-                                      KeyManagementMasterDetailsCubit>(
-                                      context)
+                                              KeyManagementMasterDetailsCubit>(
+                                          context)
                                       .submitForm(
                                     isSaveOnly: true,
                                     navigateToNextScreen: true,
@@ -1042,8 +1051,10 @@ class _KeyManagementMasterDetailsViewState
                                         state.model.lock,
                                     ConstantsArgument.isEligibleToEdit:
                                         state.model.isEligibleToEdit,
-                                    ConstantsArgument.parentStatus:state.model.status,
-                                    ConstantsArgument.locationId: state.model.location?.id
+                                    ConstantsArgument.parentStatus:
+                                        state.model.status,
+                                    ConstantsArgument.locationId:
+                                        state.model.location?.id
                                   },
                                 );
                               },
@@ -1053,7 +1064,7 @@ class _KeyManagementMasterDetailsViewState
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
                                     colorFilter: const ColorFilter.mode(
-                                      AppColors.navigationSkyBlueColor,
+                                      AppColors.white,
                                       BlendMode.srcIn,
                                     ),
                                   ),
@@ -1061,16 +1072,16 @@ class _KeyManagementMasterDetailsViewState
                                   const Text(
                                     'Add/View Key Destroy History(S)',
                                     style: TextStyle(
-                                      color: AppColors.navigationSkyBlueColor,
+                                      color: AppColors.white,
                                       decoration: TextDecoration.underline,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
                           ],
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
                           CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// SubmitButton

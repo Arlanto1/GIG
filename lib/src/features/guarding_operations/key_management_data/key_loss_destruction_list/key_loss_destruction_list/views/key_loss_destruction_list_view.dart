@@ -1,12 +1,12 @@
+import 'dart:ui';
+
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/key_loss_destruction_list/bloc/key_loss_destruction_list_bloc.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/models/key_loss_destruction_list_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/services/key_loss_destruction_list_services.dart';
 
 class KeyLossDestructionListView extends StatefulWidget {
-  const KeyLossDestructionListView({
-    super.key,
-  });
+  const KeyLossDestructionListView({super.key});
 
   @override
   State<KeyLossDestructionListView> createState() =>
@@ -22,9 +22,7 @@ class _KeyLossDestructionListViewState
   @override
   void initState() {
     super.initState();
-    context.read<KeyLossDestructionListBloc>().add(
-          const InitializeValues(),
-        );
+    context.read<KeyLossDestructionListBloc>().add(const InitializeValues());
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -42,18 +40,19 @@ class _KeyLossDestructionListViewState
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context.read<KeyLossDestructionListBloc>().add(FetchKeyLossList(
+      context.read<KeyLossDestructionListBloc>().add(
+        FetchKeyLossList(
           startPos: pageNumber,
           maxPos: Constants.maxResults,
           newSearch: false,
-          filters: BaseFilterModel()));
+          filters: BaseFilterModel(),
+        ),
+      );
     }
   }
 
   Future<void> _onRefresh() async {
-    context.read<KeyLossDestructionListBloc>().add(
-          const RefreshList(),
-        );
+    context.read<KeyLossDestructionListBloc>().add(const RefreshList());
     await Future.delayed(const Duration(milliseconds: 2000));
   }
 
@@ -62,26 +61,25 @@ class _KeyLossDestructionListViewState
     final size = MediaQuery.of(context).size;
     double height = size.height;
     return Scaffold(
-        backgroundColor: AppColors.cardBgColor,
-        appBar: BaseAppBar().buildAppHeader(
-          context: context,
-          title: Constants.keyLossDestructionList,
-          showPopUp: true,
-          showSaveButton: false,
-          showSubmitButton: false,
-          showDisLikeButton: false,
-          showLikeButton: false,
-          excelAPIName: 'exportKmKldExcel',
-          pdfAPIName: 'exportKmKldPDF',
-        ),
-        body: BlocListener<KeyLossDestructionListBloc,
-            KeyLossDestructionListState>(
-          listener: (context, state) {
-            Utils().formError(state, context);
-            Utils().errorAndLogout(state, context);
-          },
-          child: BlocBuilder<KeyLossDestructionListBloc,
-              KeyLossDestructionListState>(builder: (context, state) {
+      backgroundColor: AppColors.lavender,
+      appBar: BaseAppBar().buildAppHeader(
+        context: context,
+        title: Constants.keyLossDestructionList,
+        showPopUp: true,
+        showSaveButton: false,
+        showSubmitButton: false,
+        showDisLikeButton: false,
+        showLikeButton: false,
+        excelAPIName: 'exportKmKldExcel',
+        pdfAPIName: 'exportKmKldPDF',
+      ),
+      body: BlocListener<KeyLossDestructionListBloc, KeyLossDestructionListState>(
+        listener: (context, state) {
+          Utils().formError(state, context);
+          Utils().errorAndLogout(state, context);
+        },
+        child: BlocBuilder<KeyLossDestructionListBloc, KeyLossDestructionListState>(
+          builder: (context, state) {
             // if (state.status == FormStatus.initial) {
             //   return const BaseLoader();
             // }
@@ -90,26 +88,29 @@ class _KeyLossDestructionListViewState
             // }
             // log('--labels-${state.labels?.locale.locationRegion}');
             return Container(
-              margin: allMargin16,
+              width: double.infinity,
+              height: double.infinity,
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
-                  )),
+                color: AppColors.lavender,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(20.0),
+                  ),
+                ),
+              ),
               child: Column(
                 // crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+                  const SizedBox(height: 10),
                   BaseSearchWidget(
                     applySearchFilters: applySearchFilters,
                     applyFilters: applyFilters,
-                    commonFilters: state.commonFilters ??
-                        CommonFilters(
-                          statuses: [],
-                          regions: [],
-                        ),
+                    commonFilters:
+                        state.commonFilters ??
+                        CommonFilters(statuses: [], regions: []),
                   ),
                   CommonWidgets.verticalSpacerWidget(height * 0.001),
+
                   // if (state.status == FormStatus.loading) ...[
                   //   CommonWidgets.verticalSpacerWidget(height * 0.01),
                   //   const BaseLoader(),
@@ -122,9 +123,11 @@ class _KeyLossDestructionListViewState
                   //   CommonWidgets.verticalSpacerWidget(height * 0.1),
                   //   const NoRecordFoundWidget(),
                   // ],
-
                   UtilsCommon().showNoRecordWidget(
-                      state: state, height: height, items: state.list),
+                    state: state,
+                    height: height,
+                    items: state.list,
+                  ),
                   Expanded(
                     child: CustomMaterialIndicator(
                       onRefresh: () => _onRefresh(),
@@ -143,106 +146,191 @@ class _KeyLossDestructionListViewState
                         itemBuilder: (context, index) {
                           List<Label> labels = [];
                           if (index < state.list.length) {
-                            labels.add(Label(
-                                key: state.labels?.locale.createdDate ??
+                            labels.add(
+                              Label(
+                                key:
+                                    state.labels?.locale.createdDate ??
                                     state.labels?.defaultLocale.createdDate ??
                                     Constants.createDate,
                                 value: state.list[index].createdDate != null
                                     ? Utils.timestampToDateConversion(
                                         int.parse(
-                                            state.list[index].createdDate ??
-                                                '0'),
-                                        Constants.twentyFourHourDateTimeFormat)
-                                    : ''));
-                            labels.add(Label(
-                                key: state.labels?.locale.createdBy ??
+                                          state.list[index].createdDate ?? '0',
+                                        ),
+                                        Constants.twentyFourHourDateTimeFormat,
+                                      )
+                                    : '',
+                              ),
+                            );
+                            labels.add(
+                              Label(
+                                key:
+                                    state.labels?.locale.createdBy ??
                                     state.labels?.defaultLocale.createdBy ??
                                     Constants.createdby,
                                 value:
-                                    '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}'));
-                            return index >= state.list.length
-                                ? const BaseLoader()
-                                : BaseListTileItem(
-                                    id: state.list[index].id,
-                                    labels: labels,
-                                    status: state.list[index].status,
-                                    isKeyLossStatus: true,
-                                    isEventProtectionStatus: false,
-                                    onTap: (selectedIndex) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext dialogContext) {
-                                          return BasePopUpItems(
-                                            id: state.list[selectedIndex].id
-                                                .toString(),
-                                            slNo:
-                                                state.list[selectedIndex].slNo,
-                                            labels: labels,
-                                            isKeyLossStatus: true,
-                                            isEventProtectionStatus: false,
-                                            isMasterGuard: false,
-                                            status: state
-                                                .list[selectedIndex].status,
-                                            keyType: state
-                                                .list[selectedIndex].keyType,
-                                            type:
-                                                state.list[selectedIndex].type,
-                                            srh: state.list[selectedIndex].srh,
-                                            securityManager: state
-                                                .list[selectedIndex]
-                                                .securityManager,
-                                          );
-                                        },
-                                      );
-                                    },
-                                    onEditTap: (selectedIndex) {
-                                      getById(
-                                          state.extraProperties
+                                    '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}',
+                              ),
+                            );
+                            return Container(
+                              decoration: const BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Color(0xFF6474C6),
+                                    Color(0xFF6474C6),
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                              ),
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 8,
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(18),
+                                child: BackdropFilter(
+                                  filter: ImageFilter.blur(
+                                    sigmaX: 18,
+                                    sigmaY: 18,
+                                  ),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Colors.white.withValues(alpha: 0.2),
+                                          Colors.transparent,
+                                          Colors.white.withValues(alpha: 0.2),
+                                          // Color(0xFF6474C6).withOpacity(0.14)
+                                        ],
+                                        stops: [0.02, 0.35, 1],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                      ),
+                                      borderRadius: BorderRadius.circular(27),
+                                      border: Border.all(
+                                        color: Colors.white.withValues(
+                                          alpha: 0.80,
+                                        ),
+                                        width: 0.8,
+                                      ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: const Color(
+                                            0xFF6474C6,
+                                          ).withValues(alpha: 0.09),
+                                          blurRadius: 12,
+                                          offset: const Offset(0, 2),
+                                        ),
+                                      ],
+                                    ),
+                                    // index >= state.list.length
+                                    //   ? const BaseLoader()
+                                    child: BaseListTileItem(
+                                      id: state.list[index].id,
+                                      labels: labels,
+                                      status: state.list[index].status,
+                                      isKeyLossStatus: true,
+                                      isEventProtectionStatus: false,
+                                      onTap: (selectedIndex) {
+                                        showDialog(
+                                          context: context,
+                                          builder:
+                                              (BuildContext dialogContext) {
+                                                return BasePopUpItems(
+                                                  id: state
+                                                      .list[selectedIndex]
+                                                      .id
+                                                      .toString(),
+                                                  slNo: state
+                                                      .list[selectedIndex]
+                                                      .slNo,
+                                                  labels: labels,
+                                                  isKeyLossStatus: true,
+                                                  isEventProtectionStatus:
+                                                      false,
+                                                  isMasterGuard: false,
+                                                  status: state
+                                                      .list[selectedIndex]
+                                                      .status,
+                                                  keyType: state
+                                                      .list[selectedIndex]
+                                                      .keyType,
+                                                  type: state
+                                                      .list[selectedIndex]
+                                                      .type,
+                                                  srh: state
+                                                      .list[selectedIndex]
+                                                      .srh,
+                                                  securityManager: state
+                                                      .list[selectedIndex]
+                                                      .securityManager,
+                                                );
+                                              },
+                                        );
+                                      },
+                                      onEditTap: (selectedIndex) {
+                                        getById(
+                                          state
+                                                  .extraProperties
                                                   ?.hasWritePermission ??
                                               false,
-                                          state.list[index].id ?? 0);
-                                    },
-                                    showEditButton: state
-                                                .list[index].status !=
-                                            ConstantsIntValue
-                                                .keyLossClosedStatus &&
-                                        state.list[index].status !=
-                                            ConstantsIntValue.cancelledStatus,
-                                    onViewTap: (selectedIndex) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext dialogContext) {
-                                          return BasePopUpItems(
-                                            id: state.list[selectedIndex].id
-                                                .toString(),
-                                            slNo:
-                                                state.list[selectedIndex].slNo,
-                                            labels: labels,
-                                            status: state
-                                                .list[selectedIndex].status,
-                                            isKeyLossStatus: true,
-                                            isEventProtectionStatus: false,
-                                            isMasterGuard: false,
-                                            keyType: state
-                                                .list[selectedIndex].keyType,
-                                            type:
-                                                state.list[selectedIndex].type,
-                                            srh: state.list[selectedIndex].srh,
-                                            securityManager: state
-                                                .list[selectedIndex]
-                                                .securityManager,
-                                          );
-                                        },
-                                      );
-                                    },
-                                    index: index,
-                                  );
+                                          state.list[index].id ?? 0,
+                                        );
+                                      },
+                                      showEditButton:
+                                          state.list[index].status !=
+                                              ConstantsIntValue
+                                                  .keyLossClosedStatus &&
+                                          state.list[index].status !=
+                                              ConstantsIntValue.cancelledStatus,
+                                      onViewTap: (selectedIndex) {
+                                        showDialog(
+                                          context: context,
+                                          builder:
+                                              (BuildContext dialogContext) {
+                                                return BasePopUpItems(
+                                                  id: state
+                                                      .list[selectedIndex]
+                                                      .id
+                                                      .toString(),
+                                                  slNo: state
+                                                      .list[selectedIndex]
+                                                      .slNo,
+                                                  labels: labels,
+                                                  status: state
+                                                      .list[selectedIndex]
+                                                      .status,
+                                                  isKeyLossStatus: true,
+                                                  isEventProtectionStatus:
+                                                      false,
+                                                  isMasterGuard: false,
+                                                  keyType: state
+                                                      .list[selectedIndex]
+                                                      .keyType,
+                                                  type: state
+                                                      .list[selectedIndex]
+                                                      .type,
+                                                  srh: state
+                                                      .list[selectedIndex]
+                                                      .srh,
+                                                  securityManager: state
+                                                      .list[selectedIndex]
+                                                      .securityManager,
+                                                );
+                                              },
+                                        );
+                                      },
+                                      index: index,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
                           }
 
                           // Handle the case where index is out of bounds
-                          return const Center(
-                            child: SizedBox(),
-                          );
+                          return const Center(child: SizedBox());
                         },
                       ),
                     ),
@@ -250,8 +338,10 @@ class _KeyLossDestructionListViewState
                 ],
               ),
             );
-          }),
-        ));
+          },
+        ),
+      ),
+    );
   }
 
   getById(bool hasWritePermission, int id) async {
@@ -269,41 +359,43 @@ class _KeyLossDestructionListViewState
   ) {
     dismissLoadingDialog(context);
     if (keyLossDestructionListModel != null) {
-      Navigator.pushNamed(context, keyLossDestructionListDetailsRoute,
-          arguments: {
-            "keyLossGi": keyLossDestructionListModel,
-            "title": Constants.editKeyLossDestruction,
-            ConstantsArgument.extraProperties:
-                ExtraProperties(hasWritePermission: hasWritePermission),
-          });
+      Navigator.pushNamed(
+        context,
+        keyLossDestructionListDetailsRoute,
+        arguments: {
+          "keyLossGi": keyLossDestructionListModel,
+          "title": Constants.editKeyLossDestruction,
+          ConstantsArgument.extraProperties: ExtraProperties(
+            hasWritePermission: hasWritePermission,
+          ),
+        },
+      );
     }
   }
 
-  void applySearchFilters(
-    FilterCriteria model,
-  ) {
+  void applySearchFilters(FilterCriteria model) {
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<KeyLossDestructionListBloc>(context).add(
       FetchKeyLossList(
-          startPos: 0,
-          maxPos: Constants.maxResults,
-          newSearch: true,
-          filters: filters),
+        startPos: 0,
+        maxPos: Constants.maxResults,
+        newSearch: true,
+        filters: filters,
+      ),
     );
   }
 
-  void applyFilters(
-    Filters model,
-  ) {
+  void applyFilters(Filters model) {
     filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
 
     BlocProvider.of<KeyLossDestructionListBloc>(context).add(
       FetchKeyLossList(
-          startPos: 0,
-          maxPos: Constants.maxResults,
-          newSearch: true,
-          filters: filters),
+        startPos: 0,
+        maxPos: Constants.maxResults,
+        newSearch: true,
+        filters: filters,
+      ),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

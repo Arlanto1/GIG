@@ -201,7 +201,10 @@ class CommonWidgets {
               alignment: Alignment.topLeft,
               child: Text(
                 desc,
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 17),
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 17),
               )),
         ),
       ],

@@ -6,9 +6,7 @@ import 'package:db_atom/src/features/contact_details/services/contact_details_se
 import '../bloc/contact_details_list_bloc.dart';
 
 class ContactDetailsListView extends StatefulWidget {
-  const ContactDetailsListView({
-    super.key,
-  });
+  const ContactDetailsListView({super.key});
 
   @override
   State<ContactDetailsListView> createState() => _ContactDetailsListViewState();
@@ -22,9 +20,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
   @override
   void initState() {
     super.initState();
-    context.read<ContactDetailsListBloc>().add(
-          const InitializeValuesCD(),
-        );
+    context.read<ContactDetailsListBloc>().add(const InitializeValuesCD());
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -42,12 +38,14 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
     final currentScroll = _scrollController.position.pixels;
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
-      context.read<ContactDetailsListBloc>().add(FetchData(
-            startPos: pageNumber,
-            maxPos: Constants.maxResults,
-            newSearch: false,
-            filters: filters,
-          ));
+      context.read<ContactDetailsListBloc>().add(
+        FetchData(
+          startPos: pageNumber,
+          maxPos: Constants.maxResults,
+          newSearch: false,
+          filters: filters,
+        ),
+      );
     }
   }
 
@@ -72,9 +70,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
   // }
 
   Future<void> _onRefresh() async {
-    context.read<ContactDetailsListBloc>().add(
-          const RefreshList(),
-        );
+    context.read<ContactDetailsListBloc>().add(const RefreshList());
     await Future.delayed(const Duration(milliseconds: 2000));
   }
 
@@ -89,16 +85,17 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
         return Scaffold(
           backgroundColor: AppColors.lavender,
           bottomNavigationBar: CustomBottomNavigationBar(
-              scaffoldKey: scaffoldKey,
-              context: context,
-              hasAddPermission: true,
-              displayMenu: state.displayMenu,
-              list: true,
-              onAddPressed: () {
-                Navigator.pushNamed(context, contactDetailsRoute, arguments: {
-                  "title": Constants.escalationMatrix,
-                });
-              }),
+            scaffoldKey: scaffoldKey,
+            context: context,
+            hasAddPermission: false,
+            displayMenu: state.displayMenu,
+            list: true,
+            onAddPressed: () {
+              // Navigator.pushNamed(context, contactDetailsRoute, arguments: {
+              //   "title": Constants.escalationMatrix,
+              // });
+            },
+          ),
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: Constants.escalationMatrix,
@@ -116,9 +113,12 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
               Utils().errorAndLogout(state, context);
 
               if (state.status == FormStatus.sessionExpired) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
                     backgroundColor: Colors.red,
-                    content: Text(state.message ?? 'Session Expired...')));
+                    content: Text(state.message ?? 'Session Expired...'),
+                  ),
+                );
                 Validator.logoutAction(context);
               }
             },
@@ -135,24 +135,21 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                 decoration: const ShapeDecoration(
                   color: AppColors.lavender,
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20.0),
+                    ),
                   ),
                 ),
                 child: Column(
                   // crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10),
                     BaseSearchWidget(
                       applySearchFilters: applySearchFilters,
                       applyFilters: applyFilters,
-                      commonFilters: state.commonFilters ??
-                          CommonFilters(
-                            statuses: [],
-                            regions: [],
-                          ),
+                      commonFilters:
+                          state.commonFilters ??
+                          CommonFilters(statuses: [], regions: []),
                     ),
                     CommonWidgets.verticalSpacerWidget(height * 0.001),
                     if (state.status == FormStatus.loading) ...[
@@ -163,7 +160,10 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                     // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                     // Text('state.status=====${state.status}'),
                     UtilsCommon().showNoRecordWidget(
-                        state: state, height: height, items: state.items),
+                      state: state,
+                      height: height,
+                      items: state.items,
+                    ),
                     Expanded(
                       child: CustomMaterialIndicator(
                         onRefresh: () => _onRefresh(),
@@ -182,32 +182,52 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                           itemBuilder: (context, index) {
                             List<Label> labels = [];
                             if (index < state.items.length) {
-                              labels.add(Label(
-                                  key: state.labels?.locale.entrySecurity ??
-                                      state.labels?.defaultLocale
+                              labels.add(
+                                Label(
+                                  key:
+                                      state.labels?.locale.entrySecurity ??
+                                      state
+                                          .labels
+                                          ?.defaultLocale
                                           .entrySecurity ??
                                       Constants.createdby,
                                   value:
-                                      '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
-                              labels.add(Label(
-                                  key: state.labels?.locale.locationRegion ??
-                                      state.labels?.defaultLocale
+                                      '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}',
+                                ),
+                              );
+                              labels.add(
+                                Label(
+                                  key:
+                                      state.labels?.locale.locationRegion ??
+                                      state
+                                          .labels
+                                          ?.defaultLocale
                                           .locationRegion ??
                                       Constants.region,
                                   value:
                                       state.items[index].locationRegion?.name ??
-                                          ''));
-                              labels.add(Label(
-                                  key: state.labels?.locale.slNo ??
+                                      '',
+                                ),
+                              );
+                              labels.add(
+                                Label(
+                                  key:
+                                      state.labels?.locale.slNo ??
                                       state.labels?.defaultLocale.slNo ??
                                       Constants.slno,
-                                  value: state.items[index].slNo ?? ''));
-                              labels.add(Label(
-                                  key: state.labels?.locale.location ??
+                                  value: state.items[index].slNo ?? '',
+                                ),
+                              );
+                              labels.add(
+                                Label(
+                                  key:
+                                      state.labels?.locale.location ??
                                       state.labels?.defaultLocale.location ??
                                       Constants.location,
                                   value:
-                                      state.items[index].location?.name ?? ''));
+                                      state.items[index].location?.name ?? '',
+                                ),
+                              );
                               return index >= state.items.length
                                   ? const BaseLoader()
                                   : Container(
@@ -215,131 +235,124 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                                         gradient: LinearGradient(
                                           colors: [
                                             Color(0xFF6474C6),
-                                            Color(0xFF6474C6)
+                                            Color(0xFF6474C6),
                                           ],
                                           begin: Alignment.topLeft,
                                           end: Alignment.bottomRight,
                                         ),
                                       ),
                                       margin: const EdgeInsets.symmetric(
-                                          horizontal: 12, vertical: 8),
+                                        horizontal: 12,
+                                        vertical: 8,
+                                      ),
                                       child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(18),
-                                          child: BackdropFilter(
-                                              filter: ImageFilter.blur(
-                                                  sigmaX: 18, sigmaY: 18),
-                                              child: Container(
-                                                  decoration: BoxDecoration(
-                                                    gradient: LinearGradient(
-                                                      colors: [
-                                                        Colors.white.withValues(
-                                                            alpha: 0.2),
-                                                        Colors.transparent,
-                                                        Colors.white.withValues(
-                                                            alpha: 0.2),
-                                                        // Color(0xFF6474C6).withOpacity(0.14)
-                                                      ],
-                                                      stops: [0.02, 0.35, 1],
-                                                      begin:
-                                                          Alignment.topCenter,
-                                                      end: Alignment
-                                                          .bottomCenter,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            27),
-                                                    border: Border.all(
-                                                      color: Colors.white
-                                                          .withValues(
-                                                              alpha: 0.80),
-                                                      width: 0.8,
-                                                    ),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: const Color(
-                                                                0xFF6474C6)
-                                                            .withValues(
-                                                                alpha: 0.09),
-                                                        blurRadius: 12,
-                                                        offset:
-                                                            const Offset(0, 2),
-                                                      ),
-                                                    ],
+                                        borderRadius: BorderRadius.circular(18),
+                                        child: BackdropFilter(
+                                          filter: ImageFilter.blur(
+                                            sigmaX: 18,
+                                            sigmaY: 18,
+                                          ),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  Colors.white.withValues(
+                                                    alpha: 0.2,
                                                   ),
-                                                  child: BaseListTileItem(
-                                                    id: state.items[index].id,
-                                                    labels: labels,
-                                                    status: state
-                                                        .items[index].status,
-                                                    isEventProtectionStatus:
-                                                        false,
-                                                    isContactDetailsStatus:
-                                                        true,
-                                                    onTap: (selectedIndex) {
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                            dialogContext) {
-                                                          return BasePopUpItems(
-                                                            id: state
-                                                                .items[
-                                                                    selectedIndex]
-                                                                .id
-                                                                .toString(),
-                                                            labels: labels,
-                                                            status: state
-                                                                .items[
-                                                                    selectedIndex]
-                                                                .status,
-                                                            isContactDetailsStatus:
-                                                                true,
-                                                            isEventProtectionStatus:
-                                                                false,
-                                                            isMasterGuard:
-                                                                false,
-                                                          );
-                                                        },
-                                                      );
-                                                    },
-                                                    showEditButton: false,
-                                                    onEditTap: (selectedIndex) {
-                                                      getById(
-                                                          state.extraProperties
-                                                                  ?.hasWritePermission ??
-                                                              false,
-                                                          state.items[index]
-                                                                  .id ??
-                                                              0);
-                                                    },
-                                                    onViewTap: (selectedIndex) {
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                            dialogContext) {
-                                                          return BasePopUpItems(
-                                                            id: state
-                                                                .items[
-                                                                    selectedIndex]
-                                                                .id
-                                                                .toString(),
-                                                            labels: labels,
-                                                            status: state
-                                                                .items[
-                                                                    selectedIndex]
-                                                                .status,
-                                                            isContactDetailsStatus:
-                                                                true,
-                                                            isEventProtectionStatus:
-                                                                false,
-                                                            isMasterGuard:
-                                                                false,
-                                                          );
-                                                        },
-                                                      );
-                                                    },
-                                                    index: index,
-                                                  )))));
+                                                  Colors.transparent,
+                                                  Colors.white.withValues(
+                                                    alpha: 0.2,
+                                                  ),
+                                                  // Color(0xFF6474C6).withOpacity(0.14)
+                                                ],
+                                                stops: [0.02, 0.35, 1],
+                                                begin: Alignment.topCenter,
+                                                end: Alignment.bottomCenter,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(27),
+                                              border: Border.all(
+                                                color: Colors.white.withValues(
+                                                  alpha: 0.80,
+                                                ),
+                                                width: 0.8,
+                                              ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: const Color(
+                                                    0xFF6474C6,
+                                                  ).withValues(alpha: 0.09),
+                                                  blurRadius: 12,
+                                                  offset: const Offset(0, 2),
+                                                ),
+                                              ],
+                                            ),
+                                            child: BaseListTileItem(
+                                              id: state.items[index].id,
+                                              labels: labels,
+                                              status: state.items[index].status,
+                                              isEventProtectionStatus: false,
+                                              isContactDetailsStatus: true,
+                                              onTap: (selectedIndex) {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext dialogContext) {
+                                                    return BasePopUpItems(
+                                                      id: state
+                                                          .items[selectedIndex]
+                                                          .id
+                                                          .toString(),
+                                                      labels: labels,
+                                                      status: state
+                                                          .items[selectedIndex]
+                                                          .status,
+                                                      isContactDetailsStatus:
+                                                          true,
+                                                      isEventProtectionStatus:
+                                                          false,
+                                                      isMasterGuard: false,
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              showEditButton: false,
+                                              onEditTap: (selectedIndex) {
+                                                getById(
+                                                  state
+                                                          .extraProperties
+                                                          ?.hasWritePermission ??
+                                                      false,
+                                                  state.items[index].id ?? 0,
+                                                );
+                                              },
+                                              onViewTap: (selectedIndex) {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext dialogContext) {
+                                                    return BasePopUpItems(
+                                                      id: state
+                                                          .items[selectedIndex]
+                                                          .id
+                                                          .toString(),
+                                                      labels: labels,
+                                                      status: state
+                                                          .items[selectedIndex]
+                                                          .status,
+                                                      isContactDetailsStatus:
+                                                          true,
+                                                      isEventProtectionStatus:
+                                                          false,
+                                                      isMasterGuard: false,
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              index: index,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
                             }
                             return null;
                           },
@@ -359,16 +372,13 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
   getById(bool hasWritePermission, int id) async {
     showLoadingDialog(context);
 
-    ContactDetailModel materialMovementModel =
-        await ContactDetailsServices().getGcdById(id);
+    ContactDetailModel materialMovementModel = await ContactDetailsServices()
+        .getGcdById(id);
 
     editDataLoading(materialMovementModel, hasWritePermission);
   }
 
-  void editDataLoading(
-    ContactDetailModel? model,
-    bool hasWritePermission,
-  ) {
+  void editDataLoading(ContactDetailModel? model, bool hasWritePermission) {
     dismissLoadingDialog(context);
     if (model != null) {
       Navigator.pushNamed(
@@ -377,32 +387,30 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
         arguments: {
           "model": model,
           "title": Constants.escalationMatrix,
-          ConstantsArgument.extraProperties:
-              ExtraProperties(hasWritePermission: hasWritePermission),
+          ConstantsArgument.extraProperties: ExtraProperties(
+            hasWritePermission: hasWritePermission,
+          ),
         },
       );
     }
   }
 
-  void applySearchFilters(
-    FilterCriteria model,
-  ) {
+  void applySearchFilters(FilterCriteria model) {
     log('Applying Search Filters');
 
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<ContactDetailsListBloc>(context).add(
       FetchData(
-          startPos: 0,
-          maxPos: Constants.maxResults,
-          newSearch: true,
-          filters: filters),
+        startPos: 0,
+        maxPos: Constants.maxResults,
+        newSearch: true,
+        filters: filters,
+      ),
     );
   }
 
-  void applyFilters(
-    Filters model,
-  ) {
+  void applyFilters(Filters model) {
     log('Applying Filters');
 
     filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
@@ -410,10 +418,11 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
 
     BlocProvider.of<ContactDetailsListBloc>(context).add(
       FetchData(
-          startPos: 0,
-          maxPos: Constants.maxResults,
-          newSearch: true,
-          filters: filters),
+        startPos: 0,
+        maxPos: Constants.maxResults,
+        newSearch: true,
+        filters: filters,
+      ),
     );
     // _scrollController = ScrollController()..addListener(_onScroll);
 

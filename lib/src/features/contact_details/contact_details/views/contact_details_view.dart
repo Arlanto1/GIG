@@ -31,7 +31,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
   bool isReadOnly = false;
   List<String> returnableDropDownValues = const [
     "Returnable",
-    "Non Returnable"
+    "Non Returnable",
   ];
 
   SignatureController receiverSignatureController = SignatureController();
@@ -41,14 +41,16 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
   void initState() {
     super.initState();
     receiverSignatureController = SignatureController(
-        penStrokeWidth: 2,
-        penColor: Colors.black,
-        exportBackgroundColor: Colors.white);
+      penStrokeWidth: 2,
+      penColor: Colors.black,
+      exportBackgroundColor: Colors.white,
+    );
 
     securitySignatureController = SignatureController(
-        penStrokeWidth: 2,
-        penColor: Colors.black,
-        exportBackgroundColor: Colors.white);
+      penStrokeWidth: 2,
+      penColor: Colors.black,
+      exportBackgroundColor: Colors.white,
+    );
     BlocProvider.of<ContactDetailsCubit>(context).initializeValues();
     initializeDates();
   }
@@ -79,16 +81,14 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
-              Navigator.popAndPushNamed(
-                context,
-                contactDetailsListRoute,
-              );
+              Navigator.popAndPushNamed(context, contactDetailsListRoute);
             },
           );
           showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (BuildContext context) => dialog);
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => dialog,
+          );
 
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
@@ -128,24 +128,19 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
               log('--popAndReplace-----');
               // Navigator.pop(context);
               Navigator.pop(context);
-              Navigator.popAndPushNamed(
-                context,
-                contactDetailsListRoute,
-              );
+              Navigator.popAndPushNamed(context, contactDetailsListRoute);
             },
             onTapSave: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<ContactDetailsCubit>(context).submitForm(
-                isSaveOnly: true,
-                navigateToNextScreen: false,
-              );
+              BlocProvider.of<ContactDetailsCubit>(
+                context,
+              ).submitForm(isSaveOnly: true, navigateToNextScreen: false);
             },
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<ContactDetailsCubit>(context).submitForm(
-                isSaveOnly: false,
-                navigateToNextScreen: false,
-              );
+              BlocProvider.of<ContactDetailsCubit>(
+                context,
+              ).submitForm(isSaveOnly: false, navigateToNextScreen: false);
             },
           ),
           backgroundColor: AppColors.backgroundWhiteColor,
@@ -168,17 +163,16 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              height: height * 0.01,
-              color: AppColors.lavender,
-            ),
+            Container(height: height * 0.01, color: AppColors.lavender),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.lavender,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
-                  )),
+                color: AppColors.lavender,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(20.0),
+                  ),
+                ),
+              ),
               // child: AbsorbPointer(
               //   absorbing: isReadOnly,
               child: Form(
@@ -209,11 +203,12 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
 
                           /// Created By
                           CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.entrySecurity ??
-                                  state.labels?.defaultLocale.entrySecurity ??
-                                  Constants.createdby,
-                              isMandatory: true,
-                              '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
+                            state.labels?.locale.entrySecurity ??
+                                state.labels?.defaultLocale.entrySecurity ??
+                                Constants.createdby,
+                            isMandatory: true,
+                            '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}',
+                          ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Status
@@ -230,8 +225,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             isDisableColor: true,
                             textFormKey: Keys.statusTextController,
                             hintText: '',
-                            initialValue:
-                                getStatusString(state.model.status ?? 0),
+                            initialValue: getStatusString(
+                              state.model.status ?? 0,
+                            ),
                             onChange: (String value) {},
                             validateTextField: (String? user) {},
                           ),
@@ -259,15 +255,17 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.001),
                           BaseLocationDropdown().locationWidgetDisplay(
-                              isEnabled: false,
-                              context: context,
-                              locations: state.locations ?? Locations(),
-                              selectedLocationName:
-                                  state.model.location?.name ?? '',
-                              onTap: (Organisation? location) {
-                                BlocProvider.of<ContactDetailsCubit>(context)
-                                    .updateDropdownValues(location: location);
-                              }),
+                            isEnabled: false,
+                            context: context,
+                            locations: state.locations ?? Locations(),
+                            selectedLocationName:
+                                state.model.location?.name ?? '',
+                            onTap: (Organisation? location) {
+                              BlocProvider.of<ContactDetailsCubit>(
+                                context,
+                              ).updateDropdownValues(location: location);
+                            },
+                          ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Sl No.
@@ -291,16 +289,18 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             dateCreateWidgetDisplay(
-                                state.model.modifiedDate ?? ''),
+                              state.model.modifiedDate ?? '',
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Modified By
                             CommonWidgets.horizentaltextHandling(
-                                // state.labels?.locale.entrySecurity ??
-                                //     state.labels?.defaultLocale.entrySecurity ??
-                                Constants.modifiedBy,
-                                isMandatory: true,
-                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}'),
+                              // state.labels?.locale.entrySecurity ??
+                              //     state.labels?.defaultLocale.entrySecurity ??
+                              Constants.modifiedBy,
+                              isMandatory: true,
+                              '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}',
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ],
 
@@ -332,7 +332,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               log('--state.model.id---${state.model.id}--');
                               List<Organisation> ranks = await CommonServices()
                                   .getOrganisations(
-                                      name: Constants.contactGeneralRank);
+                                    name: Constants.contactGeneralRank,
+                                  );
 
                               nav.pushNamed(
                                 contactRecordsRoute,
@@ -378,9 +379,13 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                           Container(
                             alignment: Alignment.topLeft,
                             child: Text(
-                              state.labels?.locale
+                              state
+                                      .labels
+                                      ?.locale
                                       .guardingAgencyEscalationContact ??
-                                  state.labels?.defaultLocale
+                                  state
+                                      .labels
+                                      ?.defaultLocale
                                       .guardingAgencyEscalationContact ??
                                   Constants.guardingAgencyContact,
                               style: Styles.styleHeaderWhiteText16,
@@ -404,8 +409,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               log('--state.model.id---${state.model.id}--');
                               List<Organisation> ranks = await CommonServices()
                                   .getOrganisations(
-                                      name: Constants
-                                          .contactGuardingAgencyEscalationRank);
+                                    name: Constants
+                                        .contactGuardingAgencyEscalationRank,
+                                  );
                               nav.pushNamed(
                                 contactRecordsRoute,
                                 arguments: {
@@ -451,7 +457,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             alignment: Alignment.topLeft,
                             child: Text(
                               state.labels?.locale.systemEscalationContact ??
-                                  state.labels?.defaultLocale
+                                  state
+                                      .labels
+                                      ?.defaultLocale
                                       .systemEscalationContact ??
                                   Constants.systemEscalationContact,
                               style: Styles.styleHeaderWhiteText16,
@@ -476,8 +484,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               log('--state.model.id---${state.model.id}--');
                               List<Organisation> ranks = await CommonServices()
                                   .getOrganisations(
-                                      name: Constants
-                                          .contactSystemEscalationRank);
+                                    name: Constants.contactSystemEscalationRank,
+                                  );
                               nav.pushNamed(
                                 contactRecordsRoute,
                                 arguments: {
@@ -547,7 +555,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               log('--state.model.id---${state.model.id}--');
                               List<Organisation> ranks = await CommonServices()
                                   .getOrganisations(
-                                      name: Constants.contactSupervisorRank);
+                                    name: Constants.contactSupervisorRank,
+                                  );
                               nav.pushNamed(
                                 contactRecordsRoute,
                                 arguments: {
@@ -593,7 +602,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             alignment: Alignment.topLeft,
                             child: Text(
                               state.labels?.locale.guardingAgencyZonalManager ??
-                                  state.labels?.defaultLocale
+                                  state
+                                      .labels
+                                      ?.defaultLocale
                                       .guardingAgencyZonalManager ??
                                   Constants.guardingAgencyZonalManagerContact,
                               style: Styles.styleHeaderWhiteText16,
@@ -618,7 +629,8 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               log('--state.model.id---${state.model.id}--');
                               List<Organisation> ranks = await CommonServices()
                                   .getOrganisations(
-                                      name: Constants.contactZone);
+                                    name: Constants.contactZone,
+                                  );
                               nav.pushNamed(
                                 contactRecordsRoute,
                                 arguments: {
@@ -779,25 +791,26 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
       validateTextField: (String? user) {},
     );
   }
-// getById(int id, int type) async {
-//   showLoadingDialog(context);
-//
-//   ContactListResponseModel contactsModel =
-//   await ContactDetailsServices().getCdById(id, type);
-//
-//   editDataLoading(contactsModel);
-// }
-// void editDataLoading(ContactListResponseModel? model) {
-//   dismissLoadingDialog(context);
-//   if (model != null) {
-//     Navigator.pushNamed(
-//       context,
-//       contactDetailsRoute,
-//       arguments: {
-//         "model": model,
-//         "title": Constants.contactDetails,
-//       },
-//     );
-//   }
-// }
+
+  // getById(int id, int type) async {
+  //   showLoadingDialog(context);
+  //
+  //   ContactListResponseModel contactsModel =
+  //   await ContactDetailsServices().getCdById(id, type);
+  //
+  //   editDataLoading(contactsModel);
+  // }
+  // void editDataLoading(ContactListResponseModel? model) {
+  //   dismissLoadingDialog(context);
+  //   if (model != null) {
+  //     Navigator.pushNamed(
+  //       context,
+  //       contactDetailsRoute,
+  //       arguments: {
+  //         "model": model,
+  //         "title": Constants.contactDetails,
+  //       },
+  //     );
+  //   }
+  // }
 }

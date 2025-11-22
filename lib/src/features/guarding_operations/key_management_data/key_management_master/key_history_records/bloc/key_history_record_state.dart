@@ -7,6 +7,7 @@ class KeyHistoryRecordState extends Equatable {
   final String? message;
   final KMUiLabels? labels;
   final ExtraProperties? extraProperties;
+  final DisplayMenu? displayMenu;
 
   const KeyHistoryRecordState({
     this.list = const <KeyManagementMasterModel>[],
@@ -15,6 +16,7 @@ class KeyHistoryRecordState extends Equatable {
     this.status = FormStatus.initial,
     this.labels,
     this.extraProperties,
+    this.displayMenu,
   });
 
   KeyHistoryRecordState copyWith({

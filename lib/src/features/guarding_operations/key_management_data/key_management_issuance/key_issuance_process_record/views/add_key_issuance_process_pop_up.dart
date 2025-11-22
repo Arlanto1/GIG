@@ -53,7 +53,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
   void initState() {
     super.initState();
 
-    isReadOnly = widget.lock.isEmptyOrNull? false: true;
+    isReadOnly = widget.lock.isEmptyOrNull ? false : true;
     log('--widget.model.available--111-${widget.model.available}-----');
 
     selectedKeyDescription = widget.selectedKeyDescription;
@@ -154,11 +154,11 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
         alignment: Alignment.center,
         child: Text(
           widget.title,
-          style: Styles.textFontSet(18, AppColors.textGreyThemeColor,
-              FontWeight.normal, Constants.customFontSemiBoldFamily),
+          style: Styles.textFontSet(18, AppColors.white, FontWeight.normal,
+              Constants.customFontSemiBoldFamily),
         ),
       ),
-      backgroundColor: AppColors.backgroundWhiteColor,
+      backgroundColor: AppColors.lavender,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
@@ -184,7 +184,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                             state.labels?.locale.keyDescription ??
                                 state.labels?.defaultLocale.keyDescription ??
                                 Constants.keyDescription,
-                            Styles.textStyleBlack14,
+                            Styles.textStyleWhite14,
                             isMandatory: true,
                           ),
                           TextFieldAddButton(
@@ -196,7 +196,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                         .extraProperties!.hasWritePermission! &&
                                     widget.lock.isEmptyOrNull)),
                             onTap: () {
-                              if(isReadOnly) {
+                              if (isReadOnly) {
                                 return;
                               }
                               if (widget.parentStatus == 0 &&
@@ -207,7 +207,6 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                 BaseOrganisationDialog().departmentDialog(
                                   context: context,
                                   organisations: widget.keyDescriptions,
-
                                   onTap: (Organisation org) {
                                     selectedKeyDescription = org;
                                     keyDescriptionController.text =
@@ -242,7 +241,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                           )
                         ],
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// Key Type
                       CommonWidgets.textDisplay(
@@ -250,8 +249,8 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                               state.labels?.defaultLocale.keyType ??
                               Constants.keyType,
                           isMandatory: true,
-                          Styles.textStyleBlack14),
-                      CommonWidgets.verticalSpacerWidget(height * 0.001),
+                          Styles.textStyleWhite14),
+                      CommonWidgets.verticalSpacerWidget(height * 0.002),
 
                       BaseDropDown().getDropDown(
                         isDisabled: !(widget.parentStatus == 0 &&
@@ -260,7 +259,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         textController: keyTypeController,
                         items: keyTypeDropDownValues,
                         onTap: () {
-                          if(isReadOnly) {
+                          if (isReadOnly) {
                             return;
                           }
                           if (widget.parentStatus == 0 &&
@@ -328,17 +327,17 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                           }
                         },
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// No of Keys
                       CommonWidgets.textDisplay(
                         state.labels?.locale.noKeys ??
                             state.labels?.defaultLocale.noKeys ??
                             Constants.noOfKeys,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite14,
                         isMandatory: true,
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
                       FlutterInputField(
                         textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
@@ -349,17 +348,17 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         onChange: (String value) {},
                         validateTextField: (String? user) {},
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// Already Issued Keys
                       CommonWidgets.textDisplay(
                         state.labels?.locale.alreadyIssued ??
                             state.labels?.defaultLocale.alreadyIssued ??
                             Constants.alreadyIssuedKeys,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite14,
                         isMandatory: true,
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
                       FlutterInputField(
                         textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
@@ -370,17 +369,17 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         onChange: (String value) {},
                         validateTextField: (String? user) {},
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// Keys Available
                       CommonWidgets.textDisplay(
                         state.labels?.locale.keysAvailable ??
                             state.labels?.defaultLocale.keysAvailable ??
                             Constants.keysAvailable,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite14,
                         isMandatory: true,
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
                       FlutterInputField(
                         textInputType: TextInputType.number,
                         textFormKey: Keys.aprrover1DepartmentKey,
@@ -391,17 +390,17 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         onChange: (String value) {},
                         validateTextField: (String? user) {},
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// No. Keys Issued
                       CommonWidgets.textDisplay(
                         state.labels?.locale.noKeysIssued ??
                             state.labels?.defaultLocale.noKeysIssued ??
                             Constants.noKeysIssued,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite14,
                         isMandatory: true,
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
                       FlutterInputField(
                         textInputType: TextInputType.number,
                         textFormKey: Keys.bu2ContactNOKey,
@@ -420,46 +419,48 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         },
                         validateTextField: (String? user) {},
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// keys Returned
                       CommonWidgets.textDisplay(
                         state.labels?.locale.keysReturned ??
                             state.labels?.defaultLocale.keysReturned ??
                             Constants.keysReturned,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite14,
                         isMandatory: true,
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
                       FlutterInputField(
                         textInputType: TextInputType.number,
                         textFormKey: Keys.bu2ContactNOKey,
                         controller: returnedKeysController,
                         hintText: '',
-                        isEnable: editableFieldsHandOverStatus && widget.lock.isEmptyOrNull,
+                        isEnable: editableFieldsHandOverStatus &&
+                            widget.lock.isEmptyOrNull,
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.returned = int.tryParse(value);
                         },
                         validateTextField: (String? user) {},
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// keys Not Returned
                       CommonWidgets.textDisplay(
                         state.labels?.locale.keysNotReturned ??
                             state.labels?.defaultLocale.keysNotReturned ??
                             Constants.keysNotReturned,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite14,
                         isMandatory: true,
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
                       FlutterInputField(
                         textInputType: TextInputType.number,
                         textFormKey: Keys.addressKey,
                         controller: notReturnedKeysController,
                         hintText: '',
-                        isEnable: editableFieldsHandOverStatus && widget.lock.isEmptyOrNull,
+                        isEnable: editableFieldsHandOverStatus &&
+                            widget.lock.isEmptyOrNull,
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.notReturned = int.tryParse(value);
@@ -467,23 +468,24 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         },
                         validateTextField: (String? user) {},
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// keys Lost
                       CommonWidgets.textDisplay(
                         state.labels?.locale.keysLost ??
                             state.labels?.defaultLocale.keysLost ??
                             Constants.keysLost,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite14,
                         isMandatory: true,
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
                       FlutterInputField(
                         textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         controller: lostKeysController,
                         hintText: '',
-                        isEnable: editableFieldsHandOverStatus && widget.lock.isEmptyOrNull,
+                        isEnable: editableFieldsHandOverStatus &&
+                            widget.lock.isEmptyOrNull,
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.lost = int.tryParse(value);
@@ -491,23 +493,24 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         },
                         validateTextField: (String? user) {},
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// keys Damaged
                       CommonWidgets.textDisplay(
                         state.labels?.locale.keysDamaged ??
                             state.labels?.defaultLocale.keysDamaged ??
                             Constants.keysDamaged,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite14,
                         isMandatory: true,
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
                       FlutterInputField(
                         textInputType: TextInputType.number,
                         textFormKey: Keys.phoneNumberKey,
                         controller: damagedKeysController,
                         hintText: '',
-                        isEnable: editableFieldsHandOverStatus && widget.lock.isEmptyOrNull,
+                        isEnable: editableFieldsHandOverStatus &&
+                            widget.lock.isEmptyOrNull,
                         isDisableColor: true,
                         onChange: (String value) {
                           widget.model.damaged = int.tryParse(value);
@@ -515,8 +518,8 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                         },
                         validateTextField: (String? user) {},
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
                       buttonViews(widget.mainContext, width, state),
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
                     ],
@@ -545,9 +548,8 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                 ConstantsIntValue.issuanceLostDamagedStatus &&
             widget.parentStatus != ConstantsIntValue.issuanceClosedStatus &&
             !(widget.extraProperties != null &&
-                !widget.extraProperties!.hasWritePermission!) && !isReadOnly) ...[
-          saveButton(width, widget.onSubmit)
-        ],
+                !widget.extraProperties!.hasWritePermission!) &&
+            !isReadOnly) ...[saveButton(width, widget.onSubmit)],
       ],
     );
   }

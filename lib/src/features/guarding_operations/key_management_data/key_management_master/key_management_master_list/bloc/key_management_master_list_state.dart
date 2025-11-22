@@ -9,6 +9,7 @@ class KeyManagementMasterListState extends Equatable {
   final CommonFilters? commonFilters;
   final Locations? locations;
   final ExtraProperties? extraProperties;
+  final DisplayMenu? displayMenu;
 
   const KeyManagementMasterListState({
     this.list = const <KeyManagementMasterModel>[],
@@ -19,6 +20,7 @@ class KeyManagementMasterListState extends Equatable {
     this.commonFilters,
     this.labels,
     this.extraProperties,
+    this.displayMenu,
   });
 
   KeyManagementMasterListState copyWith({

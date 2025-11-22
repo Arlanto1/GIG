@@ -8,6 +8,7 @@ class KeyManagementIssuanceListState extends Equatable {
   final CommonFilters? commonFilters;
   final Locations? locations;
   final ExtraProperties? extraProperties;
+  final DisplayMenu? displayMenu;
 
   final KMUiLabels? labels;
 
@@ -20,6 +21,7 @@ class KeyManagementIssuanceListState extends Equatable {
     this.commonFilters,
     this.labels,
     this.extraProperties,
+    this.displayMenu,
   });
 
   KeyManagementIssuanceListState copyWith({
