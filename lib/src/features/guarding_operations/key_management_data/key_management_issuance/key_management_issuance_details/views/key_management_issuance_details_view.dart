@@ -462,7 +462,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     height * 0.02),
 
                                 /// Created By
-                                CommonWidgets.verticalTextHandling(
+                                CommonWidgets.horizentaltextHandling(
                                     state.labels?.locale.createdBy ??
                                         state.labels?.defaultLocale.createdBy ??
                                         Constants.createdby,

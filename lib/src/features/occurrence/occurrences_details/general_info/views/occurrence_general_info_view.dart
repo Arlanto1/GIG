@@ -195,6 +195,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               if (!state.model.lock.isEmptyOrNull) ...[
                                 RecordLockedWidget(text: '${state.model.lock}'),
                               ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                               Container(
                                 alignment: Alignment.topLeft,
                                 child: Text(
@@ -249,7 +250,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   }
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Shift Handover By
                               CommonWidgets.horizentaltextHandling(
@@ -259,7 +260,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       Constants.shiftHandoverBy,
                                   isMandatory: true,
                                   '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Shift Taken Over by
                               CommonWidgets.textDisplay(
@@ -307,7 +308,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       );
                                     }
                                   }),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Location
                               CommonWidgets.textDisplay(
@@ -334,7 +335,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                         .updateLocationDropdownValue(
                                             location: location);
                                   }),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Date of creation
                               CommonWidgets.textDisplay(
@@ -347,7 +348,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   height * 0.001),
                               BaseDate().creationDateDisplay(
                                   state.model.inputDate ?? ''),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Sl No.
                               CommonWidgets.horizentaltextHandling(
@@ -356,7 +357,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       Constants.slno,
                                   isMandatory: true,
                                   state.model.slNo ?? ''),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Shift Briefing Attended
                               CommonWidgets.textDisplay(
@@ -392,6 +393,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                               .showFields(
                                                   shiftBrfngAttnded: false);
                                         }),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Premises Round Taken
                               CommonWidgets.textDisplay(
@@ -459,6 +461,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
                               ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Medical Emergency
                               CommonWidgets.textDisplay(
@@ -523,6 +526,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
                               ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Material Movement
                               CommonWidgets.textDisplay(
@@ -558,6 +562,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                               .showFields(
                                                   materialMovement: false);
                                         }),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// LEO Visit
                               CommonWidgets.textDisplay(
@@ -589,6 +594,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                                   context)
                                               .showFields(leoVisit: false);
                                         }),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Social Engineering Incidents
                               CommonWidgets.textDisplay(
@@ -656,6 +662,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
                               ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Found Article Transaction
                               CommonWidgets.textDisplay(
@@ -693,6 +700,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                               .showFields(
                                                   foundArticleTrnsctn: false);
                                         }),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Process Breach Incident
                               CommonWidgets.textDisplay(
@@ -737,7 +745,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                           if (state.model.processBreachIncdnt == true) ...[
                             CommonWidgets.textDisplay(
                                 Constants.incidentItemList,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite14),
                             GestureDetector(
                               onTap: () => navigateToCreateIncident(
                                 state: state,
@@ -754,7 +762,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
                                       colorFilter: const ColorFilter.mode(
-                                        AppColors.navigationSkyBlueColor,
+                                        AppColors.white,
                                         BlendMode.srcIn,
                                       ),
                                       // color: AppColors.navigationSkyBlueColor,
@@ -763,7 +771,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     const Text(
                                       'Add Incident Item List',
                                       style: TextStyle(
-                                        color: AppColors.navigationSkyBlueColor,
+                                        color: AppColors.white,
                                         decoration: TextDecoration.underline,
                                       ),
                                     ),
@@ -788,6 +796,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
 
                           Column(
                             children: [
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
                               /// Any Infrastructural Issue
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.infraIssue ??
@@ -846,6 +856,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
                               ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Any Suspicious Activity
                               CommonWidgets.textDisplay(
@@ -886,7 +897,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                           if (state.model.suspiciousActivity == true) ...[
                             CommonWidgets.textDisplay(
                                 Constants.incidentItemList,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite14),
                             GestureDetector(
                               onTap: () => navigateToCreateIncident(
                                 state: state,
@@ -902,7 +913,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
                                       colorFilter: const ColorFilter.mode(
-                                        AppColors.navigationSkyBlueColor,
+                                        AppColors.white,
                                         BlendMode.srcIn,
                                       ),
                                     ),
@@ -910,7 +921,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     const Text(
                                       'Add Incident Item List',
                                       style: TextStyle(
-                                        color: AppColors.navigationSkyBlueColor,
+                                        color: AppColors.white,
                                         decoration: TextDecoration.underline,
                                       ),
                                     ),
@@ -930,7 +941,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               ),
                             ),
                           ],
-
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
                           Column(
                             children: [
                               /// Fire Alarm Emergency Occurred
@@ -997,6 +1008,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
                               ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Landlord Issue
                               CommonWidgets.textDisplay(
@@ -1059,6 +1071,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
                               ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Security System Failure Incidents
                               CommonWidgets.textDisplay(
@@ -1098,7 +1111,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                           if (state.model.secSysFailureIncdnt == true) ...[
                             CommonWidgets.textDisplay(
                                 Constants.securitySystemSLAList,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite14),
                             GestureDetector(
                               // onTap: () {
                               //   if (isReadOnly) {
@@ -1121,7 +1134,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
                                       colorFilter: const ColorFilter.mode(
-                                        AppColors.navigationSkyBlueColor,
+                                        AppColors.white,
                                         BlendMode.srcIn,
                                       ),
                                       // color: AppColors.navigationSkyBlueColor,
@@ -1130,7 +1143,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     const Text(
                                       'Add Security System SLA List',
                                       style: TextStyle(
-                                        color: AppColors.navigationSkyBlueColor,
+                                        color: AppColors.white,
                                         decoration: TextDecoration.underline,
                                       ),
                                     ),
@@ -1151,6 +1164,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               ),
                             ),
                           ],
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           ///Any System Alarm Received
                           CommonWidgets.textDisplay(
@@ -1207,6 +1221,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ],
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           ///Transport Incident
                           CommonWidgets.textDisplay(
@@ -1262,6 +1277,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ],
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// Any Event
                           CommonWidgets.textDisplay(
@@ -1301,7 +1317,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 state.labels?.locale.notifyScri ??
                                     state.labels?.defaultLocale.notifyScri ??
                                     Constants.notifySCRI,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite14),
                             FlutterInputField(
                               lineHeight: 6,
                               characterLimit:
@@ -1324,6 +1340,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ],
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// Power Failure
                           CommonWidgets.textDisplay(
@@ -1364,7 +1381,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 //     state.labels?.defaultLocale
                                 //         .csrParticipationDates ??
                                 Constants.powerFailuresDate,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite14),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             GestureDetector(
                               onTap: () {
@@ -1415,16 +1432,16 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   Icon(
                                     Icons.add_circle_outline_rounded,
                                     color: showSaveSubmitButtons
-                                        ? AppColors.navigationSkyBlueColor
-                                        : AppColors.boldGreyBackground,
+                                        ? AppColors.white
+                                        : AppColors.white,
                                   ),
                                   const SizedBox(width: 10),
                                   Text(
                                     Constants.addPowerFailuresDates,
                                     style: TextStyle(
                                       color: showSaveSubmitButtons
-                                          ? AppColors.navigationSkyBlueColor
-                                          : AppColors.boldGreyBackground,
+                                          ? AppColors.white
+                                          : AppColors.white,
                                       decoration: TextDecoration.underline,
                                     ),
                                   ),
@@ -1439,7 +1456,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                               children: getPowerFailures(state, height),
                             ),
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// DG Working
                           CommonWidgets.textDisplay(
@@ -1471,6 +1488,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                               context)
                                           .showFields(dgWrking: false);
                                     }),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           ///ATM Vendor Visit
                           CommonWidgets.textDisplay(
@@ -1502,6 +1520,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                               context)
                                           .showFields(atmVendorVisit: false);
                                     }),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           ///CWM Visit
                           CommonWidgets.textDisplay(
@@ -1533,6 +1552,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                               context)
                                           .showFields(cwmVisit: false);
                                     }),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// Follow up actions for next shift
                           CommonWidgets.textDisplay(
@@ -1561,7 +1581,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             },
                             validateTextField: (String? user) {},
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           ///Followed Up
                           CommonWidgets.textDisplay(
@@ -1801,31 +1821,55 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
   }) {
     log('--occId-ogi--$occId--');
     return AbsorbPointer(
-      absorbing: false,
-      child: AppButton(
-        height: 40,
-        width: 100,
-        backgroundColor: Colors.white,
-        key: const Key(Keys.showButton),
-        buttonText: Constants.showList,
-        buttonTextKey: Keys.showButton,
-        onTap: () => {
-          showPopUp ?? false
-              ? Navigator.pushNamed(context, sstIncidentListRoute, arguments: {
-                  "isInternal": true,
-                  "occId": state.model.id.toString(),
-                })
-              : Navigator.pushNamed(
-                  context,
-                  incidentManagementsRoute,
-                  arguments: {
-                    'occId': occId,
-                    'occType': occType,
-                  },
-                ),
-        },
-      ),
-    );
+        absorbing: false,
+        // child: PopButton(
+        //   height: 50,
+        //   width: 130,
+        //   backgroundColor: Colors.white,
+        //   key: const Key(Keys.showButton),
+        //   buttonText: Constants.showList,
+        //   buttonTextKey: Keys.showButton,
+        //   onTap: () => {
+        //     showPopUp ?? false
+        //         ? Navigator.pushNamed(context, sstIncidentListRoute, arguments: {
+        //             "isInternal": true,
+        //             "occId": state.model.id.toString(),
+        //           })
+        //         : Navigator.pushNamed(
+        //             context,
+        //             incidentManagementsRoute,
+        //             arguments: {
+        //               'occId': occId,
+        //               'occType': occType,
+        //             },
+        //           ),
+        //   },
+        // ),
+        child: PopButton(
+          width: 100,
+          key: const Key(Keys.saveButton),
+          buttonText: Constants.showList,
+          boarderColor: AppColors.white,
+          backgroundColor: const Color(0xFF071130),
+          foregroundColor: Colors.white,
+          textStyle: Styles.textStyleSemiBold16White,
+          onTap: () => {
+            showPopUp ?? false
+                ? Navigator.pushNamed(context, sstIncidentListRoute,
+                    arguments: {
+                        "isInternal": true,
+                        "occId": state.model.id.toString(),
+                      })
+                : Navigator.pushNamed(
+                    context,
+                    incidentManagementsRoute,
+                    arguments: {
+                      'occId': occId,
+                      'occType': occType,
+                    },
+                  ),
+          },
+        ));
   }
 
   Widget submitButtonDisplay() {
