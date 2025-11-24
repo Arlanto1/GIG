@@ -35,7 +35,7 @@ class BottomMenuHandler {
                   Navigator.of(context).pop();
                 },
                 child: Container(
-                  color: Colors.black54,
+                  color: Colors.transparent,
                   height: MediaQuery.of(context).size.height,
                 ),
               ),

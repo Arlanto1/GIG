@@ -216,7 +216,8 @@ class _OtpVerifyState extends State<OtpVerify> {
                             filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
                             child: Container(
                               width: MediaQuery.of(context).size.width * 0.9,
-                              padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 18),
+                              // height: MediaQuery.of(context).size.width * 0.9,
+                              padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 13.4),
                               decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.30),
                                 borderRadius: BorderRadius.circular(20),
@@ -263,7 +264,7 @@ class _OtpVerifyState extends State<OtpVerify> {
                                         numberOfFields: 6,
                                         borderColor: const Color(0xFF000080),
                                         showFieldAsBox: true,
-                                        fieldWidth: (MediaQuery.of(context).size.width-129)/6,
+                                        fieldWidth: MediaQuery.of(context).size.width * 0.12,
                                         fillColor: Colors.blueAccent,
                                         hasCustomInputDecoration: true,
                                         decoration: InputDecoration(

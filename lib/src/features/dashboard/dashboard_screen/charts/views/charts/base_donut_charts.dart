@@ -535,6 +535,9 @@ class _BaseDonutChartState extends State<BaseDonutChart>
     return Visibility(
       visible: isChartVisible,
       child: Container(
+        width: MediaQuery.of(context).size.width -50,
+        height: MediaQuery.of(context).size.height/2.1,
+        // height: ,
         margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 8),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -585,7 +588,7 @@ class _BaseDonutChartState extends State<BaseDonutChart>
               ],
             ),
 
-            const SizedBox(height: 12),
+            // const SizedBox(height: 12),
 
             // Chart or No Data
             widget.chartData.isEmpty
@@ -668,8 +671,8 @@ class _BaseDonutChartState extends State<BaseDonutChart>
                     child: BackdropFilter(
                       filter: ui.ImageFilter.blur(sigmaX: 14, sigmaY: 14),
                       child: Container(
-                        width: 300,
-                        height: 300,
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        height: MediaQuery.of(context).size.height * 0.275,
                         color:
                         Colors.white.withOpacity(0.30), // Slight tint
                       ),
@@ -685,9 +688,8 @@ class _BaseDonutChartState extends State<BaseDonutChart>
                   tooltipBehavior: TooltipBehavior(enable: true),
                   series: <CircularSeries>[
                     DoughnutSeries<PieChartData, String>(
-                      radius: '140',
+                      radius: '${MediaQuery.of(context).size.width * 0.28}',
                       // legendIconType: LegendIconType.seriesType,
-
                       dataSource: widget.chartData,
                       xValueMapper: (d, _) => d.x,
                       yValueMapper: (d, _) => d.y,
@@ -714,8 +716,6 @@ class _BaseDonutChartState extends State<BaseDonutChart>
                 ),
               ],
             ),
-
-            const SizedBox(height: 10),
 
             // Scrollable Legend
             if (widget.chartData.isNotEmpty)

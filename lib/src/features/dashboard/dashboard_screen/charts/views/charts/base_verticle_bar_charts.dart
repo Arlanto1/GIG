@@ -1542,37 +1542,38 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
                 ),
               // ],),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 20),
 
             // Chart or No Data
             widget.chartData.isEmpty
-                ? Container(
-              height: 200,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.white.withValues(alpha: 0.2),
-                    Colors.transparent,
-                    Colors.white.withValues(alpha: 0.2),
-                    // Color(0xFF6474C6).withOpacity(0.14)
-                  ],
-                  stops: [0.02, 0.35, 1],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-                borderRadius: BorderRadius.circular(27),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.80),
-                  width: 0.8,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF6474C6).withValues(alpha: 0.09),
-                    blurRadius: 12,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
+                ? SizedBox(
+              // width: MediaQuery.of(context).size.width ,
+              height: MediaQuery.of(context).size.height / 3,
+              // decoration: BoxDecoration(
+              //   gradient: LinearGradient(
+              //     colors: [
+              //       Colors.white.withValues(alpha: 0.2),
+              //       Colors.transparent,
+              //       Colors.white.withValues(alpha: 0.2),
+              //       // Color(0xFF6474C6).withOpacity(0.14)
+              //     ],
+              //     stops: [0.02, 0.35, 1],
+              //     begin: Alignment.topCenter,
+              //     end: Alignment.bottomCenter,
+              //   ),
+              //   borderRadius: BorderRadius.circular(27),
+              //   border: Border.all(
+              //     color: Colors.white.withValues(alpha: 0.80),
+              //     width: 0.8,
+              //   ),
+              //   boxShadow: [
+              //     BoxShadow(
+              //       color: const Color(0xFF6474C6).withValues(alpha: 0.09),
+              //       blurRadius: 12,
+              //       offset: const Offset(0, 2),
+              //     ),
+              //   ],
+              // ),
               child: const Center(
                 child: Text(
                   'No Data Found',
@@ -1581,7 +1582,9 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
               ),
             )
                 : SizedBox(
-                height: 300,
+                width: MediaQuery.of(context).size.width ,
+                height: MediaQuery.of(context).size.height / 3.1,
+                // height: 300,
                 // width: 900,
                 // child: SfCartesianChart(
                 //   backgroundColor: Colors.white.withValues(alpha: 0.5),
@@ -1841,7 +1844,9 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
             // Custom Scrollable Legend
             if (widget.chartData.isNotEmpty)
               SizedBox(
-                height: 50,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height / 20,
+                // height: 50,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(

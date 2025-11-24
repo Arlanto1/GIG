@@ -125,12 +125,295 @@ class BasePieChartState extends State<BasePieChart> {
   // }
 // }
 
+  // Widget build(BuildContext context) {
+  //   return Visibility(
+  //     visible: isChartVisible,
+  //     child: Container(
+  //       width: MediaQuery.of(context).size.width -100,
+  //       height: MediaQuery.of(context).size.height/2.17,
+  //       // margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 3),
+  //       // padding: const EdgeInsets.all(10),
+  //       decoration: BoxDecoration(
+  //         gradient: LinearGradient(
+  //           colors: [
+  //             Colors.white.withValues(alpha: 0.2),
+  //             Colors.transparent,
+  //             Colors.white.withValues(alpha: 0.2),
+  //           ],
+  //           stops: [0.02, 0.35, 1],
+  //           begin: Alignment.topCenter,
+  //           end: Alignment.bottomCenter,
+  //         ),
+  //         borderRadius: BorderRadius.circular(27),
+  //         border: Border.all(
+  //           color: Colors.white.withValues(alpha: 0.80),
+  //           width: 0.8,
+  //         ),
+  //         boxShadow: [
+  //           BoxShadow(
+  //             color: const Color(0xFF6474C6).withValues(alpha: 0.09),
+  //             blurRadius: 12,
+  //             offset: const Offset(0, 2),
+  //           ),
+  //         ],
+  //       ),
+  //       child: Column(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           // Header Row
+  //           Row(
+  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //             children: [
+  //               Expanded(
+  //                 child: SingleChildScrollView(
+  //                   scrollDirection: Axis.horizontal,
+  //                   child: Text(
+  //                     widget.chartTitle,
+  //                     style: const TextStyle(
+  //                       fontWeight: FontWeight.bold,
+  //                       color: Colors.black,
+  //                       fontSize: 19,
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ),
+  //               // if (widget.moreIcon != null) widget.moreIcon!,
+  //             ],
+  //           ),
+  //
+  //           const SizedBox(height: 12),
+  //
+  //           // Chart or No Data
+  //           widget.chartData.isEmpty
+  //               ? Container(
+  //                   height: 200,
+  //                   decoration: BoxDecoration(
+  //                     gradient: LinearGradient(
+  //                       colors: [
+  //                         Colors.white.withValues(alpha: 0.2),
+  //                         Colors.transparent,
+  //                         Colors.white.withValues(alpha: 0.2),
+  //                       ],
+  //                       stops: [0.02, 0.35, 1],
+  //                       begin: Alignment.topCenter,
+  //                       end: Alignment.bottomCenter,
+  //                     ),
+  //                     borderRadius: BorderRadius.circular(27),
+  //                     border: Border.all(
+  //                       color: Colors.white.withValues(alpha: 0.80),
+  //                       width: 0.8,
+  //                     ),
+  //                     boxShadow: [
+  //                       BoxShadow(
+  //                         color:
+  //                             const Color(0xFF6474C6).withValues(alpha: 0.09),
+  //                         blurRadius: 12,
+  //                         offset: const Offset(0, 2),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                   child: const Center(
+  //                     child: Text(
+  //                       'No Data Found',
+  //                       style: TextStyle(color: Colors.black54, fontSize: 14),
+  //                     ),
+  //                   ),
+  //                 )
+  //               :
+  //               // SizedBox(
+  //               //     height: 300,
+  //               //     child: SfCircularChart(
+  //               //       // legend: const Legend(isVisible: true),
+  //               //       tooltipBehavior: TooltipBehavior(enable: true),
+  //               //       series: <CircularSeries>[
+  //               //         // PieSeries<PieChartData, String>(
+  //               //         //   radius: '110',
+  //               //         //   legendIconType: LegendIconType.seriesType,
+  //               //         //   dataSource: widget.chartData,
+  //               //         //   xValueMapper: (PieChartData data, _) => data.x,
+  //               //         //   yValueMapper: (PieChartData data, _) => data.y,
+  //               //         //   pointColorMapper: (PieChartData data, index) =>
+  //               //         //   customColors[index % customColors.length],
+  //               //         //   dataLabelSettings: const DataLabelSettings(
+  //               //         //     isVisible: true,
+  //               //         //   ),
+  //               //         //   enableTooltip: true,
+  //               //         //   explode: true,
+  //               //         // ),
+  //               //         PieSeries<PieChartData, String>(
+  //               //           radius: '110',
+  //               //           legendIconType: LegendIconType.seriesType,
+  //               //           dataSource: widget.chartData,
+  //               //           xValueMapper: (PieChartData data, _) => data.x,
+  //               //           yValueMapper: (PieChartData data, _) => data.y,
+  //               //           pointColorMapper: (PieChartData data, index) =>
+  //               //           customGlassColors[index % customGlassColors.length], // translucent colors
+  //               //           dataLabelSettings: const DataLabelSettings(
+  //               //             isVisible: true,
+  //               //             textStyle: TextStyle(
+  //               //               color: Colors.white, // for contrast on glass
+  //               //               shadows: [
+  //               //                 Shadow(
+  //               //                   color: Colors.black26,
+  //               //                   blurRadius: 6,
+  //               //                   offset: Offset(1, 1),
+  //               //                 ),
+  //               //               ],
+  //               //             ),
+  //               //           ),
+  //               //           enableTooltip: true,
+  //               //           explode: true,
+  //               //         )
+  //
+  //               //       ],
+  //               //     ),
+  //               //   ),
+  //
+  //               Stack(
+  //                   alignment: Alignment.center,
+  //                   children: [
+  //                     // 1. Your original, textured or gradient background
+  //                     // Positioned.fill(
+  //                     // child: Image.asset('assets/your_blurred_background.jpg', fit: BoxFit.cover),
+  //                     // ),
+  //                     // 2. Circular blur overlay, matching the pie's size and position
+  //                     Center(
+  //                       child: ClipOval(
+  //                         child: BackdropFilter(
+  //                           filter: ui.ImageFilter.blur(sigmaX: 14, sigmaY: 14),
+  //                           child: Container(
+  //                             width: 300,
+  //                             height: 300,
+  //                             // width: MediaQuery.of(context).size.width,
+  //                             // height: MediaQuery.of(context).size.height / 20,
+  //                             color:
+  //                                 Colors.white.withOpacity(0.30), // Slight tint
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                     // 3. The actual PieChart, with translucent colors
+  //                     SfCircularChart(
+  //                       backgroundColor: Colors.transparent,
+  //                       // palette: <Color>[Colors.amber.withValues(alpha: 0.5), Colors.brown.withValues(alpha: 0.5), Colors.green.withValues(alpha: 0.5), Colors.purple.withValues(alpha: 0.5), Colors.teal.withValues(alpha: 0.5),const Color(0xFFFF4500).withValues(alpha: 0.5), const Color(0xFFdc3545).withValues(alpha: 0.5),   const Color(0xFF003f5c).withValues(alpha: 0.4)],
+  //                       palette: customGlassColors,
+  //                       // legend: const Legend(isVisible: true),
+  //                       tooltipBehavior: TooltipBehavior(enable: true),
+  //                       series: <CircularSeries>[
+  //                         PieSeries<PieChartData, String>(
+  //                           radius: '140',
+  //                           // legendIconType: LegendIconType.seriesType,
+  //
+  //                           dataSource: widget.chartData,
+  //                           xValueMapper: (d, _) => d.x,
+  //                           yValueMapper: (d, _) => d.y,
+  //                           strokeColor: Colors.white.withOpacity(0.8),
+  //                           pointRenderMode: PointRenderMode.gradient,
+  //
+  //                           strokeWidth: 1.2,
+  //                           explode: true,
+  //                           explodeOffset: '10%',
+  //                           pointColorMapper: (PieChartData d, int? i) {
+  //                             final index = i ?? 0;
+  //                             // Return gradient start color
+  //                             return gradientColors[
+  //                                     index % gradientColors.length]
+  //                                 .first;
+  //                           },
+  //
+  //                           dataLabelSettings: const DataLabelSettings(
+  //                             isVisible: true,
+  //                             textStyle: TextStyle(color: Colors.white),
+  //                           ),
+  //                         )
+  //                       ],
+  //                     ),
+  //                   ],
+  //                 ),
+  //
+  //           const SizedBox(height: 10),
+  //
+  //           // Custom Scrollable Legend
+  //           if (widget.chartData.isNotEmpty)
+  //             SizedBox(
+  //               width: MediaQuery.of(context).size.width,
+  //               height: MediaQuery.of(context).size.height / 20,
+  //               child: SingleChildScrollView(
+  //                 scrollDirection: Axis.horizontal,
+  //                 child: Row(
+  //                   children: widget.chartData.map((data) {
+  //                     final color = customColors[
+  //                         widget.chartData.indexOf(data) % customColors.length];
+  //                     return Container(
+  //                       margin: const EdgeInsets.symmetric(horizontal: 6),
+  //                       padding: const EdgeInsets.symmetric(
+  //                           horizontal: 12, vertical: 6),
+  //                       decoration: BoxDecoration(
+  //                         gradient: LinearGradient(
+  //                           colors: [
+  //                             Colors.white.withValues(alpha: 0.2),
+  //                             Colors.transparent,
+  //                             Colors.white.withValues(alpha: 0.2),
+  //                           ],
+  //                           stops: [0.02, 0.35, 1],
+  //                           begin: Alignment.topCenter,
+  //                           end: Alignment.bottomCenter,
+  //                         ),
+  //                         borderRadius: BorderRadius.circular(27),
+  //                         border: Border.all(
+  //                           color: Colors.white.withValues(alpha: 0.80),
+  //                           width: 0.8,
+  //                         ),
+  //                         boxShadow: [
+  //                           BoxShadow(
+  //                             color: const Color(0xFF6474C6)
+  //                                 .withValues(alpha: 0.09),
+  //                             blurRadius: 12,
+  //                             offset: const Offset(0, 2),
+  //                           ),
+  //                         ],
+  //                       ),
+  //                       child: Row(
+  //                         children: [
+  //                           Container(
+  //                             width: 10,
+  //                             height: 10,
+  //                             decoration: BoxDecoration(
+  //                               color: color,
+  //                               shape: BoxShape.circle,
+  //                             ),
+  //                           ),
+  //                           const SizedBox(width: 6),
+  //                           Text(
+  //                             '${data.x} (${data.y}%)',
+  //                             style: const TextStyle(
+  //                               fontSize: 13,
+  //                               fontWeight: FontWeight.w500,
+  //                               color: Color(0xFF333333),
+  //                             ),
+  //                           ),
+  //                         ],
+  //                       ),
+  //                     );
+  //                   }).toList(),
+  //                 ),
+  //               ),
+  //             ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Visibility(
       visible: isChartVisible,
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 3),
-        padding: const EdgeInsets.all(10),
+        // width: 200,
+        // width: screenWidth - 20,
+        height: screenHeight / 2.16,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -157,10 +440,11 @@ class BasePieChartState extends State<BasePieChart> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            // Header Row
+            // ---------- TITLE ----------
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Expanded(
                   child: SingleChildScrollView(
@@ -175,170 +459,111 @@ class BasePieChartState extends State<BasePieChart> {
                     ),
                   ),
                 ),
-                // if (widget.moreIcon != null) widget.moreIcon!,
               ],
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 10),
 
-            // Chart or No Data
-            widget.chartData.isEmpty
-                ? Container(
-                    height: 200,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.white.withValues(alpha: 0.2),
-                          Colors.transparent,
-                          Colors.white.withValues(alpha: 0.2),
-                        ],
-                        stops: [0.02, 0.35, 1],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
-                      borderRadius: BorderRadius.circular(27),
-                      border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.80),
-                        width: 0.8,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color:
-                              const Color(0xFF6474C6).withValues(alpha: 0.09),
-                          blurRadius: 12,
-                          offset: const Offset(0, 2),
+            // ---------- NO DATA ----------
+            if (widget.chartData.isEmpty)
+              Container(
+                height: screenHeight * 0.25,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.white.withValues(alpha: 0.2),
+                      Colors.transparent,
+                      Colors.white.withValues(alpha: 0.2),
+                    ],
+                    stops: [0.02, 0.35, 1],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                  borderRadius: BorderRadius.circular(27),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.80),
+                    width: 0.8,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF6474C6).withValues(alpha: 0.09),
+                      blurRadius: 12,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: const Center(
+                  child: Text(
+                    'No Data Found',
+                    style: TextStyle(color: Colors.black54, fontSize: 14),
+                  ),
+                ),
+              )
+            else
+            // ---------- RESPONSIVE PIE CHART ----------
+              SizedBox(
+                height: screenHeight * 0.29,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    // ---------- BLUR GLASS CIRCLE ----------
+                    ClipOval(
+                      child: BackdropFilter(
+                        filter: ui.ImageFilter.blur(sigmaX: 14, sigmaY: 14),
+                        child: Container(
+                          width: screenWidth * 0.60,
+                          height: screenWidth * 0.60,
+                          color: Colors.white.withOpacity(0.30),
                         ),
+                      ),
+                    ),
+
+                    // ---------- PIE CHART ----------
+                    SfCircularChart(
+                      backgroundColor: Colors.transparent,
+                      palette: customGlassColors,
+                      tooltipBehavior: TooltipBehavior(enable: true),
+                      series: <CircularSeries>[
+                        PieSeries<PieChartData, String>(
+                          radius: '${screenWidth * 0.28}',
+                          dataSource: widget.chartData,
+                          xValueMapper: (d, _) => d.x,
+                          yValueMapper: (d, _) => d.y,
+                          strokeColor: Colors.white.withOpacity(0.8),
+                          strokeWidth: 1.2,
+                          explode: true,
+                          explodeOffset: '10%',
+                          pointRenderMode: PointRenderMode.gradient,
+                          pointColorMapper: (PieChartData d, int? index) {
+                            return gradientColors[
+                            (index ?? 0) % gradientColors.length]
+                                .first;
+                          },
+                          dataLabelSettings: const DataLabelSettings(
+                            isVisible: true,
+                            textStyle: TextStyle(color: Colors.white),
+                          ),
+                        )
                       ],
                     ),
-                    child: const Center(
-                      child: Text(
-                        'No Data Found',
-                        style: TextStyle(color: Colors.black54, fontSize: 14),
-                      ),
-                    ),
-                  )
-                :
-                // SizedBox(
-                //     height: 300,
-                //     child: SfCircularChart(
-                //       // legend: const Legend(isVisible: true),
-                //       tooltipBehavior: TooltipBehavior(enable: true),
-                //       series: <CircularSeries>[
-                //         // PieSeries<PieChartData, String>(
-                //         //   radius: '110',
-                //         //   legendIconType: LegendIconType.seriesType,
-                //         //   dataSource: widget.chartData,
-                //         //   xValueMapper: (PieChartData data, _) => data.x,
-                //         //   yValueMapper: (PieChartData data, _) => data.y,
-                //         //   pointColorMapper: (PieChartData data, index) =>
-                //         //   customColors[index % customColors.length],
-                //         //   dataLabelSettings: const DataLabelSettings(
-                //         //     isVisible: true,
-                //         //   ),
-                //         //   enableTooltip: true,
-                //         //   explode: true,
-                //         // ),
-                //         PieSeries<PieChartData, String>(
-                //           radius: '110',
-                //           legendIconType: LegendIconType.seriesType,
-                //           dataSource: widget.chartData,
-                //           xValueMapper: (PieChartData data, _) => data.x,
-                //           yValueMapper: (PieChartData data, _) => data.y,
-                //           pointColorMapper: (PieChartData data, index) =>
-                //           customGlassColors[index % customGlassColors.length], // translucent colors
-                //           dataLabelSettings: const DataLabelSettings(
-                //             isVisible: true,
-                //             textStyle: TextStyle(
-                //               color: Colors.white, // for contrast on glass
-                //               shadows: [
-                //                 Shadow(
-                //                   color: Colors.black26,
-                //                   blurRadius: 6,
-                //                   offset: Offset(1, 1),
-                //                 ),
-                //               ],
-                //             ),
-                //           ),
-                //           enableTooltip: true,
-                //           explode: true,
-                //         )
-
-                //       ],
-                //     ),
-                //   ),
-
-                Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      // 1. Your original, textured or gradient background
-                      // Positioned.fill(
-                      // child: Image.asset('assets/your_blurred_background.jpg', fit: BoxFit.cover),
-                      // ),
-                      // 2. Circular blur overlay, matching the pie's size and position
-                      Center(
-                        child: ClipOval(
-                          child: BackdropFilter(
-                            filter: ui.ImageFilter.blur(sigmaX: 14, sigmaY: 14),
-                            child: Container(
-                              width: 300,
-                              height: 300,
-                              color:
-                                  Colors.white.withOpacity(0.30), // Slight tint
-                            ),
-                          ),
-                        ),
-                      ),
-                      // 3. The actual PieChart, with translucent colors
-                      SfCircularChart(
-                        backgroundColor: Colors.transparent,
-                        // palette: <Color>[Colors.amber.withValues(alpha: 0.5), Colors.brown.withValues(alpha: 0.5), Colors.green.withValues(alpha: 0.5), Colors.purple.withValues(alpha: 0.5), Colors.teal.withValues(alpha: 0.5),const Color(0xFFFF4500).withValues(alpha: 0.5), const Color(0xFFdc3545).withValues(alpha: 0.5),   const Color(0xFF003f5c).withValues(alpha: 0.4)],
-                        palette: customGlassColors,
-                        // legend: const Legend(isVisible: true),
-                        tooltipBehavior: TooltipBehavior(enable: true),
-                        series: <CircularSeries>[
-                          PieSeries<PieChartData, String>(
-                            radius: '140',
-                            // legendIconType: LegendIconType.seriesType,
-
-                            dataSource: widget.chartData,
-                            xValueMapper: (d, _) => d.x,
-                            yValueMapper: (d, _) => d.y,
-                            strokeColor: Colors.white.withOpacity(0.8),
-                            pointRenderMode: PointRenderMode.gradient,
-
-                            strokeWidth: 1.2,
-                            explode: true,
-                            explodeOffset: '10%',
-                            pointColorMapper: (PieChartData d, int? i) {
-                              final index = i ?? 0;
-                              // Return gradient start color
-                              return gradientColors[
-                                      index % gradientColors.length]
-                                  .first;
-                            },
-
-                            dataLabelSettings: const DataLabelSettings(
-                              isVisible: true,
-                              textStyle: TextStyle(color: Colors.white),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+                  ],
+                ),
+              ),
 
             const SizedBox(height: 10),
 
-            // Custom Scrollable Legend
+            // ---------- CUSTOM LEGEND ----------
             if (widget.chartData.isNotEmpty)
               SizedBox(
-                height: 50,
+                width: screenWidth,
+                height: screenHeight * 0.06,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: widget.chartData.map((data) {
                       final color = customColors[
-                          widget.chartData.indexOf(data) % customColors.length];
+                      widget.chartData.indexOf(data) % customColors.length];
+
                       return Container(
                         margin: const EdgeInsets.symmetric(horizontal: 6),
                         padding: const EdgeInsets.symmetric(
@@ -399,6 +624,7 @@ class BasePieChartState extends State<BasePieChart> {
       ),
     );
   }
+
 }
 
 // import 'dart:ui';

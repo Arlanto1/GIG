@@ -76,11 +76,11 @@ class AddContactPopUpState extends State<AddContactPopUp> {
         alignment: Alignment.center,
         child: Text(
           widget.title,
-          style: Styles.textFontSet(18, AppColors.textGreyThemeColor,
+          style: Styles.textFontSet(18, AppColors.white,
               FontWeight.normal, Constants.customFontSemiBoldFamily),
         ),
       ),
-      backgroundColor: AppColors.backgroundWhiteColor,
+      backgroundColor: AppColors.lavender,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         if (widget.parentStatus == ConstantsIntValue.slaStatusFinalized ||
@@ -113,7 +113,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             state.labels?.locale.violation ??
                                 state.labels?.defaultLocale.violation ??
                                 Constants.violation,
-                            Styles.textStyleBlack14,
+                            Styles.textStyleWhite14,
                             //isMandatory: true,
                           ),
                           TextFieldAddButton(
@@ -172,7 +172,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                             state.labels?.defaultLocale.penaltyAmount ??
                             Constants.penaltyAmount,
                         //isMandatory: true,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite14,
                       ),
                       FlutterInputField(
                         // initialValue: '${widget.model.penaltyAmount}',
@@ -199,7 +199,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                               state.labels?.defaultLocale.staffCategory ??
                               Constants.staffCategory,
                           //isMandatory: true,
-                          Styles.textStyleBlack14),
+                          Styles.textStyleWhite14),
                       CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                       BaseDropDown().getDropDown(
@@ -277,7 +277,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         state.labels?.locale.totalViolations ??
                             state.labels?.defaultLocale.totalViolations ??
                             Constants.totalNoOfViolations,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite14,
                         //isMandatory: true,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -314,7 +314,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                         state.labels?.locale.totalPenaltyAmount ??
                             state.labels?.defaultLocale.totalPenaltyAmount ??
                             Constants.totalPenaltyAmount,
-                        Styles.textStyleBlack14,
+                        Styles.textStyleWhite14,
                         //isMandatory: true,
                       ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -360,10 +360,10 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       key: const Key(Keys.cancelButton),
       buttonText: Constants.close,
       buttonTextKey: Keys.cancelButtonText,
-      foregroundColor: AppColors.textGreyThemeColor,
+      foregroundColor: AppColors.white,
       textStyle: Styles.styleHeaderGreyText16,
-      backgroundColor: AppColors.white,
-      boarderColor: AppColors.textGreyThemeColor,
+      backgroundColor: Colors.transparent,
+      boarderColor: AppColors.white,
       onTap: () {
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();
@@ -378,8 +378,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
       key: const Key(Keys.saveButton),
       buttonText: Constants.save,
       buttonTextKey: Keys.saveButtonText,
-      boarderColor: AppColors.navigationSkyBlueColor,
-      backgroundColor: AppColors.navigationSkyBlueColor,
+      boarderColor: AppColors.white,
+      backgroundColor: const Color(0xFF071130),
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {

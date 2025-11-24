@@ -108,7 +108,7 @@ export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/cubits/ch
 export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/models/chart_data_model.dart';
 export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/models/menu_item.dart';
 export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/bottom_menu_handler.dart';
-export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/charts/base_bar_charts.dart';
+export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/charts/base_donut_charts.dart';
 export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/charts/base_pie_charts.dart';
 export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/charts/base_verticle_bar_charts.dart';
 export 'package:db_atom/src/features/dashboard/dashboard_screen/charts/views/dashboard_view.dart';
