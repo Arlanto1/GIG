@@ -9,6 +9,7 @@ class ShiftScheduleListState extends Equatable {
   final Locations? locations;
   final SSUiLabels? labels;
   final ExtraProperties? extraProperties;
+  final DisplayMenu? displayMenu;
 
   const ShiftScheduleListState({
     this.items = const <ShiftScheduleModel>[],
@@ -19,6 +20,7 @@ class ShiftScheduleListState extends Equatable {
     this.locations,
     this.commonFilters,
     this.extraProperties,
+    this.displayMenu
   });
 
   ShiftScheduleListState copyWith({

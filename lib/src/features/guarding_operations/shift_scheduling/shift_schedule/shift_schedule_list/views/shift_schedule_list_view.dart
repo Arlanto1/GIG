@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/shift_schedule_list/bloc/shift_schedule_list_bloc.dart';
 
@@ -56,24 +58,38 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     final size = MediaQuery.of(context).size;
     double height = size.height;
     return BlocConsumer<ShiftScheduleListBloc, ShiftScheduleListState>(
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-            backgroundColor: AppColors.cardBgColor,
-            floatingActionButton: state.extraProperties?.hasWritePermission ??
-                    false
-                ? Flutterfloatingbutton(
-                    backgroundColor: AppColors.navigationSkyBlueColor,
-                    foregroundColor: AppColors.backgroundWhiteColor,
-                    onPressed: () => {
-                      Navigator.pushNamed(context, shiftScheduleDetailsRoute,
-                          arguments: {"title": Constants.createShiftSchedule}),
-                    },
-                  )
-                : const SizedBox(),
+            backgroundColor: AppColors.lavender,
+            // floatingActionButton: state.extraProperties?.hasWritePermission ??
+            //         false
+            //     ? Flutterfloatingbutton(
+            //         backgroundColor: AppColors.navigationSkyBlueColor,
+            //         foregroundColor: AppColors.backgroundWhiteColor,
+            //         onPressed: () => {
+            //           Navigator.pushNamed(context, shiftScheduleDetailsRoute,
+            //               arguments: {"title": Constants.createShiftSchedule}),
+            //         },
+            //       )
+            //     : const SizedBox(),
+            bottomNavigationBar: CustomBottomNavigationBar(
+                scaffoldKey: scaffoldKey,
+                context: context,
+                hasAddPermission:
+                    state.extraProperties?.hasWritePermission ?? false
+                        ? true
+                        : false,
+                displayMenu: state.displayMenu,
+                list: true,
+                onAddPressed: () {
+                  Navigator.pushNamed(context, shiftScheduleDetailsRoute,
+                      arguments: {"title": Constants.createShiftSchedule});
+                }),
             appBar: BaseAppBar().buildAppHeader(
               context: context,
               title: Constants.shiftSchedule,
@@ -95,16 +111,12 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
               // }
               // log('--labels-${state.labels?.locale.locationRegion}');
               return Container(
-                margin: allMargin16,
-                decoration: const ShapeDecoration(
-                    color: AppColors.backgroundWhiteColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20.0)),
-                    )),
+                width: double.infinity,
+                height: double.infinity,
                 child: Column(
                   // crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    CommonWidgets.verticalSpacerWidget(height * 0.01),
                     BaseSearchWidget(
                       applySearchFilters: applySearchFilters,
                       applyFilters: applyFilters,
@@ -185,8 +197,7 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                             int.parse(
                                                 state.items[index].fromDate ??
                                                     '0'),
-                                            Constants
-                                                .dateFormat)
+                                            Constants.dateFormat)
                                         : ''));
                                 labels.add(Label(
                                     key: state.labels?.locale.toDate ??
@@ -197,75 +208,163 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                             int.parse(
                                                 state.items[index].toDate ??
                                                     '0'),
-                                            Constants
-                                                .dateFormat)
+                                            Constants.dateFormat)
                                         : ''));
 
                                 return index >= state.items.length
-                                    ? null
-                                    : BaseListTileItem(
-                                        id: state.items[index].id,
-                                        status: state.items[index].status,
-                                        isMasterGuard: false,
-                                        isShiftScheduleStatus: true,
-                                        isEventProtectionStatus: false,
-                                        labels: labels,
-                                        onTap: (selectedIndex) {
-                                          showDialog(
-                                            context: context,
-                                            builder:
-                                                (BuildContext dialogContext) {
-                                              return BasePopUpItems(
-                                                id: state
-                                                    .items[selectedIndex].id
-                                                    .toString(),
-                                                labels: labels,
-                                                slNo: state
-                                                    .items[selectedIndex].slNo,
-                                                status: state
-                                                    .items[selectedIndex]
-                                                    .status,
-                                                isMasterGuard: false,
-                                                isEventProtectionStatus: false,
-                                                isShiftScheduleStatus: true,
-                                              );
-                                            },
-                                          );
-                                        },
-                                        showEditButton: state
-                                                .items[index].status !=
-                                            ConstantsIntValue.cancelledStatus,
-                                        onEditTap: (selectedIndex) {
-                                          getById(
-                                              state.extraProperties
-                                                      ?.hasWritePermission ??
-                                                  false,
-                                              id: state.items[index].id ?? 0);
-                                        },
-                                        onViewTap: (selectedIndex) {
-                                          showDialog(
-                                            context: context,
-                                            builder:
-                                                (BuildContext dialogContext) {
-                                              return BasePopUpItems(
-                                                id: state
-                                                    .items[selectedIndex].id
-                                                    .toString(),
-                                                labels: labels,
-                                                slNo: state
-                                                    .items[selectedIndex].slNo,
-                                                status: state
-                                                    .items[selectedIndex]
-                                                    .status,
-                                                isMasterGuard: false,
-                                                isEventProtectionStatus: false,
-                                                isShiftScheduleStatus: true,
-                                              );
-                                            },
-                                          );
-                                        },
-                                        index: index,
-                                      );
+                                    ? const BaseLoader()
+                                    :
+                                    // index >= state.items.length
+                                    //   ? const BaseLoader()
+                                    Container(
+                                        decoration: const BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Color(0xFF6474C6),
+                                              Color(0xFF6474C6)
+                                            ],
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                          ),
+                                        ),
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 12, vertical: 8),
+                                        child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(18),
+                                            child: BackdropFilter(
+                                                filter: ImageFilter.blur(
+                                                    sigmaX: 18, sigmaY: 18),
+                                                child: Container(
+                                                    decoration: BoxDecoration(
+                                                      gradient: LinearGradient(
+                                                        colors: [
+                                                          Colors.white
+                                                              .withValues(
+                                                                  alpha: 0.2),
+                                                          Colors.transparent,
+                                                          Colors.white
+                                                              .withValues(
+                                                                  alpha: 0.2),
+                                                          // Color(0xFF6474C6).withOpacity(0.14)
+                                                        ],
+                                                        stops: [0.02, 0.35, 1],
+                                                        begin:
+                                                            Alignment.topCenter,
+                                                        end: Alignment
+                                                            .bottomCenter,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              27),
+                                                      border: Border.all(
+                                                        color: Colors.white
+                                                            .withValues(
+                                                                alpha: 0.80),
+                                                        width: 0.8,
+                                                      ),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: const Color(
+                                                                  0xFF6474C6)
+                                                              .withValues(
+                                                                  alpha: 0.09),
+                                                          blurRadius: 12,
+                                                          offset: const Offset(
+                                                              0, 2),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    child: BaseListTileItem(
+                                                      id: state.items[index].id,
+                                                      status: state
+                                                          .items[index].status,
+                                                      isMasterGuard: false,
+                                                      isShiftScheduleStatus:
+                                                          true,
+                                                      isEventProtectionStatus:
+                                                          false,
+                                                      labels: labels,
+                                                      onTap: (selectedIndex) {
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              dialogContext) {
+                                                            return BasePopUpItems(
+                                                              id: state
+                                                                  .items[
+                                                                      selectedIndex]
+                                                                  .id
+                                                                  .toString(),
+                                                              labels: labels,
+                                                              slNo: state
+                                                                  .items[
+                                                                      selectedIndex]
+                                                                  .slNo,
+                                                              status: state
+                                                                  .items[
+                                                                      selectedIndex]
+                                                                  .status,
+                                                              isMasterGuard:
+                                                                  false,
+                                                              isEventProtectionStatus:
+                                                                  false,
+                                                              isShiftScheduleStatus:
+                                                                  true,
+                                                            );
+                                                          },
+                                                        );
+                                                      },
+                                                      showEditButton: state
+                                                              .items[index]
+                                                              .status !=
+                                                          ConstantsIntValue
+                                                              .cancelledStatus,
+                                                      onEditTap:
+                                                          (selectedIndex) {
+                                                        getById(
+                                                            state.extraProperties
+                                                                    ?.hasWritePermission ??
+                                                                false,
+                                                            id: state
+                                                                    .items[
+                                                                        index]
+                                                                    .id ??
+                                                                0);
+                                                      },
+                                                      onViewTap:
+                                                          (selectedIndex) {
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                              dialogContext) {
+                                                            return BasePopUpItems(
+                                                              id: state
+                                                                  .items[
+                                                                      selectedIndex]
+                                                                  .id
+                                                                  .toString(),
+                                                              labels: labels,
+                                                              slNo: state
+                                                                  .items[
+                                                                      selectedIndex]
+                                                                  .slNo,
+                                                              status: state
+                                                                  .items[
+                                                                      selectedIndex]
+                                                                  .status,
+                                                              isMasterGuard:
+                                                                  false,
+                                                              isEventProtectionStatus:
+                                                                  false,
+                                                              isShiftScheduleStatus:
+                                                                  true,
+                                                            );
+                                                          },
+                                                        );
+                                                      },
+                                                      index: index,
+                                                    )))));
                               }
                               return const Center(
                                 child: SizedBox(),
