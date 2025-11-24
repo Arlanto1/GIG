@@ -31,7 +31,7 @@ class PopButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width,
-      height: 50.00,
+      height: 45.00,
       child: TextButton(
         key: Key(buttonKey ?? ''),
         onPressed: () {

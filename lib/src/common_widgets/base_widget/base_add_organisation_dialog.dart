@@ -47,7 +47,7 @@ class BaseAddOrganisationDialogState extends State<BaseAddOrganisationDialog> {
         ),
       ),
       surfaceTintColor: Colors.white,
-      // backgroundColor: AppColors.backgroundWhitecolor,
+      // backgroundColor: AppColors.redColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
@@ -57,6 +57,7 @@ class BaseAddOrganisationDialogState extends State<BaseAddOrganisationDialog> {
           height: height / 1.82,
           width: width,
           child: Scaffold(
+            // backgroundColor: Colors.transparent,
             body: SingleChildScrollView(
               child: Stack(
                 clipBehavior: Clip.none,

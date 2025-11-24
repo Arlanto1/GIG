@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/violation_penalty_record/views/add_violation_pop_up.dart';
@@ -66,6 +67,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     return BlocConsumer<ViolationPenaltyRecordBloc,
         ViolationPenaltyRecordState>(listener: (context, state) {
       // TODO: implement listener
@@ -78,31 +80,57 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
       }
 
       return Scaffold(
-        backgroundColor: AppColors.cardBgColor,
-        floatingActionButton:
-            widget.parentStatus != ConstantsIntValue.slaStatusFinalized &&
-                    widget.parentStatus != ConstantsIntValue.cancelledStatus &&
-                    !(widget.extraProperties != null &&
-                        !widget.extraProperties!.hasWritePermission!) &&
-                    !widget.isLocked
-                ? Flutterfloatingbutton(
-                    backgroundColor: AppColors.navigationSkyBlueColor,
-                    foregroundColor: AppColors.backgroundWhiteColor,
-                    onPressed: () {
-                      log('--state.users--llen-fff-${state.violationDescriptions?.length}---');
-
-                      showAddContactPopUp(
-                        context: context,
-                        contact: ViolationPenaltyRecord(
-                          svpId: widget.id,
-                        ),
-                        users: state.violationDescriptions ?? [],
-                        staffCategoriesValues:
-                            state.staffCategoriesValues ?? <String, int>{},
-                      );
-                    },
-                  )
-                : const SizedBox(),
+        backgroundColor: AppColors.lavender,
+        // floatingActionButton:
+        //     widget.parentStatus != ConstantsIntValue.slaStatusFinalized &&
+        //             widget.parentStatus != ConstantsIntValue.cancelledStatus &&
+        //             !(widget.extraProperties != null &&
+        //                 !widget.extraProperties!.hasWritePermission!) &&
+        //             !widget.isLocked
+        //         ? Flutterfloatingbutton(
+        //             backgroundColor: AppColors.navigationSkyBlueColor,
+        //             foregroundColor: AppColors.backgroundWhiteColor,
+        //             onPressed: () {
+        //               log('--state.users--llen-fff-${state.violationDescriptions?.length}---');
+        //
+        //               showAddContactPopUp(
+        //                 context: context,
+        //                 contact: ViolationPenaltyRecord(
+        //                   svpId: widget.id,
+        //                 ),
+        //                 users: state.violationDescriptions ?? [],
+        //                 staffCategoriesValues:
+        //                     state.staffCategoriesValues ?? <String, int>{},
+        //               );
+        //             },
+        //           )
+        //         : const SizedBox(),
+        bottomNavigationBar: CustomBottomNavigationBar(
+          hasAddPermission: widget.parentStatus !=
+                      ConstantsIntValue.slaStatusFinalized &&
+                  widget.parentStatus != ConstantsIntValue.cancelledStatus &&
+                  !(widget.extraProperties != null &&
+                      !widget.extraProperties!.hasWritePermission!) &&
+                  !widget.isLocked
+              ? true
+              : false,
+          scaffoldKey: scaffoldKey,
+          context: context,
+          displayMenu: state.displayMenu,
+          list: true,
+          // 🔥 only "+" button mode
+          onAddPressed: () {
+            showAddContactPopUp(
+              context: context,
+              contact: ViolationPenaltyRecord(
+                svpId: widget.id,
+              ),
+              users: state.violationDescriptions ?? [],
+              staffCategoriesValues:
+                  state.staffCategoriesValues ?? <String, int>{},
+            );
+          },
+        ),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.violationPenalty,
@@ -138,12 +166,9 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
       return const NoRecordFoundWidget();
     }
     return Container(
-      margin: allMargin16,
-      decoration: const ShapeDecoration(
-          color: AppColors.backgroundWhiteColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-          )),
+      width: double.infinity,
+      height: double.infinity,
+      color: const Color(0xFF6474C6),
       child: ListView.builder(
         controller: _scrollController,
         itemCount:
@@ -183,91 +208,143 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
             );
             return index >= state.items!.length
                 ? const BaseLoader()
-                : BaseListTileItem(
-                    id: state.items?[index].id,
-                    labels: labels,
-                    guardRank: state.items?[index].staffCategory,
-                    isMasterGuard: true,
-                    onTap: (selectedIndex) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return BasePopUpItems(
-                            id: state.items?[selectedIndex].id.toString(),
-                            labels: labels,
-                            guardRank:
-                                state.items?[selectedIndex].staffCategory,
-                            isMasterGuard: true,
-                          );
-                        },
-                      );
-                    },
-              showEditButton: widget.parentStatus !=
-                  ConstantsIntValue
-                      .slaStatusFinalized &&  widget.parentStatus !=
-                  ConstantsIntValue
-                      .cancelledStatus,
-                    onEditTap: (selectedIndex) async {
-                      ViolationPenaltyRecord contactsModel =
-                          await SLAViolationPenaltyServices()
-                              .getVPById(state.items?[index].id ?? 0);
+                : Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0xFF6474C6), Color(0xFF6474C6)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                    ),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(18),
+                        child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.white.withValues(alpha: 0.2),
+                                      Colors.transparent,
+                                      Colors.white.withValues(alpha: 0.2),
+                                      // Color(0xFF6474C6).withOpacity(0.14)
+                                    ],
+                                    stops: [0.02, 0.35, 1],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                  ),
+                                  borderRadius: BorderRadius.circular(27),
+                                  border: Border.all(
+                                    color: Colors.white.withValues(alpha: 0.80),
+                                    width: 0.8,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: const Color(0xFF6474C6)
+                                          .withValues(alpha: 0.09),
+                                      blurRadius: 12,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: BaseListTileItem(
+                                  id: state.items?[index].id,
+                                  labels: labels,
+                                  guardRank: state.items?[index].staffCategory,
+                                  isMasterGuard: true,
+                                  onTap: (selectedIndex) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext dialogContext) {
+                                        return BasePopUpItems(
+                                          id: state.items?[selectedIndex].id
+                                              .toString(),
+                                          labels: labels,
+                                          guardRank: state.items?[selectedIndex]
+                                              .staffCategory,
+                                          isMasterGuard: true,
+                                        );
+                                      },
+                                    );
+                                  },
+                                  showEditButton: widget.parentStatus !=
+                                          ConstantsIntValue
+                                              .slaStatusFinalized &&
+                                      widget.parentStatus !=
+                                          ConstantsIntValue.cancelledStatus,
+                                  onEditTap: (selectedIndex) async {
+                                    ViolationPenaltyRecord contactsModel =
+                                        await SLAViolationPenaltyServices()
+                                            .getVPById(
+                                                state.items?[index].id ?? 0);
 
-                      log('--state.users--llen--${state.violationDescriptions?.length}---');
+                                    log('--state.users--llen--${state.violationDescriptions?.length}---');
 
-                      showAddContactPopUp(
-                        context: context,
-                        contact: contactsModel,
-                        users: state.violationDescriptions ?? [],
-                        staffCategoriesValues:
-                            state.staffCategoriesValues ?? <String, int>{},
-                      );
-                    },
-                    onViewTap: (selectedIndex) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return BasePopUpItems(
-                            id: state.items?[selectedIndex].id.toString(),
-                            labels: labels,
-                            guardRank:
-                                state.items?[selectedIndex].staffCategory,
-                            isMasterGuard: true,
-                          );
-                        },
-                      );
-                    },
-                    showDeleteButton: widget.parentStatus !=
-                            ConstantsIntValue.slaStatusFinalized &&
-                        widget.parentStatus !=
-                            ConstantsIntValue.cancelledStatus &&
-                        !widget.isLocked,
-                    onDeleteTap: (selectedIndex) async {
-                      /// Delete Warning Dialog Box
-                      var dialog = CustomAlertDialog(
-                          title: Constants.deleteRecord,
-                          message: Constants.deleteRecordWarningMessage,
-                          onPositivePressed: () {
-                            Navigator.pop(context);
-                            // Navigator.pop(context);
-                            // Call Delete API
-                            BlocProvider.of<ViolationPenaltyRecordBloc>(context)
-                                .add(DeleteRecord(
-                                    state.items![selectedIndex].id!.toInt(),
-                                    widget.id));
-                          },
-                          positiveBtnText: Constants.yes,
-                          negativeBtnText: Constants.no);
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) => dialog);
+                                    showAddContactPopUp(
+                                      context: context,
+                                      contact: contactsModel,
+                                      users: state.violationDescriptions ?? [],
+                                      staffCategoriesValues:
+                                          state.staffCategoriesValues ??
+                                              <String, int>{},
+                                    );
+                                  },
+                                  onViewTap: (selectedIndex) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext dialogContext) {
+                                        return BasePopUpItems(
+                                          id: state.items?[selectedIndex].id
+                                              .toString(),
+                                          labels: labels,
+                                          guardRank: state.items?[selectedIndex]
+                                              .staffCategory,
+                                          isMasterGuard: true,
+                                        );
+                                      },
+                                    );
+                                  },
+                                  showDeleteButton: widget.parentStatus !=
+                                          ConstantsIntValue
+                                              .slaStatusFinalized &&
+                                      widget.parentStatus !=
+                                          ConstantsIntValue.cancelledStatus &&
+                                      !widget.isLocked,
+                                  onDeleteTap: (selectedIndex) async {
+                                    /// Delete Warning Dialog Box
+                                    var dialog = CustomAlertDialog(
+                                        title: Constants.deleteRecord,
+                                        message: Constants
+                                            .deleteRecordWarningMessage,
+                                        onPositivePressed: () {
+                                          Navigator.pop(context);
+                                          // Navigator.pop(context);
+                                          // Call Delete API
+                                          BlocProvider.of<
+                                                      ViolationPenaltyRecordBloc>(
+                                                  context)
+                                              .add(DeleteRecord(
+                                                  state
+                                                      .items![selectedIndex].id!
+                                                      .toInt(),
+                                                  widget.id));
+                                        },
+                                        positiveBtnText: Constants.yes,
+                                        negativeBtnText: Constants.no);
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            dialog);
 
-                      // // Call Delete API
-                      // BlocProvider.of<ViolationPenaltyRecordBloc>(context).add(
-                      //     DeleteRecord(state.items![selectedIndex].id!.toInt(),
-                      //         widget.id));
-                    },
-                    index: index,
-                  );
+                                    // // Call Delete API
+                                    // BlocProvider.of<ViolationPenaltyRecordBloc>(context).add(
+                                    //     DeleteRecord(state.items![selectedIndex].id!.toInt(),
+                                    //         widget.id));
+                                  },
+                                  index: index,
+                                )))));
           }
           return null;
         },

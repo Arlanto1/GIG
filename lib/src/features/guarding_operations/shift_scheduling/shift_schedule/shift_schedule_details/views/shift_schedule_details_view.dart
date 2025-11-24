@@ -132,7 +132,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                 BlocProvider.of<ShiftScheduleDetailsCubit>(context)
                     .submitForm(isSaveOnly: false);
               }),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.lavender,
           body: getBodybuilder(state, height),
         );
       },
@@ -158,17 +158,17 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
 
     log('-isReadOnly-----${!isReadOnly}- ${state.model.lock.isEmptyOrNull}---');
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.lavender,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
+              color: AppColors.lavender,
             ),
             Container(
               decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
+                  color: AppColors.lavender,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -417,7 +417,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                     SvgPicture.asset(
                                       AppIcon.pluscircle,
                                       colorFilter: const ColorFilter.mode(
-                                        AppColors.navigationSkyBlueColor,
+                                        AppColors.white,
                                         BlendMode.srcIn,
                                       ),
                                       // color: AppColors.navigationSkyBlueColor,
@@ -427,7 +427,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                     const Text(
                                       Constants.addPOC,
                                       style: TextStyle(
-                                        color: AppColors.navigationSkyBlueColor,
+                                        color: AppColors.white,
                                         decoration: TextDecoration.underline,
                                       ),
                                     ),
@@ -615,9 +615,36 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
     if (widgets.isNotEmpty) {
       return [
         Container(
+          // decoration: BoxDecoration(
+          //   color: Colors.transparent,
+          //   borderRadius: BorderRadius.circular(5),
+          // ),
           decoration: BoxDecoration(
-            color: AppColors.lightGreyBackground,
-            borderRadius: BorderRadius.circular(5),
+            gradient: LinearGradient(
+              colors: [
+                Colors.white.withValues(alpha: 0.35),
+                const Color(0xFF6474C6).withValues(alpha: 0.4),
+              ],),
+            borderRadius:
+            BorderRadius.circular(
+                27),
+            border: Border.all(
+              color: Colors.white
+                  .withValues(
+                  alpha: 0.80),
+              width: 0.2,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(
+                    0xFF6474C6)
+                    .withValues(
+                    alpha: 0.09),
+                blurRadius: 12,
+                offset: const Offset(
+                    0, 2),
+              ),
+            ],
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:intl/intl.dart';
@@ -30,88 +31,221 @@ class AddDatePopUpState extends State<AddDatePopUp> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
-    return AlertDialog(
-      backgroundColor: AppColors.backgroundWhiteColor,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      content: Builder(builder: (context) {
-        return SizedBox(
-          height: height / 2.9,
-          width: width,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: <Widget>[
-              Form(
-                key: _formKey,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      CommonWidgets.textDisplay(
-                        Constants.powerFailureDate,
-                        Styles.textStyleBlack14,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      BaseDate().datePickerWidgetLoading(
-                        textController: powerFailureStartDateController,
-                        isDisabled: false,
-                        onlyDate: false,
-                        showFutureDate: false,
-                        notFlagDate: true,
-                        onChange: (String value) {
-                          log('--value----$value------');
-                          powerFailureStartDateController.text = value;
-                          selectedStartDate = DateFormat('dd/MM/yyyy HH:mm:ss')
-                              .parse(value)
-                              .toString();
-                          DateTime parsedDate =
-                              DateFormat('dd/MM/yyyy HH:mm:ss').parse(value);
+    // return AlertDialog(
+    //   backgroundColor: AppColors.lavender,
+    //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    //   content: Builder(builder: (context) {
+    //     return SizedBox(
+    //       height: height / 2.9,
+    //       width: width,
+    //       child: Stack(
+    //         clipBehavior: Clip.none,
+    //         children: <Widget>[
+    //           Form(
+    //             key: _formKey,
+    //             child: SingleChildScrollView(
+    //               child: Column(
+    //                 mainAxisSize: MainAxisSize.min,
+    //                 children: <Widget>[
+    //                   CommonWidgets.textDisplay(
+    //                     Constants.powerFailureDate,
+    //                     Styles.textStyleWhite14,
+    //                   ),
+    //                   CommonWidgets.verticalSpacerWidget(height * 0.01),
+    //                   BaseDate().datePickerWidgetLoading(
+    //                     textController: powerFailureStartDateController,
+    //                     isDisabled: false,
+    //                     onlyDate: false,
+    //                     showFutureDate: false,
+    //                     notFlagDate: true,
+    //                     onChange: (String value) {
+    //                       log('--value----$value------');
+    //                       powerFailureStartDateController.text = value;
+    //                       selectedStartDate = DateFormat('dd/MM/yyyy HH:mm:ss')
+    //                           .parse(value)
+    //                           .toString();
+    //                       DateTime parsedDate =
+    //                           DateFormat('dd/MM/yyyy HH:mm:ss').parse(value);
+    //
+    //                       // Add two days to the parsed date
+    //                       DateTime newDate =
+    //                           parsedDate.add(const Duration(days: 1));
+    //
+    //                       // Format the new date back into the desired string format
+    //                       startToDate = newDate.toString();
+    //
+    //                       setState(() {});
+    //                     },
+    //                     context: widget.mainContext,
+    //                   ),
+    //                   CommonWidgets.verticalSpacerWidget(height * 0.01),
+    //
+    //                   CommonWidgets.textDisplay(
+    //                     Constants.powerFailureEndDate,
+    //                     Styles.textStyleWhite14,
+    //                   ),
+    //                   CommonWidgets.verticalSpacerWidget(height * 0.01),
+    //                   BaseDate().datePickerWidgetLoading(
+    //                     textController: powerFailureEndDateController,
+    //                     isDisabled: false,
+    //                     // notFlagDate: true,
+    //                     showPastDate: false,
+    //                     onlyDate: false,
+    //                     startDate: selectedStartDate,
+    //                     fromDate: selectedStartDate,
+    //                     toDate: startToDate.isEmptyOrNull ? '' : startToDate,
+    //
+    //                     showFutureDate: false,
+    //                     onChange: (String value) {
+    //                       log('--fr-value-${powerFailureEndDateController.text}------');
+    //                       powerFailureEndDateController.text = value;
+    //                     },
+    //                     context: widget.mainContext,
+    //                   ),
+    //                   CommonWidgets.verticalSpacerWidget(height * 0.02),
+    //                   buttonViews(widget.mainContext, width),
+    //                   CommonWidgets.verticalSpacerWidget(height * 0.02),
+    //                 ],
+    //               ),
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //     );
+    //   }),
+    // );
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 250),
 
-                          // Add two days to the parsed date
-                          DateTime newDate =
-                              parsedDate.add(const Duration(days: 1));
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
 
-                          // Format the new date back into the desired string format
-                          startToDate = newDate.toString();
-
-                          setState(() {});
-                        },
-                        context: widget.mainContext,
-                      ),
-                      CommonWidgets.textDisplay(
-                        Constants.powerFailureEndDate,
-                        Styles.textStyleBlack14,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      BaseDate().datePickerWidgetLoading(
-                        textController: powerFailureEndDateController,
-                        isDisabled: false,
-                        // notFlagDate: true,
-                        showPastDate: false,
-                        onlyDate: false,
-                        startDate: selectedStartDate,
-                        fromDate: selectedStartDate,
-                        toDate: startToDate.isEmptyOrNull ? '' : startToDate,
-
-                        showFutureDate: false,
-                        onChange: (String value) {
-                          log('--fr-value-${powerFailureEndDateController.text}------');
-                          powerFailureEndDateController.text = value;
-                        },
-                        context: widget.mainContext,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      buttonViews(widget.mainContext, width),
-                      CommonWidgets.verticalSpacerWidget(height * 0.02),
-                    ],
-                  ),
-                ),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.white.withValues(alpha: 0.2),
+                  Colors.transparent,
+                  Colors.white.withValues(alpha: 0.2),
+                  // Color(0xFF6474C6).withOpacity(0.14)
+                ],
+                stops: [0.02, 0.35, 1],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
-            ],
+              borderRadius: BorderRadius.circular(27),
+              border: Border.all(
+                color: Colors.white
+                    .withValues(alpha: 0.80),
+                width: 0.8,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF6474C6)
+                      .withValues(alpha: 0.09),
+                  blurRadius: 12,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+
+            child: AlertDialog(
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              contentPadding: EdgeInsets.zero,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+
+              content: Builder(
+                builder: (context) {
+                  return SizedBox(
+                    height: height / 2.9,
+                    width: width,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: <Widget>[
+                        Form(
+                          key: _formKey,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                CommonWidgets.textDisplay(
+                                  Constants.powerFailureDate,
+                                  Styles.textStyleWhite14,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                BaseDate().datePickerWidgetLoading(
+                                  textController: powerFailureStartDateController,
+                                  isDisabled: false,
+                                  onlyDate: false,
+                                  showFutureDate: false,
+                                  notFlagDate: true,
+                                  onChange: (String value) {
+                                    log('--value----$value------');
+                                    powerFailureStartDateController.text = value;
+                                    selectedStartDate = DateFormat('dd/MM/yyyy HH:mm:ss')
+                                        .parse(value)
+                                        .toString();
+
+                                    DateTime parsedDate =
+                                    DateFormat('dd/MM/yyyy HH:mm:ss').parse(value);
+
+                                    DateTime newDate = parsedDate.add(const Duration(days: 1));
+
+                                    startToDate = newDate.toString();
+                                    setState(() {});
+                                  },
+                                  context: widget.mainContext,
+                                ),
+
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                CommonWidgets.textDisplay(
+                                  Constants.powerFailureEndDate,
+                                  Styles.textStyleWhite14,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                BaseDate().datePickerWidgetLoading(
+                                  textController: powerFailureEndDateController,
+                                  isDisabled: false,
+                                  onlyDate: false,
+                                  showPastDate: false,
+                                  startDate: selectedStartDate,
+                                  fromDate: selectedStartDate,
+                                  toDate: startToDate.isEmptyOrNull ? '' : startToDate,
+                                  showFutureDate: false,
+                                  onChange: (String value) {
+                                    log('--fr-value-${powerFailureEndDateController.text}------');
+                                    powerFailureEndDateController.text = value;
+                                  },
+                                  context: widget.mainContext,
+                                ),
+
+                                CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                                buttonViews(widget.mainContext, width),
+
+                                CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
           ),
-        );
-      }),
+        ),
+      ),
     );
+
   }
 
   Widget buttonViews(BuildContext context, double width) {
@@ -130,9 +264,9 @@ class AddDatePopUpState extends State<AddDatePopUp> {
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButtonText,
-      foregroundColor: AppColors.textGreyThemeColor,
+      foregroundColor: AppColors.white,
       textStyle: Styles.styleHeaderGreyText16,
-      boarderColor: AppColors.textGreyThemeColor,
+      boarderColor: AppColors.white,
       onTap: () {
         FocusScope.of(context).unfocus();
         Navigator.of(context).pop();
@@ -146,8 +280,8 @@ class AddDatePopUpState extends State<AddDatePopUp> {
       key: const Key(Keys.saveButton),
       buttonText: Constants.save,
       buttonTextKey: Keys.saveButtonText,
-      boarderColor: AppColors.navigationSkyBlueColor,
-      backgroundColor: AppColors.navigationSkyBlueColor,
+      boarderColor: AppColors.white,
+      backgroundColor: const Color(0xFF071130),
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {

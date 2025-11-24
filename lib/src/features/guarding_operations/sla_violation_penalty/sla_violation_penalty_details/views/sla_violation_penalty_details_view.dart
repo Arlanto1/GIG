@@ -218,30 +218,30 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             ],
                             Container(
                               alignment: Alignment.topLeft,
-                              child: Text(
+                              child: const Text(
                                 Constants.generalinformation,
-                                style: Styles.styleHeaderGreyText16,
+                                style: Styles.textStyleWhite16,
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             // General Information Fields
                             ///Created By
-                            CommonWidgets.verticalTextHandling(
+                            CommonWidgets.horizentaltextHandling(
                               state.labels?.locale.entrySecurity ??
                                   state.labels?.defaultLocale.entrySecurity ??
                                   Constants.createdby,
                               '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}',
                               isMandatory: true,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///Status
                             CommonWidgets.textDisplay(
                               state.labels?.locale.status ??
                                   state.labels?.defaultLocale.status ??
                                   Constants.status,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -256,27 +256,27 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               onChange: (String value) {},
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///Date of Creation
                             CommonWidgets.textDisplay(
                               state.labels?.locale.inputDate ??
                                   state.labels?.defaultLocale.inputDate ??
                                   Constants.dateofcreation,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             datecreateWidgetdisplay(
                                 state.model.inputDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///Location
                             CommonWidgets.textDisplay(
                               state.labels?.locale.location ??
                                   state.labels?.defaultLocale.location ??
                                   Constants.location,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -293,7 +293,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                       .updateLocationDropdownValue(
                                           location: location);
                                 }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///Sl no
                             CommonWidgets.horizentaltextHandling(
@@ -303,14 +303,14 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               state.model.slNo ?? '',
                               isMandatory: true,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///Vendor
                             CommonWidgets.textDisplay(
                               state.labels?.locale.vendor ??
                                   state.labels?.defaultLocale.vendor ??
                                   Constants.vendor,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -338,14 +338,14 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                     .refreshList();
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///Entity
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.entity ??
                                     state.labels?.defaultLocale.entity ??
                                     Constants.entity,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -371,14 +371,14 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                     .refreshList();
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///Type of Service
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.typeOfService ??
                                     state.labels?.defaultLocale.typeOfService ??
                                     Constants.typeOfService,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -407,14 +407,14 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                     .refreshList();
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// ASL
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.approver ??
                                     state.labels?.defaultLocale.approver ??
                                     Constants.aSL,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             TextFieldAddButton(
                               title: state.model.approver?.userInfo ??
@@ -449,14 +449,14 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
 
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///Guarding Agency POC
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.poc ??
                                     state.labels?.defaultLocale.poc ??
                                     Constants.guardingAgencyPOC,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             GestureDetector(
@@ -478,7 +478,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
                                     colorFilter: const ColorFilter.mode(
-                                      AppColors.navigationSkyBlueColor,
+                                      AppColors.white,
                                       BlendMode.srcIn,
                                     ),
                                   ),
@@ -486,7 +486,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                   const Text(
                                     Constants.addGuardingAgencyPOC,
                                     style: TextStyle(
-                                      color: AppColors.navigationSkyBlueColor,
+                                      color: AppColors.white,
                                       decoration: TextDecoration.underline,
                                     ),
                                   ),
@@ -496,7 +496,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                             Column(
                               children: getPOC(state, height),
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
                           ],
                         ),
                       ),
@@ -512,9 +512,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                         /// Violation Penalty
                         Container(
                           alignment: Alignment.topLeft,
-                          child: Text(
+                          child: const Text(
                             Constants.violationPenalty,
-                            style: Styles.styleHeaderGreyText16,
+                            style: Styles.textStyleWhite16,
                           ),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -560,7 +560,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               SvgPicture.asset(
                                 AppIcon.pluscircle,
                                 colorFilter: const ColorFilter.mode(
-                                  AppColors.navigationSkyBlueColor,
+                                  AppColors.white,
                                   BlendMode.srcIn,
                                 ),
                               ),
@@ -568,7 +568,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               const Text(
                                 Constants.addViewViolation,
                                 style: TextStyle(
-                                  color: AppColors.navigationSkyBlueColor,
+                                  color: AppColors.white,
                                   decoration: TextDecoration.underline,
                                 ),
                               ),
