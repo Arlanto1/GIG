@@ -788,7 +788,7 @@ class _AiChatDetailsViewState extends State<AiChatDetailsView> {
             const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('AI Chat Assistance',
+                Text('Atom Chat Assistance',
                     style: TextStyle(
                       color: mainNeon,
                       fontWeight: FontWeight.bold,

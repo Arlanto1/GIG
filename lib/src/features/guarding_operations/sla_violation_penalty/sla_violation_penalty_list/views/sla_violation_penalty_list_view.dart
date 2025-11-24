@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:db_atom/index.dart';
 import '../../services/sla_violation_penalty_services.dart';
 import '../bloc/sla_violation_penalty_list_bloc.dart';
@@ -37,13 +39,13 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context.read<SLAViolationPenaltyListBloc>().add(
-        FetchData(
-          startPos: pageNumber,
-          maxPos: Constants.maxResults,
-          newSearch: false,
-          filters: BaseFilterModel(),
-        ),
-      );
+            FetchData(
+              startPos: pageNumber,
+              maxPos: Constants.maxResults,
+              newSearch: false,
+              filters: BaseFilterModel(),
+            ),
+          );
     }
   }
 
@@ -60,12 +62,11 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     final size = MediaQuery.of(context).size;
     double height = size.height;
-    return BlocConsumer<
-      SLAViolationPenaltyListBloc,
-      SLAViolationPenaltyListState
-    >(
+    return BlocConsumer<SLAViolationPenaltyListBloc,
+        SLAViolationPenaltyListState>(
       listener: (context, state) {
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
@@ -73,20 +74,35 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
       builder: (context, state) {
         return Scaffold(
           backgroundColor: AppColors.lavender,
-          floatingActionButton:
-              state.extraProperties?.hasWritePermission ?? false
-              ? Flutterfloatingbutton(
-                  backgroundColor: AppColors.navigationSkyBlueColor,
-                  foregroundColor: AppColors.backgroundWhiteColor,
-                  onPressed: () => {
-                    Navigator.pushNamed(
-                      context,
-                      slaViolationPenaltyDetailsRoute,
-                      arguments: {"title": Constants.slaViolationPenaltyTitle},
-                    ),
-                  },
-                )
-              : const SizedBox(),
+          // floatingActionButton: state.extraProperties?.hasWritePermission ??
+          //         false
+          //     ? Flutterfloatingbutton(
+          //         backgroundColor: AppColors.navigationSkyBlueColor,
+          //         foregroundColor: AppColors.backgroundWhiteColor,
+          //         onPressed: () => {
+          //           Navigator.pushNamed(
+          //             context,
+          //             slaViolationPenaltyDetailsRoute,
+          //             arguments: {"title": Constants.slaViolationPenaltyTitle},
+          //           ),
+          //         },
+          //       )
+          //     : const SizedBox(),
+          bottomNavigationBar: CustomBottomNavigationBar(
+            hasAddPermission: state.extraProperties?.hasWritePermission ??
+                false ? true : false,
+            scaffoldKey: scaffoldKey,
+            context: context,
+            displayMenu: state.displayMenu,
+            list: true, // 🔥 only "+" button mode
+            onAddPressed: () {
+              Navigator.pushNamed(
+                context,
+                slaViolationPenaltyDetailsRoute,
+                arguments: {"title": Constants.slaViolationPenaltyTitle},
+              );
+            },
+          ),
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: Constants.slaViolationPenaltyTitle,
@@ -99,21 +115,17 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
             pdfAPIName: 'exportSvpPDF',
           ),
           body: Container(
-            margin: allMargin16,
-            decoration: const ShapeDecoration(
-              color: AppColors.backgroundWhiteColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-              ),
-            ),
+            width: double.infinity,
+            height: double.infinity,
+            color: const Color(0xFF6474C6),
             child: Column(
               // crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                CommonWidgets.verticalSpacerWidget(height * 0.01),
                 BaseSearchWidget(
                   applySearchFilters: applySearchFilters,
                   applyFilters: applyFilters,
-                  commonFilters:
-                      state.commonFilters ??
+                  commonFilters: state.commonFilters ??
                       CommonFilters(statuses: [], regions: []),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -174,8 +186,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                         if (index < state.items.length) {
                           labels.add(
                             Label(
-                              key:
-                                  state.labels?.locale.entrySecurity ??
+                              key: state.labels?.locale.entrySecurity ??
                                   state.labels?.defaultLocale.entrySecurity ??
                                   Constants.createdby,
                               value:
@@ -184,8 +195,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                           );
                           labels.add(
                             Label(
-                              key:
-                                  state.labels?.locale.locationRegion ??
+                              key: state.labels?.locale.locationRegion ??
                                   state.labels?.defaultLocale.locationRegion ??
                                   Constants.region,
                               value:
@@ -194,8 +204,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                           );
                           labels.add(
                             Label(
-                              key:
-                                  state.labels?.locale.location ??
+                              key: state.labels?.locale.location ??
                                   state.labels?.defaultLocale.location ??
                                   Constants.location,
                               value: state.items[index].location?.name ?? '',
@@ -203,8 +212,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                           );
                           labels.add(
                             Label(
-                              key:
-                                  state.labels?.locale.slNo ??
+                              key: state.labels?.locale.slNo ??
                                   state.labels?.defaultLocale.slNo ??
                                   Constants.slno,
                               value: state.items[index].slNo ?? '',
@@ -212,8 +220,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                           );
                           labels.add(
                             Label(
-                              key:
-                                  state.labels?.locale.inputDate ??
+                              key: state.labels?.locale.inputDate ??
                                   state.labels?.defaultLocale.inputDate ??
                                   Constants.dateofcreation,
                               value: state.items[index].inputDate != null
@@ -228,8 +235,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                           );
                           labels.add(
                             Label(
-                              key:
-                                  state.labels?.locale.entity ??
+                              key: state.labels?.locale.entity ??
                                   state.labels?.defaultLocale.entity ??
                                   Constants.entity,
                               value: state.items[index].entitiesInfo ?? '',
@@ -237,8 +243,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                           );
                           labels.add(
                             Label(
-                              key:
-                                  state.labels?.locale.typeOfService ??
+                              key: state.labels?.locale.typeOfService ??
                                   state.labels?.defaultLocale.typeOfService ??
                                   Constants.typeOfService,
                               value: state.items[index].typeOfServiceInfo ?? '',
@@ -246,8 +251,7 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                           );
                           labels.add(
                             Label(
-                              key:
-                                  state.labels?.locale.vendor ??
+                              key: state.labels?.locale.vendor ??
                                   state.labels?.defaultLocale.vendor ??
                                   Constants.vendor,
                               value: state.items[index].vendorInfo ?? '',
@@ -255,63 +259,132 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
                           );
                           return index >= state.items.length
                               ? const BaseLoader()
-                              : BaseListTileItem(
-                                  id: state.items[index].id,
-                                  status: state.items[index].status,
-                                  labels: labels,
-                                  isEventProtectionStatus: false,
-                                  isSLAViolationStatus: true,
-                                  onTap: (selectedIndex) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext dialogContext) {
-                                        return BasePopUpItems(
-                                          id: state.items[selectedIndex].id
-                                              .toString(),
-                                          status:
-                                              state.items[selectedIndex].status,
-                                          isSLAViolationStatus: true,
-                                          isEventProtectionStatus: false,
-                                          isMasterGuard: false,
-                                          labels: labels,
-                                        );
-                                      },
-                                    );
-                                  },
-                                  showEditButton:
-                                      state.items[index].status !=
-                                          ConstantsIntValue
-                                              .slaStatusFinalized &&
-                                      state.items[index].status !=
-                                          ConstantsIntValue.cancelledStatus,
-                                  onEditTap: (selectedIndex) {
-                                    getById(
-                                      state
-                                              .extraProperties
-                                              ?.hasWritePermission ??
-                                          false,
-                                      state.items[index].id ?? 0,
-                                    );
-                                  },
-                                  onViewTap: (selectedIndex) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext dialogContext) {
-                                        return BasePopUpItems(
-                                          id: state.items[selectedIndex].id
-                                              .toString(),
-                                          status:
-                                              state.items[selectedIndex].status,
-                                          isSLAViolationStatus: true,
-                                          isEventProtectionStatus: false,
-                                          isMasterGuard: false,
-                                          labels: labels,
-                                        );
-                                      },
-                                    );
-                                  },
-                                  index: index,
-                                );
+                              : Container(
+                                  decoration: const BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFF6474C6),
+                                        Color(0xFF6474C6)
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                  ),
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 8),
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(18),
+                                      child: BackdropFilter(
+                                          filter: ImageFilter.blur(
+                                              sigmaX: 18, sigmaY: 18),
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  colors: [
+                                                    Colors.white
+                                                        .withValues(alpha: 0.2),
+                                                    Colors.transparent,
+                                                    Colors.white
+                                                        .withValues(alpha: 0.2),
+                                                    // Color(0xFF6474C6).withOpacity(0.14)
+                                                  ],
+                                                  stops: [0.02, 0.35, 1],
+                                                  begin: Alignment.topCenter,
+                                                  end: Alignment.bottomCenter,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(27),
+                                                border: Border.all(
+                                                  color: Colors.white
+                                                      .withValues(alpha: 0.80),
+                                                  width: 0.8,
+                                                ),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color:
+                                                        const Color(0xFF6474C6)
+                                                            .withValues(
+                                                                alpha: 0.09),
+                                                    blurRadius: 12,
+                                                    offset: const Offset(0, 2),
+                                                  ),
+                                                ],
+                                              ),
+                                              child: BaseListTileItem(
+                                                id: state.items[index].id,
+                                                status:
+                                                    state.items[index].status,
+                                                labels: labels,
+                                                isEventProtectionStatus: false,
+                                                isSLAViolationStatus: true,
+                                                onTap: (selectedIndex) {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext
+                                                        dialogContext) {
+                                                      return BasePopUpItems(
+                                                        id: state
+                                                            .items[
+                                                                selectedIndex]
+                                                            .id
+                                                            .toString(),
+                                                        status: state
+                                                            .items[
+                                                                selectedIndex]
+                                                            .status,
+                                                        isSLAViolationStatus:
+                                                            true,
+                                                        isEventProtectionStatus:
+                                                            false,
+                                                        isMasterGuard: false,
+                                                        labels: labels,
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                showEditButton: state
+                                                            .items[index]
+                                                            .status !=
+                                                        ConstantsIntValue
+                                                            .slaStatusFinalized &&
+                                                    state.items[index].status !=
+                                                        ConstantsIntValue
+                                                            .cancelledStatus,
+                                                onEditTap: (selectedIndex) {
+                                                  getById(
+                                                    state.extraProperties
+                                                            ?.hasWritePermission ??
+                                                        false,
+                                                    state.items[index].id ?? 0,
+                                                  );
+                                                },
+                                                onViewTap: (selectedIndex) {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext
+                                                        dialogContext) {
+                                                      return BasePopUpItems(
+                                                        id: state
+                                                            .items[
+                                                                selectedIndex]
+                                                            .id
+                                                            .toString(),
+                                                        status: state
+                                                            .items[
+                                                                selectedIndex]
+                                                            .status,
+                                                        isSLAViolationStatus:
+                                                            true,
+                                                        isEventProtectionStatus:
+                                                            false,
+                                                        isMasterGuard: false,
+                                                        labels: labels,
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                index: index,
+                                              )))));
                         }
 
                         // Handle the case where index is out of bounds
@@ -331,8 +404,8 @@ class _ContactDetailsListViewState extends State<SLAViolationPenaltyListView> {
   getById(bool hasWritePermission, int id) async {
     showLoadingDialog(context);
 
-    SLAViolationPenaltyModel model = await SLAViolationPenaltyServices()
-        .getGvpById(id);
+    SLAViolationPenaltyModel model =
+        await SLAViolationPenaltyServices().getGvpById(id);
 
     editDataLoading(model, hasWritePermission);
   }

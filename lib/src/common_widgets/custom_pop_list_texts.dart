@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 
@@ -80,74 +81,296 @@ class CustomListTextsState extends State<CustomListTexts> {
   Widget build(BuildContext context) {
     log('--duplicateatomCompanyTypes--${widget.duplicateatomCompanyTypes?.length}--');
 
-    return AlertDialog(
-      icon: widget.leftImageName != null
-          ? Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                  GestureDetector(
-                      onTap: () {
-                        widget.onLeftButtonTap != null
-                            ? widget.onLeftButtonTap!()
-                            : null;
-                      },
-                      child: SvgPicture.asset(
-                        widget.leftImageName ?? '',
-                        colorFilter: const ColorFilter.mode(
-                          AppColors.navigationSkyBlueColor,
-                          BlendMode.srcIn,
-                        ),
-                        // color: AppColors.navigationSkyBlueColor,
-                      ) //Icon(Icons.cancel)
-                      ),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: SvgPicture.asset(
-                          AppIcon.closeicon, colorFilter: const ColorFilter.mode(AppColors.redColor,BlendMode.srcIn,),) //Icon(Icons.cancel)
-                      ),
-                ])
-          : Align(
-              alignment: Alignment.topRight,
-              child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  }, child: SvgPicture.asset(
-                AppIcon.closeicon, colorFilter: const ColorFilter.mode(AppColors.redColor,BlendMode.srcIn,),) //Icon(Icons.cancel)
-                //Icon(Icons.cancel)
-                  )),
-      backgroundColor: AppColors.backgroundWhiteColor,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      content: Builder(builder: (context) {
-        // Get available height and width of the build area of this widget. Make a choice depending on the size.
-        var height = MediaQuery.of(context).size.height;
-        var width = MediaQuery.of(context).size.width;
-        return SizedBox(
-          height: height / 2,
-          width: width - 40,
-          child: Padding(
-            padding: const EdgeInsets.all(0.0),
-            child: SingleChildScrollView(
+    // return AlertDialog(
+    //   icon: widget.leftImageName != null
+    //       ? Row(
+    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //           children: <Widget>[
+    //               GestureDetector(
+    //                   onTap: () {
+    //                     widget.onLeftButtonTap != null
+    //                         ? widget.onLeftButtonTap!()
+    //                         : null;
+    //                   },
+    //                   child: SvgPicture.asset(
+    //                     widget.leftImageName ?? '',
+    //                     colorFilter: const ColorFilter.mode(
+    //                       AppColors.navigationSkyBlueColor,
+    //                       BlendMode.srcIn,
+    //                     ),
+    //                     // color: AppColors.navigationSkyBlueColor,
+    //                   ) //Icon(Icons.cancel)
+    //                   ),
+    //               GestureDetector(
+    //                   onTap: () {
+    //                     Navigator.of(context).pop();
+    //                   },
+    //                   child: SvgPicture.asset(
+    //                       AppIcon.closeicon, colorFilter: const ColorFilter.mode(AppColors.black,BlendMode.srcIn,),) //Icon(Icons.cancel)
+    //                   ),
+    //             ])
+    //       : Align(
+    //           alignment: Alignment.topRight,
+    //           child: GestureDetector(
+    //               onTap: () {
+    //                 Navigator.of(context).pop();
+    //               }, child: SvgPicture.asset(
+    //             AppIcon.closeicon, colorFilter: const ColorFilter.mode(AppColors.black,BlendMode.srcIn,),) //Icon(Icons.cancel)
+    //             //Icon(Icons.cancel)
+    //               )),
+    //   backgroundColor: AppColors.lavender.withValues(alpha: 0.9),
+    //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    //   content: Builder(builder: (context) {
+    //     // Get available height and width of the build area of this widget. Make a choice depending on the size.
+    //     var height = MediaQuery.of(context).size.height;
+    //     var width = MediaQuery.of(context).size.width;
+    //     return SizedBox(
+    //       height: height / 2,
+    //       width: width - 40,
+    //       child: Padding(
+    //         padding: const EdgeInsets.all(0.0),
+    //         child: SingleChildScrollView(
+    //           child: Column(
+    //             // mainAxisAlignment: MainAxisAlignment.center,
+    //             children: [
+    //               // (widget.articleList != null && widget.articleList!.isNotEmpty) ||
+    //               //         (widget.duplicateemployeeDepartments != null &&
+    //               //             widget.duplicateemployeeDepartments!.isNotEmpty) ||
+    //               //         (widget.depostorList != null &&
+    //               //             widget.depostorList!.isNotEmpty)
+    //               //  ?
+    //               searchWidget(),
+    //               //  : Container(),
+    //               setupAlertDialogContainer(height, width),
+    //             ],
+    //           ),
+    //         ),
+    //       ),
+    //     );
+    //   }),
+    // );
+
+    // return AlertDialog(
+    //     // backgroundColor: Colors.white,
+    //     elevation: 0,
+    //     contentPadding: EdgeInsets.zero,
+    //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    //     icon: widget.leftImageName != null
+    //         ? Row(
+    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //       children: <Widget>[
+    //         GestureDetector(
+    //           onTap: () {
+    //             widget.onLeftButtonTap?.call();
+    //           },
+    //           child: SvgPicture.asset(
+    //             widget.leftImageName ?? '',
+    //             colorFilter: const ColorFilter.mode(
+    //               AppColors.navigationSkyBlueColor,
+    //               BlendMode.srcIn,
+    //             ),
+    //           ),
+    //         ),
+    //         GestureDetector(
+    //           onTap: () => Navigator.of(context).pop(),
+    //           child: SvgPicture.asset(
+    //             AppIcon.closeicon,
+    //             colorFilter: const ColorFilter.mode(
+    //               AppColors.black,
+    //               BlendMode.srcIn,
+    //             ),
+    //           ),
+    //         ),
+    //       ],
+    //     )
+    //         : Align(
+    //       alignment: Alignment.topRight,
+    //       child: GestureDetector(
+    //         onTap: () => Navigator.of(context).pop(),
+    //         child: SvgPicture.asset(
+    //           AppIcon.closeicon,
+    //           colorFilter: const ColorFilter.mode(
+    //             AppColors.black,
+    //             BlendMode.srcIn,
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //
+    //     // --------- KEEP ONLY THE INNER GLASS CONTAINER ----------
+    //     content: ClipRRect(
+    //       borderRadius: BorderRadius.circular(20),
+    //       child: BackdropFilter(
+    //         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+    //         child: Container(
+    //           padding: const EdgeInsets.all(20),
+    //           decoration: BoxDecoration(
+    //             borderRadius: BorderRadius.circular(20),
+    //             gradient: LinearGradient(
+    //               colors: [
+    //                 Colors.white.withOpacity(0.15),
+    //                 Colors.white.withOpacity(0.05),
+    //               ],
+    //             ),
+    //             border: Border.all(
+    //               color: Colors.white.withOpacity(0.25),
+    //             ),
+    //           ),
+    //
+    //           child: Builder(builder: (context) {
+    //             var height = MediaQuery.of(context).size.height;
+    //             var width = MediaQuery.of(context).size.width;
+    //
+    //             return SizedBox(
+    //               height: height / 2,
+    //               width: width - 40,
+    //               child: SingleChildScrollView(
+    //                 child: Column(
+    //                   children: [
+    //                     searchWidget(),
+    //                     setupAlertDialogContainer(height, width),
+    //                   ],
+    //                 ),
+    //               ),
+    //             );
+    //           }),
+    //         ),
+    //       ),
+    //     ),
+    //   );
+
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+
+      child: AlertDialog(
+        backgroundColor: Colors.transparent,
+        elevation: 10,
+        contentPadding: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        // ---------- CLOSE ICON ABOVE SEARCH ----------
+        // titlePadding: const EdgeInsets.only(top: 10, right: 10),
+        // title: Align(
+        //   alignment: Alignment.topRight,
+        //   child: GestureDetector(
+        //     onTap: () => Navigator.of(context).pop(),
+        //     child: SvgPicture.asset(
+        //       AppIcon.closeicon,
+        //       height: 22,
+        //       width: 22,
+        //       colorFilter: const ColorFilter.mode(
+        //         AppColors.black,
+        //         BlendMode.srcIn,
+        //       ),
+        //     ),
+        //   ),
+        // ),
+
+        // ---------- ONLY ONE GLASS CONTAINER ----------
+        content: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              // decoration: BoxDecoration(
+              //   borderRadius: BorderRadius.circular(20),
+              //   gradient: LinearGradient(
+              //     colors: [
+              //       Colors.white.withOpacity(0.05),
+              //       AppColors.lavender.withOpacity(0.15),
+              //     ],
+              //   ),
+              //   border: Border.all(
+              //     color: Colors.white.withOpacity(0.35),
+              //   ),
+              // ),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.white.withValues(alpha: 0.2),
+                    Colors.transparent,
+                    Colors.white.withValues(alpha: 0.2),
+                    // Color(0xFF6474C6).withOpacity(0.14)
+                  ],
+                  stops: [0.02, 0.35, 1],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+                borderRadius: BorderRadius.circular(27),
+                border: Border.all(
+                  color: Colors.white
+                      .withValues(alpha: 0.3),
+                  width: 1,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF6474C6)
+                        .withValues(alpha: 0.09),
+                    blurRadius: 12,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  // (widget.articleList != null && widget.articleList!.isNotEmpty) ||
-                  //         (widget.duplicateemployeeDepartments != null &&
-                  //             widget.duplicateemployeeDepartments!.isNotEmpty) ||
-                  //         (widget.depostorList != null &&
-                  //             widget.depostorList!.isNotEmpty)
-                  //  ?
-                  searchWidget(),
-                  //  : Container(),
-                  setupAlertDialogContainer(height, width),
+                Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+
+                      /// Expanded search bar (stays fixed)
+                      Expanded(child: searchWidget()),
+
+                      const SizedBox(width: 10),
+
+                      /// Close icon
+                      GestureDetector(
+                        onTap: () => Navigator.of(context).pop(),
+                        child: SvgPicture.asset(
+                          AppIcon.closeicon,
+                          colorFilter: const ColorFilter.mode(
+                            AppColors.white,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  Builder(
+                    builder: (context) {
+                      var height = MediaQuery.of(context).size.height;
+                      var width = MediaQuery.of(context).size.width;
+
+                      return SizedBox(
+                        height: height / 2,
+                        width: width - 40,
+
+                        /// Now only the list scrolls
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              setupAlertDialogContainer(height, width),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+
                 ],
               ),
             ),
           ),
-        );
-      }),
+        ),
+
+
+      ),
     );
+
   }
 
 // Search Widget
@@ -429,7 +652,7 @@ class CustomListTextsState extends State<CustomListTexts> {
           const Center(
         child: Text(
           Constants.nodata,
-          style: Styles.textStyleRegularGrey16,
+          style: Styles.textStyleRegularNormalWhite14,
           // ),
         ),
       );
@@ -555,7 +778,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       drawerItem?.name ?? '',
-                      style: Styles.textStyleRegularGrey16,
+                      style: Styles.textStyleRegularWhite14,
                       textAlign: TextAlign.left,
                     ),
                   ));
@@ -594,7 +817,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       articleItem?.name ?? '',
-                      style: Styles.textStyleRegularGrey16,
+                      style: Styles.textStyleRegularWhite14,
                       textAlign: TextAlign.left,
                     ),
                   ));
@@ -640,7 +863,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                           : !(articleItem.email.isEmptyOrNull)
                               ? '${articleItem.name} (${articleItem.email})'
                               : '${articleItem.name}',
-                      style: Styles.textStyleRegularGrey16,
+                      style: Styles.textStyleRegularWhite14,
                       textAlign: TextAlign.left,
                     ),
                   ));
@@ -686,7 +909,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                           !(articleItem.employeeId.isEmptyOrNull)
                               ? '${articleItem.employeeId}'
                               : '${articleItem.name} (${articleItem.email})',
-                          style: Styles.textStyleRegularGrey16,
+                          style: Styles.textStyleRegularWhite14,
                           textAlign: TextAlign.left,
                         ),
                       ))
@@ -726,7 +949,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       articleItem?.name ?? '',
-                      style: Styles.textStyleRegularGrey16,
+                      style: Styles.textStyleRegularWhite14,
                       textAlign: TextAlign.left,
                     ),
                   ));
@@ -766,7 +989,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       articleItem?.name ?? '',
-                      style: Styles.textStyleRegularGrey16,
+                      style: Styles.textStyleRegularWhite14,
                       textAlign: TextAlign.left,
                     ),
                   ));
@@ -805,7 +1028,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       articleItem?.name ?? '',
-                      style: Styles.textStyleRegularGrey16,
+                      style: Styles.textStyleRegularWhite14,
                       textAlign: TextAlign.left,
                     ),
                   ));
@@ -845,7 +1068,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       articleItem?.name ?? '',
-                      style: Styles.textStyleRegularGrey16,
+                      style: Styles.textStyleRegularWhite14,
                       textAlign: TextAlign.left,
                     ),
                   ));
@@ -884,7 +1107,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       articleItem?.name ?? '',
-                      style: Styles.textStyleRegularGrey16,
+                      style: Styles.textStyleRegularWhite14,
                       textAlign: TextAlign.left,
                     ),
                   ));
@@ -923,7 +1146,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       articleItem?.name ?? '',
-                      style: Styles.textStyleRegularGrey16,
+                      style: Styles.textStyleRegularWhite14,
                       textAlign: TextAlign.left,
                     ),
                   ));
@@ -962,7 +1185,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       articleItem?.name ?? '',
-                      style: Styles.textStyleRegularGrey16,
+                      style: Styles.textStyleRegularWhite14,
                       textAlign: TextAlign.left,
                     ),
                   ));
@@ -1001,7 +1224,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       articleItem?.name ?? '',
-                      style: Styles.textStyleRegularGrey16,
+                      style: Styles.textStyleRegularWhite14,
                       textAlign: TextAlign.left,
                     ),
                   ));
@@ -1041,7 +1264,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       articleItem?.name ?? '',
-                      style: Styles.textStyleRegularGrey16,
+                      style: Styles.textStyleRegularWhite14,
                       textAlign: TextAlign.left,
                     ),
                   ));
