@@ -190,81 +190,232 @@ class FloatingSubMenuWidget extends StatelessWidget {
     //     ),
     //   ),
     // );
+    // return Positioned(
+    //   bottom: 110.0,
+    //   left: (MediaQuery.of(context).size.width) - 650/2,
+    //       // (DeviceInformation().detectDeviceType(context) == DeviceType.tablet ? 270 : 180)) / 2,
+    //
+    //   child: Material(
+    //     color: Colors.transparent,
+    //     child: ClipRRect(
+    //       borderRadius: BorderRadius.circular(27),
+    //       child: BackdropFilter(
+    //         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+    //         child: Container(
+    //           width: MediaQuery.of(context).size.width - 200,
+    //           // width: 800,
+    //           // width: DeviceInformation().detectDeviceType(context) == DeviceType.tablet
+    //           //     ? 270
+    //           //     : 200,
+    //           // padding: const EdgeInsets.only(right: 10, left: 0),
+    //           decoration: BoxDecoration(
+    //             gradient: LinearGradient(
+    //               colors: [
+    //                 // Colors.white.withValues(alpha: 0.15),
+    //                 AppColors.lavender.withValues(alpha: 0.35),
+    //                 AppColors.lavender.withValues(alpha: 0.35),
+    //               ],
+    //               begin: Alignment.topLeft,
+    //               end: Alignment.bottomRight,
+    //             ),
+    //             borderRadius: BorderRadius.circular(27),
+    //             border: Border.all(
+    //               color: Colors.white.withValues(alpha: 0.65),
+    //               width: 1.0,
+    //             ),
+    //             boxShadow: [
+    //               BoxShadow(
+    //                 color: Colors.black.withValues(alpha: 0.3),
+    //                 blurRadius: 0,
+    //                 offset: const Offset(0, 6),
+    //               ),
+    //             ],
+    //           ),
+    //           child: Column(
+    //             mainAxisSize: MainAxisSize.max,
+    //             children: menuItems.asMap().entries.map((entry) {
+    //               int index = entry.key;
+    //               MenuItem item = entry.value;
+    //
+    //               // return InkWell(
+    //               //   onTap: () {
+    //               //     Navigator.of(context).pop();
+    //               //     onOptionSelected(context, index);
+    //               //   },
+    //               //   borderRadius: BorderRadius.circular(20),
+    //               //   child: Padding(
+    //               //     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
+    //               //     child: Row(
+    //               //       children: [
+    //               //         Image.asset(
+    //               //           item.imageName,
+    //               //           height: 22,
+    //               //           width: 22,
+    //               //           color: Colors.white,
+    //               //         ),
+    //               //         const SizedBox(width: 12),
+    //               //         Expanded(
+    //               //           child: Text(
+    //               //             item.title,
+    //               //             style: const TextStyle(
+    //               //               color: Colors.white,
+    //               //               fontSize: 14,
+    //               //               fontWeight: FontWeight.w500,
+    //               //             ),
+    //               //           ),
+    //               //         ),
+    //               //       ],
+    //               //     ),
+    //               //   ),
+    //               // );
+    //               return InkWell(
+    //                 onTap: () {
+    //                   Navigator.of(context).pop();
+    //                   onOptionSelected(context, index);
+    //                 },
+    //                 borderRadius: BorderRadius.circular(20),
+    //                 child: Container(
+    //                   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+    //                   decoration: BoxDecoration(
+    //                     color: Colors.white.withOpacity(0.15),
+    //                     borderRadius: BorderRadius.circular(16),
+    //                     border: Border.all(color: Colors.white54, width: 1),
+    //                   ),
+    //                   child: Row(
+    //                     children: [
+    //                       Image.asset(
+    //                         item.imageName,
+    //                         height: 22,
+    //                         width: 22,
+    //                         color: Colors.white,
+    //                       ),
+    //                       const SizedBox(width: 12),
+    //                       Expanded(
+    //                         child: Text(
+    //                           item.title,
+    //                           style: const TextStyle(
+    //                             color: Colors.white,
+    //                             fontSize: 14,
+    //                             fontWeight: FontWeight.w600,
+    //                           ),
+    //                         ),
+    //                       ),
+    //                     ],
+    //                   ),
+    //                 ),
+    //               );
+    //
+    //             }).toList(),
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
     return Positioned(
       bottom: 110.0,
-      left: (MediaQuery.of(context).size.width) - 650/2,
-          // (DeviceInformation().detectDeviceType(context) == DeviceType.tablet ? 270 : 180)) / 2,
-
+      left: (MediaQuery.of(context).size.width -
+          (MediaQuery.of(context).size.width - 160)) /
+          2, // Perfect center
       child: Material(
         color: Colors.transparent,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(27),
+          borderRadius: BorderRadius.circular(28),
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+            filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
             child: Container(
-              width: MediaQuery.of(context).size.width - 200,
-              // width: 800,
-              // width: DeviceInformation().detectDeviceType(context) == DeviceType.tablet
-              //     ? 270
-              //     : 200,
-              // padding: const EdgeInsets.only(right: 10, left: 0),
+              width: MediaQuery.of(context).size.width - 160,
+              padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    // Colors.white.withValues(alpha: 0.15),
-                    AppColors.lavender.withValues(alpha: 0.35),
-                    AppColors.lavender.withValues(alpha: 0.35),
+                    AppColors.lavender.withValues(alpha: 0.2),
+                    AppColors.lavender.withValues(alpha: 0.5),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(27),
+                borderRadius: BorderRadius.circular(28),
                 border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.65),
-                  width: 1.0,
+                  color: Colors.white.withValues(alpha: 0.35),
+                  width: 1.2,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.3),
-                    blurRadius: 0,
-                    offset: const Offset(0, 6),
+                    color: Colors.black.withValues(alpha: 0.25),
+                    blurRadius: 18,
+                    spreadRadius: -4,
+                    offset: const Offset(0, 12),
                   ),
                 ],
               ),
               child: Column(
-                mainAxisSize: MainAxisSize.max,
                 children: menuItems.asMap().entries.map((entry) {
                   int index = entry.key;
                   MenuItem item = entry.value;
 
-                  return InkWell(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                      onOptionSelected(context, index);
-                    },
-                    borderRadius: BorderRadius.circular(20),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            item.imageName,
-                            height: 22,
-                            width: 22,
-                            color: Colors.white,
+                  return Container(
+                    margin: const EdgeInsets.symmetric(vertical: 6), // spacing
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        onOptionSelected(context, index);
+                      },
+                      borderRadius: BorderRadius.circular(25),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 14),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.white.withValues(alpha: 0.2),
+                              Colors.transparent,
+                              Colors.white.withValues(alpha: 0.2),
+                              // Color(0xFF6474C6).withOpacity(0.14)
+                            ],
+                            stops: [0.02, 0.35, 1],
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
                           ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Text(
-                              item.title,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                          borderRadius: BorderRadius.circular(40),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.80),
+                            width: 0.8,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF6474C6).withValues(alpha: 0.09),
+                              blurRadius: 12,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              item.imageName,
+                              height: 22,
+                              width: 22,
+                              color: Colors.white,
+                            ),
+                            const SizedBox(width: 14),
+                            Expanded(
+                              child: Text(
+                                item.title,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 0.4,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                            const Icon(
+                              Icons.arrow_right,
+                              color: Colors.white70,
+                              size: 20,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   );

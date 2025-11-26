@@ -716,35 +716,34 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
-                            ]
+                            ],
+                            if (state.model.id != null) ...[
+                              /// Modified Date
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.date ??
+                                //     state.labels?.defaultLocale.date ??
+                                Constants.modifiedOn,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              datecreateWidgetdisplay(state.model.modifiedDate ?? ''),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// Modified By
+                              CommonWidgets.horizentaltextHandling(
+                                // state.labels?.locale.entrySecurity ??
+                                //     state.labels?.defaultLocale.entrySecurity ??
+                                  Constants.modifiedBy,
+                                  isMandatory: true,
+                                  state.model.modifiedBy ?? ''),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
                           ],
                         ),
                       ),
                     ),
                   ),
-                  if (state.model.id != null) ...[
-                    /// Modified Date
-                    CommonWidgets.textDisplay(
-                      // state.labels?.locale.date ??
-                      //     state.labels?.defaultLocale.date ??
-                      Constants.modifiedOn,
-                      Styles.textStyleWhite16,
-                      isMandatory: true,
-                    ),
-                    CommonWidgets.verticalSpacerWidget(height * 0.001),
-                    datecreateWidgetdisplay(state.model.modifiedDate ?? ''),
-                    CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                    /// Modified By
-                    CommonWidgets.horizentaltextHandling(
-                      // state.labels?.locale.entrySecurity ??
-                      //     state.labels?.defaultLocale.entrySecurity ??
-                        Constants.modifiedBy,
-                        isMandatory: true,
-                        state.model.modifiedBy ?? ''),
-                    CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  ],
-
                   // Visiting Officials Details section
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -850,7 +849,7 @@ class _LawEnforcementNewDetailsViewState extends State<LawEnforcementNewDetailsV
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
+                  color: AppColors.lavender,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                     BorderRadius.vertical(top: Radius.circular(0.0)),

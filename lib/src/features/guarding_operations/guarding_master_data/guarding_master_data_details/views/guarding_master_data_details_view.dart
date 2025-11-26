@@ -2859,7 +2859,9 @@ class _GuardingMasterDataDetailsViewState
                                   descLabel: Constants.csrParticipation,
                                   dateLabel: Constants.participationDate,
                                 ),
-
+                                CommonWidgets.verticalSpacerWidget(
+                                  height * 0.02,
+                                ),
                                 getLabelAndDate(
                                   list:
                                       state.model.additionalQualifications ??
@@ -2868,13 +2870,18 @@ class _GuardingMasterDataDetailsViewState
                                   dateLabel:
                                       Constants.qualificationCompletionDate,
                                 ),
-
+                                CommonWidgets.verticalSpacerWidget(
+                                  height * 0.02,
+                                ),
                                 getLabelAndDate(
                                   list: state.model.specialAchievements ?? [],
                                   descLabel: Constants.specialAchievementsInfo,
                                   dateLabel: Constants.achievementsDate,
                                 ),
 
+                                CommonWidgets.verticalSpacerWidget(
+                                  height * 0.02,
+                                ),
                                 getLabelAndDate(
                                   list: state.model.additionalInitiatives ?? [],
                                   descLabel:
@@ -2901,7 +2908,7 @@ class _GuardingMasterDataDetailsViewState
                                     state.model.modifiedDate ?? '',
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01,
+                                    height * 0.02,
                                   ),
 
                                   /// Modified By
@@ -3355,16 +3362,16 @@ class _GuardingMasterDataDetailsViewState
     required String dateLabel,
   }) {
     List<Widget> widgets = [];
-
     for (GuardingMasterDataExtraDetails extraDetails in list) {
       widgets.add(const Divider(color: AppColors.navigationSkyBlueColor));
       widgets.add(
         CommonWidgets.textDisplay(
           descLabel,
           isMandatory: true,
-          Styles.textStyleBlack14,
+          Styles.textStyleWhite14,
         ),
       );
+      widgets.add(const SizedBox(height: 10));
       widgets.add(
         FlutterInputField(
           showBorder: true,
@@ -3380,12 +3387,12 @@ class _GuardingMasterDataDetailsViewState
           textInputType: TextInputType.multiline, // Add this line
         ),
       );
-
+      widgets.add(const SizedBox(height: 15));
       widgets.add(
         CommonWidgets.textDisplay(
           dateLabel,
           isMandatory: true,
-          Styles.textStyleBlack14,
+          Styles.textStyleWhite14,
         ),
       );
       widgets.add(

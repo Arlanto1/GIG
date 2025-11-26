@@ -682,9 +682,13 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Utils().textHandling(
-                'Total No of Staff MedicalCertificate Not Submitted:',
-                widget.mcNotSubmitted.toString()),
+            Expanded(
+              child: Text(
+                'Total No of Staff MedicalCertificate Not Submitted:\n${widget.mcNotSubmitted}',
+                style: Styles.textStyleWhite14,
+              ),
+            )
+
           ],
         ),
       ],

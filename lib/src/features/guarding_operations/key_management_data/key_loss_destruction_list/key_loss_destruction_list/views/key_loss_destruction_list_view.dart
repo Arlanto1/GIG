@@ -172,7 +172,8 @@ class _KeyLossDestructionListViewState
                                     '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}',
                               ),
                             );
-                            return Container(
+                            return index >= state.list.length
+                                ? null : Container(
                               decoration: const BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [

@@ -91,25 +91,27 @@ class CustomAlertDialog extends StatelessWidget {
           filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20), // Glass blur effect
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(circularBorderRadius ?? 20.0),
               gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
                 colors: [
-                  AppColors.lavender.withValues(alpha: 0.55),
-                  AppColors.lavender.withValues(alpha: 0.25),
+                  Colors.white.withValues(alpha: 0.2),
+                  Colors.transparent,
+                  Colors.white.withValues(alpha: 0.2),
+                  // Color(0xFF6474C6).withOpacity(0.14)
                 ],
+                stops: [0.02, 0.35, 1],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
+              borderRadius: BorderRadius.circular(27),
               border: Border.all(
-                color: Colors.white.withValues(alpha: 0.25),
-                width: 1.5,
+                color: Colors.white.withValues(alpha: 0.80),
+                width: 0.8,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.white.withValues(alpha: 0.2),
-                  blurRadius: 20,
-                  spreadRadius: 10,
-                  offset: const Offset(0, 4),
+                  color: const Color(0xFF6474C6).withValues(alpha: 0.09),
+                  blurRadius: 12,
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
@@ -128,7 +130,7 @@ class CustomAlertDialog extends StatelessWidget {
                 if (message != null)
                   Text(
                     message!,
-                    style: Styles.textFontSet(16, Colors.black, FontWeight.w900,
+                    style: Styles.textFontSet(16, Colors.white, FontWeight.w900,
                         Constants.customFontBoldFamily),
                   ),
                 const SizedBox(height: 20),

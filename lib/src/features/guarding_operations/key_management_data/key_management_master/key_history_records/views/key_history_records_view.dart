@@ -281,7 +281,8 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                           value: state.list[index].noOfKeys.toString(),
                         ),
                       );
-                      return Container(
+                      return index >= state.list.length
+                          ? null : Container(
                         decoration: const BoxDecoration(
                           gradient: LinearGradient(
                             colors: [Color(0xFF6474C6), Color(0xFF6474C6)],

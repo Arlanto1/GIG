@@ -186,7 +186,8 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                                         Constants.createdby,
                                     value:
                                         '${state.list[index].entrySecurity?.firstName ?? ''} ${state.list[index].entrySecurity?.lastName ?? ''}'));
-                                return Container(
+                                return index >= state.list.length
+                                    ? null : Container(
                                     decoration: const BoxDecoration(
                                       gradient: LinearGradient(
                                         colors: [

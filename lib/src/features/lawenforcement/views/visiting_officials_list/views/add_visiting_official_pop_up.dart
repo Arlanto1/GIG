@@ -315,10 +315,10 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
       key: const Key(Keys.cancelButton),
       buttonText: Constants.close,
       buttonTextKey: Keys.cancelButtonText,
-      foregroundColor: const Color(0xFF071130),
-      textStyle: Styles.textStyleSemiBold16DarkBlue,
-      backgroundColor: Colors.white,
-      boarderColor: AppColors.textGreyThemeColor,
+      foregroundColor:  Colors.white,
+      textStyle: Styles.textStyleSemiBold16White,
+      backgroundColor: Colors.transparent,
+      boarderColor: AppColors.white,
       onTap: () {
         //loginFormKey.currentState!.validate();
         FocusScope.of(context).unfocus();

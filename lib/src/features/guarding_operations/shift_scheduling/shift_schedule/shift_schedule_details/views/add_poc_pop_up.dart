@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:db_atom/index.dart';
 
 class AddPOCPopUp extends StatefulWidget {
@@ -25,56 +27,170 @@ class AddPOCPopUpState extends State<AddPOCPopUp> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      backgroundColor: AppColors.backgroundWhiteColor,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      content: Builder(builder: (context) {
-        // Get available height and width of the build area of this widget. Make a choice depending on the size.
-        var height = MediaQuery.of(context).size.height;
-        var width = MediaQuery.of(context).size.width;
-        return SizedBox(
-          height: height / 4.9,
-          width: width,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: <Widget>[
-              Form(
-                key: _formKey,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ///POC
-                      CommonWidgets.textDisplay(
-                        Constants.poc,
-                        Styles.textStyleBlack14,
+    // return AlertDialog(
+    //   backgroundColor: AppColors.lavender,
+    //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    //   content: Builder(builder: (context) {
+    //     // Get available height and width of the build area of this widget. Make a choice depending on the size.
+    //     var height = MediaQuery.of(context).size.height;
+    //     var width = MediaQuery.of(context).size.width;
+    //     return SizedBox(
+    //       height: height / 4.9,
+    //       width: width,
+    //       child: Stack(
+    //         clipBehavior: Clip.none,
+    //         children: <Widget>[
+    //           Form(
+    //             key: _formKey,
+    //             child: SingleChildScrollView(
+    //               child: Column(
+    //                 mainAxisSize: MainAxisSize.min,
+    //                 children: <Widget>[
+    //                   ///POC
+    //                   CommonWidgets.textDisplay(
+    //                     Constants.poc,
+    //                     Styles.textStyleWhite14,
+    //                   ),
+    //                   CommonWidgets.verticalSpacerWidget(height * 0.01),
+    //                   FlutterInputField(
+    //                     lineHeight: 1,
+    //                     controller: pocController,
+    //                     textFormKey: Keys.equipmentNoKey,
+    //                     textCapitalization: false,
+    //                     hintText: '',
+    //                     isEnable: true,
+    //                     isDisableColor: false,
+    //                     onChange: (String value) {
+    //                       pocController.text = value;
+    //                     },
+    //                     validateTextField: (String value) {},
+    //                   ),
+    //                   CommonWidgets.verticalSpacerWidget(height * 0.01),
+    //                   buttonViews(widget.mainContext, width),
+    //                   CommonWidgets.verticalSpacerWidget(height * 0.02),
+    //                 ],
+    //               ),
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //     );
+    //   }),
+    // );
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+          child: AlertDialog(
+            backgroundColor: Colors.white.withValues(alpha: 0.12),
+            elevation: 0,
+            contentPadding: EdgeInsets.zero,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+
+            content: Builder(
+              builder: (context) {
+                var height = MediaQuery.of(context).size.height;
+                var width = MediaQuery.of(context).size.width;
+
+                return Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.white
+                            .withValues(
+                            alpha: 0.2),
+                        Colors.transparent,
+                        Colors.white
+                            .withValues(
+                            alpha: 0.2),
+                        // Color(0xFF6474C6).withOpacity(0.14)
+                      ],
+                      stops: [0.02, 0.35, 1],
+                      begin:
+                      Alignment.topCenter,
+                      end: Alignment
+                          .bottomCenter,
+                    ),
+                    borderRadius:
+                    BorderRadius.circular(
+                        27),
+                    border: Border.all(
+                      color: Colors.white
+                          .withValues(
+                          alpha: 0.80),
+                      width: 0.8,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(
+                            0xFF6474C6)
+                            .withValues(
+                            alpha: 0.09),
+                        blurRadius: 12,
+                        offset: const Offset(
+                            0, 2),
                       ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      FlutterInputField(
-                        lineHeight: 1,
-                        controller: pocController,
-                        textFormKey: Keys.equipmentNoKey,
-                        textCapitalization: false,
-                        hintText: '',
-                        isEnable: true,
-                        isDisableColor: false,
-                        onChange: (String value) {
-                          pocController.text = value;
-                        },
-                        validateTextField: (String value) {},
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      buttonViews(widget.mainContext, width),
-                      CommonWidgets.verticalSpacerWidget(height * 0.02),
                     ],
                   ),
-                ),
-              ),
-            ],
+                  child: SizedBox(
+                    height: height / 4.9,
+                    width: width,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: <Widget>[
+                        Form(
+                          key: _formKey,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                /// POC label
+                                CommonWidgets.textDisplay(
+                                  Constants.poc,
+                                  Styles.textStyleWhite14,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Input field
+                                FlutterInputField(
+                                  lineHeight: 1,
+                                  controller: pocController,
+                                  textFormKey: Keys.equipmentNoKey,
+                                  textCapitalization: false,
+                                  hintText: '',
+                                  isEnable: true,
+                                  isDisableColor: false,
+                                  onChange: (String value) {
+                                    pocController.text = value;
+                                  },
+                                  validateTextField: (String value) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                                /// Buttons
+                                buttonViews(widget.mainContext, width),
+                                CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
           ),
-        );
-      }),
+        ),
+      ),
     );
+
   }
 
   Widget buttonViews(BuildContext context, double width) {
@@ -91,9 +207,9 @@ class AddPOCPopUpState extends State<AddPOCPopUp> {
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButtonText,
-      foregroundColor: AppColors.textGreyThemeColor,
-      textStyle: Styles.styleHeaderGreyText16,
-      boarderColor: AppColors.textGreyThemeColor,
+      foregroundColor: Colors.transparent,
+      textStyle: Styles.styleHeaderWhiteText16,
+      boarderColor: AppColors.white,
       onTap: () {
         FocusScope.of(context).unfocus();
         Navigator.of(context).pop();
@@ -102,12 +218,13 @@ class AddPOCPopUpState extends State<AddPOCPopUp> {
   }
 
   Widget saveButton(double width) {
-    return AppButton(
+    return PopButton(
       width: width / 3.5,
       key: const Key(Keys.saveButton),
       buttonText: Constants.save,
       buttonTextKey: Keys.saveButtonText,
-      backgroundColor: AppColors.navigationSkyBlueColor,
+      backgroundColor: const Color(0xFF071130),
+      foregroundColor: Colors.white,
       onTap: () {
         if (!isFormValid.status) {
           Validator().showToast(

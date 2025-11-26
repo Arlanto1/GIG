@@ -246,7 +246,9 @@ class _KeyManagementIssuanceListViewState
                                 );
                               }
                             }
-                            return Container(
+                            return index >= state.list.length
+                                ? null
+                            : Container(
                               decoration: const BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [

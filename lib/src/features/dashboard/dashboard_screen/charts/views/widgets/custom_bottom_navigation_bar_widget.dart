@@ -1462,12 +1462,12 @@ class _CustomBottomNavigationBarState
           onTap: (visibleIndex, visibleCount) {
             BottomMenuHandler(
               context: context,
-              displayMenu: displayMenu!,
+              displayMenu: displayMenu,
               positionX: getItemPositionX(visibleIndex, visibleCount),
             ).openGuardingOperationSubMenu();
           },
         ),
-      if (displayMenu!.mM ?? false)
+      if (displayMenu.mM ?? false)
         _BottomItem(
           isVisible: true,
           icon: Icons.supervised_user_circle_sharp,
@@ -1580,7 +1580,7 @@ class _CustomBottomNavigationBarState
                               boxShadow: isSelected
                                   ? [
                                 BoxShadow(
-                                  color: Colors.blueAccent.withOpacity(0.5),
+                                  color: Colors.blueAccent.withValues(alpha: 0.5),
                                   blurRadius: 10,
                                   spreadRadius: 2,
                                 ),
@@ -1592,7 +1592,7 @@ class _CustomBottomNavigationBarState
                               size: isSelected ? 28 : 24,
                               color: isSelected
                                   ? Colors.white
-                                  : Colors.white.withOpacity(0.7),
+                                  : Colors.white.withValues(alpha: 0.7),
                             ),
                           ),
                           const SizedBox(height: 6),
@@ -1604,7 +1604,7 @@ class _CustomBottomNavigationBarState
                               fontWeight: FontWeight.w500,
                               color: isSelected
                                   ? Colors.white
-                                  : Colors.white.withOpacity(0.7),
+                                  : Colors.white.withValues(alpha: 0.7),
                             ),
                           ),
                         ],
@@ -1678,75 +1678,4 @@ class _BottomItem {
     required this.label,
     required this.onTap,
   });
-}
-
-
-class _GlassAnimatedIcon extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const _GlassAnimatedIcon({
-    required this.icon,
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        transform: isSelected
-            ? Matrix4.translationValues(0, -10, 0)
-            : Matrix4.identity(),
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              padding: EdgeInsets.all(isSelected ? 14 : 10),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: isSelected
-                    ? const LinearGradient(
-                  colors: [Colors.white70, Color(0xFF6474C6)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                )
-                    : null,
-                boxShadow: isSelected
-                    ? [
-                  BoxShadow(
-                    color: Colors.white.withOpacity(0.4),
-                    blurRadius: 12,
-                    spreadRadius: 1,
-                  ),
-                ]
-                    : [],
-              ),
-              child: Icon(
-                icon,
-                size: isSelected ? 28 : 24,
-                color: Colors.white.withOpacity(isSelected ? 1.0 : 0.7),
-              ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 10,
-                color: Colors.white.withOpacity(isSelected ? 1.0 : 0.7),
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }

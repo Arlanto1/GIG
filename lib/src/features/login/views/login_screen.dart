@@ -310,7 +310,7 @@ class _LoginState extends State<Login> {
               return LayoutBuilder(
                 builder: (context, constraints) {
                   final height = constraints.maxHeight;
-                  final width = constraints.maxWidth;
+                  final width = constraints.minHeight;
 
                   return Scaffold(
                     body: Stack(

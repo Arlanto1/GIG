@@ -115,11 +115,11 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
                       ),
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  const BaseLoader(),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                ],
+                // if (state.status == FormStatus.loading) ...[
+                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                //   const BaseLoader(),
+                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                // ],
                 // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
                 // Text('state.status=====${state.status}'),
                 if (state.list.isEmptyOrNull &&
@@ -146,7 +146,8 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
                           : state.list.length + 1,
                       itemBuilder: (context, index) {
                         if (index < state.list.length) {
-                          return Container(
+                          return index >= state.list.length
+                              ? null : Container(
                               decoration: const BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [

@@ -9,6 +9,7 @@ class CustomMultipleSelectionListTexts extends StatefulWidget {
   final Function(List<Organisation>) onTap;
   final Function? onLeftButtonTap;
   final String? leftImageName;
+  final List<Organisation>? searchEntity;
 
   const CustomMultipleSelectionListTexts({
     super.key,
@@ -17,6 +18,7 @@ class CustomMultipleSelectionListTexts extends StatefulWidget {
     required this.selectedValues,
     this.onLeftButtonTap,
     this.leftImageName,
+    this.searchEntity,
   });
 
   @override
@@ -195,6 +197,11 @@ class CustomMultipleSelectionListTextsState
                       ),
                     ),
                     onPressed: () {
+                      if ((_searchCtrl.text.isNotEmpty)) {
+                        entityList = List.from(widget.selectedValues);
+                      } else {
+                        entityList = List.from(widget.allItems);
+                      }
                       final selectedEntities = entityList
                           .where((entity) => entity.isSelected ?? false)
                           .toList();
@@ -243,8 +250,21 @@ class CustomMultipleSelectionListTextsState
       isEnabled: false,
       // suffixIcon: _searchCtrl.text.length >  0 ? Conatiner()  :SizedBox(width: 0,),
       onChange: (String txt) {
-        _searchCtrl.clear();
         _filterEntities('');
+        // _searchCtrl.clear();
+        if (widget.searchEntity != null) {
+          entityList.clear();
+          if (txt.isEmpty) {
+            setState(() {});
+            return;
+          }
+
+          for (var userDetail in widget.searchEntity!) {
+            if (userDetail.name!.toLowerCase().contains(txt.toLowerCase())) {
+              entityList.add(userDetail);
+            }
+          }
+        }
       },
       onSubmit: () {
         _filterEntities;

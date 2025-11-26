@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:app_settings/app_settings.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
@@ -261,146 +262,327 @@ class UploadAttachmentState extends State<UploadAttachment>
     }
   }
 
+ // notification showImagePicker(BuildContext context) {
+ //    showModalBottomSheet<void>(
+ //        shape: RoundedRectangleBorder(
+ //          borderRadius: BorderRadius.circular(8.0),
+ //        ),
+ //        backgroundColor: Colors.red,
+ //        context: context,
+ //        builder: (builder) {
+ //          return Card(
+ //              child: SingleChildScrollView(
+ //                  child: Container(
+ //            width: MediaQuery.of(context).size.width,
+ //            height: 180,
+ //            margin: const EdgeInsets.only(top: 8.0),
+ //            padding:
+ //                const EdgeInsets.only(left: 12, top: 0, right: 12, bottom: 12),
+ //            child: Column(
+ //              children: [
+ //                Container(
+ //                  padding: const EdgeInsets.only(
+ //                      left: 10, top: 5, right: 10, bottom: 14),
+ //                  alignment: Alignment.topLeft,
+ //                  child: const Text(
+ //                    Constants.captureOrUpload,
+ //                    style: Styles.textStyleRegularGrey16,
+ //                  ),
+ //                ),
+ //                Padding(
+ //                  padding: const EdgeInsets.only(top: 8.0, bottom: 10),
+ //                  child: Row(
+ //                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+ //                    children: [
+ //                      Expanded(
+ //                          child: Container(
+ //                        padding: const EdgeInsets.all(20.0),
+ //                        decoration: const ShapeDecoration(
+ //                            color: AppColors.lightGreyBackground,
+ //                            shape: RoundedRectangleBorder(
+ //                              borderRadius: BorderRadius.vertical(
+ //                                  top: Radius.circular(20.0),
+ //                                  bottom: Radius.circular(20.0)),
+ //                            )),
+ //                        child: InkWell(
+ //                          child: Column(
+ //                            children: [
+ //                              SvgPicture.asset(
+ //                                AppIcon.galleryIcon,
+ //                                width: 36,
+ //                                height: 36,
+ //                              ),
+ //                              const Text(
+ //                                Constants.gallery,
+ //                                style: Styles.textStyleRegularGrey14,
+ //                              ),
+ //                            ],
+ //                          ),
+ //                          onTap: () {
+ //                            _askPermission(FileDocumnets.Photo);
+ //                            Navigator.pop(context);
+ //                          },
+ //                        ),
+ //                      )),
+ //                      const SizedBox(
+ //                        width: 15,
+ //                      ),
+ //                      Expanded(
+ //                          child: Container(
+ //                        padding: const EdgeInsets.all(20.0),
+ //                        decoration: const ShapeDecoration(
+ //                            color: AppColors.lightGreyBackground,
+ //                            shape: RoundedRectangleBorder(
+ //                              borderRadius: BorderRadius.vertical(
+ //                                  top: Radius.circular(20.0),
+ //                                  bottom: Radius.circular(20.0)),
+ //                            )),
+ //                        child: InkWell(
+ //                          child: SizedBox(
+ //                            child: Column(
+ //                              children: [
+ //                                SvgPicture.asset(
+ //                                  AppIcon.cameraIcon,
+ //                                  width: 36,
+ //                                  height: 36,
+ //                                ),
+ //                                const Text(
+ //                                  Constants.camera,
+ //                                  style: Styles.textStyleRegularGrey14,
+ //                                ),
+ //                              ],
+ //                            ),
+ //                          ),
+ //                          onTap: () {
+ //                            _askPermission(FileDocumnets.Camera);
+ //                            Navigator.pop(context);
+ //                          },
+ //                        ),
+ //                      )),
+ //                      const SizedBox(
+ //                        width: 15,
+ //                      ),
+ //                      Expanded(
+ //                          child: Container(
+ //                        padding: const EdgeInsets.all(20.0),
+ //                        decoration: const ShapeDecoration(
+ //                            color: AppColors.lightGreyBackground,
+ //                            shape: RoundedRectangleBorder(
+ //                              borderRadius: BorderRadius.vertical(
+ //                                  top: Radius.circular(20.0),
+ //                                  bottom: Radius.circular(20.0)),
+ //                            )),
+ //                        child: InkWell(
+ //                          child: SizedBox(
+ //                            child: Column(
+ //                              children: [
+ //                                SvgPicture.asset(
+ //                                  AppIcon.documentsIcon,
+ //                                  width: 36,
+ //                                  height: 36,
+ //                                ),
+ //                                const Text(
+ //                                  Constants.document,
+ //                                  style: Styles.textStyleRegularGrey13,
+ //                                ),
+ //                              ],
+ //                            ),
+ //                          ),
+ //                          onTap: () {
+ //                            _getDocumentFileslist();
+ //                            Navigator.pop(context);
+ //                          },
+ //                        ),
+ //                      ))
+ //                    ],
+ //                  ),
+ //                ),
+ //              ],
+ //            ),
+ //          )));
+ //        }).then((value) {
+ //      Navigator.pop(context);
+ //    });
+ //  }
   showImagePicker(BuildContext context) {
     showModalBottomSheet<void>(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        backgroundColor: Colors.white,
-        context: context,
-        builder: (builder) {
-          return Card(
-              child: SingleChildScrollView(
-                  child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: 180,
-            margin: const EdgeInsets.only(top: 8.0),
-            padding:
-                const EdgeInsets.only(left: 12, top: 0, right: 12, bottom: 12),
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(
-                      left: 10, top: 5, right: 10, bottom: 14),
-                  alignment: Alignment.topLeft,
-                  child: const Text(
-                    Constants.captureOrUpload,
-                    style: Styles.textStyleRegularGrey16,
-                  ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (builder) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15), // GLASS BLUR
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 180,
+              margin: const EdgeInsets.only(top: 8.0),
+              padding: const EdgeInsets.only(
+                  left: 12, top: 0, right: 12, bottom: 12),
+
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    AppColors.lavender.withOpacity(0.25),
+                    Colors.white.withOpacity(0.05),
+                    AppColors.lavender.withOpacity(0.25),
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.5),
+                  width: 1,
+                ),
+              ),
+
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.only(
+                        left: 10, top: 5, right: 10, bottom: 14),
+                    alignment: Alignment.topLeft,
+                    child: const Text(
+                      Constants.captureOrUpload,
+                      style: Styles.textStyleRegularNormalWhite18,
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2.0, bottom: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        /// GALLERY
+                        Expanded(
                           child: Container(
-                        padding: const EdgeInsets.all(20.0),
-                        decoration: const ShapeDecoration(
-                            color: AppColors.lightGreyBackground,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(20.0),
-                                  bottom: Radius.circular(20.0)),
-                            )),
-                        child: InkWell(
-                          child: Column(
-                            children: [
-                              SvgPicture.asset(
-                                AppIcon.galleryIcon,
-                                width: 36,
-                                height: 36,
+                            padding: const EdgeInsets.all(20.0),
+                            decoration: ShapeDecoration(
+                              color: Colors.white.withOpacity(0.0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
                               ),
-                              const Text(
-                                Constants.gallery,
-                                style: Styles.textStyleRegularGrey14,
+                            ),
+                            child: InkWell(
+                              child: Column(
+                                children: [
+                                  SvgPicture.asset(
+                                    AppIcon.galleryIcon,
+                                    width: 36,
+                                    height: 36,
+                                    colorFilter: const ColorFilter.mode(
+                                      AppColors.white,
+                                      BlendMode.srcIn,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  const Text(
+                                    Constants.gallery,
+                                    style: Styles.textStyleRegularNormalWhite14,
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                          onTap: () {
-                            _askPermission(FileDocumnets.Photo);
-                            Navigator.pop(context);
-                          },
-                        ),
-                      )),
-                      const SizedBox(
-                        width: 15,
-                      ),
-                      Expanded(
-                          child: Container(
-                        padding: const EdgeInsets.all(20.0),
-                        decoration: const ShapeDecoration(
-                            color: AppColors.lightGreyBackground,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(20.0),
-                                  bottom: Radius.circular(20.0)),
-                            )),
-                        child: InkWell(
-                          child: SizedBox(
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  AppIcon.cameraIcon,
-                                  width: 36,
-                                  height: 36,
-                                ),
-                                const Text(
-                                  Constants.camera,
-                                  style: Styles.textStyleRegularGrey14,
-                                ),
-                              ],
+                              onTap: () {
+                                _askPermission(FileDocumnets.Photo);
+                                Navigator.pop(context);
+                              },
                             ),
                           ),
-                          onTap: () {
-                            _askPermission(FileDocumnets.Camera);
-                            Navigator.pop(context);
-                          },
                         ),
-                      )),
-                      const SizedBox(
-                        width: 15,
-                      ),
-                      Expanded(
+
+                        const SizedBox(width: 15),
+
+                        /// CAMERA
+                        Expanded(
                           child: Container(
-                        padding: const EdgeInsets.all(20.0),
-                        decoration: const ShapeDecoration(
-                            color: AppColors.lightGreyBackground,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(20.0),
-                                  bottom: Radius.circular(20.0)),
-                            )),
-                        child: InkWell(
-                          child: SizedBox(
-                            child: Column(
-                              children: [
-                                SvgPicture.asset(
-                                  AppIcon.documentsIcon,
-                                  width: 36,
-                                  height: 36,
-                                ),
-                                const Text(
-                                  Constants.document,
-                                  style: Styles.textStyleRegularGrey13,
-                                ),
-                              ],
+                            padding: const EdgeInsets.all(20.0),
+                            decoration: ShapeDecoration(
+                              color: Colors.white.withOpacity(0.0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            child: InkWell(
+                              child: Column(
+                                children: [
+                                  SvgPicture.asset(
+                                    AppIcon.cameraIcon,
+                                    width: 36,
+                                    height: 36,
+                                    colorFilter: const ColorFilter.mode(
+                                      AppColors.white,
+                                      BlendMode.srcIn,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  const Text(
+                                    Constants.camera,
+                                    style: Styles.textStyleRegularNormalWhite14,
+                                  ),
+                                ],
+                              ),
+                              onTap: () {
+                                _askPermission(FileDocumnets.Camera);
+                                Navigator.pop(context);
+                              },
                             ),
                           ),
-                          onTap: () {
-                            _getDocumentFileslist();
-                            Navigator.pop(context);
-                          },
                         ),
-                      ))
-                    ],
+
+                        const SizedBox(width: 15),
+
+                        /// DOCUMENT
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.all(20.0),
+                            decoration: ShapeDecoration(
+                              color: Colors.white.withOpacity(0.0),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            child: InkWell(
+                              child: Column(
+                                children: [
+                                  SvgPicture.asset(
+                                    AppIcon.documentsIcon,
+                                    width: 36,
+                                    height: 36,
+                                    colorFilter: const ColorFilter.mode(
+                                      AppColors.white,
+                                      BlendMode.srcIn,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                  const Text(
+                                    Constants.document,
+                                    style: Styles.textStyleRegularNormalWhite14,
+                                  ),
+                                ],
+                              ),
+                              onTap: () {
+                                _getDocumentFileslist();
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          )));
-        }).then((value) {
-      Navigator.pop(context);
+          ),
+        );
+      },
+    ).then((value) {
+      Navigator.pop(context); // Keeping your functionality as requested
     });
   }
+
 }

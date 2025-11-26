@@ -194,19 +194,19 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             ],
                             Container(
                               alignment: Alignment.topLeft,
-                              child: Text(
+                              child: const Text(
                                 Constants.generalinformation,
-                                style: Styles.styleHeaderGreyText16,
+                                style: Styles.textStyleWhite14,
                               ),
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Status
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.status ??
                                     state.labels?.defaultLocale.status ??
                                     Constants.status,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
@@ -242,7 +242,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                 // }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Created By
                             CommonWidgets.horizentaltextHandling(
@@ -251,7 +251,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                     Constants.createdby,
                                 isMandatory: true,
                                 '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
@@ -259,11 +259,11 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                     state.labels?.defaultLocale.inputDate ??
                                     Constants.dateofcreation,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDate().creationDateDisplay(
                                 state.model.inputDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Location
                             CommonWidgets.textDisplay(
@@ -271,7 +271,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                     state.labels?.defaultLocale.location ??
                                     Constants.location,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
+                                Styles.textStyleWhite14),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             AbsorbPointer(
                                 absorbing: state.model.status == null ||
@@ -293,7 +293,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                               .updateDropdownValues(
                                                   location: location);
                                         })),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Sl No.
                             CommonWidgets.horizentaltextHandling(
@@ -303,7 +303,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               state.model.slNo ?? '',
                               isMandatory: true,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Vendor
                             CommonWidgets.textDisplay(
@@ -311,11 +311,11 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                   state.labels?.defaultLocale.vendor ??
                                   Constants.vendor,
                               isMandatory: true,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite14,
                             ),
                             TextFieldAddButton(
                               title: state.model.vendor?.name,
-                              height: 60,
+                              height: 70,
                               isDisableColor: isReadOnly || state.model.status == ConstantsIntValue.shiftScheduleActive,
                               onTap: () {
                                 if (!isReadOnly && state.model.status != ConstantsIntValue.shiftScheduleActive) {
@@ -343,7 +343,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               },
                             ),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Duty Type
                             CommonWidgets.textDisplay(
@@ -351,9 +351,8 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                     state.labels?.defaultLocale.dutyType ??
                                     Constants.dutyType,
                                 isMandatory: true,
-                                Styles.textStyleBlack14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                Styles.textStyleWhite14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.002),
                             BaseDropDown().getDropDown(
                                 isDisabled: isReadOnly,
                                 textController: rankController,
@@ -385,14 +384,14 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                         });
                                   }
                                 }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// POC
                             CommonWidgets.textDisplay(
                                 // state.labels?.locale.poc ??
                                 //     state.labels?.defaultLocale.poc ??
                                 Constants.poc,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite14,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             if (!isReadOnly && state.model.status != ConstantsIntValue.shiftScheduleActive) ...[
@@ -438,7 +437,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                             Column(
                               children: getPOCs(state, height),
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// From Date
                             CommonWidgets.textDisplay(
@@ -446,7 +445,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                   state.labels?.defaultLocale.fromDate ??
                                   Constants.fromDate,
                               isMandatory: true,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite14,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -465,7 +464,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               },
                               context: context,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// To Date
                             CommonWidgets.textDisplay(
@@ -473,7 +472,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                   state.labels?.defaultLocale.toDate ??
                                   Constants.toDate,
                               isMandatory: true,
-                              Styles.textStyleBlack14,
+                              Styles.textStyleWhite14,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
@@ -491,21 +490,21 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               },
                               context: context,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
                             if (state.model.id != null) ...[
                               /// Modified Date
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.modifiedDate ??
                                     state.labels?.defaultLocale.modifiedDate ??
                                     Constants.modifiedOn,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite14,
                                 isMandatory: true,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               BaseDate().creationDateDisplay(
                                   state.model.modifiedDate ?? ''),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Modified By
                               CommonWidgets.horizentaltextHandling(
@@ -514,7 +513,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                                       Constants.modifiedBy,
                                   isMandatory: true,
                                   state.model.modifiedBy ?? ''),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ],
                           ],
                         ),

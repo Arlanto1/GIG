@@ -930,7 +930,7 @@ class _SezPassManagementDetailsViewState
               Container(
                 padding: const EdgeInsets.all(5.0),
                 decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
+                  color: AppColors.lavender,
                   shape: RoundedRectangleBorder(
                     borderRadius:
                     BorderRadius.vertical(top: Radius.circular(00.0)),

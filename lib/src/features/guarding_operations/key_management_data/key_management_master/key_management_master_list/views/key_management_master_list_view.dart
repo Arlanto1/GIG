@@ -227,7 +227,9 @@ class _KeyManagementMasterListViewState
                                       .toString(),
                                 ),
                               );
-                              return Container(
+                              return index >= state.list.length
+                                  ? null :
+                              Container(
                                 decoration: const BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [

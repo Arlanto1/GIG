@@ -1,8 +1,7 @@
 import 'dart:developer';
+import 'dart:ui';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/arlanto_ai_chat_assistance/ai_chat_list/views/ai_chat_list_view.dart' show AiChatListView;
-
-import 'charts/base_pyramid_charts.dart';
 
 // class DashboardView extends StatefulWidget {
 //   const DashboardView({super.key});
@@ -481,23 +480,253 @@ class DashboardViewState extends State<DashboardView>
               //   child: const Text("Throw Test Exception"),
               // ),
 
-              GestureDetector(
+              // GestureDetector(
+              //   onTap: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //         builder: (_) => const AiChatListView(),
+              //       ),
+              //     );
+              //   },
+              //   child: const Padding(
+              //     padding: EdgeInsets.all(5.0),
+              //     child: Icon(
+              //       Icons.chat,
+              //       color: Colors.white,
+              //     ),
+              //   ),
+              // ),
+              //
+              // GestureDetector(
+              //   onTap: () {
+              //     showMenu(
+              //       context: context,
+              //       position: const RelativeRect.fromLTRB(100, 80, 0, 0), // adjust position
+              //       items: [
+              //         PopupMenuItem(
+              //           child: const Row(
+              //             children: [
+              //               Icon(Icons.chat, size: 20),
+              //               SizedBox(width: 10),
+              //               Text("Chat"),
+              //             ],
+              //           ),
+              //           onTap: () {
+              //             Future.delayed(Duration.zero, () {
+              //               Navigator.push(
+              //                 context,
+              //                 MaterialPageRoute(builder: (_) => const AiChatListView()),
+              //               );
+              //             });
+              //           },
+              //         ),
+              //         PopupMenuItem(
+              //           child: const Row(
+              //             children: [
+              //               Icon(Icons.newspaper, size: 20),
+              //               SizedBox(width: 10),
+              //               Text("News"),
+              //             ],
+              //           ),
+              //           onTap: () {
+              //             Future.delayed(Duration.zero, () {
+              //               // Navigator.push(
+              //               //   context,
+              //               //   MaterialPageRoute(builder: (_) => const NewsScreen()),
+              //               // );
+              //             });
+              //           },
+              //         ),
+              //       ],
+              //     );
+              //   },
+              //   child: const Padding(
+              //     padding: EdgeInsets.all(5.0),
+              //     child: Icon(
+              //       Icons.chat,
+              //       color: Colors.white,
+              //     ),
+              //   ),
+              // ),
+        GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const AiChatListView(),
-                    ),
+                  showDialog(
+                    context: context,
+                    barrierColor: Colors.black.withValues(alpha: 0.5),
+                    builder: (context) {
+                      return Stack(
+                        children: [
+                          Positioned(
+                            top: kToolbarHeight + 0,
+                            right: 10,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: BackdropFilter(
+                                filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                                child: Container(
+                                  width: 180,
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        AppColors.lavender.withValues(alpha: 0.2),
+                                        Colors.transparent,
+                                        AppColors.lavender.withValues(alpha: 0.2),
+                                        // Color(0xFF6474C6).withOpacity(0.14)
+                                      ],
+                                      stops: [0.02, 0.35, 1],
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                    ),
+                                    borderRadius: BorderRadius.circular(27),
+                                    border: Border.all(
+                                      color: Colors.white.withValues(alpha: 1),
+                                      width: 0.8,
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: const Color(0xFF6474C6).withValues(alpha: 0.2),
+                                        blurRadius: 12,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      // CHAT BUTTON
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (_) => const AiChatListView()),
+                                          );
+                                        },
+                                        child: Container(
+                                          width: double.infinity,
+                                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                Colors.white.withValues(alpha: 0.2),
+                                                Colors.transparent,
+                                                Colors.white.withValues(alpha: 0.2),
+                                                // Color(0xFF6474C6).withOpacity(0.14)
+                                              ],
+                                              stops: [0.02, 0.35, 1],
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                            ),
+                                            borderRadius: BorderRadius.circular(27),
+                                            border: Border.all(
+                                              color: Colors.white.withValues(alpha: 0.80),
+                                              width: 0.8,
+                                            ),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: const Color(0xFF6474C6).withValues(alpha: 0.09),
+                                                blurRadius: 12,
+                                                offset: const Offset(0, 2),
+                                              ),
+                                            ],
+                                          ),
+                                          child: const Row(
+                                            children: [
+                                              Icon(Icons.chat, color: Colors.white),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                "AI Chat",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w800,
+                                                  decoration: TextDecoration.none,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+
+                                      const SizedBox(height: 12),
+
+                                      // NEWS BUTTON
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                          // Navigator.push(context,
+                                          //   MaterialPageRoute(builder: (_) => const NewsScreen()),
+                                          // );
+                                        },
+                                        child: Container(
+                                          width: double.infinity,
+                                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                Colors.white.withValues(alpha: 0.2),
+                                                Colors.transparent,
+                                                Colors.white.withValues(alpha: 0.2),
+                                                // Color(0xFF6474C6).withOpacity(0.14)
+                                              ],
+                                              stops: [0.02, 0.35, 1],
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                            ),
+                                            borderRadius: BorderRadius.circular(27),
+                                            border: Border.all(
+                                              color: Colors.white.withValues(alpha: 0.80),
+                                              width: 0.8,
+                                            ),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: const Color(0xFF6474C6).withValues(alpha: 0.09),
+                                                blurRadius: 12,
+                                                offset: const Offset(0, 2),
+                                              ),
+                                            ],
+                                          ),
+                                          child: const Row(
+                                            children: [
+                                              Icon(Icons.newspaper, color: Colors.white),
+                                              SizedBox(width: 10),
+                                              Text(
+                                                "News",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w800,
+                                                  decoration: TextDecoration.none,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   );
                 },
                 child: const Padding(
-                  padding: EdgeInsets.all(5.0),
+                  padding: EdgeInsets.all(5),
                   child: Icon(
-                    Icons.chat,
+                    Icons.more_vert,
                     color: Colors.white,
                   ),
                 ),
               ),
+
+
 
               NotificationBell(notificationCount: state.notificationCount ?? 0),
               GestureDetector(
@@ -652,10 +881,8 @@ class DashboardViewState extends State<DashboardView>
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          SizedBox(
-            width: 425,
-            child: SizedBox(
-              width: 400,
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
               child: BaseDonutChart(
                 chartTitle: title,
                 moreIcon: SvgPicture.asset(AppIcon.moreicon),
@@ -663,9 +890,8 @@ class DashboardViewState extends State<DashboardView>
               ),
             ),
 
-          ),
           SizedBox(
-            width: 430,
+            width: MediaQuery.of(context).size.width,
             child: BaseVerticleBarCharts(
               chartTitle: title,
               moreIcon: SvgPicture.asset(AppIcon.moreicon),
@@ -673,7 +899,7 @@ class DashboardViewState extends State<DashboardView>
             ),
           ),
           SizedBox(
-            width: 430,
+            width: MediaQuery.of(context).size.width,
             child: BasePieChart(
               chartTitle: title,
               moreIcon: SvgPicture.asset(AppIcon.moreicon),

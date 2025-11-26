@@ -535,8 +535,8 @@ class _BaseDonutChartState extends State<BaseDonutChart>
     return Visibility(
       visible: isChartVisible,
       child: Container(
-        width: MediaQuery.of(context).size.width -50,
-        height: MediaQuery.of(context).size.height/2.1,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height/2.2,
         // height: ,
         margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 8),
         padding: const EdgeInsets.all(10),
@@ -593,32 +593,32 @@ class _BaseDonutChartState extends State<BaseDonutChart>
             // Chart or No Data
             widget.chartData.isEmpty
                 ? Container(
-              height: 200,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.white.withValues(alpha: 0.2),
-                    Colors.transparent,
-                    Colors.white.withValues(alpha: 0.2),
-                  ],
-                  stops: [0.02, 0.35, 1],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-                borderRadius: BorderRadius.circular(27),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.80),
-                  width: 0.8,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color:
-                    const Color(0xFF6474C6).withValues(alpha: 0.09),
-                    blurRadius: 12,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
+              height: MediaQuery.of(context).size.height/2.5,
+              // decoration: BoxDecoration(
+              //   gradient: LinearGradient(
+              //     colors: [
+              //       Colors.white.withValues(alpha: 0.2),
+              //       Colors.transparent,
+              //       Colors.white.withValues(alpha: 0.2),
+              //     ],
+              //     stops: [0.02, 0.35, 1],
+              //     begin: Alignment.topCenter,
+              //     end: Alignment.bottomCenter,
+              //   ),
+              //   borderRadius: BorderRadius.circular(27),
+              //   border: Border.all(
+              //     color: Colors.white.withValues(alpha: 0.80),
+              //     width: 0.8,
+              //   ),
+              //   boxShadow: [
+              //     BoxShadow(
+              //       color:
+              //       const Color(0xFF6474C6).withValues(alpha: 0.09),
+              //       blurRadius: 12,
+              //       offset: const Offset(0, 2),
+              //     ),
+              //   ],
+              // ),
               child: const Center(
                 child: Text(
                   'No Data Found',
@@ -672,7 +672,7 @@ class _BaseDonutChartState extends State<BaseDonutChart>
                       filter: ui.ImageFilter.blur(sigmaX: 14, sigmaY: 14),
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.6,
-                        height: MediaQuery.of(context).size.height * 0.275,
+                        height: MediaQuery.of(context).size.height * 0.278,
                         color:
                         Colors.white.withOpacity(0.30), // Slight tint
                       ),

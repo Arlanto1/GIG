@@ -1490,6 +1490,8 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
     return Visibility(
       visible: isChartVisible,
       child: Container(
+        width: MediaQuery.of(context).size.width ,
+        height: MediaQuery.of(context).size.height/2.2,
         margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 8),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -1522,7 +1524,7 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
           children: [
                 // Header Row
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
                       child: SingleChildScrollView(
@@ -1542,13 +1544,13 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
                 ),
               // ],),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
 
             // Chart or No Data
             widget.chartData.isEmpty
                 ? SizedBox(
               // width: MediaQuery.of(context).size.width ,
-              height: MediaQuery.of(context).size.height / 3,
+              height: MediaQuery.of(context).size.height / 2.7,
               // decoration: BoxDecoration(
               //   gradient: LinearGradient(
               //     colors: [
