@@ -207,7 +207,8 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
         //   fit: BoxFit.cover,              // makes it fill the screen
         // ),
         child: Container(
-          color: const Color(0xFF6474C6),
+          // color: const Color(0xFF6474C6),
+          color: AppColors.newColor3
         ),
       ),
       // Positioned.fill(

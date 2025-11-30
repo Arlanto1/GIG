@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'dart:ui';
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/arlanto_ai_chat_assistance/ai_chat_list/views/ai_chat_list_view.dart' show AiChatListView;
 
 // class DashboardView extends StatefulWidget {
 //   const DashboardView({super.key});
@@ -442,7 +441,7 @@ class DashboardViewState extends State<DashboardView>
           appBar: AppHeader(
             isTitleCenter: false,
             title: Constants.dashboard,
-            backgroundColour:  const  Color(0xFF071130),
+            backgroundColour:  AppColors.newColor,
             action: [
               if (Environment().config.apiHost.contains('api.qa.')) ...[
                 const Text(
@@ -570,9 +569,9 @@ class DashboardViewState extends State<DashboardView>
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: [
-                                        AppColors.lavender.withValues(alpha: 0.2),
+                                        AppColors.newColor5.withValues(alpha: 0.2),
                                         Colors.transparent,
-                                        AppColors.lavender.withValues(alpha: 0.2),
+                                        AppColors.newColor5.withValues(alpha: 0.2),
                                         // Color(0xFF6474C6).withOpacity(0.14)
                                       ],
                                       stops: [0.02, 0.35, 1],
@@ -599,10 +598,7 @@ class DashboardViewState extends State<DashboardView>
                                       GestureDetector(
                                         onTap: () {
                                           Navigator.pop(context);
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(builder: (_) => const AiChatListView()),
-                                          );
+                                          Navigator.pushNamed(context, aiChatListRoute);
                                         },
                                         child: Container(
                                           width: double.infinity,
@@ -620,17 +616,17 @@ class DashboardViewState extends State<DashboardView>
                                               end: Alignment.bottomCenter,
                                             ),
                                             borderRadius: BorderRadius.circular(27),
-                                            border: Border.all(
-                                              color: Colors.white.withValues(alpha: 0.80),
-                                              width: 0.8,
-                                            ),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: const Color(0xFF6474C6).withValues(alpha: 0.09),
-                                                blurRadius: 12,
-                                                offset: const Offset(0, 2),
-                                              ),
-                                            ],
+                                            // border: Border.all(
+                                            //   color: Colors.white.withValues(alpha: 0.80),
+                                            //   width: 0.8,
+                                            // ),
+                                            // boxShadow: [
+                                            //   BoxShadow(
+                                            //     color: const Color(0xFF6474C6).withValues(alpha: 0.09),
+                                            //     blurRadius: 12,
+                                            //     offset: const Offset(0, 2),
+                                            //   ),
+                                            // ],
                                           ),
                                           child: const Row(
                                             children: [
@@ -682,7 +678,7 @@ class DashboardViewState extends State<DashboardView>
                                             ),
                                             boxShadow: [
                                               BoxShadow(
-                                                color: const Color(0xFF6474C6).withValues(alpha: 0.09),
+                                                color:  AppColors.newColor5.withValues(alpha: 0.09),
                                                 blurRadius: 12,
                                                 offset: const Offset(0, 2),
                                               ),
@@ -785,7 +781,7 @@ class DashboardViewState extends State<DashboardView>
     }
     return Container(
       // color: Colors.white,
-      decoration:  const BoxDecoration(
+      decoration:  BoxDecoration(
         gradient: LinearGradient(
           colors: [
             // Color(0xFF845EF7),
@@ -796,8 +792,10 @@ class DashboardViewState extends State<DashboardView>
             // Color(0xFF6A89CC).withValues(alpha: 0.4),
             // Color(0xFF7589E9),
             // Colors.orange,
-            Color(0xFF6474C6),
-            Color(0xFF6474C6),
+            AppColors.newColor3,
+            AppColors.newColor3,
+            // Color(0xFF6474C6),
+            // Color(0xFF6474C6),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -808,7 +806,7 @@ class DashboardViewState extends State<DashboardView>
         child: SingleChildScrollView(
           child: Container(
             // padding: const EdgeInsets.all(10.0),
-            decoration:  const BoxDecoration(
+            decoration:  BoxDecoration(
               gradient: LinearGradient(
                 colors: [
                   // Color(0xFF845EF7),
@@ -817,8 +815,10 @@ class DashboardViewState extends State<DashboardView>
                   // Color(0xFF7589E9),
                   // Color(0xFF6A89CC).withValues(alpha: 0.1),
                   // Color(0xFF6A89CC).withValues(alpha: 0.1),
-                  Color(0xFF6474C6),
-                  Color(0xFF6474C6),
+                  // Color(0xFF6474C6),
+                  // Color(0xFF6474C6),
+                  AppColors.newColor3,
+                  AppColors.newColor3,
                   // Color(0xFF6A89CC),
                   // Color(0xFF6A89CC),
                   // Colors.white,

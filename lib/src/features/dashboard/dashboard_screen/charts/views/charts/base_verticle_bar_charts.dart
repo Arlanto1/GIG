@@ -1497,9 +1497,9 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.white.withValues(alpha: 0.2),
+              Colors.white.withValues(alpha: 0.07),
               Colors.transparent,
-              Colors.white.withValues(alpha: 0.2),
+              Colors.white.withValues(alpha: 0.07),
               // Color(0xFF6474C6).withOpacity(0.14)
             ],
             stops: [0.02, 0.35, 1],
@@ -1533,7 +1533,7 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
                           widget.chartTitle,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: Colors.white,
                             fontSize: 19,
                           ),
                         ),
@@ -1901,7 +1901,7 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
                               style: const TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
-                                color: Color(0xFF333333),
+                                color: Colors.white,
                               ),
                             ),
                           ],

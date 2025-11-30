@@ -127,3 +127,8 @@ const String lawVisitingOfficialViewRoute = '/lawVisitingOfficialViewRoute';
 
 const String articleFoundNewListRoute = '/articleFoundNewListRoute';
 const String articleFoundNewDetailsRoute = '/articleFoundNewDetailsRoute';
+
+
+
+const String aiChatListRoute = '/aiChatListRoute';
+const String aiChatDetailsRoute = '/aiChatDetailsRoute';

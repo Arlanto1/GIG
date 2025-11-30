@@ -87,6 +87,7 @@ dependency_overrides:
 #  shared_preferences_android: 2.0.10
   geolocator_android: 4.5.5
   file_picker: ^5.2.4
+  video_player: ^2.6.1
   #  flutter_localizations:
   #    sdk: flutter
   # The following adds the Cupertino Icons font to your application.
@@ -222,6 +223,7 @@ flutter:
     - assets/images/dollar1.png
     - assets/images/security1.png
     - assets/images/gunMan1.png
+    - assets/videos/loading.mp4
 
 
 

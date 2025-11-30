@@ -543,9 +543,9 @@ class _BaseDonutChartState extends State<BaseDonutChart>
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.white.withValues(alpha: 0.2),
+              AppColors.newColor1.withValues(alpha: 0.07),
               Colors.transparent,
-              Colors.white.withValues(alpha: 0.2),
+              AppColors.newColor1.withValues(alpha: 0.07),
             ],
             stops: [0.02, 0.35, 1],
             begin: Alignment.topCenter,
@@ -578,7 +578,7 @@ class _BaseDonutChartState extends State<BaseDonutChart>
                       widget.chartTitle,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Colors.white,
                         fontSize: 19,
                       ),
                     ),
@@ -622,7 +622,7 @@ class _BaseDonutChartState extends State<BaseDonutChart>
               child: const Center(
                 child: Text(
                   'No Data Found',
-                  style: TextStyle(color: Colors.black, fontSize: 14),
+                  style: TextStyle(color: Colors.white, fontSize: 14),
                 ),
               ),
             )
@@ -773,7 +773,7 @@ class _BaseDonutChartState extends State<BaseDonutChart>
                               style: const TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
-                                color: Color(0xFF333333),
+                                color:Colors.white,
                               ),
                             ),
                           ],

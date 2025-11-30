@@ -1148,9 +1148,9 @@ class BasePieChartState extends State<BasePieChart> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.white.withValues(alpha: 0.2),
+              Colors.white.withValues(alpha: 0.07),
               Colors.transparent,
-              Colors.white.withValues(alpha: 0.2),
+              Colors.white.withValues(alpha: 0.07),
             ],
             stops: [0.02, 0.35, 1],
             begin: Alignment.topCenter,
@@ -1183,7 +1183,7 @@ class BasePieChartState extends State<BasePieChart> {
                       widget.chartTitle,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Colors.white,
                         fontSize: 19,
                       ),
                     ),
@@ -1227,7 +1227,7 @@ class BasePieChartState extends State<BasePieChart> {
               child: const Center(
                 child: Text(
                   'No Data Found',
-                  style: TextStyle(color: Colors.black54, fontSize: 14),
+                  style: TextStyle(color: Colors.white, fontSize: 14),
                 ),
               ),
             )
@@ -1347,7 +1347,7 @@ class BasePieChartState extends State<BasePieChart> {
                               style: const TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w500,
-                                color: Color(0xFF333333),
+                                color: Colors.white,
                               ),
                             ),
                           ],

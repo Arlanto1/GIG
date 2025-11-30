@@ -1266,6 +1266,7 @@
 
 import 'dart:developer';
 
+import 'package:db_atom/app.dart';
 import 'package:db_atom/index.dart';
 import 'dart:ui';
 
@@ -1321,9 +1322,12 @@ class _CustomBottomNavigationBarState
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          const Color(0xFF6474C6).withOpacity(0.4),
-                          const Color(0xFF5C63B0).withOpacity(0.4),
-                          const Color(0xFF4E56A5).withOpacity(0.6),
+                          // const Color(0xFF6474C6).withOpacity(0.4),
+                          // const Color(0xFF5C63B0).withOpacity(0.4),
+                          // const Color(0xFF4E56A5).withOpacity(0.6),
+                          AppColors.newColor.withOpacity(0.4),
+                          AppColors.newColor.withOpacity(0.4),
+                          AppColors.newColor.withOpacity(0.4)
                         ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -1334,7 +1338,7 @@ class _CustomBottomNavigationBarState
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.25),
+                          color: Colors.white.withOpacity(0.01),
                           blurRadius: 8,
                           offset: const Offset(0, -3),
                         ),
@@ -1368,20 +1372,20 @@ class _CustomBottomNavigationBarState
                       height:  isSelected ? 70 : 60,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(isSelected ? 0.1 : 0.05),
+                        color: Colors.black.withOpacity(isSelected ? 0.0 : 0.5),
                         border: Border.all(
-                          color: Colors.white.withOpacity(isSelected ? 0.6 : 0.25),
+                          color: Colors.white.withOpacity(isSelected ? 0.5 : 0.5),
                           width: 1.5,
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            color:
-                            Colors.white.withOpacity(isSelected ? 0.22 : 0.15),
-                            blurRadius: isSelected ? 20 : 10,
-                            spreadRadius: 0,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color:
+                        //     Colors.white.withOpacity(isSelected ? 0.0 : 0.0),
+                        //     blurRadius: isSelected ? 20 : 10,
+                        //     spreadRadius: 0,
+                        //     offset: const Offset(0, 2),
+                        //   ),
+                        // ],
                       ),
                       child: ClipOval(
                         child: BackdropFilter(
@@ -1396,7 +1400,7 @@ class _CustomBottomNavigationBarState
                                   // Color(0xFF6474C6),
                                   // AppColors.lavender,
                                   Color(0xFF0C4C99),
-                                  Color(0xFF071130),
+                                  // Color(0xFF071130),
                                   Color(0xFF0C4C99),
                                   AppColors.lavender
                                 ],
@@ -1538,7 +1542,7 @@ class _CustomBottomNavigationBarState
             painter: _NavBarPainter(
               selectedIndex: selectedIndex,
               itemCount: visibleItems.length,
-              backgroundColor: const Color(0xFF071130),
+              backgroundColor: AppColors.newColor,
             ),
           ),
           Row(

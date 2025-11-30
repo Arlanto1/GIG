@@ -25,7 +25,7 @@ class BaseAppBar {
   }) {
     return AppHeader(
       isTitleCenter: false,
-      backgroundColour: const Color(0xFF071130),
+      backgroundColour: AppColors.newColor,
       title: title,
       backBtn: IconButton(
         onPressed: popAndReplace ??

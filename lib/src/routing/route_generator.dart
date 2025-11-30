@@ -7,6 +7,12 @@ import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shu
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/views/annual_power_shutdown_list_details_view.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/services/annual_power_shutdown_services.dart';
+import 'package:db_atom/src/features/arlanto_ai_chat_assistance/ai_chat_details/cubits/ai_chat_details_cubit.dart';
+import 'package:db_atom/src/features/arlanto_ai_chat_assistance/ai_chat_details/views/ai_chat_details_view.dart';
+import 'package:db_atom/src/features/arlanto_ai_chat_assistance/ai_chat_list/bloc/ai_chat_list_bloc.dart';
+import 'package:db_atom/src/features/arlanto_ai_chat_assistance/ai_chat_list/views/ai_chat_list_view.dart';
+import 'package:db_atom/src/features/arlanto_ai_chat_assistance/models/ai_chat_model.dart';
+import 'package:db_atom/src/features/arlanto_ai_chat_assistance/services/ai_chat_service.dart';
 import 'package:db_atom/src/features/article_found/article_found_details/views/article_found_details_view.dart';
 import 'package:db_atom/src/features/article_found/article_found_list/bloc/article_found_list_bloc.dart';
 import 'package:db_atom/src/features/article_found/models/article_found_model.dart';
@@ -2217,6 +2223,65 @@ class RouteGenerator {
               ),
         );
 
+
+      // case aiChatListRoute:
+      //   return MaterialPageRoute(
+      //       builder: (context) => BlocProvider<AiChatListBloc>(
+      //         create: (_) => AiChatListBloc()
+      //           ..add(FetchAIData(
+      //             startPos: 0,
+      //             maxPos: Constants.maxResults,
+      //           )),
+      //         child: const AiChatListView(),
+      //       ));
+
+      case ticketingSystemDetailsRoute:
+        TicketingSystemServices services = TicketingSystemServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        ExtraProperties? extraProperties;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        TicketingSystemModel? ticketingSystemModel = arguments["redmineIssue"];
+        extraProperties = arguments[ConstantsArgument.extraProperties];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<TicketingSystemDetailsCubit>(
+            create: (_) => TicketingSystemDetailsCubit(
+              services: services,
+              model: ticketingSystemModel,
+              commonServices: commonServices,
+            ),
+            child: TicketingSystemDetailsView(
+              model: ticketingSystemModel,
+              title: title,
+              // extraProperties: extraProperties,
+            ),
+          ),
+        );
+
+      case aiChatListRoute:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => AiChatListBloc()..add(FetchAIData()),
+            child: const AiChatListView(),
+          ),
+        );
+
+
+      case aiChatDetailsRoute:
+        AiChatService services = AiChatService();
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<AiChatDetailsCubit>(
+            create: (_) => AiChatDetailsCubit(
+              service: services,
+            ),
+            child: const AiChatDetailsView(
+            ),
+          ),
+        );
       default:
         log('--default---${settings.name}-');
         return MaterialPageRoute(builder: (context) => const SplashScreen());

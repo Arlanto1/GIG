@@ -2691,7 +2691,7 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
             },
           ),
           // backgroundColor: const Color(0xFF071130),
-          backgroundColor: AppColors.lavender,
+          backgroundColor: AppColors.newColor,
           // backgroundColor: Colors.transparent,
           appBar: BaseAppBar().buildAppHeader(
             context: context,
@@ -2718,7 +2718,8 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
               Container(
                 width: double.infinity,
                 height: double.infinity,
-                color: const Color(0xFF6474C6),
+                color: AppColors.newColor3,
+
                 // optional overlay tint
                 child: Column(
                   children: [
@@ -2940,8 +2941,10 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                               decoration: const BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
-                                    Color(0xFF6474C6),
-                                    Color(0xFF6474C6)
+                                    // Color(0xFF6474C6),
+                                    // Color(0xFF6474C6),
+                                    Colors.transparent,
+                                    Colors.transparent,
                                   ],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
@@ -3029,9 +3032,9 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                                     decoration: BoxDecoration(
                                       gradient: LinearGradient(
                                         colors: [
-                                          Colors.white.withValues(alpha: 0.2),
+                                          Colors.white.withValues(alpha: 0.09),
                                           Colors.transparent,
-                                          Colors.white.withValues(alpha: 0.2),
+                                          Colors.white.withValues(alpha: 0.09),
                                           // Color(0xFF6474C6).withOpacity(0.14)
                                         ],
                                         stops: [0.02, 0.35, 1],
@@ -3041,13 +3044,13 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                                       borderRadius: BorderRadius.circular(27),
                                       border: Border.all(
                                         color: Colors.white
-                                            .withValues(alpha: 0.80),
-                                        width: 0.8,
+                                            .withValues(alpha: 0.6),
+                                        width: 0.7,
                                       ),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: const Color(0xFF6474C6)
-                                              .withValues(alpha: 0.09),
+                                          color: Colors.white
+                                              .withValues(alpha: 0.0),
                                           blurRadius: 12,
                                           offset: const Offset(0, 2),
                                         ),

@@ -33,6 +33,28 @@ class AppColors {
   static const Color darkGreenColor = Color(0xFF006400);
   static MaterialColor colorCustom = MaterialColor(0xFF2CAAE0, color);
 
+
+  static Color newColor = const Color(0xFF071B2E);
+  static Color newColor1 = const Color(0xFF98C781);
+  static Color newColor2 = const Color(0xFFCFE4C3);
+  static Color newColor3 = const Color(0xFF0C2340);
+  static Color newColor4 = const Color(0xFF33857E);
+  static Color newColor5 = const Color(0xFF665832);
+  static Color newColor6 = const Color(0xFF4D5A22);
+  static Color newColor7 = const Color(0xFF175959);
+  static Color newColor8 = const Color(0xFF005425);
+  static Color newColor9 = const Color(0xFF2E1C4E);
+  static Color newColor10 = const Color(0xFF452061);
+  static Color newColor11 = const Color(0xFFC9B7D1);
+  static Color newColor12 = const Color(0xFF9771A3);
+  static Color newColor13 = const Color(0xFF671E75);
+  static Color newColor14 = const Color(0xFF672A39);
+  static Color newColor15 = const Color(0xFFA53948);
+  static Color newColor16 = const Color(0xFFFFC845);
+  static Color newColor17 = const Color(0xFFF29E97);
+  static Color newColor18 = const Color(0xFFE58774);
+  static Color newColor19 = const Color(0xFFF6AD6E);
+
   static const white = MaterialColor(
     0xFFFFFFFF,
     <int, Color>{
