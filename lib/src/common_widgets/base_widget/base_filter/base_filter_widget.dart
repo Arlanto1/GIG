@@ -619,7 +619,7 @@ class _BaseSearchWidgetState extends State<BaseSearchWidget> {
                 boxShadow: [
                   // Outer glow
                   BoxShadow(
-                    color: const Color(0xFF7DA2FF).withValues(alpha: 0),
+                    color: AppColors.newColor3.withValues(alpha: 9),
                     blurRadius: 2,
                     spreadRadius: 0,
                   ),
@@ -729,7 +729,7 @@ class _BaseSearchWidgetState extends State<BaseSearchWidget> {
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.85,
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.15),
+                    color: AppColors.newColor.withValues(alpha: 0.15),
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
                       bottomLeft: Radius.circular(20),
@@ -737,7 +737,7 @@ class _BaseSearchWidgetState extends State<BaseSearchWidget> {
                     border: Border.all(color: Colors.white.withValues(alpha: 0.25)),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.white.withValues(alpha: 0.1),
+                        color: AppColors.newColor.withValues(alpha: 0.1),
                         blurRadius: 25,
                         spreadRadius: 5,
                         offset: const Offset(-5, 5),
@@ -834,23 +834,60 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
     );
   }
 
-  Widget _buildRadioList(List<Organisation>? list, Organisation? selected, Function(Organisation) onSelect) {
-    if (list == null || list.isEmpty) return const Text('No data', style: TextStyle(color: Colors.white));
+  // Widget _buildRadioList(List<Organisation>? list, Organisation? selected, Function(Organisation) onSelect) {
+  //   if (list == null || list.isEmpty) return const Text('No data', style: TextStyle(color: Colors.white));
+  //   return Column(
+  //     children: list.map((e) {
+  //       return RadioListTile<Organisation>(
+  //         contentPadding: EdgeInsets.zero,
+  //         title: Text(e.name ?? '', style: const TextStyle(color: Colors.white)),
+  //         value: e,
+  //         groupValue: selected,
+  //         activeColor: Colors.white,
+  //         onChanged: (val) {
+  //           if (val != null) onSelect(val);
+  //         },
+  //       );
+  //     }).toList(),
+  //   );
+  // }
+  Widget _buildRadioList(
+      List<Organisation>? list,
+      Organisation? selected,
+      Function(Organisation) onSelect,
+      ) {
+    if (list == null || list.isEmpty) {
+      return const Text(
+        'No data',
+        style: TextStyle(color: Colors.white),
+      );
+    }
+
     return Column(
       children: list.map((e) {
-        return RadioListTile<Organisation>(
-          contentPadding: EdgeInsets.zero,
-          title: Text(e.name ?? '', style: const TextStyle(color: Colors.white)),
-          value: e,
-          groupValue: selected,
-          activeColor: Colors.white,
-          onChanged: (val) {
-            if (val != null) onSelect(val);
-          },
+        return Theme(
+          data: Theme.of(context).copyWith(
+            unselectedWidgetColor: Colors.white, // 👈 black deselected radio
+          ),
+          child: RadioListTile<Organisation>(
+            contentPadding: EdgeInsets.zero,
+            title: Text(
+              e.name ?? '',
+              style: const TextStyle(color: Colors.white),
+            ),
+            value: e,
+            groupValue: selected,
+            activeColor: Colors.white, // 👈 white when selected
+            onChanged: (val) {
+              if (val != null) onSelect(val);
+            },
+          ),
         );
       }).toList(),
     );
+
   }
+
 
   Widget _buildTabContent() {
     switch (tabs[selectedTabIndex!]) {
@@ -891,7 +928,7 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
         labelText: label,
         labelStyle: const TextStyle(color: Colors.white),
         filled: true,
-        fillColor: Colors.white.withValues(alpha: 0.15),
+        fillColor: AppColors.newColor.withValues(alpha: 0.15),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.4)),
@@ -919,8 +956,8 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColors.lavender.withValues(alpha: 0.9),
-                    AppColors.lavender.withValues(alpha: 0.1),
+                    AppColors.newColor3.withValues(alpha: 0.7),
+                    AppColors.newColor3.withValues(alpha: 0.4),
                     // const Color(0xFF071130).withOpacity(0.1),
                     // const Color(0xFF071130).withOpacity(0.1),
 
@@ -936,7 +973,7 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
               filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.1),
+                  color: AppColors.newColor3.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
                 ),
@@ -981,7 +1018,7 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
                           Container(
                             width: 130,
                             decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.08),
+                              color: AppColors.newColor.withValues(alpha: 0.08),
                               borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20),
                                 bottomLeft: Radius.circular(20),
@@ -998,7 +1035,7 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
                                     padding: const EdgeInsets.all(20),
                                     decoration: BoxDecoration(
                                       color: isSelected
-                                          ? Colors.white.withValues(alpha: 0.25)
+                                          ? Colors.white.withValues(alpha: 0.35)
                                           : Colors.transparent,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -1028,7 +1065,7 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
                                       child: Container(
                                         padding: const EdgeInsets.all(20),
                                         decoration: BoxDecoration(
-                                          color: Colors.white.withValues(alpha: 0.08),
+                                          color: AppColors.newColor3.withValues(alpha: 0.08),
                                           borderRadius: BorderRadius.circular(16),
                                           border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
                                         ),
@@ -1051,7 +1088,7 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.12),
+                        color: AppColors.newColor3.withValues(alpha: 0.99),
                         border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.3))),
                       ),
                       child: Row(
@@ -1074,8 +1111,11 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF071130).withValues(alpha: 0.5),
                                 foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                                shadowColor: const Color(0xFF071130),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8),   side: const BorderSide(
+                                  color: Colors.white,   // 👈 WHITE BORDER
+                                  width: 0.65,            // adjust thickness
+                                ),),
+                                // shadowColor: const Color(0xFF071130),
                                 elevation: 8,
                               ),
                               onPressed: () {
