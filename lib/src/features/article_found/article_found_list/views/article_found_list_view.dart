@@ -3029,7 +3029,8 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                                     //     ],
                                     //   ),
                                     // ),
-                                    decoration: BoxDecoration(
+                                    decoration:
+                                    BoxDecoration(
                                       gradient: LinearGradient(
                                         colors: [
                                           Colors.white.withValues(alpha: 0.09),

@@ -329,8 +329,8 @@ class FloatingSubMenuWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColors.lavender.withValues(alpha: 0.2),
-                    AppColors.lavender.withValues(alpha: 0.5),
+                    AppColors.newColor3.withValues(alpha: 0.2),
+                    AppColors.newColor3.withValues(alpha: 0.5),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,

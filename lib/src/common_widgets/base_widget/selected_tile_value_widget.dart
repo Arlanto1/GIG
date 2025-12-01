@@ -22,21 +22,18 @@ class SelectedTileValueWidget extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              // Colors.white.withValues(alpha: 0.2),
-              // Colors.white.withValues(alpha: 0.28),
-              const Color(0xFF6474C6).withValues(alpha: 0.3),
-              // const Color(0xFF6474C6).withValues(alpha: 0),
-              Colors.white.withValues(alpha: 0.3),
-
+              Colors.white.withValues(alpha: 0.09),
+              Colors.transparent,
+              Colors.white.withValues(alpha: 0.09),
             ],
-            // stops: [0.02, 0.35, 0.9,],
-            begin: Alignment.topRight,
+            stops: [0.02, 0.35, 1],
+            begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
           borderRadius: BorderRadius.circular(25),
           border: Border.all(
-            color: Colors.white.withValues(alpha: 90),
-            width: 0.7,
+            color: Colors.white.withValues(alpha: 0.7),
+            width: 0.6,
           ),
           boxShadow: [
             // BoxShadow(
@@ -45,9 +42,10 @@ class SelectedTileValueWidget extends StatelessWidget {
             //   offset: const Offset(3, 3), // white glow on top-left
             // ),
             BoxShadow(
-              color: AppColors.lavender.withValues(alpha: 20),
-              blurRadius: 30,
-              offset: const Offset(6, 7), // soft shadow bottom-right
+              color: Colors.white
+                  .withValues(alpha: 0.0),
+              blurRadius: 12,
+              offset: const Offset(0, 2),
             ),
           ],
         ),
@@ -86,7 +84,7 @@ class TileWidget extends StatelessWidget {
                 filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.15),
+                    color:AppColors.newColor.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
                       color: Colors.white.withValues(alpha: 0.3),
@@ -103,20 +101,20 @@ class TileWidget extends StatelessWidget {
                   child: TextButton(
                     style: ButtonStyle(
                       overlayColor: WidgetStatePropertyAll(
-                        Colors.black.withValues(alpha: 0.1),
+                        AppColors.newColor.withValues(alpha: 2.9),
                       ),
                       padding: const WidgetStatePropertyAll(
                         EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                       ),
-                      backgroundColor: const WidgetStatePropertyAll(
-                        Colors.transparent,
+                      backgroundColor:  WidgetStatePropertyAll(
+                        AppColors.newColor,
                       ),
                     ),
                     onPressed: () {},
                     child: Text(
                       name,
                       style: Styles.textStyleBlack14.copyWith(
-                        color: Colors.black,
+                        color: Colors.white,
                         fontWeight: FontWeight.w700,
                       ),
                     ),

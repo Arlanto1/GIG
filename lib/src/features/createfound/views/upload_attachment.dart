@@ -426,9 +426,9 @@ class UploadAttachmentState extends State<UploadAttachment>
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColors.lavender.withOpacity(0.25),
+                    AppColors.newColor.withOpacity(0.25),
                     Colors.white.withOpacity(0.05),
-                    AppColors.lavender.withOpacity(0.25),
+                    AppColors.newColor.withOpacity(0.25),
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,

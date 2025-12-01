@@ -204,7 +204,7 @@ class FlutterInputField extends StatelessWidget {
       enableSuggestions: true,
       keyboardType: textInputType,
       focusNode: focusNode,
-      style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w600),
+      style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
       decoration: showBorder ?? true
           ? InputDecoration(
               filled: true,
@@ -491,53 +491,87 @@ class FlutterInputField extends StatelessWidget {
               ),
             ],
           )
-              : BoxDecoration(
-            gradient:
-            (isDisableColor ?? false) ?
-            LinearGradient( colors: [
-              AppColors.disableTextFieldBackground.withValues(alpha: 0.1),
-              AppColors.disableTextFieldBackground.withValues(alpha: 0.1),
-            ],)
-                :
-            LinearGradient(
-              colors: [
-                // Colors.white.withValues(alpha: 0.2),
-                // Colors.white.withValues(alpha: 0.28),
-                const Color(0xFF6474C6).withValues(alpha: 0.4),
-                // const Color(0xFF6474C6).withValues(alpha: 0),
-                Colors.white.withValues(alpha: 0.35),
+          //     : BoxDecoration(
+          //   gradient:
+          //   (isDisableColor ?? false) ?
+          //   LinearGradient( colors: [
+          //     AppColors.disableTextFieldBackground.withValues(alpha: 0.1),
+          //     AppColors.disableTextFieldBackground.withValues(alpha: 0.1),
+          //   ],)
+          //       :
+          //   LinearGradient(
+          //     colors: [
+          //       // Colors.white.withValues(alpha: 0.2),
+          //       // Colors.white.withValues(alpha: 0.28),
+          //       const Color(0xFF6474C6).withValues(alpha: 0.4),
+          //       // const Color(0xFF6474C6).withValues(alpha: 0),
+          //       Colors.white.withValues(alpha: 0.35),
+          //
+          //     ],
+          //     // stops: [0.02, 0.35, 0.9,],
+          //     begin: Alignment.topRight,
+          //     end: Alignment.bottomCenter,
+          //   ) ,
+          //   // gradient:  isDisableColor ? : LinearGradient(
+          //   //   colors: [
+          //   //     const Color(0xFF6474C6).withValues(alpha: 0.2),
+          //   //     Colors.white.withValues(alpha: 0.3),
+          //   //   ],
+          //   //   begin: Alignment.topRight,
+          //   //   end: Alignment.bottomCenter,
+          //   // ),
+          //   borderRadius: BorderRadius.circular(25),
+          //   border: isDisableColor ?? false ? Border.all(
+          //     color: Colors.white.withValues(alpha: 0.5),
+          //     width: 0.4,
+          //   ) : Border.all(
+          //     color: Colors.white.withValues(alpha: 0.9),
+          //     width: 0.7,
+          //   ) ,
+          //   boxShadow: [
+          //     BoxShadow(
+          //       color: Colors.white.withValues(alpha: 0.03),
+          //       blurRadius: 90,
+          //       offset: const Offset(3, 3),
+          //     ),
+          //     BoxShadow(
+          //       color: AppColors.lavender.withValues(alpha: 0.2),
+          //       blurRadius: 30,
+          //       offset: const Offset(6, 7),
+          //     ),
+          //   ],
+          // ),
 
+          : BoxDecoration(
+          gradient:
+        (isDisableColor ?? false) ?
+        LinearGradient( colors: [
+          AppColors.disableTextFieldBackground.withValues(alpha: 0.1),
+          AppColors.disableTextFieldBackground.withValues(alpha: 0.1),
+        ],)
+            : LinearGradient(
+              colors: [
+                Colors.white.withValues(alpha: 0.09),
+                Colors.transparent,
+                Colors.white.withValues(alpha: 0.09),
+                // Color(0xFF6474C6).withOpacity(0.14)
               ],
-              // stops: [0.02, 0.35, 0.9,],
-              begin: Alignment.topRight,
+              stops: [0.02, 0.35, 1],
+              begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-            ) ,
-            // gradient:  isDisableColor ? : LinearGradient(
-            //   colors: [
-            //     const Color(0xFF6474C6).withValues(alpha: 0.2),
-            //     Colors.white.withValues(alpha: 0.3),
-            //   ],
-            //   begin: Alignment.topRight,
-            //   end: Alignment.bottomCenter,
-            // ),
-            borderRadius: BorderRadius.circular(25),
-            border: isDisableColor ?? false ? Border.all(
-              color: Colors.white.withValues(alpha: 0.5),
-              width: 0.4,
-            ) : Border.all(
-              color: Colors.white.withValues(alpha: 0.9),
+            ),
+            borderRadius: BorderRadius.circular(27),
+            border: Border.all(
+              color: Colors.white
+                  .withValues(alpha: 0.6),
               width: 0.7,
-            ) ,
+            ),
             boxShadow: [
               BoxShadow(
-                color: Colors.white.withValues(alpha: 0.03),
-                blurRadius: 90,
-                offset: const Offset(3, 3),
-              ),
-              BoxShadow(
-                color: AppColors.lavender.withValues(alpha: 0.2),
-                blurRadius: 30,
-                offset: const Offset(6, 7),
+                color: Colors.white
+                    .withValues(alpha: 0.0),
+                blurRadius: 12,
+                offset: const Offset(0, 2),
               ),
             ],
           ),

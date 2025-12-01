@@ -1113,7 +1113,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
       initialValue: date,
       hintText: '',
       isEnable: false,
-      isDisableColor: true,
+      isDisableColor: false,
       onChange: (String value) {},
       validateTextField: (String? user) {},
     );

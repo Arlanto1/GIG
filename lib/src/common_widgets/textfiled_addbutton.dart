@@ -49,21 +49,22 @@ class TextFieldAddButton extends StatelessWidget {
                 colors: [
                   // Colors.white.withValues(alpha: 0.2),
                   // Colors.white.withValues(alpha: 0.28),
-                  const Color(0xFF6474C6).withValues(alpha: 0.4),
-                  // const Color(0xFF6474C6).withValues(alpha: 0),
-                  Colors.white.withValues(alpha: 0.35),
+                  Colors.white.withValues(alpha: 0.1),
+                  Colors.transparent,
+                  Colors.white.withValues(alpha: 0.1),
 
                 ],
                 // stops: [0.02, 0.35, 0.9,],
-                begin: Alignment.topRight,
+                stops: [0.02, 0.35, 1],
+                begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ) ,
               borderRadius: BorderRadius.circular(25),
               border:  (isDisableColor ?? false ) ? Border.all(
-                color: Colors.white.withValues(alpha: 0.4),
+                color: Colors.white.withValues(alpha: 0.6),
                 width: 0.7,
               ) : Border.all(
-                color: Colors.white.withValues(alpha: 90),
+                color: Colors.white.withValues(alpha: 0.6),
                 width: 0.7,
               ) ,
               boxShadow: [
@@ -73,9 +74,10 @@ class TextFieldAddButton extends StatelessWidget {
                 //   offset: const Offset(1, 3), // white glow on top-left
                 // ),
                 BoxShadow(
-                  color: AppColors.lavender.withValues(alpha: 2),
-                  blurRadius: 30,
-                  offset: const Offset(1, 0), // soft shadow bottom-right
+                  color: Colors.white
+                      .withValues(alpha: 0.0),
+                  blurRadius: 12,
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
@@ -95,7 +97,7 @@ class TextFieldAddButton extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
                   title ?? '',
-                  style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
+                  style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
 
                   textAlign: TextAlign.left, //Icon(Icons.cancel)
                 ),

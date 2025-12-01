@@ -2258,11 +2258,13 @@ class NavigationDrawer1 extends StatelessWidget {
           children: [
             // BACKGROUND GRADIENT
             Container(
-              decoration: const BoxDecoration(
+              decoration:  BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Color(0xFF0F172A), // deep navy
-                    Color(0xFF071130),
+                    AppColors.newColor,
+                    AppColors.newColor,
+                    // Color(0xFF0F172A), // deep navy
+                    // Color(0xFF071130),
                   //   Color(0xFF111827),
                   //   Color(0xFF111827)
                   ],
@@ -2277,7 +2279,7 @@ class NavigationDrawer1 extends StatelessWidget {
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 14.0, sigmaY: 14.0),
                 child: Container(
-                  color:const Color(0xFF0000CC).withValues(alpha: 0.1),
+                  color:AppColors.newColor.withValues(alpha: 0.1),
                 ),
               ),
             ),
@@ -2457,7 +2459,7 @@ class NavigationDrawer1 extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               vertical: 6, horizontal: 6),
                           decoration: BoxDecoration(
-                            color:  const Color(0xFF071130).withValues(alpha: 0.2),
+                            color:   AppColors.newColor3.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(14),
                           ),
                           child: Column(
@@ -2611,18 +2613,18 @@ class NavigationDrawer1 extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
               color: (isHovered || isSelected)
-                  ? const Color(0xFF0D173D).withOpacity(0.9)
-                  : const Color(0xFF071130),
+                  ? AppColors.newColor
+                  : AppColors.newColor,
               borderRadius: BorderRadius.circular(12),
 
               // 🌟 Highlight border when selected
               border: Border.all(
                 color: isSelected
-                    ? Colors.blueAccent.withOpacity(0.8)
+                    ? Colors.white.withOpacity(0.45)
                     : (isHovered
                     ? Colors.white.withOpacity(0.25)
-                    : Colors.white.withOpacity(0.15)),
-                width: isSelected ? 1.8 : 1,
+                    : Colors.white.withOpacity(0.45)),
+                width: isSelected ? 1.3 : 1.3,
               ),
 
               // 🌈 Add subtle glowing shadow when selected
@@ -2630,10 +2632,10 @@ class NavigationDrawer1 extends StatelessWidget {
                 if (isHovered || isSelected)
                   BoxShadow(
                     color: isSelected
-                        ? Colors.blueAccent.withOpacity(0.6)
-                        : Colors.blueAccent.withOpacity(0.25),
-                    blurRadius: isSelected ? 20 : 12,
-                    spreadRadius: isSelected ? 3 : 1,
+                        ? Colors.white.withOpacity(0.25)
+                        : Colors.white.withOpacity(0.25),
+                    blurRadius: isSelected ? 12 : 12,
+                    spreadRadius: isSelected ? 1 : 1,
                     offset: const Offset(0, 3),
                   ),
               ],

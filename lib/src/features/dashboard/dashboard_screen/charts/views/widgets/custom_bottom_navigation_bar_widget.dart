@@ -1394,7 +1394,7 @@ class _CustomBottomNavigationBarState
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               gradient: isSelected
-                                  ? const LinearGradient(
+                                  ?  const LinearGradient(
                                 colors: [
                                   // Color(0xFF6474C6),
                                   // Color(0xFF6474C6),

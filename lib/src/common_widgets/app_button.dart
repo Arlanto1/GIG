@@ -74,7 +74,7 @@ class AppButton extends StatelessWidget {
           textStyle: Styles.textStyleSemiBold16DarkBlue,
           // shape: const StadiumBorder(),
           side: BorderSide(
-            color: border.withValues(alpha: disableColor ?? false ? 0.3 : 0.5),
+            color: border.withValues(alpha: disableColor ?? false ? 0.2 : 0.2),
           ),
           // padding: EdgeInsets.zero,
         // ).copyWith(
@@ -106,12 +106,16 @@ class AppButton extends StatelessWidget {
                 AppColors.disableTextFieldBackground.withValues(alpha: 0.6),
                 AppColors.disableTextFieldBackground.withValues(alpha: 0.8),
               ],
-            ) :const LinearGradient(
+            ) : LinearGradient(
               colors: [
                 // const Color(0xFF6474C6).withValues(alpha: 0.2),
                 // const Color(0xFF071130).withValues(alpha: 0.9),
-                Color(0xFF0C4C99),
-                Color(0xFF071130),
+                // Color(0xFF0C4C99),
+                // Color(0xFF0C4C99),
+                // Color(0xFF071130),
+                // Color(0xFF071130),
+                AppColors.newColor,
+                AppColors.newColor,
               ],
               // stops: [0.02, 0.35, 0.9,],
               begin: Alignment.topRight,
