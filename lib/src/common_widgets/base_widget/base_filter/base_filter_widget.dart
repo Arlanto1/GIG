@@ -270,7 +270,6 @@
 //     double textFieldWidth = width > 430 ? width * 0.29 : width * 0.45;
 //     return BlocConsumer<BaseFilterCubit, BaseFilterState>(
 //       listener: (context, state) {
-//         // TODO: implement listener
 //       },
 //       builder: (context, state) {
 //         log('-state.status-builder---${state.status}-');
@@ -1222,15 +1221,15 @@ class DropdownWidgetState extends State<DropdownWidget> {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.12), // Frosted white tint
+          color: Colors.white.withValues(alpha: 0.12), // Frosted white tint
           borderRadius: BorderRadius.circular(18),
           border: Border.all(
-            color: Colors.white.withOpacity(0.25),
+            color: Colors.white.withValues(alpha: 0.25),
             width: 1.2,
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.white.withOpacity(0.15),
+              color: Colors.white.withValues(alpha: 0.15),
               blurRadius: 12,
               spreadRadius: 1,
               offset: const Offset(0, 4),
@@ -1251,7 +1250,7 @@ class DropdownWidgetState extends State<DropdownWidget> {
                   widget.label,
                   style: const TextStyle(color: Colors.white),
                 ),
-                dropdownColor: Colors.white.withOpacity(0.1), // glass dropdown
+                dropdownColor: Colors.white.withValues(alpha: 0.1), // glass dropdown
                 iconEnabledColor: Colors.white,
                 style: const TextStyle(
                   color: Colors.white,

@@ -232,12 +232,7 @@ class _AnnualPowerShutdownListViewState
                                 : Container(
                                 decoration: const BoxDecoration(
                                   gradient: LinearGradient(
-                                    colors: [
-                                      // Color(0xFF6474C6),
-                                      // Color(0xFF6474C6),
-                                      Colors.transparent,
-                                      Colors.transparent,
-                                    ],
+                                    colors: [Color(0xFF6474C6), Color(0xFF6474C6)],
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
                                   ),
