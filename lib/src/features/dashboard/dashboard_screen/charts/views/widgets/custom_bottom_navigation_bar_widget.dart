@@ -1264,14 +1264,9 @@
 // //   });
 // // }
 
-import 'dart:developer';
-
-import 'package:db_atom/app.dart';
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/arlanto_ai_chat_assistance/ai_chat_list/bloc/ai_chat_list_bloc.dart';
 import 'dart:ui';
 
-import 'package:db_atom/src/features/arlanto_ai_chat_assistance/ai_chat_list/views/ai_chat_list_view.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -1325,20 +1320,20 @@ class _CustomBottomNavigationBarState
                           // const Color(0xFF6474C6).withOpacity(0.4),
                           // const Color(0xFF5C63B0).withOpacity(0.4),
                           // const Color(0xFF4E56A5).withOpacity(0.6),ß
-                          AppColors.newColor3.withOpacity(0.02),
-                          AppColors.newColor3.withOpacity(0.01),
-                          AppColors.newColor3.withOpacity(0.01)
+                          AppColors.newColor3.withValues(alpha: 0.02),
+                          AppColors.newColor3.withValues(alpha: 0.01),
+                          AppColors.newColor3.withValues(alpha: 0.01)
                         ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                       border: Border.all(
-                        color: Colors.white.withOpacity(0.1),
+                        color: Colors.white.withValues(alpha: 0.1),
                         width: 1,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.white.withOpacity(0.01),
+                          color: Colors.white.withValues(alpha: 0.01),
                           blurRadius: 8,
                           offset: const Offset(0, -3),
                         ),
