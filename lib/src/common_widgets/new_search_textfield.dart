@@ -204,7 +204,7 @@ class FlutterInputField extends StatelessWidget {
       enableSuggestions: true,
       keyboardType: textInputType,
       focusNode: focusNode,
-      style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
+      style: isLoginScreen ? const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w600): const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600),
       decoration: showBorder ?? true
           ? InputDecoration(
               filled: true,

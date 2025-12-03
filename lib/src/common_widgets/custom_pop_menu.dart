@@ -161,11 +161,11 @@ class CustomPopmenu extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                AppColors.lavender.withValues(alpha: 0.9),
-                AppColors.lavender.withValues(alpha: 0.9),
+                AppColors.newColor3.withValues(alpha: 0.9),
+                AppColors.newColor3.withValues(alpha: 0.9),
 
                 // Colors.white,
-                AppColors.lavender.withValues(alpha: 0.9),
+                AppColors.newColor3.withValues(alpha: 0.9),
                 // Colors.white.withValues(alpha: 0.2),
                 // Color(0xFF6474C6).withOpacity(0.14)
               ],
@@ -180,7 +180,7 @@ class CustomPopmenu extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF6474C6).withValues(alpha: 0.09),
+                color: AppColors.newColor.withValues(alpha: 0.09),
                 blurRadius: 12,
                 offset: const Offset(0, 2),
               ),

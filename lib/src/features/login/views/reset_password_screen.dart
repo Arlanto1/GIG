@@ -414,12 +414,12 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     // Title text like "Login" or your welcomeLogin()
-                                    const Text(
+                                     Text(
                                       'Reset Password',
                                       style: TextStyle(
-                                        fontSize: 32,
+                                        fontSize: 26,
                                         fontFamily: 'Bungee', // Use your decorative font if any
-                                        color: Color(0xFF0000CC),
+                                        color: AppColors.newColor3,
                                         fontWeight: FontWeight.w900,
                                         letterSpacing: 2,
                                       ),
@@ -433,7 +433,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                                             alignment: Alignment.topLeft,
                                             child: const Text(
                                               Constants.oldPassword,
-                                              style: Styles.textStyleBlack16,
+                                              style: Styles.textStyleBlack18,
                                             ),
                                           ),
                                           CommonWidgets.verticalSpacerWidget(
@@ -472,7 +472,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                                           alignment: Alignment.topLeft,
                                           child: const Text(
                                             Constants.newPassword,
-                                            style: Styles.textStyleBlack16,
+                                            style: Styles.textStyleBlack18,
                                           ),
                                         ),
                                         CommonWidgets.verticalSpacerWidget(
@@ -522,7 +522,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                                           alignment: Alignment.topLeft,
                                           child: const Text(
                                             Constants.confirmNewPassword,
-                                            style: Styles.textStyleBlack16,
+                                            style: Styles.textStyleBlack18,
                                           ),
                                         ),
                                         CommonWidgets.verticalSpacerWidget(

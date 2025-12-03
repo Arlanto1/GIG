@@ -1,10 +1,13 @@
 import 'dart:ui';
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/arlanto_ai_chat_assistance/models/ai_chat_model.dart';
 import 'package:db_atom/src/features/arlanto_ai_chat_assistance/services/ai_chat_service.dart';
 import '../cubits/ai_chat_details_cubit.dart';
 
 class AiChatDetailsView extends StatefulWidget {
-  const AiChatDetailsView({super.key});
+  final AiChatModel? model;
+  final String title;
+  const AiChatDetailsView({super.key, this.model, required this.title,});
 
   @override
   State<AiChatDetailsView> createState() => _AiChatDetailsViewState();
@@ -39,55 +42,68 @@ class _AiChatDetailsViewState extends State<AiChatDetailsView> {
     return BlocProvider(
       create: (_) => AiChatDetailsCubit(service: AiChatService()),
       child: Scaffold(
-        backgroundColor: Colors.black,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-            onPressed: () {
-              Navigator.pushNamed(context, aiChatListRoute);
-            },
-          ),
-          elevation: 0,
-          title: Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: RadialGradient(
-                    colors: [avatarGlow, Colors.transparent],
-                    center: Alignment.center,
-                    radius: 0.7,
-                  ),
-                ),
-                child: const Icon(Icons.chat, color: mainNeon, size: 28),
-              ),
-              const SizedBox(width: 14),
-              const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Atom Chat Assistance',
-                    style: TextStyle(
-                      color: mainNeon,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 19,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+        backgroundColor: Colors.transparent,
+        // appBar: AppBar(
+        //   backgroundColor: Colors.transparent,
+        //   leading: IconButton(
+        //     icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+        //     onPressed: () {
+        //       Navigator.pushNamed(context, aiChatListRoute);
+        //     },
+        //   ),
+        //   elevation: 0,
+        //   title: Row(
+        //     children: [
+        //       Container(
+        //         width: 40,
+        //         height: 40,
+        //         decoration: const BoxDecoration(
+        //           shape: BoxShape.circle,
+        //           gradient: RadialGradient(
+        //             colors: [avatarGlow, Colors.transparent],
+        //             center: Alignment.center,
+        //             radius: 0.7,
+        //           ),
+        //         ),
+        //         child: const Icon(Icons.chat, color: mainNeon, size: 28),
+        //       ),
+        //       const SizedBox(width: 14),
+        //       const Column(
+        //         crossAxisAlignment: CrossAxisAlignment.start,
+        //         children: [
+        //           Text(
+        //             'Atom Chat Assistance',
+        //             style: TextStyle(
+        //               color: mainNeon,
+        //               fontWeight: FontWeight.bold,
+        //               fontSize: 19,
+        //             ),
+        //           ),
+        //         ],
+        //       ),
+        //     ],
+        //   ),
+        // ),
+        appBar: BaseAppBar().buildAppHeader(
+          context: context,
+          title: widget.title,
+          showPopUp: false,
+          showSaveButton: false,
+          showSubmitButton:
+         false,
+          showLikeButton: false,
+          showDisLikeButton: false,
+          showCustomIcon: true,
+            onTapCustomIcon : ()=>  Navigator.pushNamed(context, aiChatListRoute),
         ),
         body: Stack(
           children: [
             // Background gradient
             Container(
-              decoration: const BoxDecoration(
+              decoration:  const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [Color(0xCC001E4D), Color(0xFF0C001C)],
+                  // colors: [AppColors.newColor, AppColors.newColor],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),

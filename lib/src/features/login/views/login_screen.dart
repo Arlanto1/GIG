@@ -430,13 +430,13 @@ class _LoginState extends State<Login> {
                                           .center,
                                       children: [
                                         // Title text like "Login" or your welcomeLogin()
-                                        const Text(
+                                         Text(
                                           'Login',
                                           style: TextStyle(
                                             fontSize: 32,
                                             fontFamily: 'Bungee',
                                             // Use your decorative font if any
-                                            color: Color(0xFF0000CC),
+                                            color: AppColors.newColor,
                                             fontWeight: FontWeight.w900,
                                             letterSpacing: 2,
                                           ),
@@ -448,7 +448,7 @@ class _LoginState extends State<Login> {
                                           alignment: Alignment.centerLeft,
                                           child: Text(
                                             Constants.username,
-                                            style: Styles.textStyleGrey16
+                                            style: Styles.textStyleBlack14
                                                 .copyWith(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 17),
@@ -506,10 +506,10 @@ class _LoginState extends State<Login> {
                                           alignment: Alignment.centerLeft,
                                           child: Text(
                                             Constants.password,
-                                            style: Styles.textStyleGrey16
+                                            style: Styles.textStyleBlack14
                                                 .copyWith(
                                                 fontWeight: FontWeight.w900,
-                                                fontSize: 18),
+                                                fontSize: 17),
                                           ),
                                         ),
                                         const SizedBox(height: 7),
@@ -647,12 +647,12 @@ class _LoginState extends State<Login> {
                                           AppIcon.deutscheBankLogo, height: 20),
                                       CommonWidgets.horizontalSpacerWidget(
                                           height * 0.01),
-                                      const Text(
+                                       Text(
                                         Constants.dbSSO,
                                         style: TextStyle(
-                                            color: Color(0xFF000080),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16),
+                                            color: AppColors.newColor,
+                                            fontWeight: FontWeight.w900,
+                                            fontSize: 18),
                                       ),
                                     ],
                                   ),

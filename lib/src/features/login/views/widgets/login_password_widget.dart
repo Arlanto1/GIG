@@ -46,13 +46,14 @@ class _LoginPasswordState extends State<LoginPassword> {
             ? widget.onFieldSubmitted!(value)
             : null;
       },
-      prefixWidget: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: SvgPicture.asset(
-          AppIcon.secureIcon,
-          width: 20,
-        ),
-      ),
+      isLoginScreen: true,
+      // prefixWidget: Padding(
+      //   padding: const EdgeInsets.all(12.0),
+      //   child: SvgPicture.asset(
+      //     AppIcon.secureIcon,
+      //     width: 20,
+      //   ),
+      // ),
       suffixWidget: IconButton(
         icon: _showPassword
             ? const Icon(Icons.visibility_off)
@@ -159,27 +160,29 @@ class _PasswordFieldState extends State<PasswordField> {
     // );
     return Container(
      decoration:  BoxDecoration(
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           colors: [
-            const Color(0xFF6474C6).withValues(alpha: 0.0),
-            Colors.white.withValues(alpha: 0.3),
+            // const Color(0xFF6474C6).withValues(alpha: 0.0),
+            // Colors.white.withValues(alpha: 0.3),
+            Colors.transparent,
+            Colors.transparent
           ],
           begin: Alignment.topCenter,
           end: Alignment.topCenter,
         ),
         borderRadius: BorderRadius.circular(25),
         border: Border.all(
-          color: Colors.white.withValues(alpha: 0.3),
-          width: 0.7,
+          color: Colors.white.withValues(alpha: 0.9),
+          width: 0.5,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.white.withValues(alpha: 0.03),
+            color: Colors.white.withValues(alpha: 0.1),
             blurRadius: 90,
             offset: const Offset(3, 3),
           ),
           BoxShadow(
-            color: AppColors.lavender.withValues(alpha: 0.2),
+            color: AppColors.newColor.withValues(alpha: 0.1),
             blurRadius: 30,
             offset: const Offset(6, 7),
           ),
@@ -195,6 +198,11 @@ class _PasswordFieldState extends State<PasswordField> {
             : TextCapitalization.none,
         enabled: widget.isEnable,
         maxLines: widget.lineHeight,
+        style: const TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: 15,
+          color: Colors.black,
+        ),
         decoration: InputDecoration(
           labelText: widget.hintText,
           labelStyle: const TextStyle(
@@ -216,11 +224,6 @@ class _PasswordFieldState extends State<PasswordField> {
               });
             },
           ),
-        ),
-        style: const TextStyle(
-          fontWeight: FontWeight.w500,
-          fontSize: 16,
-          color: Colors.black,
         ),
         onChanged: widget.onChange,
         validator: (password) => widget.validatePassword(password),

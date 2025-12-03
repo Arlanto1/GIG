@@ -1268,6 +1268,7 @@ import 'dart:developer';
 
 import 'package:db_atom/app.dart';
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/arlanto_ai_chat_assistance/ai_chat_list/bloc/ai_chat_list_bloc.dart';
 import 'dart:ui';
 
 import 'package:db_atom/src/features/arlanto_ai_chat_assistance/ai_chat_list/views/ai_chat_list_view.dart';
@@ -1315,7 +1316,6 @@ class _CustomBottomNavigationBarState
             // Background unchanged
             Positioned.fill(
               child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
                   child: Container(
@@ -1324,10 +1324,10 @@ class _CustomBottomNavigationBarState
                         colors: [
                           // const Color(0xFF6474C6).withOpacity(0.4),
                           // const Color(0xFF5C63B0).withOpacity(0.4),
-                          // const Color(0xFF4E56A5).withOpacity(0.6),
-                          AppColors.newColor.withOpacity(0.4),
-                          AppColors.newColor.withOpacity(0.4),
-                          AppColors.newColor.withOpacity(0.4)
+                          // const Color(0xFF4E56A5).withOpacity(0.6),ß
+                          AppColors.newColor3.withOpacity(0.02),
+                          AppColors.newColor3.withOpacity(0.01),
+                          AppColors.newColor3.withOpacity(0.01)
                         ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -1426,11 +1426,25 @@ class _CustomBottomNavigationBarState
                                 } else if (index == 1) {
                                   (widget.onAddPressed ?? () => debugPrint("onAddPressed fallback"))();
                                 } else if (index == 2) {
-                                  Navigator.push(
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //       builder: (context) => const AiChatListView()),
+                                  // );
+                                  Navigator.pushNamed(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const AiChatListView()),
+                                    aiChatDetailsRoute,
+                                    arguments: {"title":'AI Chat Details'},
                                   );
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => BlocProvider(
+                                  //       create: (context) => AiChatListBloc()..add(FetchAIData()),
+                                  //       child: const AiChatListView(),
+                                  //     ),
+                                  //   ),
+                                  // );
                                   debugPrint("Chat bot pressed");
                                 }
                               },

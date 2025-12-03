@@ -2271,14 +2271,19 @@ class RouteGenerator {
 
       case aiChatDetailsRoute:
         AiChatService services = AiChatService();
+        String title;
         Map<String, dynamic> arguments =
         settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        AiChatModel? aiChatModel = arguments["model"];
         return MaterialPageRoute(
           builder: (context) => BlocProvider<AiChatDetailsCubit>(
             create: (_) => AiChatDetailsCubit(
               service: services,
             ),
-            child: const AiChatDetailsView(
+            child: AiChatDetailsView(
+              title: title,
+              model: aiChatModel
             ),
           ),
         );

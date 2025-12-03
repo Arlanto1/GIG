@@ -125,7 +125,7 @@ class BaseAppBar {
             },
             child: Padding(
               padding: const EdgeInsets.only(right: 20.0),
-              child: Icon(customIcon ?? Icons.add, color: Colors.white),
+              child: Icon(customIcon ?? Icons.history, color: Colors.white),
             ),
           )
         ],

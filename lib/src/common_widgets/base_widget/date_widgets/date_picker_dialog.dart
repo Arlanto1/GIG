@@ -339,7 +339,6 @@ import 'package:db_atom/index.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/material.dart';
 
 class BaseDate {
   /// Display Create Time
@@ -607,15 +606,34 @@ class BaseDate {
               filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
               child: Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.10),
-                  border: Border(
-                    top: BorderSide(
-                      color: Colors.white.withOpacity(0.25),
-                      width: 0.8,
-                    ),
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                decoration:
+                BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.white.withValues(alpha: 0.09),
+                      Colors.transparent,
+                      Colors.white.withValues(alpha: 0.09),
+                      // Color(0xFF6474C6).withOpacity(0.14)
+                    ],
+                    stops: [0.02, 0.35, 1],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
+                  borderRadius: BorderRadius.circular(27),
+                  border: Border.all(
+                    color: Colors.white
+                        .withValues(alpha: 0.6),
+                    width: 0.7,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.white
+                          .withValues(alpha: 0.0),
+                      blurRadius: 12,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -629,14 +647,14 @@ class BaseDate {
                           child: Text(
                             "Cancel",
                             style: TextStyle(
-                                color: Colors.white.withOpacity(0.85)),
+                                fontSize: 16,
+                                color: Colors.white.withValues(alpha: 0.85)),
                           ),
                         ),
                         Text(
                           onlyDate ? "Select Date" : "Select Date & Time",
                           style: TextStyle(
-                            color: Colors.white.withOpacity(0.95),
-                            fontSize: 16,
+                            color: Colors.white.withValues(alpha: 0.95),
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -645,34 +663,42 @@ class BaseDate {
                           child: Text(
                             "Done",
                             style: TextStyle(
-                                color: Colors.white.withOpacity(0.85)),
+                                fontSize: 16,
+                                color: Colors.white.withValues(alpha: 0.85)),
                           ),
                         ),
                       ],
                     ),
 
-                    const SizedBox(height: 1),
+                    // const SizedBox(height: 1),
 
                     ///       CALENDAR
                     Theme(
                       data: Theme.of(context).copyWith(
-                        colorScheme: ColorScheme.dark(
+                        // colorScheme: ColorScheme.dark(
+                        //   primary: Colors.white, // selected date
+                        //   onSurface: Colors.white, // active days
+                        //   onBackground:
+                        //       Colors.white.withValues(alpha: 0.35), // disabled days
+                        // ),
+                        colorScheme: const ColorScheme.dark(
                           primary: Colors.white, // selected date
                           onSurface: Colors.white, // active days
-                          onBackground:
-                              Colors.white.withOpacity(0.35), // disabled days
+                        ).copyWith(
+                          onSurface: Colors.white, // active days
                         ),
+
                         textTheme: TextTheme(
                           bodyLarge: TextStyle(
                               fontSize: 20,
-                              color: Colors.white.withOpacity(0.95)),
+                              color: Colors.white.withValues(alpha: 0.95)),
                           bodyMedium: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white.withOpacity(0.75)),
+                              fontSize: 10,
+                              color: Colors.white.withValues(alpha: 0.75)),
                           titleMedium: TextStyle(
-                            fontSize: 20,
+                            fontSize: 10,
                             fontWeight: FontWeight.w700,
-                            color: Colors.white.withOpacity(0.98),
+                            color: Colors.white.withValues(alpha: 0.98),
                           ),
                         ),
                       ),
@@ -692,29 +718,24 @@ class BaseDate {
                       ),
                     ),
 
-                    // const SizedBox(height: 1),
-
-                    /// ------------------------------
                     ///      TIME PICKER (if enabled)
-                    /// ------------------------------
                     if (!onlyDate)
                       Column(
                         children: [
                           // const SizedBox(height: 10),
-
                           // ---- TITLE ----
                           Text(
                             "Select Time",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              color: Colors.white.withOpacity(0.95),
+                              color: Colors.white.withValues(alpha: 0.95),
                             ),
                           ),
 
                           const SizedBox(height: 10),
                           SizedBox(
-                            height: 160,
+                            height: 60,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -745,7 +766,7 @@ class BaseDate {
                                           style: TextStyle(
                                               fontSize: 20,
                                               color: Colors.white
-                                                  .withOpacity(0.95)),
+                                                  .withValues(alpha: 0.95)),
                                         ),
                                       ),
                                     ),
@@ -777,7 +798,7 @@ class BaseDate {
                                           style: TextStyle(
                                               fontSize: 20,
                                               color: Colors.white
-                                                  .withOpacity(0.95)),
+                                                  .withValues(alpha: 0.95)),
                                         ),
                                       ),
                                     ),
@@ -820,7 +841,6 @@ class BaseDate {
                           ),
                         ],
                       ),
-                    const SizedBox(height: 10),
                   ],
                 ),
               ),

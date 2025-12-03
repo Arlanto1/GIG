@@ -569,9 +569,9 @@ class DashboardViewState extends State<DashboardView>
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: [
-                                        AppColors.newColor5.withValues(alpha: 0.2),
+                                        AppColors.newColor3.withValues(alpha: 0.2),
                                         Colors.transparent,
-                                        AppColors.newColor5.withValues(alpha: 0.2),
+                                        AppColors.newColor3.withValues(alpha: 0.2),
                                         // Color(0xFF6474C6).withOpacity(0.14)
                                       ],
                                       stops: [0.02, 0.35, 1],
@@ -585,7 +585,7 @@ class DashboardViewState extends State<DashboardView>
                                     ),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: const Color(0xFF6474C6).withValues(alpha: 0.2),
+                                        color: AppColors.newColor.withValues(alpha: 0.2),
                                         blurRadius: 12,
                                         offset: const Offset(0, 2),
                                       ),
@@ -598,7 +598,11 @@ class DashboardViewState extends State<DashboardView>
                                       GestureDetector(
                                         onTap: () {
                                           Navigator.pop(context);
-                                          Navigator.pushNamed(context, aiChatListRoute);
+                                          Navigator.pushNamed(
+                                            context,
+                                            aiChatDetailsRoute,
+                                            arguments: {"title":'ATOM AI Chat'},
+                                          );
                                         },
                                         child: Container(
                                           width: double.infinity,
@@ -616,17 +620,17 @@ class DashboardViewState extends State<DashboardView>
                                               end: Alignment.bottomCenter,
                                             ),
                                             borderRadius: BorderRadius.circular(27),
-                                            // border: Border.all(
-                                            //   color: Colors.white.withValues(alpha: 0.80),
-                                            //   width: 0.8,
-                                            // ),
-                                            // boxShadow: [
-                                            //   BoxShadow(
-                                            //     color: const Color(0xFF6474C6).withValues(alpha: 0.09),
-                                            //     blurRadius: 12,
-                                            //     offset: const Offset(0, 2),
-                                            //   ),
-                                            // ],
+                                            border: Border.all(
+                                              color: Colors.white.withValues(alpha: 0.80),
+                                              width: 0.8,
+                                            ),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: const Color(0xFF6474C6).withValues(alpha: 0.09),
+                                                blurRadius: 12,
+                                                offset: const Offset(0, 2),
+                                              ),
+                                            ],
                                           ),
                                           child: const Row(
                                             children: [

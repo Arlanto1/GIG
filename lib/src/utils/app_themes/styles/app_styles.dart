@@ -67,6 +67,12 @@ class Styles {
     color: AppColors.textGreyThemeColor,
   );
 
+  static const TextStyle textStyleBlack18 = TextStyle(
+    fontSize: 16,
+    fontFamily: Constants.customFontSemiBoldFamily,
+    fontWeight: FontWeight.w900,
+    color: AppColors.black,
+  );
   static const TextStyle textStyleRegularGrey14 = TextStyle(
     fontSize: 14,
     fontFamily: Constants.customFontRegularFamily,
