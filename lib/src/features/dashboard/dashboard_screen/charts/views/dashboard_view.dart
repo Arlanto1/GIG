@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:ui';
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/news/newsList/newsListView.dart';
 
 // class DashboardView extends StatefulWidget {
 //   const DashboardView({super.key});
@@ -656,9 +657,9 @@ class DashboardViewState extends State<DashboardView>
                                       GestureDetector(
                                         onTap: () {
                                           Navigator.pop(context);
-                                          // Navigator.push(context,
-                                          //   MaterialPageRoute(builder: (_) => const NewsScreen()),
-                                          // );
+                                          Navigator.push(context,
+                                            MaterialPageRoute(builder: (_) => const NewsApp()),
+                                          );
                                         },
                                         child: Container(
                                           width: double.infinity,

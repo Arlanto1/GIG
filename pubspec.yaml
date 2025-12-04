@@ -77,16 +77,15 @@ dependencies:
   provider: ^6.0.5
   flutter_tts: ^3.8.5
   fl_chart: ^1.1.1
+  webview_flutter: ^4.9.0
+  webview_flutter_android: ^3.14.0
+  webview_flutter_wkwebview: ^3.12.0
   mailer: ^6.6.0
-dependency_overrides:
-  uuid: ^4.5.1
-  path_provider: ^2.0.1
-
   permission_handler:
 #  permission_handler_platform_interface: ^6.0.0
 #  shared_preferences_android: 2.0.10
   geolocator_android: 4.5.5
-  file_picker: ^5.2.4
+  file_picker: ^6.2.1
   video_player: ^2.6.1
   #  flutter_localizations:
   #    sdk: flutter
@@ -97,15 +96,16 @@ dependency_overrides:
   image_cropper: ^5.0.1
   lottie: ^2.7.0
   speech_to_text: ^6.5.1
-  flutter_tts: ^3.6.1
+#  flutter_tts: ^3.6.1
   flutter_flavorizr:
-  shared_preferences: ^2.3.2
+#  shared_preferences: ^2.3.2
   #  shared_preferences: ^2.0.15
 #  shared_preferences_android: ^2.0.6
 #  shared_preferences_ios: ^2.0.6
   flutter_svg:
-  flutter_typeahead:
-  flutter_keyboard_visibility:
+  flutter_typeahead: ^5.2.0
+  flutter_keyboard_visibility: ^6.0.0
+#  flutter_keyboard_listener:
   image_picker: ^1.1.2
   app_settings:
   dotted_border:
@@ -124,7 +124,7 @@ dependency_overrides:
   flutter_file_dialog:
 #  path_provider:
   mime:
-  quill_html_editor:
+  quill_html_editor: ^2.2.6
   bloc_concurrency:
   email_validator:
   local_session_timeout:
@@ -160,11 +160,13 @@ dependency_overrides:
   custom_refresh_indicator: ^4.0.1
   floating_bottom_navigation_bar: ^1.5.2
   fluttertoast: ^8.2.8
-  fl_chart: ^1.1.1
 #dev_dependencies:
 #  #  flutter_launcher_icons:
 #  #  flutter_native_splash: ^2.4.0
 
+dependency_overrides:
+  uuid: ^4.5.1
+  path_provider: ^2.0.1
 dev dependencies:
   firebase_auth_platform_interface: ^7.7.2
   firebase_core_platform_interface: ^6.0.0
@@ -222,6 +224,7 @@ flutter:
     - assets/images/eye.png
     - assets/images/dollar1.png
     - assets/images/security1.png
+    - assets/images/ai_chat_background.png
     - assets/images/gunMan1.png
     - assets/videos/loading.mp4
 
