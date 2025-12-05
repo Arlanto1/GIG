@@ -110,7 +110,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
             pdfAPIName:
                 '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.eventProtectionModuleCode}',
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.newColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -139,18 +139,18 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
     }
 
     return Container(
-      color: AppColors.lavender,
+      color: AppColors.newColor3,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.lavender,
+              color: AppColors.newColor3,
             ),
             Container(
-              decoration: const ShapeDecoration(
-                  color: AppColors.lavender,
-                  shape: RoundedRectangleBorder(
+              decoration: ShapeDecoration(
+                  color: AppColors.newColor3,
+                  shape: const RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
@@ -698,6 +698,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                               validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
+
                             ///Business POC 1
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.bu1 ??
@@ -997,8 +998,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Vendor 2 Contact No
                               CommonWidgets.textDisplay(
@@ -1219,7 +1219,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                                   // icon asset here
                                                   colorFilter:
                                                       const ColorFilter.mode(
-                                                    AppColors.black,
+                                                    AppColors.white,
                                                     BlendMode.srcIn,
                                                   ),
                                                   // color: Colors
@@ -1280,9 +1280,10 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                       const Text(
                                         'Add Officer',
                                         style: TextStyle(
-                                          color: AppColors.boldGreyBackground,
-                                          decoration: TextDecoration.underline,
-                                        ),
+                                            color: AppColors.white,
+                                            decoration:
+                                                TextDecoration.underline,
+                                            decorationColor: AppColors.white),
                                       ),
                                     ],
                                   ),

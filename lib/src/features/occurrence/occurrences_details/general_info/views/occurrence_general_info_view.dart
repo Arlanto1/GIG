@@ -57,16 +57,14 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
-              Navigator.popAndPushNamed(
-                context,
-                shiftOccurrenceRoute,
-              );
+              Navigator.popAndPushNamed(context, shiftOccurrenceRoute);
             },
           );
           showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (BuildContext context) => dialog);
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => dialog,
+          );
 
           // Utils.dynamicAlert(
           //     context, state.message ?? '', 'Material Movement', '');
@@ -97,7 +95,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
         //     !widget.extraProperties!.hasWritePermission!) {
         //   isReadOnly = true;
         // }
-        showSaveSubmitButtons = (state.model.status == 0 ||
+        showSaveSubmitButtons =
+            (state.model.status == 0 ||
                 state.model.status == null ||
                 !isReadOnly) &&
             state.model.lock.isEmptyOrNull;
@@ -116,17 +115,19 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                 '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.occurrenceModule}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
-                  .submitForm(isSaveOnly: true);
+              BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                context,
+              ).submitForm(isSaveOnly: true);
             },
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
-                  .submitForm(isSaveOnly: false);
+              BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                context,
+              ).submitForm(isSaveOnly: false);
             },
             title: widget.title,
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.newColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -161,7 +162,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
     // }
 
     return Container(
-      color: const Color(0xFF6474C6),
+      color: AppColors.newColor3,
       // color: AppColors.navigationSkyBlueColor,
       child: SingleChildScrollView(
         child: Column(
@@ -207,15 +208,18 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
 
                               /// Status
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.status ??
-                                      state.labels?.defaultLocale.status ??
-                                      Constants.status,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14),
+                                state.labels?.locale.status ??
+                                    state.labels?.defaultLocale.status ??
+                                    Constants.status,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
                               CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
+                                height * 0.001,
+                              ),
                               CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
+                                height * 0.001,
+                              ),
                               BaseDropDown().getDropDown(
                                 isDisabled: true,
                                 textController: statusController,
@@ -234,17 +238,21 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                         selectedLabel =
                                             occurrenceStatusDropDownValues
                                                 .firstWhere(
-                                          (label) => label.key == value,
-                                          orElse: () =>
-                                              const Label(key: '', value: ''),
-                                        );
+                                                  (label) => label.key == value,
+                                                  orElse: () => const Label(
+                                                    key: '',
+                                                    value: '',
+                                                  ),
+                                                );
 
                                         BlocProvider.of<
-                                                    OccurrenceGeneralInfoCubit>(
-                                                context)
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
                                             .updateDropdownValues(
-                                                status: int.tryParse(
-                                                    selectedLabel.value));
+                                              status: int.tryParse(
+                                                selectedLabel.value,
+                                              ),
+                                            );
                                       },
                                     );
                                   }
@@ -254,185 +262,210 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
 
                               /// Shift Handover By
                               CommonWidgets.horizentaltextHandling(
-                                  state.labels?.locale.entrySecurity ??
-                                      state.labels?.defaultLocale
-                                          .entrySecurity ??
-                                      Constants.shiftHandoverBy,
-                                  isMandatory: true,
-                                  '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
+                                state.labels?.locale.entrySecurity ??
+                                    state.labels?.defaultLocale.entrySecurity ??
+                                    Constants.shiftHandoverBy,
+                                isMandatory: true,
+                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}',
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Shift Taken Over by
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.handoverSecurity ??
-                                    state.labels?.defaultLocale
+                                    state
+                                        .labels
+                                        ?.defaultLocale
                                         .handoverSecurity ??
                                     Constants.shiftTakenOverBy,
                                 isMandatory: true,
                                 Styles.textStyleWhite14,
                               ),
                               TextFieldAddButton(
-                                  title:
-                                      state.model.handoverSecurity?.userInfo ??
-                                          state.model.handoverSecurity?.name,
-                                  height: 70,
-                                  isDisableColor: !showSaveSubmitButtons,
-                                  onTap: () {
-                                    if (showSaveSubmitButtons) {
-                                      BaseOrganisationDialog().userDialog(
-                                        context: context,
-                                        users: state.shiftTakenOverBy,
-                                        onTap: (BaseUser user) {
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  shiftTakenOverBy: user);
-                                        },
-                                        roleName: ConstantUserRoles
-                                            .atomGuardingStaffUser,
-                                        locationId: state.model.location!.id!,
-                                        isDbUser: false,
-                                        functionToCall: (BaseUser user) {
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  shiftTakenOverBy: user);
-                                          // refresh the list
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .refreshList();
-                                        },
-                                      );
-                                    }
-                                  }),
+                                title:
+                                    state.model.handoverSecurity?.userInfo ??
+                                    state.model.handoverSecurity?.name,
+                                height: 70,
+                                isDisableColor: !showSaveSubmitButtons,
+                                onTap: () {
+                                  if (showSaveSubmitButtons) {
+                                    BaseOrganisationDialog().userDialog(
+                                      context: context,
+                                      users: state.shiftTakenOverBy,
+                                      onTap: (BaseUser user) {
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .updateDropdownValues(
+                                              shiftTakenOverBy: user,
+                                            );
+                                      },
+                                      roleName: ConstantUserRoles
+                                          .atomGuardingStaffUser,
+                                      locationId: state.model.location!.id!,
+                                      isDbUser: false,
+                                      functionToCall: (BaseUser user) {
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .updateDropdownValues(
+                                              shiftTakenOverBy: user,
+                                            );
+                                        // refresh the list
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .refreshList();
+                                      },
+                                    );
+                                  }
+                                },
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Location
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.location ??
-                                      state.labels?.defaultLocale.location ??
-                                      Constants.location,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14),
+                                state.labels?.locale.location ??
+                                    state.labels?.defaultLocale.location ??
+                                    Constants.location,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
                               CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
+                                height * 0.001,
+                              ),
                               BaseLocationDropdown().locationWidgetDisplay(
-                                  selectedLocationName:
-                                      state.model.location?.name ?? '',
-                                  isEnabled: !isReadOnly,
-                                  context: context,
-                                  locations: state.locations!,
-                                  onTap: (Organisation? location) async {
-                                    log('location?.name-----${location?.name}');
+                                selectedLocationName:
+                                    state.model.location?.name ?? '',
+                                isEnabled: !isReadOnly,
+                                context: context,
+                                locations: state.locations!,
+                                onTap: (Organisation? location) async {
+                                  log('location?.name-----${location?.name}');
 
-                                    state.model.location = location;
+                                  state.model.location = location;
 
-                                    BlocProvider.of<OccurrenceGeneralInfoCubit>(
-                                            context)
-                                        .updateLocationDropdownValue(
-                                            location: location);
-                                  }),
+                                  BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                                    context,
+                                  ).updateLocationDropdownValue(
+                                    location: location,
+                                  );
+                                },
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Date of creation
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.inputDate ??
-                                      state.labels?.defaultLocale.inputDate ??
-                                      Constants.dateofcreation,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14),
+                                state.labels?.locale.inputDate ??
+                                    state.labels?.defaultLocale.inputDate ??
+                                    Constants.dateofcreation,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
                               CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
+                                height * 0.001,
+                              ),
                               BaseDate().creationDateDisplay(
-                                  state.model.inputDate ?? ''),
+                                state.model.inputDate ?? '',
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Sl No.
                               CommonWidgets.horizentaltextHandling(
-                                  state.labels?.locale.slNo ??
-                                      state.labels?.defaultLocale.slNo ??
-                                      Constants.slno,
-                                  isMandatory: true,
-                                  state.model.slNo ?? ''),
+                                state.labels?.locale.slNo ??
+                                    state.labels?.defaultLocale.slNo ??
+                                    Constants.slno,
+                                isMandatory: true,
+                                state.model.slNo ?? '',
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Shift Briefing Attended
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.shiftBrfngAttnded ??
-                                      state.labels?.defaultLocale
-                                          .shiftBrfngAttnded ??
-                                      Constants.shiftBriefingAttended,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14),
+                                state.labels?.locale.shiftBrfngAttnded ??
+                                    state
+                                        .labels
+                                        ?.defaultLocale
+                                        .shiftBrfngAttnded ??
+                                    Constants.shiftBriefingAttended,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
                               RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.shiftBrfngAttnded ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.shiftBrfngAttnded = true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  shiftBrfngAttnded: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.shiftBrfngAttnded = false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  shiftBrfngAttnded: false);
-                                        }),
+                                status: state.model.status ?? 0,
+                                selectedValue: state.model.shiftBrfngAttnded
+                                    ? 1
+                                    : 0,
+                                onChangedYes: !showSaveSubmitButtons
+                                    ? null
+                                    : (val) {
+                                        state.model.shiftBrfngAttnded = true;
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .showFields(
+                                              shiftBrfngAttnded: true,
+                                            );
+                                        //.onModelValueChange(state.guardingMasterData
+                                        //);
+                                      },
+                                onChangedNo: !showSaveSubmitButtons
+                                    ? null
+                                    : (val) {
+                                        state.model.shiftBrfngAttnded = false;
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .showFields(
+                                              shiftBrfngAttnded: false,
+                                            );
+                                      },
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Premises Round Taken
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.premisesRoundTkn ??
-                                      state.labels?.defaultLocale
-                                          .premisesRoundTkn ??
-                                      Constants.premisesRoundTaken,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14),
+                                state.labels?.locale.premisesRoundTkn ??
+                                    state
+                                        .labels
+                                        ?.defaultLocale
+                                        .premisesRoundTkn ??
+                                    Constants.premisesRoundTaken,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
                               RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.premisesRoundTkn ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.premisesRoundTkn = true;
-                                          state.model.premisesRoundTknComments =
-                                              null;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  premisesRoundTkn: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.premisesRoundTkn = false;
-                                          state.model.premisesRoundTknComments =
-                                              null;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  premisesRoundTkn: false);
-                                        }),
+                                status: state.model.status ?? 0,
+                                selectedValue: state.model.premisesRoundTkn
+                                    ? 1
+                                    : 0,
+                                onChangedYes: !showSaveSubmitButtons
+                                    ? null
+                                    : (val) {
+                                        state.model.premisesRoundTkn = true;
+                                        state.model.premisesRoundTknComments =
+                                            null;
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .showFields(premisesRoundTkn: true);
+                                        //.onModelValueChange(state.guardingMasterData
+                                        //);
+                                      },
+                                onChangedNo: !showSaveSubmitButtons
+                                    ? null
+                                    : (val) {
+                                        state.model.premisesRoundTkn = false;
+                                        state.model.premisesRoundTknComments =
+                                            null;
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .showFields(
+                                              premisesRoundTkn: false,
+                                            );
+                                      },
+                              ),
 
                               if (state.model.premisesRoundTkn == true) ...[
                                 /// Premises Round Taken Comments
@@ -459,47 +492,52 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                  height * 0.01,
+                                ),
                               ],
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Medical Emergency
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.medicalEmrgncy ??
-                                      state.labels?.defaultLocale
-                                          .medicalEmrgncy ??
-                                      Constants.medicalEmergency,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14),
+                                state.labels?.locale.medicalEmrgncy ??
+                                    state
+                                        .labels
+                                        ?.defaultLocale
+                                        .medicalEmrgncy ??
+                                    Constants.medicalEmergency,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
                               RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.medicalEmrgncy ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.medicalEmrgncy = true;
-                                          state.model.medicalEmrgncyComments =
-                                              null;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(medicalEmrgncy: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.medicalEmrgncy = false;
-                                          state.model.medicalEmrgncyComments =
-                                              null;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  medicalEmrgncy: false);
-                                        }),
+                                status: state.model.status ?? 0,
+                                selectedValue: state.model.medicalEmrgncy
+                                    ? 1
+                                    : 0,
+                                onChangedYes: !showSaveSubmitButtons
+                                    ? null
+                                    : (val) {
+                                        state.model.medicalEmrgncy = true;
+                                        state.model.medicalEmrgncyComments =
+                                            null;
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .showFields(medicalEmrgncy: true);
+                                        //.onModelValueChange(state.guardingMasterData
+                                        //);
+                                      },
+                                onChangedNo: !showSaveSubmitButtons
+                                    ? null
+                                    : (val) {
+                                        state.model.medicalEmrgncy = false;
+                                        state.model.medicalEmrgncyComments =
+                                            null;
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .showFields(medicalEmrgncy: false);
+                                      },
+                              ),
                               if (state.model.medicalEmrgncy == true) ...[
                                 /// Medical Emergency Comments
                                 FlutterInputField(
@@ -524,116 +562,129 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                  height * 0.01,
+                                ),
                               ],
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Material Movement
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.materialMovement ??
-                                      state.labels?.defaultLocale
-                                          .materialMovement ??
-                                      Constants.materialMovement,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14),
+                                state.labels?.locale.materialMovement ??
+                                    state
+                                        .labels
+                                        ?.defaultLocale
+                                        .materialMovement ??
+                                    Constants.materialMovement,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
                               RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.materialMovement ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.materialMovement = true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  materialMovement: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.materialMovement = false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  materialMovement: false);
-                                        }),
+                                status: state.model.status ?? 0,
+                                selectedValue: state.model.materialMovement
+                                    ? 1
+                                    : 0,
+                                onChangedYes: !showSaveSubmitButtons
+                                    ? null
+                                    : (val) {
+                                        state.model.materialMovement = true;
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .showFields(materialMovement: true);
+                                        //.onModelValueChange(state.guardingMasterData
+                                        //);
+                                      },
+                                onChangedNo: !showSaveSubmitButtons
+                                    ? null
+                                    : (val) {
+                                        state.model.materialMovement = false;
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .showFields(
+                                              materialMovement: false,
+                                            );
+                                      },
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// LEO Visit
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.leoVisit ??
-                                      state.labels?.defaultLocale.leoVisit ??
-                                      Constants.lEOVisit,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14),
+                                state.labels?.locale.leoVisit ??
+                                    state.labels?.defaultLocale.leoVisit ??
+                                    Constants.lEOVisit,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
                               RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue: state.model.leoVisit ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.leoVisit = true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(leoVisit: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.leoVisit = false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(leoVisit: false);
-                                        }),
+                                status: state.model.status ?? 0,
+                                selectedValue: state.model.leoVisit ? 1 : 0,
+                                onChangedYes: !showSaveSubmitButtons
+                                    ? null
+                                    : (val) {
+                                        state.model.leoVisit = true;
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .showFields(leoVisit: true);
+                                        //.onModelValueChange(state.guardingMasterData
+                                        //);
+                                      },
+                                onChangedNo: !showSaveSubmitButtons
+                                    ? null
+                                    : (val) {
+                                        state.model.leoVisit = false;
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .showFields(leoVisit: false);
+                                      },
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Social Engineering Incidents
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.socialEnggIncdnt ??
-                                      state.labels?.defaultLocale
-                                          .socialEnggIncdnt ??
-                                      Constants.socialEngineeringIncidents,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14),
+                                state.labels?.locale.socialEnggIncdnt ??
+                                    state
+                                        .labels
+                                        ?.defaultLocale
+                                        .socialEnggIncdnt ??
+                                    Constants.socialEngineeringIncidents,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
                               RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.socialEnggIncdnt ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.socialEnggIncdnt = true;
-                                          state.model.socialEnggIncdntComments =
-                                              null;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  socialEnggIncdnt: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.socialEnggIncdnt = false;
-                                          state.model.socialEnggIncdntComments =
-                                              null;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  socialEnggIncdnt: false);
-                                        }),
+                                status: state.model.status ?? 0,
+                                selectedValue: state.model.socialEnggIncdnt
+                                    ? 1
+                                    : 0,
+                                onChangedYes: !showSaveSubmitButtons
+                                    ? null
+                                    : (val) {
+                                        state.model.socialEnggIncdnt = true;
+                                        state.model.socialEnggIncdntComments =
+                                            null;
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .showFields(socialEnggIncdnt: true);
+                                        //.onModelValueChange(state.guardingMasterData
+                                        //);
+                                      },
+                                onChangedNo: !showSaveSubmitButtons
+                                    ? null
+                                    : (val) {
+                                        state.model.socialEnggIncdnt = false;
+                                        state.model.socialEnggIncdntComments =
+                                            null;
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .showFields(
+                                              socialEnggIncdnt: false,
+                                            );
+                                      },
+                              ),
 
                               if (state.model.socialEnggIncdnt == true) ...[
                                 /// Medical Emergency Comments
@@ -660,69 +711,80 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                  height * 0.01,
+                                ),
                               ],
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Found Article Transaction
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.foundArticleTrnsctn ??
-                                      state.labels?.defaultLocale
-                                          .foundArticleTrnsctn ??
-                                      Constants.foundArticleTransaction,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14),
+                                state.labels?.locale.foundArticleTrnsctn ??
+                                    state
+                                        .labels
+                                        ?.defaultLocale
+                                        .foundArticleTrnsctn ??
+                                    Constants.foundArticleTransaction,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
                               RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.foundArticleTrnsctn ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.foundArticleTrnsctn =
-                                              true;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  foundArticleTrnsctn: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.foundArticleTrnsctn =
-                                              false;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  foundArticleTrnsctn: false);
-                                        }),
+                                status: state.model.status ?? 0,
+                                selectedValue: state.model.foundArticleTrnsctn
+                                    ? 1
+                                    : 0,
+                                onChangedYes: !showSaveSubmitButtons
+                                    ? null
+                                    : (val) {
+                                        state.model.foundArticleTrnsctn = true;
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .showFields(
+                                              foundArticleTrnsctn: true,
+                                            );
+                                        //.onModelValueChange(state.guardingMasterData
+                                        //);
+                                      },
+                                onChangedNo: !showSaveSubmitButtons
+                                    ? null
+                                    : (val) {
+                                        state.model.foundArticleTrnsctn = false;
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .showFields(
+                                              foundArticleTrnsctn: false,
+                                            );
+                                      },
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Process Breach Incident
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.processBreachIncdnt ??
-                                      state.labels?.defaultLocale
-                                          .processBreachIncdnt ??
-                                      Constants.processBreachIncident,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14),
+                                state.labels?.locale.processBreachIncdnt ??
+                                    state
+                                        .labels
+                                        ?.defaultLocale
+                                        .processBreachIncdnt ??
+                                    Constants.processBreachIncident,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
                               RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
-                                selectedValue:
-                                    state.model.processBreachIncdnt ? 1 : 0,
+                                selectedValue: state.model.processBreachIncdnt
+                                    ? 1
+                                    : 0,
                                 onChangedYes: !showSaveSubmitButtons
                                     ? null
                                     : (val) {
                                         state.model.processBreachIncdnt = true;
                                         BlocProvider.of<
-                                                    OccurrenceGeneralInfoCubit>(
-                                                context)
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
                                             .showFields(
-                                                processBreachIncdnt: true);
+                                              processBreachIncdnt: true,
+                                            );
                                         //.onModelValueChange(state.guardingMasterData
                                         //);
                                       },
@@ -731,10 +793,11 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     : (val) {
                                         state.model.processBreachIncdnt = false;
                                         BlocProvider.of<
-                                                    OccurrenceGeneralInfoCubit>(
-                                                context)
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
                                             .showFields(
-                                                processBreachIncdnt: false);
+                                              processBreachIncdnt: false,
+                                            );
                                         // .onModelValueChange(state.guardingMasterData
                                         //  );
                                       },
@@ -744,8 +807,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
 
                           if (state.model.processBreachIncdnt == true) ...[
                             CommonWidgets.textDisplay(
-                                Constants.incidentItemList,
-                                Styles.textStyleWhite14),
+                              Constants.incidentItemList,
+                              Styles.textStyleWhite14,
+                            ),
                             GestureDetector(
                               onTap: () => navigateToCreateIncident(
                                 state: state,
@@ -773,6 +837,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       style: TextStyle(
                                         color: AppColors.white,
                                         decoration: TextDecoration.underline,
+                                        decorationColor: AppColors.white,
                                       ),
                                     ),
                                     // if (state.model.incidentItems != null &&
@@ -781,7 +846,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     //             element.incidentType ==
                                     //             1).isEmptyOrNull) ...[
                                     CommonWidgets.horizontalSpacerWidget(
-                                        height * 0.01),
+                                      height * 0.01,
+                                    ),
                                   ],
                                   showButtonDisplay(
                                     occId: state.model.id.toString(),
@@ -800,36 +866,38 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
 
                               /// Any Infrastructural Issue
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.infraIssue ??
-                                      state.labels?.defaultLocale.infraIssue ??
-                                      Constants.anyInfrastructuralIssue,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14),
+                                state.labels?.locale.infraIssue ??
+                                    state.labels?.defaultLocale.infraIssue ??
+                                    Constants.anyInfrastructuralIssue,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
                               RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue: state.model.infraIssue ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.infraIssue = true;
-                                          state.model.infraIssueComments = null;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(infraIssue: true);
-                                          //.onModelValueChange(state.guardingMasterData
-                                          //);
-                                        },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.infraIssue = false;
-                                          state.model.infraIssueComments = null;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(infraIssue: false);
-                                        }),
+                                status: state.model.status ?? 0,
+                                selectedValue: state.model.infraIssue ? 1 : 0,
+                                onChangedYes: !showSaveSubmitButtons
+                                    ? null
+                                    : (val) {
+                                        state.model.infraIssue = true;
+                                        state.model.infraIssueComments = null;
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .showFields(infraIssue: true);
+                                        //.onModelValueChange(state.guardingMasterData
+                                        //);
+                                      },
+                                onChangedNo: !showSaveSubmitButtons
+                                    ? null
+                                    : (val) {
+                                        state.model.infraIssue = false;
+                                        state.model.infraIssueComments = null;
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .showFields(infraIssue: false);
+                                      },
+                              ),
 
                               if (state.model.infraIssue == true) ...[
                                 /// Any Infrastructural Issue Comments
@@ -854,41 +922,48 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                  height * 0.01,
+                                ),
                               ],
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Any Suspicious Activity
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.suspiciousActivity ??
-                                      state.labels?.defaultLocale
-                                          .suspiciousActivity ??
-                                      Constants.anySuspiciousActivity,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14),
+                                state.labels?.locale.suspiciousActivity ??
+                                    state
+                                        .labels
+                                        ?.defaultLocale
+                                        .suspiciousActivity ??
+                                    Constants.anySuspiciousActivity,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
                               RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
-                                selectedValue:
-                                    state.model.suspiciousActivity ? 1 : 0,
+                                selectedValue: state.model.suspiciousActivity
+                                    ? 1
+                                    : 0,
                                 onChangedYes: !showSaveSubmitButtons
                                     ? null
                                     : (val) {
                                         state.model.suspiciousActivity = true;
                                         BlocProvider.of<
-                                                    OccurrenceGeneralInfoCubit>(
-                                                context)
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
                                             .showFields(
-                                                suspiciousActivity: true);
+                                              suspiciousActivity: true,
+                                            );
                                       },
                                 onChangedNo: !showSaveSubmitButtons
                                     ? null
                                     : (val) {
                                         state.model.suspiciousActivity = false;
                                         BlocProvider.of<
-                                                    OccurrenceGeneralInfoCubit>(
-                                                context)
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
                                             .showFields(
-                                                suspiciousActivity: false);
+                                              suspiciousActivity: false,
+                                            );
                                       },
                               ),
                             ],
@@ -896,8 +971,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
 
                           if (state.model.suspiciousActivity == true) ...[
                             CommonWidgets.textDisplay(
-                                Constants.incidentItemList,
-                                Styles.textStyleWhite14),
+                              Constants.incidentItemList,
+                              Styles.textStyleWhite14,
+                            ),
                             GestureDetector(
                               onTap: () => navigateToCreateIncident(
                                 state: state,
@@ -923,13 +999,15 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       style: TextStyle(
                                         color: AppColors.white,
                                         decoration: TextDecoration.underline,
+                                        decorationColor: AppColors.white,
                                       ),
                                     ),
                                     // if (state.model.incidentItems != null &&
                                     //     state.model.incidentItems!
                                     //         .isNotEmpty) ...[
                                     CommonWidgets.horizontalSpacerWidget(
-                                        height * 0.01),
+                                      height * 0.01,
+                                    ),
                                   ],
                                   showButtonDisplay(
                                     occId: state.model.id.toString(),
@@ -946,40 +1024,45 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             children: [
                               /// Fire Alarm Emergency Occurred
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.fireAlarmEmrgncy ??
-                                      state.labels?.defaultLocale
-                                          .fireAlarmEmrgncy ??
-                                      Constants.fireAlarmEmergencyOccurred,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14),
+                                state.labels?.locale.fireAlarmEmrgncy ??
+                                    state
+                                        .labels
+                                        ?.defaultLocale
+                                        .fireAlarmEmrgncy ??
+                                    Constants.fireAlarmEmergencyOccurred,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
                               RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.fireAlarmEmrgncy ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.fireAlarmEmrgncy = true;
-                                          state.model.fireAlarmEmrgncyComments =
-                                              null;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  fireAlarmEmrgncy: true);
-                                        },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.fireAlarmEmrgncy = false;
-                                          state.model.fireAlarmEmrgncyComments =
-                                              null;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(
-                                                  fireAlarmEmrgncy: false);
-                                        }),
+                                status: state.model.status ?? 0,
+                                selectedValue: state.model.fireAlarmEmrgncy
+                                    ? 1
+                                    : 0,
+                                onChangedYes: !showSaveSubmitButtons
+                                    ? null
+                                    : (val) {
+                                        state.model.fireAlarmEmrgncy = true;
+                                        state.model.fireAlarmEmrgncyComments =
+                                            null;
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .showFields(fireAlarmEmrgncy: true);
+                                      },
+                                onChangedNo: !showSaveSubmitButtons
+                                    ? null
+                                    : (val) {
+                                        state.model.fireAlarmEmrgncy = false;
+                                        state.model.fireAlarmEmrgncyComments =
+                                            null;
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .showFields(
+                                              fireAlarmEmrgncy: false,
+                                            );
+                                      },
+                              ),
 
                               if (state.model.fireAlarmEmrgncy == true) ...[
                                 /// fire Alarm Emrgncy comments
@@ -1006,44 +1089,47 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                  height * 0.01,
+                                ),
                               ],
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Landlord Issue
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.landlordIssue ??
-                                      state.labels?.defaultLocale
-                                          .landlordIssue ??
-                                      Constants.landlordIssue,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14),
+                                state.labels?.locale.landlordIssue ??
+                                    state.labels?.defaultLocale.landlordIssue ??
+                                    Constants.landlordIssue,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
                               RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.landlordIssue ? 1 : 0,
-                                  onChangedYes: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.landlordIssue = true;
-                                          state.model.landlordIssueComments =
-                                              null;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(landlordIssue: true);
-                                        },
-                                  onChangedNo: !showSaveSubmitButtons
-                                      ? null
-                                      : (val) {
-                                          state.model.landlordIssue = false;
-                                          state.model.landlordIssueComments =
-                                              null;
-                                          BlocProvider.of<
-                                                      OccurrenceGeneralInfoCubit>(
-                                                  context)
-                                              .showFields(landlordIssue: false);
-                                        }),
+                                status: state.model.status ?? 0,
+                                selectedValue: state.model.landlordIssue
+                                    ? 1
+                                    : 0,
+                                onChangedYes: !showSaveSubmitButtons
+                                    ? null
+                                    : (val) {
+                                        state.model.landlordIssue = true;
+                                        state.model.landlordIssueComments =
+                                            null;
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .showFields(landlordIssue: true);
+                                      },
+                                onChangedNo: !showSaveSubmitButtons
+                                    ? null
+                                    : (val) {
+                                        state.model.landlordIssue = false;
+                                        state.model.landlordIssueComments =
+                                            null;
+                                        BlocProvider.of<
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
+                                            .showFields(landlordIssue: false);
+                                      },
+                              ),
 
                               if (state.model.landlordIssue == true) ...[
                                 /// fire Alarm Emrgncy comments
@@ -1069,49 +1155,57 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                  height * 0.01,
+                                ),
                               ],
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Security System Failure Incidents
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.secSysFailureIncdnt ??
-                                      state.labels?.defaultLocale
-                                          .secSysFailureIncdnt ??
-                                      Constants.securitySystemFailureIncidents,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14),
+                                state.labels?.locale.secSysFailureIncdnt ??
+                                    state
+                                        .labels
+                                        ?.defaultLocale
+                                        .secSysFailureIncdnt ??
+                                    Constants.securitySystemFailureIncidents,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
                               RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
-                                selectedValue:
-                                    state.model.secSysFailureIncdnt ? 1 : 0,
+                                selectedValue: state.model.secSysFailureIncdnt
+                                    ? 1
+                                    : 0,
                                 onChangedYes: !showSaveSubmitButtons
                                     ? null
                                     : (val) {
                                         state.model.secSysFailureIncdnt = true;
                                         BlocProvider.of<
-                                                    OccurrenceGeneralInfoCubit>(
-                                                context)
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
                                             .showFields(
-                                                secSysFailureIncdnt: true);
+                                              secSysFailureIncdnt: true,
+                                            );
                                       },
                                 onChangedNo: !showSaveSubmitButtons
                                     ? null
                                     : (val) {
                                         state.model.secSysFailureIncdnt = false;
                                         BlocProvider.of<
-                                                    OccurrenceGeneralInfoCubit>(
-                                                context)
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
                                             .showFields(
-                                                secSysFailureIncdnt: false);
+                                              secSysFailureIncdnt: false,
+                                            );
                                       },
                               ),
                             ],
                           ),
                           if (state.model.secSysFailureIncdnt == true) ...[
                             CommonWidgets.textDisplay(
-                                Constants.securitySystemSLAList,
-                                Styles.textStyleWhite14),
+                              Constants.securitySystemSLAList,
+                              Styles.textStyleWhite14,
+                            ),
                             GestureDetector(
                               // onTap: () {
                               //   if (isReadOnly) {
@@ -1145,13 +1239,15 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                       style: TextStyle(
                                         color: AppColors.white,
                                         decoration: TextDecoration.underline,
+                                        decorationColor: AppColors.white,
                                       ),
                                     ),
                                   ],
                                   if (state.model.secSysFailureIncident !=
                                       null) ...[
                                     CommonWidgets.horizontalSpacerWidget(
-                                        height * 0.01),
+                                      height * 0.01,
+                                    ),
                                     showButtonDisplay(
                                       occId: state.model.id.toString(),
                                       occType: 2,
@@ -1168,34 +1264,34 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
 
                           ///Any System Alarm Received
                           CommonWidgets.textDisplay(
-                              state.labels?.locale.sysAlarmRcvd ??
-                                  state.labels?.defaultLocale.sysAlarmRcvd ??
-                                  Constants.anySystemAlarmReceived,
-                              isMandatory: true,
-                              Styles.textStyleWhite14),
+                            state.labels?.locale.sysAlarmRcvd ??
+                                state.labels?.defaultLocale.sysAlarmRcvd ??
+                                Constants.anySystemAlarmReceived,
+                            isMandatory: true,
+                            Styles.textStyleWhite14,
+                          ),
                           RadioButtonsYesNo(
-                              status: state.model.status ?? 0,
-                              selectedValue: state.model.sysAlarmRcvd ? 1 : 0,
-                              onChangedYes: !showSaveSubmitButtons
-                                  ? null
-                                  : (val) {
-                                      state.model.sysAlarmRcvd = true;
-                                      state.model.sysAlarmRcvdComments = null;
-                                      BlocProvider.of<
-                                                  OccurrenceGeneralInfoCubit>(
-                                              context)
-                                          .showFields(sysAlarmRcvd: true);
-                                    },
-                              onChangedNo: !showSaveSubmitButtons
-                                  ? null
-                                  : (val) {
-                                      state.model.sysAlarmRcvd = false;
-                                      state.model.sysAlarmRcvdComments = null;
-                                      BlocProvider.of<
-                                                  OccurrenceGeneralInfoCubit>(
-                                              context)
-                                          .showFields(sysAlarmRcvd: false);
-                                    }),
+                            status: state.model.status ?? 0,
+                            selectedValue: state.model.sysAlarmRcvd ? 1 : 0,
+                            onChangedYes: !showSaveSubmitButtons
+                                ? null
+                                : (val) {
+                                    state.model.sysAlarmRcvd = true;
+                                    state.model.sysAlarmRcvdComments = null;
+                                    BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                                      context,
+                                    ).showFields(sysAlarmRcvd: true);
+                                  },
+                            onChangedNo: !showSaveSubmitButtons
+                                ? null
+                                : (val) {
+                                    state.model.sysAlarmRcvd = false;
+                                    state.model.sysAlarmRcvdComments = null;
+                                    BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                                      context,
+                                    ).showFields(sysAlarmRcvd: false);
+                                  },
+                          ),
 
                           if (state.model.sysAlarmRcvd == true) ...[
                             /// Any system alarm received Comments
@@ -1225,11 +1321,12 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
 
                           ///Transport Incident
                           CommonWidgets.textDisplay(
-                              state.labels?.locale.transportIncdnt ??
-                                  state.labels?.defaultLocale.transportIncdnt ??
-                                  Constants.transportIncident,
-                              isMandatory: true,
-                              Styles.textStyleWhite14),
+                            state.labels?.locale.transportIncdnt ??
+                                state.labels?.defaultLocale.transportIncdnt ??
+                                Constants.transportIncident,
+                            isMandatory: true,
+                            Styles.textStyleWhite14,
+                          ),
                           RadioButtonsYesNo(
                             status: state.model.status ?? 0,
                             selectedValue: state.model.transportIncdnt ? 1 : 0,
@@ -1239,8 +1336,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     state.model.transportIncdnt = true;
                                     state.model.transportIncdntComments = null;
                                     BlocProvider.of<OccurrenceGeneralInfoCubit>(
-                                            context)
-                                        .showFields(transportIncdnt: true);
+                                      context,
+                                    ).showFields(transportIncdnt: true);
                                   },
                             onChangedNo: !showSaveSubmitButtons
                                 ? null
@@ -1248,8 +1345,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     state.model.transportIncdnt = false;
                                     state.model.transportIncdntComments = null;
                                     BlocProvider.of<OccurrenceGeneralInfoCubit>(
-                                            context)
-                                        .showFields(transportIncdnt: false);
+                                      context,
+                                    ).showFields(transportIncdnt: false);
                                   },
                           ),
 
@@ -1281,11 +1378,12 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
 
                           /// Any Event
                           CommonWidgets.textDisplay(
-                              state.labels?.locale.anyEvent ??
-                                  state.labels?.defaultLocale.anyEvent ??
-                                  Constants.anyEvent,
-                              isMandatory: true,
-                              Styles.textStyleWhite14),
+                            state.labels?.locale.anyEvent ??
+                                state.labels?.defaultLocale.anyEvent ??
+                                Constants.anyEvent,
+                            isMandatory: true,
+                            Styles.textStyleWhite14,
+                          ),
                           RadioButtonsYesNo(
                             status: state.model.status ?? 0,
                             selectedValue: state.model.anyEvent ? 1 : 0,
@@ -1295,8 +1393,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     state.model.anyEvent = true;
                                     state.model.notifyScri = null;
                                     BlocProvider.of<OccurrenceGeneralInfoCubit>(
-                                            context)
-                                        .showFields(anyEvent: true);
+                                      context,
+                                    ).showFields(anyEvent: true);
                                     //.onModelValueChange(state.guardingMasterData
                                     //);
                                   },
@@ -1306,18 +1404,19 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                     state.model.anyEvent = false;
                                     state.model.notifyScri = null;
                                     BlocProvider.of<OccurrenceGeneralInfoCubit>(
-                                            context)
-                                        .showFields(anyEvent: false);
+                                      context,
+                                    ).showFields(anyEvent: false);
                                   },
                           ),
 
                           if (state.model.anyEvent == true) ...[
                             /// Notifi SCRI
                             CommonWidgets.textDisplay(
-                                state.labels?.locale.notifyScri ??
-                                    state.labels?.defaultLocale.notifyScri ??
-                                    Constants.notifySCRI,
-                                Styles.textStyleWhite14),
+                              state.labels?.locale.notifyScri ??
+                                  state.labels?.defaultLocale.notifyScri ??
+                                  Constants.notifySCRI,
+                              Styles.textStyleWhite14,
+                            ),
                             FlutterInputField(
                               lineHeight: 6,
                               characterLimit:
@@ -1344,44 +1443,47 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
 
                           /// Power Failure
                           CommonWidgets.textDisplay(
-                              state.labels?.locale.powerFailure ??
-                                  state.labels?.defaultLocale.powerFailure ??
-                                  Constants.powerFailure,
-                              isMandatory: true,
-                              Styles.textStyleWhite14),
+                            state.labels?.locale.powerFailure ??
+                                state.labels?.defaultLocale.powerFailure ??
+                                Constants.powerFailure,
+                            isMandatory: true,
+                            Styles.textStyleWhite14,
+                          ),
                           RadioButtonsYesNo(
-                              status: state.model.status ?? 0,
-                              selectedValue: state.model.powerFailure ? 1 : 0,
-                              onChangedYes: !showSaveSubmitButtons ||
-                                      (state.model.id == null &&
-                                          state.isOnGoingPowerFailure!)
-                                  ? null
-                                  : (val) {
-                                      state.model.powerFailure = true;
-                                      BlocProvider.of<
-                                                  OccurrenceGeneralInfoCubit>(
-                                              context)
-                                          .showFields(powerFailure: true);
-                                    },
-                              onChangedNo: !showSaveSubmitButtons ||
-                                      (state.model.id == null &&
-                                          state.isOnGoingPowerFailure!)
-                                  ? null
-                                  : (val) {
-                                      state.model.powerFailure = false;
-                                      BlocProvider.of<
-                                                  OccurrenceGeneralInfoCubit>(
-                                              context)
-                                          .showFields(powerFailure: false);
-                                    }),
+                            status: state.model.status ?? 0,
+                            selectedValue: state.model.powerFailure ? 1 : 0,
+                            onChangedYes:
+                                !showSaveSubmitButtons ||
+                                    (state.model.id == null &&
+                                        state.isOnGoingPowerFailure!)
+                                ? null
+                                : (val) {
+                                    state.model.powerFailure = true;
+                                    BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                                      context,
+                                    ).showFields(powerFailure: true);
+                                  },
+                            onChangedNo:
+                                !showSaveSubmitButtons ||
+                                    (state.model.id == null &&
+                                        state.isOnGoingPowerFailure!)
+                                ? null
+                                : (val) {
+                                    state.model.powerFailure = false;
+                                    BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                                      context,
+                                    ).showFields(powerFailure: false);
+                                  },
+                          ),
 
                           if (state.model.powerFailure == true) ...[
                             CommonWidgets.textDisplay(
-                                // state.labels?.locale.csrParticipationDates ??
-                                //     state.labels?.defaultLocale
-                                //         .csrParticipationDates ??
-                                Constants.powerFailuresDate,
-                                Styles.textStyleWhite14),
+                              // state.labels?.locale.csrParticipationDates ??
+                              //     state.labels?.defaultLocale
+                              //         .csrParticipationDates ??
+                              Constants.powerFailuresDate,
+                              Styles.textStyleWhite14,
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             GestureDetector(
                               onTap: () {
@@ -1392,8 +1494,12 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 log('--state.model.powerFailures----');
 
                                 if (!state.model.powerFailures.isEmptyOrNull &&
-                                    state.model.powerFailures!.last
-                                        .powerFailureEndDate.isEmptyOrNull) {
+                                    state
+                                        .model
+                                        .powerFailures!
+                                        .last
+                                        .powerFailureEndDate
+                                        .isEmptyOrNull) {
                                   // Display error message
                                   Validator().showToast(
                                     context,
@@ -1407,19 +1513,21 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                   builder: (BuildContext dialogContext) {
                                     return AddDatePopUp(
                                       mainContext: context,
-                                      onSubmit:
-                                          (PowerFailureModel powerFailure) {
+                                      onSubmit: (PowerFailureModel powerFailure) {
                                         // log('----powerFailure----${powerFailure.powerFailureStartDate}----');
-                                        if (state.model.powerFailures
+                                        if (state
+                                            .model
+                                            .powerFailures
                                             .isEmptyOrNull) {
                                           state.model.powerFailures = [];
                                         }
-                                        state.model.powerFailures
-                                            ?.add(powerFailure);
+                                        state.model.powerFailures?.add(
+                                          powerFailure,
+                                        );
 
                                         BlocProvider.of<
-                                                    OccurrenceGeneralInfoCubit>(
-                                                context)
+                                              OccurrenceGeneralInfoCubit
+                                            >(context)
                                             .onCheckBoxChange(state.model);
                                       },
                                     );
@@ -1443,6 +1551,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                           ? AppColors.white
                                           : AppColors.white,
                                       decoration: TextDecoration.underline,
+                                      decorationColor: AppColors.white,
                                     ),
                                   ),
                                 ],
@@ -1460,107 +1569,108 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
 
                           /// DG Working
                           CommonWidgets.textDisplay(
-                              state.labels?.locale.dgWrking ??
-                                  state.labels?.defaultLocale.dgWrking ??
-                                  Constants.dgWrking,
-                              isMandatory: true,
-                              Styles.textStyleWhite14),
+                            state.labels?.locale.dgWrking ??
+                                state.labels?.defaultLocale.dgWrking ??
+                                Constants.dgWrking,
+                            isMandatory: true,
+                            Styles.textStyleWhite14,
+                          ),
                           RadioButtonsYesNo(
-                              status: state.model.status ?? 0,
-                              selectedValue: state.model.dgWrking ? 1 : 0,
-                              onChangedYes: !showSaveSubmitButtons
-                                  ? null
-                                  : (val) {
-                                      state.model.dgWrking = true;
-                                      BlocProvider.of<
-                                                  OccurrenceGeneralInfoCubit>(
-                                              context)
-                                          .showFields(dgWrking: true);
-                                      //.onModelValueChange(state.guardingMasterData
-                                      //);
-                                    },
-                              onChangedNo: !showSaveSubmitButtons
-                                  ? null
-                                  : (val) {
-                                      state.model.dgWrking = false;
-                                      BlocProvider.of<
-                                                  OccurrenceGeneralInfoCubit>(
-                                              context)
-                                          .showFields(dgWrking: false);
-                                    }),
+                            status: state.model.status ?? 0,
+                            selectedValue: state.model.dgWrking ? 1 : 0,
+                            onChangedYes: !showSaveSubmitButtons
+                                ? null
+                                : (val) {
+                                    state.model.dgWrking = true;
+                                    BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                                      context,
+                                    ).showFields(dgWrking: true);
+                                    //.onModelValueChange(state.guardingMasterData
+                                    //);
+                                  },
+                            onChangedNo: !showSaveSubmitButtons
+                                ? null
+                                : (val) {
+                                    state.model.dgWrking = false;
+                                    BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                                      context,
+                                    ).showFields(dgWrking: false);
+                                  },
+                          ),
                           CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           ///ATM Vendor Visit
                           CommonWidgets.textDisplay(
-                              state.labels?.locale.atmVendorVisit ??
-                                  state.labels?.defaultLocale.atmVendorVisit ??
-                                  Constants.aTMVendorVisit,
-                              isMandatory: true,
-                              Styles.textStyleWhite14),
+                            state.labels?.locale.atmVendorVisit ??
+                                state.labels?.defaultLocale.atmVendorVisit ??
+                                Constants.aTMVendorVisit,
+                            isMandatory: true,
+                            Styles.textStyleWhite14,
+                          ),
                           RadioButtonsYesNo(
-                              status: state.model.status ?? 0,
-                              selectedValue: state.model.atmVendorVisit ? 1 : 0,
-                              onChangedYes: !showSaveSubmitButtons
-                                  ? null
-                                  : (val) {
-                                      state.model.atmVendorVisit = true;
-                                      BlocProvider.of<
-                                                  OccurrenceGeneralInfoCubit>(
-                                              context)
-                                          .showFields(atmVendorVisit: true);
-                                      //.onModelValueChange(state.guardingMasterData
-                                      //);
-                                    },
-                              onChangedNo: !showSaveSubmitButtons
-                                  ? null
-                                  : (val) {
-                                      state.model.atmVendorVisit = false;
-                                      BlocProvider.of<
-                                                  OccurrenceGeneralInfoCubit>(
-                                              context)
-                                          .showFields(atmVendorVisit: false);
-                                    }),
+                            status: state.model.status ?? 0,
+                            selectedValue: state.model.atmVendorVisit ? 1 : 0,
+                            onChangedYes: !showSaveSubmitButtons
+                                ? null
+                                : (val) {
+                                    state.model.atmVendorVisit = true;
+                                    BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                                      context,
+                                    ).showFields(atmVendorVisit: true);
+                                    //.onModelValueChange(state.guardingMasterData
+                                    //);
+                                  },
+                            onChangedNo: !showSaveSubmitButtons
+                                ? null
+                                : (val) {
+                                    state.model.atmVendorVisit = false;
+                                    BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                                      context,
+                                    ).showFields(atmVendorVisit: false);
+                                  },
+                          ),
                           CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           ///CWM Visit
                           CommonWidgets.textDisplay(
-                              state.labels?.locale.cwmVisit ??
-                                  state.labels?.defaultLocale.cwmVisit ??
-                                  Constants.cWMVisit,
-                              isMandatory: true,
-                              Styles.textStyleWhite14),
+                            state.labels?.locale.cwmVisit ??
+                                state.labels?.defaultLocale.cwmVisit ??
+                                Constants.cWMVisit,
+                            isMandatory: true,
+                            Styles.textStyleWhite14,
+                          ),
                           RadioButtonsYesNo(
-                              status: state.model.status ?? 0,
-                              selectedValue: state.model.cwmVisit ? 1 : 0,
-                              onChangedYes: !showSaveSubmitButtons
-                                  ? null
-                                  : (val) {
-                                      state.model.cwmVisit = true;
-                                      BlocProvider.of<
-                                                  OccurrenceGeneralInfoCubit>(
-                                              context)
-                                          .showFields(cwmVisit: true);
-                                      //.onModelValueChange(state.guardingMasterData
-                                      //);
-                                    },
-                              onChangedNo: !showSaveSubmitButtons
-                                  ? null
-                                  : (val) {
-                                      state.model.cwmVisit = false;
-                                      BlocProvider.of<
-                                                  OccurrenceGeneralInfoCubit>(
-                                              context)
-                                          .showFields(cwmVisit: false);
-                                    }),
+                            status: state.model.status ?? 0,
+                            selectedValue: state.model.cwmVisit ? 1 : 0,
+                            onChangedYes: !showSaveSubmitButtons
+                                ? null
+                                : (val) {
+                                    state.model.cwmVisit = true;
+                                    BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                                      context,
+                                    ).showFields(cwmVisit: true);
+                                    //.onModelValueChange(state.guardingMasterData
+                                    //);
+                                  },
+                            onChangedNo: !showSaveSubmitButtons
+                                ? null
+                                : (val) {
+                                    state.model.cwmVisit = false;
+                                    BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                                      context,
+                                    ).showFields(cwmVisit: false);
+                                  },
+                          ),
                           CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                           /// Follow up actions for next shift
                           CommonWidgets.textDisplay(
-                              state.labels?.locale.followedUp ??
-                                  state.labels?.defaultLocale.followedUp ??
-                                  Constants.followUp,
-                              isMandatory: true,
-                              Styles.textStyleWhite14),
+                            state.labels?.locale.followedUp ??
+                                state.labels?.defaultLocale.followedUp ??
+                                Constants.followUp,
+                            isMandatory: true,
+                            Styles.textStyleWhite14,
+                          ),
                           FlutterInputField(
                             lineHeight: 6,
                             characterLimit:
@@ -1585,34 +1695,34 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
 
                           ///Followed Up
                           CommonWidgets.textDisplay(
-                              state.labels?.locale.followedUp ??
-                                  state.labels?.defaultLocale.followedUp ??
-                                  Constants.followedUp,
-                              isMandatory: true,
-                              Styles.textStyleWhite14),
+                            state.labels?.locale.followedUp ??
+                                state.labels?.defaultLocale.followedUp ??
+                                Constants.followedUp,
+                            isMandatory: true,
+                            Styles.textStyleWhite14,
+                          ),
                           RadioButtonsYesNo(
-                              status: state.model.status ?? 0,
-                              selectedValue: state.model.followedUp ? 1 : 0,
-                              onChangedYes: !showSaveSubmitButtons
-                                  ? null
-                                  : (val) {
-                                      state.model.followedUp = true;
-                                      BlocProvider.of<
-                                                  OccurrenceGeneralInfoCubit>(
-                                              context)
-                                          .showFields(followedUp: true);
-                                      //.onModelValueChange(state.guardingMasterData
-                                      //);
-                                    },
-                              onChangedNo: !showSaveSubmitButtons
-                                  ? null
-                                  : (val) {
-                                      state.model.followedUp = false;
-                                      BlocProvider.of<
-                                                  OccurrenceGeneralInfoCubit>(
-                                              context)
-                                          .showFields(followedUp: false);
-                                    }),
+                            status: state.model.status ?? 0,
+                            selectedValue: state.model.followedUp ? 1 : 0,
+                            onChangedYes: !showSaveSubmitButtons
+                                ? null
+                                : (val) {
+                                    state.model.followedUp = true;
+                                    BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                                      context,
+                                    ).showFields(followedUp: true);
+                                    //.onModelValueChange(state.guardingMasterData
+                                    //);
+                                  },
+                            onChangedNo: !showSaveSubmitButtons
+                                ? null
+                                : (val) {
+                                    state.model.followedUp = false;
+                                    BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                                      context,
+                                    ).showFields(followedUp: false);
+                                  },
+                          ),
 
                           if (state.model.id != null) ...[
                             /// Modified Date
@@ -1625,16 +1735,18 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             datecreateWidgetdisplay(
-                                state.model.modifiedDate ?? ''),
+                              state.model.modifiedDate ?? '',
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Modified By
                             CommonWidgets.horizentaltextHandling(
-                                // state.labels?.locale.entrySecurity ??
-                                //     state.labels?.defaultLocale.entrySecurity ??
-                                Constants.modifiedBy,
-                                isMandatory: true,
-                                state.model.modifiedBy ?? ''),
+                              // state.labels?.locale.entrySecurity ??
+                              //     state.labels?.defaultLocale.entrySecurity ??
+                              Constants.modifiedBy,
+                              isMandatory: true,
+                              state.model.modifiedBy ?? '',
+                            ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                           ],
                         ],
@@ -1652,15 +1764,16 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                 decoration: const ShapeDecoration(
                   color: const Color(0xFF6474C6),
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(00.0)),
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(00.0),
+                    ),
                   ),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     cancelButtonDisplay(),
-                    if (showSaveSubmitButtons) ...[submitButtonDisplay()]
+                    if (showSaveSubmitButtons) ...[submitButtonDisplay()],
                   ],
                 ),
               ),
@@ -1779,11 +1892,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
       return;
     }
     NavigatorState nav = Navigator.of(context);
-    bool isSaveSuccess =
-        await BlocProvider.of<OccurrenceGeneralInfoCubit>(context).submitForm(
-      isSaveOnly: true,
-      navigateToNextScreen: true,
-    );
+    bool isSaveSuccess = await BlocProvider.of<OccurrenceGeneralInfoCubit>(
+      context,
+    ).submitForm(isSaveOnly: true, navigateToNextScreen: true);
 
     log('--state.status---navigateToCreateIncident----${state.status}-----');
     // For checking validations
@@ -1791,10 +1902,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
       return;
     }
     log('--state.model.id-----occId-------${state.model.id}-----');
-    var map = {
-      'occId': state.model.id.toString(),
-      'occType': occType,
-    };
+    var map = {'occId': state.model.id.toString(), 'occType': occType};
     if (isInternal ?? true) {
       map.putIfAbsent('isInternal', () => isInternal ?? true);
     }
@@ -1821,55 +1929,56 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
   }) {
     log('--occId-ogi--$occId--');
     return AbsorbPointer(
-        absorbing: false,
-        // child: PopButton(
-        //   height: 50,
-        //   width: 130,
-        //   backgroundColor: Colors.white,
-        //   key: const Key(Keys.showButton),
-        //   buttonText: Constants.showList,
-        //   buttonTextKey: Keys.showButton,
-        //   onTap: () => {
-        //     showPopUp ?? false
-        //         ? Navigator.pushNamed(context, sstIncidentListRoute, arguments: {
-        //             "isInternal": true,
-        //             "occId": state.model.id.toString(),
-        //           })
-        //         : Navigator.pushNamed(
-        //             context,
-        //             incidentManagementsRoute,
-        //             arguments: {
-        //               'occId': occId,
-        //               'occType': occType,
-        //             },
-        //           ),
-        //   },
-        // ),
-        child: PopButton(
-          width: 100,
-          key: const Key(Keys.saveButton),
-          buttonText: Constants.showList,
-          boarderColor: AppColors.white,
-          backgroundColor: const Color(0xFF071130),
-          foregroundColor: Colors.white,
-          textStyle: Styles.textStyleSemiBold16White,
-          onTap: () => {
-            showPopUp ?? false
-                ? Navigator.pushNamed(context, sstIncidentListRoute,
-                    arguments: {
-                        "isInternal": true,
-                        "occId": state.model.id.toString(),
-                      })
-                : Navigator.pushNamed(
-                    context,
-                    incidentManagementsRoute,
-                    arguments: {
-                      'occId': occId,
-                      'occType': occType,
-                    },
-                  ),
-          },
-        ));
+      absorbing: false,
+      // child: PopButton(
+      //   height: 50,
+      //   width: 130,
+      //   backgroundColor: Colors.white,
+      //   key: const Key(Keys.showButton),
+      //   buttonText: Constants.showList,
+      //   buttonTextKey: Keys.showButton,
+      //   onTap: () => {
+      //     showPopUp ?? false
+      //         ? Navigator.pushNamed(context, sstIncidentListRoute, arguments: {
+      //             "isInternal": true,
+      //             "occId": state.model.id.toString(),
+      //           })
+      //         : Navigator.pushNamed(
+      //             context,
+      //             incidentManagementsRoute,
+      //             arguments: {
+      //               'occId': occId,
+      //               'occType': occType,
+      //             },
+      //           ),
+      //   },
+      // ),
+      child: PopButton(
+        width: 100,
+        key: const Key(Keys.saveButton),
+        buttonText: Constants.showList,
+        boarderColor: AppColors.white,
+        backgroundColor: const Color(0xFF071130),
+        foregroundColor: Colors.white,
+        textStyle: Styles.textStyleSemiBold16White,
+        onTap: () => {
+          showPopUp ?? false
+              ? Navigator.pushNamed(
+                  context,
+                  sstIncidentListRoute,
+                  arguments: {
+                    "isInternal": true,
+                    "occId": state.model.id.toString(),
+                  },
+                )
+              : Navigator.pushNamed(
+                  context,
+                  incidentManagementsRoute,
+                  arguments: {'occId': occId, 'occType': occType},
+                ),
+        },
+      ),
+    );
   }
 
   Widget submitButtonDisplay() {
@@ -1880,8 +1989,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-        BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
-            .submitForm(isSaveOnly: false);
+        BlocProvider.of<OccurrenceGeneralInfoCubit>(
+          context,
+        ).submitForm(isSaveOnly: false);
       },
     );
   }
@@ -1895,10 +2005,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
     return GestureDetector(
       onTap: () {
         if (enabled) {
-          selectLocation(
-            locations: locations,
-            onTap: onTap,
-          );
+          selectLocation(locations: locations, onTap: onTap);
         }
       },
       child: SelectedTileValueWidget(name: selectedLocation),
@@ -1910,10 +2017,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
       context: context,
       builder: (BuildContext dialogContext) {
         // print(state.getLocationsResponse);
-        return CustomExpansionListTexts(
-          locationList: locations,
-          onTap: onTap,
-        );
+        return CustomExpansionListTexts(locationList: locations, onTap: onTap);
       },
     );
   }
@@ -1930,7 +2034,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
 
       String? selectedStartDate;
       String? afterTwoDays;
-      log('--powerFailure.powerFailureStartDate-${powerFailure.powerFailureStartDate}--');
+      log(
+        '--powerFailure.powerFailureStartDate-${powerFailure.powerFailureStartDate}--',
+      );
 
       selectedStartDate = powerFailure.powerFailureStartDate;
       DateTime fromDate = DateTime.now();
@@ -1940,9 +2046,10 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
         // Check if the string contains spaces or special characters
         String timestamp = Utils().formatTime(selectedStartDate ?? '');
         int timestampInt = int.parse(
-            spaceOrSpecialCharRegExp.hasMatch(selectedStartDate ?? '')
-                ? timestamp
-                : selectedStartDate ?? '');
+          spaceOrSpecialCharRegExp.hasMatch(selectedStartDate ?? '')
+              ? timestamp
+              : selectedStartDate ?? '',
+        );
         fromDate = DateTime.fromMillisecondsSinceEpoch(timestampInt * 1000);
         DateTime newDateTime = fromDate.add(const Duration(days: 1));
         afterTwoDays = newDateTime.toString();
@@ -1966,7 +2073,8 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                           const Text('Start Date'),
                           BaseDate().datePickerWidgetLoading(
                             textController: startDateController,
-                            isDisabled: state.model.id == null &&
+                            isDisabled:
+                                state.model.id == null &&
                                 state.isOnGoingPowerFailure!,
                             onlyDate: false,
                             notFlagDate: true,
@@ -1974,20 +2082,21 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             onChange: (String value) {
                               powerFailure.powerFailureStartDate =
                                   Utils.dateToTimestampConversion(
-                                          value, Constants.fulldateFormat)
-                                      .toString();
+                                    value,
+                                    Constants.fulldateFormat,
+                                  ).toString();
                               startDateController.text = value;
-                              selectedStartDate =
-                                  DateFormat('dd/MM/yyyy HH:mm:ss')
-                                      .parse(value)
-                                      .toString();
-                              DateTime parsedDate =
-                                  DateFormat('dd/MM/yyyy HH:mm:ss')
-                                      .parse(value);
+                              selectedStartDate = DateFormat(
+                                'dd/MM/yyyy HH:mm:ss',
+                              ).parse(value).toString();
+                              DateTime parsedDate = DateFormat(
+                                'dd/MM/yyyy HH:mm:ss',
+                              ).parse(value);
 
                               // Add two days to the parsed date
-                              DateTime newDate =
-                                  parsedDate.add(const Duration(days: 1));
+                              DateTime newDate = parsedDate.add(
+                                const Duration(days: 1),
+                              );
 
                               // Format the new date back into the desired string format
                               afterTwoDays = newDate.toString();
@@ -2014,8 +2123,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             notFlagDate: true,
                             // startDate: selectedStartDate,
                             fromDate: fromDate.toString(),
-                            toDate:
-                                afterTwoDays.isEmptyOrNull ? '' : afterTwoDays,
+                            toDate: afterTwoDays.isEmptyOrNull
+                                ? ''
+                                : afterTwoDays,
                             showFutureDate: false,
                             // fromDate: powerFailure.powerFailureStartDate,
                             //toDate = startDate.add(Duration(days: 2));
@@ -2024,8 +2134,9 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             onChange: (String value) {
                               powerFailure.powerFailureEndDate =
                                   Utils.dateToTimestampConversion(
-                                          value, Constants.fulldateFormat)
-                                      .toString();
+                                    value,
+                                    Constants.fulldateFormat,
+                                  ).toString();
                               // BlocProvider.of<GuardingMasterDataDetailsCubit>(context)
                               //     .onModelValueChange(state.model);
                             },
@@ -2042,15 +2153,13 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                     if (state.isOnGoingPowerFailure ?? false) {
                       return;
                     }
-                    BlocProvider.of<OccurrenceGeneralInfoCubit>(context)
-                        .deletePowerFailure(powerFailure);
+                    BlocProvider.of<OccurrenceGeneralInfoCubit>(
+                      context,
+                    ).deletePowerFailure(powerFailure);
                   },
-                  icon: const Icon(
-                    Icons.close,
-                    size: 30,
-                  ),
+                  icon: const Icon(Icons.close, size: 30),
                   color: AppColors.geryLightBackground,
-                )
+                ),
               ],
             ),
           ],

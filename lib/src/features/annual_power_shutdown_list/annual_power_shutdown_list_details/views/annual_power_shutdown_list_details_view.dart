@@ -136,7 +136,7 @@ class _AnnualPowerShutdownListDetailsViewState
                   .submitForm(isSaveOnly: false);
             },
           ),
-          backgroundColor: AppColors.lavender,
+          backgroundColor: AppColors.newColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -165,18 +165,18 @@ class _AnnualPowerShutdownListDetailsViewState
     }
 
     return Container(
-      color: AppColors.lavender,
+      color: AppColors.newColor3,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.lavender,
+              color: AppColors.newColor3,
             ),
             Container(
-              decoration: const ShapeDecoration(
-                  color: AppColors.lavender,
-                  shape: RoundedRectangleBorder(
+              decoration: ShapeDecoration(
+                  color: AppColors.newColor3,
+                  shape: const RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
@@ -269,7 +269,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       Constants.slno,
                                   state.model.slNo ?? '',
                                   isMandatory: true),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Entity
                               CommonWidgets.textDisplay(
@@ -296,7 +296,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                     Navigator.of(context)
                                         .pop(); // Close the dialog
                                   }),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Event Start Date
                               CommonWidgets.textDisplay(
@@ -327,7 +327,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 },
                                 context: context,
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Event End Date
                               CommonWidgets.textDisplay(
@@ -357,7 +357,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 },
                                 context: context,
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Sub Regional Head (SRH) 1
                               CommonWidgets.textDisplay(
@@ -403,7 +403,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   );
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Sub Regional Head (SRH) 2
                               CommonWidgets.textDisplay(
@@ -449,7 +449,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   );
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Location Security  Manager 1
                               CommonWidgets.textDisplay(
@@ -499,7 +499,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   );
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///LSM 1 Contact No
                               CommonWidgets.textDisplay(
@@ -530,7 +530,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Location Security  Manager 2
                               CommonWidgets.textDisplay(
@@ -580,7 +580,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   );
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///LSM 2 Contact No
                               CommonWidgets.textDisplay(
@@ -612,7 +612,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Business POC
                               CommonWidgets.textDisplay(
@@ -661,7 +661,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   );
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Business POC  Contact No
                               CommonWidgets.textDisplay(
@@ -692,7 +692,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Business POC Escalation
                               CommonWidgets.textDisplay(
@@ -741,7 +741,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                   );
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Business POC Escalation Contact No
                               CommonWidgets.textDisplay(
@@ -772,7 +772,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Business POC Department
                               CommonWidgets.textDisplay(
@@ -808,6 +808,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                       });
                                 },
                               ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Business POC Escalation Department
                               CommonWidgets.textDisplay(
@@ -846,7 +847,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 },
                               ),
 
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// System Vendor 1 Email
                               CommonWidgets.textDisplay(
@@ -876,7 +877,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Vendor 1 Contact No
                               CommonWidgets.textDisplay(
@@ -907,7 +908,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///System Vendor 2 Email
                               CommonWidgets.textDisplay(
@@ -936,7 +937,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Vendor 2 Contact No
                               CommonWidgets.textDisplay(
@@ -967,7 +968,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///System Vendor 3 Email
                               CommonWidgets.textDisplay(
@@ -995,7 +996,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Vendor 3 Contact No
                               CommonWidgets.textDisplay(
@@ -1025,7 +1026,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Requester Department
                               CommonWidgets.textDisplay(
@@ -1064,7 +1065,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                 },
                               ),
 
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Event Protection Officer
                               CommonWidgets.textDisplay(
@@ -1169,8 +1170,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                               AppIcon.pluscircle,
                                               colorFilter:
                                                   const ColorFilter.mode(
-                                                AppColors
-                                                    .lavender,
+                                                AppColors.white,
                                                 BlendMode.srcIn,
                                               ),
                                               // color:
@@ -1180,11 +1180,11 @@ class _AnnualPowerShutdownListDetailsViewState
                                             const Text(
                                               'Add Officer',
                                               style: TextStyle(
-                                                color: AppColors
-                                                    .lavender,
-                                                decoration:
-                                                    TextDecoration.underline,
-                                              ),
+                                                  color: AppColors.white,
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                  decorationColor:
+                                                      Colors.white),
                                             ),
                                           ],
                                         ),
@@ -1208,10 +1208,8 @@ class _AnnualPowerShutdownListDetailsViewState
                                 Opacity(
                                   opacity: disableForm ? 0.5 : 1,
                                   child: Checkbox(
-                                      activeColor:
-                                          const Color(0xFF071130),
-                                      focusColor:
-                                          const Color(0xFF071130),
+                                      activeColor: const Color(0xFF071130),
+                                      focusColor: const Color(0xFF071130),
                                       value: state.model.extraSecurityDeployed,
                                       onChanged: (bool? value) {
                                         state.model.extraSecurityDeployed =
