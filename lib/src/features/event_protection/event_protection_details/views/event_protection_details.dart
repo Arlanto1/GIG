@@ -23,7 +23,7 @@ class EventProtectionDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: AppColors.lavender,
+      backgroundColor: AppColors.newColor3,
       appBar: BaseAppBar().buildAppHeader(
         context: context,
         title: title ?? Constants.eventProtectionTitle,

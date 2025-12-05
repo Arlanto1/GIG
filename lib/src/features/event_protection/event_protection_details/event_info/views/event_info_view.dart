@@ -180,7 +180,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                   isSaveOnly: false, updatedEmailText: updatedEmailText ?? '');
             },
           ),
-          backgroundColor: AppColors.lavender,
+          backgroundColor: AppColors.newColor,
           body: getBodybuilder(state, height),
         );
       },

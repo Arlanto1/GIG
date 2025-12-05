@@ -61,11 +61,12 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     double height = size.height;
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     return BlocConsumer<GuardingMasterDataBloc, GuardingMasterDataState>(
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
-              backgroundColor: AppColors.lavender,
+              backgroundColor: AppColors.newColor,
               // floatingActionButton: Flutterfloatingbutton(
               //   backgroundColor: AppColors.navigationSkybluecolor,
               //   foregroundColor: AppColors.backgroundWhitecolor,
@@ -74,6 +75,20 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
               //         arguments: {"title": Constants.createGuardingMasterData}),
               //   },
               // ),
+              bottomNavigationBar: CustomBottomNavigationBar(
+                hasAddPermission: false,
+                scaffoldKey: scaffoldKey,
+                context: context,
+                // displayMenu: state.displayMenu,
+                list: true, // 🔥 only "+" button mode
+                onAddPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    articleFoundNewDetailsRoute,
+                    arguments: {"title": Constants.createFound},
+                  );
+                },
+              ),
 
               appBar: BaseAppBar().buildAppHeader(
                 context: context,
@@ -99,12 +114,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                 return Container(
                   width: double.infinity,
                   height: double.infinity,
-                  decoration: const ShapeDecoration(
-                      color: AppColors.lavender,
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(20.0)),
-                      )),
+                  color: AppColors.newColor3,
                   child: Column(
                     // crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -191,8 +201,10 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                                     decoration: const BoxDecoration(
                                       gradient: LinearGradient(
                                         colors: [
-                                          Color(0xFF6474C6),
-                                          Color(0xFF6474C6)
+                                          // Color(0xFF6474C6),
+                                          // Color(0xFF6474C6),
+                                          Colors.transparent,
+                                          Colors.transparent,
                                         ],
                                         begin: Alignment.topLeft,
                                         end: Alignment.bottomRight,
@@ -206,37 +218,31 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                                             filter: ImageFilter.blur(
                                                 sigmaX: 18, sigmaY: 18),
                                             child: Container(
-                                                decoration: BoxDecoration(
+                                                decoration:
+                                                BoxDecoration(
                                                   gradient: LinearGradient(
                                                     colors: [
-                                                      Colors.white.withValues(
-                                                          alpha: 0.2),
+                                                      Colors.white.withValues(alpha: 0.09),
                                                       Colors.transparent,
-                                                      Colors.white.withValues(
-                                                          alpha: 0.2),
+                                                      Colors.white.withValues(alpha: 0.09),
                                                       // Color(0xFF6474C6).withOpacity(0.14)
                                                     ],
                                                     stops: [0.02, 0.35, 1],
                                                     begin: Alignment.topCenter,
                                                     end: Alignment.bottomCenter,
                                                   ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(27),
+                                                  borderRadius: BorderRadius.circular(27),
                                                   border: Border.all(
                                                     color: Colors.white
-                                                        .withValues(
-                                                            alpha: 0.80),
-                                                    width: 0.8,
+                                                        .withValues(alpha: 0.6),
+                                                    width: 0.7,
                                                   ),
                                                   boxShadow: [
                                                     BoxShadow(
-                                                      color: const Color(
-                                                              0xFF6474C6)
-                                                          .withValues(
-                                                              alpha: 0.09),
+                                                      color: Colors.white
+                                                          .withValues(alpha: 0.0),
                                                       blurRadius: 12,
-                                                      offset:
-                                                          const Offset(0, 2),
+                                                      offset: const Offset(0, 2),
                                                     ),
                                                   ],
                                                 ),

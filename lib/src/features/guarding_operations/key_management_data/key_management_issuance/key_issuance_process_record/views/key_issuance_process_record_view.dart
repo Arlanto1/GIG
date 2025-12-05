@@ -74,6 +74,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
+
     return BlocConsumer<KeyIssuanceProcessRecordBloc,
         KeyIssuanceProcessRecordState>(listener: (context, state) {
       Utils().formError(state, context);
@@ -86,37 +88,69 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
       log('-k desc--${state.keyDescriptions?.length}---');
 
       return Scaffold(
-        backgroundColor: AppColors.lavender,
-        floatingActionButton: !(widget.extraProperties != null &&
-                    !widget.extraProperties!.hasWritePermission!) &&
-                widget.parentStatus == 0 &&
-                widget.lock.isEmptyOrNull
-            ? Flutterfloatingbutton(
-                backgroundColor: AppColors.navigationSkyBlueColor,
-                foregroundColor: AppColors.backgroundWhiteColor,
-                onPressed: () async {
-                  KeyIssuanceProcessRecord keyIssuanceProcessModel =
-                      KeyIssuanceProcessRecord();
-                  bool isMasterKey =
-                      keyIssuanceProcessModel.kmId == 1 ? true : false;
-                  List<Organisation> keyDescriptions =
-                      await KeyManagementIssuanceServices().getKeyDescriptions(
-                    locationId: widget.locationId,
-                    isMasterKey: isMasterKey,
-                    kmIssuanceId: widget.parentId,
-                  );
+        backgroundColor: AppColors.newColor,
+        // floatingActionButton: !(widget.extraProperties != null &&
+        //             !widget.extraProperties!.hasWritePermission!) &&
+        //         widget.parentStatus == 0 &&
+        //         widget.lock.isEmptyOrNull
+        //     ? Flutterfloatingbutton(
+        //         backgroundColor: AppColors.navigationSkyBlueColor,
+        //         foregroundColor: AppColors.backgroundWhiteColor,
+        //         onPressed: () async {
+        //           KeyIssuanceProcessRecord keyIssuanceProcessModel =
+        //               KeyIssuanceProcessRecord();
+        //           bool isMasterKey =
+        //               keyIssuanceProcessModel.kmId == 1 ? true : false;
+        //           List<Organisation> keyDescriptions =
+        //               await KeyManagementIssuanceServices().getKeyDescriptions(
+        //             locationId: widget.locationId,
+        //             isMasterKey: isMasterKey,
+        //             kmIssuanceId: widget.parentId,
+        //           );
+        //
+        //           showAddKeyIssuanceProcessPopUp(
+        //             context: context,
+        //             keyIssuanceProcessRecord: KeyIssuanceProcessRecord(),
+        //             keyDescriptions: keyDescriptions,
+        //             selectedKeyDescription: null,
+        //             parentStatus: widget.parentStatus,
+        //             state: state,
+        //           );
+        //         },
+        //       ),
 
-                  showAddKeyIssuanceProcessPopUp(
-                    context: context,
-                    keyIssuanceProcessRecord: KeyIssuanceProcessRecord(),
-                    keyDescriptions: keyDescriptions,
-                    selectedKeyDescription: null,
-                    parentStatus: widget.parentStatus,
-                    state: state,
-                  );
-                },
-              )
-            : null,
+
+        bottomNavigationBar: !(widget.extraProperties != null &&
+            !widget.extraProperties!.hasWritePermission!) &&
+            widget.parentStatus == 0 &&
+            widget.lock.isEmptyOrNull ? CustomBottomNavigationBar(
+        hasAddPermission: true,
+        scaffoldKey: scaffoldKey,
+        context: context,
+        // displayMenu: state.displayMenu,
+        list: true, // 🔥 only "+" button mode
+        onAddPressed: () async {
+          KeyIssuanceProcessRecord keyIssuanceProcessModel =
+          KeyIssuanceProcessRecord();
+          bool isMasterKey =
+          keyIssuanceProcessModel.kmId == 1 ? true : false;
+          List<Organisation> keyDescriptions =
+              await KeyManagementIssuanceServices().getKeyDescriptions(
+            locationId: widget.locationId,
+            isMasterKey: isMasterKey,
+            kmIssuanceId: widget.parentId,
+          );
+
+          showAddKeyIssuanceProcessPopUp(
+            context: context,
+            keyIssuanceProcessRecord: KeyIssuanceProcessRecord(),
+            keyDescriptions: keyDescriptions,
+            selectedKeyDescription: null,
+            parentStatus: widget.parentStatus,
+            state: state,
+          );
+        },
+      ): null,
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: state.labels?.locale.keyIssProcess ??
@@ -188,11 +222,9 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     // }
 
     return Container(
-      decoration: const ShapeDecoration(
-          color: AppColors.lavender,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-          )),
+      width: double.infinity,
+      height: double.infinity,
+      color: AppColors.newColor3,
       child: ListView.builder(
         controller: _scrollController,
         itemCount:
@@ -254,7 +286,12 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                 Container(
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [Color(0xFF6474C6), Color(0xFF6474C6)],
+                        colors: [
+                          // Color(0xFF6474C6),
+                          // Color(0xFF6474C6),
+                          Colors.transparent,
+                          Colors.transparent,
+                        ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
@@ -266,12 +303,13 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         child: BackdropFilter(
                             filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
                             child: Container(
-                                decoration: BoxDecoration(
+                                decoration:
+                                BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
-                                      Colors.white.withValues(alpha: 0.2),
+                                      Colors.white.withValues(alpha: 0.09),
                                       Colors.transparent,
-                                      Colors.white.withValues(alpha: 0.2),
+                                      Colors.white.withValues(alpha: 0.09),
                                       // Color(0xFF6474C6).withOpacity(0.14)
                                     ],
                                     stops: [0.02, 0.35, 1],
@@ -280,13 +318,14 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                                   ),
                                   borderRadius: BorderRadius.circular(27),
                                   border: Border.all(
-                                    color: Colors.white.withValues(alpha: 0.80),
-                                    width: 0.8,
+                                    color: Colors.white
+                                        .withValues(alpha: 0.6),
+                                    width: 0.7,
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: const Color(0xFF6474C6)
-                                          .withValues(alpha: 0.09),
+                                      color: Colors.white
+                                          .withValues(alpha: 0.0),
                                       blurRadius: 12,
                                       offset: const Offset(0, 2),
                                     ),

@@ -80,7 +80,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
       }
 
       return Scaffold(
-        backgroundColor: AppColors.lavender,
+        backgroundColor: AppColors.newColor,
         // floatingActionButton:
         //     widget.parentStatus != ConstantsIntValue.slaStatusFinalized &&
         //             widget.parentStatus != ConstantsIntValue.cancelledStatus &&
@@ -168,7 +168,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      color: const Color(0xFF6474C6),
+      color: AppColors.newColor3,
       child: ListView.builder(
         controller: _scrollController,
         itemCount:
@@ -209,13 +209,18 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
             return index >= state.items!.length
                 ? const BaseLoader()
                 : Container(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Color(0xFF6474C6), Color(0xFF6474C6)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                    ),
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      // Color(0xFF6474C6),
+                      // Color(0xFF6474C6),
+                      Colors.transparent,
+                      Colors.transparent,
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
                     margin:
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     child: ClipRRect(
@@ -223,12 +228,13 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
                         child: BackdropFilter(
                             filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
                             child: Container(
-                                decoration: BoxDecoration(
+                                decoration:
+                                BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
-                                      Colors.white.withValues(alpha: 0.2),
+                                      Colors.white.withValues(alpha: 0.09),
                                       Colors.transparent,
-                                      Colors.white.withValues(alpha: 0.2),
+                                      Colors.white.withValues(alpha: 0.09),
                                       // Color(0xFF6474C6).withOpacity(0.14)
                                     ],
                                     stops: [0.02, 0.35, 1],
@@ -237,13 +243,14 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
                                   ),
                                   borderRadius: BorderRadius.circular(27),
                                   border: Border.all(
-                                    color: Colors.white.withValues(alpha: 0.80),
-                                    width: 0.8,
+                                    color: Colors.white
+                                        .withValues(alpha: 0.6),
+                                    width: 0.7,
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: const Color(0xFF6474C6)
-                                          .withValues(alpha: 0.09),
+                                      color: Colors.white
+                                          .withValues(alpha: 0.0),
                                       blurRadius: 12,
                                       offset: const Offset(0, 2),
                                     ),

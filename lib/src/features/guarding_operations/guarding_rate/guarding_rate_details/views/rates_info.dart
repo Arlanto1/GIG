@@ -55,7 +55,7 @@ class _RatesInfoState extends State<RatesInfo> {
             pdfAPIName:
             '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.guardingRatesModule}',
           ),
-          backgroundColor: AppColors.lavender,
+          backgroundColor: AppColors.newColor3,
           body: getBody(context, state, height),
         );
       },
@@ -69,17 +69,17 @@ class _RatesInfoState extends State<RatesInfo> {
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.lavender,
+      color: AppColors.newColor3,
       child: SingleChildScrollView(
         child: Column(children: [
           Container(
             height: height * 0.01,
-            color: AppColors.lavender,
+            color: AppColors.newColor3,
           ),
           Container(
-            decoration: const ShapeDecoration(
-                color: AppColors.lavender,
-                shape: RoundedRectangleBorder(
+            decoration:  ShapeDecoration(
+                color: AppColors.newColor3,
+                shape: const RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
                 )),

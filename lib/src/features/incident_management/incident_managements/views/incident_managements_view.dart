@@ -81,7 +81,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
         log('widget.occId.isEmptyOrNul--&=${widget.occId.isEmptyOrNull}');
 
         return Scaffold(
-            backgroundColor: AppColors.lavender,
+            backgroundColor: AppColors.newColor,
             // floatingActionButton: (state.extraProperties?.hasWritePermission ??
             //             false) &&
             //         (widget.occId.isEmptyOrNull) &&
@@ -149,7 +149,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                 // margin: allMargin16,
                 width: double.infinity,
                 height: double.infinity,
-                color: const Color(0xFF6474C6),
+                color: AppColors.newColor3,
                 // decoration: const ShapeDecoration(
                 //     color: AppColors.backgroundWhiteColor,
                 //     shape: RoundedRectangleBorder(
@@ -246,7 +246,12 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                                   : Container(
                                   decoration: const BoxDecoration(
                                     gradient: LinearGradient(
-                                      colors: [Color(0xFF6474C6), Color(0xFF6474C6)],
+                                      colors: [
+                                        // Color(0xFF6474C6),
+                                        // Color(0xFF6474C6),
+                                        Colors.transparent,
+                                        Colors.transparent,
+                                      ],
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                     ),
@@ -258,12 +263,13 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                                       child: BackdropFilter(
                                         filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
                                         child: Container(
-                                            decoration: BoxDecoration(
+                                            decoration:
+                                            BoxDecoration(
                                               gradient: LinearGradient(
                                                 colors: [
-                                                  Colors.white.withValues(alpha: 0.2),
+                                                  Colors.white.withValues(alpha: 0.09),
                                                   Colors.transparent,
-                                                  Colors.white.withValues(alpha: 0.2),
+                                                  Colors.white.withValues(alpha: 0.09),
                                                   // Color(0xFF6474C6).withOpacity(0.14)
                                                 ],
                                                 stops: [0.02, 0.35, 1],
@@ -272,12 +278,14 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                                               ),
                                               borderRadius: BorderRadius.circular(27),
                                               border: Border.all(
-                                                color: Colors.white.withValues(alpha: 0.80),
-                                                width: 0.8,
+                                                color: Colors.white
+                                                    .withValues(alpha: 0.6),
+                                                width: 0.7,
                                               ),
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: const Color(0xFF6474C6).withValues(alpha: 0.09),
+                                                  color: Colors.white
+                                                      .withValues(alpha: 0.0),
                                                   blurRadius: 12,
                                                   offset: const Offset(0, 2),
                                                 ),

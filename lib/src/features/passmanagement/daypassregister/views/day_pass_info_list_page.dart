@@ -75,11 +75,22 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     final size = MediaQuery.of(context).size;
     final height = size.height;
     //_loadMore();
     return Scaffold(
-      backgroundColor: AppColors.lavender,
+      backgroundColor: AppColors.newColor,
+      bottomNavigationBar: CustomBottomNavigationBar(
+        hasAddPermission: false,
+        scaffoldKey: scaffoldKey,
+        context: context,
+        // displayMenu: state.displayMenu,
+        list: true,
+        // 🔥 only "+" button mode
+        onAddPressed: () {
+        },
+      ),
       appBar: BaseAppBar().buildAppHeader(
         context: context,
         title:  widget.passId == '0'
@@ -160,7 +171,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
   Widget listWidgetLoading(double height, DayPassInfoState state,
       ScrollController? scrollController, List<PassInfo>? foundList) {
     return Container(
-        color: AppColors.lavender,
+        color: AppColors.newColor3,
         child: SingleChildScrollView(
           controller: scrollController,
           child: Column(children: [
@@ -227,8 +238,10 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Color(0xFF6474C6),
-            Color(0xFF6474C6)
+            // Color(0xFF6474C6),
+            // Color(0xFF6474C6),
+            Colors.transparent,
+            Colors.transparent,
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,

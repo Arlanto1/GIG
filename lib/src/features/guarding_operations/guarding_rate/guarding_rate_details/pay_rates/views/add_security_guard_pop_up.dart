@@ -50,7 +50,7 @@ class AddSecurityGuardPopUpState extends State<AddSecurityGuardPopUp> {
               FontWeight.normal, Constants.customFontSemiBoldFamily),
         ),
       ),
-      backgroundColor: AppColors.backgroundWhiteColor,
+      backgroundColor: AppColors.newColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.

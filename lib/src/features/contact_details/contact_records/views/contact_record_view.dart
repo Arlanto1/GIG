@@ -74,7 +74,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
       // TODO: implement listener
     }, builder: (context, state) {
       return Scaffold(
-        backgroundColor: AppColors.lavender,
+        backgroundColor: AppColors.newColor,
         // floatingActionButton: (
         //         widget.parentStatus == 0 ||
         //         widget.parentStatus == 1) &&!(widget.extraProperties != null &&
@@ -142,7 +142,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      color: const Color(0xFF6474C6),
+      color: AppColors.newColor3,
       // margin: allMargin16,
       // decoration: const ShapeDecoration(
       //     color: AppColors.lavender,
@@ -190,7 +190,12 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                 : Container(
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color(0xFF6474C6), Color(0xFF6474C6)],
+                    colors: [
+                      // Color(0xFF6474C6),
+                      // Color(0xFF6474C6),
+                      Colors.transparent,
+                      Colors.transparent,
+                    ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -202,31 +207,34 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                     child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
                         child: Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.white.withValues(alpha: 0.2),
-                                  Colors.transparent,
-                                  Colors.white.withValues(alpha: 0.2),
-                                  // Color(0xFF6474C6).withOpacity(0.14)
-                                ],
-                                stops: [0.02, 0.35, 1],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                              ),
-                              borderRadius: BorderRadius.circular(27),
-                              border: Border.all(
-                                color: Colors.white.withValues(alpha: 0.80),
-                                width: 0.8,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: const Color(0xFF6474C6).withValues(alpha: 0.09),
-                                  blurRadius: 12,
-                                  offset: const Offset(0, 2),
+                                decoration:
+                                BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.white.withValues(alpha: 0.09),
+                                      Colors.transparent,
+                                      Colors.white.withValues(alpha: 0.09),
+                                      // Color(0xFF6474C6).withOpacity(0.14)
+                                    ],
+                                    stops: [0.02, 0.35, 1],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                  ),
+                                  borderRadius: BorderRadius.circular(27),
+                                  border: Border.all(
+                                    color: Colors.white
+                                        .withValues(alpha: 0.6),
+                                    width: 0.7,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.white
+                                          .withValues(alpha: 0.0),
+                                      blurRadius: 12,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
                             child: BaseListTileItem(
                     id: state.items?[index].id,
                     labels: labels,

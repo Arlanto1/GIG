@@ -171,7 +171,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
               );
             },
           ),
-          backgroundColor: AppColors.lavender,
+          backgroundColor: AppColors.newColor,
           body: getBodybuilder(state, height),
         );
       },

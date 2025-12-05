@@ -386,7 +386,7 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: AppColors.lavender,
+      backgroundColor: AppColors.newColor3,
       appBar: BaseAppBar().buildAppHeader(
         context: context,
         title: widget.title,
