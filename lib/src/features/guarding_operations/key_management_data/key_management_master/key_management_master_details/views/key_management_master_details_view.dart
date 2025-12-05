@@ -144,7 +144,7 @@ class _KeyManagementMasterDetailsViewState
                   .submitForm(isSaveOnly: false);
             },
           ),
-          backgroundColor: AppColors.lavender,
+          backgroundColor: AppColors.newColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -158,18 +158,18 @@ class _KeyManagementMasterDetailsViewState
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.lavender,
+      color: AppColors.newColor3,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.lavender,
+              color: AppColors.newColor3,
             ),
             Container(
-              decoration: const ShapeDecoration(
-                  color: AppColors.lavender,
-                  shape: RoundedRectangleBorder(
+              decoration: ShapeDecoration(
+                  color: AppColors.newColor3,
+                  shape: const RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
@@ -866,9 +866,9 @@ class _KeyManagementMasterDetailsViewState
                                   const Text(
                                     'Add/View Lock Change History(S)',
                                     style: TextStyle(
-                                      color: AppColors.white,
-                                      decoration: TextDecoration.underline,
-                                    ),
+                                        color: AppColors.white,
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: AppColors.white),
                                   ),
                                 ],
                               ),
@@ -935,9 +935,9 @@ class _KeyManagementMasterDetailsViewState
                                   Text(
                                     'View Key Lost History(S)',
                                     style: TextStyle(
-                                      color: AppColors.white,
-                                      decoration: TextDecoration.underline,
-                                    ),
+                                        color: AppColors.white,
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: AppColors.white),
                                   ),
                                 ],
                               ),
@@ -1004,9 +1004,9 @@ class _KeyManagementMasterDetailsViewState
                                   Text(
                                     'View Key Damage History(S)',
                                     style: TextStyle(
-                                      color: AppColors.white,
-                                      decoration: TextDecoration.underline,
-                                    ),
+                                        color: AppColors.white,
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: AppColors.white),
                                   ),
                                 ],
                               ),
@@ -1072,9 +1072,9 @@ class _KeyManagementMasterDetailsViewState
                                   const Text(
                                     'Add/View Key Destroy History(S)',
                                     style: TextStyle(
-                                      color: AppColors.white,
-                                      decoration: TextDecoration.underline,
-                                    ),
+                                        color: AppColors.white,
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: AppColors.white),
                                   ),
                                 ],
                               ),

@@ -146,209 +146,211 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                   thickness: 0.5,
                 ),
                 CommonWidgets.verticalSpacerWidget(height * 0.01),
-                SingleChildScrollView(
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Column(
-                          children: [
-                            /// Rank
-                            CommonWidgets.textDisplay(
-                              rank,
-                              Styles.textStyleWhite16,
-                              //  isMandatory: true,
-                            ),
-                            TextFieldAddButton(
-                              title: rankController.text,
-                              height: 70,
-                              isDisableColor: true,
-                              onTap: () {
-                                // if(isReadonly){
-                                //   BaseOrganisationDialog().departmentDialog(
-                                //       context: widget.mainContext,
-                                //       organisations: widget.users,
-                                //       onTap: (Organisation user) {
-                                //         log('-user.name----${user.name}-');
-                                //
-                                //         rankController.text = user.name ?? '';
-                                //
-                                //         widget.model.rank ??= Organisation();
-                                //         widget.model.rank = user;
-                                //         log('-widget.contact.rank?.name----${widget.model.rank?.name}-');
-                                //
-                                //         setState(() {});
-                                //         FocusScope.of(context)
-                                //             .requestFocus(nameFocusNode);
-                                //       },
-                                //       orgName: widget.rankType ==
-                                //           Constants.contactGeneralRank
-                                //           ? 'CONTACT_GENERAL_RANK'
-                                //           : widget.rankType ==
-                                //           Constants
-                                //               .contactGuardingAgencyEscalationRank
-                                //           ? 'CONTACT_GUARDING_AGENCY_ESCALATION_RANK'
-                                //           : widget.rankType ==
-                                //           Constants.contactZone
-                                //           ? 'CONTACT_ZONE'
-                                //           : widget.rankType ==
-                                //           Constants
-                                //               .contactSystemEscalationRank
-                                //           ? 'CONTACT_SYSTEM_ESCALATION_RANK'
-                                //           : 'CONTACT_SUPERVISOR_RANK',
-                                //       createEntity: false,
-                                //       title: widget.rankType ==
-                                //           Constants.contactZone
-                                //           ? Constants.zone
-                                //           : widget.rankType ==
-                                //           Constants.contactGeneralRank
-                                //           ? Constants.rank
-                                //           : widget.rankType ==
-                                //           Constants
-                                //               .contactSystemEscalationRank
-                                //           ? Constants
-                                //           .systemSiEscalationMatrixRank
-                                //           : widget.rankType ==
-                                //           Constants
-                                //               .contactSupervisorRank
-                                //           ? Constants.supervisorRank
-                                //           : Constants
-                                //           .guardingAgencyRank,
-                                //       functionToCall: () {
-                                //         log('---functionToCall----');
-                                //         BlocProvider.of<ContactRecordBloc>(
-                                //             widget.mainContext)
-                                //             .add(
-                                //           const RefreshContactRecordsList(),
-                                //         );
-                                //       });
-                                // }
-                              },
-                            )
-                          ],
-                        ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Column(
+                            children: [
+                              /// Rank
+                              CommonWidgets.textDisplay(
+                                rank,
+                                Styles.textStyleWhite16,
+                                //  isMandatory: true,
+                              ),
+                              TextFieldAddButton(
+                                title: rankController.text,
+                                height: 70,
+                                isDisableColor: true,
+                                onTap: () {
+                                  // if(isReadonly){
+                                  //   BaseOrganisationDialog().departmentDialog(
+                                  //       context: widget.mainContext,
+                                  //       organisations: widget.users,
+                                  //       onTap: (Organisation user) {
+                                  //         log('-user.name----${user.name}-');
+                                  //
+                                  //         rankController.text = user.name ?? '';
+                                  //
+                                  //         widget.model.rank ??= Organisation();
+                                  //         widget.model.rank = user;
+                                  //         log('-widget.contact.rank?.name----${widget.model.rank?.name}-');
+                                  //
+                                  //         setState(() {});
+                                  //         FocusScope.of(context)
+                                  //             .requestFocus(nameFocusNode);
+                                  //       },
+                                  //       orgName: widget.rankType ==
+                                  //           Constants.contactGeneralRank
+                                  //           ? 'CONTACT_GENERAL_RANK'
+                                  //           : widget.rankType ==
+                                  //           Constants
+                                  //               .contactGuardingAgencyEscalationRank
+                                  //           ? 'CONTACT_GUARDING_AGENCY_ESCALATION_RANK'
+                                  //           : widget.rankType ==
+                                  //           Constants.contactZone
+                                  //           ? 'CONTACT_ZONE'
+                                  //           : widget.rankType ==
+                                  //           Constants
+                                  //               .contactSystemEscalationRank
+                                  //           ? 'CONTACT_SYSTEM_ESCALATION_RANK'
+                                  //           : 'CONTACT_SUPERVISOR_RANK',
+                                  //       createEntity: false,
+                                  //       title: widget.rankType ==
+                                  //           Constants.contactZone
+                                  //           ? Constants.zone
+                                  //           : widget.rankType ==
+                                  //           Constants.contactGeneralRank
+                                  //           ? Constants.rank
+                                  //           : widget.rankType ==
+                                  //           Constants
+                                  //               .contactSystemEscalationRank
+                                  //           ? Constants
+                                  //           .systemSiEscalationMatrixRank
+                                  //           : widget.rankType ==
+                                  //           Constants
+                                  //               .contactSupervisorRank
+                                  //           ? Constants.supervisorRank
+                                  //           : Constants
+                                  //           .guardingAgencyRank,
+                                  //       functionToCall: () {
+                                  //         log('---functionToCall----');
+                                  //         BlocProvider.of<ContactRecordBloc>(
+                                  //             widget.mainContext)
+                                  //             .add(
+                                  //           const RefreshContactRecordsList(),
+                                  //         );
+                                  //       });
+                                  // }
+                                },
+                              )
+                            ],
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                        /// State
-                        if (widget.rankType == Constants.contactZone) ...[
+                          /// State
+                          if (widget.rankType == Constants.contactZone) ...[
+                            CommonWidgets.textDisplay(
+                              Constants.state,
+                              //isMandatory: true,
+                              Styles.textStyleWhite16,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            FlutterInputField(
+                              initialValue: stateController.text,
+                              textInputType: TextInputType.text,
+                              textFormKey: Keys.nameKey,
+                              hintText: '',
+                              focusNode: nameFocusNode,
+                              isEnable: false,
+                              isDisableColor: true,
+                              onChange: (String value) {
+                                log('-widget.contact.rank?.state--value--$value-');
+                                widget.model.state = value;
+                                log('-widget.contact.rank?.state----${widget.model.state}-');
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Escalation Level
+                            CommonWidgets.textDisplay(
+                                Constants.escalationLevel,
+                                //isMandatory: true,
+                                Styles.textStyleWhite16),
+                            BaseDropDown().getDropDown(
+                              isDisabled: true,
+                              textController: escalationLevelController,
+                              items: escalationLevelDropDownValues,
+                              onTap: () {
+                                // BaseDropDown().assetTypeDialog(
+                                //   context: context,
+                                //   dropDownValues: escalationLevelDropDownValues
+                                //       .map((label) => label.key)
+                                //       .toList(),
+                                //   onTap: (String value) {
+                                //     Label? selectedLabel;
+                                //     selectedLabel =
+                                //         escalationLevelDropDownValues.firstWhere(
+                                //               (label) => label.key == value,
+                                //           orElse: () =>
+                                //           const Label(key: '', value: ''),
+                                //         );
+                                //     widget.model.escalationLevel =
+                                //         int.tryParse(selectedLabel.value);
+                                //     escalationLevelController.text =
+                                //         selectedLabel.key;
+                                //     setState(() {});
+                                //   },
+                                // );
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ],
+
+                          /// Name
                           CommonWidgets.textDisplay(
-                            Constants.state,
+                            name,
                             //isMandatory: true,
                             Styles.textStyleWhite16,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                           FlutterInputField(
-                            initialValue: stateController.text,
+                            initialValue: nameController.text,
                             textInputType: TextInputType.text,
                             textFormKey: Keys.nameKey,
                             hintText: '',
-                            focusNode: nameFocusNode,
                             isEnable: false,
+                            focusNode: widget.rankType != Constants.contactZone
+                                ? nameFocusNode
+                                : null,
                             isDisableColor: true,
                             onChange: (String value) {
-                              log('-widget.contact.rank?.state--value--$value-');
-                              widget.model.state = value;
-                              log('-widget.contact.rank?.state----${widget.model.state}-');
+                              log('-widget.contact.rank?.name--value--$value-');
+                              widget.model.email = value;
+                              log('-widget.contact.rank?.name----${widget.model.email}-');
+
+                              // widget.payRate.perHour = double.parse(value);
+                              // BlocProvider.of<PayRateCubit>(widget.mainContext)
+                              //     .onModelValueChange(widget.payRate);
                             },
                             validateTextField: (String? user) {},
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Escalation Level
+                          /// Phone Number
                           CommonWidgets.textDisplay(
-                              Constants.escalationLevel,
-                              //isMandatory: true,
-                              Styles.textStyleWhite16),
-                          BaseDropDown().getDropDown(
-                            isDisabled: true,
-                            textController: escalationLevelController,
-                            items: escalationLevelDropDownValues,
-                            onTap: () {
-                              // BaseDropDown().assetTypeDialog(
-                              //   context: context,
-                              //   dropDownValues: escalationLevelDropDownValues
-                              //       .map((label) => label.key)
-                              //       .toList(),
-                              //   onTap: (String value) {
-                              //     Label? selectedLabel;
-                              //     selectedLabel =
-                              //         escalationLevelDropDownValues.firstWhere(
-                              //               (label) => label.key == value,
-                              //           orElse: () =>
-                              //           const Label(key: '', value: ''),
-                              //         );
-                              //     widget.model.escalationLevel =
-                              //         int.tryParse(selectedLabel.value);
-                              //     escalationLevelController.text =
-                              //         selectedLabel.key;
-                              //     setState(() {});
-                              //   },
-                              // );
-                            },
+                            Constants.phoneNumber,
+                            Styles.textStyleWhite16,
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          FlutterInputField(
+                            initialValue: widget.model.contactNo ?? '',
+                            textInputType: TextInputType.number,
+                            textFormKey: Keys.phoneNumberKey,
+                            hintText: '',
+                            isEnable: false,
+                            characterLimit: Constants.characterLimitContactNo,
+                            isDisableColor: true,
+                            onChange: (String value) {
+                              log('-widget.contact.rank?.name--value--$value-');
+                              widget.model.contactNo = value;
+                              log('contactNo---${widget.model.contactNo?.length != 10}-');
+                              // widget.payRate.perHour = double.parse(value);
+                              // BlocProvider.of<PayRateCubit>(widget.mainContext)
+                              //     .onModelValueChange(widget.payRate);
+                            },
+                            validateTextField: (String? user) {},
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          buttonViews(widget.mainContext, width),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
                         ],
-
-                        /// Name
-                        CommonWidgets.textDisplay(
-                          name,
-                          //isMandatory: true,
-                          Styles.textStyleWhite16,
-                        ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
-                        FlutterInputField(
-                          initialValue: nameController.text,
-                          textInputType: TextInputType.text,
-                          textFormKey: Keys.nameKey,
-                          hintText: '',
-                          isEnable: false,
-                          focusNode: widget.rankType != Constants.contactZone
-                              ? nameFocusNode
-                              : null,
-                          isDisableColor: true,
-                          onChange: (String value) {
-                            log('-widget.contact.rank?.name--value--$value-');
-                            widget.model.email = value;
-                            log('-widget.contact.rank?.name----${widget.model.email}-');
-
-                            // widget.payRate.perHour = double.parse(value);
-                            // BlocProvider.of<PayRateCubit>(widget.mainContext)
-                            //     .onModelValueChange(widget.payRate);
-                          },
-                          validateTextField: (String? user) {},
-                        ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                        /// Phone Number
-                        CommonWidgets.textDisplay(
-                          Constants.phoneNumber,
-                          Styles.textStyleWhite16,
-                        ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
-                        FlutterInputField(
-                          initialValue: widget.model.contactNo ?? '',
-                          textInputType: TextInputType.number,
-                          textFormKey: Keys.phoneNumberKey,
-                          hintText: '',
-                          isEnable: false,
-                          characterLimit: Constants.characterLimitContactNo,
-                          isDisableColor: true,
-                          onChange: (String value) {
-                            log('-widget.contact.rank?.name--value--$value-');
-                            widget.model.contactNo = value;
-                            log('contactNo---${widget.model.contactNo?.length != 10}-');
-                            // widget.payRate.perHour = double.parse(value);
-                            // BlocProvider.of<PayRateCubit>(widget.mainContext)
-                            //     .onModelValueChange(widget.payRate);
-                          },
-                          validateTextField: (String? user) {},
-                        ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
-                        buttonViews(widget.mainContext, width),
-                        CommonWidgets.verticalSpacerWidget(height * 0.02),
-                      ],
+                      ),
                     ),
                   ),
                 ),

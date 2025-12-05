@@ -5,7 +5,6 @@ import 'package:db_atom/index.dart';
 import '../../models/day_pass_management_model.dart';
 import '../cubits/day_passmanagement_details_cubit.dart';
 
-
 class DayPassManagementDetailsView extends StatefulWidget {
   final DayPassManagementModel? model;
   final String title;
@@ -33,14 +32,13 @@ class _DayPassManagementDetailsViewState
   TextEditingController takenOutOnDateController = TextEditingController();
   TextEditingController statusController = TextEditingController();
   TextEditingController expectedDateOfReturnController =
-  TextEditingController();
+      TextEditingController();
   TextEditingController passValidFromController = TextEditingController();
-  TextEditingController passValidUntilController= TextEditingController();
+  TextEditingController passValidUntilController = TextEditingController();
   bool isReadOnly = false;
-  TextEditingController passTypeController =
-  TextEditingController();
+  TextEditingController passTypeController = TextEditingController();
   TextEditingController nameController = TextEditingController();
-  TextEditingController companyNameController =TextEditingController();
+  TextEditingController companyNameController = TextEditingController();
   TextEditingController dbSponsorController = TextEditingController();
   TextEditingController hostController = TextEditingController();
   TextEditingController updateStatusTextController = TextEditingController();
@@ -84,9 +82,8 @@ class _DayPassManagementDetailsViewState
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
-              Navigator.popAndPushNamed(
-                  context, dayPassManagementListRoute, arguments: {
-              });
+              Navigator.popAndPushNamed(context, dayPassManagementListRoute,
+                  arguments: {});
             },
           );
           showDialog(
@@ -96,11 +93,16 @@ class _DayPassManagementDetailsViewState
         }
       },
       builder: (context, state) {
-        nameController.text = state.model.employee !=null ? '${state.model.employee?.firstName ?? ''} ${state.model.employee?.lastName ?? ''}': state.model.employeeName ??'';
-        dbSponsorController.text = '${state.model.host?.firstName ?? ''} ${state.model.host?.lastName ?? ''}';
+        nameController.text = state.model.employee != null
+            ? '${state.model.employee?.firstName ?? ''} ${state.model.employee?.lastName ?? ''}'
+            : state.model.employeeName ?? '';
+        dbSponsorController.text =
+            '${state.model.host?.firstName ?? ''} ${state.model.host?.lastName ?? ''}';
         hostController.text = state.model.host?.name ?? '';
-        employeeIdController.text = state.model.employeeId??'';
-        companyNameController.text= state.model.companyType?.name != 'FTE'? state.model.companyName ??'' : 'Deutsche Bank';
+        employeeIdController.text = state.model.employeeId ?? '';
+        companyNameController.text = state.model.companyType?.name != 'FTE'
+            ? state.model.companyName ?? ''
+            : 'Deutsche Bank';
         if (state.model.status == 0 && !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
@@ -108,39 +110,44 @@ class _DayPassManagementDetailsViewState
           isReadOnly = true;
         }
 
-        if(state.model.status != null && state.model.status !=0){
+        if (state.model.status != null && state.model.status != 0) {
           isReadOnly = true;
         }
 
         showSaveSubmitButtons = (widget.model == null ||
-            state.model.status == 0 ||state.model.status == 1) && state.model.lock.isEmptyOrNull;
+                state.model.status == 0 ||
+                state.model.status == 1) &&
+            state.model.lock.isEmptyOrNull;
 
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: (widget.model == null ||
-                state.model.status == 0) && state.status != FormStatus.loading,
+            showSaveButton: (widget.model == null || state.model.status == 0) &&
+                state.status != FormStatus.loading,
             pdfAPIName:
-            '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.passManagementModuleCode}',
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.passManagementModuleCode}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<DayPassManagementDetailsCubit>(context).submitForm(
+              BlocProvider.of<DayPassManagementDetailsCubit>(context)
+                  .submitForm(
                 isSaveOnly: true,
-                 );
+              );
             },
-            showSubmitButton: showSaveSubmitButtons && state.status != FormStatus.loading,
+            showSubmitButton:
+                showSaveSubmitButtons && state.status != FormStatus.loading,
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<DayPassManagementDetailsCubit>(context).submitForm(
+              BlocProvider.of<DayPassManagementDetailsCubit>(context)
+                  .submitForm(
                 isSaveOnly: false,
               );
             },
             showLikeButton: false,
             showDisLikeButton: false,
           ),
-          backgroundColor: AppColors.lavender,
+          backgroundColor: AppColors.newColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -148,35 +155,39 @@ class _DayPassManagementDetailsViewState
   }
 
   void initializeDates(DayPassManagementDetailsState state) {
-
     passValidFromController.text = state.model.startTime == null
-   ? Utils.timestampToDateConversion(
-        DateTime.now().millisecondsSinceEpoch,
-        Constants.fulldateFormat) : Utils.timestampToDateConversion(
-        int.tryParse(state.model.startTime ?? '') ??
-            DateTime.now().millisecondsSinceEpoch,
-        Constants.fulldateFormat);
+        ? Utils.timestampToDateConversion(
+            DateTime.now().millisecondsSinceEpoch, Constants.fulldateFormat)
+        : Utils.timestampToDateConversion(
+            int.tryParse(state.model.startTime ?? '') ??
+                DateTime.now().millisecondsSinceEpoch,
+            Constants.fulldateFormat);
 
     passValidUntilController.text = state.model.endTime != null
         ? Utils.timestampToDateConversion(
-        int.tryParse(state.model.endTime ?? '') ??
-            DateTime.now().millisecondsSinceEpoch, // Fallback to current timestamp
-        Constants.fulldateFormat) :Utils.timestampToDateConversion(
-        DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch, // One day ahead
-        Constants.fulldateFormat);
+            int.tryParse(state.model.endTime ?? '') ??
+                DateTime.now()
+                    .millisecondsSinceEpoch, // Fallback to current timestamp
+            Constants.fulldateFormat)
+        : Utils.timestampToDateConversion(
+            DateTime.now()
+                .add(const Duration(hours: 12))
+                .millisecondsSinceEpoch, // One day ahead
+            Constants.fulldateFormat);
 
-    if( (state.model.status == 2||state.model.status == 8 || state.model.status == 9)) {
+    if ((state.model.status == 2 ||
+        state.model.status == 8 ||
+        state.model.status == 9)) {
       returnedTimeController.text = state.model.returnedTime != null
           ? Utils.timestampToDateConversion(
-          int.tryParse(state.model.returnedTime ?? '') ??
-              DateTime
-                  .now()
-                  .millisecondsSinceEpoch, // Fallback to current timestamp
-          Constants.fulldateFormat) : '';
+              int.tryParse(state.model.returnedTime ?? '') ??
+                  DateTime.now()
+                      .millisecondsSinceEpoch, // Fallback to current timestamp
+              Constants.fulldateFormat)
+          : '';
     }
     state.model.startTime == passValidFromController.text;
     // state.model.endTime == passValidUntilController.text;
-
   }
 
   getBodybuilder(DayPassManagementDetailsState state, height) {
@@ -192,20 +203,20 @@ class _DayPassManagementDetailsViewState
     }
 
     return Container(
-      color: AppColors.lavender,
+      color: AppColors.newColor3,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.lavender,
+              color: AppColors.newColor3,
             ),
             Container(
-              decoration: const ShapeDecoration(
-                  color: AppColors.lavender,
-                  shape: RoundedRectangleBorder(
+              decoration: ShapeDecoration(
+                  color: AppColors.newColor3,
+                  shape: const RoundedRectangleBorder(
                     borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(20.0)),
+                        BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
               child: Form(
                 key: _formKey,
@@ -220,7 +231,8 @@ class _DayPassManagementDetailsViewState
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       AbsorbPointer(
-                        absorbing: !showSaveSubmitButtons && IgnorePointer == false,
+                        absorbing:
+                            !showSaveSubmitButtons && IgnorePointer == false,
                         child: Column(
                           children: [
                             if (!state.model.lock.isEmptyOrNull) ...[
@@ -249,10 +261,9 @@ class _DayPassManagementDetailsViewState
                               textController: statusController,
                               items: passManagementStatusValues,
                               initialValue: '${state.model.status ?? 0}',
-                              onTap: () {
-                              },
+                              onTap: () {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Created By
                             CommonWidgets.horizentaltextHandling(
@@ -261,17 +272,17 @@ class _DayPassManagementDetailsViewState
                                     Constants.createdby,
                                 isMandatory: true,
                                 '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Updated Status
-                            if(widget.model?.status == 0 || widget.model?.status == 1 || widget.model?.status == 3)...[
+                            if (widget.model?.status == 0 ||
+                                widget.model?.status == 1 ||
+                                widget.model?.status == 3) ...[
                               CommonWidgets.textDisplay(
                                   isMandatory: true,
                                   state.labels?.locale.updateStatus ??
-                                      state.labels?.defaultLocale
-                                          .updateStatus ??
+                                      state
+                                          .labels?.defaultLocale.updateStatus ??
                                       Constants.updatestatus,
                                   Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
@@ -282,29 +293,28 @@ class _DayPassManagementDetailsViewState
                                 isDisableColor: widget.model != null &&
                                     !widget.model!.lock.isEmptyOrNull,
                                 onTap: () {
-                                  BaseOrganisationDialog()
-                                      .departmentDialog(
+                                  BaseOrganisationDialog().departmentDialog(
                                     context: context,
-                                    organisations:
-                                    state.getStatus ?? [],
+                                    organisations: state.getStatus ?? [],
                                     onTap: (Organisation org) {
-                                      if(org.name == 'Lost') {
-                                        Future.delayed(const Duration(
-                                            milliseconds: 200), () {
+                                      if (org.name == 'Lost') {
+                                        Future.delayed(
+                                            const Duration(milliseconds: 200),
+                                            () {
                                           var dialog = CustomAlertDialog(
                                             title: Constants.updatestatus,
-                                            message: "Are you sure you want to select \"${org
-                                                .name}\"?",
+                                            message:
+                                                "Are you sure you want to select \"${org.name}\"?",
                                             onPositivePressed: () {
                                               Navigator.pop(context);
                                               updateStatusTextController.text =
-                                              org.name!;
+                                                  org.name!;
                                               setState(() {});
                                               BlocProvider.of<
-                                                  DayPassManagementDetailsCubit>(
-                                                  context)
+                                                          DayPassManagementDetailsCubit>(
+                                                      context)
                                                   .updateDropdownValues(
-                                                  updatedStatus: org);
+                                                      updatedStatus: org);
                                             },
                                             positiveBtnText: Constants.yes,
                                             negativeBtnText: Constants.no,
@@ -312,30 +322,27 @@ class _DayPassManagementDetailsViewState
 
                                           showDialog(
                                             context: context,
-                                            builder: (
-                                                BuildContext context) => dialog,
+                                            builder: (BuildContext context) =>
+                                                dialog,
                                           );
                                         });
-                                      }
-                                      else{
+                                      } else {
                                         updateStatusTextController.text =
-                                        org.name!;
+                                            org.name!;
                                         setState(() {});
                                         BlocProvider.of<
-                                            DayPassManagementDetailsCubit>(
-                                            context)
+                                                    DayPassManagementDetailsCubit>(
+                                                context)
                                             .updateDropdownValues(
-                                            updatedStatus: org);
+                                                updatedStatus: org);
                                       }
                                     },
                                   );
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-
 
                             /// Location
                             CommonWidgets.textDisplay(
@@ -347,20 +354,20 @@ class _DayPassManagementDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseLocationDropdown().locationWidgetDisplay(
-                                isEnabled: (!isReadOnly) &&
-                                    !lock,
+                                isEnabled: (!isReadOnly) && !lock,
                                 context: context,
                                 locations: state.locations ?? Locations(),
                                 selectedLocationName:
-                                state.model.location?.name ?? '',
+                                    state.model.location?.name ?? '',
                                 onTap: (Organisation? location) {
-                                  BlocProvider.of<DayPassManagementDetailsCubit>(
-                                      context)
+                                  BlocProvider.of<
+                                              DayPassManagementDetailsCubit>(
+                                          context)
                                       .updateLocationDropdownValue(
-                                      location: location);
+                                          location: location);
                                 }),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
@@ -373,7 +380,7 @@ class _DayPassManagementDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             dateCreateWidgetDisplay(
                                 state.model.inputDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Sl No.
                             CommonWidgets.horizentaltextHandling(
@@ -383,7 +390,7 @@ class _DayPassManagementDetailsViewState
                               state.model.slNo ?? '',
                               isMandatory: true,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Entity
                             CommonWidgets.textDisplay(
@@ -399,65 +406,62 @@ class _DayPassManagementDetailsViewState
                               enabled: !isReadOnly,
                               onTap: (List<Organisation> selectedEntities) {
                                 BlocProvider.of<DayPassManagementDetailsCubit>(
-                                    context)
+                                        context)
                                     .updateDropdownValues(
-                                    entities: selectedEntities);
+                                        entities: selectedEntities);
                                 Navigator.of(context).pop(); // Close the dialog
                               },
                               functionToCall: () {
                                 // refresh the list
                                 BlocProvider.of<DayPassManagementDetailsCubit>(
-                                    context)
+                                        context)
                                     .refreshList();
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Pass Type
                             CommonWidgets.textDisplay(
-                              state.labels?.locale.passType ??
-                                  state.labels?.defaultLocale
-                                      .passType ??
-                                Constants.passtype,
+                                state.labels?.locale.passType ??
+                                    state.labels?.defaultLocale.passType ??
+                                    Constants.passtype,
                                 Styles.textStyleWhite16,
                                 isMandatory: true),
                             TextFieldAddButton(
                               title: state.model.passTypeName,
                               height: 70,
-                              isDisableColor:  isReadOnly,
+                              isDisableColor: isReadOnly,
                               onTap: () {
-                                if(!isReadOnly) {
+                                if (!isReadOnly) {
                                   BaseOrganisationDialog().departmentDialog(
                                     context: context,
                                     organisations: state.passType!,
                                     onTap: (Organisation passType) {
                                       state.model.passTypeName = passType.name;
                                       BlocProvider.of<
-                                          DayPassManagementDetailsCubit>(
-                                          context)
+                                                  DayPassManagementDetailsCubit>(
+                                              context)
                                           .updateDropdownValues(
-                                          passType: passType);
+                                              passType: passType);
                                     },
                                     leftImage: false,
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
-                                          DayPassManagementDetailsCubit>(
-                                          context)
+                                                  DayPassManagementDetailsCubit>(
+                                              context)
                                           .refreshList();
                                     },
                                   );
                                 }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Company Type
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.companyType ??
-                                    state.labels?.defaultLocale
-                                        .companyType ??
+                                    state.labels?.defaultLocale.companyType ??
                                     Constants.companyType,
                                 Styles.textStyleWhite16,
                                 isMandatory: true),
@@ -466,30 +470,30 @@ class _DayPassManagementDetailsViewState
                               height: 70,
                               isDisableColor: isReadOnly,
                               onTap: () {
-                            if(!isReadOnly) {
-                              BaseOrganisationDialog().departmentDialog(
-                                context: context,
-                                organisations: state.getCompanyTypeResponse,
-                                onTap: (Organisation companyType) {
-                                  BlocProvider.of<
-                                      DayPassManagementDetailsCubit>(
-                                      context)
-                                      .updateDropdownValues(
-                                      companyType: companyType);
-                                },
-                                leftImage: false,
-                                functionToCall: () {
-                                  // refresh the list
-                                  BlocProvider.of<
-                                      DayPassManagementDetailsCubit>(
-                                      context)
-                                      .refreshList();
-                                },
-                              );
-                            }
+                                if (!isReadOnly) {
+                                  BaseOrganisationDialog().departmentDialog(
+                                    context: context,
+                                    organisations: state.getCompanyTypeResponse,
+                                    onTap: (Organisation companyType) {
+                                      BlocProvider.of<
+                                                  DayPassManagementDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              companyType: companyType);
+                                    },
+                                    leftImage: false,
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<
+                                                  DayPassManagementDetailsCubit>(
+                                              context)
+                                          .refreshList();
+                                    },
+                                  );
+                                }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Company Name
                             CommonWidgets.textDisplay(
@@ -505,117 +509,131 @@ class _DayPassManagementDetailsViewState
                               textFormKey: Keys.challanKey,
                               controller: companyNameController,
                               characterLimit:
-                              Constants.characterLimitIdTextFormField,
+                                  Constants.characterLimitIdTextFormField,
                               hintText: '',
-                              isEnable: (state.model.companyType?.name != 'FTE') && ( state.model.status ==null || state.model.status ==0) ? true :false,
-                              isDisableColor:false,
+                              isEnable:
+                                  (state.model.companyType?.name != 'FTE') &&
+                                          (state.model.status == null ||
+                                              state.model.status == 0)
+                                      ? true
+                                      : false,
+                              isDisableColor: false,
                               onChange: (String value) {
-                                state.model.companyName = state.model.companyType?.name != 'FTE'? value : "Deutsche Bank";
+                                state.model.companyName =
+                                    state.model.companyType?.name != 'FTE'
+                                        ? value
+                                        : "Deutsche Bank";
                                 context
                                     .read<DayPassManagementDetailsCubit>()
                                     .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
-                      if(state.model.companyType?.name != 'Exceptions' && state.model.companyType?.name != 'CWR T2')...[
-                    /// Employee Id
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.employeeId ??
-                                    state.labels?.defaultLocale
-                                        .employeeId ??
-                                    Constants.employeeid,
-                                Styles.textStyleWhite16,
-                                isMandatory: true),
-                            TextFieldAddButton(
-                              title: state.model.employee?.employeeId,
-                              height: 70,
-                              isDisableColor: isReadOnly,
-                              onTap: () {
-                                 if (!isReadOnly) {
-                                  BaseOrganisationDialog().userDialog(
-                                    employeeId: true,
-                                    context: context,
-                                    users: state.employee!,
-                                    isDbUser: true,
-                                    onTap: (BaseUser user) {
-                                      BlocProvider.of<
-                                          DayPassManagementDetailsCubit>(
-                                          context)
-                                          .updateDropdownValues(
-                                        employee: user,
-                                      );
-                                    },
-                                    roleName:
-                                    ConstantUserRoles.atomStaticUser,
-                                    locationId: state.model.location!.id!,
-                                    functionToCall: (BaseUser user) {
-                                      BlocProvider.of<
-                                          DayPassManagementDetailsCubit>(
-                                          context)
-                                          .updateDropdownValues(
-                                        employee: user,
-                                      );
-                                      // refresh the list
-                                      BlocProvider.of<
-                                          DayPassManagementDetailsCubit>(
-                                          context)
-                                          .refreshList();
-                                    },
-                                  );
-                                }
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
-],
+                            if (state.model.companyType?.name != 'Exceptions' &&
+                                state.model.companyType?.name != 'CWR T2') ...[
+                              /// Employee Id
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.employeeId ??
+                                      state.labels?.defaultLocale.employeeId ??
+                                      Constants.employeeid,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
+                              TextFieldAddButton(
+                                title: state.model.employee?.employeeId,
+                                height: 70,
+                                isDisableColor: isReadOnly,
+                                onTap: () {
+                                  if (!isReadOnly) {
+                                    BaseOrganisationDialog().userDialog(
+                                      employeeId: true,
+                                      context: context,
+                                      users: state.employee!,
+                                      isDbUser: true,
+                                      onTap: (BaseUser user) {
+                                        BlocProvider.of<
+                                                    DayPassManagementDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                          employee: user,
+                                        );
+                                      },
+                                      roleName:
+                                          ConstantUserRoles.atomStaticUser,
+                                      locationId: state.model.location!.id!,
+                                      functionToCall: (BaseUser user) {
+                                        BlocProvider.of<
+                                                    DayPassManagementDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                          employee: user,
+                                        );
+                                        // refresh the list
+                                        BlocProvider.of<
+                                                    DayPassManagementDetailsCubit>(
+                                                context)
+                                            .refreshList();
+                                      },
+                                    );
+                                  }
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            ],
 
-                            if(state.model.companyType?.name == 'CWR T2' )...[
-                            ///EmployeeId
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.employeeId ??
-                                  state.labels?.defaultLocale
-                                      .employeeId ??
-                                Constants.employeeid,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
-                            FlutterInputField(
-                              textInputType: TextInputType.number,
-                              textFormKey: Keys.contactNoKey,
-                              controller: employeeIdController,
-                              hintText: '',
-                              isEnable: state.model.companyType?.name == 'CWR T2' && !isReadOnly? true : false,
-                              isDisableColor: true,
-                              onChange: (String value) {
-                                state.model.employeeId = value;
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
-],
+                            if (state.model.companyType?.name == 'CWR T2') ...[
+                              ///EmployeeId
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.employeeId ??
+                                      state.labels?.defaultLocale.employeeId ??
+                                      Constants.employeeid,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                textInputType: TextInputType.number,
+                                textFormKey: Keys.contactNoKey,
+                                controller: employeeIdController,
+                                hintText: '',
+                                isEnable:
+                                    state.model.companyType?.name == 'CWR T2' &&
+                                            !isReadOnly
+                                        ? true
+                                        : false,
+                                isDisableColor: true,
+                                onChange: (String value) {
+                                  state.model.employeeId = value;
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            ],
 
                             ///Name
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.employeeName ??
-                                    state.labels?.defaultLocale
-                                        .employeeName ??
+                                    state.labels?.defaultLocale.employeeName ??
                                     Constants.name,
                                 isMandatory: true,
                                 Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               controller: nameController,
                               textInputType: TextInputType.text,
                               textFormKey: Keys.contactNoKey,
                               hintText: '',
-                              isEnable: (state.model.companyType?.name == 'Exceptions' || state.model.companyType?.name == 'CWR T2') && (state.model.status == null ||state.model.status == 0) ? true : false,
+                              isEnable: (state.model.companyType?.name ==
+                                              'Exceptions' ||
+                                          state.model.companyType?.name ==
+                                              'CWR T2') &&
+                                      (state.model.status == null ||
+                                          state.model.status == 0)
+                                  ? true
+                                  : false,
                               isDisableColor: true,
                               onChange: (String value) {
                                 state.model.employeeName = value;
@@ -623,161 +641,157 @@ class _DayPassManagementDetailsViewState
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            if(state.model.companyType?.name == 'CWR T1' ||state.model.companyType?.name == 'CWR T2' )...[
-                            ///Db Sponsor Employee Id
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.cwrSponsorEmployeeId ??
-                                  state.labels?.defaultLocale
-                                      .cwrSponsorEmployeeId ??
-                                Constants.dbSponsorEmployeeId,
-                                Styles.textStyleWhite16,
-                                isMandatory: true),
-                            TextFieldAddButton(
-                              title: state.model.host?.employeeId,
-                              height: 70,
-                              isDisableColor: isReadOnly,
-                              onTap: () {
-                                if (!isReadOnly) {
-                                BaseOrganisationDialog().userDialog(
-                                  employeeId: true,
-                                  context: context,
-                                  users: state.host!,
-                                  isDbUser: true,
-                                  onTap: (BaseUser user) {
-                                    BlocProvider.of<
-                                        DayPassManagementDetailsCubit>(
-                                        context)
-                                        .updateDropdownValues(
-                                      host: user,
+                            if (state.model.companyType?.name == 'CWR T1' ||
+                                state.model.companyType?.name == 'CWR T2') ...[
+                              ///Db Sponsor Employee Id
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.cwrSponsorEmployeeId ??
+                                      state.labels?.defaultLocale
+                                          .cwrSponsorEmployeeId ??
+                                      Constants.dbSponsorEmployeeId,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
+                              TextFieldAddButton(
+                                title: state.model.host?.employeeId,
+                                height: 70,
+                                isDisableColor: isReadOnly,
+                                onTap: () {
+                                  if (!isReadOnly) {
+                                    BaseOrganisationDialog().userDialog(
+                                      employeeId: true,
+                                      context: context,
+                                      users: state.host!,
+                                      isDbUser: true,
+                                      onTap: (BaseUser user) {
+                                        BlocProvider.of<
+                                                    DayPassManagementDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                          host: user,
+                                        );
+                                      },
+                                      roleName:
+                                          ConstantUserRoles.atomStaticUser,
+                                      locationId: state.model.location!.id!,
+                                      functionToCall: (BaseUser user) {
+                                        BlocProvider.of<
+                                                    DayPassManagementDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                          host: user,
+                                        );
+                                        // refresh the list
+                                        BlocProvider.of<
+                                                    DayPassManagementDetailsCubit>(
+                                                context)
+                                            .refreshList();
+                                      },
                                     );
-                                  },
-                                  roleName:
-                                  ConstantUserRoles.atomStaticUser,
-                                  locationId: state.model.location!.id!,
-                                  functionToCall: (BaseUser user) {
-                                    BlocProvider.of<
-                                        DayPassManagementDetailsCubit>(
-                                        context)
-                                        .updateDropdownValues(
-                                      host: user,
-                                    );
-                                    // refresh the list
-                                    BlocProvider.of<
-                                        DayPassManagementDetailsCubit>(
-                                        context)
-                                        .refreshList();
-                                  },
-                                );
-                                 }
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
-                            ///DB Sponsor
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.cwrSponsor ??
-                                  state.labels?.defaultLocale
-                                      .cwrSponsor ??
-                                Constants.dbSponsor,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
-                            FlutterInputField(
-                              controller: dbSponsorController,
-                              textInputType: TextInputType.text,
-                              textFormKey: Keys.contactNoKey,
-                              hintText: '',
-                              isEnable: false,
-                              isDisableColor: true,
-                              onChange: (String value) {},
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
-],
-              if(state.model.companyType?.name == 'Exceptions')...[
-                ///Host Employee Id
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.hostEmployeeId ??
-                                  state.labels?.defaultLocale
-                                      .hostEmployeeId ??
-                                Constants.hostemployeeid,
-                                Styles.textStyleWhite16,
-                                isMandatory: true),
-                            TextFieldAddButton(
-                              title: state.model.hostEmployeeId,
-                              height: 70,
-                              isDisableColor: isReadOnly,
-                              onTap: () {
-                                if (!isReadOnly) {
-                                BaseOrganisationDialog().userDialog(
-                                  employeeId: true,
-                                  context: context,
-                                  users: state.host!,
-                                  isDbUser: true,
-                                  onTap: (BaseUser user) {
-                                    BlocProvider.of<
-                                        DayPassManagementDetailsCubit>(
-                                        context)
-                                        .updateDropdownValues(
-                                      host: user,
-                                    );
-                                  },
-                                  roleName:
-                                  ConstantUserRoles.atomStaticUser,
-                                  locationId: state.model.location!.id!,
-                                  functionToCall: (BaseUser user) {
-                                    BlocProvider.of<
-                                        DayPassManagementDetailsCubit>(
-                                        context)
-                                        .updateDropdownValues(
-                                      host: user,
-                                    );
-                                    // refresh the list
-                                    BlocProvider.of<
-                                        DayPassManagementDetailsCubit>(
-                                        context)
-                                        .refreshList();
-                                  },
-                                );
-                                 }
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
+                                  }
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            ///Host
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.host ??
-                                  state.labels?.defaultLocale
-                                      .host ??
-                                Constants.host,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
-                            FlutterInputField(
-                              controller: hostController,
-                              textInputType: TextInputType.text,
-                              textFormKey: Keys.contactNoKey,
-                              hintText: '',
-                              isEnable: false,
-                              isDisableColor: true,
-                              onChange: (String value) {},
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
-],
+                              ///DB Sponsor
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.cwrSponsor ??
+                                      state.labels?.defaultLocale.cwrSponsor ??
+                                      Constants.dbSponsor,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                controller: dbSponsorController,
+                                textInputType: TextInputType.text,
+                                textFormKey: Keys.contactNoKey,
+                                hintText: '',
+                                isEnable: false,
+                                isDisableColor: true,
+                                onChange: (String value) {},
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            ],
+                            if (state.model.companyType?.name ==
+                                'Exceptions') ...[
+                              ///Host Employee Id
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.hostEmployeeId ??
+                                      state.labels?.defaultLocale
+                                          .hostEmployeeId ??
+                                      Constants.hostemployeeid,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
+                              TextFieldAddButton(
+                                title: state.model.hostEmployeeId,
+                                height: 70,
+                                isDisableColor: isReadOnly,
+                                onTap: () {
+                                  if (!isReadOnly) {
+                                    BaseOrganisationDialog().userDialog(
+                                      employeeId: true,
+                                      context: context,
+                                      users: state.host!,
+                                      isDbUser: true,
+                                      onTap: (BaseUser user) {
+                                        BlocProvider.of<
+                                                    DayPassManagementDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                          host: user,
+                                        );
+                                      },
+                                      roleName:
+                                          ConstantUserRoles.atomStaticUser,
+                                      locationId: state.model.location!.id!,
+                                      functionToCall: (BaseUser user) {
+                                        BlocProvider.of<
+                                                    DayPassManagementDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                          host: user,
+                                        );
+                                        // refresh the list
+                                        BlocProvider.of<
+                                                    DayPassManagementDetailsCubit>(
+                                                context)
+                                            .refreshList();
+                                      },
+                                    );
+                                  }
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              ///Host
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.host ??
+                                      state.labels?.defaultLocale.host ??
+                                      Constants.host,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                controller: hostController,
+                                textInputType: TextInputType.text,
+                                textFormKey: Keys.contactNoKey,
+                                hintText: '',
+                                isEnable: false,
+                                isDisableColor: true,
+                                onChange: (String value) {},
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            ],
+
                             ///  Department
                             CommonWidgets.textDisplay(
                               state.labels?.locale.department ??
-                                  state.labels?.defaultLocale
-                                      .department ??
+                                  state.labels?.defaultLocale.department ??
                                   Constants.department,
                               Styles.textStyleWhite16,
                               isMandatory: true,
@@ -792,21 +806,20 @@ class _DayPassManagementDetailsViewState
                                       context: context,
                                       organisations: state.departments,
                                       onTap: (Organisation department) {
-                                        state.model.department
-                                            ?.name = department.name;
+                                        state.model.department?.name =
+                                            department.name;
                                         BlocProvider.of<
-                                            DayPassManagementDetailsCubit>(
-                                            context)
+                                                    DayPassManagementDetailsCubit>(
+                                                context)
                                             .updateDropdownValues(
-                                            department:
-                                            department);
+                                                department: department);
                                       },
                                       createEntity: false,
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
-                                            DayPassManagementDetailsCubit>(
-                                            context)
+                                                    DayPassManagementDetailsCubit>(
+                                                context)
                                             .refreshList();
                                       });
                                   FocusScope.of(context)
@@ -815,14 +828,13 @@ class _DayPassManagementDetailsViewState
                               },
                             ),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Reason for Day Pass
                             CommonWidgets.textDisplay(
                               state.labels?.locale.dayPassReason ??
-                                  state.labels?.defaultLocale
-                                      .dayPassReason ??
-                              Constants.reasonfordaypass,
+                                  state.labels?.defaultLocale.dayPassReason ??
+                                  Constants.reasonfordaypass,
                               Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
@@ -836,60 +848,61 @@ class _DayPassManagementDetailsViewState
                                     context: context,
                                     organisations: state.dayPassReason,
                                     onTap: (Organisation department) {
-                                      BlocProvider.of<DayPassManagementDetailsCubit>(
-                                          context)
+                                      BlocProvider.of<
+                                                  DayPassManagementDetailsCubit>(
+                                              context)
                                           .updateDropdownValues(
-                                          dayPassReason: department);
+                                              dayPassReason: department);
                                     },
                                   );
-                                 }
+                                }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             if (state.model.dayPassReason?.name ==
-                                'External Regulators'||
+                                    'External Regulators' ||
                                 state.model.dayPassReason?.name ==
-                                   'External auditors') ...[
+                                    'External auditors') ...[
                               CommonWidgets.textDisplay(
-                                state.labels?.locale.exceptionalApproval ??
-                                    state.labels?.defaultLocale
-                                        .exceptionalApproval ??
-                                  Constants.exceptionalApproval,
+                                  state.labels?.locale.exceptionalApproval ??
+                                      state.labels?.defaultLocale
+                                          .exceptionalApproval ??
+                                      Constants.exceptionalApproval,
                                   isMandatory: true,
                                   Styles.textStyleWhite16),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue:
-                                  state.model.exceptionalApproval ? 1 : 0,
+                                      state.model.exceptionalApproval ? 1 : 0,
                                   onChangedYes: isReadOnly
                                       ? null
                                       : (val) {
-                                    state.model.exceptionalApproval= true;
-                                    BlocProvider.of<
-                                        DayPassManagementDetailsCubit>(
-                                        context)
-                                        .onCheckBoxChange(state.model);
-                                  },
+                                          state.model.exceptionalApproval =
+                                              true;
+                                          BlocProvider.of<
+                                                      DayPassManagementDetailsCubit>(
+                                                  context)
+                                              .onCheckBoxChange(state.model);
+                                        },
                                   onChangedNo: isReadOnly
                                       ? null
                                       : (val) {
-                                    state.model.exceptionalApproval = false;
-                                    BlocProvider.of<
-                                        DayPassManagementDetailsCubit>(
-                                        context)
-                                        .onCheckBoxChange(state.model);
-                                  }),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                          state.model.exceptionalApproval =
+                                              false;
+                                          BlocProvider.of<
+                                                      DayPassManagementDetailsCubit>(
+                                                  context)
+                                              .onCheckBoxChange(state.model);
+                                        }),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ],
 
                             /// Day Pass No
                             CommonWidgets.textDisplay(
                               state.labels?.locale.dayPassInfo ??
-                                  state.labels?.defaultLocale
-                                      .dayPassInfo ??
-                              Constants.dayPassNo,
+                                  state.labels?.defaultLocale.dayPassInfo ??
+                                  Constants.dayPassNo,
                               Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
@@ -899,34 +912,32 @@ class _DayPassManagementDetailsViewState
                               isDisableColor: isReadOnly,
                               onTap: () {
                                 if (!isReadOnly) {
-                                BaseOrganisationDialog().departmentDialog(
-                                  context: context,
-                                  organisations: state.passNo!,
-                                  onTap: (Organisation department) {
-                                    state.model.passNo = department.name;
-                                    BlocProvider.of<DayPassManagementDetailsCubit>(
-                                        context)
-                                        .updateDropdownValues(
-                                        passNo: department);
-                                  },
-                                );
-                                 }
+                                  BaseOrganisationDialog().departmentDialog(
+                                    context: context,
+                                    organisations: state.passNo!,
+                                    onTap: (Organisation department) {
+                                      state.model.passNo = department.name;
+                                      BlocProvider.of<
+                                                  DayPassManagementDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(
+                                              passNo: department);
+                                    },
+                                  );
+                                }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Pass Valid From
                             CommonWidgets.textDisplay(
                               state.labels?.locale.startTime ??
-                                  state.labels?.defaultLocale
-                                      .startTime ??
+                                  state.labels?.defaultLocale.startTime ??
                                   Constants.passvlidfrom,
                               isMandatory: true,
                               Styles.textStyleWhite16,
                             ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
                               textController: passValidFromController,
@@ -934,85 +945,88 @@ class _DayPassManagementDetailsViewState
                               onlyDate: false,
                               onChange: (String value) {
                                 passValidFromController.text = value;
-                                BlocProvider.of<
-                                    DayPassManagementDetailsCubit>(
-                                    context)
+                                BlocProvider.of<DayPassManagementDetailsCubit>(
+                                        context)
                                     .onModelValueChange(state.model);
                               },
                               context: context,
                             ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Pass Valid Until
                             CommonWidgets.textDisplay(
                               state.labels?.locale.endTime ??
-                                  state.labels?.defaultLocale
-                              .endTime ??
-                              Constants.passvliduntil,
+                                  state.labels?.defaultLocale.endTime ??
+                                  Constants.passvliduntil,
                               isMandatory: true,
                               Styles.textStyleWhite16,
                             ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
                               textController: passValidUntilController,
-                              isDisabled: (state.model.companyType?.name == 'Exceptions' || state.model.dayPassReason?.name == 'New joiner waiting for access card' || state.model.dayPassReason?.name == 'New Joiner waiting for photo ID' )&& !isReadOnly ? false : true,
+                              isDisabled: (state.model.companyType?.name ==
+                                              'Exceptions' ||
+                                          state.model.dayPassReason?.name ==
+                                              'New joiner waiting for access card' ||
+                                          state.model.dayPassReason?.name ==
+                                              'New Joiner waiting for photo ID') &&
+                                      !isReadOnly
+                                  ? false
+                                  : true,
                               onlyDate: false,
                               showPastDate: false,
                               showFutureDate: true,
                               onChange: (String value) {
                                 state.model.endTime = Utils().formatTime(value);
-                                BlocProvider.of<
-                                    DayPassManagementDetailsCubit>(
-                                    context)
+                                BlocProvider.of<DayPassManagementDetailsCubit>(
+                                        context)
                                     .onModelValueChange(state.model);
                               },
                               context: context,
                             ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                            if (state.model.status == 2 ||
+                                state.model.status == 8 ||
+                                state.model.status == 9) ...[
+                              /// Pass Collected By
+                              CommonWidgets.horizentaltextHandling(
+                                  state.labels?.locale.handoverSecurity ??
+                                      state.labels?.defaultLocale
+                                          .handoverSecurity ??
+                                      Constants.passCollectedBy,
+                                  isMandatory: true,
+                                  '${state.model.handoverSecurity?.firstName ?? ''} ${state.model.handoverSecurity?.lastName ?? ''}'),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            if(state.model.status ==2 || state.model.status ==8 || state.model.status ==9)...[
-                            /// Pass Collected By
-                            CommonWidgets.horizentaltextHandling(
-                                state.labels?.locale.handoverSecurity ??
-                                    state.labels?.defaultLocale.handoverSecurity ??
-                                    Constants.passCollectedBy,
+                              ///Pass Returned On
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.returnedTime ??
+                                    state.labels?.defaultLocale.returnedTime ??
+                                    Constants.passReturnedOn,
+                                Styles.textStyleWhite16,
                                 isMandatory: true,
-                                '${state.model.handoverSecurity?.firstName ?? ''} ${state.model.handoverSecurity?.lastName ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-
-                           ///Pass Returned On
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.returnedTime ??
-                                  state.labels?.defaultLocale.returnedTime ??
-                                  Constants.passReturnedOn,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
                               BaseDate().datePickerWidgetLoading(
                                 textController: returnedTimeController,
                                 isDisabled: true,
                                 onlyDate: false,
                                 onChange: (String value) {
                                   BlocProvider.of<
-                                      DayPassManagementDetailsCubit>(
-                                      context)
+                                              DayPassManagementDetailsCubit>(
+                                          context)
                                       .onModelValueChange(state.model);
                                 },
                                 context: context,
                               ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            ],
 
-],
                             ///Attachments
                             CommonWidgets.textDisplay(
                                 state.labels?.locale.evidenceInfo ??
@@ -1021,26 +1035,24 @@ class _DayPassManagementDetailsViewState
                                 Styles.textStyleWhite16),
                             widget.model == null
                                 ? CommonWidgets.verticalSpacerWidget(
-                                height * 0.001)
+                                    height * 0.001)
                                 : Container(),
                             if (state.model.status == 0 ||
                                 state.model.status == null) ...[
                               BaseImageUpload().uploadWidget(
                                 context: context,
                                 isDisabled: isReadOnly,
-                                loggedInUserDetails:
-                                state.loggedInUserDetails!,
+                                loggedInUserDetails: state.loggedInUserDetails!,
                                 getFiles: uploadFiles,
                                 onImageSelected: (ImageContent data) {
                                   List<ImageContent>? files = [];
                                   files.add(data);
-                                  for (ImageContent image
-                                  in uploadFiles) {
+                                  for (ImageContent image in uploadFiles) {
                                     files.add(image);
                                   }
                                   BlocProvider.of<
-                                      DayPassManagementDetailsCubit>(
-                                      context)
+                                              DayPassManagementDetailsCubit>(
+                                          context)
                                       .addAttachment(
                                     data: files,
                                     images: files,
@@ -1048,51 +1060,56 @@ class _DayPassManagementDetailsViewState
                                 },
                               ),
                             ],
+
                             /// Attachments
                             IgnorePointer(
-                                ignoring: false,
-                                child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20.0),
-                              child: BaseImageUpload().getAttachment(
-                                height: height,
-                                attachments: state.uploadAttachments,
-                                files: uploadFiles,
-                                moduleCode: Constants.dayPassManagementModule,
-                                isDisabled: false,
-                                showDeleteIcon: state.model.status == null || state.model.status == 0 ,
+                              ignoring: false,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                child: BaseImageUpload().getAttachment(
+                                  height: height,
+                                  attachments: state.uploadAttachments,
+                                  files: uploadFiles,
+                                  moduleCode: Constants.dayPassManagementModule,
+                                  isDisabled: false,
+                                  showDeleteIcon: state.model.status == null ||
+                                      state.model.status == 0,
+                                ),
                               ),
                             ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// SubmitButton
-                      if (showSaveSubmitButtons) ...[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            cancelButtonDisplay(),
                             if (showSaveSubmitButtons) ...[
-                              submitButtonDisplay(state)
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  cancelButtonDisplay(),
+                                  if (showSaveSubmitButtons) ...[
+                                    submitButtonDisplay(state)
+                                  ],
+                                ],
+                              ),
                             ],
+                            CommonWidgets.verticalSpacerWidget(height * 0.04),
                           ],
                         ),
-                      ],
-                      CommonWidgets.verticalSpacerWidget(height * 0.04),
+                      ),
                     ],
                   ),
                 ),
-                  ],
               ),
-            ),),),
+            ),
             if (!showSaveSubmitButtons) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
-                decoration: const ShapeDecoration(
-                  color: AppColors.lavender,
-                  shape: RoundedRectangleBorder(
+                decoration: ShapeDecoration(
+                  color: AppColors.newColor3,
+                  shape: const RoundedRectangleBorder(
                     borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(00.0)),
+                        BorderRadius.vertical(top: Radius.circular(00.0)),
                   ),
                 ),
                 child: Row(
@@ -1131,8 +1148,7 @@ class _DayPassManagementDetailsViewState
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-        BlocProvider.of<DayPassManagementDetailsCubit>(context).submitForm(
-        );
+        BlocProvider.of<DayPassManagementDetailsCubit>(context).submitForm();
       },
     );
   }

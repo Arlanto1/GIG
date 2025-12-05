@@ -41,13 +41,13 @@ class _KeyLossDestructionListViewState
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context.read<KeyLossDestructionListBloc>().add(
-        FetchKeyLossList(
-          startPos: pageNumber,
-          maxPos: Constants.maxResults,
-          newSearch: false,
-          filters: BaseFilterModel(),
-        ),
-      );
+            FetchKeyLossList(
+              startPos: pageNumber,
+              maxPos: Constants.maxResults,
+              newSearch: false,
+              filters: BaseFilterModel(),
+            ),
+          );
     }
   }
 
@@ -68,13 +68,11 @@ class _KeyLossDestructionListViewState
         scaffoldKey: scaffoldKey,
         context: context,
         // displayMenu: state.displayMenu,
-        list: true, // 🔥 only "+" button mode
+        list: true, //
         onAddPressed: () {
-          Navigator.pushNamed(
-            context,
-            articleFoundNewDetailsRoute,
-            arguments: {"title": Constants.createFound},
-          );
+          // Navigator.pushNamed(
+
+          // );
         },
       ),
       appBar: BaseAppBar().buildAppHeader(
@@ -88,12 +86,14 @@ class _KeyLossDestructionListViewState
         excelAPIName: 'exportKmKldExcel',
         pdfAPIName: 'exportKmKldPDF',
       ),
-      body: BlocListener<KeyLossDestructionListBloc, KeyLossDestructionListState>(
+      body:
+          BlocListener<KeyLossDestructionListBloc, KeyLossDestructionListState>(
         listener: (context, state) {
           Utils().formError(state, context);
           Utils().errorAndLogout(state, context);
         },
-        child: BlocBuilder<KeyLossDestructionListBloc, KeyLossDestructionListState>(
+        child: BlocBuilder<KeyLossDestructionListBloc,
+            KeyLossDestructionListState>(
           builder: (context, state) {
             // if (state.status == FormStatus.initial) {
             //   return const BaseLoader();
@@ -113,8 +113,7 @@ class _KeyLossDestructionListViewState
                   BaseSearchWidget(
                     applySearchFilters: applySearchFilters,
                     applyFilters: applyFilters,
-                    commonFilters:
-                        state.commonFilters ??
+                    commonFilters: state.commonFilters ??
                         CommonFilters(statuses: [], regions: []),
                   ),
                   CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -156,8 +155,7 @@ class _KeyLossDestructionListViewState
                           if (index < state.list.length) {
                             labels.add(
                               Label(
-                                key:
-                                    state.labels?.locale.createdDate ??
+                                key: state.labels?.locale.createdDate ??
                                     state.labels?.defaultLocale.createdDate ??
                                     Constants.createDate,
                                 value: state.list[index].createdDate != null
@@ -172,8 +170,7 @@ class _KeyLossDestructionListViewState
                             );
                             labels.add(
                               Label(
-                                key:
-                                    state.labels?.locale.createdBy ??
+                                key: state.labels?.locale.createdBy ??
                                     state.labels?.defaultLocale.createdBy ??
                                     Constants.createdby,
                                 value:
@@ -181,162 +178,163 @@ class _KeyLossDestructionListViewState
                               ),
                             );
                             return index >= state.list.length
-                                ? null : Container(
-                              decoration: const BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    // Color(0xFF6474C6),
-                                    // Color(0xFF6474C6),
-                                    Colors.transparent,
-                                    Colors.transparent,
-                                  ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                              ),
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 8,
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(18),
-                                child: BackdropFilter(
-                                  filter: ImageFilter.blur(
-                                    sigmaX: 18,
-                                    sigmaY: 18,
-                                  ),
-                                  child: Container(
-                                    decoration:
-                                    BoxDecoration(
+                                ? null
+                                : Container(
+                                    decoration: const BoxDecoration(
                                       gradient: LinearGradient(
                                         colors: [
-                                          Colors.white.withValues(alpha: 0.09),
+                                          // Color(0xFF6474C6),
+                                          // Color(0xFF6474C6),
                                           Colors.transparent,
-                                          Colors.white.withValues(alpha: 0.09),
-                                          // Color(0xFF6474C6).withOpacity(0.14)
+                                          Colors.transparent,
                                         ],
-                                        stops: [0.02, 0.35, 1],
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
                                       ),
-                                      borderRadius: BorderRadius.circular(27),
-                                      border: Border.all(
-                                        color: Colors.white
-                                            .withValues(alpha: 0.6),
-                                        width: 0.7,
-                                      ),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.white
-                                              .withValues(alpha: 0.0),
-                                          blurRadius: 12,
-                                          offset: const Offset(0, 2),
+                                    ),
+                                    margin: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 8,
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(18),
+                                      child: BackdropFilter(
+                                        filter: ImageFilter.blur(
+                                          sigmaX: 18,
+                                          sigmaY: 18,
                                         ),
-                                      ],
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                Colors.white
+                                                    .withValues(alpha: 0.09),
+                                                Colors.transparent,
+                                                Colors.white
+                                                    .withValues(alpha: 0.09),
+                                                // Color(0xFF6474C6).withOpacity(0.14)
+                                              ],
+                                              stops: [0.02, 0.35, 1],
+                                              begin: Alignment.topCenter,
+                                              end: Alignment.bottomCenter,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(27),
+                                            border: Border.all(
+                                              color: Colors.white
+                                                  .withValues(alpha: 0.6),
+                                              width: 0.7,
+                                            ),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.white
+                                                    .withValues(alpha: 0.0),
+                                                blurRadius: 12,
+                                                offset: const Offset(0, 2),
+                                              ),
+                                            ],
+                                          ),
+                                          // index >= state.list.length
+                                          //   ? const BaseLoader()
+                                          child: BaseListTileItem(
+                                            id: state.list[index].id,
+                                            labels: labels,
+                                            status: state.list[index].status,
+                                            isKeyLossStatus: true,
+                                            isEventProtectionStatus: false,
+                                            onTap: (selectedIndex) {
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext
+                                                    dialogContext) {
+                                                  return BasePopUpItems(
+                                                    id: state
+                                                        .list[selectedIndex].id
+                                                        .toString(),
+                                                    slNo: state
+                                                        .list[selectedIndex]
+                                                        .slNo,
+                                                    labels: labels,
+                                                    isKeyLossStatus: true,
+                                                    isEventProtectionStatus:
+                                                        false,
+                                                    isMasterGuard: false,
+                                                    status: state
+                                                        .list[selectedIndex]
+                                                        .status,
+                                                    keyType: state
+                                                        .list[selectedIndex]
+                                                        .keyType,
+                                                    type: state
+                                                        .list[selectedIndex]
+                                                        .type,
+                                                    srh: state
+                                                        .list[selectedIndex]
+                                                        .srh,
+                                                    securityManager: state
+                                                        .list[selectedIndex]
+                                                        .securityManager,
+                                                  );
+                                                },
+                                              );
+                                            },
+                                            onEditTap: (selectedIndex) {
+                                              getById(
+                                                state.extraProperties
+                                                        ?.hasWritePermission ??
+                                                    false,
+                                                state.list[index].id ?? 0,
+                                              );
+                                            },
+                                            showEditButton: state
+                                                        .list[index].status !=
+                                                    ConstantsIntValue
+                                                        .keyLossClosedStatus &&
+                                                state.list[index].status !=
+                                                    ConstantsIntValue
+                                                        .cancelledStatus,
+                                            onViewTap: (selectedIndex) {
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext
+                                                    dialogContext) {
+                                                  return BasePopUpItems(
+                                                    id: state
+                                                        .list[selectedIndex].id
+                                                        .toString(),
+                                                    slNo: state
+                                                        .list[selectedIndex]
+                                                        .slNo,
+                                                    labels: labels,
+                                                    status: state
+                                                        .list[selectedIndex]
+                                                        .status,
+                                                    isKeyLossStatus: true,
+                                                    isEventProtectionStatus:
+                                                        false,
+                                                    isMasterGuard: false,
+                                                    keyType: state
+                                                        .list[selectedIndex]
+                                                        .keyType,
+                                                    type: state
+                                                        .list[selectedIndex]
+                                                        .type,
+                                                    srh: state
+                                                        .list[selectedIndex]
+                                                        .srh,
+                                                    securityManager: state
+                                                        .list[selectedIndex]
+                                                        .securityManager,
+                                                  );
+                                                },
+                                              );
+                                            },
+                                            index: index,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                    // index >= state.list.length
-                                    //   ? const BaseLoader()
-                                    child: BaseListTileItem(
-                                      id: state.list[index].id,
-                                      labels: labels,
-                                      status: state.list[index].status,
-                                      isKeyLossStatus: true,
-                                      isEventProtectionStatus: false,
-                                      onTap: (selectedIndex) {
-                                        showDialog(
-                                          context: context,
-                                          builder:
-                                              (BuildContext dialogContext) {
-                                                return BasePopUpItems(
-                                                  id: state
-                                                      .list[selectedIndex]
-                                                      .id
-                                                      .toString(),
-                                                  slNo: state
-                                                      .list[selectedIndex]
-                                                      .slNo,
-                                                  labels: labels,
-                                                  isKeyLossStatus: true,
-                                                  isEventProtectionStatus:
-                                                      false,
-                                                  isMasterGuard: false,
-                                                  status: state
-                                                      .list[selectedIndex]
-                                                      .status,
-                                                  keyType: state
-                                                      .list[selectedIndex]
-                                                      .keyType,
-                                                  type: state
-                                                      .list[selectedIndex]
-                                                      .type,
-                                                  srh: state
-                                                      .list[selectedIndex]
-                                                      .srh,
-                                                  securityManager: state
-                                                      .list[selectedIndex]
-                                                      .securityManager,
-                                                );
-                                              },
-                                        );
-                                      },
-                                      onEditTap: (selectedIndex) {
-                                        getById(
-                                          state
-                                                  .extraProperties
-                                                  ?.hasWritePermission ??
-                                              false,
-                                          state.list[index].id ?? 0,
-                                        );
-                                      },
-                                      showEditButton:
-                                          state.list[index].status !=
-                                              ConstantsIntValue
-                                                  .keyLossClosedStatus &&
-                                          state.list[index].status !=
-                                              ConstantsIntValue.cancelledStatus,
-                                      onViewTap: (selectedIndex) {
-                                        showDialog(
-                                          context: context,
-                                          builder:
-                                              (BuildContext dialogContext) {
-                                                return BasePopUpItems(
-                                                  id: state
-                                                      .list[selectedIndex]
-                                                      .id
-                                                      .toString(),
-                                                  slNo: state
-                                                      .list[selectedIndex]
-                                                      .slNo,
-                                                  labels: labels,
-                                                  status: state
-                                                      .list[selectedIndex]
-                                                      .status,
-                                                  isKeyLossStatus: true,
-                                                  isEventProtectionStatus:
-                                                      false,
-                                                  isMasterGuard: false,
-                                                  keyType: state
-                                                      .list[selectedIndex]
-                                                      .keyType,
-                                                  type: state
-                                                      .list[selectedIndex]
-                                                      .type,
-                                                  srh: state
-                                                      .list[selectedIndex]
-                                                      .srh,
-                                                  securityManager: state
-                                                      .list[selectedIndex]
-                                                      .securityManager,
-                                                );
-                                              },
-                                        );
-                                      },
-                                      index: index,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
+                                  );
                           }
 
                           // Handle the case where index is out of bounds

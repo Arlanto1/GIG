@@ -169,7 +169,8 @@ class _MaterialMovementDetailsViewState
         if ((state.model.status == ConstantsIntValue.businessUserReview ||
                 state.model.status == ConstantsIntValue.mmStatusLSMRejected) &&
             (requesterEmailUser != null &&
-                requesterEmailUser == '${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email})')) {
+                requesterEmailUser ==
+                    '${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email})')) {
           isReadOnly = false;
         }
 
@@ -186,11 +187,10 @@ class _MaterialMovementDetailsViewState
                     ConstantsIntValue.businessUserReview ||
                 state.model.status == ConstantsIntValue.mmStatusLSMRejected) &&
             (requesterEmailUser != null &&
-                requesterEmailUser == '${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email})'));
+                requesterEmailUser ==
+                    '${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email})'));
 
-
-        log('editByRequester ${requesterEmailUser != null &&
-            requesterEmailUser == '${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email})'}');
+        log('editByRequester ${requesterEmailUser != null && requesterEmailUser == '${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email})'}');
         log('req ${requesterEmailUser}');
         log('req1 ${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email})');
         editByCreatedByUser =
@@ -232,7 +232,8 @@ class _MaterialMovementDetailsViewState
             showPopUp: false,
             showSaveButton: showSaveSubmitButtons &&
                 state.model.status != ConstantsIntValue.mmStatusClosed &&
-                !lock && state.status != FormStatus.loading,
+                !lock &&
+                state.status != FormStatus.loading,
             pdfAPIName:
                 '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=$moduleCode',
             onTapSave: () {
@@ -247,7 +248,8 @@ class _MaterialMovementDetailsViewState
             },
             showSubmitButton: showSaveSubmitButtons &&
                 state.model.status != ConstantsIntValue.mmStatusClosed &&
-                !lock && state.status != FormStatus.loading,
+                !lock &&
+                state.status != FormStatus.loading,
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -258,7 +260,9 @@ class _MaterialMovementDetailsViewState
                 securitySignatureController: securitySignatureController,
               );
             },
-            showLikeButton: showLikeAndDislikeButton && !lock && state.status != FormStatus.loading,
+            showLikeButton: showLikeAndDislikeButton &&
+                !lock &&
+                state.status != FormStatus.loading,
             onTapLikeButton: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -269,7 +273,9 @@ class _MaterialMovementDetailsViewState
                 securitySignatureController: securitySignatureController,
               );
             },
-            showDisLikeButton: showLikeAndDislikeButton && !lock && state.status != FormStatus.loading,
+            showDisLikeButton: showLikeAndDislikeButton &&
+                !lock &&
+                state.status != FormStatus.loading,
             onTapDislikeButton: () {
               // FocusScope.of(context).unfocus();
               showDialog(
@@ -300,7 +306,7 @@ class _MaterialMovementDetailsViewState
               );
             },
           ),
-          backgroundColor: AppColors.lavender,
+          backgroundColor: AppColors.newColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -375,18 +381,18 @@ class _MaterialMovementDetailsViewState
         state.model.status == ConstantsIntValue.mmStatusInwardWaiting ||
         !state.model.lock.isEmptyOrNull;
     return Container(
-      color: AppColors.lavender,
+      color: AppColors.newColor3,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.lavender,
+              color: AppColors.newColor3,
             ),
             Container(
-              decoration: const ShapeDecoration(
-                  color: AppColors.lavender,
-                  shape: RoundedRectangleBorder(
+              decoration: ShapeDecoration(
+                  color: AppColors.newColor3,
+                  shape: const RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
@@ -569,65 +575,67 @@ class _MaterialMovementDetailsViewState
                             CommonWidgets.horizentaltextHandling(
                               // state.labels?.locale.slNo ??
                               //     state.labels?.defaultLocale.slNo ??
-                                  widget.isInward ? Constants.slno : 'Gate Pass No',
+                              widget.isInward ? Constants.slno : 'Gate Pass No',
                               state.model.slNo ?? '',
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            if(widget.isInward)...[
-                            /// Challan/ Invoice Nos/ Gate Pass
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.challanNo ??
-                                  state.labels?.defaultLocale.challanNo ??
-                                  Constants.challan,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              textInputType: TextInputType.text,
-                              textFormKey: Keys.challanKey,
-                              initialValue: state.model.challanNo,
-                              characterLimit:
-                                  Constants.characterLimitIdTextFormField,
-                              hintText: '',
-                              isEnable: state.model.status == 10 ||
-                                      state.model.status == -1 ||
-                                      state.model.status == 6 ||
-                                      state.model.status == 2 ||
-                                      state.model.status == 3 ||
-                                      state.model.status == 4 ||
-                                      state.model.status == 5 ||
-                                      state.model.status == 1 ||
-                                      state.model.status == 7 ||
-                                      state.model.status ==
-                                          ConstantsIntValue
-                                              .mmStatusInwardWaiting ||
-                                      !state.model.lock.isEmptyOrNull
-                                  ? false
-                                  : true,
-                              isDisableColor: state.model.status == 10 ||
-                                  state.model.status == -1 ||
-                                  state.model.status == 6 ||
-                                  state.model.status == 2 ||
-                                  state.model.status == 3 ||
-                                  state.model.status == 5 ||
-                                  state.model.status == 1 ||
-                                  state.model.status == 7 ||
-                                  state.model.status ==
-                                      ConstantsIntValue.mmStatusInwardWaiting ||
-                                  !state.model.lock.isEmptyOrNull,
-                              onChange: (String value) {
-                                state.model.challanNo = value;
-                                context
-                                    .read<MaterialMovementDetailsCubit>()
-                                    .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-],
+                            if (widget.isInward) ...[
+                              /// Challan/ Invoice Nos/ Gate Pass
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.challanNo ??
+                                    state.labels?.defaultLocale.challanNo ??
+                                    Constants.challan,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                textInputType: TextInputType.text,
+                                textFormKey: Keys.challanKey,
+                                initialValue: state.model.challanNo,
+                                characterLimit:
+                                    Constants.characterLimitIdTextFormField,
+                                hintText: '',
+                                isEnable: state.model.status == 10 ||
+                                        state.model.status == -1 ||
+                                        state.model.status == 6 ||
+                                        state.model.status == 2 ||
+                                        state.model.status == 3 ||
+                                        state.model.status == 4 ||
+                                        state.model.status == 5 ||
+                                        state.model.status == 1 ||
+                                        state.model.status == 7 ||
+                                        state.model.status ==
+                                            ConstantsIntValue
+                                                .mmStatusInwardWaiting ||
+                                        !state.model.lock.isEmptyOrNull
+                                    ? false
+                                    : true,
+                                isDisableColor: state.model.status == 10 ||
+                                    state.model.status == -1 ||
+                                    state.model.status == 6 ||
+                                    state.model.status == 2 ||
+                                    state.model.status == 3 ||
+                                    state.model.status == 5 ||
+                                    state.model.status == 1 ||
+                                    state.model.status == 7 ||
+                                    state.model.status ==
+                                        ConstantsIntValue
+                                            .mmStatusInwardWaiting ||
+                                    !state.model.lock.isEmptyOrNull,
+                                onChange: (String value) {
+                                  state.model.challanNo = value;
+                                  context
+                                      .read<MaterialMovementDetailsCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            ],
                             if (widget.isInward) ...[
                               /// PO Number
                               CommonWidgets.textDisplay(
@@ -1889,7 +1897,10 @@ class _MaterialMovementDetailsViewState
                                           .expectedDateOfReturn ??
                                       Constants.expectedDateOfReturn,
                                   Styles.textStyleWhite16,
-                                  isMandatory: state.model.status !=0 && state.model.status !=null ? true : false,
+                                  isMandatory: state.model.status != 0 &&
+                                          state.model.status != null
+                                      ? true
+                                      : false,
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.001),
@@ -2244,9 +2255,11 @@ class _MaterialMovementDetailsViewState
                                         );
                                         state.model.receiverEmail = null;
                                         state.model.receiverEmployeeId = null;
-                                        state.model.otherReceiverEmployeeId = null;
-                                        state.model.receiverDepartmenttName = null;
-                                },
+                                        state.model.otherReceiverEmployeeId =
+                                            null;
+                                        state.model.receiverDepartmenttName =
+                                            null;
+                                      },
                                 onChangedNo: widget.model?.status == 6 ||
                                         widget.model?.status == -1 ||
                                         widget.model?.status == 10 ||
@@ -2263,8 +2276,10 @@ class _MaterialMovementDetailsViewState
                                         );
                                         state.model.receiverEmail = null;
                                         state.model.receiverEmployeeId = null;
-                                        state.model.otherReceiverEmployeeId = null;
-                                        state.model.receiverDepartmenttName = null;
+                                        state.model.otherReceiverEmployeeId =
+                                            null;
+                                        state.model.receiverDepartmenttName =
+                                            null;
                                       },
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
@@ -2562,144 +2577,144 @@ class _MaterialMovementDetailsViewState
                                 /// Received by Employee Id
                                 // Column(
                                 //   children: [
-                                    // CommonWidgets.textDisplay(
-                                    //   state.labels?.locale
-                                    //           .otherReceiverEmployeeId ??
-                                    //       state.labels?.defaultLocale
-                                    //           .otherReceiverEmployeeId ??
-                                    //       Constants.receiverEmployeeId,
-                                    //   Styles.textStyleBlack14,
-                                    //   isMandatory: false,
-                                    // ),
-                                    // TextFieldAddButton(
-                                    //     title:
-                                    //         state.model.otherReceiverEmployeeId,
-                                    //     height: 70,
-                                    //     isDisableColor: isReadOnly,
-                                    //     onTap: () {
-                                    //       if (!isReadOnly) {
-                                    //         BaseOrganisationDialog().userDialog(
-                                    //           employeeId: true,
-                                    //           context: context,
-                                    //           users: state.receiverEmailUsers!,
-                                    //           isDbUser: true,
-                                    //           onTap: (BaseUser user) {
-                                    //             BlocProvider.of<
-                                    //                         MaterialMovementDetailsCubit>(
-                                    //                     context)
-                                    //                 .updateDropdownValues(
-                                    //                     receiverByEmail: user);
-                                    //             FocusScope.of(context).requestFocus(
-                                    //                 receivedForEmployeeIdFocusNode);
-                                    //           },
-                                    //           roleName: ConstantUserRoles
-                                    //               .atomStaticUser,
-                                    //           locationId:
-                                    //               state.model.location!.id!,
-                                    //           functionToCall: (BaseUser user) {
-                                    //             BlocProvider.of<
-                                    //                         MaterialMovementDetailsCubit>(
-                                    //                     context)
-                                    //                 .updateDropdownValues(
-                                    //                     receiverByEmail: user);
-                                    //             FocusScope.of(context).requestFocus(
-                                    //                 receivedForEmployeeIdFocusNode);
-                                    //             // refresh the list
-                                    //             BlocProvider.of<
-                                    //                         MaterialMovementDetailsCubit>(
-                                    //                     context)
-                                    //                 .refreshList();
-                                    //           },
-                                    //         );
-                                    //       }
-                                    //     }),
+                                // CommonWidgets.textDisplay(
+                                //   state.labels?.locale
+                                //           .otherReceiverEmployeeId ??
+                                //       state.labels?.defaultLocale
+                                //           .otherReceiverEmployeeId ??
+                                //       Constants.receiverEmployeeId,
+                                //   Styles.textStyleBlack14,
+                                //   isMandatory: false,
+                                // ),
+                                // TextFieldAddButton(
+                                //     title:
+                                //         state.model.otherReceiverEmployeeId,
+                                //     height: 70,
+                                //     isDisableColor: isReadOnly,
+                                //     onTap: () {
+                                //       if (!isReadOnly) {
+                                //         BaseOrganisationDialog().userDialog(
+                                //           employeeId: true,
+                                //           context: context,
+                                //           users: state.receiverEmailUsers!,
+                                //           isDbUser: true,
+                                //           onTap: (BaseUser user) {
+                                //             BlocProvider.of<
+                                //                         MaterialMovementDetailsCubit>(
+                                //                     context)
+                                //                 .updateDropdownValues(
+                                //                     receiverByEmail: user);
+                                //             FocusScope.of(context).requestFocus(
+                                //                 receivedForEmployeeIdFocusNode);
+                                //           },
+                                //           roleName: ConstantUserRoles
+                                //               .atomStaticUser,
+                                //           locationId:
+                                //               state.model.location!.id!,
+                                //           functionToCall: (BaseUser user) {
+                                //             BlocProvider.of<
+                                //                         MaterialMovementDetailsCubit>(
+                                //                     context)
+                                //                 .updateDropdownValues(
+                                //                     receiverByEmail: user);
+                                //             FocusScope.of(context).requestFocus(
+                                //                 receivedForEmployeeIdFocusNode);
+                                //             // refresh the list
+                                //             BlocProvider.of<
+                                //                         MaterialMovementDetailsCubit>(
+                                //                     context)
+                                //                 .refreshList();
+                                //           },
+                                //         );
+                                //       }
+                                //     }),
                                 //   ],
                                 // ),
                                 // CommonWidgets.verticalSpacerWidget(
                                 //     height * 0.01),
 
                                 /// Received by
-                              //   CommonWidgets.textDisplay(
-                              //     state.labels?.locale.receiverName ??
-                              //         state
-                              //             .labels?.defaultLocale.receiverName ??
-                              //         Constants.receivedBy,
-                              //     Styles.textStyleBlack14,
-                              //     isMandatory: false,
-                              //   ),
-                              //
-                              //   FlutterInputField(
-                              //     // initialValue: state.model.otherReceiverName,
-                              //     controller: receiverByEmailController,
-                              //     textFormKey: Keys.claimantEmpIdTextController,
-                              //     isEnable: false,
-                              //     isDisableColor: true,
-                              //     hintText: '',
-                              //     focusNode: receivedByFocusNode,
-                              //     onChange: (String value) {},
-                              //     validateTextField: (String? user) {},
-                              //   ),
-                              // //],
-                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                //   CommonWidgets.textDisplay(
+                                //     state.labels?.locale.receiverName ??
+                                //         state
+                                //             .labels?.defaultLocale.receiverName ??
+                                //         Constants.receivedBy,
+                                //     Styles.textStyleBlack14,
+                                //     isMandatory: false,
+                                //   ),
+                                //
+                                //   FlutterInputField(
+                                //     // initialValue: state.model.otherReceiverName,
+                                //     controller: receiverByEmailController,
+                                //     textFormKey: Keys.claimantEmpIdTextController,
+                                //     isEnable: false,
+                                //     isDisableColor: true,
+                                //     hintText: '',
+                                //     focusNode: receivedByFocusNode,
+                                //     onChange: (String value) {},
+                                //     validateTextField: (String? user) {},
+                                //   ),
+                                // //],
+                                // CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              //],
-                              // if (state.model.originalReceiver == true) ...[
-                              //   /// Received by Employee Id
-                              //   Column(
-                              //     children: [
-                              //       CommonWidgets.textDisplay(
-                              //         state.labels?.locale.otherReceiverEmployeeId ??
-                              //             state.labels?.defaultLocale
-                              //                 .otherReceiverEmployeeId ??
-                              //             Constants.receiverEmployeeId,
-                              //         Styles.textStyleBlack14,
-                              //         isMandatory: true,
-                              //       ),
-                              //       TextFieldAddButton(
-                              //           title: state.model.receiverEmployeeId,
-                              //           height: 70,
-                              //           isDisableColor: isReadOnly,
-                              //           onTap: () {
-                              //             if (!isReadOnly) {
-                              //               BaseOrganisationDialog().userDialog(
-                              //                 context: context,
-                              //                 users: state.receiverEmailUsers!,
-                              //                 isDbUser: true,
-                              //                 onTap: (BaseUser user) {
-                              //                   BlocProvider.of<
-                              //                       MaterialMovementDetailsCubit>(
-                              //                       context)
-                              //                       .updateDropdownValues(
-                              //                       receiverEmailUser:
-                              //                       user);
-                              //                   FocusScope.of(context).requestFocus(
-                              //                       receivedForEmployeeIdFocusNode);
-                              //                 },
-                              //                 roleName: ConstantUserRoles
-                              //                     .atomStaticUser,
-                              //                 locationId:
-                              //                 state.model.location!.id!,
-                              //                 functionToCall: (BaseUser user) {
-                              //                   BlocProvider.of<
-                              //                       MaterialMovementDetailsCubit>(
-                              //                       context)
-                              //                       .updateDropdownValues(
-                              //                       receiverEmailUser:
-                              //                       user);
-                              //                   FocusScope.of(context).requestFocus(
-                              //                       receivedForEmployeeIdFocusNode);
-                              //                   // refresh the list
-                              //                   BlocProvider.of<
-                              //                       MaterialMovementDetailsCubit>(
-                              //                       context)
-                              //                       .refreshList();
-                              //                 },
-                              //               );
-                              //             }
-                              //           }),
-                              //     ],
-                              //   ),
-                            ///Received Employee Id
+                                //],
+                                // if (state.model.originalReceiver == true) ...[
+                                //   /// Received by Employee Id
+                                //   Column(
+                                //     children: [
+                                //       CommonWidgets.textDisplay(
+                                //         state.labels?.locale.otherReceiverEmployeeId ??
+                                //             state.labels?.defaultLocale
+                                //                 .otherReceiverEmployeeId ??
+                                //             Constants.receiverEmployeeId,
+                                //         Styles.textStyleBlack14,
+                                //         isMandatory: true,
+                                //       ),
+                                //       TextFieldAddButton(
+                                //           title: state.model.receiverEmployeeId,
+                                //           height: 70,
+                                //           isDisableColor: isReadOnly,
+                                //           onTap: () {
+                                //             if (!isReadOnly) {
+                                //               BaseOrganisationDialog().userDialog(
+                                //                 context: context,
+                                //                 users: state.receiverEmailUsers!,
+                                //                 isDbUser: true,
+                                //                 onTap: (BaseUser user) {
+                                //                   BlocProvider.of<
+                                //                       MaterialMovementDetailsCubit>(
+                                //                       context)
+                                //                       .updateDropdownValues(
+                                //                       receiverEmailUser:
+                                //                       user);
+                                //                   FocusScope.of(context).requestFocus(
+                                //                       receivedForEmployeeIdFocusNode);
+                                //                 },
+                                //                 roleName: ConstantUserRoles
+                                //                     .atomStaticUser,
+                                //                 locationId:
+                                //                 state.model.location!.id!,
+                                //                 functionToCall: (BaseUser user) {
+                                //                   BlocProvider.of<
+                                //                       MaterialMovementDetailsCubit>(
+                                //                       context)
+                                //                       .updateDropdownValues(
+                                //                       receiverEmailUser:
+                                //                       user);
+                                //                   FocusScope.of(context).requestFocus(
+                                //                       receivedForEmployeeIdFocusNode);
+                                //                   // refresh the list
+                                //                   BlocProvider.of<
+                                //                       MaterialMovementDetailsCubit>(
+                                //                       context)
+                                //                       .refreshList();
+                                //                 },
+                                //               );
+                                //             }
+                                //           }),
+                                //     ],
+                                //   ),
+                                ///Received Employee Id
                                 CommonWidgets.textDisplay(
                                   state.labels?.locale.otherReceiverEmployeeId ??
                                       state.labels?.defaultLocale
@@ -2711,7 +2726,8 @@ class _MaterialMovementDetailsViewState
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
                                 FlutterInputField(
-                                  initialValue: state.model.otherReceiverEmployeeId,
+                                  initialValue:
+                                      state.model.otherReceiverEmployeeId,
                                   textFormKey: Keys.claimantEmpIdTextController,
                                   isEnable: !isReadOnly,
                                   isDisableColor: isReadOnly,
@@ -2728,36 +2744,35 @@ class _MaterialMovementDetailsViewState
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.02),
 
-
-                              ///Received By
-                              CommonWidgets.textDisplay(
-                                state.labels?.locale.receiverName ??
-                                    state
-                                        .labels?.defaultLocale.receiverName ??
-                                    Constants.receivedBy,
-                                Styles.textStyleWhite16,
-                                isMandatory: true,
-                              ),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.01),
-                              FlutterInputField(
-                                initialValue: state.model.otherReceiverName,
-                                textFormKey: Keys.claimantEmpIdTextController,
-                                isEnable: !isReadOnly,
-                                isDisableColor: isReadOnly,
-                                textInputType: TextInputType.text,
-                                hintText: '',
-                                onChange: (String value) {
-                                  state.model.otherReceiverName = value;
-                                  context
-                                      .read<MaterialMovementDetailsCubit>()
-                                      .onModelValueChange(state.model);
-                                },
-                                validateTextField: (String? user) {},
-                              ),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02),
-                            ],
+                                ///Received By
+                                CommonWidgets.textDisplay(
+                                  state.labels?.locale.receiverName ??
+                                      state
+                                          .labels?.defaultLocale.receiverName ??
+                                      Constants.receivedBy,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                                FlutterInputField(
+                                  initialValue: state.model.otherReceiverName,
+                                  textFormKey: Keys.claimantEmpIdTextController,
+                                  isEnable: !isReadOnly,
+                                  isDisableColor: isReadOnly,
+                                  textInputType: TextInputType.text,
+                                  hintText: '',
+                                  onChange: (String value) {
+                                    state.model.otherReceiverName = value;
+                                    context
+                                        .read<MaterialMovementDetailsCubit>()
+                                        .onModelValueChange(state.model);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
+                              ],
 
                               /// Receiver Signature test
                               buildSignature(
@@ -2852,7 +2867,8 @@ class _MaterialMovementDetailsViewState
                                   hintText: '',
                                   isEnable: state.model.status == 0 ||
                                       state.model.status == null,
-                                  isDisableColor: state.model.status != 0 && state.model.status != null,
+                                  isDisableColor: state.model.status != 0 &&
+                                      state.model.status != null,
                                   onChange: (String value) {
                                     state.model.materialNotCheckedComment =
                                         value;
@@ -3286,9 +3302,9 @@ class _MaterialMovementDetailsViewState
                 lock) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
-                decoration: const ShapeDecoration(
-                  color: AppColors.lavender,
-                  shape: RoundedRectangleBorder(
+                decoration: ShapeDecoration(
+                  color: AppColors.newColor3,
+                  shape: const RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(00.0)),
                   ),

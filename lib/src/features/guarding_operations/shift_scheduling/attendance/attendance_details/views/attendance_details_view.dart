@@ -7,7 +7,7 @@ import '../cubits/attendance_details_cubit.dart';
 class AttendanceDetailsView extends StatefulWidget {
   final AttendanceModel? model;
   final ExtraProperties? extraProperties;
-   static int flag = 0;
+  static int flag = 0;
   const AttendanceDetailsView({
     super.key,
     this.model,
@@ -28,13 +28,13 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
 
   bool isDisabled = true;
   bool isReadOnly = false;
-  int flag= 0;
+  int flag = 0;
   // AttendanceDetailsView.flag = 0;
   @override
   void initState() {
     super.initState();
     BlocProvider.of<AttendanceDetailsCubit>(context).initializeValues();
-    AttendanceDetailsView.flag =0;
+    AttendanceDetailsView.flag = 0;
   }
 
   @override
@@ -124,7 +124,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
             context: context,
             title: Constants.attendanceDetails,
             showPopUp: false,
-            showSubmitButton: !isReadOnly  && state.status != FormStatus.loading ,
+            showSubmitButton: !isReadOnly && state.status != FormStatus.loading,
             showSaveButton: false,
             showDisLikeButton: false,
             showLikeButton: false,
@@ -141,7 +141,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                   .submitForm(isSaveOnly: false);
             },
           ),
-          backgroundColor: AppColors.lavender,
+          backgroundColor: AppColors.newColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -155,18 +155,18 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.lavender,
+      color: AppColors.newColor3,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.lavender,
+              color: AppColors.newColor3,
             ),
             Container(
-              decoration: const ShapeDecoration(
-                  color: AppColors.lavender,
-                  shape: RoundedRectangleBorder(
+              decoration: ShapeDecoration(
+                  color: AppColors.newColor3,
+                  shape: const RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
@@ -240,7 +240,6 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
-
 
                             /// Created By
                             CommonWidgets.horizentaltextHandling(
@@ -442,58 +441,59 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                       ),
                     ),
 
+                    if (state.model.shiftInfo?.id != null) ...[
+                      /// List of Duty Posts
+                      DutyPostListWidget(
+                          dutyPosts: state.dutyPosts ?? [],
+                          onTap: (int? thisVariableIsOfNoUseDoNotDeleteThis,
+                              int? dutyPostNameId,
+                              DutyPostModel dutyPostModel) async {
+                            log('flagValue---${AttendanceDetailsView.flag}');
+                            // flag =   widget.flag;
+                            // AttendanceDetailsView.flag++;
+                            log('flagValue---${AttendanceDetailsView.flag}');
+                            bool isSaveSuccess =
+                                await BlocProvider.of<AttendanceDetailsCubit>(
+                                        context)
+                                    .submitForm(
+                                        isSaveOnly: true,
+                                        navigateToNextScreen: true);
 
-                    if(state.model.shiftInfo?.id != null)...[
-                    /// List of Duty Posts
-                    DutyPostListWidget(
-                        dutyPosts: state.dutyPosts ?? [],
-                        onTap: (int? thisVariableIsOfNoUseDoNotDeleteThis,
-                            int? dutyPostNameId,
-                            DutyPostModel dutyPostModel) async {
-                          log('flagValue---${AttendanceDetailsView.flag}');
-                          // flag =   widget.flag;
-                          // AttendanceDetailsView.flag++;
-                          log('flagValue---${AttendanceDetailsView.flag}');
-                          bool isSaveSuccess =
-                              await BlocProvider.of<AttendanceDetailsCubit>(
-                                      context)
-                                  .submitForm(
-                                      isSaveOnly: true,
-                                      navigateToNextScreen: true);
+                            log('flagValue---${AttendanceDetailsView.flag}');
+                            AttendanceDetailsView.flag++;
+                            log('flagValue---${AttendanceDetailsView.flag}');
 
-                          log('flagValue---${AttendanceDetailsView.flag}');
-                          AttendanceDetailsView.flag++;
-                          log('flagValue---${AttendanceDetailsView.flag}');
+                            if (!isSaveSuccess) {
+                              return;
+                            }
 
-                          if (!isSaveSuccess) {
-                            return;
-                          }
-
-                          BlocProvider.of<AttendanceDetailsCubit>(context)
-                              .navigateToNextScreen(
-                            dutyPostNameId: dutyPostNameId!,
-                            dutyPostModel: dutyPostModel,
-                          );
-                          NavigatorState nav = Navigator.of(context);
-                          nav.pushNamed(
-                            attendanceShiftsRoute,
-                            arguments: {
-                              ConstantsArgument.parentId: state.parentId,
-                              ConstantsArgument.selectedDutyPostNameId:
-                                  state.selectedDutyPostNameId,
-                              ConstantsArgument.location: state.model.location,
-                              ConstantsArgument.locationRegion:
-                                  state.model.locationRegion,
-                              ConstantsArgument.vendor: state.model.vendor,
-                              ConstantsArgument.selectedDutyPostModel:
-                                  state.selectedDutyPostModel,
-                              ConstantsArgument.isReadOnly: isReadOnly,
-                              ConstantsArgument.isEligibleToEdit:
-                                  state.model.isEligibleToEdit
-                            },
-                          );
-                          log('--state.model.id---${state.model.id}--');
-                        }),],
+                            BlocProvider.of<AttendanceDetailsCubit>(context)
+                                .navigateToNextScreen(
+                              dutyPostNameId: dutyPostNameId!,
+                              dutyPostModel: dutyPostModel,
+                            );
+                            NavigatorState nav = Navigator.of(context);
+                            nav.pushNamed(
+                              attendanceShiftsRoute,
+                              arguments: {
+                                ConstantsArgument.parentId: state.parentId,
+                                ConstantsArgument.selectedDutyPostNameId:
+                                    state.selectedDutyPostNameId,
+                                ConstantsArgument.location:
+                                    state.model.location,
+                                ConstantsArgument.locationRegion:
+                                    state.model.locationRegion,
+                                ConstantsArgument.vendor: state.model.vendor,
+                                ConstantsArgument.selectedDutyPostModel:
+                                    state.selectedDutyPostModel,
+                                ConstantsArgument.isReadOnly: isReadOnly,
+                                ConstantsArgument.isEligibleToEdit:
+                                    state.model.isEligibleToEdit
+                              },
+                            );
+                            log('--state.model.id---${state.model.id}--');
+                          }),
+                    ],
                     CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                     /// SubmitButton

@@ -8,7 +8,10 @@ class NoRecordFoundWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: Text('No Records Found.'),
+      child: Text(
+        'No Records Found.',
+        style: TextStyle(color: Colors.white),
+      ),
     );
   }
 }

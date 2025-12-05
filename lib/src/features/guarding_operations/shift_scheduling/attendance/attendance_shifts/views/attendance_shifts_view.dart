@@ -26,7 +26,6 @@ class AttendanceShiftsView extends StatefulWidget {
   final bool isReadOnly;
   final bool isEligibleToEdit;
 
-
   @override
   AttendanceShiftsViewState createState() => AttendanceShiftsViewState();
 }
@@ -100,13 +99,16 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         // isReadOnly = false; // TODO: remove this
 
         return Scaffold(
-            backgroundColor: AppColors.lavender,
-            appBar: BaseAppBar().buildAppHeader(
+          backgroundColor: AppColors.newColor3,
+          appBar: BaseAppBar().buildAppHeader(
               context: context,
               title: widget.selectedDutyPostModel.name ?? '',
               showPopUp: false,
-              showSaveButton:false,
-              showSubmitButton: state.model.activeShift== true && state.status != FormStatus.loading  ? true : false,
+              showSaveButton: false,
+              showSubmitButton: state.model.activeShift == true &&
+                      state.status != FormStatus.loading
+                  ? true
+                  : false,
               showDisLikeButton: false,
               showLikeButton: false,
               // onTapSave: () => BlocProvider.of<AttendanceShiftsCubit>(context)
@@ -125,6 +127,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                   Navigator.pop(context);
                 }
               },
+
               /// On Click on Submit it will show the confirmation dialogue box
               onTapSubmit: () {
                 showDialog(
@@ -133,7 +136,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                     return AlertDialog(
                       title: const Text(Constants.attendanceMessage),
                       content:
-                      const Text(Constants.attendanceSubmissionMessage),
+                          const Text(Constants.attendanceSubmissionMessage),
                       actions: <Widget>[
                         TextButton(
                           child: const Text(Constants.cancel),
@@ -152,9 +155,9 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                             // Submit and refresh data
                             BlocProvider.of<AttendanceShiftsCubit>(this.context)
                                 .submitAndRefreshScreen(
-                                isSubmit: true,
-                                isSaveOnly: false,
-                                isRemove: false);
+                                    isSubmit: true,
+                                    isSaveOnly: false,
+                                    isRemove: false);
                           },
                         ),
                       ],
@@ -179,8 +182,8 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
 
   void submitDutyPost(BuildContext context,
       {required bool isSaveOnly,
-        required bool isRemove,
-        required bool isSubmit}) {
+      required bool isRemove,
+      required bool isSubmit}) {
     FocusScope.of(context).unfocus();
     log('----onTap${isSaveOnly ? 'Save' : 'Submit'}--');
     BlocProvider.of<AttendanceShiftsCubit>(context).submitForm(
@@ -191,10 +194,10 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
   }
 
   Widget getBody(
-      AttendanceShiftsState state,
-      double height,
-      ShiftModel model,
-      ) {
+    AttendanceShiftsState state,
+    double height,
+    ShiftModel model,
+  ) {
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
@@ -265,7 +268,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           setState(() {
             selectedRank = value;
             selectedShift =
-            null; // set selectedShift to null, when we select the rank
+                null; // set selectedShift to null, when we select the rank
             state.model.selectForAttendance = null;
             state.model.shift = null;
           });
@@ -304,7 +307,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         },
       ),
       CommonWidgets.verticalSpacerWidget(
-          MediaQuery.of(context).size.height * 0.01),
+          MediaQuery.of(context).size.height * 0.02),
       buildTextWithLabel(
           'Attendance Status:',
           Utils().buildAttendanceShiftStatusRow(
@@ -328,7 +331,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                       destinationList: state.model.attended ?? {},
                       isSourceList: true,
                       label:
-                      'Select for Attendance: \n${state.model.shift} (Planned: ${state.model.allowed})',
+                          'Select for Attendance: \n${state.model.shift} (Planned: ${state.model.allowed})',
                     ),
                   ),
                 ),
@@ -358,7 +361,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
                           state: state,
                           icon: Icons.arrow_left,
                           destinationList:
-                          state.model.selectForAttendance ?? {},
+                              state.model.selectForAttendance ?? {},
                           onAdd: (BaseUser guard) {
                             state.model.selectForAttendance?.add(guard);
                             state.model.attended?.remove(guard);
@@ -414,7 +417,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               ],
             ),
             CommonWidgets.verticalSpacerWidget(
-                MediaQuery.of(context).size.height * 0.01),
+                MediaQuery.of(context).size.height * 0.02),
             // if (!state.model.selectForAttendance.isEmptyOrNull) ...[
             //   buildReplacementColumn(state),
             // ],
@@ -426,7 +429,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             ),
             // ],
             CommonWidgets.verticalSpacerWidget(
-                MediaQuery.of(context).size.height * 0.01),
+                MediaQuery.of(context).size.height * 0.02),
 
             /// Briefing Points
             CommonWidgets.textDisplay(
@@ -448,7 +451,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
 
                     BlocProvider.of<AttendanceShiftsCubit>(context)
                         .submitAndRefreshScreen(
-                        isRemove: true, isSubmit: false, isSaveOnly: true);
+                            isRemove: true, isSubmit: false, isSaveOnly: true);
                     // Update the points in your Bloc or state management accordingly
                     // BlocProvider.of<AttendanceShiftsCubit>(context).updateBriefingPoints();
                   },
@@ -486,10 +489,10 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     required Set<BaseUser> destinationList,
     required void Function(BaseUser guard) onAdd,
     required bool isRemove,
-
   }) {
     return IconButton(
       iconSize: 30,
+      color: Colors.white,
       onPressed: () {
         if (selectedGuard != null && !destinationList.contains(selectedGuard)) {
           log('--onPressed----');
@@ -499,7 +502,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           onAdd(selectedGuard!);
           BlocProvider.of<AttendanceShiftsCubit>(context)
               .submitAndRefreshScreen(
-              isRemove: isRemove, isSubmit: false, isSaveOnly: true);
+                  isRemove: isRemove, isSubmit: false, isSaveOnly: true);
         }
       },
       icon: Icon(icon),
@@ -572,21 +575,25 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
               },
             ).then((_) => BlocProvider.of<AttendanceShiftsCubit>(context)
                 .submitAndRefreshScreen(
-                isRemove: false, isSubmit: false, isSaveOnly: true));
+                    isRemove: false, isSubmit: false, isSaveOnly: true));
           },
           child: Row(
             children: <Widget>[
               const SizedBox(width: 14),
-              SvgPicture.asset(AppIcon.pluscircle,  colorFilter: const ColorFilter.mode(
-                AppColors.white,
-                BlendMode.srcIn,
-              ),),
+              SvgPicture.asset(
+                AppIcon.pluscircle,
+                colorFilter: const ColorFilter.mode(
+                  AppColors.white,
+                  BlendMode.srcIn,
+                ),
+              ),
               const SizedBox(width: 10),
               const Text(
                 'Add SLA',
                 style: TextStyle(
                   color: AppColors.white,
                   decoration: TextDecoration.underline,
+                  decorationColor: AppColors.white,
                 ),
               ),
               CommonWidgets.verticalSpacerWidget(
@@ -618,7 +625,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
       onTap: () async {
         var nav = Navigator.of(context);
         SLAViolationPenaltyModel model =
-            await SLAViolationPenaltyServices().getGvpById(models.id??0);
+            await SLAViolationPenaltyServices().getGvpById(models.id ?? 0);
         nav.pushNamed(
           slaViolationPenaltyDetailsRoute,
           arguments: {
@@ -650,7 +657,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-    GestureDetector(
+        GestureDetector(
           onTap: () => showReplacementPopUp(
             context: context,
             model: Replacement(),
@@ -662,10 +669,13 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           child: Row(
             children: <Widget>[
               const SizedBox(width: 14),
-              SvgPicture.asset(AppIcon.pluscircle, colorFilter: const ColorFilter.mode(
-                AppColors.white,
-                BlendMode.srcIn,
-              ),),
+              SvgPicture.asset(
+                AppIcon.pluscircle,
+                colorFilter: const ColorFilter.mode(
+                  AppColors.white,
+                  BlendMode.srcIn,
+                ),
+              ),
               const SizedBox(width: 10),
               const Text(
                 Constants.addReplacement,
@@ -681,15 +691,17 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         ),
         if (state.model.replacements != null &&
             state.model.replacements!.isNotEmpty) ...[
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: buildReplacements(state),
-              ),
+          // Card(
+          //   color: Colors.transparent,
+          //   child:
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              children: buildReplacements(state),
             ),
           ),
+          // ),
           CommonWidgets.verticalSpacerWidget(
               MediaQuery.of(context).size.height * 0.01),
         ],
@@ -697,84 +709,259 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     );
   }
 
+  // List<Widget> buildReplacements(AttendanceShiftsState state) {
+  //   log('selectForReplacements${state.model.selectForReplacements}');
+  //   return [
+  //     for (Replacement replacement in state.model.replacements ?? [])
+  //       InkWell(
+  //         onTap: () => (state.model.attdStatus == 1 &&
+  //                     replacement.statusActive == true) ||
+  //                 (state.model.attdStatus == 2 &&
+  //                     replacement.statusActive == true)
+  //             ? showReplacementPopUp(
+  //                 context: context,
+  //                 model: replacement,
+  //                 selectedGuards: state.model.selectForReplacements ?? {},
+  //                 state: state,
+  //                 rankId: state.selectedRank!.id!,
+  //                 shiftId: state.selectedShift!.id!,
+  //               )
+  //             : null,
+  //         child: Stack(
+  //           children: [
+  //             Card(
+  //               child: Padding(
+  //                 padding: const EdgeInsets.all(8.0),
+  //                 child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     buildTextWithLabel(
+  //                         'Replacement For:', replacement.replacedFor?.name),
+  //                     buildTextWithLabel(
+  //                       'From Date:',
+  //                       replacement.fromDate != null
+  //                           ? Utils.timestampToDateConversion(
+  //                               int.tryParse(replacement.fromDate ?? '0'),
+  //                               Constants.dateFormat,
+  //                             )
+  //                           : '',
+  //                     ),
+  //                     // buildTextWithLabel(
+  //                     //   'To Date:',
+  //                     //   replacement.toDate != null
+  //                     //       ? Utils.timestampToDateConversion(
+  //                     //           int.parse(replacement.toDate ?? '0'),
+  //                     //           Constants.dateFormat,
+  //                     //         )
+  //                     //       : '',
+  //                     // ),
+  //
+  //                     buildTextWithLabel(
+  //                         'Reason:',
+  //                         Utils().getKeyFromValue(
+  //                           value: replacement.status!,
+  //                           dropdownValues: shiftScheduleReasonDropDownValues,
+  //                         )),
+  //                     buildTextWithLabel(
+  //                         'Replacement By:', replacement.replacementBy?.name),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ),
+  //             Positioned(
+  //               right: 0,
+  //               top: 0,
+  //               child: InkWell(
+  //                 onTap: () {
+  //                   state.model.replacements?.remove(replacement);
+  //                   BlocProvider.of<AttendanceShiftsCubit>(context)
+  //                       .submitAndRefreshScreen(
+  //                           checkValidations: false,
+  //                           isRemove: true,
+  //                           isSubmit: false,
+  //                           isSaveOnly: true);
+  //                   setState(() {});
+  //                 },
+  //                 child: Card(
+  //                   elevation: 5,
+  //                   child: replacement.statusActive == true
+  //                       ? BaseIcons().closeIcon()
+  //                       : SizedBox.fromSize(),
+  //                 ),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //   ];
+  // }
   List<Widget> buildReplacements(AttendanceShiftsState state) {
     log('selectForReplacements${state.model.selectForReplacements}');
-    return [
-      for (Replacement replacement in state.model.replacements ?? [])
-        InkWell(
-          onTap: () => ( state.model.attdStatus == 1 && replacement.statusActive == true) || ( state.model.attdStatus == 2 && replacement.statusActive == true) ?showReplacementPopUp(
-            context: context,
-            model: replacement,
-            selectedGuards: state.model.selectForReplacements ?? {},
-            state: state,
-            rankId: state.selectedRank!.id!,
-            shiftId: state.selectedShift!.id!,
-          ): null,
-          child: Stack(
-            children: [
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      buildTextWithLabel(
-                          'Replacement For:', replacement.replacedFor?.name),
-                      buildTextWithLabel(
-                        'From Date:',
-                        replacement.fromDate != null
-                            ? Utils.timestampToDateConversion(
-                          int.tryParse(replacement.fromDate ?? '0'),
-                          Constants.dateFormat,
-                        )
-                            : '',
-                      ),
-                      // buildTextWithLabel(
-                      //   'To Date:',
-                      //   replacement.toDate != null
-                      //       ? Utils.timestampToDateConversion(
-                      //           int.parse(replacement.toDate ?? '0'),
-                      //           Constants.dateFormat,
-                      //         )
-                      //       : '',
-                      // ),
 
-                      buildTextWithLabel(
-                          'Reason:',
-                          Utils().getKeyFromValue(
+    List<Widget> rows = [];
+
+    // ------------------------------
+    // ✅ ADD HEADER ONLY ONCE
+    // ------------------------------
+    rows.add(
+      Container(
+        // margin: const EdgeInsets.all(0),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: Colors.grey.shade300),
+        ),
+        child: Table(
+          border: TableBorder.symmetric(
+            inside: BorderSide(color: Colors.grey.shade300),
+          ),
+          columnWidths: const {
+            0: FlexColumnWidth(2),
+            1: FlexColumnWidth(2),
+            2: FlexColumnWidth(2),
+            3: FlexColumnWidth(2),
+            4: FlexColumnWidth(2),
+            5: FlexColumnWidth(1),
+          },
+          children: [
+            TableRow(
+              children: [
+                tableHeader("Replacement For"),
+                tableHeader("From Date"),
+                tableHeader("To Date"),
+                tableHeader("Reason"),
+                tableHeader("Replacement By"),
+                tableHeader(""),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+
+    // ------------------------------
+    // ✅ ADD TABLE ROWS (ONE PER REPLACEMENT)
+    // ------------------------------
+    for (Replacement replacement in state.model.replacements ?? []) {
+      rows.add(
+        InkWell(
+          onTap: () => (state.model.attdStatus == 1 &&
+                      replacement.statusActive == true) ||
+                  (state.model.attdStatus == 2 &&
+                      replacement.statusActive == true)
+              ? showReplacementPopUp(
+                  context: context,
+                  model: replacement,
+                  selectedGuards: state.model.selectForReplacements ?? {},
+                  state: state,
+                  rankId: state.selectedRank!.id!,
+                  shiftId: state.selectedShift!.id!,
+                )
+              : null,
+          child: Container(
+            // margin: const EdgeInsets.only(bottom: 1),
+            decoration: BoxDecoration(
+              color: AppColors.newColor3,
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(color: Colors.grey.shade300),
+            ),
+            child: Table(
+              border: TableBorder.symmetric(
+                inside: BorderSide(color: Colors.grey.shade300),
+              ),
+              columnWidths: const {
+                0: FlexColumnWidth(2),
+                1: FlexColumnWidth(2),
+                2: FlexColumnWidth(2),
+                3: FlexColumnWidth(2),
+                4: FlexColumnWidth(2),
+                5: FlexColumnWidth(1),
+              },
+              children: [
+                TableRow(
+                  children: [
+                    tableCell(replacement.replacedFor?.name ?? ""),
+                    tableCell(
+                      replacement.fromDate != null
+                          ? Utils.timestampToDateConversion(
+                              int.tryParse(replacement.fromDate ?? '0') ?? 0,
+                              Constants.dateFormat,
+                            )
+                          : '',
+                    ),
+                    tableCell(
+                      replacement.toDate != null
+                          ? Utils.timestampToDateConversion(
+                              int.tryParse(replacement.toDate ?? '0') ?? 0,
+                              Constants.dateFormat,
+                            )
+                          : '',
+                    ),
+                    tableCell(
+                      (Utils().getKeyFromValue(
                             value: replacement.status!,
-                            dropdownValues: shiftScheduleReasonDropDownValues,
-                          )),
-                      buildTextWithLabel(
-                          'Replacement By:', replacement.replacementBy?.name),
-                    ],
-                  ),
+                            dropdownValues: shiftScheduleReasonDropDownValues!,
+                          ) ??
+                          ''),
+                    ),
+                    tableCell(replacement.replacementBy?.name ?? ""),
+
+                    // ❌ Delete Button
+                    Center(
+                      child: replacement.statusActive == true
+                          ? IconButton(
+                              icon: const Icon(Icons.close, size: 18),
+                              onPressed: () {
+                                state.model.replacements?.remove(replacement);
+                                BlocProvider.of<AttendanceShiftsCubit>(context)
+                                    .submitAndRefreshScreen(
+                                  checkValidations: false,
+                                  isRemove: true,
+                                  isSubmit: false,
+                                  isSaveOnly: true,
+                                );
+                                setState(() {});
+                              },
+                            )
+                          : const SizedBox.shrink(),
+                    )
+                  ],
                 ),
-              ),
-              Positioned(
-                right: 0,
-                top: 0,
-                child: InkWell(
-                  onTap: () {
-                    state.model.replacements?.remove(replacement);
-                    BlocProvider.of<AttendanceShiftsCubit>(context)
-                        .submitAndRefreshScreen(
-                        checkValidations: false,
-                        isRemove: true,
-                        isSubmit: false,
-                        isSaveOnly: true);
-                    setState(() {});
-                  },
-                  child: Card(
-                    elevation: 5,
-                    child: replacement.statusActive == true?BaseIcons().closeIcon():SizedBox.fromSize(),
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-    ];
+      );
+    }
+
+    return rows;
+  }
+
+  Widget tableHeader(String label) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        label,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 8,
+          color: Colors.black,
+        ),
+      ),
+    );
+  }
+
+  Widget tableCell(String value) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        value,
+        style: const TextStyle(
+          fontSize: 8,
+          color: Colors.white,
+        ),
+      ),
+    );
   }
 
   // Helper method to create a RichText widget with label and value
@@ -787,13 +974,13 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
             style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.normal,
-              color: Colors.black, // You can adjust the color as needed
+              color: Colors.white, // You can adjust the color as needed
             ),
           ),
           TextSpan(
             text: value,
             style: const TextStyle(
-              color: AppColors.black,
+              color: AppColors.white,
               fontSize: 12,
               fontWeight: FontWeight.bold,
             ),

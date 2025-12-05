@@ -84,35 +84,37 @@ class AddDatePopUpState extends State<AddDatePopUp> {
               child: Column(
                 // clipBehavior: Clip.none,
                 children: <Widget>[
-                  SingleChildScrollView(
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          ///CSR Participation Date
-                          CommonWidgets.textDisplay(
-                            Constants.csrParticipationDate,
-                            Styles.textStyleBlack14,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            ///CSR Participation Date
+                            CommonWidgets.textDisplay(
+                              Constants.csrParticipationDate,
+                              Styles.textStyleBlack14,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          BaseDate().datePickerWidgetLoading(
-                            textController: dateController,
-                            isDisabled: false,
-                            onlyDate: true,
-                            onChange: (String value) {
-                              log('--fr-value-${dateController.text}------');
+                            BaseDate().datePickerWidgetLoading(
+                              textController: dateController,
+                              isDisabled: false,
+                              onlyDate: true,
+                              onChange: (String value) {
+                                log('--fr-value-${dateController.text}------');
 
-                              dateController.text = value;
-                            },
-                            context: widget.mainContext,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          buttonViews(widget.mainContext, width),
-                          CommonWidgets.verticalSpacerWidget(height * 0.02),
-                        ],
+                                dateController.text = value;
+                              },
+                              context: widget.mainContext,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            buttonViews(widget.mainContext, width),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                          ],
+                        ),
                       ),
                     ),
                   ),

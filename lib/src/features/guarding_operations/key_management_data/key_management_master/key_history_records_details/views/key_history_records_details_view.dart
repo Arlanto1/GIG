@@ -73,8 +73,7 @@ class _KeyHistoryRecordsDetailsViewState
   @override
   Widget build(BuildContext context) {
     if (widget.keyType != null) {
-      keyTypeController.text =
-          Utils().getKeyFromValue(
+      keyTypeController.text = Utils().getKeyFromValue(
             value: widget.keyType!,
             dropdownValues: keyTypeDropDownValues,
           ) ??
@@ -82,10 +81,8 @@ class _KeyHistoryRecordsDetailsViewState
     }
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    return BlocConsumer<
-      KeyHistoryRecordsDetailsCubit,
-      KeyHistoryRecordsDetailsState
-    >(
+    return BlocConsumer<KeyHistoryRecordsDetailsCubit,
+        KeyHistoryRecordsDetailsState>(
       listener: (context, state) {
         log('--widget.type--${widget.keyLostType}--');
         log('--widget.keyType--${widget.keyType}--');
@@ -226,8 +223,8 @@ class _KeyHistoryRecordsDetailsViewState
             },
             showSubmitButton:
                 showSaveAndSubmitButtons && state.status != FormStatus.loading
-                ? true
-                : false,
+                    ? true
+                    : false,
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<KeyHistoryRecordsDetailsCubit>(
@@ -274,7 +271,7 @@ class _KeyHistoryRecordsDetailsViewState
               );
             },
           ),
-          backgroundColor: AppColors.lavender,
+          backgroundColor: AppColors.newColor3,
           body: getBodybuilder(state, height),
         );
       },
@@ -290,11 +287,11 @@ class _KeyHistoryRecordsDetailsViewState
     return SingleChildScrollView(
       child: Column(
         children: [
-          Container(height: height * 0.01, color: AppColors.lavender),
+          Container(height: height * 0.01, color: AppColors.newColor3),
           Container(
-            decoration: const ShapeDecoration(
-              color: AppColors.lavender,
-              shape: RoundedRectangleBorder(
+            decoration: ShapeDecoration(
+              color: AppColors.newColor3,
+              shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
               ),
             ),
@@ -423,21 +420,21 @@ class _KeyHistoryRecordsDetailsViewState
                                     .toList(),
                                 onTap: (String value) {
                                   Label? selectedLabel;
-                                  selectedLabel = keyTypeDropDownValues
-                                      .firstWhere(
-                                        (label) => label.key == value,
-                                        orElse: () =>
-                                            const Label(key: '', value: ''),
-                                      );
+                                  selectedLabel =
+                                      keyTypeDropDownValues.firstWhere(
+                                    (label) => label.key == value,
+                                    orElse: () =>
+                                        const Label(key: '', value: ''),
+                                  );
                                   keyTypeController.text = value;
                                   BlocProvider.of<
-                                        KeyHistoryRecordsDetailsCubit
-                                      >(context)
+                                              KeyHistoryRecordsDetailsCubit>(
+                                          context)
                                       .updateDropdownValues(
-                                        keyType: int.tryParse(
-                                          selectedLabel.value,
-                                        ),
-                                      );
+                                    keyType: int.tryParse(
+                                      selectedLabel.value,
+                                    ),
+                                  );
                                 },
                               );
                             }
@@ -458,15 +455,7 @@ class _KeyHistoryRecordsDetailsViewState
                           textController: typeController,
                           items: typesDropDownValues,
                           initialValue:
-                              '${widget.keyLostType == ConstantsIntValue.lockChangeHistoryInt
-                                  ? state.model.type ?? 0
-                                  : widget.keyLostType == ConstantsIntValue.keyLostHistoryInt
-                                  ? state.model.type ?? 1
-                                  : widget.keyLostType == ConstantsIntValue.keyDamageHistoryInt
-                                  ? state.model.type ?? 2
-                                  : widget.keyLostType == ConstantsIntValue.keyDestroyHistoryInt
-                                  ? state.model.type ?? 3
-                                  : state.model.type.toString()}',
+                              '${widget.keyLostType == ConstantsIntValue.lockChangeHistoryInt ? state.model.type ?? 0 : widget.keyLostType == ConstantsIntValue.keyLostHistoryInt ? state.model.type ?? 1 : widget.keyLostType == ConstantsIntValue.keyDamageHistoryInt ? state.model.type ?? 2 : widget.keyLostType == ConstantsIntValue.keyDestroyHistoryInt ? state.model.type ?? 3 : state.model.type.toString()}',
                           onTap: () {
                             if (!isDisabled) {
                               BaseDropDown().assetTypeDialog(
@@ -476,18 +465,18 @@ class _KeyHistoryRecordsDetailsViewState
                                     .toList(),
                                 onTap: (String value) {
                                   Label? selectedLabel;
-                                  selectedLabel = typesDropDownValues
-                                      .firstWhere(
-                                        (label) => label.key == value,
-                                        orElse: () =>
-                                            const Label(key: '', value: ''),
-                                      );
+                                  selectedLabel =
+                                      typesDropDownValues.firstWhere(
+                                    (label) => label.key == value,
+                                    orElse: () =>
+                                        const Label(key: '', value: ''),
+                                  );
                                   BlocProvider.of<
-                                        KeyHistoryRecordsDetailsCubit
-                                      >(context)
+                                              KeyHistoryRecordsDetailsCubit>(
+                                          context)
                                       .updateDropdownValues(
-                                        type: int.tryParse(selectedLabel.value),
-                                      );
+                                    type: int.tryParse(selectedLabel.value),
+                                  );
                                 },
                               );
                             }
@@ -505,8 +494,7 @@ class _KeyHistoryRecordsDetailsViewState
                             isMandatory: true,
                           ),
                           TextFieldAddButton(
-                            title:
-                                state.model.srh?.userInfo ??
+                            title: state.model.srh?.userInfo ??
                                 state.model.srh?.name,
                             height: 70,
                             isDisableColor: !editSrhAndDetailsOfLostKeys,
@@ -518,8 +506,8 @@ class _KeyHistoryRecordsDetailsViewState
                                   users: state.sRHs,
                                   onTap: (BaseUser user) {
                                     BlocProvider.of<
-                                          KeyHistoryRecordsDetailsCubit
-                                        >(context)
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
                                         .updateDropdownValues(srh: user);
                                   },
                                   roleName:
@@ -528,13 +516,13 @@ class _KeyHistoryRecordsDetailsViewState
                                   isDbUser: false,
                                   functionToCall: (BaseUser user) {
                                     BlocProvider.of<
-                                          KeyHistoryRecordsDetailsCubit
-                                        >(context)
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
                                         .updateDropdownValues(srh: user);
                                     // refresh the list
                                     BlocProvider.of<
-                                          KeyHistoryRecordsDetailsCubit
-                                        >(context)
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
                                         .refreshList();
                                   },
                                 );
@@ -555,8 +543,7 @@ class _KeyHistoryRecordsDetailsViewState
                             isMandatory: true,
                           ),
                           TextFieldAddButton(
-                            title:
-                                state.model.securityManager?.userInfo ??
+                            title: state.model.securityManager?.userInfo ??
                                 state.model.securityManager?.name,
                             height: 70,
                             isDisableColor: !editSecurityManagerAndReason,
@@ -567,11 +554,11 @@ class _KeyHistoryRecordsDetailsViewState
                                   users: state.securityManagers!,
                                   onTap: (BaseUser user) {
                                     BlocProvider.of<
-                                          KeyHistoryRecordsDetailsCubit
-                                        >(context)
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
                                         .updateDropdownValues(
-                                          securityManager: user,
-                                        );
+                                      securityManager: user,
+                                    );
                                   },
                                   roleName:
                                       ConstantUserRoles.atomSecurityManagerUser,
@@ -579,15 +566,15 @@ class _KeyHistoryRecordsDetailsViewState
                                   isDbUser: false,
                                   functionToCall: (BaseUser user) {
                                     BlocProvider.of<
-                                          KeyHistoryRecordsDetailsCubit
-                                        >(context)
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
                                         .updateDropdownValues(
-                                          securityManager: user,
-                                        );
+                                      securityManager: user,
+                                    );
                                     // refresh the list
                                     BlocProvider.of<
-                                          KeyHistoryRecordsDetailsCubit
-                                        >(context)
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
                                         .refreshList();
                                   },
                                 );
@@ -615,11 +602,11 @@ class _KeyHistoryRecordsDetailsViewState
                                   organisations: state.destructionReasons,
                                   onTap: (Organisation department) {
                                     BlocProvider.of<
-                                          KeyHistoryRecordsDetailsCubit
-                                        >(context)
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
                                         .updateDropdownValues(
-                                          destructionReason: department,
-                                        );
+                                      destructionReason: department,
+                                    );
                                     FocusScope.of(
                                       context,
                                     ).requestFocus(noOfKeysFocusNode);
@@ -630,8 +617,8 @@ class _KeyHistoryRecordsDetailsViewState
                                   functionToCall: () {
                                     // refresh the list
                                     BlocProvider.of<
-                                          KeyHistoryRecordsDetailsCubit
-                                        >(context)
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
                                         .refreshList();
                                   },
                                 );
@@ -711,9 +698,7 @@ class _KeyHistoryRecordsDetailsViewState
                         /// Additional Information
                         CommonWidgets.textDisplay(
                           state.labels?.locale.additionalInformation ??
-                              state
-                                  .labels
-                                  ?.defaultLocale
+                              state.labels?.defaultLocale
                                   .additionalInformation ??
                               Constants.additionalinformation,
                           Styles.textStyleWhite14,
@@ -727,16 +712,16 @@ class _KeyHistoryRecordsDetailsViewState
                           textFormKey: Keys.additionInitiativesKey,
                           hintText: Constants.informationhere,
                           showBorder: true,
-                          isEnable:
-                              ((securityManager ||
+                          isEnable: ((securityManager ||
                                   srh ||
                                   initialStatus ||
                                   lockChangeInitiatedAndUser)) &&
                               state.model.status != ConstantsIntValue.closed &&
                               state.model.status !=
                                   ConstantsIntValue.lockChangeInitiated,
-                          isDisableColor:
-                              !((securityManager || srh || initialStatus) ||
+                          isDisableColor: !((securityManager ||
+                                      srh ||
+                                      initialStatus) ||
                                   lockChangeInitiatedAndUser) ||
                               state.model.status == ConstantsIntValue.closed ||
                               state.model.status ==
@@ -755,9 +740,7 @@ class _KeyHistoryRecordsDetailsViewState
                         if (keyLostOrDamageScreen) ...[
                           CommonWidgets.textDisplay(
                             state.labels?.locale.investigationRequired ??
-                                state
-                                    .labels
-                                    ?.defaultLocale
+                                state.labels?.defaultLocale
                                     .investigationRequired ??
                                 Constants.investigationRequired,
                             isMandatory: true,
@@ -767,8 +750,8 @@ class _KeyHistoryRecordsDetailsViewState
                             status: state.model.status ?? 0,
                             selectedValue:
                                 state.model.investigationRequired ?? false
-                                ? 1
-                                : 0,
+                                    ? 1
+                                    : 0,
                             onChangedYes:
                                 // !((initialStatus ||
                                 //                 state.model.status ==
@@ -778,21 +761,21 @@ class _KeyHistoryRecordsDetailsViewState
                                 //             loginAndCreatedByUser) &&
                                 //         hasPermission
                                 !(((securityManager ||
-                                        srh ||
-                                        initialStatus ||
-                                        lockChangeInitiatedAndUser)) &&
-                                    state.model.status !=
-                                        ConstantsIntValue.closed)
-                                ? null
-                                : (val) {
-                                    state.model.investigationRequired = true;
-                                    BlocProvider.of<
-                                          KeyHistoryRecordsDetailsCubit
-                                        >(context)
-                                        .onCheckBoxChange(state.model);
-                                  },
-                            onChangedNo:
-                                !(((securityManager ||
+                                            srh ||
+                                            initialStatus ||
+                                            lockChangeInitiatedAndUser)) &&
+                                        state.model.status !=
+                                            ConstantsIntValue.closed)
+                                    ? null
+                                    : (val) {
+                                        state.model.investigationRequired =
+                                            true;
+                                        BlocProvider.of<
+                                                    KeyHistoryRecordsDetailsCubit>(
+                                                context)
+                                            .onCheckBoxChange(state.model);
+                                      },
+                            onChangedNo: !(((securityManager ||
                                         srh ||
                                         initialStatus ||
                                         lockChangeInitiatedAndUser)) &&
@@ -802,8 +785,8 @@ class _KeyHistoryRecordsDetailsViewState
                                 : (val) {
                                     state.model.investigationRequired = false;
                                     BlocProvider.of<
-                                          KeyHistoryRecordsDetailsCubit
-                                        >(context)
+                                                KeyHistoryRecordsDetailsCubit>(
+                                            context)
                                         .onCheckBoxChange(state.model);
                                   },
                           ),
@@ -917,9 +900,7 @@ class _KeyHistoryRecordsDetailsViewState
                           /// Rejection Comment
                           CommonWidgets.horizentaltextHandling(
                             state.labels?.locale.statusDestroyReject ??
-                                state
-                                    .labels
-                                    ?.defaultLocale
+                                state.labels?.defaultLocale
                                     .statusDestroyReject ??
                                 Constants.rejectionComment,
                             isMandatory: true,
@@ -978,8 +959,7 @@ class _KeyHistoryRecordsDetailsViewState
   }
 
   Widget cancelButtonDisplay(KeyHistoryRecordsDetailsState state) {
-    bool condition =
-        widget.model?.id == null ||
+    bool condition = widget.model?.id == null ||
         widget.model?.status == ConstantsIntValue.cancelledStatus ||
         widget.lock.isEmptyOrNull;
     return AppButton(
