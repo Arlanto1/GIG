@@ -92,8 +92,14 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: showSaveSubmitButton && state.status != FormStatus.loading ? true : false,
-            showSubmitButton: showSaveSubmitButton && state.status != FormStatus.loading ? true : false,
+            showSaveButton:
+                showSaveSubmitButton && state.status != FormStatus.loading
+                    ? true
+                    : false,
+            showSubmitButton:
+                showSaveSubmitButton && state.status != FormStatus.loading
+                    ? true
+                    : false,
             showDisLikeButton: false,
             showLikeButton: false,
             pdfAPIName:
@@ -113,7 +119,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
               );
             },
           ),
-          backgroundColor: AppColors.lavender,
+          backgroundColor: AppColors.newColor3,
           body: getBodybuilder(state, height),
         );
       },
@@ -130,18 +136,18 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
     }
 
     return Container(
-      color: AppColors.lavender,
+      color: AppColors.newColor3,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.lavender,
+              color: AppColors.newColor3,
             ),
             Container(
-              decoration: const ShapeDecoration(
-                color: AppColors.lavender,
-                shape: RoundedRectangleBorder(
+              decoration: ShapeDecoration(
+                color: AppColors.newColor3,
+                shape: const RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
                 ),
@@ -277,9 +283,10 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                             GestureDetector(
                               onTap: () async {
                                 NavigatorState nav = Navigator.of(context);
-                                if (state.model.status == 0 || state.model.status == null) {
+                                if (state.model.status == 0 ||
+                                    state.model.status == null) {
                                   bool isSaveSuccess = await BlocProvider.of<
-                                      VVIPVisitorDetailsCubit>(context)
+                                          VVIPVisitorDetailsCubit>(context)
                                       .submitForm(
                                     isSaveOnly: true,
                                     navigateToNextScreen: true,
@@ -290,20 +297,20 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                                   }
                                   log('--state.model.id---${state.model.id}--');
                                 }
-                                  nav.pushNamed(
-                                    vipVisitorsRecordsRoute,
-                                    arguments: {
-                                      ConstantsArgument.title:
-                                      Constants.vVipVisitorsTitle,
-                                      ConstantsArgument.id: state.model.id,
-                                      ConstantsArgument.isLocked:
-                                      state.model.lock,
-                                      ConstantsArgument.parentStatus:
-                                      state.model.status,
-                                      // ConstantsArgument.violationDescription:
-                                      //     Constants.slaViolation,
-                                    },
-                                  );
+                                nav.pushNamed(
+                                  vipVisitorsRecordsRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.vVipVisitorsTitle,
+                                    ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.isLocked:
+                                        state.model.lock,
+                                    ConstantsArgument.parentStatus:
+                                        state.model.status,
+                                    // ConstantsArgument.violationDescription:
+                                    //     Constants.slaViolation,
+                                  },
+                                );
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -311,7 +318,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
                                     colorFilter: const ColorFilter.mode(
-                                      AppColors.black,
+                                      AppColors.white,
                                       BlendMode.srcIn,
                                     ),
                                     // color: AppColors.navigationSkyBlueColor,
@@ -320,9 +327,10 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                                   const Text(
                                     'Add/View VVIP Visitors',
                                     style: TextStyle(
-                                      color: AppColors.black,
+                                      color: AppColors.white,
                                       decoration: TextDecoration.underline,
-                                        fontSize: 16,
+                                      decorationColor: AppColors.white,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),

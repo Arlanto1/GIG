@@ -311,9 +311,9 @@ Widget _rowCard({
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Colors.white.withValues(alpha: 0.2),
+            Colors.white.withValues(alpha: 0.09),
             Colors.transparent,
-            Colors.white.withValues(alpha: 0.2),
+            Colors.white.withValues(alpha: 0.09),
           ],
           stops: [0.02, 0.35, 1],
           begin: Alignment.topCenter,
@@ -321,12 +321,12 @@ Widget _rowCard({
         ),
         borderRadius: BorderRadius.circular(27),
         border: Border.all(
-          color: Colors.white.withValues(alpha: 0.80),
-          width: 0.8,
+          color: Colors.white.withValues(alpha: 0.6),
+          width: 0.7,
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF6474C6).withValues(alpha: 0.09),
+            color: Colors.white.withValues(alpha: 0.0),
             blurRadius: 12,
             offset: const Offset(0, 2),
           ),

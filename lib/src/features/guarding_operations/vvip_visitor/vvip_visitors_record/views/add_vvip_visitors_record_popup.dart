@@ -55,259 +55,298 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Align(
-        alignment: Alignment.center,
-        child: Text(
-          widget.title,
-          style: Styles.textFontSet(20, AppColors.white,
-              FontWeight.w700, Constants.customFontSemiBoldFamily),
-        ),
+      title: null,
+      insetPadding: const EdgeInsets.symmetric(
+        horizontal: 12,
       ),
-      backgroundColor: AppColors.lavender,
+      backgroundColor: Colors.transparent,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.
         var height = MediaQuery.of(context).size.height;
         var width = MediaQuery.of(context).size.width;
 
-        return SizedBox(
-          height: height / 1.8,
-          width: width,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: <Widget>[
-              Form(
-                key: _formKey,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      /// Visitors Name
-                      CommonWidgets.textDisplay(
-                        Constants.visitorsName,
-                        isMandatory: true,
-                        Styles.textStyleWhite16,
-                      ),
-                      FlutterInputField(
-                        controller: nameController,
-                        textInputType: TextInputType.text,
-                        textFormKey: Keys.visitorsNameKey,
-                        hintText: '',
-                        isEnable: (widget.parentStatus == 0) &&
-                                !(widget.extraProperties != null &&
-                                    !widget
-                                        .extraProperties!.hasWritePermission!)
-                            ? true
-                            : false,
-                        isDisableColor: (widget.parentStatus == 0) &&
-                                !(widget.extraProperties != null &&
-                                    !widget
-                                        .extraProperties!.hasWritePermission!)
-                            ? false
-                            : true,
-                        onChange: (String value) {
-                          widget.model.name = value;
-                          nameController.text = value;
-                          // BlocProvider.of<PayRateCubit>(widget.mainContext)
-                          //     .onModelValueChange(widget.payRate);
-                        },
-                        validateTextField: (String? user) {},
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                      /// Visitors Email Id
-                      CommonWidgets.textDisplay(
-                        Constants.visitorsEmailId,
-                        isMandatory: true,
-                        Styles.textStyleWhite16,
-                      ),
-                      FlutterInputField(
-                        controller: emailIdController,
-                        textInputType: TextInputType.text,
-                        textFormKey: Keys.visitorsEmailIdKey,
-                        textCapitalization: false,
-                        hintText: '',
-                        isEnable: (widget.parentStatus == 0) &&
-                                !(widget.extraProperties != null &&
-                                    !widget
-                                        .extraProperties!.hasWritePermission!)
-                            ? true
-                            : false,
-                        isDisableColor: (widget.parentStatus == 0) &&
-                                !(widget.extraProperties != null &&
-                                    !widget
-                                        .extraProperties!.hasWritePermission!)
-                            ? false
-                            : true,
-                        onChange: (String value) {
-                          widget.model.email = value;
-                          emailIdController.text = value;
-                        },
-                        validateTextField: (String? user) {},
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                      /// Visitors Designation
-                      CommonWidgets.textDisplay(
-                        Constants.visitorsDesignation,
-                        isMandatory: true,
-                        Styles.textStyleWhite16,
-                      ),
-                      FlutterInputField(
-                        controller: designationController,
-                        textInputType: TextInputType.text,
-                        textFormKey: Keys.visitorsDesignationKey,
-                        hintText: '',
-                        isEnable: (widget.parentStatus == 0) &&
-                                !(widget.extraProperties != null &&
-                                    !widget
-                                        .extraProperties!.hasWritePermission!)
-                            ? true
-                            : false,
-                        isDisableColor: (widget.parentStatus == 0) &&
-                                !(widget.extraProperties != null &&
-                                    !widget
-                                        .extraProperties!.hasWritePermission!)
-                            ? false
-                            : true,
-                        onChange: (String value) {
-                          widget.model.designation = value;
-                          designationController.text = value;
-                        },
-                        validateTextField: (String? user) {},
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                      /// Purpose Of Visit
-                      CommonWidgets.textDisplay(
-                        Constants.purposeOfVisit,
-                        isMandatory: true,
-                        Styles.textStyleWhite16,
-                      ),
-                      FlutterInputField(
-                        controller: purposeOfVisitController,
-                        textInputType: TextInputType.text,
-                        textFormKey: Keys.purposeOfVisitKey,
-                        hintText: '',
-                        isEnable: (widget.parentStatus == 0) &&
-                                !(widget.extraProperties != null &&
-                                    !widget
-                                        .extraProperties!.hasWritePermission!)
-                            ? true
-                            : false,
-                        isDisableColor: (widget.parentStatus == 0) &&
-                                !(widget.extraProperties != null &&
-                                    !widget
-                                        .extraProperties!.hasWritePermission!)
-                            ? false
-                            : true,
-                        onChange: (String value) {
-                          widget.model.purpose = value;
-                          purposeOfVisitController.text = value;
-                        },
-                        validateTextField: (String? user) {},
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                      /// Base Location Of Visitors
-                      CommonWidgets.textDisplay(
-                        Constants.baseLocationOfVisitors,
-                        isMandatory: true,
-                        Styles.textStyleWhite16,
-                      ),
-                      FlutterInputField(
-                        controller: baseLocationOfVisitorsController,
-                        textInputType: TextInputType.text,
-                        textFormKey: Keys.baseLocationOfVisitorKey,
-                        hintText: '',
-                        isEnable: (widget.parentStatus == 0) &&
-                                !(widget.extraProperties != null &&
-                                    !widget
-                                        .extraProperties!.hasWritePermission!)
-                            ? true
-                            : false,
-                        isDisableColor: (widget.parentStatus == 0) &&
-                                !(widget.extraProperties != null &&
-                                    !widget
-                                        .extraProperties!.hasWritePermission!)
-                            ? false
-                            : true,
-                        onChange: (String value) {
-                          widget.model.baseLocation = value;
-                          baseLocationOfVisitorsController.text = value;
-                        },
-                        validateTextField: (String? user) {},
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                      /// Start Date of Visit
-                      CommonWidgets.textDisplay(
-                        Constants.startDateVisit,
-                        isMandatory: true,
-                        Styles.textStyleWhite16,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                      BaseDate().datePickerWidgetLoading(
-                        textController: startDateVisitController,
-                        isDisabled: (widget.parentStatus == 0) &&
-                                !(widget.extraProperties != null &&
-                                    !widget
-                                        .extraProperties!.hasWritePermission!)
-                            ? false
-                            : true,
-                        showPastDate: false,
-                        notFlagDate: true,
-                        onChange: (String value) {
-                          FocusManager.instance.primaryFocus?.unfocus();
-                          // widget.model.startDateVisit = value;
-                          widget.model.startDateVisit =
-                              Utils().formatTime(value);
-                        },
-                        context: widget.mainContext,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                      /// End Date of Visit
-                      CommonWidgets.textDisplay(
-                        Constants.endDateVisit,
-                        isMandatory: true,
-                        Styles.textStyleWhite16,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                      BaseDate().datePickerWidgetLoading(
-                        textController: endDateVisitController,
-                        isDisabled: (widget.parentStatus == 0) &&
-                                !(widget.extraProperties != null &&
-                                    !widget
-                                        .extraProperties!.hasWritePermission!)
-                            ? false
-                            : true,
-                        onlyDate: false,
-                        notFlagDate: true,
-                        showPastDate: false,
-
-                        // showFutureDate: true,
-                        startDate: widget.model.startDateVisit,
-                        //fromDate: widget.model.startDateVisit,
-                        onChange: (String value) {
-                          widget.model.endDateVisit = Utils().formatTime(value);
-                        },
-                        context: widget.mainContext,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      buttonViews(widget.mainContext, width),
-                      CommonWidgets.verticalSpacerWidget(height * 0.02),
-                    ],
-                  ),
-                ),
+        return Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  AppColors.newColor3.withValues(alpha: 2),
+                  AppColors.newColor,
+                  AppColors.newColor3.withValues(alpha: 2),
+                  // Color(0xFF6474C6).withOpacity(0.14)
+                ],
+                stops: [0.02, 0.35, 1],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
-            ],
-          ),
-        );
+              borderRadius: BorderRadius.circular(27),
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.6),
+                width: 0.7,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.white.withValues(alpha: 0.0),
+                  blurRadius: 12,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: SizedBox(
+              height: height / 1.8,
+              width: width,
+              child: Column(
+                // clipBehavior: Clip.none,
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      widget.title,
+                      style: Styles.textFontSet(20, AppColors.white,
+                          FontWeight.w700, Constants.customFontSemiBoldFamily),
+                    ),
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  const Divider(
+                    thickness: 0.5,
+                  ),
+                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            /// Visitors Name
+                            CommonWidgets.textDisplay(
+                              Constants.visitorsName,
+                              isMandatory: true,
+                              Styles.textStyleWhite16,
+                            ),
+                            FlutterInputField(
+                              controller: nameController,
+                              textInputType: TextInputType.text,
+                              textFormKey: Keys.visitorsNameKey,
+                              hintText: '',
+                              isEnable: (widget.parentStatus == 0) &&
+                                      !(widget.extraProperties != null &&
+                                          !widget.extraProperties!
+                                              .hasWritePermission!)
+                                  ? true
+                                  : false,
+                              isDisableColor: (widget.parentStatus == 0) &&
+                                      !(widget.extraProperties != null &&
+                                          !widget.extraProperties!
+                                              .hasWritePermission!)
+                                  ? false
+                                  : true,
+                              onChange: (String value) {
+                                widget.model.name = value;
+                                nameController.text = value;
+                                // BlocProvider.of<PayRateCubit>(widget.mainContext)
+                                //     .onModelValueChange(widget.payRate);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                            /// Visitors Email Id
+                            CommonWidgets.textDisplay(
+                              Constants.visitorsEmailId,
+                              isMandatory: true,
+                              Styles.textStyleWhite16,
+                            ),
+                            FlutterInputField(
+                              controller: emailIdController,
+                              textInputType: TextInputType.text,
+                              textFormKey: Keys.visitorsEmailIdKey,
+                              textCapitalization: false,
+                              hintText: '',
+                              isEnable: (widget.parentStatus == 0) &&
+                                      !(widget.extraProperties != null &&
+                                          !widget.extraProperties!
+                                              .hasWritePermission!)
+                                  ? true
+                                  : false,
+                              isDisableColor: (widget.parentStatus == 0) &&
+                                      !(widget.extraProperties != null &&
+                                          !widget.extraProperties!
+                                              .hasWritePermission!)
+                                  ? false
+                                  : true,
+                              onChange: (String value) {
+                                widget.model.email = value;
+                                emailIdController.text = value;
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                            /// Visitors Designation
+                            CommonWidgets.textDisplay(
+                              Constants.visitorsDesignation,
+                              isMandatory: true,
+                              Styles.textStyleWhite16,
+                            ),
+                            FlutterInputField(
+                              controller: designationController,
+                              textInputType: TextInputType.text,
+                              textFormKey: Keys.visitorsDesignationKey,
+                              hintText: '',
+                              isEnable: (widget.parentStatus == 0) &&
+                                      !(widget.extraProperties != null &&
+                                          !widget.extraProperties!
+                                              .hasWritePermission!)
+                                  ? true
+                                  : false,
+                              isDisableColor: (widget.parentStatus == 0) &&
+                                      !(widget.extraProperties != null &&
+                                          !widget.extraProperties!
+                                              .hasWritePermission!)
+                                  ? false
+                                  : true,
+                              onChange: (String value) {
+                                widget.model.designation = value;
+                                designationController.text = value;
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                            /// Purpose Of Visit
+                            CommonWidgets.textDisplay(
+                              Constants.purposeOfVisit,
+                              isMandatory: true,
+                              Styles.textStyleWhite16,
+                            ),
+                            FlutterInputField(
+                              controller: purposeOfVisitController,
+                              textInputType: TextInputType.text,
+                              textFormKey: Keys.purposeOfVisitKey,
+                              hintText: '',
+                              isEnable: (widget.parentStatus == 0) &&
+                                      !(widget.extraProperties != null &&
+                                          !widget.extraProperties!
+                                              .hasWritePermission!)
+                                  ? true
+                                  : false,
+                              isDisableColor: (widget.parentStatus == 0) &&
+                                      !(widget.extraProperties != null &&
+                                          !widget.extraProperties!
+                                              .hasWritePermission!)
+                                  ? false
+                                  : true,
+                              onChange: (String value) {
+                                widget.model.purpose = value;
+                                purposeOfVisitController.text = value;
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                            /// Base Location Of Visitors
+                            CommonWidgets.textDisplay(
+                              Constants.baseLocationOfVisitors,
+                              isMandatory: true,
+                              Styles.textStyleWhite16,
+                            ),
+                            FlutterInputField(
+                              controller: baseLocationOfVisitorsController,
+                              textInputType: TextInputType.text,
+                              textFormKey: Keys.baseLocationOfVisitorKey,
+                              hintText: '',
+                              isEnable: (widget.parentStatus == 0) &&
+                                      !(widget.extraProperties != null &&
+                                          !widget.extraProperties!
+                                              .hasWritePermission!)
+                                  ? true
+                                  : false,
+                              isDisableColor: (widget.parentStatus == 0) &&
+                                      !(widget.extraProperties != null &&
+                                          !widget.extraProperties!
+                                              .hasWritePermission!)
+                                  ? false
+                                  : true,
+                              onChange: (String value) {
+                                widget.model.baseLocation = value;
+                                baseLocationOfVisitorsController.text = value;
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                            /// Start Date of Visit
+                            CommonWidgets.textDisplay(
+                              Constants.startDateVisit,
+                              isMandatory: true,
+                              Styles.textStyleWhite16,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            BaseDate().datePickerWidgetLoading(
+                              textController: startDateVisitController,
+                              isDisabled: (widget.parentStatus == 0) &&
+                                      !(widget.extraProperties != null &&
+                                          !widget.extraProperties!
+                                              .hasWritePermission!)
+                                  ? false
+                                  : true,
+                              showPastDate: false,
+                              notFlagDate: true,
+                              onChange: (String value) {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                // widget.model.startDateVisit = value;
+                                widget.model.startDateVisit =
+                                    Utils().formatTime(value);
+                              },
+                              context: widget.mainContext,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                            /// End Date of Visit
+                            CommonWidgets.textDisplay(
+                              Constants.endDateVisit,
+                              isMandatory: true,
+                              Styles.textStyleWhite16,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            BaseDate().datePickerWidgetLoading(
+                              textController: endDateVisitController,
+                              isDisabled: (widget.parentStatus == 0) &&
+                                      !(widget.extraProperties != null &&
+                                          !widget.extraProperties!
+                                              .hasWritePermission!)
+                                  ? false
+                                  : true,
+                              onlyDate: false,
+                              notFlagDate: true,
+                              showPastDate: false,
+
+                              // showFutureDate: true,
+                              startDate: widget.model.startDateVisit,
+                              //fromDate: widget.model.startDateVisit,
+                              onChange: (String value) {
+                                widget.model.endDateVisit =
+                                    Utils().formatTime(value);
+                              },
+                              context: widget.mainContext,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            buttonViews(widget.mainContext, width),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ));
       }),
     );
   }
@@ -334,7 +373,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
       buttonTextKey: Keys.cancelButtonText,
       foregroundColor: AppColors.white,
       textStyle: Styles.styleHeaderWhiteText16,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.newColor,
       boarderColor: AppColors.white,
       onTap: () {
         //loginFormKey.currentState!.validate();
@@ -351,7 +390,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
       buttonText: Constants.save,
       buttonTextKey: Keys.saveButtonText,
       boarderColor: AppColors.white,
-      backgroundColor:  const Color(0xFF071130),
+      backgroundColor: const Color(0xFF071130),
       foregroundColor: Colors.white,
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {

@@ -77,120 +77,99 @@ class AddPOCPopUpState extends State<AddPOCPopUp> {
     //     );
     //   }),
     // );
-    return Dialog(
+    return AlertDialog(
+      insetPadding: const EdgeInsets.symmetric(
+        horizontal: 12,
+      ),
       backgroundColor: Colors.transparent,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-
-      child: ClipRRect(
+      elevation: 0,
+      contentPadding: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-          child: AlertDialog(
-            backgroundColor: Colors.white.withValues(alpha: 0.12),
-            elevation: 0,
-            contentPadding: EdgeInsets.zero,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+      ),
+      content: Builder(
+        builder: (context) {
+          var height = MediaQuery.of(context).size.height;
+          var width = MediaQuery.of(context).size.width;
+
+          return Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  AppColors.newColor3.withValues(alpha: 2),
+                  AppColors.newColor,
+                  AppColors.newColor3.withValues(alpha: 2),
+                  // Color(0xFF6474C6).withOpacity(0.14)
+                ],
+                stops: [0.02, 0.35, 1],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+              borderRadius: BorderRadius.circular(27),
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.6),
+                width: 0.7,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.white.withValues(alpha: 0.0),
+                  blurRadius: 12,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
-
-            content: Builder(
-              builder: (context) {
-                var height = MediaQuery.of(context).size.height;
-                var width = MediaQuery.of(context).size.width;
-
-                return Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.white
-                            .withValues(
-                            alpha: 0.2),
-                        Colors.transparent,
-                        Colors.white
-                            .withValues(
-                            alpha: 0.2),
-                        // Color(0xFF6474C6).withOpacity(0.14)
-                      ],
-                      stops: [0.02, 0.35, 1],
-                      begin:
-                      Alignment.topCenter,
-                      end: Alignment
-                          .bottomCenter,
-                    ),
-                    borderRadius:
-                    BorderRadius.circular(
-                        27),
-                    border: Border.all(
-                      color: Colors.white
-                          .withValues(
-                          alpha: 0.80),
-                      width: 0.8,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(
-                            0xFF6474C6)
-                            .withValues(
-                            alpha: 0.09),
-                        blurRadius: 12,
-                        offset: const Offset(
-                            0, 2),
-                      ),
-                    ],
-                  ),
-                  child: SizedBox(
-                    height: height / 4.9,
-                    width: width,
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: <Widget>[
-                        Form(
-                          key: _formKey,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                /// POC label
-                                CommonWidgets.textDisplay(
-                                  Constants.poc,
-                                  Styles.textStyleWhite14,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                                /// Input field
-                                FlutterInputField(
-                                  lineHeight: 1,
-                                  controller: pocController,
-                                  textFormKey: Keys.equipmentNoKey,
-                                  textCapitalization: false,
-                                  hintText: '',
-                                  isEnable: true,
-                                  isDisableColor: false,
-                                  onChange: (String value) {
-                                    pocController.text = value;
-                                  },
-                                  validateTextField: (String value) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                                /// Buttons
-                                buttonViews(widget.mainContext, width),
-                                CommonWidgets.verticalSpacerWidget(height * 0.02),
-                              ],
+            child: SizedBox(
+              height: height / 4.9,
+              width: width,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: <Widget>[
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            /// POC label
+                            CommonWidgets.textDisplay(
+                              Constants.poc,
+                              Styles.textStyleWhite14,
                             ),
-                          ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Input field
+                            FlutterInputField(
+                              lineHeight: 1,
+                              controller: pocController,
+                              textFormKey: Keys.equipmentNoKey,
+                              textCapitalization: false,
+                              hintText: '',
+                              isEnable: true,
+                              isDisableColor: false,
+                              onChange: (String value) {
+                                pocController.text = value;
+                              },
+                              validateTextField: (String value) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Buttons
+                            buttonViews(widget.mainContext, width),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
-                );
-              },
+                ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
-
   }
 
   Widget buttonViews(BuildContext context, double width) {
@@ -207,7 +186,7 @@ class AddPOCPopUpState extends State<AddPOCPopUp> {
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButtonText,
-      foregroundColor: Colors.transparent,
+      foregroundColor: Colors.white,
       textStyle: Styles.styleHeaderWhiteText16,
       boarderColor: AppColors.white,
       onTap: () {

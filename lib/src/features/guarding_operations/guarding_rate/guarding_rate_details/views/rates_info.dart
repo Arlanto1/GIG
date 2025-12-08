@@ -53,7 +53,7 @@ class _RatesInfoState extends State<RatesInfo> {
             showDisLikeButton: false,
             showLikeButton: false,
             pdfAPIName:
-            '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.guardingRatesModule}',
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.guardingRatesModule}',
           ),
           backgroundColor: AppColors.newColor3,
           body: getBody(context, state, height),
@@ -77,7 +77,7 @@ class _RatesInfoState extends State<RatesInfo> {
             color: AppColors.newColor3,
           ),
           Container(
-            decoration:  ShapeDecoration(
+            decoration: ShapeDecoration(
                 color: AppColors.newColor3,
                 shape: const RoundedRectangleBorder(
                   borderRadius:
@@ -107,7 +107,6 @@ class _RatesInfoState extends State<RatesInfo> {
                             isMandatory: true,
                             '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
-
 
                         /// Created By
                         // Row(

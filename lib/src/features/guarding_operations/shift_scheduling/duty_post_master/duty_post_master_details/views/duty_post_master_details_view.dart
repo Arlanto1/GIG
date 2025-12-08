@@ -97,10 +97,17 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
               context: context,
               title: widget.title,
               showPopUp: false,
-              showSaveButton:
-                  !isReadOnly && state.model.lock.isEmptyOrNull &&  state.status != FormStatus.loading ? true : false,
-              showSubmitButton:
-              !isReadOnly && state.model.lock.isEmptyOrNull &&  state.status != FormStatus.loading ? true : false,              showDisLikeButton: false,
+              showSaveButton: !isReadOnly &&
+                      state.model.lock.isEmptyOrNull &&
+                      state.status != FormStatus.loading
+                  ? true
+                  : false,
+              showSubmitButton: !isReadOnly &&
+                      state.model.lock.isEmptyOrNull &&
+                      state.status != FormStatus.loading
+                  ? true
+                  : false,
+              showDisLikeButton: false,
               showLikeButton: false,
               pdfAPIName:
                   '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.dutyPostMasterModuleCode}',
@@ -114,7 +121,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                 BlocProvider.of<DutyPostMasterDetailsCubit>(context)
                     .submitForm(isSaveOnly: false);
               }),
-          backgroundColor: AppColors.lavender,
+          backgroundColor: AppColors.newColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -128,18 +135,18 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.lavender,
+      color: AppColors.newColor3,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.lavender,
+              color: AppColors.newColor3,
             ),
             Container(
-              decoration: const ShapeDecoration(
-                  color: AppColors.lavender,
-                  shape: RoundedRectangleBorder(
+              decoration: ShapeDecoration(
+                  color: AppColors.newColor3,
+                  shape: const RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
@@ -305,7 +312,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseDropDown().getDropDown(
-                                isDisabled: isDisabled ?false: true,
+                                isDisabled: isDisabled ? false : true,
                                 textController: rankController,
                                 items: guardRankDropDownValues,
                                 initialValue: state.model.rankId.toString(),

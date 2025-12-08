@@ -91,7 +91,7 @@ class _PayRateViewState extends State<PayRateView> {
       },
       builder: (context, state) {
         return Scaffold(
-            backgroundColor: AppColors.lavender,
+            backgroundColor: AppColors.newColor3,
             bottomNavigationBar: Padding(
               padding: const EdgeInsets.all(16.0),
               child: floatingButtons(state, context),
@@ -128,40 +128,42 @@ class _PayRateViewState extends State<PayRateView> {
 
                 // if (state.items.isEmptyOrNull) {
                 //   return Center(
-                    // child: AppButton(
-                    //   width: 150,
-                    //   backgroundColor: AppColors.navigationSkyBlueColor,
-                    //   key: const Key(Keys.cancelButton),
-                    //   buttonText: Constants.add,
-                    //   buttonTextKey: Keys.cancelButton,
-                    //   onTap: () {
-                    //     addSecurityGuardPopUp(
-                    //         context: context, payRate: PayRate());
-                    //   },
-                    // ),
+                // child: AppButton(
+                //   width: 150,
+                //   backgroundColor: AppColors.navigationSkyBlueColor,
+                //   key: const Key(Keys.cancelButton),
+                //   buttonText: Constants.add,
+                //   buttonTextKey: Keys.cancelButton,
+                //   onTap: () {
+                //     addSecurityGuardPopUp(
+                //         context: context, payRate: PayRate());
+                //   },
+                // ),
                 //   );
                 // }
                 return Container(
                     // width: double.infinity,
                     // height: double.infinity,
                     // color: const Color(0xFF6474C6),
-                  margin: allMargin6,
-                  decoration: const ShapeDecoration(
-                      color: AppColors.lavender,
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(20.0)),
-                      )),
+                    margin: allMargin6,
+                    decoration: ShapeDecoration(
+                        color: AppColors.newColor3,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(20.0)),
+                        )),
                     child: Column(
                       children: [
                         if (!state.model.lock.isEmptyOrNull) ...[
                           RecordLockedWidget(text: '${state.model.lock}'),
                         ],
-                        Expanded( // <-- Wrap ListView.builder inside Expanded
+                        Expanded(
+                          // <-- Wrap ListView.builder inside Expanded
                           child: Stack(
                             children: [
                               ListView.builder(
-                                shrinkWrap: true, // This can be removed since Expanded handles height
+                                shrinkWrap:
+                                    true, // This can be removed since Expanded handles height
                                 itemCount: state.items.length,
                                 itemBuilder: (context, index) {
                                   List<Label> labels = [];
@@ -170,7 +172,8 @@ class _PayRateViewState extends State<PayRateView> {
                                       value: '${state.items[index].total}'));
                                   labels.add(Label(
                                       key: 'Days',
-                                      value: '${state.items[index].days ?? ''}'));
+                                      value:
+                                          '${state.items[index].days ?? ''}'));
                                   labels.add(Label(
                                       key: 'Per Hour',
                                       value: '${state.items[index].perHour}'));
@@ -179,8 +182,8 @@ class _PayRateViewState extends State<PayRateView> {
                                       decoration: const BoxDecoration(
                                         gradient: LinearGradient(
                                           colors: [
-                                            Color(0xFF6474C6),
-                                            Color(0xFF6474C6)
+                                            Colors.transparent,
+                                            Colors.transparent
                                           ],
                                           begin: Alignment.topLeft,
                                           end: Alignment.bottomRight,
@@ -188,9 +191,9 @@ class _PayRateViewState extends State<PayRateView> {
                                       ),
                                       margin: const EdgeInsets.symmetric(
                                           horizontal: 12, vertical: 8),
-
                                       child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(18),
+                                          borderRadius:
+                                              BorderRadius.circular(18),
                                           child: BackdropFilter(
                                               filter: ImageFilter.blur(
                                                   sigmaX: 18, sigmaY: 18),
@@ -199,75 +202,92 @@ class _PayRateViewState extends State<PayRateView> {
                                                     gradient: LinearGradient(
                                                       colors: [
                                                         Colors.white.withValues(
-                                                            alpha: 0.2),
+                                                            alpha: 0.09),
                                                         Colors.transparent,
                                                         Colors.white.withValues(
-                                                            alpha: 0.2),
+                                                            alpha: 0.09),
                                                         // Color(0xFF6474C6).withOpacity(0.14)
                                                       ],
                                                       stops: [0.02, 0.35, 1],
-                                                      begin: Alignment.topCenter,
-                                                      end: Alignment.bottomCenter,
+                                                      begin:
+                                                          Alignment.topCenter,
+                                                      end: Alignment
+                                                          .bottomCenter,
                                                     ),
-                                                    borderRadius: BorderRadius
-                                                        .circular(27),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            27),
                                                     border: Border.all(
                                                       color: Colors.white
-                                                          .withValues(alpha: 0.80),
-                                                      width: 0.8,
+                                                          .withValues(
+                                                              alpha: 0.60),
+                                                      width: 0.7,
                                                     ),
                                                     boxShadow: [
                                                       BoxShadow(
-                                                        color: const Color(
-                                                            0xFF6474C6).withValues(
-                                                            alpha: 0.09),
+                                                        color: Colors.white
+                                                            .withValues(
+                                                                alpha: 0.0),
                                                         blurRadius: 12,
-                                                        offset: const Offset(0, 2),
+                                                        offset:
+                                                            const Offset(0, 2),
                                                       ),
                                                     ],
                                                   ),
-                                                  child:  BaseListTileItem(
-                                    id: state.items[index].id,
-                                    labels: labels,
-                                    onTap: (selectedIndex) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext dialogContext) {
-                                          return BasePopUpItems(
-                                            isMasterGuard: false,
-                                            id: state.items[selectedIndex].id.toString(),
-                                            labels: labels,
-                                          );
-                                        },
-                                      );
-                                    },
-                                    onEditTap: (selectedIndex) {
-                                      addSecurityGuardPopUp(
-                                          context: context,
-                                          payRate: state.items[index]);
-                                    },
-                                    onViewTap: (selectedIndex) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext dialogContext) {
-                                          return BasePopUpItems(
-                                            id: state.items[selectedIndex].id.toString(),
-                                            labels: labels,
-                                            isMasterGuard: false,
-                                          );
-                                        },
-                                      );
-                                    },
-                                    index: index,)))));
+                                                  child: BaseListTileItem(
+                                                    id: state.items[index].id,
+                                                    labels: labels,
+                                                    onTap: (selectedIndex) {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            dialogContext) {
+                                                          return BasePopUpItems(
+                                                            isMasterGuard:
+                                                                false,
+                                                            id: state
+                                                                .items[
+                                                                    selectedIndex]
+                                                                .id
+                                                                .toString(),
+                                                            labels: labels,
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                    onEditTap: (selectedIndex) {
+                                                      addSecurityGuardPopUp(
+                                                          context: context,
+                                                          payRate: state
+                                                              .items[index]);
+                                                    },
+                                                    onViewTap: (selectedIndex) {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            dialogContext) {
+                                                          return BasePopUpItems(
+                                                            id: state
+                                                                .items[
+                                                                    selectedIndex]
+                                                                .id
+                                                                .toString(),
+                                                            labels: labels,
+                                                            isMasterGuard:
+                                                                false,
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                    index: index,
+                                                  )))));
                                 },
                               ),
                             ],
                           ),
                         ),
                       ],
-                    )
-
-                );
+                    ));
               },
             ));
       },
@@ -284,8 +304,7 @@ class _PayRateViewState extends State<PayRateView> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               cancelButtonDisplay(),
-              const SizedBox(
-              ),
+              const SizedBox(),
             ],
           )
         else

@@ -200,18 +200,18 @@ class _EventInfoViewState extends State<EventInfoView> {
     }
 
     return Container(
-      color: AppColors.lavender,
+      color: AppColors.newColor3,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.lavender,
+              color: AppColors.newColor3,
             ),
             Container(
-              decoration: const ShapeDecoration(
-                  color: AppColors.lavender,
-                  shape: RoundedRectangleBorder(
+              decoration: ShapeDecoration(
+                  color: AppColors.newColor3,
+                  shape: const RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
@@ -242,7 +242,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                   state.eventDuration == 0
                                       ? Constants.eventStartedAt
                                       : Constants.eventConcludedAt,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite14,
                                 ),
                                 BaseDate().datePickerWidgetLoading(
                                   context: context,
@@ -275,11 +275,11 @@ class _EventInfoViewState extends State<EventInfoView> {
                                   },
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
                               ],
                               CommonWidgets.textDisplay(
                                   Constants.additionalEmails,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                               Opacity(
                                 opacity: showSaveButtons ? 1 : 0.5,
@@ -298,7 +298,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                       SvgPicture.asset(
                                         AppIcon.pluscircle,
                                         colorFilter: const ColorFilter.mode(
-                                          AppColors.navigationSkyBlueColor,
+                                          AppColors.white,
                                           BlendMode.srcIn,
                                         ),
                                         // color: AppColors.navigationSkyBlueColor,
@@ -308,10 +308,10 @@ class _EventInfoViewState extends State<EventInfoView> {
                                       const Text(
                                         Constants.additionalEmails,
                                         style: TextStyle(
-                                          color:
-                                              AppColors.navigationSkyBlueColor,
-                                          decoration: TextDecoration.underline,
-                                        ),
+                                            color: AppColors.white,
+                                            decoration:
+                                                TextDecoration.underline,
+                                            decorationColor: AppColors.white),
                                       ),
                                     ],
                                   ),
@@ -325,7 +325,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(7),
                                   border: Border.all(
-                                    color: Colors.grey, // Border color
+                                    color: Colors.white, // Border color
                                     width: .7, // Bor
                                     // der width
                                   ),
@@ -446,7 +446,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                 ),
                               ),
 
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Will show for only Event Protection
                               if (widget.isEventProtection) ...[
@@ -532,12 +532,12 @@ class _EventInfoViewState extends State<EventInfoView> {
                                   ),
                                 ],
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
                               ],
 
                               /// upload Photo
                               CommonWidgets.textDisplay(Constants.uploadPhoto,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               state.model.image == null
                                   ? CommonWidgets.verticalSpacerWidget(
                                       height * 0.001)
@@ -562,7 +562,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                             ],
                           ),
                         ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        CommonWidgets.verticalSpacerWidget(height * 0.02),
                       ],
                     ),
                   ),
