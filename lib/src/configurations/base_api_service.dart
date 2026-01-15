@@ -196,7 +196,7 @@ class BaseApiService {
     try {
       log("API URL: $url");
       log("requestedData - ${jsonEncode(requestedData)}");
-
+      // LogService.add("requestedData - ${jsonEncode(requestedData)}");
       log("handleQaEnv");
 
       // Call the handleQaEnv method to display and pause the program
@@ -216,6 +216,7 @@ class BaseApiService {
 
       statusCode = response.statusCode;
       log("HTTP Status Code: $statusCode");
+      // LogService.add("HTTP Status Code: $statusCode");
 
       var responseBody;
       if (!response.body.isEmptyOrNull) {
@@ -251,6 +252,8 @@ class BaseApiService {
             response: json.decode(response.body));
         log("$url POST response is NOT OK:${response.statusCode}");
         log("_response - ${responseBody['msg']}");
+        // LogService.add("_response - ${responseBody['msg']}");
+
         if (responseBody["error"] != null &&
             responseBody["error"].runtimeType == String) {
           throw json.decode(response.body);
@@ -383,6 +386,8 @@ class BaseApiService {
       );
       statusCode = response.statusCode;
       log("HTTP Status Code: $statusCode");
+      // LogService.add("HTTP Status Code: $statusCode");
+
       final responseBody = json.decode(response.body);
       if (response.statusCode == HttpStatus.ok) {
         return responseBody;

@@ -48,6 +48,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       loginData = await loginService.loginUser(event.requestModel);
 
       log('--loginData---${loginData.toString()}----');
+      // LogService.add('--loginData---${loginData.toString()}----');
 
       var data = event.requestModel;
       userName = data.request?.userName?.trim() ?? '';

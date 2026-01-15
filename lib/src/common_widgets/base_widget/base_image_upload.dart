@@ -94,7 +94,7 @@ class BaseImageUpload {
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 fixedSize: const Size(140, 50),
-                backgroundColor: const Color(0xFF071130).withValues(alpha: 0.4),
+                backgroundColor: AppColors.newColor.withValues(alpha: 0.4),
                 // foregroundColor: Colors.black,
                 elevation: 10,
                 shape: RoundedRectangleBorder(

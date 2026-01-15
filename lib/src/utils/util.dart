@@ -627,7 +627,7 @@ class Utils {
         const Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontWeight: FontWeight.w600,
             fontSize: 16,
           ),
@@ -1519,7 +1519,7 @@ class Utils {
         const Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontWeight: FontWeight.w600,
             fontSize: 16,
           ),
@@ -2809,18 +2809,35 @@ class Utils {
   //   );
   // }
 
+  // Widget textHandling(String title, String desc) {
+  //   return RichText(
+  //     softWrap: true,                   // 👈 allow multi-line wrapping
+  //     maxLines: 1,                      // 👈 optional (limit lines)
+  //     overflow: TextOverflow.ellipsis,  // 👈 show "..."
+  //     text: TextSpan(
+  //       style: Styles.textStyleNavigator,
+  //       children: [
+  //         TextSpan(text: title),
+  //         TextSpan(
+  //           text: desc,
+  //           style: Styles.textStyleNavigator600,
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
   Widget textHandling(String title, String desc) {
     return RichText(
       softWrap: true,                   // 👈 allow multi-line wrapping
       maxLines: 1,                      // 👈 optional (limit lines)
       overflow: TextOverflow.ellipsis,  // 👈 show "..."
       text: TextSpan(
-        style: Styles.textStyleNavigator,
+        style: Styles.textStyleBlack16,
         children: [
           TextSpan(text: title),
           TextSpan(
             text: desc,
-            style: Styles.textStyleNavigator600,
+            style: Styles.textStyleBlack16,
           ),
         ],
       ),

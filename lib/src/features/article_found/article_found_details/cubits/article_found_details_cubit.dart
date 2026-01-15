@@ -146,6 +146,8 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
           employee: onlyDBUsers,
           claimant: onlyDBUsers,
           host: onlyDBUsers,
+          idCardManger: onlyDBUsers,
+          idCardEmployee: onlyDBUsers,
           departments: departments.employeeDepartments,
           labels: labels,
           articleType: articleType,
@@ -216,6 +218,8 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       employee: emailUsers,
       host: emailUsers,
       claimant: emailUsers,
+      idCardEmployee: emailUsers,
+      idCardManger: emailUsers,
       status: FormStatus.initial,
     ));
   }
@@ -233,6 +237,9 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
     Organisation? passNo,
     Organisation? passNos,
     Organisation? dayPassReason,
+    BaseUser? idCardManager,
+    BaseUser? idCardEmployee,
+
     int? status,
   }) async {
     emit(
@@ -304,6 +311,54 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
 
     if(claimantDepartment !=null){
       state.model.claimantDepartment = claimantDepartment;
+    }
+
+    if ( idCardManager!= null) {
+      state.model.idCardManager?.employeeId = idCardManager.employeeId;
+      String name = idCardManager.name ?? '';
+      String email = idCardManager.email ?? '';
+      List<String> nameParts = idCardManager.name!.split(' '); // Split by space
+      String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
+      String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
+      User userDetails = User(
+        name:name,
+        userId : idCardManager.id,
+        email: email,
+        employeeId: idCardManager.employeeId,
+        firstName: firstName,
+        lastName: lastName,
+      );
+      state.model.idCardManager = userDetails;
+      emit(
+        state.copyWith(
+          model: state.model,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    if ( idCardEmployee!= null) {
+      state.model.idCardEmployee?.employeeId = idCardEmployee.employeeId;
+      String name = idCardEmployee.name ?? '';
+      String email = idCardEmployee.email ?? '';
+      List<String> nameParts = idCardEmployee.name!.split(' '); // Split by space
+      String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
+      String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
+      User userDetails = User(
+        name:name,
+        userId : idCardEmployee.id,
+        email: email,
+        employeeId: idCardEmployee.employeeId,
+        firstName: firstName,
+        lastName: lastName,
+      );
+      state.model.claimant = userDetails;
+      emit(
+        state.copyWith(
+          model: state.model,
+          status: FormStatus.initial,
+        ),
+      );
     }
 
 

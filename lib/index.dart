@@ -1,7 +1,7 @@
 export 'package:bloc_concurrency/bloc_concurrency.dart';
 export 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 export 'package:dart_extensions/dart_extensions.dart';
-export 'package:db_atom/firebase_options.dart';
+// export 'package:db_atom/firebase_options.dart';
 export 'package:db_atom/flavors.dart';
 export 'package:db_atom/initialize_providers.dart';
 export 'package:db_atom/main.dart';

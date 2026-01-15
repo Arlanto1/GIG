@@ -27,6 +27,7 @@ if (flutterVersionName == null) {
 }
 
 android {
+    ndkVersion '27.0.12077973'
     signingConfigs {
         debug {
 //            storeFile file('C:\\apps\\Arlanto-App-Codebase-main\\android\\Atomedgekeystore/atomedge')
@@ -120,7 +121,7 @@ android {
     //         signingConfig signingConfigs.debug
     //     }
     // }
-    compileSdkVersion 34
+    compileSdkVersion 36
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.arlanto.atomedge"
@@ -179,6 +180,8 @@ android {
         }
     }
     namespace 'com.arlanto.atomedge'
+//    namespace = "io.flutter.plugins.flutter_keyboard_visibility"
+
 //    lint {
 //        abortOnError false
 //        checkReleaseBuilds false

@@ -14,7 +14,7 @@ class MaterialMovementDetailsState extends Equatable {
   final List<BaseUser>? approver2Users;
   final List<BaseUser>? returnReceiverEmailId;
   final List<BaseUser>? receiverEmailUsers;
-
+  final List<MaterialItem> materialItems;
   final List<Organisation> departments;
   final List<ImageContent>? loadAttachments;
   final List<Organisation> quantityUnits;
@@ -27,6 +27,8 @@ class MaterialMovementDetailsState extends Equatable {
   final bool isReceiverSignEditable;
   final bool isEntrySecuritySignatureSignEditable;
   final MmUiLabels? labels;
+  final List<BaseUser>? requestor2EmailUsers;
+
 
   factory MaterialMovementDetailsState.initial({
     required MaterialMovementModel model,
@@ -38,19 +40,21 @@ class MaterialMovementDetailsState extends Equatable {
     required List<ImageContent> loadAttachments,
     required List<Organisation> quantityUnits,
     required int? eventId,
+    required List<MaterialItem> materialItems,
     String? rejectionComment,
   }) {
     return MaterialMovementDetailsState(
-      status: FormStatus.initial,
-      model: model,
-      locations: locations,
-      emailUsers: emailUsers,
-      message: errorMessage,
-      departments: departments,
-      loadAttachments: loadAttachments,
-      quantityUnits: quantityUnits,
-      eventId: eventId,
-      rejectionComment: rejectionComment,
+        status: FormStatus.initial,
+        model: model,
+        locations: locations,
+        emailUsers: emailUsers,
+        message: errorMessage,
+        departments: departments,
+        loadAttachments: loadAttachments,
+        quantityUnits: quantityUnits,
+        eventId: eventId,
+        rejectionComment: rejectionComment,
+        materialItems: materialItems
     );
   }
 
@@ -74,7 +78,7 @@ class MaterialMovementDetailsState extends Equatable {
     if (model.slNo.isEmptyOrNull) {
       return const ErrorResponse(status: false, message: 'Please enter SL No');
     }
-     log('12345 ${model.requestorEmail}');
+    log('12345 ${model.requestorEmail}');
     log('222 ${model.requestorEmail==model.approver1Email}');
 
     if (model.inwardMovement== false && model.requestorEmail !=null && model.approver1Email!.isNotEmpty && model.requestorEmail == model.approver1Email) {
@@ -190,7 +194,7 @@ class MaterialMovementDetailsState extends Equatable {
       }
     }
 
-///Outward
+    ///Outward
     if (model.status == 2 && model.materialPhysicallyChecked == false) {
       return const ErrorResponse(
           status: false,
@@ -287,7 +291,7 @@ class MaterialMovementDetailsState extends Equatable {
 
     if (
     (!model.takenOutContactNo.isEmptyOrNull &&
-            model.takenOutContactNo!.length < 10)) {
+        model.takenOutContactNo!.length < 10)) {
       return const ErrorResponse(
         status: false,
         message: 'Please enter valid Taken Out By Contact Number',
@@ -312,7 +316,7 @@ class MaterialMovementDetailsState extends Equatable {
   @override
   List<Object?> get props => [model, status];
 
-  const MaterialMovementDetailsState({
+  MaterialMovementDetailsState({
     required this.status,
     required this.model,
     this.locations,
@@ -334,7 +338,9 @@ class MaterialMovementDetailsState extends Equatable {
     this.approver2Users,
     this.receiverEmailUsers,
     this.rejectionComment,
-    this.isReadOnly,
+    this.isReadOnly, required this.materialItems,
+    this.requestor2EmailUsers,
+
   });
 
   MaterialMovementDetailsState copyWith({
@@ -358,6 +364,9 @@ class MaterialMovementDetailsState extends Equatable {
     bool? isReceiverSignEditable,
     bool? isEntrySecuritySignatureSignEditable,
     bool? isReadOnly,
+    List<MaterialItem>? materialItems,
+    List<BaseUser>? requestor2EmailUsers,
+
   }) {
     return MaterialMovementDetailsState(
       status: status ?? this.status,
@@ -368,7 +377,7 @@ class MaterialMovementDetailsState extends Equatable {
       emailUsers: emailUsers ?? this.emailUsers,
       requestorEmailUsers: requestorEmailUsers ?? this.requestorEmailUsers,
       returnReceiverEmailId:
-          returnReceiverEmailId ?? this.returnReceiverEmailId,
+      returnReceiverEmailId ?? this.returnReceiverEmailId,
       approver1Users: approver1Users ?? this.approver1Users,
       approver2Users: approver2Users ?? this.approver2Users,
       receiverEmailUsers: receiverEmailUsers ?? this.receiverEmailUsers,
@@ -379,11 +388,14 @@ class MaterialMovementDetailsState extends Equatable {
       message: message ?? this.message,
       labels: labels ?? this.labels,
       isReceiverSignEditable:
-          isReceiverSignEditable ?? this.isReceiverSignEditable,
+      isReceiverSignEditable ?? this.isReceiverSignEditable,
       rejectionComment: rejectionComment ?? this.rejectionComment,
       isEntrySecuritySignatureSignEditable:
-          isEntrySecuritySignatureSignEditable ??
-              this.isEntrySecuritySignatureSignEditable,
+      isEntrySecuritySignatureSignEditable ??
+          this.isEntrySecuritySignatureSignEditable,
+      materialItems: materialItems?? this.materialItems,
+      requestor2EmailUsers: requestor2EmailUsers ?? this.requestor2EmailUsers,
+
     );
   }
 }

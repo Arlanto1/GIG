@@ -14,6 +14,9 @@ class ArticleFoundDetailsState extends Equatable {
   final List<Organisation> departments;
   final List<Organisation> claimantDepartments;
   final List<ImageContent> uploadAttachments;
+  final List<BaseUser>? idCardManger;
+  final List<BaseUser>? idCardEmployee;
+
   final String? message;
   final PMUiLabels? labels;
 
@@ -156,6 +159,8 @@ class ArticleFoundDetailsState extends Equatable {
     this.labels,
     this.employee,
     this.claimant,
+    this.idCardManger,
+    this.idCardEmployee,
     this.host,
   });
 
@@ -174,6 +179,9 @@ class ArticleFoundDetailsState extends Equatable {
     List<Organisation>? claimantDepartments,
     List<ImageContent>? uploadAttachments,
     String? message,
+    List<BaseUser>? idCardManger,
+    List<BaseUser>? idCardEmployee,
+
     PMUiLabels? labels,
   }) {
     return ArticleFoundDetailsState(
@@ -190,6 +198,8 @@ class ArticleFoundDetailsState extends Equatable {
       claimantDepartments: claimantDepartments ?? this.claimantDepartments,
       uploadAttachments: uploadAttachments ?? this.uploadAttachments,
       message: message ?? this.message,
+      idCardEmployee: idCardEmployee ?? this.idCardEmployee,
+      idCardManger: idCardManger ?? this.idCardManger,
       labels: labels ?? this.labels,
     );
   }

@@ -271,7 +271,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF6474C6).withValues(alpha: 0.1),
+                  color: AppColors.newColor.withValues(alpha: 0.1),
                   blurRadius:12,
                   offset: const Offset(8, 0),
                 ),
@@ -366,16 +366,16 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      if (widget.challanNo != null && widget.challanNo!.isNotEmpty) ...[
-        // CommonWidgets.verticalSpacerWidget(8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Utils().textHandling('Challan/Invoice Nos/Gate Pass : ',
-                widget.challanNo.toString()),
-          ],
-        ),
-      ],
+      // if (widget.challanNo != null && widget.challanNo!.isNotEmpty) ...[
+      //   // CommonWidgets.verticalSpacerWidget(8),
+      //   Row(
+      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //     children: [
+      //       Utils().textHandling('Challan/Invoice Nos/Gate Pass : ',
+      //           widget.challanNo.toString()),
+      //     ],
+      //   ),
+      // ],
       if (widget.keyType != null) ...[
         // CommonWidgets.verticalSpacerWidget(8),
         Row(
@@ -442,15 +442,15 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      if (widget.quantity != null) ...[
-        // CommonWidgets.verticalSpacerWidget(8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Utils().textHandling('Quantity : ', widget.quantity.toString()),
-          ],
-        ),
-      ],
+      // if (widget.quantity != null) ...[
+      //   // CommonWidgets.verticalSpacerWidget(8),
+      //   Row(
+      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //     children: [
+      //       Utils().textHandling('Quantity : ', widget.quantity.toString()),
+      //     ],
+      //   ),
+      // ],
       if (widget.inputDate != null) ...[
         Row(
           children: [
@@ -472,15 +472,15 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      if (widget.entrySecurityName != null) ...[
-        // CommonWidgets.verticalSpacerWidget(8),
-        Row(
-          children: [
-            Utils().textHandling(
-                'Created By : ', widget.entrySecurityName.toString()),
-          ],
-        ),
-      ],
+      // if (widget.entrySecurityName != null) ...[
+      //   // CommonWidgets.verticalSpacerWidget(8),
+      //   Row(
+      //     children: [
+      //       Utils().textHandling(
+      //           'Created By : ', widget.entrySecurityName.toString()),
+      //     ],
+      //   ),
+      // ],
       if (widget.status != null && widget.isMaterialMovementStatus == true) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(

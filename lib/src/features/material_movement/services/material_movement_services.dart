@@ -1,5 +1,6 @@
 import 'package:db_atom/src/configurations/base_api_service.dart';
 import 'package:db_atom/src/configurations/environment_config.dart';
+import 'package:db_atom/src/features/material_movement/models/material_items_model.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movement_model.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 import 'package:db_atom/src/features/material_movement/models/requestModels/material_movement_request.dart';
@@ -15,6 +16,7 @@ class Apis {
   static final String _getMaterialMovement = '$baseUrl/getMMById';
 
   static final String _createMaterialMovement = '$baseUrl/createMtrlMvmt';
+  static final String _getMaterialItems = '$baseUrl/getMMItemsByMMId';
 }
 
 class MaterialMovementServices {
@@ -73,4 +75,14 @@ class MaterialMovementServices {
     );
     return GenericResponse.fromJson(response);
   }
+
+
+  // Future<MaterialMovementItemsModel> getItems(int id) async {
+  //   final String url = '${Apis._getMaterialItems}/$id';
+  //   final response = await BaseApiService().getRequest(
+  //     url: url,
+  //   );
+  //   return MaterialMovementItemsModel.fromJson(response);
+  // }
 }
+

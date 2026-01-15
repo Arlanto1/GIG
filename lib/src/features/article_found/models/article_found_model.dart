@@ -64,6 +64,9 @@ class ArticleFoundModel {
    String? depositorDepartmentName;
    String? claimantDepartmentName;
    Organisation? location;
+   String? safeStoragePlace;
+   User? idCardEmployee;
+   User? idCardManager;
    String? lock;
 
   ArticleFoundModel({
@@ -103,6 +106,9 @@ class ArticleFoundModel {
     this.depositorDepartmentName,
     this.claimantDepartmentName,
     this.location,
+    this.safeStoragePlace,
+    this.idCardEmployee,
+    this.idCardManager,
     this.lock,
   });
 
@@ -143,7 +149,11 @@ class ArticleFoundModel {
         depositorDepartmentName = json['depositorDepartmentName'] as String?,
         claimantDepartmentName = json['claimantDepartmentName'] as String?,
         location = (json['location'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['location'] as Map<String,dynamic>) : null,
-        lock = json['lock'] as String?;
+        safeStoragePlace = json['safeStoragePlace'] as String?,
+        idCardEmployee = (json['idCardEmployee'] as Map<String,dynamic>?) != null ? User.fromJson(json['idCardEmployee'] as Map<String,dynamic>) : null,
+        idCardManager = (json['idCardManager'] as Map<String,dynamic>?) != null ? User.fromJson(json['idCardManager'] as Map<String,dynamic>) : null,
+
+      lock = json['lock'] as String?;
 
   Map<String, dynamic> toJson() => {
     'id' : id,
@@ -182,6 +192,9 @@ class ArticleFoundModel {
     'depositorDepartmentName' : depositorDepartmentName,
     'claimantDepartmentName' : claimantDepartmentName,
     'location' : location?.toJson(),
+    'safeStoragePlace':safeStoragePlace,
+    'idCardEmployee':idCardEmployee?.toJson(),
+    'idCardManager':idCardManager?.toJson(),
     'lock':lock,
   };
 }

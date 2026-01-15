@@ -1706,7 +1706,7 @@ class _LawEnforcementDetailsViewState extends State<LawEnforcementDetailsView> {
                                 state.getUserDetailsResponse ??
                                     User(),
                                 getFiles: getFiles,
-                                lawstate: state,
+                                lawstate: state, onImageSelected: (ImageContent p1) {  },
                               );
                             });
                       },

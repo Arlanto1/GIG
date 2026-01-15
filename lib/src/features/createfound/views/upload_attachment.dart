@@ -230,25 +230,57 @@ class UploadAttachmentState extends State<UploadAttachment>
     }
   }
 
+  // void _askCameraPermission() async {
+  //   if (await Permission.camera.request().isGranted) {
+  //     _status = await Permission.camera.status;
+  //     _getFromCamera();
+  //   } else {
+  //     _updateStatus(await Permission.camera.status);
+  //   }
+  // }
   void _askCameraPermission() async {
     if (await Permission.camera.request().isGranted) {
-      _status = await Permission.camera.status;
       _getFromCamera();
     } else {
       _updateStatus(await Permission.camera.status);
     }
   }
 
+
+  // void _askPhotoPermission() async {
+  //   if (await Permission.mediaLibrary.request().isGranted ||
+  //       await Permission.photos.request().isGranted ||
+  //       await Permission.photosAddOnly.request().isGranted) {
+  //     _status = await Permission.photos.status;
+  //     _getFromGallery();
+  //   } else {
+  //     _updateStatus(await Permission.photos.status);
+  //   }
+  // }
+
   void _askPhotoPermission() async {
-    if (await Permission.mediaLibrary.request().isGranted ||
-        await Permission.photos.request().isGranted ||
-        await Permission.photosAddOnly.request().isGranted) {
-      _status = await Permission.photos.status;
+    PermissionStatus status;
+
+    if (Platform.isAndroid) {
+      // Android 13+
+      status = await Permission.photos.request();
+      // fallback for older Android
+      if (!status.isGranted) {
+        status = await Permission.storage.request();
+      }
+    } else if (Platform.isIOS) {
+      status = await Permission.photos.request();
+    } else {
+      return;
+    }
+
+    if (status.isGranted) {
       _getFromGallery();
     } else {
-      _updateStatus(await Permission.photos.status);
+      _updateStatus(status);
     }
   }
+
 
   _updateStatus(PermissionStatus value) {
     if (value != _status) {
@@ -586,3 +618,4 @@ class UploadAttachmentState extends State<UploadAttachment>
   }
 
 }
+

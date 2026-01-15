@@ -1,3 +1,1009 @@
+#name: db_atom
+#description: A new Flutter project.
+## The following line prevents the package from being accidentally published to
+## pub.dev using `flutter pub publish`. This is preferred for private packages.
+#publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+#
+## The following defines the version and build number for your application.
+## A version number is three numbers separated by dots, like 1.2.43
+## followed by an optional build number separated by a +.
+## Both the version and the builder number may be overridden in flutter
+## build by specifying --build-name and --build-number, respectively.
+## In Android, build-name is used as versionName while build-number used as versionCode.
+## Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+## In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+## Read more about iOS versioning at
+## https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+## In Windows, build-name is used as the major, minor, and patch parts
+## of the product and file versions while build-number is used as the build suffix.
+#version: 1.0.72
+#
+#environment:
+#  sdk: '>=2.19.2 <4.0.0'
+#  flutter: ">=3.0.0"
+#flavorizr:
+#  flavors:
+#    DEV:
+#      app:
+#        name: "Dev"
+#
+#      android:
+#        applicationId: "com.arlanto.atomedge.dev"
+#
+#      ios:
+#        bundleId: "com.arlanto.atomedge.dev"
+#
+#    QA:
+#      app:
+#        name: "QA"
+#
+#      android:
+#        applicationId: "com.arlanto.atomedge.qa"
+#
+#      ios:
+#        bundleId: "com.arlanto.atomedge.qa"
+#
+#
+#    UAT:
+#      app:
+#        name: "UAT"
+#
+#      android:
+#        applicationId: "com.arlanto.atomedge.uat"
+#      ios:
+#        bundleId: "com.arlanto.atomedge.uat"
+#
+#    PROD:
+#      app:
+#        name: "AtomEdge"
+#
+#      android:
+#        applicationId: "com.arlanto.atomedge"
+#      ios:
+#        bundleId: "com.arlanto.atomedge"
+#
+## Dependencies specify other packages that your package needs in order to work.
+## To automatically upgrade your package dependencies to the latest versions
+## consider running `flutter pub upgrade --major-versions`. Alternatively,
+## dependencies can be manually updated by changing the version numbers below to
+## the latest version available on pub.dev. To see which dependencies have newer
+## versions available, run `flutter pub outdated`.
+#dependencies:
+#  flutter:
+#    sdk: flutter
+#  get: ^4.7.2
+#  saver_gallery: ^4.0.1
+#  shared_preferences: ^2.5.3
+#  provider: ^6.0.5
+#  flutter_tts: ^3.8.5
+#  fl_chart: ^1.1.1
+#  webview_flutter: ^4.7.0
+#  webview_flutter_android: ^3.16.0
+#  webview_flutter_wkwebview: ^3.12.0
+#
+#  mailer: ^6.6.0
+#  permission_handler:
+##  permission_handler_platform_interface: ^6.0.0
+##  shared_preferences_android: 2.0.10
+#  geolocator_android: 4.5.5
+#  video_player: ^2.6.1
+#  #  flutter_localizations:
+#  #    sdk: flutter
+#  # The following adds the Cupertino Icons font to your application.
+#  # Use with the CupertinoIcons class for iOS style icons.
+##  package_info_plus: 6.0.0
+#  cupertino_icons:
+#  image_cropper: ^5.0.1
+#  lottie: ^2.7.0
+#  speech_to_text: ^6.5.1
+##  flutter_tts: ^3.6.1
+#  flutter_flavorizr:
+##  shared_preferences: ^2.3.2
+#  #  shared_preferences: ^2.0.15
+##  shared_preferences_android: ^2.0.6
+##  shared_preferences_ios: ^2.0.6
+#  flutter_svg:
+#  flutter_typeahead: ^5.2.0
+#  flutter_keyboard_visibility: ^6.0.0
+##  flutter_keyboard_listener:
+#  image_picker: ^1.1.2
+#  app_settings:
+#  dotted_border:
+#  flutter_bloc:
+##  flutter_cube:
+#  bloc:
+##  file_picker: ^6.2.1
+#  syncfusion_flutter_charts: ^31.1.23
+##    git:
+##      url: https://github.com/Luvti/flutter-widgets
+##      path: packages/syncfusion_flutter_charts
+##      ref: 15e3c4a95e3cf2e2393755bf5aa11c0206ed6dea #flutter/3.24
+#
+#  equatable:
+#  http:
+#  flutter_file_dialog:
+##  path_provider:
+#  mime:
+#  quill_html_editor:
+##  html_editor_enhanced:
+#  bloc_concurrency:
+#  email_validator:
+#  local_session_timeout:
+#  dart_extensions:
+#  signature:
+#  json_annotation:
+#  otp_text_field:
+#  flutter_otp_text_field: ^1.1.0+2
+#  firebase_core: any
+#  firebase_crashlytics: ^4.0.3
+#  firebase_auth: any
+#  cloud_firestore: any
+##  firebase_messaging: ^14.7.9
+#  firebase_analytics: ^11.2.0
+#  rxdart:
+#  flutter_slidable:
+#  intl: ^0.18.1
+#  internet_connection_checker: ^1.0.0+1
+#  #  flutter_html: ^3.0.0-beta.2
+#  url_launcher: ^6.3.0
+#  flutter_widget_from_html_core: ^0.16.0
+#  flutter_widget_from_html: ^0.16.0
+#  device_info_plus: ^9.1.1
+#  multi_select_flutter: ^4.1.3
+#  flutter_datetime_picker_plus: ^2.2.0
+#  #  pull_to_refresh_flutter3: ^2.0.2
+#  analyzer: ^5.4.0
+#  geolocator: ^11.0.0
+#  flutter_pdfview: ^1.3.2
+#  flutter_appauth: ^6.0.6
+#  msal_auth: ^2.0.1
+#  photo_view: ^0.15.0
+#  custom_refresh_indicator: ^4.0.1
+#  floating_bottom_navigation_bar: ^1.5.2
+#  fluttertoast: ^8.2.8
+##  file_picker: ^7.1.0
+##dev_dependencies:
+##  #  flutter_launcher_icons:
+##  #  flutter_native_splash: ^2.4.0
+#
+#dependency_overrides:
+#  uuid: ^4.5.1
+#  path_provider: ^2.0.1
+#  file_picker:
+#dev dependencies:
+#  firebase_auth_platform_interface: ^7.7.2
+#  firebase_core_platform_interface: ^6.0.0
+#  flutter_test:
+#    sdk: flutter
+#  build_runner: ^2.4.6
+#  get: ^4.6.
+#  #  image_gallery_saver: ^2.0.3
+#  json_serializable: ^6.7.1
+#  saver_gallery: ^4.0.1
+#
+#  # The "flutter_lints" package below contains a set of recommended lints to
+#  # encourage good coding practices. The lint set provided by the package is
+#  # activated in the `analysis_options.yaml` file located at the root of your
+#  # package. See that file for information about deactivating specific lint
+#  # rules and activating additional ones.
+#  flutter_lints: ^3.0.1
+##flutter_native_splash:
+##   color: "#ffffff" #white color
+##   image: assets/app_icon/app_icon.jpg
+##   background_image: assets/app_icon/app_icon.jpg
+#flutter_obfuscate:
+#  entry_points:
+#    - lib/main.dart
+#    # Add additional entry points if needed
+#  exclude:
+#    - test/**
+#
+#flutter_launcher_icons:
+#  android: "launcher_icon"
+#  ios: true
+#  image_path: "assets/app_icon/app_icon.jpg"
+#  min_sdk_android: 21
+## For information on the generic Dart part of this file, see the
+## following page: https://dart.dev/tools/pub/pubspec
+#
+## The following section is specific to Flutter packages.
+#flutter:
+#
+#  # The following line ensures that the Material Icons font is
+#  # included with your application, so that you can use the icons in
+#  # the material Icons class.
+#  uses-material-design: true
+#
+#  # To add assets to your application, add an assets section, like this:
+#  assets:
+#    - assets/
+#    - assets/app_icon/
+#    - assets/images/
+#    - assets/translation/
+##    - assets/images/login2.png
+#    - assets/images/login4.png
+#    - assets/images/filter1.png
+#    - assets/images/view.png
+#    - assets/images/eye.png
+#    - assets/images/dollar1.png
+#    - assets/images/security1.png
+#    - assets/images/ai_chat_background.png
+#    - assets/images/gunMan1.png
+#    - assets/videos/loading.mp4
+#
+#
+#
+#  fonts:
+#
+#    - family: Poppins-Black
+#      fonts:
+#        - asset: assets/fonts/Poppins-Black.ttf
+#
+#    - family: Poppins-BlackItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-BlackItalic.ttf
+#
+#    - family: Poppins-Bold
+#      fonts:
+#        - asset: assets/fonts/Poppins-Bold.ttf
+#
+#    - family: Poppins-BoldItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-BoldItalic.ttf
+#
+#    - family: Poppins-ExtraBold
+#      fonts:
+#        - asset: assets/fonts/Poppins-ExtraBold.ttf
+#
+#    - family: Poppins-ExtraBoldItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-ExtraBoldItalic.ttf
+#
+#    - family: Poppins-ExtraLight
+#      fonts:
+#        - asset: assets/fonts/Poppins-BlackItalic.ttf
+#
+#    - family: Poppins-ExtraLightItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-ExtraLightItalic.ttf
+#
+#    - family: Poppins-Italic
+#      fonts:
+#        - asset: assets/fonts/Poppins-Italic.ttf
+#
+#    - family: Poppins-Light
+#      fonts:
+#        - asset: assets/fonts/Poppins-Light.ttf
+#
+#    - family: Poppins-LightItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-LightItalic.ttf
+#
+#    - family: Poppins-Medium
+#      fonts:
+#        - asset: assets/fonts/Poppins-Medium.ttf
+#
+#
+#    - family: Poppins-MediumItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-MediumItalic.ttf
+#
+#    - family: Poppins-Regular
+#      fonts:
+#        - asset: assets/fonts/Poppins-Regular.ttf
+#
+#    - family: Poppins-SemiBold
+#      fonts:
+#        - asset: assets/fonts/Poppins-SemiBold.ttf
+#
+#    - family: Poppins-SemiBoldItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-SemiBoldItalic.ttf
+#
+#    - family: Poppins-Thin
+#      fonts:
+#        - asset: assets/fonts/Poppins-Thin.ttf
+#
+#    - family: Poppins-ThinItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-ThinItalic.ttf
+#
+#    - family: DeutscheBankDisplay_A_Rg
+#      fonts:
+#        - asset: assets/fonts/DeutscheBankText_A_Rg.ttf
+
+#    - family: DeutscheBankDisplay_A_It
+#      fonts:
+#        - asset: assets/fonts/DeutscheBankText_A_It.ttf
+#
+#            fonts:
+#              - family: Poppins-Black
+#                fonts:
+#                  - asset: assets/fonts/Poppins-Black.ttf
+
+
+#
+#         - asset: fonts/Schyler-Italic.ttf
+#           style: italic
+#     - family: Trajan Pro
+#       fonts:
+#         - asset: fonts/TrajanPro.ttf
+#         - asset: fonts/TrajanPro_Bold.ttf
+#           weight: 700
+#
+#   For details regarding fonts from package dependencies,
+#   see https://flutter.dev/custom-fonts/#from-packages
+
+
+
+
+#name: db_atom
+#description: A new Flutter project.
+## The following line prevents the package from being accidentally published to
+## pub.dev using `flutter pub publish`. This is preferred for private packages.
+#publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+#
+## The following defines the version and build number for your application.
+## A version number is three numbers separated by dots, like 1.2.43
+## followed by an optional build number separated by a +.
+## Both the version and the builder number may be overridden in flutter
+## build by specifying --build-name and --build-number, respectively.
+## In Android, build-name is used as versionName while build-number used as versionCode.
+## Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+## In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+## Read more about iOS versioning at
+## https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+## In Windows, build-name is used as the major, minor, and patch parts
+## of the product and file versions while build-number is used as the build suffix.
+#version: 1.0.72
+#
+#environment:
+#  sdk: '>=2.19.2 <4.0.0'
+#  flutter: ">=3.0.0"
+#flavorizr:
+#  flavors:
+#    DEV:
+#      app:
+#        name: "Dev"
+#
+#      android:
+#        applicationId: "com.arlanto.atomedge.dev"
+#
+#      ios:
+#        bundleId: "com.arlanto.atomedge.dev"
+#
+#    QA:
+#      app:
+#        name: "QA"
+#
+#      android:
+#        applicationId: "com.arlanto.atomedge.qa"
+#
+#      ios:
+#        bundleId: "com.arlanto.atomedge.qa"
+#
+#
+#    UAT:
+#      app:
+#        name: "UAT"
+#
+#      android:
+#        applicationId: "com.arlanto.atomedge.uat"
+#      ios:
+#        bundleId: "com.arlanto.atomedge.uat"
+#
+#    PROD:
+#      app:
+#        name: "AtomEdge"
+#
+#      android:
+#        applicationId: "com.arlanto.atomedge"
+#      ios:
+#        bundleId: "com.arlanto.atomedge"
+#
+## Dependencies specify other packages that your package needs in order to work.
+## To automatically upgrade your package dependencies to the latest versions
+## consider running `flutter pub upgrade --major-versions`. Alternatively,
+## dependencies can be manually updated by changing the version numbers below to
+## the latest version available on pub.dev. To see which dependencies have newer
+## versions available, run `flutter pub outdated`.
+#dependencies:
+#  flutter:
+#    sdk: flutter
+#  get: ^4.7.2
+#  saver_gallery: ^4.0.1
+#  shared_preferences: ^2.5.3
+#  provider: ^6.0.5
+#  flutter_tts: ^3.8.5
+#  fl_chart: ^1.1.1
+#  mailer: ^6.6.0
+#dependency_overrides:
+#  uuid: ^4.5.1
+#  path_provider: ^2.0.1
+##  webview_flutter: ^5.0.0
+#  webview_flutter: ^4.13.0
+#  webview_flutter_android: ^3.16.0
+#  webview_flutter_wkwebview: ^3.12.0
+#  permission_handler:
+#  #  permission_handler_platform_interface: ^6.0.0
+#  #  shared_preferences_android: 2.0.10
+#  geolocator_android: 4.5.5
+#  file_picker: ^5.2.4
+#  video_player: ^2.6.1
+#  #  flutter_localizations:
+#  #    sdk: flutter
+#  # The following adds the Cupertino Icons font to your application.
+#  # Use with the CupertinoIcons class for iOS style icons.
+#  #  package_info_plus: 6.0.0
+#  cupertino_icons:
+#  image_cropper: ^5.0.1
+#  lottie: ^2.7.0
+#  speech_to_text: ^6.5.1
+#  flutter_tts: ^3.6.1
+#  flutter_flavorizr:
+#  shared_preferences: ^2.3.2
+#  #  shared_preferences: ^2.0.15
+#  #  shared_preferences_android: ^2.0.6
+#  #  shared_preferences_ios: ^2.0.6
+#  flutter_svg:
+#  flutter_typeahead:
+#  flutter_keyboard_visibility:
+#  image_picker: ^1.1.2
+#  app_settings:
+#  dotted_border:
+#  flutter_bloc:
+#  #  flutter_cube:
+#  bloc:
+#  #  file_picker: ^6.2.1
+#  syncfusion_flutter_charts: ^31.1.23
+#  #    git:
+#  #      url: https://github.com/Luvti/flutter-widgets
+#  #      path: packages/syncfusion_flutter_charts
+#  #      ref: 15e3c4a95e3cf2e2393755bf5aa11c0206ed6dea #flutter/3.24
+#
+#  equatable:
+#  http:
+#  flutter_file_dialog:
+#  #  path_provider:
+#  mime:
+#  quill_html_editor:
+#  bloc_concurrency:
+#  email_validator:
+#  local_session_timeout:
+#  dart_extensions:
+#  signature:
+#  json_annotation:
+#  otp_text_field:
+#  flutter_otp_text_field: ^1.1.0+2
+#  firebase_core: any
+#  firebase_crashlytics: ^4.0.3
+#  firebase_auth: any
+#  cloud_firestore: any
+#  #  firebase_messaging: ^14.7.9
+#  firebase_analytics: ^11.2.0
+#  rxdart:
+#  flutter_slidable:
+#  intl: ^0.18.1
+#  internet_connection_checker: ^1.0.0+1
+#  #  flutter_html: ^3.0.0-beta.2
+#  url_launcher: ^6.3.0
+#  flutter_widget_from_html_core: ^0.16.0
+#  flutter_widget_from_html: ^0.16.0
+#  device_info_plus: ^9.1.1
+#  multi_select_flutter: ^4.1.3
+#  flutter_datetime_picker_plus: ^2.2.0
+#  #  pull_to_refresh_flutter3: ^2.0.2
+#  analyzer: ^5.4.0
+#  geolocator: ^11.0.0
+#  flutter_pdfview: ^1.3.2
+#  flutter_appauth: ^6.0.6
+#  msal_auth: ^2.0.1
+#  photo_view: ^0.15.0
+#  custom_refresh_indicator: ^4.0.1
+#  floating_bottom_navigation_bar: ^1.5.2
+#  fluttertoast: ^8.2.8
+#  fl_chart: ^1.1.1
+##dev_dependencies:
+##  #  flutter_launcher_icons:
+##  #  flutter_native_splash: ^2.4.0
+#
+#dev dependencies:
+#  firebase_auth_platform_interface: ^7.7.2
+#  firebase_core_platform_interface: ^6.0.0
+#  flutter_test:
+#    sdk: flutter
+#  build_runner: ^2.4.6
+#  get: ^4.6.
+#  #  image_gallery_saver: ^2.0.3
+#  json_serializable: ^6.7.1
+#  saver_gallery: ^4.0.1
+#
+#  # The "flutter_lints" package below contains a set of recommended lints to
+#  # encourage good coding practices. The lint set provided by the package is
+#  # activated in the `analysis_options.yaml` file located at the root of your
+#  # package. See that file for information about deactivating specific lint
+#  # rules and activating additional ones.
+#  flutter_lints: ^3.0.1
+##flutter_native_splash:
+##   color: "#ffffff" #white color
+##   image: assets/app_icon/app_icon.jpg
+##   background_image: assets/app_icon/app_icon.jpg
+#flutter_obfuscate:
+#  entry_points:
+#    - lib/main.dart
+#    # Add additional entry points if needed
+#  exclude:
+#    - test/**
+#
+#flutter_launcher_icons:
+#  android: "launcher_icon"
+#  ios: true
+#  image_path: "assets/app_icon/app_icon.jpg"
+#  min_sdk_android: 21
+## For information on the generic Dart part of this file, see the
+## following page: https://dart.dev/tools/pub/pubspec
+#
+## The following section is specific to Flutter packages.
+#flutter:
+#
+#  # The following line ensures that the Material Icons font is
+#  # included with your application, so that you can use the icons in
+#  # the material Icons class.
+#  uses-material-design: true
+#
+#  # To add assets to your application, add an assets section, like this:
+#  assets:
+#    - assets/
+#    - assets/app_icon/
+#    - assets/images/
+#    - assets/translation/
+#    - assets/images/login2.png
+#    - assets/images/login4.png
+#    - assets/images/filter1.png
+#    - assets/images/view.png
+#    - assets/images/eye.png
+#    - assets/images/dollar1.png
+#    - assets/images/security1.png
+#    - assets/images/gunMan1.png
+#    - assets/videos/loading.mp4
+#
+#
+#
+#  fonts:
+#
+#    - family: Poppins-Black
+#      fonts:
+#        - asset: assets/fonts/Poppins-Black.ttf
+#
+#    - family: Poppins-BlackItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-BlackItalic.ttf
+#
+#    - family: Poppins-Bold
+#      fonts:
+#        - asset: assets/fonts/Poppins-Bold.ttf
+#
+#    - family: Poppins-BoldItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-BoldItalic.ttf
+#
+#    - family: Poppins-ExtraBold
+#      fonts:
+#        - asset: assets/fonts/Poppins-ExtraBold.ttf
+#
+#    - family: Poppins-ExtraBoldItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-ExtraBoldItalic.ttf
+#
+#    - family: Poppins-ExtraLight
+#      fonts:
+#        - asset: assets/fonts/Poppins-BlackItalic.ttf
+#
+#    - family: Poppins-ExtraLightItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-ExtraLightItalic.ttf
+#
+#    - family: Poppins-Italic
+#      fonts:
+#        - asset: assets/fonts/Poppins-Italic.ttf
+#
+#    - family: Poppins-Light
+#      fonts:
+#        - asset: assets/fonts/Poppins-Light.ttf
+#
+#    - family: Poppins-LightItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-LightItalic.ttf
+#
+#    - family: Poppins-Medium
+#      fonts:
+#        - asset: assets/fonts/Poppins-Medium.ttf
+#
+#
+#    - family: Poppins-MediumItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-MediumItalic.ttf
+#
+#    - family: Poppins-Regular
+#      fonts:
+#        - asset: assets/fonts/Poppins-Regular.ttf
+#
+#    - family: Poppins-SemiBold
+#      fonts:
+#        - asset: assets/fonts/Poppins-SemiBold.ttf
+#
+#    - family: Poppins-SemiBoldItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-SemiBoldItalic.ttf
+#
+#    - family: Poppins-Thin
+#      fonts:
+#        - asset: assets/fonts/Poppins-Thin.ttf
+#
+#    - family: Poppins-ThinItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-ThinItalic.ttf
+#
+#    - family: DeutscheBankDisplay_A_Rg
+#      fonts:
+#        - asset: assets/fonts/DeutscheBankText_A_Rg.ttf
+#
+#    - family: DeutscheBankDisplay_A_It
+#      fonts:
+#        - asset: assets/fonts/DeutscheBankText_A_It.ttf
+#
+#  #          fonts:
+#  #            - family: Poppins-Black
+#  #              fonts:
+#  #                - asset: assets/fonts/Poppins-Black.ttf
+#
+#
+#
+#  #       - asset: fonts/Schyler-Italic.ttf
+#  #         style: italic
+#  #   - family: Trajan Pro
+#  #     fonts:
+#  #       - asset: fonts/TrajanPro.ttf
+#  #       - asset: fonts/TrajanPro_Bold.ttf
+#  #         weight: 700
+#  #
+#  # For details regarding fonts from package dependencies,
+#  # see https://flutter.dev/custom-fonts/#from-packages
+
+#name: db_atom
+#description: A new Flutter project.
+## The following line prevents the package from being accidentally published to
+## pub.dev using `flutter pub publish`. This is preferred for private packages.
+#publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+#
+## The following defines the version and build number for your application.
+## A version number is three numbers separated by dots, like 1.2.43
+## followed by an optional build number separated by a +.
+## Both the version and the builder number may be overridden in flutter
+## build by specifying --build-name and --build-number, respectively.
+## In Android, build-name is used as versionName while build-number used as versionCode.
+## Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+## In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+## Read more about iOS versioning at
+## https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+## In Windows, build-name is used as the major, minor, and patch parts
+## of the product and file versions while build-number is used as the build suffix.
+#version: 1.0.72
+#
+#environment:
+#  sdk: '>=2.19.2 <4.0.0'
+#  flutter: ">=3.0.0"
+#flavorizr:
+#  flavors:
+#    DEV:
+#      app:
+#        name: "Dev"
+#
+#      android:
+#        applicationId: "com.arlanto.atomedge.dev"
+#
+#      ios:
+#        bundleId: "com.arlanto.atomedge.dev"
+#
+#    QA:
+#      app:
+#        name: "QA"
+#
+#      android:
+#        applicationId: "com.arlanto.atomedge.qa"
+#
+#      ios:
+#        bundleId: "com.arlanto.atomedge.qa"
+#
+#
+#    UAT:
+#      app:
+#        name: "UAT"
+#
+#      android:
+#        applicationId: "com.arlanto.atomedge.uat"
+#      ios:
+#        bundleId: "com.arlanto.atomedge.uat"
+#
+#    PROD:
+#      app:
+#        name: "AtomEdge"
+#
+#      android:
+#        applicationId: "com.arlanto.atomedge"
+#      ios:
+#        bundleId: "com.arlanto.atomedge"
+#
+## Dependencies specify other packages that your package needs in order to work.
+## To automatically upgrade your package dependencies to the latest versions
+## consider running `flutter pub upgrade --major-versions`. Alternatively,
+## dependencies can be manually updated by changing the version numbers below to
+## the latest version available on pub.dev. To see which dependencies have newer
+## versions available, run `flutter pub outdated`.
+#dependencies:
+#  flutter:
+#    sdk: flutter
+#  get: ^4.7.2
+#  saver_gallery: ^4.0.1
+#  shared_preferences: ^2.5.3
+#  provider: ^6.0.5
+#  flutter_tts: ^3.8.5
+#  fl_chart: ^1.1.1
+#  webview_flutter: ^4.7.0
+#  webview_flutter_android: ^3.14.0
+#  webview_flutter_platform_interface: ^2.9.0
+#  mailer: ^6.6.0
+#  permission_handler:
+##  permission_handler_platform_interface: ^6.0.0
+##  shared_preferences_android: 2.0.10
+#  geolocator_android: 4.5.5
+#  file_picker: ^6.2.1
+#  video_player: ^2.6.1
+#  #  flutter_localizations:
+#  #    sdk: flutter
+#  # The following adds the Cupertino Icons font to your application.
+#  # Use with the CupertinoIcons class for iOS style icons.
+##  package_info_plus: 6.0.0
+#  cupertino_icons:
+#  image_cropper: ^5.0.1
+#  lottie: ^2.7.0
+#  speech_to_text: ^6.5.1
+##  flutter_tts: ^3.6.1
+#  flutter_flavorizr:
+##  shared_preferences: ^2.3.2
+#  #  shared_preferences: ^2.0.15
+##  shared_preferences_android: ^2.0.6
+##  shared_preferences_ios: ^2.0.6
+#  flutter_svg:
+#  flutter_typeahead: ^5.2.0
+#  flutter_keyboard_visibility: ^6.0.0
+##  flutter_keyboard_listener:
+#  image_picker: ^1.1.2
+#  app_settings:
+#  dotted_border:
+#  flutter_bloc:
+##  flutter_cube:
+#  bloc:
+##  file_picker: ^6.2.1
+#  syncfusion_flutter_charts: ^31.1.23
+##    git:
+##      url: https://github.com/Luvti/flutter-widgets
+##      path: packages/syncfusion_flutter_charts
+##      ref: 15e3c4a95e3cf2e2393755bf5aa11c0206ed6dea #flutter/3.24
+#
+#  equatable:
+#  http:
+#  flutter_file_dialog:
+##  path_provider:
+#  mime:
+#  quill_html_editor: ^2.2.6
+#  bloc_concurrency:
+#  email_validator:
+#  local_session_timeout:
+#  dart_extensions:
+#  signature:
+#  json_annotation:
+#  otp_text_field:
+#  flutter_otp_text_field: ^1.1.0+2
+#  firebase_core: any
+#  firebase_crashlytics: ^4.0.3
+#  firebase_auth: any
+#  cloud_firestore: any
+##  firebase_messaging: ^14.7.9
+#  firebase_analytics: ^11.2.0
+#  rxdart:
+#  flutter_slidable:
+#  intl: ^0.18.1
+#  internet_connection_checker: ^1.0.0+1
+#  #  flutter_html: ^3.0.0-beta.2
+#  url_launcher: ^6.3.0
+#  flutter_widget_from_html_core: ^0.16.0
+#  flutter_widget_from_html: ^0.16.0
+#  device_info_plus: ^9.1.1
+#  multi_select_flutter: ^4.1.3
+#  flutter_datetime_picker_plus: ^2.2.0
+#  #  pull_to_refresh_flutter3: ^2.0.2
+#  analyzer: ^5.4.0
+#  geolocator: ^11.0.0
+#  flutter_pdfview: ^1.3.2
+#  flutter_appauth: ^6.0.6
+#  msal_auth: ^2.0.1
+#  photo_view: ^0.15.0
+#  custom_refresh_indicator: ^4.0.1
+#  floating_bottom_navigation_bar: ^1.5.2
+#  fluttertoast: ^8.2.8
+##dev_dependencies:
+##  #  flutter_launcher_icons:
+##  #  flutter_native_splash: ^2.4.0
+#
+#dependency_overrides:
+#  uuid: ^4.5.1
+#  path_provider: ^2.0.1
+#dev dependencies:
+#  firebase_auth_platform_interface: ^7.7.2
+#  firebase_core_platform_interface: ^6.0.0
+#  flutter_test:
+#    sdk: flutter
+#  build_runner: ^2.4.6
+#  get: ^4.6.
+#  #  image_gallery_saver: ^2.0.3
+#  json_serializable: ^6.7.1
+#  saver_gallery: ^4.0.1
+#
+#  # The "flutter_lints" package below contains a set of recommended lints to
+#  # encourage good coding practices. The lint set provided by the package is
+#  # activated in the `analysis_options.yaml` file located at the root of your
+#  # package. See that file for information about deactivating specific lint
+#  # rules and activating additional ones.
+#  flutter_lints: ^3.0.1
+##flutter_native_splash:
+##   color: "#ffffff" #white color
+##   image: assets/app_icon/app_icon.jpg
+##   background_image: assets/app_icon/app_icon.jpg
+#flutter_obfuscate:
+#  entry_points:
+#    - lib/main.dart
+#    # Add additional entry points if needed
+#  exclude:
+#    - test/**
+#
+#flutter_launcher_icons:
+#  android: "launcher_icon"
+#  ios: true
+#  image_path: "assets/app_icon/app_icon.jpg"
+#  min_sdk_android: 21
+## For information on the generic Dart part of this file, see the
+## following page: https://dart.dev/tools/pub/pubspec
+#
+## The following section is specific to Flutter packages.
+#flutter:
+#
+#  # The following line ensures that the Material Icons font is
+#  # included with your application, so that you can use the icons in
+#  # the material Icons class.
+#  uses-material-design: true
+#
+#  # To add assets to your application, add an assets section, like this:
+#  assets:
+#    - assets/
+#    - assets/app_icon/
+#    - assets/images/
+#    - assets/translation/
+#    - assets/images/login2.png
+#    - assets/images/login4.png
+#    - assets/images/filter1.png
+#    - assets/images/view.png
+#    - assets/images/eye.png
+#    - assets/images/dollar1.png
+#    - assets/images/security1.png
+#    - assets/images/ai_chat_background.png
+#    - assets/images/gunMan1.png
+#    - assets/videos/loading.mp4
+#
+#
+#
+#  fonts:
+#
+#    - family: Poppins-Black
+#      fonts:
+#        - asset: assets/fonts/Poppins-Black.ttf
+#
+#    - family: Poppins-BlackItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-BlackItalic.ttf
+#
+#    - family: Poppins-Bold
+#      fonts:
+#        - asset: assets/fonts/Poppins-Bold.ttf
+#
+#    - family: Poppins-BoldItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-BoldItalic.ttf
+#
+#    - family: Poppins-ExtraBold
+#      fonts:
+#        - asset: assets/fonts/Poppins-ExtraBold.ttf
+#
+#    - family: Poppins-ExtraBoldItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-ExtraBoldItalic.ttf
+#
+#    - family: Poppins-ExtraLight
+#      fonts:
+#        - asset: assets/fonts/Poppins-BlackItalic.ttf
+#
+#    - family: Poppins-ExtraLightItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-ExtraLightItalic.ttf
+#
+#    - family: Poppins-Italic
+#      fonts:
+#        - asset: assets/fonts/Poppins-Italic.ttf
+#
+#    - family: Poppins-Light
+#      fonts:
+#        - asset: assets/fonts/Poppins-Light.ttf
+#
+#    - family: Poppins-LightItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-LightItalic.ttf
+#
+#    - family: Poppins-Medium
+#      fonts:
+#        - asset: assets/fonts/Poppins-Medium.ttf
+#
+#
+#    - family: Poppins-MediumItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-MediumItalic.ttf
+#
+#    - family: Poppins-Regular
+#      fonts:
+#        - asset: assets/fonts/Poppins-Regular.ttf
+#
+#    - family: Poppins-SemiBold
+#      fonts:
+#        - asset: assets/fonts/Poppins-SemiBold.ttf
+#
+#    - family: Poppins-SemiBoldItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-SemiBoldItalic.ttf
+#
+#    - family: Poppins-Thin
+#      fonts:
+#        - asset: assets/fonts/Poppins-Thin.ttf
+#
+#    - family: Poppins-ThinItalic
+#      fonts:
+#        - asset: assets/fonts/Poppins-ThinItalic.ttf
+#
+#    - family: DeutscheBankDisplay_A_Rg
+#      fonts:
+#        - asset: assets/fonts/DeutscheBankText_A_Rg.ttf
+#
+#    - family: DeutscheBankDisplay_A_It
+#      fonts:
+#        - asset: assets/fonts/DeutscheBankText_A_It.ttf
+
+#          fonts:
+#            - family: Poppins-Black
+#              fonts:
+#                - asset: assets/fonts/Poppins-Black.ttf
+
+
+
+#       - asset: fonts/Schyler-Italic.ttf
+#         style: italic
+#   - family: Trajan Pro
+#     fonts:
+#       - asset: fonts/TrajanPro.ttf
+#       - asset: fonts/TrajanPro_Bold.ttf
+#         weight: 700
+#
+# For details regarding fonts from package dependencies,
+# see https://flutter.dev/custom-fonts/#from-packages
+
+#
 name: db_atom
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
@@ -77,35 +1083,41 @@ dependencies:
   provider: ^6.0.5
   flutter_tts: ^3.8.5
   fl_chart: ^1.1.1
-  webview_flutter: ^4.9.0
-  webview_flutter_android: ^3.14.0
-  webview_flutter_wkwebview: ^3.12.0
   mailer: ^6.6.0
-  permission_handler:
+  webview_flutter: ^4.7.0
+  webview_flutter_android: ^3.16.0
+  webview_flutter_wkwebview: ^3.12.0
+  flutter_typeahead: ^5.1.0
+  permission_handler: ^10.4.5
+dependency_overrides:
+  uuid: ^4.5.1
+  path_provider: ^2.0.1
+#  permission_handler: ^11.4.0
+#  permission_handler_android: ^12.1.0
+#  permission_handler:
 #  permission_handler_platform_interface: ^6.0.0
-#  shared_preferences_android: 2.0.10
+  #  shared_preferences_android: 2.0.10
   geolocator_android: 4.5.5
-  file_picker: ^6.2.1
+  file_picker: ^5.2.4
   video_player: ^2.6.1
   #  flutter_localizations:
   #    sdk: flutter
-  # The following adds the Cupertino Icons font to your application.
+  # The following adds the Cuperxtino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-#  package_info_plus: 6.0.0
+  #  package_info_plus: 6.0.0
   cupertino_icons:
   image_cropper: ^5.0.1
   lottie: ^2.7.0
   speech_to_text: ^6.5.1
-#  flutter_tts: ^3.6.1
+  flutter_tts: ^3.6.1
   flutter_flavorizr:
-#  shared_preferences: ^2.3.2
+  shared_preferences: ^2.3.2
   #  shared_preferences: ^2.0.15
-#  shared_preferences_android: ^2.0.6
-#  shared_preferences_ios: ^2.0.6
+  #  shared_preferences_android: ^2.0.6
+  #  shared_preferences_ios: ^2.0.6
   flutter_svg:
-  flutter_typeahead: ^5.2.0
-  flutter_keyboard_visibility: ^6.0.0
-#  flutter_keyboard_listener:
+  flutter_typeahead:
+  flutter_keyboard_visibility:
   image_picker: ^1.1.2
   app_settings:
   dotted_border:
@@ -114,17 +1126,17 @@ dependencies:
   bloc:
 #  file_picker: ^6.2.1
   syncfusion_flutter_charts: ^31.1.23
-#    git:
-#      url: https://github.com/Luvti/flutter-widgets
-#      path: packages/syncfusion_flutter_charts
-#      ref: 15e3c4a95e3cf2e2393755bf5aa11c0206ed6dea #flutter/3.24
+  #    git:
+  #      url: https://github.com/Luvti/flutter-widgets
+  #      path: packages/syncfusion_flutter_charts
+  #      ref: 15e3c4a95e3cf2e2393755bf5aa11c0206ed6dea #flutter/3.24
 
   equatable:
   http:
   flutter_file_dialog:
 #  path_provider:
   mime:
-  quill_html_editor: ^2.2.6
+  quill_html_editor:
   bloc_concurrency:
   email_validator:
   local_session_timeout:
@@ -143,7 +1155,7 @@ dependencies:
   flutter_slidable:
   intl: ^0.18.1
   internet_connection_checker: ^1.0.0+1
-  #  flutter_html: ^3.0.0-beta.2
+#  flutter_html: ^3.0.0-beta.2
   url_launcher: ^6.3.0
   flutter_widget_from_html_core: ^0.16.0
   flutter_widget_from_html: ^0.16.0
@@ -160,13 +1172,11 @@ dependencies:
   custom_refresh_indicator: ^4.0.1
   floating_bottom_navigation_bar: ^1.5.2
   fluttertoast: ^8.2.8
+  fl_chart: ^1.1.1
 #dev_dependencies:
 #  #  flutter_launcher_icons:
 #  #  flutter_native_splash: ^2.4.0
 
-dependency_overrides:
-  uuid: ^4.5.1
-  path_provider: ^2.0.1
 dev dependencies:
   firebase_auth_platform_interface: ^7.7.2
   firebase_core_platform_interface: ^6.0.0
@@ -217,16 +1227,15 @@ flutter:
     - assets/app_icon/
     - assets/images/
     - assets/translation/
-    - assets/images/login2.png
     - assets/images/login4.png
     - assets/images/filter1.png
     - assets/images/view.png
     - assets/images/eye.png
     - assets/images/dollar1.png
     - assets/images/security1.png
-    - assets/images/ai_chat_background.png
     - assets/images/gunMan1.png
     - assets/videos/loading.mp4
+    - assets/images/fedex1.png
 
 
 

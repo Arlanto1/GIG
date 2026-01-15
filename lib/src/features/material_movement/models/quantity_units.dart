@@ -16,3 +16,17 @@ class QuantityUnits {
   Map<String, dynamic> toJson() =>
       {'Unit': units?.map((e) => e.toJson()).toList()};
 }
+
+
+class MaterialItem {
+  String? materialDescription;
+  int? quantity;
+  Organisation? unit;
+  String? equipmentNo;
+  MaterialItem({
+    this.materialDescription,
+    this.quantity,
+    this.unit,
+    this.equipmentNo,
+  });
+}

@@ -1072,6 +1072,7 @@ class RouteGenerator {
                       model: materialMovement,
                       isInward: isInward,
                       returnable: returnable,
+                      materialItems: [],
                     ),
                     child: MaterialMovementDetailsView(
                       model: materialMovement,
@@ -1090,6 +1091,7 @@ class RouteGenerator {
                     model: MaterialMovementModel(),
                     isInward: isInward,
                     returnable: returnable,
+                    materialItems: [],
                   ),
                   child: MaterialMovementDetailsView(
                     isInward: isInward,

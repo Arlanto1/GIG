@@ -36,9 +36,13 @@ class ChartsCubit extends Cubit<ChartsState> {
       int count = await notificationServices.getNotificationCount();
       log('-count---$count--');
       final futures = [
-        commonServices.getDashboardChart(module: 'LEVE'),
-        commonServices.getDashboardChart(module: 'LEVR'),
-        commonServices.getDashboardChart(module: 'EPR'),
+        // commonServices.getDashboardChart(module: 'LEVE'),
+        // commonServices.getDashboardChart(module: 'LEVR'),
+        // commonServices.getDashboardChart(module: 'EPR'),
+        commonServices.getDashboardChart(module: 'OUTWMC'),
+        commonServices.getDashboardChart(module: 'INWMC'),
+        commonServices.getDashboardChart(module: 'VISPASSMC'),
+
       ];
 
       final results = await Future.wait(futures);

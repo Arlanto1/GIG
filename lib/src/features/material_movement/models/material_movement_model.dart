@@ -5,6 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 import '../../../models/history.dart';
 import '../../../models/organisation.dart';
+import 'material_items_model.dart';
 
 part 'material_movement_model.g.dart';
 
@@ -34,6 +35,9 @@ class MaterialMovementModel extends BaseObject {
   String? requestorEmail;
   String? requestorEmployeeId;
   Organisation? requestorDepartment;
+  String? requestor2Email;
+  String? requestor2EmployeeId;
+  Organisation? requestor2Department;
   String? sentTo;
   String? address;
   String? purpose;
@@ -74,6 +78,8 @@ class MaterialMovementModel extends BaseObject {
   bool isEligibleToEdit;
   String? modifiedBy;
   String? modifiedDate;
+  List<MaterialDetails>? materialItems;
+
 
   MaterialMovementModel({
     this.takenOutDepartment,
@@ -100,10 +106,13 @@ class MaterialMovementModel extends BaseObject {
     this.modifiedBy,
     this.history,
     this.requestorEmail,
+    this.requestor2Email,
     this.receiverSign,
     this.entrySecuritySign,
     this.requestorEmployeeId,
     this.requestorDepartment,
+    this.requestor2EmployeeId,
+    this.requestor2Department,
     this.sentTo,
     this.address,
     this.purpose,
@@ -140,6 +149,7 @@ class MaterialMovementModel extends BaseObject {
     this.comment,
     this.isEligibleToEdit = false,
     this.modifiedDate,
+    this.materialItems
   });
 
   factory MaterialMovementModel.fromJson(Map<String, dynamic> json) =>

@@ -149,6 +149,10 @@ class VisitorPassManagementDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter Escorted By Employee Id');
     }
 
+    if ( model.visitorImage== null) {
+      return const ErrorResponse(status: false, message: 'Please enter Escorted By Employee Id');
+    }
+
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import '../../../../../index.dart';
 
 class AddRejectionCommentPopUp extends StatefulWidget {
@@ -26,56 +28,82 @@ class AddRejectionCommentPopUpState extends State<AddRejectionCommentPopUp> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      backgroundColor: AppColors.backgroundWhiteColor,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      content: Builder(builder: (context) {
-        // Get available height and width of the build area of this widget. Make a choice depending on the size.
-        var height = MediaQuery.of(context).size.height;
-        var width = MediaQuery.of(context).size.width;
-        return SizedBox(
-          height: height / 4.9,
-          width: width,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: <Widget>[
-              Form(
-                key: _formKey,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ///Rejection Comment
-                      CommonWidgets.textDisplay(
-                        Constants.rejectedComment,
-                        Styles.textStyleBlack14,
-                        isMandatory: true,
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      FlutterInputField(
-                        lineHeight: 1,
-                        controller: rejectionCommentController,
-                        textFormKey: Keys.equipmentNoKey,
-                        hintText: '',
-                        isEnable: true,
-                        isDisableColor: false,
-                        onChange: (String value) {
-                          rejectionCommentController.text = value;
-                        },
-                        validateTextField: (String value) {},
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      buttonViews(widget.mainContext, width),
-                      CommonWidgets.verticalSpacerWidget(height * 0.02),
-                    ],
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.all(16),
+      child: Builder(
+        builder: (context) {
+          final height = MediaQuery.of(context).size.height;
+          final width = MediaQuery.of(context).size.width;
+
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+              child: Container(
+                height: height / 4.2,
+                width: width,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: AppColors.lavender.withOpacity(0.1), // Glass effect
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.7),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.15),
+                      blurRadius: 20,
+                      offset: const Offset(0, 10),
+                    ),
+                  ],
+                ),
+                child: Form(
+                  key: _formKey,
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        /// Rejection Comment
+                        CommonWidgets.textDisplay(
+                          Constants.rejectedComment,
+                          Styles.textStyleBlack14.copyWith(
+                            color: Colors.white,
+                          ),
+                          isMandatory: true,
+                        ),
+
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                        FlutterInputField(
+                          lineHeight: 1,
+                          controller: rejectionCommentController,
+                          textFormKey: Keys.equipmentNoKey,
+                          hintText: '',
+                          isEnable: true,
+                          isDisableColor: false,
+                          onChange: (String value) {
+                            rejectionCommentController.text = value;
+                          },
+                          validateTextField: (String value) {},
+                        ),
+
+                        CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                        buttonViews(widget.mainContext, width),
+
+                        CommonWidgets.verticalSpacerWidget(height * 0.08),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ],
-          ),
-        );
-      }),
+            ),
+          );
+        },
+      ),
     );
+
   }
 
   Widget buttonViews(BuildContext context, double width) {
@@ -87,14 +115,11 @@ class AddRejectionCommentPopUpState extends State<AddRejectionCommentPopUp> {
   }
 
   Widget cancelButton(double width) {
-    return PopButton(
+    return AppButton(
       width: width / 3.5,
       key: const Key(Keys.cancelButton),
       buttonText: Constants.cancel,
       buttonTextKey: Keys.cancelButtonText,
-      foregroundColor: AppColors.textGreyThemeColor,
-      textStyle: Styles.styleHeaderGreyText16,
-      boarderColor: AppColors.textGreyThemeColor,
       onTap: () {
         FocusScope.of(context).unfocus();
         Navigator.of(context).pop();

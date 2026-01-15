@@ -51,6 +51,9 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
   TextEditingController returnedTimeController = TextEditingController();
   TextEditingController claimantController = TextEditingController();
   TextEditingController claimantTextController = TextEditingController();
+  TextEditingController safeStoragePlaceController = TextEditingController();
+
+
   final FocusNode sentToFocusNode = FocusNode();
 
   List<ImageContent> uploadFiles = [];
@@ -189,6 +192,8 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
 
   getBodybuilder(ArticleFoundDetailsState state, height) {
     initializeDates(state);
+    final name = widget.model?.typeOfArticle?.name?.toLowerCase() ?? '';
+
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
@@ -337,6 +342,36 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.03),
 
+
+                              /// Safe Storage Place
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.companyName ??
+                                //     state.labels?.defaultLocale.companyName ??
+                                Constants.safeStoragePlace,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                textInputType: TextInputType.text,
+                                textFormKey: Keys.challanKey,
+                                controller: safeStoragePlaceController,
+                                characterLimit:
+                                Constants.characterLimitIdTextFormField,
+                                hintText: '',
+                                isEnable: !isReadOnly,
+                                isDisableColor: isReadOnly,
+                                onChange: (String value) {
+                                  state.model.safeStoragePlace = value;
+                                  context
+                                      .read<ArticleFoundDetailsCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.03),
+
                               /// Article Type
                               CommonWidgets.textDisplay(
                                   // state.labels?.locale.companyType ??
@@ -375,6 +410,107 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.03),
 
+
+                              if (name.contains('id') || name.contains('card')) ...[
+                              ///
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.employeeId ??
+                                //     state.labels?.defaultLocale
+                                //         .employeeId ??
+                                  Constants.managerName,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
+                              TextFieldAddButton(
+                                title: '(${state.model.idCardManager?.employeeId}) ${state.model.idCardManager?.name}',
+                                height: 75,
+                                isDisableColor: !showSaveSubmitButtons,
+                                onTap: () {
+                                  if (showSaveSubmitButtons) {
+                                    BaseOrganisationDialog().userDialog(
+                                      employeeId: true,
+                                      context: context,
+                                      users: state.idCardManger,
+                                      isDbUser: true,
+                                      onTap: (BaseUser user) {
+                                        BlocProvider.of<
+                                            ArticleFoundDetailsCubit>(
+                                            context)
+                                            .updateDropdownValues(
+                                          idCardManager: user,
+                                        );
+                                      },
+                                      roleName:
+                                      ConstantUserRoles.atomStaticUser,
+                                      locationId: state.model.location!.id!,
+                                      functionToCall: (BaseUser user) {
+                                        BlocProvider.of<
+                                            ArticleFoundDetailsCubit>(
+                                            context)
+                                            .updateDropdownValues(
+                                          idCardManager: user,
+                                        );
+                                        // refresh the list
+                                        BlocProvider.of<
+                                            ArticleFoundDetailsCubit>(
+                                            context)
+                                            .refreshList();
+                                      },
+                                    );
+                                  }
+                                },
+                              ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.03),
+                               ///Id Card Employee
+                                CommonWidgets.textDisplay(
+                                  // state.labels?.locale.employeeId ??
+                                  //     state.labels?.defaultLocale
+                                  //         .employeeId ??
+                                    Constants.employeeName,
+                                    Styles.textStyleWhite16,
+                                    isMandatory: true),
+                                TextFieldAddButton(
+                                  title: state.model.idCardEmployee?.employeeId,
+                                  height: 75,
+                                  isDisableColor: !showSaveSubmitButtons,
+                                  onTap: () {
+                                    if (showSaveSubmitButtons) {
+                                      BaseOrganisationDialog().userDialog(
+                                        employeeId: true,
+                                        context: context,
+                                        users: state.idCardEmployee,
+                                        isDbUser: true,
+                                        onTap: (BaseUser user) {
+                                          BlocProvider.of<
+                                              ArticleFoundDetailsCubit>(
+                                              context)
+                                              .updateDropdownValues(
+                                            idCardEmployee: user,
+                                          );
+                                        },
+                                        roleName:
+                                        ConstantUserRoles.atomStaticUser,
+                                        locationId: state.model.location!.id!,
+                                        functionToCall: (BaseUser user) {
+                                          BlocProvider.of<
+                                              ArticleFoundDetailsCubit>(
+                                              context)
+                                              .updateDropdownValues(
+                                            idCardEmployee: user,
+                                          );
+                                          // refresh the list
+                                          BlocProvider.of<
+                                              ArticleFoundDetailsCubit>(
+                                              context)
+                                              .refreshList();
+                                        },
+                                      );
+                                    }
+                                  },
+                                ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.03),
+],
                               /// Found Date
                               CommonWidgets.textDisplay(
                                 // state.labels?.locale.timeOfVisit ??

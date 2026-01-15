@@ -70,14 +70,14 @@ class MenuPermissions {
     List<MenuItem> menuItems,
   ) {
     // if (displayMenu?.pM ?? false) {
-      menuItems.add(const MenuItem(Constants.dayPassManagement,
-          AppIcon.dayPassManagementRegisterIcon, 0));
-    // }
-
-    // if (displayMenu?.ssDPM ?? false) {
-      menuItems.add(const MenuItem(
-          Constants.sezpassmgmt, AppIcon.sezPassManagementRegisterIcon, 0));
-    // }
+    //   menuItems.add(const MenuItem(Constants.dayPassManagement,
+    //       AppIcon.dayPassManagementRegisterIcon, 0));
+    // // }
+    //
+    // // if (displayMenu?.ssDPM ?? false) {
+    //   menuItems.add(const MenuItem(
+    //       Constants.sezpassmgmt, AppIcon.sezPassManagementRegisterIcon, 0));
+    // // }
 
     // if (displayMenu?.sSDP ?? false) {
       menuItems.add(const MenuItem(Constants.vendorpassmgmt,
@@ -85,8 +85,8 @@ class MenuPermissions {
     // }
 
     // if (displayMenu?.sS ?? false) {
-      menuItems.add(const MenuItem(Constants.visitorpassmgmt,
-          AppIcon.visitorPassManagementRegisterIcon, 0));
+    //   menuItems.add(const MenuItem(Constants.visitorpassmgmt,
+    //       AppIcon.visitorPassManagementRegisterIcon, 0));
     // }
   }
 

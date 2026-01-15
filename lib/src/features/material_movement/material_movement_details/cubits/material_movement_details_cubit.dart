@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:intl/intl.dart';
 
 part 'material_movement_details_state.dart';
@@ -12,6 +13,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   final CommonServices commonServices;
   final bool? isInward;
   final bool? returnable;
+  final List<MaterialItem> materialItems;
 
   MaterialMovementDetailsCubit({
     required this.materialMovementServices,
@@ -19,26 +21,28 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     this.model,
     this.isInward,
     required this.returnable,
+    required this.materialItems,
   }) : super(
-          MaterialMovementDetailsState.initial(
-            model: model ?? MaterialMovementModel(),
-            locations: Locations(),
-            users: const [],
-            emailUsers: const [],
-            errorMessage: '',
-            departments: const [],
-            loadAttachments: const [],
-            quantityUnits: const [],
-            eventId: null,
-          ),
-        );
+    MaterialMovementDetailsState.initial(
+      model: model ?? MaterialMovementModel(),
+      locations: Locations(),
+      users: const [],
+      emailUsers: const [],
+      errorMessage: '',
+      departments: const [],
+      loadAttachments: const [],
+      quantityUnits: const [],
+      eventId: null, materialItems: [],
+    ),
+  );
+
 
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation> quantityUnits = await commonServices.getOrganisations(
         name: 'ATOM_MATERIAL_MOVEMENT_UNIT');
     EmployeeDepartments departments =
-        await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+    await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser> emailUsers = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomStaticUser,
         locationId: state.model.location!.id!);
@@ -114,8 +118,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       String moduleCode = isInward ?? false
           ? Constants.materialMovementInwardReturnableModule
           : (returnable ?? false
-              ? Constants.materialMovementOutwardReturnableModule
-              : Constants.materialMovementOutwardNonReturnableModule);
+          ? Constants.materialMovementOutwardReturnableModule
+          : Constants.materialMovementOutwardNonReturnableModule);
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: defaultLocation.id.toString(),
         moduleCode: moduleCode,
@@ -155,13 +159,13 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'),
-              Constants.fulldateFormat);
+          int.tryParse(state.model.inputDate ?? '0'),
+          Constants.fulldateFormat);
       state.model.modifiedDate = state.model.modifiedDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model.modifiedDate ?? '0'),
-              Constants.fulldateFormat);
+          int.tryParse(state.model.modifiedDate ?? '0'),
+          Constants.fulldateFormat);
 
       // if (state.model.inputDate != null) {
       //   Utils.timestampToDateConversion(
@@ -292,6 +296,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     BaseUser? requesterEmailUser,
     BaseUser? returnReceiverMailId,
     Organisation? requesterDepartment,
+    Organisation? requester2Department,
     Organisation? preparedByDepartment,
     Organisation? approver1Department,
     Organisation? approver2Department,
@@ -339,10 +344,13 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
     if (returnReceiverMailId != null) {
       state.model.returnReceiverMailId =
-          '${returnReceiverMailId.name} (${returnReceiverMailId.email})';
+      '${returnReceiverMailId.name} (${returnReceiverMailId.email})';
     }
     if (requesterDepartment != null) {
       state.model.requestorDepartment = requesterDepartment;
+    }
+    if (requester2Department != null) {
+      state.model.requestor2Department = requester2Department;
     }
     if (preparedByDepartment != null) {
       state.model.preparedByDepartment = preparedByDepartment;
@@ -417,6 +425,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
   Future<void> updateApproverEmailsValue({
     BaseUser? requesterEmailUser,
+    BaseUser? requester2EmailUser,
     BaseUser? approver1EmailUser,
     BaseUser? approver2EmailUser,
   }) async {
@@ -456,6 +465,35 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         ),
       );
     }
+    if (requester2EmailUser != null) {
+      // if (state.model.requestorEmail != null) {
+      //   BaseUser preSelectedUser = BaseUser(
+      //     name: state.model.requestorEmail,
+      //     // email:state.model.requestorEmail,
+      //   );
+      //   state.approver1Users?.add(preSelectedUser);
+      // }
+      state.model.requestor2EmployeeId = requester2EmailUser.employeeId;
+
+      // Log to verify the correct value is assigned
+      // Format the name and email for receiverEmail
+      String name = requester2EmailUser.name ?? '';
+      String email = requester2EmailUser.email ?? '';
+      state.model.requestor2Email = '$name ($email)';
+      // state.model.requestorEmail =
+      //     '${requesterEmailUser.name} ${requesterEmailUser.email != null ? '(${requesterEmailUser.email})' : ''}';
+      // state.approver1Users?.remove(requesterEmailUser);
+      // state.approver2Users?.remove(requesterEmailUser);
+      emit(
+        state.copyWith(
+          model: state.model,
+          // approver2Users: state.approver2Users,
+          // approver1Users: state.approver1Users,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
 
     if (approver1EmailUser != null) {
       if (state.model.approver1Email != null) {
@@ -466,7 +504,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         // state.approver2Users?.add(preSelectedUser);
       }
       state.model.approver1Email =
-          '${approver1EmailUser.name} ${approver1EmailUser.email != null ? '(${approver1EmailUser.email})' : ''}';
+      '${approver1EmailUser.name} ${approver1EmailUser.email != null ? '(${approver1EmailUser.email})' : ''}';
       // state.approver2Users?.remove(approver1EmailUser);
       // state.requestorEmailUsers?.remove(approver1EmailUser);
 
@@ -489,7 +527,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         // state.approver1Users?.add(preSelectedUser);
       }
       state.model.approver2Email =
-          '${approver2EmailUser.name} ${approver2EmailUser.email != null ? '(${approver2EmailUser.email})' : ''}';
+      '${approver2EmailUser.name} ${approver2EmailUser.email != null ? '(${approver2EmailUser.email})' : ''}';
       // state.approver1Users?.remove(approver2EmailUser);
       // state.requestorEmailUsers?.remove(approver2EmailUser);
 
@@ -565,7 +603,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.copyWith(
         isReceiverSignEditable: receiverSign,
         isEntrySecuritySignatureSignEditable:
-            entrySecuritySignatureSignEditable,
+        entrySecuritySignatureSignEditable,
         status: FormStatus.initial,
       ),
     );
@@ -671,7 +709,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
     // Create/Update API Call
     MaterialMovementRequest request =
-        MaterialMovementRequest(materialMovement: state.model);
+    MaterialMovementRequest(materialMovement: state.model);
 
     // TODO: Need to change from Backend- Status should be handled from backend
     state.model.status ??= 0;
@@ -787,49 +825,49 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'),
-              Constants.fulldateFormat);
+          int.tryParse(state.model.inputDate ?? '0'),
+          Constants.fulldateFormat);
       state.model.modifiedDate = state.model.modifiedDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model.modifiedDate ?? '0'),
-              Constants.fulldateFormat);
+          int.tryParse(state.model.modifiedDate ?? '0'),
+          Constants.fulldateFormat);
       state.model.approvedDate = state.model.approvedDate != null
           ? Utils.timestampToDateConversion(
-              int.tryParse(state.model.approvedDate ?? '0'),
-              Constants.fulldateFormat) : null ;
+          int.tryParse(state.model.approvedDate ?? '0'),
+          Constants.fulldateFormat) : null ;
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'),
-              Constants.fulldateFormat);
+          int.tryParse(state.model.inputDate ?? '0'),
+          Constants.fulldateFormat);
       state.model.modifiedDate = state.model.modifiedDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model.modifiedDate ?? '0'),
-              Constants.fulldateFormat);
+          int.tryParse(state.model.modifiedDate ?? '0'),
+          Constants.fulldateFormat);
       state.model.approvedDate = state.model.approvedDate != null
           ? Utils.timestampToDateConversion(
-              int.tryParse(state.model.approvedDate ?? '0'),
-              Constants.fulldateFormat) : null;
+          int.tryParse(state.model.approvedDate ?? '0'),
+          Constants.fulldateFormat) : null;
       return;
     } on Exception catch (e) {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'),
-              Constants.fulldateFormat);
+          int.tryParse(state.model.inputDate ?? '0'),
+          Constants.fulldateFormat);
       state.model.modifiedDate = state.model.modifiedDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model.modifiedDate ?? '0'),
-              Constants.fulldateFormat);
+          int.tryParse(state.model.modifiedDate ?? '0'),
+          Constants.fulldateFormat);
       state.model.approvedDate = state.model.approvedDate != null
           ? Utils.timestampToDateConversion(
-              int.tryParse(state.model.approvedDate ?? '0'),
-              Constants.fulldateFormat) : null;
+          int.tryParse(state.model.approvedDate ?? '0'),
+          Constants.fulldateFormat) : null;
       emit(
         state.copyWith(
           message: e.toString(),
@@ -857,4 +895,30 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       status: FormStatus.initial,
     ));
   }
+
+  // void addMaterialItem() {
+  //   final updatedList = List<MaterialItem>.from(state.materialItems);
+  //   updatedList.add(MaterialItem());
+  //
+  //   emit(state.copyWith(materialItems: updatedList));
+  // }
+  void addMaterialItem() {
+    final updatedList = List<MaterialItem>.from(state.materialItems);
+    updatedList.add(MaterialItem());
+
+    emit(state.copyWith(materialItems: updatedList));
+  }
+
+
+  void removeMaterialItem(int index) {
+    materialItems.removeAt(index);
+    emit(state.copyWith(materialItems: materialItems));
+  }
+
+// void saveMaterial() {
+//   final updatedList = List.of(state.materialList)
+//     ..add(state.model);
+//
+//   emit(state.copyWith(materialList: updatedList));
+// }
 }
